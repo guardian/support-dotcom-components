@@ -34,19 +34,29 @@ import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
 import SlideIn from './SlideIn';
 import type { ReactComponent } from '../../../types';
-import { ArticleCounts, ArticleCountType } from '@sdc/shared/dist/types';
+import { ArticleCounts, SeparateArticleCountSettings } from '@sdc/shared/dist/types';
+import { containsArticleCountTemplate } from '../worldPressFreedomDay/components/ArticleCount';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
     articleCounts: ArticleCounts,
     separateArticleCount: boolean,
-    countType?: ArticleCountType,
+    separateArticleCountSettings: SeparateArticleCountSettings,
 ): JSX.Element | JSX.Element[] | null => {
+    const { copy, countType } = separateArticleCountSettings;
     const numArticles = articleCounts[countType ?? 'for52Weeks'];
-    if (separateArticleCount && numArticles >= 5) {
+
+    if (
+        separateArticleCountSettings &&
+        numArticles >= 5 &&
+        copy &&
+        containsArticleCountTemplate(copy)
+    ) {
+        return replaceArticleCount(copy, articleCounts['forTargetedWeeks'], 'banner');
+    } else if (separateArticleCountSettings && numArticles >= 5 && !copy) {
         return replaceArticleCount(
             `You’ve read %%ARTICLE_COUNT%% articles in the last year`,
-            numArticles,
+            articleCounts['for52Weeks'],
             'banner',
         );
     }
@@ -98,6 +108,7 @@ const withBannerData =
             tickerSettings,
             isSupporter,
             separateArticleCount,
+            separateArticleCountSettings,
             choiceCardAmounts,
             design,
         } = bannerProps;
@@ -233,7 +244,11 @@ const withBannerData =
                 ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
                 : null;
 
-            const subheading = buildSubheading(articleCounts, !!separateArticleCount, countType);
+            const subheading = buildSubheading(
+                articleCounts,
+                !!separateArticleCount,
+                separateArticleCountSettings,
+            );
 
             if (copyHasPlaceholder) {
                 throw Error('Banner copy contains placeholders, abandoning.');
@@ -297,6 +312,7 @@ const withBannerData =
                     articleCounts,
                     countType,
                     separateArticleCount,
+                    separateArticleCountSettings,
                     choiceCardAmounts,
                     tracking,
                     submitComponentEvent,

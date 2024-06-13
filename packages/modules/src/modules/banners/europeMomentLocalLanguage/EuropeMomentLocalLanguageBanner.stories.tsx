@@ -132,5 +132,9 @@ EuropeMomentLocalLanguage2023.args = {
         for52Weeks: 50,
         forTargetedWeeks: 50,
     },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
+    },
     tickerSettings: undefined,
 };

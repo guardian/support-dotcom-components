@@ -109,5 +109,8 @@ WorldPressFreedomDay.args = {
         for52Weeks: 15,
         forTargetedWeeks: 15,
     },
-    countType: 'for52Weeks',
+    separateArticleCountSettings: {
+        // copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.', //This will change the subheading to "You’ve read 15 articles in the last few weeks."
+        type: 'above',
+    },
 };

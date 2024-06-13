@@ -19,6 +19,7 @@ import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../common/choiceCard/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
 import { ReactComponent } from '../../../types';
+import { CustomArticleCountCopy } from '../worldPressFreedomDay/components/ArticleCount';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
@@ -27,11 +28,11 @@ export function getMomentTemplateBanner(
         content,
         onCloseClick,
         articleCounts,
-        countType,
         onCtaClick,
         onSecondaryCtaClick,
         reminderTracking,
         separateArticleCount,
+        separateArticleCountSettings,
         tickerSettings,
         choiceCardAmounts,
         countryCode,
@@ -54,7 +55,17 @@ export function getMomentTemplateBanner(
             templateSettings.choiceCards && choiceCardAmounts?.amountsCardData
         );
 
+        const { copy, countType, type } = separateArticleCountSettings;
         const numArticles = articleCounts[countType ?? 'for52Weeks'];
+
+        const showAboveArticleCount = !!(type === 'above');
+
+        const showCustomArticleCount =
+            separateArticleCountSettings &&
+            showAboveArticleCount &&
+            copy &&
+            articleCounts['forTargetedWeeks'] !== undefined &&
+            articleCounts['forTargetedWeeks'] > 5;
 
         return (
             <div
@@ -84,13 +95,19 @@ export function getMomentTemplateBanner(
                     </div>
 
                     <div css={styles.contentContainer}>
-                        {separateArticleCount && Number(numArticles) > 5 && (
+                        {showCustomArticleCount ? (
+                            <div>
+                                <CustomArticleCountCopy
+                                    copy={copy}
+                                    numArticles={articleCounts['forTargetedWeeks']}
+                                />
+                            </div>
+                        ) : (
                             <MomentTemplateBannerArticleCount
-                                numArticles={numArticles as number}
+                                numArticles={articleCounts['for52Weeks'] as number}
                                 settings={templateSettings}
                             />
                         )}
-
                         <div css={templateSpacing.bannerBodyCopy}>
                             <MomentTemplateBannerBody
                                 mainContent={content.mainContent}

@@ -12,7 +12,10 @@ import {
 } from '@guardian/source/foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
-import { DesignableBannerArticleCount } from './components/DesignableBannerArticleCount';
+import {
+    DesignableBannerArticleCount,
+    DesignableBannerCustomArticleCount,
+} from './components/DesignableBannerArticleCount';
 import { DesignableBannerBody } from './components/DesignableBannerBody';
 import { DesignableBannerCtas } from './components/DesignableBannerCtas';
 import { DesignableBannerCloseButton } from './components/DesignableBannerCloseButton';
@@ -37,6 +40,11 @@ import { BannerTemplateSettings, CtaSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { Button, SvgGuardianLogo } from '@guardian/source/react-components';
+import { undefined } from 'zod';
+import {
+    containsArticleCountTemplate,
+    CustomArticleCountCopy,
+} from '../worldPressFreedomDay/components/ArticleCount';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -97,11 +105,11 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     content,
     onCloseClick,
     articleCounts,
-    countType,
     onCtaClick,
     onSecondaryCtaClick,
     reminderTracking,
     separateArticleCount,
+    separateArticleCountSettings,
     tickerSettings,
     choiceCardAmounts,
     countryCode,
@@ -220,7 +228,16 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const showReminder =
         mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
 
+    const { copy, countType, type } = separateArticleCountSettings;
     const numArticles = articleCounts[countType ?? 'for52Weeks'];
+    const showAboveArticleCount = !!(type === 'above');
+
+    const showCustomArticleCount =
+        separateArticleCountSettings &&
+        showAboveArticleCount &&
+        containsArticleCountTemplate(copy) &&
+        articleCounts['forTargetedWeeks'] !== undefined &&
+        articleCounts['forTargetedWeeks'] > 5;
 
     return (
         <div
@@ -238,13 +255,22 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     />
                 </div>
                 <div css={styles.contentContainer(showReminder)}>
-                    {separateArticleCount && Number(numArticles) > 5 && (
-                        <DesignableBannerArticleCount
-                            numArticles={numArticles as number}
-                            settings={templateSettings}
-                        />
+                    {showCustomArticleCount && copy && (
+                        <div>
+                            <CustomArticleCountCopy
+                                copy={copy}
+                                numArticles={articleCounts['forTargetedWeeks']}
+                            />
+                        </div>
                     )}
-
+                    {!showCustomArticleCount &&
+                        Number(articleCounts['for52Weeks']) > 5 &&
+                        !copy && (
+                            <DesignableBannerArticleCount
+                                numArticles={articleCounts['for52Weeks'] as number}
+                                settings={templateSettings}
+                            />
+                        )}
                     <div css={templateSpacing.bannerBodyCopy}>
                         <DesignableBannerBody
                             mainContent={content.mainContent}

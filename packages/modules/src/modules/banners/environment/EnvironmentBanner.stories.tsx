@@ -58,4 +58,7 @@ Environment.args = {
         for52Weeks: 99,
         forTargetedWeeks: 99,
     },
+    separateArticleCountSettings: {
+        type: 'above',
+    },
 };

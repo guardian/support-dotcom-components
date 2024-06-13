@@ -29,6 +29,10 @@ import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
 import { ChoiceCardsBannerArticleCount } from './components/ChoiceCardsBannerArticleCount';
 import { SerializedStyles } from '@emotion/react';
+import {
+    ArticleCount,
+    CustomArticleCountCopy,
+} from '../worldPressFreedomDay/components/ArticleCount';
 
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -79,6 +83,7 @@ export const ChoiceCardsButtonsBanner = ({
     countType,
     isSupporter,
     separateArticleCount,
+    separateArticleCountSettings,
 }: Omit<
     BannerRenderProps,
     'onCtaClick' | 'onSecondaryCtaClick' | 'onNotNowClick' | 'reminderTracking'
@@ -110,13 +115,27 @@ export const ChoiceCardsButtonsBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
+    const { copy, countType, type } = separateArticleCountSettings;
     const numArticles = articleCounts[countType ?? 'for52Weeks'];
 
-    const showArticleCount =
-        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+    const showAboveArticleCount = !!(type === 'above');
 
-    const articleCount = <ChoiceCardsBannerArticleCount numArticles={numArticles ?? 0} />;
+    const showCustomArticleCount =
+        separateArticleCountSettings &&
+        showAboveArticleCount &&
+        !isSupporter &&
+        articleCounts['forTargetedWeeks'] !== undefined &&
+        articleCounts['forTargetedWeeks'] > 5;
 
+    const articleCount =
+        copy && showCustomArticleCount ? (
+            <CustomArticleCountCopy
+                copy={copy}
+                numArticles={articleCounts['forTargetedWeeks'] ?? 0}
+            />
+        ) : (
+            <ChoiceCardsBannerArticleCount numArticles={articleCounts['for52Weeks'] ?? 0} />
+        );
     return (
         <section css={banner(backgroundColor)} data-target={bannerId}>
             <Container

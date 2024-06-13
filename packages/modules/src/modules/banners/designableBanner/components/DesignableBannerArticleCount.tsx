@@ -11,6 +11,14 @@ interface DesignableBannerArticleCountProps {
     settings: BannerTemplateSettings;
 }
 
+interface DesignableBannerCustomArticleCountProps {
+    copy?: string;
+    numArticles: number;
+    settings: BannerTemplateSettings;
+}
+
+const ARTICLE_COUNT_TEMPLATE = '%%ARTICLE_COUNT%%';
+
 export function DesignableBannerArticleCount({
     numArticles,
     settings,
@@ -24,6 +32,26 @@ export function DesignableBannerArticleCount({
                 settings={settings}
             />{' '}
             in the last year
+        </div>
+    );
+}
+
+export function DesignableBannerCustomArticleCount({
+    copy,
+    numArticles,
+    settings,
+}: DesignableBannerCustomArticleCountProps): JSX.Element {
+    let copyHead = '';
+    let copyTail = '';
+    if (copy) {
+        [copyHead, copyTail] = copy.split(ARTICLE_COUNT_TEMPLATE);
+    }
+
+    return (
+        <div css={styles.container(settings.articleCountTextColour)}>
+            {copyHead}
+            <span>{numArticles}&nbsp;articles</span>
+            {copyTail?.substring(1, 9) === 'articles' ? copyTail.substring(9) : copyTail}
         </div>
     );
 }

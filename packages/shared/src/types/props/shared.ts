@@ -109,6 +109,28 @@ export const articleCountsSchema = z.object({
     forTargetedWeeks: z.number(),
 });
 
+export type ArticleCountType =
+    | 'for52Weeks' // The user's total article view count, which currently goes back as far as 52 weeks
+    | 'forTargetedWeeks'; // The user's article view count for the configured periodInWeeks/tag
+
+const articleCountTypeSchema = z.enum(['for52Weeks', 'forTargetedWeeks']);
+
+export type ArticleCounts = {
+    [type in ArticleCountType]: number;
+};
+
+export const separateArticleCountSchema = z.object({
+    type: z.literal('above'),
+    copy: z.string().optional(),
+    countType: articleCountTypeSchema.optional(), // defaults to `for52Weeks`
+});
+
+export interface SeparateArticleCount {
+    type: 'above';
+    copy?: string;
+    countType?: ArticleCountType;
+}
+
 export const ophanProductSchema = z.enum([
     'CONTRIBUTION',
     'MEMBERSHIP_SUPPORTER',

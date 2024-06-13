@@ -26,7 +26,7 @@ import {
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
-import { ArticleCount } from './components/ArticleCount';
+import { ArticleCount, CustomArticleCountCopy } from './components/ArticleCount';
 import { TopImage } from './components/TopImage';
 import { BottomImage } from './components/BottomImage';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
@@ -66,9 +66,8 @@ const WorldPressFreedomDayBanner = ({
     submitComponentEvent,
     tracking,
     articleCounts,
-    countType,
     isSupporter,
-    separateArticleCount,
+    separateArticleCountSettings,
 }: BannerRenderProps): JSX.Element => {
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
@@ -96,12 +95,27 @@ const WorldPressFreedomDayBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
+    const { copy, countType, type } = separateArticleCountSettings;
     const numArticles = articleCounts[countType ?? 'for52Weeks'];
 
-    const showArticleCount =
-        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+    const showAboveArticleCount = !!(type === 'above');
 
-    const articleCount = <ArticleCount numArticles={numArticles ?? 0} />;
+    const showCustomArticleCount =
+        separateArticleCountSettings &&
+        showAboveArticleCount &&
+        !isSupporter &&
+        articleCounts['forTargetedWeeks'] !== undefined &&
+        articleCounts['forTargetedWeeks'] > 5;
+
+    const articleCount =
+        copy && showCustomArticleCount ? (
+            <CustomArticleCountCopy
+                copy={copy}
+                numArticles={articleCounts['forTargetedWeeks'] ?? 0}
+            />
+        ) : (
+            <ArticleCount numArticles={articleCounts['for52Weeks'] ?? 0} />
+        );
 
     return (
         <section css={banner} data-target="wpfd-banner">
@@ -128,7 +142,7 @@ const WorldPressFreedomDayBanner = ({
                                 },
                             }}
                             content={content}
-                            articleCount={showArticleCount ? articleCount : undefined}
+                            articleCount={showCustomArticleCount ? articleCount : undefined}
                         />
                         <BottomImage />
                     </Column>

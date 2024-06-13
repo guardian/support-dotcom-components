@@ -98,6 +98,11 @@ export const buildBannerRouter = (
                 targetingMvtId,
             );
 
+            // const separateArticleCountSettings = variant.separateArticleCountSettings ?? {
+            //     type: 'above',
+            //     copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last month.',
+            // };
+
             const props: BannerProps = {
                 tracking: { ...pageTracking, ...testTracking },
                 bannerChannel: test.bannerChannel,
@@ -113,6 +118,7 @@ export const buildBannerRouter = (
                 hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
                 tickerSettings,
                 separateArticleCount: variant.separateArticleCount,
+                separateArticleCountSettings: variant.separateArticleCountSettings,
                 prices: productPrices.get(),
                 choiceCardAmounts: variantAmounts,
                 design: getDesignForVariant(variant, bannerDesigns.get()),

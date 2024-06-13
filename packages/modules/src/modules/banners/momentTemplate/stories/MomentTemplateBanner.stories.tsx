@@ -65,6 +65,9 @@ Default.args = {
         for52Weeks: 50,
         forTargetedWeeks: 50,
     },
+    separateArticleCountSettings: {
+        type: 'above',
+    },
     tickerSettings: undefined,
 };
 
@@ -118,6 +121,10 @@ WithBackDrop.args = {
     articleCounts: {
         for52Weeks: 50,
         forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
     },
     tickerSettings: undefined,
 };
@@ -173,6 +180,10 @@ WithChoiceCards.args = {
         for52Weeks: 50,
         forTargetedWeeks: 50,
     },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
+    },
     tickerSettings: undefined,
 };
 
@@ -226,6 +237,10 @@ WithChoiceCardsHeaderImage.args = {
     articleCounts: {
         for52Weeks: 50,
         forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
     },
     tickerSettings: undefined,
 };
@@ -281,6 +296,10 @@ WithHeaderImage.args = {
         for52Weeks: 50,
         forTargetedWeeks: 50,
     },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
+    },
     tickerSettings: undefined,
 };
 
@@ -325,6 +344,10 @@ WithReminder.args = {
     articleCounts: {
         for52Weeks: 50,
         forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
     },
 };
 
@@ -378,6 +401,10 @@ WithTicker.args = {
     articleCounts: {
         for52Weeks: 50,
         forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
     },
     tickerSettings: {
         countType: TickerCountType.money,

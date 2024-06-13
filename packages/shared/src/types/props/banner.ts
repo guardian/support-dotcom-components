@@ -1,10 +1,13 @@
 import { JSX } from '@emotion/react/jsx-runtime';
 import {
+    ArticleCounts,
     articleCountsSchema,
+    ArticleCountType,
     Cta,
     ctaSchema,
     SecondaryCta,
     secondaryCtaSchema,
+    SeparateArticleCount,
     TickerSettings,
     tickerSettingsSchema,
     Tracking,
@@ -16,7 +19,6 @@ import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
 import { ConfigurableDesign, configurableDesignSchema } from './design';
 import { AbandonedBasket } from '../targeting';
-import { ArticleCounts, ArticleCountType } from './epic';
 
 export const bannerChannelSchema = z.enum([
     'contributions',
@@ -61,6 +63,7 @@ export interface BannerProps extends JSX.IntrinsicAttributes {
     hasOptedOutOfArticleCount?: boolean;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
+    separateArticleCountSettings?: SeparateArticleCount;
     prices?: Prices;
     choiceCardAmounts?: SelectedAmountsVariant;
     design?: ConfigurableDesign;

@@ -19,6 +19,15 @@ interface ArticleCountProps {
     numArticles: number;
 }
 
+interface CustomArticleCountProps {
+    copy: string;
+    numArticles: number;
+}
+
+const ARTICLE_COUNT_TEMPLATE = '%%ARTICLE_COUNT%%';
+export const containsArticleCountTemplate = (copy: string): boolean =>
+    copy.includes(ARTICLE_COUNT_TEMPLATE);
+
 export function ArticleCount({ numArticles }: ArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
@@ -29,6 +38,21 @@ export function ArticleCount({ numArticles }: ArticleCountProps): JSX.Element {
                 type="global-new-year-moment-banner"
             />{' '}
             in the last year
+        </p>
+    );
+}
+
+export function CustomArticleCountCopy({
+    copy,
+    numArticles,
+}: CustomArticleCountProps): JSX.Element {
+    const [copyHead, copyTail] = copy.split(ARTICLE_COUNT_TEMPLATE);
+
+    return (
+        <p css={styles.container}>
+            {copyHead}
+            <span>{numArticles}&nbsp;articles</span>
+            {copyTail?.substring(1, 9) === 'articles' ? copyTail.substring(9) : copyTail}
         </p>
     );
 }

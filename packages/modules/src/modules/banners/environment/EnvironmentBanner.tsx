@@ -12,6 +12,10 @@ import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { GREEN_HEX } from './utils/constants';
 import type { ReactComponent } from '../../../types';
+import {
+    ArticleCount,
+    CustomArticleCountCopy,
+} from '../worldPressFreedomDay/components/ArticleCount';
 
 const container = css`
     position: relative;
@@ -186,13 +190,18 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
     onCtaClick,
     onSecondaryCtaClick,
     articleCounts,
-    countType,
     isSupporter,
-    separateArticleCount,
+    separateArticleCountSettings,
 }: BannerRenderProps) => {
+    const { copy, countType, type } = separateArticleCountSettings;
     const numArticles = articleCounts[countType ?? 'for52Weeks'];
-    const showArticleCount =
-        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+    const showAboveArticleCount = !!(type === 'above');
+    const showCustomArticleCount =
+        separateArticleCountSettings &&
+        showAboveArticleCount &&
+        !isSupporter &&
+        articleCounts['forTargetedWeeks'] !== undefined &&
+        articleCounts['forTargetedWeeks'] > 5;
 
     return (
         <div css={container}>
@@ -214,9 +223,16 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
                         <EnvironmentBannerHeader />
 
                         <div css={bodyAndCtasContainer}>
-                            {showArticleCount && (
+                            {copy && showCustomArticleCount ? (
+                                <CustomArticleCountCopy
+                                    copy={copy}
+                                    numArticles={articleCounts['forTargetedWeeks'] ?? 0}
+                                />
+                            ) : (
                                 <div>
-                                    <EnvironmentBannerArticleCount numArticles={numArticles} />
+                                    <EnvironmentBannerArticleCount
+                                        numArticles={articleCounts['for52Weeks']}
+                                    />
                                 </div>
                             )}
 

@@ -6,6 +6,7 @@ import {
     TickerSettings,
     Tracking,
     ConfigurableDesign,
+    SeparateArticleCountSettings,
 } from '@sdc/shared/types';
 import { ArticleCounts, ArticleCountType } from '@sdc/shared/dist/types';
 
@@ -84,8 +85,8 @@ export interface BannerRenderProps {
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;
     articleCounts: ArticleCounts;
-    countType?: ArticleCountType;
     separateArticleCount?: boolean;
+    separateArticleCountSettings?: SeparateArticleCountSettings;
     choiceCardAmounts?: SelectedAmountsVariant;
     tracking: Tracking;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
