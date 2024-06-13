@@ -41,8 +41,8 @@ export function DesignableBannerHeader({
 const getStyles = (headerSettings: HeaderSettings | undefined) => {
     const color = headerSettings?.textColour ?? neutral[0];
     const copyMargin = headerSettings?.headerImage
-        ? `${space[6]}px 0 ${space[6]}px`
-        : `${space[3]}px 0 ${space[6]}px`;
+        ? `${space[6]}px 0 ${space[3]}px`
+        : `${space[3]}px 0 ${space[3]}px`;
     const containerMargin = headerSettings?.headerImage ? `${space[6]}px` : '0';
 
     return {
