@@ -1,4 +1,4 @@
-import { OphanComponentEvent, OphanAction } from "@guardian/libs";
+import { OphanComponentEvent, OphanAction } from '@guardian/libs';
 import { addRegionIdToSupportUrl } from './geolocation';
 import {
     Tracking,
