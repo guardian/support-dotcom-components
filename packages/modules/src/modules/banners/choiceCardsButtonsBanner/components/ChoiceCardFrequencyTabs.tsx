@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    AmountsCardData,
-    ContributionFrequency,
-} from '@sdc/shared/dist/types';
+import { AmountsCardData, ContributionFrequency } from '@sdc/shared/dist/types';
 import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCard } from '@guardian/source/react-components';

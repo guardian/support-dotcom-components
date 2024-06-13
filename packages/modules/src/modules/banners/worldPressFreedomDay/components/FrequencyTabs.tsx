@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    AmountsCardData,
-    ContributionFrequency,
-} from '@sdc/shared/dist/types';
+import { AmountsCardData, ContributionFrequency } from '@sdc/shared/dist/types';
 import { BannerChoiceCardsPaymentFrequencyTabs } from './paymentFrequencyTabs/PaymentFrequencyTabs';
 import { Box } from './paymentFrequencyTabs/PaymentFrequencyTabsBox';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
