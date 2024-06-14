@@ -24,6 +24,10 @@ const cta = {
     text: 'Return to checkout',
 };
 
+const paragraphs = [
+    'Your support is incredibly important to us and helps us keep our independent journalism open for all. Please consider finalising your support today.',
+];
+
 const abandonedBasketTest: BannerTest = {
     ...baseAbandonedBasketTest,
     name: 'banner-abandoned-basket',
@@ -33,9 +37,7 @@ const abandonedBasketTest: BannerTest = {
             name: 'v1',
             bannerContent: {
                 heading: 'Finish your order',
-                paragraphs: [
-                    'Your support is incredibly important to us and helps us keep our independent journalism open for all. Please consider finalising your support today.',
-                ],
+                paragraphs,
                 cta,
             },
         },
@@ -44,9 +46,8 @@ const abandonedBasketTest: BannerTest = {
             name: 'v2',
             bannerContent: {
                 heading: 'Unfinished business?',
-                paragraphs: [
-                    'Your support is incredibly important to us and helps us keep our independent journalism open for all. Please consider finalising your support today.',
-                ],
+                paragraphs,
+                cta,
             },
         },
     ],
