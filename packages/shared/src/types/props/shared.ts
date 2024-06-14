@@ -46,16 +46,6 @@ export const secondaryCtaSchema = z.discriminatedUnion('type', [
     contributionsReminderSecondaryCtaSchema,
 ]);
 
-export interface NewsletterSignup {
-    text: string;
-    newsletterUrl: string;
-}
-
-export const newsletterSignupSchema = z.object({
-    text: z.string(),
-    newsletterUrl: z.string(),
-});
-
 export enum TickerEndType {
     unlimited = 'unlimited',
     hardstop = 'hardstop', // currently unsupported

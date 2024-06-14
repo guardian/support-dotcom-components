@@ -90,7 +90,8 @@ const selectedAmountsVariantSchema = z.object({
 });
 
 const newsletterSignupSchema = z.object({
-    url: z.string(),
+    newsletterUrl: z.string(),
+    text: z.string(),
 });
 
 export const variantSchema = z.object({
