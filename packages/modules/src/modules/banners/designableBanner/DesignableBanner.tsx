@@ -100,6 +100,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     onCtaClick,
     onSecondaryCtaClick,
     reminderTracking,
+    separateArticleCount, // legacy field
     separateArticleCountSettings,
     tickerSettings,
     choiceCardAmounts,
@@ -220,7 +221,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
 
     const showAboveArticleCount =
-        (separateArticleCountSettings?.type === 'above' || showAboveArticleCount) &&
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
         articleCounts.forTargetedWeeks >= 5;
 
     return (
