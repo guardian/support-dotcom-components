@@ -12,18 +12,13 @@ const baseAbandonedBasketTest: Omit<BannerTest, 'name' | 'variants'> = {
     contextTargeting: { tagIds: [], sectionIds: [], excludedTagIds: [], excludedSectionIds: [] },
 };
 
-const baseAbandonedBasketVariant: Omit<BannerVariant, 'bannerContent'> = {
-    name: 'control',
+const baseAbandonedBasketVariant: Omit<BannerVariant, 'bannerContent' | 'name'> = {
     modulePathBuilder: designableBanner.endpointPathBuilder,
     // Requires this design to exist in the RRCP!
     template: { designName: 'ABANDONEDBASKET' },
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 
-const heading = 'Finalise your subscription';
-const paragraphs = [
-    'To ensure you enjoy the full benefits of our all-access digital subscription, please return to the checkout to complete your subscription. ',
-];
 const cta = {
     baseUrl: 'https://support.theguardian.com',
     text: 'Return to checkout',
@@ -35,10 +30,23 @@ const abandonedBasketTest: BannerTest = {
     variants: [
         {
             ...baseAbandonedBasketVariant,
+            name: 'v1',
             bannerContent: {
-                heading,
-                paragraphs,
+                heading: 'Finish your order',
+                paragraphs: [
+                    'Your support is incredibly important to us and helps us keep our independent journalism open for all. Please consider finalising your support today.',
+                ],
                 cta,
+            },
+        },
+        {
+            ...baseAbandonedBasketVariant,
+            name: 'v2',
+            bannerContent: {
+                heading: 'Unfinished business?',
+                paragraphs: [
+                    'Your support is incredibly important to us and helps us keep our independent journalism open for all. Please consider finalising your support today.',
+                ],
             },
         },
     ],
