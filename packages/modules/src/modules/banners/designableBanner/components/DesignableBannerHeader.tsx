@@ -40,9 +40,7 @@ export function DesignableBannerHeader({
 
 const getStyles = (headerSettings: HeaderSettings | undefined) => {
     const color = headerSettings?.textColour ?? neutral[0];
-    const copyMargin = headerSettings?.headerImage
-        ? `${space[6]}px 0 ${space[6]}px`
-        : `${space[3]}px 0 ${space[6]}px`;
+    const copyTopMargin = headerSettings?.headerImage ? space[6] : space[3];
     const containerMargin = headerSettings?.headerImage ? `${space[6]}px` : '0';
 
     return {
@@ -52,12 +50,13 @@ const getStyles = (headerSettings: HeaderSettings | undefined) => {
         `,
         header: css`
             h2 {
-                margin: ${copyMargin};
+                margin: ${copyTopMargin}px 0 ${space[3]}px;
                 color: ${color};
 
                 ${headline.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
                 ${from.tablet} {
                     ${headline.small({ fontWeight: 'bold' })}
+                    margin-bottom: ${space[6]}px;
                 }
                 ${from.leftCol} {
                     ${headline.medium({ fontWeight: 'bold' })}
