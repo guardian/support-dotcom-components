@@ -37,10 +37,6 @@ import { BannerTemplateSettings, CtaSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { Button, SvgGuardianLogo } from '@guardian/source/react-components';
-import {
-    containsArticleCountTemplate,
-    CustomArticleCountCopy,
-} from '../worldPressFreedomDay/components/ArticleCount';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -223,22 +219,9 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const showReminder =
         mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
 
-    const { copy, countType, type } = separateArticleCountSettings ?? {
-        copy: '',
-        countType: '',
-        type: 'above',
-    };
-    const numArticles =
-        articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
-    const showAboveArticleCount = !!(type === 'above');
-
-    const showCustomArticleCount =
-        separateArticleCountSettings &&
-        showAboveArticleCount &&
-        copy &&
-        containsArticleCountTemplate(copy) &&
-        numArticles !== undefined &&
-        numArticles > 5;
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || showAboveArticleCount) &&
+        articleCounts.forTargetedWeeks >= 5;
 
     return (
         <div
@@ -256,20 +239,14 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     />
                 </div>
                 <div css={styles.contentContainer(showReminder)}>
-                    {showCustomArticleCount && copy ? (
-                        <div>
-                            <CustomArticleCountCopy
-                                copy={copy}
-                                numArticles={articleCounts['forTargetedWeeks']}
-                            />
-                        </div>
-                    ) : (
+                    {showAboveArticleCount && (
                         <DesignableBannerArticleCount
-                            numArticles={numArticles as number}
+                            numArticles={articleCounts.forTargetedWeeks}
                             settings={templateSettings}
-                            copy={copy}
+                            copy={separateArticleCountSettings?.copy}
                         />
                     )}
+
                     <div css={templateSpacing.bannerBodyCopy}>
                         <DesignableBannerBody
                             mainContent={content.mainContent}
