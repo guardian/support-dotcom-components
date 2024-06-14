@@ -12,7 +12,6 @@ import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { GREEN_HEX } from './utils/constants';
 import type { ReactComponent } from '../../../types';
-import { CustomArticleCountCopy } from '../worldPressFreedomDay/components/ArticleCount';
 
 const container = css`
     position: relative;
@@ -188,22 +187,13 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
     onSecondaryCtaClick,
     articleCounts,
     isSupporter,
+    separateArticleCount, // legacy field
     separateArticleCountSettings,
 }: BannerRenderProps) => {
-    const { copy, countType, type } = separateArticleCountSettings ?? {
-        copy: '',
-        countType: '',
-        type: 'above',
-    };
-    const numArticles =
-        articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
-    const showAboveArticleCount = !!(type === 'above');
-    const showCustomArticleCount =
-        separateArticleCountSettings &&
-        showAboveArticleCount &&
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
         !isSupporter &&
-        numArticles !== undefined &&
-        numArticles > 5;
+        articleCounts.forTargetedWeeks >= 5;
 
     return (
         <div css={container}>
@@ -225,16 +215,11 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
                         <EnvironmentBannerHeader />
 
                         <div css={bodyAndCtasContainer}>
-                            {copy && showCustomArticleCount ? (
-                                <CustomArticleCountCopy
-                                    copy={copy}
-                                    numArticles={articleCounts['forTargetedWeeks'] ?? 0}
-                                />
-                            ) : (
+                            {showAboveArticleCount && (
                                 <div>
                                     <EnvironmentBannerArticleCount
-                                        numArticles={numArticles ?? 0}
-                                        copy={copy}
+                                        numArticles={articleCounts.forTargetedWeeks ?? 0}
+                                        copy={separateArticleCountSettings?.copy}
                                     />
                                 </div>
                             )}

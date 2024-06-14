@@ -29,7 +29,6 @@ import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
 import { ChoiceCardsBannerArticleCount } from './components/ChoiceCardsBannerArticleCount';
 import { SerializedStyles } from '@emotion/react';
-import { CustomArticleCountCopy } from '../worldPressFreedomDay/components/ArticleCount';
 
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -78,6 +77,7 @@ export const ChoiceCardsButtonsBanner = ({
     tracking,
     articleCounts,
     isSupporter,
+    separateArticleCount, //legacy field
     separateArticleCountSettings,
 }: Omit<
     BannerRenderProps,
@@ -110,32 +110,18 @@ export const ChoiceCardsButtonsBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const { type, copy, countType } = separateArticleCountSettings ?? {
-        copy: '',
-        countType: '',
-        type: 'above',
-    };
-    const numArticles =
-        articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
-
-    const showAboveArticleCount = !!(type === 'above');
-
-    const showCustomArticleCount =
-        separateArticleCountSettings &&
-        showAboveArticleCount &&
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
         !isSupporter &&
-        numArticles !== undefined &&
-        numArticles > 5;
+        articleCounts.forTargetedWeeks >= 5;
 
-    const articleCount =
-        copy && showCustomArticleCount ? (
-            <CustomArticleCountCopy
-                copy={copy}
-                numArticles={articleCounts['forTargetedWeeks'] ?? 0}
-            />
-        ) : (
-            <ChoiceCardsBannerArticleCount numArticles={numArticles ?? 0} copy={copy} />
-        );
+    const articleCount = (
+        <ChoiceCardsBannerArticleCount
+            numArticles={articleCounts.forTargetedWeeks}
+            copy={separateArticleCountSettings?.copy}
+        />
+    );
+
     return (
         <section css={banner(backgroundColor)} data-target={bannerId}>
             <Container
@@ -166,7 +152,7 @@ export const ChoiceCardsButtonsBanner = ({
                                 },
                             }}
                             content={content}
-                            articleCount={showCustomArticleCount ? articleCount : undefined}
+                            articleCount={showAboveArticleCount ? articleCount : undefined}
                         />
                     </Column>
                     <Column
@@ -189,7 +175,7 @@ export const ChoiceCardsButtonsBanner = ({
                                 amountsVariantName={choiceCardAmounts.variantName}
                                 countryCode={countryCode}
                                 bannerTracking={tracking}
-                                numArticles={numArticles}
+                                numArticles={articleCounts.forTargetedWeeks}
                                 content={content}
                                 getCtaText={getCtaText}
                             />

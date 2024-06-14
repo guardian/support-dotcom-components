@@ -43,27 +43,24 @@ const buildSubheading = (
     separateArticleCount: boolean,
     separateArticleCountSettings?: SeparateArticleCount,
 ): JSX.Element | JSX.Element[] | null => {
-    const { copy, countType, type } = separateArticleCountSettings ?? {
-        copy: '',
-        countType: '',
-        type: 'above',
-    };
-    const numArticles =
-        articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
+        articleCounts.forTargetedWeeks >= 5;
 
-    const showAboveArticleCount = !!(type === 'above');
-    const showCustomArticleCount =
-        separateArticleCountSettings &&
+    if (
         showAboveArticleCount &&
-        numArticles !== undefined &&
-        numArticles > 5;
-
-    if (showCustomArticleCount && copy && containsArticleCountTemplate(copy)) {
-        return replaceArticleCount(copy, articleCounts['forTargetedWeeks'], 'banner');
-    } else if (separateArticleCountSettings && numArticles >= 5 && !copy) {
+        separateArticleCountSettings?.copy &&
+        containsArticleCountTemplate(separateArticleCountSettings?.copy)
+    ) {
+        return replaceArticleCount(
+            separateArticleCountSettings?.copy,
+            articleCounts.forTargetedWeeks,
+            'banner',
+        );
+    } else if (articleCounts.forTargetedWeeks >= 5 && !separateArticleCountSettings?.copy) {
         return replaceArticleCount(
             `You’ve read %%ARTICLE_COUNT%% articles in the last year`,
-            articleCounts['for52Weeks'],
+            articleCounts.forTargetedWeeks,
             'banner',
         );
     }

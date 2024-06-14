@@ -71,7 +71,7 @@ export const props: BannerProps = {
         type: 'above',
     },
     articleCounts: {
-        for52Weeks: 52,
+        for52Weeks: 12,
         forTargetedWeeks: 12,
     },
 };

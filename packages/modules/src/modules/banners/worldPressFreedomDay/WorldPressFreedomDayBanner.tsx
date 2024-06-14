@@ -26,7 +26,7 @@ import {
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
-import { ArticleCount, CustomArticleCountCopy } from './components/ArticleCount';
+import { ArticleCount } from './components/ArticleCount';
 import { TopImage } from './components/TopImage';
 import { BottomImage } from './components/BottomImage';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
@@ -67,6 +67,7 @@ const WorldPressFreedomDayBanner = ({
     tracking,
     articleCounts,
     isSupporter,
+    separateArticleCount, //legacy field
     separateArticleCountSettings,
 }: BannerRenderProps): JSX.Element => {
     const [choiceCardSelection, setChoiceCardSelection] = useState<
@@ -95,32 +96,17 @@ const WorldPressFreedomDayBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const { copy, countType, type } = separateArticleCountSettings ?? {
-        copy: '',
-        countType: '',
-        type: 'above',
-    };
-    const numArticles =
-        articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
-
-    const showAboveArticleCount = !!(type === 'above');
-
-    const showCustomArticleCount =
-        separateArticleCountSettings &&
-        showAboveArticleCount &&
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
         !isSupporter &&
-        numArticles !== undefined &&
-        numArticles > 5;
+        articleCounts.forTargetedWeeks >= 5;
 
-    const articleCount =
-        copy && showCustomArticleCount ? (
-            <CustomArticleCountCopy
-                copy={copy}
-                numArticles={articleCounts['forTargetedWeeks'] ?? 0}
-            />
-        ) : (
-            <ArticleCount numArticles={numArticles ?? 0} copy={copy} />
-        );
+    const articleCount = (
+        <ArticleCount
+            numArticles={articleCounts.forTargetedWeeks ?? 0}
+            copy={separateArticleCountSettings?.copy}
+        />
+    );
 
     return (
         <section css={banner} data-target="wpfd-banner">
@@ -147,7 +133,7 @@ const WorldPressFreedomDayBanner = ({
                                 },
                             }}
                             content={content}
-                            articleCount={showCustomArticleCount ? articleCount : undefined}
+                            articleCount={showAboveArticleCount ? articleCount : undefined}
                         />
                         <BottomImage />
                     </Column>
@@ -163,7 +149,7 @@ const WorldPressFreedomDayBanner = ({
                                 amountsVariantName={choiceCardAmounts.variantName}
                                 countryCode={countryCode}
                                 bannerTracking={tracking}
-                                numArticles={numArticles}
+                                numArticles={articleCounts.forTargetedWeeks}
                                 content={content}
                                 getCtaText={getCtaText}
                             />
