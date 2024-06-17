@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.4.0
+
+### Minor Changes
+
+-   adding in newsletter sign up component
+
 ## 2.3.3
 
 ### Patch Changes
