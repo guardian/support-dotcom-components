@@ -6,7 +6,7 @@ const baseAbandonedBasketTest: Omit<BannerTest, 'name' | 'variants'> = {
     isHardcoded: true,
     userCohort: 'Everyone',
     // We can use this as the feature switch
-    status: 'Draft',
+    status: 'Live',
     priority: 99,
     locations: [],
     contextTargeting: { tagIds: [], sectionIds: [], excludedTagIds: [], excludedSectionIds: [] },
