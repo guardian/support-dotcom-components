@@ -13,8 +13,7 @@ push to your branch.
 
 When you merge the branch, a version release PR will be automatically opened.
 
-*IMPORTANT* - you now need push a commit to this branch which manually deletes the
-changeset file(s) under `packages/dotcom/.changeset/`. These files are supposed to be deleted
+*IMPORTANT* - you now need to manually delete the changeset file(s) (which usually have funny names) under `packages/dotcom/.changeset/`. Commit that deletion and push to the version release PR. These files are supposed to be deleted
 automatically, but aren't, probably because of our yarn workspaces setup.
 
 When this PR is merged, a new release will be pushed to NPM. The version change
