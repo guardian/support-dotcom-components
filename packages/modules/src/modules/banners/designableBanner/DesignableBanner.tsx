@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import {
     neutral,
@@ -198,11 +198,28 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const isTabletOrAbove = useMediaQuery(from.tablet);
     const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
+    const iosAppBannerPresent = window.innerHeight != window.document.documentElement.clientHeight;
+
+    useEffect(() => {
+        if (iosAppBannerPresent) {
+            // send ophan event
+            if (submitComponentEvent) {
+                submitComponentEvent({
+                    component: {
+                        componentType: 'ACQUISITIONS_OTHER',
+                        id: 'safari-ios-banner-present',
+                    },
+                    action: 'VIEW',
+                });
+            }
+        }
+    }, []);
+
     const { choiceCardSelection, setChoiceCardSelection, getCtaText, getCtaUrl, currencySymbol } =
         useChoiceCards(choiceCardAmounts, countryCode, content);
-    const showChoiceCards = !!(
-        templateSettings.choiceCardSettings && choiceCardAmounts?.amountsCardData
-    );
+    const showChoiceCards =
+        !!(templateSettings.choiceCardSettings && choiceCardAmounts?.amountsCardData) &&
+        !iosAppBannerPresent;
 
     const getHeaderContainerCss = () => {
         if (!!templateSettings?.headerSettings?.headerImage) {
