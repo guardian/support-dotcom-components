@@ -2,7 +2,6 @@ import { JSX } from '@emotion/react/jsx-runtime';
 import {
     ArticleCounts,
     articleCountsSchema,
-    ArticleCountType,
     Cta,
     ctaSchema,
     SecondaryCta,
@@ -59,7 +58,6 @@ export interface BannerProps extends JSX.IntrinsicAttributes {
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     articleCounts: ArticleCounts;
-    countType?: ArticleCountType;
     hasOptedOutOfArticleCount?: boolean;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;

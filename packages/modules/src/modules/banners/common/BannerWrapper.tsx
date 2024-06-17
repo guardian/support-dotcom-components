@@ -108,7 +108,6 @@ const withBannerData =
             prices,
             fetchEmail,
             articleCounts,
-            countType,
             tickerSettings,
             isSupporter,
             separateArticleCount,
@@ -163,7 +162,7 @@ const withBannerData =
         };
 
         const finaliseParagraphs = (paras: string[]): (Array<JSX.Element> | JSX.Element)[] => {
-            const numArticles = articleCounts[countType ?? 'forTargetedWeeks'];
+            const numArticles = articleCounts.forTargetedWeeks;
             return paras.map((p) => replaceArticleCount(p, numArticles, 'banner'));
         };
 
@@ -239,7 +238,7 @@ const withBannerData =
                     containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
                 (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
 
-            const numArticles = articleCounts[countType ?? 'forTargetedWeeks'];
+            const numArticles = articleCounts.forTargetedWeeks;
             const headingWithArticleCount = !!cleanHeading
                 ? replaceArticleCount(cleanHeading, numArticles, 'banner')
                 : null;

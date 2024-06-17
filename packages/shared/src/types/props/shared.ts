@@ -122,7 +122,7 @@ export type ArticleCounts = {
 export const separateArticleCountSchema = z.object({
     type: z.literal('above'),
     copy: z.string().optional(),
-    countType: articleCountTypeSchema.optional(), // defaults to `for52Weeks`
+    countType: articleCountTypeSchema.optional(), // defaults to forTargetedWeeks
 });
 
 export interface SeparateArticleCount {
