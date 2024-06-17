@@ -274,7 +274,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         />
                     )}
 
-                    {!templateSettings.choiceCardSettings && (
+                    {!showChoiceCards && (
                         <DesignableBannerCtas
                             mainOrMobileContent={mainOrMobileContent}
                             onPrimaryCtaClick={onCtaClick}
