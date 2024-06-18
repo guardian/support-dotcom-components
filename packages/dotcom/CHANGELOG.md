@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.5.0
+
+### Minor Changes
+
+-   Reverting newsletter model change
+
 ## 2.4.0
 
 ### Minor Changes
