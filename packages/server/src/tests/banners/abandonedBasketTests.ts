@@ -25,7 +25,7 @@ const cta = {
 };
 
 const paragraphs = [
-    'Your support is incredibly important to us and helps us keep our independent journalism open for all. Please consider finalising your support today.',
+    'Your support is incredibly important to us and helps us keep our independent journalism open for all. Please consider completing your act of support today.',
 ];
 
 const abandonedBasketTest: BannerTest = {
