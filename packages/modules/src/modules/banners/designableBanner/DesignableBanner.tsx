@@ -198,6 +198,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const isTabletOrAbove = useMediaQuery(from.tablet);
     const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
+    // We can use this to shorten the banner if the "open in app" banner is present. We're not currently doing this though
     const iosAppBannerPresent = window.innerHeight != window.document.documentElement.clientHeight;
 
     useEffect(() => {
@@ -217,9 +218,9 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
 
     const { choiceCardSelection, setChoiceCardSelection, getCtaText, getCtaUrl, currencySymbol } =
         useChoiceCards(choiceCardAmounts, countryCode, content);
-    const showChoiceCards =
-        !!(templateSettings.choiceCardSettings && choiceCardAmounts?.amountsCardData) &&
-        !iosAppBannerPresent;
+    const showChoiceCards = !!(
+        templateSettings.choiceCardSettings && choiceCardAmounts?.amountsCardData
+    );
 
     const getHeaderContainerCss = () => {
         if (!!templateSettings?.headerSettings?.headerImage) {
