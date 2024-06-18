@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
     "target": "ES2018",
     "moduleResolution": "bundler",
+    "esModuleInterop": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
