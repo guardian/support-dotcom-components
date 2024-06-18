@@ -17,7 +17,7 @@ import { baseUrl } from '../lib/env';
 import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import { buildBannerCampaignCode, countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
-import { getArticleViewCountForWeeks } from '../lib/history';
+import { getArticleViewCounts } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
@@ -105,13 +105,15 @@ export const buildBannerRouter = (
                 countryCode: targeting.countryCode,
                 content: variant.bannerContent,
                 mobileContent: variant.mobileBannerContent,
-                numArticles: getArticleViewCountForWeeks(
+                articleCounts: getArticleViewCounts(
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,
+                    test.articlesViewedSettings?.tagIds,
                 ),
                 hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
                 tickerSettings,
                 separateArticleCount: variant.separateArticleCount,
+                separateArticleCountSettings: variant.separateArticleCountSettings,
                 prices: productPrices.get(),
                 choiceCardAmounts: variantAmounts,
                 design: getDesignForVariant(variant, bannerDesigns.get()),

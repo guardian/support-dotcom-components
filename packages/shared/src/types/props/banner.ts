@@ -1,9 +1,12 @@
 import { JSX } from '@emotion/react/jsx-runtime';
 import {
+    ArticleCounts,
+    articleCountsSchema,
     Cta,
     ctaSchema,
     SecondaryCta,
     secondaryCtaSchema,
+    SeparateArticleCount,
     TickerSettings,
     tickerSettingsSchema,
     Tracking,
@@ -54,10 +57,11 @@ export interface BannerProps extends JSX.IntrinsicAttributes {
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-    numArticles?: number;
+    articleCounts: ArticleCounts;
     hasOptedOutOfArticleCount?: boolean;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
+    separateArticleCountSettings?: SeparateArticleCount;
     prices?: Prices;
     choiceCardAmounts?: SelectedAmountsVariant;
     design?: ConfigurableDesign;
@@ -73,7 +77,7 @@ export const bannerSchema = z.object({
     isSupporter: z.boolean().nullish(),
     tickerSettings: tickerSettingsSchema.nullish(),
     submitComponentEvent: z.any(),
-    numArticles: z.number().nullish(),
+    articleCounts: articleCountsSchema,
     hasOptedOutOfArticleCount: z.boolean().nullish(),
     fetchEmail: z.any().nullish(),
     separateArticleCount: z.boolean().nullish(),

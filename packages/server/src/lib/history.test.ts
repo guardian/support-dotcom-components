@@ -3,7 +3,9 @@ import {
     getArticleViewCountForWeeks,
     getArticleViewCounts,
     getWeeksInWindow,
+    historyWithinArticlesViewedSettings,
 } from './history';
+import { ArticlesViewedSettings } from '@sdc/shared/dist/types';
 
 describe('getArticleViewCountForWeeks', () => {
     // Pass the current date into the tested function so the checks can be made
@@ -189,5 +191,137 @@ describe(' getArticleViewCounts ', () => {
 
         expect(got.for52Weeks).toBe(53);
         expect(got.forTargetedWeeks).toBe(53);
+    });
+});
+
+describe(' historyWithinArticlesViewedSettings ', () => {
+    const rightNow = new Date('2020-03-16T09:30:00');
+
+    it('should return the check for count to be  between minViews and maxViews', () => {
+        const articleHistoryWithOneWeekMultipleTags = [
+            {
+                week: 18330,
+                count: 53,
+                tags: {
+                    'environment/environment': 15,
+                    'environment/climate-crisis': 6,
+                    'world/world': 5,
+                    'business/business': 3,
+                    'us-news/us-politics': 1,
+                    'technology/technology': 1,
+                    'science/science': 1,
+                    'politics/politics': 3,
+                    'books/books': 1,
+                    'culture/culture': 1,
+                },
+            },
+        ];
+
+        const articlesViewedSettings: ArticlesViewedSettings = {
+            minViews: 5,
+            maxViews: 100,
+            periodInWeeks: 52,
+            tagIds: ['science/science', 'environment/environment'],
+        };
+
+        const got = historyWithinArticlesViewedSettings(
+            articlesViewedSettings,
+            articleHistoryWithOneWeekMultipleTags,
+            rightNow,
+        );
+
+        expect(got).toBe(true);
+    });
+
+    it('should count views for one week properly for a number of tags ', () => {
+        const rightNow = new Date('2020-03-16T09:30:00');
+
+        const articleHistoryWithOneWeekMultipleTags = [
+            {
+                week: 18330,
+                count: 53,
+                tags: {
+                    'environment/environment': 15,
+                    'environment/climate-crisis': 6,
+                    'world/world': 5,
+                    'business/business': 3,
+                    'us-news/us-politics': 1,
+                    'technology/technology': 1,
+                    'science/science': 1,
+                    'politics/politics': 3,
+                    'books/books': 1,
+                    'culture/culture': 1,
+                },
+            },
+        ];
+
+        const articlesViewedSettings: ArticlesViewedSettings = {
+            minViews: 5,
+            maxViews: 100,
+            periodInWeeks: 52,
+            tagIds: ['science/science', 'environment/environment'],
+        };
+
+        const viewCountForWeeks =
+            articlesViewedSettings.tagIds?.length === 0
+                ? getArticleViewCountForWeeks(
+                      articleHistoryWithOneWeekMultipleTags,
+                      articlesViewedSettings.periodInWeeks,
+                      rightNow,
+                  )
+                : getArticleViewCountByMultipleTagForWeeks(
+                      articlesViewedSettings.tagIds,
+                      articleHistoryWithOneWeekMultipleTags,
+                      articlesViewedSettings.periodInWeeks,
+                      rightNow,
+                  );
+
+        expect(viewCountForWeeks).toBe(16);
+    });
+
+    it('should count views for one week properly for no tags ', () => {
+        const rightNow = new Date('2020-03-16T09:30:00');
+
+        const articleHistoryWithOneWeekMultipleTags = [
+            {
+                week: 18330,
+                count: 53,
+                tags: {
+                    'environment/environment': 15,
+                    'environment/climate-crisis': 6,
+                    'world/world': 5,
+                    'business/business': 3,
+                    'us-news/us-politics': 1,
+                    'technology/technology': 1,
+                    'science/science': 1,
+                    'politics/politics': 3,
+                    'books/books': 1,
+                    'culture/culture': 1,
+                },
+            },
+        ];
+
+        const articlesViewedSettings: ArticlesViewedSettings = {
+            minViews: 5,
+            maxViews: 100,
+            periodInWeeks: 52,
+            tagIds: [],
+        };
+
+        const viewCountForWeeks =
+            articlesViewedSettings.tagIds?.length === 0
+                ? getArticleViewCountForWeeks(
+                      articleHistoryWithOneWeekMultipleTags,
+                      articlesViewedSettings.periodInWeeks,
+                      rightNow,
+                  )
+                : getArticleViewCountByMultipleTagForWeeks(
+                      articlesViewedSettings.tagIds,
+                      articleHistoryWithOneWeekMultipleTags,
+                      articlesViewedSettings.periodInWeeks,
+                      rightNow,
+                  );
+
+        expect(viewCountForWeeks).toBe(53);
     });
 });

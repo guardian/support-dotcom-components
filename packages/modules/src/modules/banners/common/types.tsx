@@ -7,6 +7,7 @@ import {
     Tracking,
     ConfigurableDesign,
 } from '@sdc/shared/types';
+import type { ArticleCounts, ArticleCountType, SeparateArticleCount } from '@sdc/shared/dist/types';
 
 export type BannerId =
     | 'climate-crisis-moment-banner'
@@ -82,8 +83,10 @@ export interface BannerRenderProps {
     fetchEmail?: () => Promise<string | null>;
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;
-    numArticles?: number;
+    articleCounts: ArticleCounts;
+    countType?: ArticleCountType;
     separateArticleCount?: boolean;
+    separateArticleCountSettings?: SeparateArticleCount;
     choiceCardAmounts?: SelectedAmountsVariant;
     tracking: Tracking;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;

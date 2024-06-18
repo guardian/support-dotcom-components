@@ -1,6 +1,7 @@
 import { JSX } from '@emotion/react/jsx-runtime';
 import * as z from 'zod';
 import {
+    articleCountsSchema,
     bylineWithImageSchema,
     ctaSchema,
     imageSchema,
@@ -9,19 +10,11 @@ import {
     tickerSettingsSchema,
     Tracking,
     trackingSchema,
+    separateArticleCountSchema,
+    ArticleCounts,
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
 import { EpicVariant } from '../abTests';
-
-export type ArticleCountType =
-    | 'for52Weeks' // The user's total article view count, which currently goes back as far as 52 weeks
-    | 'forTargetedWeeks'; // The user's article view count for the configured periodInWeeks/tag
-
-const articleCountTypeSchema = z.enum(['for52Weeks', 'forTargetedWeeks']);
-
-export type ArticleCounts = {
-    [type in ArticleCountType]: number;
-};
 
 export interface EpicProps extends JSX.IntrinsicAttributes {
     variant: EpicVariant;
@@ -40,21 +33,11 @@ export interface EpicProps extends JSX.IntrinsicAttributes {
 /**
  * Props validation
  */
-const articleCountsSchema = z.object({
-    for52Weeks: z.number(),
-    forTargetedWeeks: z.number(),
-});
 
 const maxViewsSchema = z.object({
     maxViewsCount: z.number(),
     maxViewsDays: z.number(),
     minDaysBetweenViews: z.number(),
-});
-
-const separateArticleCountSchema = z.object({
-    type: z.literal('above'),
-    copy: z.string().optional(),
-    countType: articleCountTypeSchema.optional(), // defaults to `for52Weeks`
 });
 
 const reminderFieldsSchema = z.object({

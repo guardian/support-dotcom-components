@@ -185,12 +185,15 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
     onCloseClick,
     onCtaClick,
     onSecondaryCtaClick,
-    numArticles,
+    articleCounts,
     isSupporter,
-    separateArticleCount,
+    separateArticleCount, // legacy field
+    separateArticleCountSettings,
 }: BannerRenderProps) => {
-    const showArticleCount =
-        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
+        !isSupporter &&
+        articleCounts.forTargetedWeeks >= 5;
 
     return (
         <div css={container}>
@@ -212,9 +215,12 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
                         <EnvironmentBannerHeader />
 
                         <div css={bodyAndCtasContainer}>
-                            {showArticleCount && (
+                            {showAboveArticleCount && (
                                 <div>
-                                    <EnvironmentBannerArticleCount numArticles={numArticles} />
+                                    <EnvironmentBannerArticleCount
+                                        numArticles={articleCounts.forTargetedWeeks ?? 0}
+                                        copy={separateArticleCountSettings?.copy}
+                                    />
                                 </div>
                             )}
 

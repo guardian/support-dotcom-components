@@ -75,9 +75,10 @@ export const ChoiceCardsButtonsBanner = ({
     countryCode,
     submitComponentEvent,
     tracking,
-    numArticles,
+    articleCounts,
     isSupporter,
-    separateArticleCount,
+    separateArticleCount, //legacy field
+    separateArticleCountSettings,
 }: Omit<
     BannerRenderProps,
     'onCtaClick' | 'onSecondaryCtaClick' | 'onNotNowClick' | 'reminderTracking'
@@ -109,10 +110,17 @@ export const ChoiceCardsButtonsBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const showArticleCount =
-        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
+        !isSupporter &&
+        articleCounts.forTargetedWeeks >= 5;
 
-    const articleCount = <ChoiceCardsBannerArticleCount numArticles={numArticles ?? 0} />;
+    const articleCount = (
+        <ChoiceCardsBannerArticleCount
+            numArticles={articleCounts.forTargetedWeeks}
+            copy={separateArticleCountSettings?.copy}
+        />
+    );
 
     return (
         <section css={banner(backgroundColor)} data-target={bannerId}>
@@ -144,7 +152,7 @@ export const ChoiceCardsButtonsBanner = ({
                                 },
                             }}
                             content={content}
-                            articleCount={showArticleCount ? articleCount : undefined}
+                            articleCount={showAboveArticleCount ? articleCount : undefined}
                         />
                     </Column>
                     <Column
@@ -167,7 +175,7 @@ export const ChoiceCardsButtonsBanner = ({
                                 amountsVariantName={choiceCardAmounts.variantName}
                                 countryCode={countryCode}
                                 bannerTracking={tracking}
-                                numArticles={numArticles}
+                                numArticles={articleCounts.forTargetedWeeks}
                                 content={content}
                                 getCtaText={getCtaText}
                             />

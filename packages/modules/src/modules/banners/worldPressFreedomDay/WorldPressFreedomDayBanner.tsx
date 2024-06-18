@@ -65,9 +65,10 @@ const WorldPressFreedomDayBanner = ({
     countryCode,
     submitComponentEvent,
     tracking,
-    numArticles,
+    articleCounts,
     isSupporter,
-    separateArticleCount,
+    separateArticleCount, //legacy field
+    separateArticleCountSettings,
 }: BannerRenderProps): JSX.Element => {
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
@@ -95,10 +96,17 @@ const WorldPressFreedomDayBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const showArticleCount =
-        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
+        !isSupporter &&
+        articleCounts.forTargetedWeeks >= 5;
 
-    const articleCount = <ArticleCount numArticles={numArticles ?? 0} />;
+    const articleCount = (
+        <ArticleCount
+            numArticles={articleCounts.forTargetedWeeks ?? 0}
+            copy={separateArticleCountSettings?.copy}
+        />
+    );
 
     return (
         <section css={banner} data-target="wpfd-banner">
@@ -125,7 +133,7 @@ const WorldPressFreedomDayBanner = ({
                                 },
                             }}
                             content={content}
-                            articleCount={showArticleCount ? articleCount : undefined}
+                            articleCount={showAboveArticleCount ? articleCount : undefined}
                         />
                         <BottomImage />
                     </Column>
@@ -141,7 +149,7 @@ const WorldPressFreedomDayBanner = ({
                                 amountsVariantName={choiceCardAmounts.variantName}
                                 countryCode={countryCode}
                                 bannerTracking={tracking}
-                                numArticles={numArticles}
+                                numArticles={articleCounts.forTargetedWeeks}
                                 content={content}
                                 getCtaText={getCtaText}
                             />

@@ -248,7 +248,10 @@ DesignOneImageOnly.args = {
             type: SecondaryCtaType.ContributionsReminder,
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings,
     design: {
         ...design,
@@ -274,7 +277,10 @@ DesignTwoRegularAmounts.args = {
     ...props,
     content: contentWithHeading,
     mobileContent: mobileContentWithHeading,
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings,
     design: {
         ...design,
@@ -291,7 +297,10 @@ DesignTwoEdgeCaseAmounts.args = {
     ...props,
     content: contentWithHeading,
     mobileContent: mobileContentWithHeading,
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings,
     design: {
         ...design,
@@ -313,7 +322,10 @@ DesignThreeHeaderImageOnly.args = {
     ...props,
     content: contentNoHeading,
     mobileContent: mobileContentNoHeading,
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings,
     design: {
         ...design,
@@ -338,7 +350,10 @@ DesignFourHeaderImageAndCopy.args = {
     ...props,
     content: contentWithHeading,
     mobileContent: mobileContentWithHeading,
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings,
     design: {
         ...design,
@@ -363,7 +378,10 @@ DesignThreeAnimatedHeaderImage.args = {
     ...props,
     content: contentNoHeading,
     mobileContent: mobileContentNoHeading,
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings,
     design: {
         ...design,
@@ -393,7 +411,10 @@ NoChoiceCardOrImage.args = {
     ...props,
     content: contentWithHeading,
     mobileContent: mobileContentWithHeading,
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     design: {
         ...design,
         visual: undefined,
@@ -411,7 +432,10 @@ WithNonSupportUrl.args = {
             text: 'Continue to the Guardian',
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     design: {
         ...design,
         visual: undefined,
@@ -436,7 +460,10 @@ WithRemindMeLater.args = {
             type: SecondaryCtaType.ContributionsReminder,
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings,
     design: {
         ...design,

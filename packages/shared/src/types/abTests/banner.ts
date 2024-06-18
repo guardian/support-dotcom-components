@@ -2,6 +2,7 @@ import {
     BannerChannel,
     bannerContentSchema,
     ConfigurableDesign,
+    separateArticleCountSchema,
     tickerSettingsSchema,
 } from '../props';
 import {
@@ -43,6 +44,7 @@ export const bannerVariantFromToolSchema = z.object({
     bannerContent: bannerContentSchema.optional(),
     mobileBannerContent: bannerContentSchema.optional(),
     separateArticleCount: z.boolean().optional(),
+    separateArticleCountSettings: separateArticleCountSchema.optional(),
 });
 
 export type BannerVariantFromTool = z.infer<typeof bannerVariantFromToolSchema>;

@@ -26,11 +26,12 @@ export function getMomentTemplateBanner(
     function MomentTemplateBanner({
         content,
         onCloseClick,
-        numArticles,
+        articleCounts,
         onCtaClick,
         onSecondaryCtaClick,
         reminderTracking,
-        separateArticleCount,
+        separateArticleCount, //legacy field
+        separateArticleCountSettings,
         tickerSettings,
         choiceCardAmounts,
         countryCode,
@@ -52,6 +53,10 @@ export function getMomentTemplateBanner(
         const showChoiceCards = !!(
             templateSettings.choiceCards && choiceCardAmounts?.amountsCardData
         );
+
+        const showAboveArticleCount =
+            (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
+            articleCounts.forTargetedWeeks >= 5;
 
         return (
             <div
@@ -81,13 +86,13 @@ export function getMomentTemplateBanner(
                     </div>
 
                     <div css={styles.contentContainer}>
-                        {separateArticleCount && Number(numArticles) > 5 && (
+                        {showAboveArticleCount && (
                             <MomentTemplateBannerArticleCount
-                                numArticles={numArticles as number}
+                                numArticles={articleCounts.forTargetedWeeks}
                                 settings={templateSettings}
+                                copy={separateArticleCountSettings?.copy}
                             />
                         )}
-
                         <div css={templateSpacing.bannerBodyCopy}>
                             <MomentTemplateBannerBody
                                 mainContent={content.mainContent}

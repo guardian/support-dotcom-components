@@ -61,12 +61,18 @@ Default.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 40,
+        forTargetedWeeks: 40,
+    },
+    separateArticleCountSettings: {
+        type: 'above',
+    },
     tickerSettings: undefined,
 };
 
 export const WithBackDrop = WithBackDropTemplate.bind({});
-Default.args = {
+WithBackDrop.args = {
     ...props,
     content: {
         heading: 'Show your support for reader-funded journalism',
@@ -112,7 +118,13 @@ Default.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 40,
+        forTargetedWeeks: 40,
+    },
+    separateArticleCountSettings: {
+        type: 'above',
+    },
     tickerSettings: undefined,
 };
 
@@ -163,7 +175,14 @@ WithChoiceCards.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
+    },
     tickerSettings: undefined,
 };
 
@@ -214,7 +233,14 @@ WithChoiceCardsHeaderImage.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
+    },
     tickerSettings: undefined,
 };
 
@@ -265,7 +291,14 @@ WithHeaderImage.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
+    },
     tickerSettings: undefined,
 };
 
@@ -307,7 +340,14 @@ WithReminder.args = {
             type: SecondaryCtaType.ContributionsReminder,
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
+        type: 'above',
+    },
 };
 
 export const WithTicker = BannerWithTickerTemplate.bind({});
@@ -357,7 +397,13 @@ WithTicker.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
+    separateArticleCountSettings: {
+        type: 'above',
+    },
     tickerSettings: {
         countType: TickerCountType.money,
         endType: TickerEndType.hardstop,

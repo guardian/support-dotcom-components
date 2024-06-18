@@ -96,11 +96,12 @@ const buildChoiceCardSettings = (design: ConfigurableDesign): ChoiceCardSettings
 const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     content,
     onCloseClick,
-    numArticles,
+    articleCounts,
     onCtaClick,
     onSecondaryCtaClick,
     reminderTracking,
-    separateArticleCount,
+    separateArticleCount, // legacy field
+    separateArticleCountSettings,
     tickerSettings,
     choiceCardAmounts,
     countryCode,
@@ -237,6 +238,10 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const showReminder =
         mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
 
+    const showAboveArticleCount =
+        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
+        articleCounts.forTargetedWeeks >= 5;
+
     return (
         <div
             css={styles.outerContainer(
@@ -253,10 +258,11 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     />
                 </div>
                 <div css={styles.contentContainer(showReminder)}>
-                    {separateArticleCount && Number(numArticles) > 5 && (
+                    {showAboveArticleCount && (
                         <DesignableBannerArticleCount
-                            numArticles={numArticles as number}
+                            numArticles={articleCounts.forTargetedWeeks}
                             settings={templateSettings}
+                            copy={separateArticleCountSettings?.copy}
                         />
                     )}
 
