@@ -1,6 +1,6 @@
 import { EpicTest, EpicVariant } from '@sdc/shared/dist/types';
 import { BanditData } from './banditData';
-import { Result } from '../tests/epics/epicSelection';
+import { AppliedLearningBanditTestsNames, Result } from '../tests/epics/epicSelection';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 
@@ -8,10 +8,6 @@ import { logError } from '../utils/logging';
  * In general we select the best known variant, except with probability 'epsilon' when we select at random.
  * https://en.wikipedia.org/wiki/Multi-armed_bandit#Semi-uniform_strategies
  */
-//const EPSILON = 0.1;
-
-// NULL HYPOTHESIS - always pick at random
-// const EPSILON = 1;
 
 export function selectVariantWithHighestMean(
     testBanditData: BanditData,
@@ -47,9 +43,11 @@ function selectRandomVariant(test: EpicTest): Result {
 }
 
 export function epsilonValueForBanditTest(testBanditData: BanditData): number {
-    if (testBanditData.testName.includes('2024-07-20_BANDIT_EPSILON1_VARIANTS')) {
+    if (testBanditData.testName.includes(AppliedLearningBanditTestsNames.BanditTestEpsilon1)) {
         return 1;
-    } else if (testBanditData.testName.includes('2024-07-20_BANDIT_EPSILON2_VARIANTS')) {
+    } else if (
+        testBanditData.testName.includes(AppliedLearningBanditTestsNames.BanditTestEpsilon2)
+    ) {
         return 0.5;
     }
     return 1;

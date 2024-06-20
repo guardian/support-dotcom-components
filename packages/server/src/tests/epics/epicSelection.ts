@@ -191,9 +191,9 @@ export interface Result {
 }
 
 export const AppliedLearningBanditTestsNames = {
-    BanditTestEpsilon0: '2024-07-25_BANDIT_ABTEST_VARIANTS', // This is the AB test
-    BanditTestEpsilon1: '2024-07-25_BANDIT_EPSILON1_VARIANTS',
-    BanditTestEpsilon2: '2024-07-25_BANDIT_EPSILON2_VARIANTS',
+    BanditTestEpsilon0: 'BANDIT_ABTEST_VARIANTS', // This is the AB test
+    BanditTestEpsilon1: 'BANDIT_EPSILON1_VARIANTS',
+    BanditTestEpsilon2: 'BANDIT_EPSILON2_VARIANTS',
 } as const;
 
 export const AppliedLearningBanditTestFilter: Filter = {
