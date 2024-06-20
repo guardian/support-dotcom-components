@@ -1,15 +1,12 @@
 import React from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/source/react-components';
-import {
-    ContributionFrequency,
-    SelectedAmountsVariant,
-    OphanComponentEvent,
-} from '@sdc/shared/types';
+import { ContributionFrequency, SelectedAmountsVariant } from '@sdc/shared/types';
 import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
 import { css } from '@emotion/react';
 import { from, space, until } from '@guardian/source/foundations';
+import { OphanComponentEvent } from '@guardian/libs';
 
 interface ChoiceCardInteractiveProps {
     selection?: ChoiceCardSelection;

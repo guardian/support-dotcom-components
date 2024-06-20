@@ -9,13 +9,9 @@ import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
-import {
-    OphanComponentEvent,
-    AmountsCardData,
-    ContributionType,
-    Tracking,
-} from '@sdc/shared/src/types';
+import { AmountsCardData, ContributionType, Tracking } from '@sdc/shared/src/types';
 import type { ReactComponent } from '../../../../types';
+import { OphanComponentEvent } from '@guardian/libs';
 
 export interface ChoiceCardSettings {
     buttonColour?: string;

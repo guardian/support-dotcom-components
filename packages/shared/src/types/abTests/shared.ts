@@ -1,11 +1,11 @@
 import * as z from 'zod';
-import { OphanComponentType, OphanProduct } from '../ophan';
 import {
     purchaseInfoProduct,
     purchaseInfoProductSchema,
     purchaseInfoUser,
     purchaseInfoUserSchema,
 } from '../purchaseInfo';
+import { OphanComponentType, OphanProduct } from '@guardian/libs';
 
 const TestStatus = ['Live', 'Draft', 'Archived'] as const;
 export type TestStatus = (typeof TestStatus)[number];

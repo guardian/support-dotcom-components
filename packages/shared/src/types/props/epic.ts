@@ -13,8 +13,8 @@ import {
     separateArticleCountSchema,
     ArticleCounts,
 } from './shared';
-import { OphanComponentEvent } from '../ophan';
 import { EpicVariant } from '../abTests';
+import { OphanComponentEvent } from '@guardian/libs';
 
 export interface EpicProps extends JSX.IntrinsicAttributes {
     variant: EpicVariant;

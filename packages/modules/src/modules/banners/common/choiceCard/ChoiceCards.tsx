@@ -6,10 +6,11 @@ import { ChoiceCardInteractive } from './ChoiceCardInteractive';
 import { ChoiceCardsSupportCta } from './ChoiceCardsSupportCta';
 import { PaymentCards } from '../PaymentCards';
 import { BannerTextContent } from '../../common/types';
-import { OphanComponentEvent, SelectedAmountsVariant } from '@sdc/shared/src/types';
+import { SelectedAmountsVariant } from '@sdc/shared/src/types';
 import type { ReactComponent } from '../../../../types';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ContentType } from '../../../../hooks/useChoiceCards';
+import { OphanComponentEvent } from '@guardian/libs';
 
 export interface ChoiceCardSettings {
     buttonColour?: string;

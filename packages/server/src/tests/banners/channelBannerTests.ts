@@ -12,7 +12,6 @@ import {
     BannerTest,
     BannerTestGenerator,
     BannerVariant,
-    OphanComponentType,
     BannerTestFromTool,
     BannerVariantFromTool,
     uiIsDesign,
@@ -22,6 +21,7 @@ import {
 } from '@sdc/shared/types';
 import { BannerTemplate } from '@sdc/shared/types';
 import { getTests } from '../store';
+import { OphanComponentType } from '@guardian/libs';
 
 export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;

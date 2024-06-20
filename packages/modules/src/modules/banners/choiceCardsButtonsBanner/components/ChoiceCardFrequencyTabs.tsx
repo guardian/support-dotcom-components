@@ -1,14 +1,11 @@
 import React from 'react';
-import {
-    AmountsCardData,
-    ContributionFrequency,
-    OphanComponentEvent,
-} from '@sdc/shared/dist/types';
+import { AmountsCardData, ContributionFrequency } from '@sdc/shared/dist/types';
 import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCard } from '@guardian/source/react-components';
 import { css } from '@emotion/react';
 import { space } from '@guardian/source/foundations';
+import { OphanComponentEvent } from '@guardian/libs';
 
 const container = (backgroundColour?: string) => css`
     display: flex;

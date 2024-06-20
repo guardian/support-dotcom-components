@@ -1,12 +1,7 @@
 import express, { Router } from 'express';
 import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
 import cors from 'cors';
-import {
-    AmountsTests,
-    AmountsCardData,
-    OneOffSignupRequest,
-    OphanComponentEvent,
-} from '@sdc/shared/dist/types';
+import { AmountsTests, AmountsCardData, OneOffSignupRequest } from '@sdc/shared/dist/types';
 import fetch from 'node-fetch';
 import {
     buildAmpEpicCampaignCode,
@@ -21,6 +16,7 @@ import { isProd } from '../lib/env';
 import { ValueProvider } from '../utils/valueReloader';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { AmpEpicTest } from '../tests/amp/ampEpicModels';
+import { OphanComponentEvent } from '@guardian/libs';
 
 export const setOneOffReminderEndpoint = (): string =>
     isProd

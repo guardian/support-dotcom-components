@@ -1,6 +1,6 @@
+import { OphanComponentEvent } from '@guardian/libs';
 import { ReminderFields } from '@sdc/shared/lib';
 import {
-    OphanComponentEvent,
     SecondaryCtaType,
     SelectedAmountsVariant,
     TickerSettings,
