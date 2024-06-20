@@ -200,7 +200,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
     // We can use this to shorten the banner if the "open in app" banner is present
-    const iosAppBannerPresent = window.innerHeight === window.document.documentElement.clientHeight;
+    const iosAppBannerPresent = window.innerHeight != window.document.documentElement.clientHeight;
 
     useEffect(() => {
         if (iosAppBannerPresent) {
