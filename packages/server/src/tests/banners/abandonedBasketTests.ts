@@ -4,7 +4,7 @@ import type { BannerTest, BannerTestGenerator, BannerVariant } from '@sdc/shared
 const baseAbandonedBasketTest: Omit<BannerTest, 'name' | 'variants'> = {
     bannerChannel: 'abandonedBasket',
     isHardcoded: true,
-    userCohort: 'Everyone',
+    userCohort: 'AllNonSupporters',
     // We can use this as the feature switch
     status: 'Live',
     priority: 99,
