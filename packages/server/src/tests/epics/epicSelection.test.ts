@@ -966,7 +966,6 @@ describe('applied learning bandit variant test', () => {
         expect(epsilonGreedyABTestChosen.length).toBeGreaterThan(1900);
         expect(epsilonGreedyABTestChosen.length).toBeLessThan(2100);
 
-
         const epsilonGreedy1TestChosen = results.filter((r) => r === epsilonGreedy1Test.name);
         expect(epsilonGreedy1TestChosen.length).toBeGreaterThan(1900);
         expect(epsilonGreedy1TestChosen.length).toBeLessThan(2100);

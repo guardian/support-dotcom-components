@@ -11,7 +11,7 @@ import { logError } from '../utils/logging';
 //const EPSILON = 0.1;
 
 // NULL HYPOTHESIS - always pick at random
-const EPSILON = 1;
+// const EPSILON = 1;
 
 export function selectVariantWithHighestMean(
     testBanditData: BanditData,
