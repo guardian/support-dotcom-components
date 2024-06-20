@@ -46,6 +46,15 @@ function selectRandomVariant(test: EpicTest): Result {
     };
 }
 
+export function epsilonValueForBanditTest(testBanditData: BanditData): number {
+    if (testBanditData.testName.includes('2024-07-20_BANDIT_EPSILON1_VARIANTS')) {
+        return 1;
+    } else if (testBanditData.testName.includes('2024-07-20_BANDIT_EPSILON2_VARIANTS')) {
+        return 0.5;
+    }
+    return 0;
+}
+
 export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: EpicTest): Result {
     const testBanditData = banditData.find((bandit) => bandit.testName === test.name);
 
@@ -57,7 +66,9 @@ export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: 
     // Choose at random with probability epsilon
     const random = Math.random();
 
-    if (EPSILON > random) {
+    const EPSILON = epsilonValueForBanditTest(testBanditData);
+
+    if (EPSILON > random && EPSILON > 0.5) {
         return selectRandomVariant(test);
     }
 

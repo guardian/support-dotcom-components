@@ -190,6 +190,29 @@ export interface Result {
     debug?: Debug;
 }
 
+export const AppliedLearningBanditTestsNames = {
+    BanditTestEpsilon0: '2024-07-25_BANDIT_ABTEST_VARIANTS', // This is the AB test
+    BanditTestEpsilon1: '2024-07-25_BANDIT_EPSILON1_VARIANTS',
+    BanditTestEpsilon2: '2024-07-25_BANDIT_EPSILON2_VARIANTS',
+};
+
+export const AppliedLearningBanditTestFilter: Filter = {
+    id: 'matchesAppliedLearningBanditTestVariantsTests',
+    test: (test, targeting): boolean => {
+        const oneByThreeChance = getRandomNumber('APPLIED_LEARNING_BANDIT', targeting.mvtId) % 3;
+        if (test.name.startsWith(AppliedLearningBanditTestsNames.BanditTestEpsilon0)) {
+            return oneByThreeChance === 0;
+        }
+        if (test.name.startsWith(AppliedLearningBanditTestsNames.BanditTestEpsilon1)) {
+            return oneByThreeChance === 1;
+        }
+        if (test.name.startsWith(AppliedLearningBanditTestsNames.BanditTestEpsilon2)) {
+            return oneByThreeChance === 2;
+        }
+        return true;
+    },
+};
+
 export const NonStickyVariantsTestNames = {
     Sticky: '2024-05-24_STICKY_VARIANTS',
     NonSticky: '2024-05-24_NON_STICKY_VARIANTS',
@@ -237,6 +260,7 @@ export const findTestAndVariant = (
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
             nonStickyVariantsTestFilter,
+            AppliedLearningBanditTestFilter,
             momentumMatches,
         ];
     };
