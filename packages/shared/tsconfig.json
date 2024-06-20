@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
-    "moduleResolution": "bundler",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
