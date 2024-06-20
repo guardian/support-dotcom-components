@@ -199,7 +199,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const isTabletOrAbove = useMediaQuery(from.tablet);
     const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
-    // We can use this to shorten the banner if the "open in app" banner is present. We're not currently doing this though
+    // We can use this to shorten the banner if the "open in app" banner is present
     const iosAppBannerPresent = window.innerHeight != window.document.documentElement.clientHeight;
 
     useEffect(() => {
@@ -246,6 +246,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         <div
             css={styles.outerContainer(
                 templateSettings.containerSettings.backgroundColour,
+                iosAppBannerPresent,
                 templateSettings.containerSettings.textColor,
             )}
         >
@@ -378,10 +379,14 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
 };
 
 const styles = {
-    outerContainer: (background: string, textColor: string = 'inherit') => css`
+    outerContainer: (
+        background: string,
+        limitHeight: boolean,
+        textColor: string = 'inherit',
+    ) => css`
         background: ${background};
         color: ${textColor};
-        max-height: 100vh;
+        ${limitHeight ? 'max-height: 70vh;' : ''}
         overflow: auto;
         * {
             box-sizing: border-box;
