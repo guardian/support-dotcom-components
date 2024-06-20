@@ -52,7 +52,7 @@ export function epsilonValueForBanditTest(testBanditData: BanditData): number {
     } else if (testBanditData.testName.includes('2024-07-20_BANDIT_EPSILON2_VARIANTS')) {
         return 0.5;
     }
-    return 0;
+    return 1;
 }
 
 export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: EpicTest): Result {
@@ -68,7 +68,7 @@ export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: 
 
     const EPSILON = epsilonValueForBanditTest(testBanditData);
 
-    if (EPSILON > random && EPSILON > 0.5) {
+    if (EPSILON > random) {
         return selectRandomVariant(test);
     }
 
