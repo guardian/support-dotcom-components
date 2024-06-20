@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.5.1
+
+### Patch Changes
+
+-   Using guardian/libs for Ophan types
+
 ## 2.5.0
 
 ### Minor Changes
