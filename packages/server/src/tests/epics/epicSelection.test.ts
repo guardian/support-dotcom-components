@@ -20,6 +20,7 @@ import {
     deviceTypeMatchesFilter,
     correctSignedInStatusFilter,
     NonStickyVariantsTestNames,
+    AppliedLearningBanditTestsNames,
 } from './epicSelection';
 import { BanditData } from '../../bandit/banditData';
 
@@ -906,5 +907,71 @@ describe('sticky variant test', () => {
         const nonStickyChosen = results.filter((r) => r === nonStickyTest.name);
         expect(nonStickyChosen.length).toBeGreaterThan(2400);
         expect(nonStickyChosen.length).toBeLessThan(2600);
+    });
+});
+
+describe('applied learning bandit variant test', () => {
+    const variants = [
+        {
+            ...variantDefault,
+            name: 'control',
+        },
+        { ...variantDefault, name: 'variant' },
+    ];
+
+    const epsilonGreedyABTest: EpicTest = {
+        ...testDefault,
+        name: `${AppliedLearningBanditTestsNames.BanditTestEpsilon0}__UK`,
+        articlesViewedSettings: undefined,
+        variants: variants,
+    };
+
+    const epsilonGreedy1Test: EpicTest = {
+        ...testDefault,
+        name: `${AppliedLearningBanditTestsNames.BanditTestEpsilon1}__UK`,
+        isBanditTest: true,
+        articlesViewedSettings: undefined,
+        variants: variants,
+    };
+
+    const epsilonGreedy2Test: EpicTest = {
+        ...testDefault,
+        name: `${AppliedLearningBanditTestsNames.BanditTestEpsilon2}__UK`,
+        isBanditTest: true,
+        articlesViewedSettings: undefined,
+        variants: variants,
+    };
+
+    const tests = [epsilonGreedyABTest, epsilonGreedy1Test, epsilonGreedy2Test];
+
+    it('should return abtest and epsilon greedy test ~ equally', () => {
+        const results: (string | undefined)[] = [];
+
+        for (let i = 0; i < 6000; i++) {
+            const targeting = { ...targetingDefault, mvtId: i };
+
+            const got = findTestAndVariant(
+                tests,
+                targeting,
+                userDeviceType,
+                superModeArticles,
+                banditData,
+                true,
+            );
+
+            results.push(got.result?.test.name);
+        }
+
+        const epsilonGreedyABTestChosen = results.filter((r) => r === epsilonGreedyABTest.name);
+        expect(epsilonGreedyABTestChosen.length).toBeGreaterThan(1900);
+        expect(epsilonGreedyABTestChosen.length).toBeLessThan(2100);
+
+        const epsilonGreedy1TestChosen = results.filter((r) => r === epsilonGreedy1Test.name);
+        expect(epsilonGreedy1TestChosen.length).toBeGreaterThan(1900);
+        expect(epsilonGreedy1TestChosen.length).toBeLessThan(2100);
+
+        const epsilonGreedy2TestChosen = results.filter((r) => r === epsilonGreedy2Test.name);
+        expect(epsilonGreedy2TestChosen.length).toBeGreaterThan(1900);
+        expect(epsilonGreedy2TestChosen.length).toBeLessThan(2100);
     });
 });
