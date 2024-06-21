@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.5.2
+
+### Patch Changes
+
+-   Update @guardian/libs to 17.0.0
+
 ## 2.5.1
 
 ### Patch Changes
