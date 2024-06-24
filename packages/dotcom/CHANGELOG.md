@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.6.0
+
+### Minor Changes
+
+-   Change newsletter signup model
+
 ## 2.5.2
 
 ### Patch Changes
