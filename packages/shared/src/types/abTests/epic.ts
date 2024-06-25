@@ -7,7 +7,7 @@ import {
 } from './shared';
 import { EpicTargeting } from '../targeting';
 import { variantSchema } from '../props';
-import * as z from 'zod';
+import { z } from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 

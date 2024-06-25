@@ -1,7 +1,7 @@
 import { testSchema, userCohortSchema, purchaseInfoTestSchema } from './shared';
 import { headerContentSchema } from '../props';
 import { countryGroupIdSchema } from '../../lib';
-import * as z from 'zod';
+import { z } from 'zod';
 
 /**
  * Models and schemas for data from the database

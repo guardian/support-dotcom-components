@@ -1,5 +1,5 @@
 import { JSX } from '@emotion/react/jsx-runtime';
-import * as z from 'zod';
+import { z } from 'zod';
 import { OphanComponentEvent } from '@guardian/libs';
 
 import { Tracking, trackingSchema, Cta, ctaSchema } from './shared';
