@@ -2,7 +2,7 @@ import { isProd } from '../lib/env';
 import * as AWS from 'aws-sdk';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
 import { EpicTest } from '@sdc/shared/dist/types';
-import * as z from 'zod';
+import { z } from 'zod';
 import { logError } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
 

@@ -1,6 +1,6 @@
 import { ContributionFrequency, SecondaryCta, secondaryCtaSchema } from '@sdc/shared/types';
 import { AMPTicker } from './ampTicker';
-import * as z from 'zod';
+import { z } from 'zod';
 import {
     contributionFrequencySchema,
     ctaSchema,

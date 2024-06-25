@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import { z } from 'zod';
 
 const purchaseInfoProduct = ['Contribution', 'SupporterPlus', 'GuardianWeekly', 'Paper'] as const;
 export type purchaseInfoProduct = (typeof purchaseInfoProduct)[number];

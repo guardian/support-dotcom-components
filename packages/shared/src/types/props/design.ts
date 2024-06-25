@@ -1,4 +1,4 @@
-import * as z from 'zod';
+import { z } from 'zod';
 
 const hexValueRegex = /^[0-9A-F]{2}$/;
 

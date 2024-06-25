@@ -15,7 +15,7 @@ import {
 import { countryGroupIdSchema } from '../../lib';
 import { BannerTargeting, PageTracking } from '../targeting';
 import { PurchaseInfoTest } from './shared';
-import * as z from 'zod';
+import { z } from 'zod';
 import { OphanComponentType, OphanProduct } from '@guardian/libs';
 
 export enum BannerTemplate {
