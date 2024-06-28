@@ -16,29 +16,9 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
     devServerPath: `/../../modules/dist/modules/${MODULES_VERSION}/${path}.js`,
 });
 
-export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
-    'contributions-banner',
-    'banners/contributions/ContributionsBanner',
-);
-
-export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
-    'contributions-banner-with-sign-in',
-    'banners/contributions/ContributionsBannerWithSignIn',
-);
-
 export const designableBanner: ModuleInfo = getDefaultModuleInfo(
     'designable-banner',
     'banners/designableBanner/DesignableBanner',
-);
-
-export const environmentBanner: ModuleInfo = getDefaultModuleInfo(
-    'environment-banner',
-    'banners/environment/EnvironmentBanner',
-);
-
-export const europeMomentLocalLanguageBanner: ModuleInfo = getDefaultModuleInfo(
-    'europe-moment-local-language-banner',
-    'banners/europeMomentLocalLanguage/EuropeMomentLocalLanguageBanner',
 );
 
 export const signInPromptBanner: ModuleInfo = getDefaultModuleInfo(
@@ -53,19 +33,9 @@ export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
     'headers/SignInPromptHeader',
 );
 
-export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
-    'wpfd-banner',
-    'banners/worldPressFreedomDay/WorldPressFreedomDayBanner',
-);
-
 export const moduleInfos: ModuleInfo[] = [
-    contributionsBanner,
-    contributionsBannerWithSignIn,
-    environmentBanner,
-    europeMomentLocalLanguageBanner,
-    signInPromptBanner,
     header,
     signInPromptHeader,
-    wpfdBanner,
+    signInPromptBanner,
     designableBanner,
 ];

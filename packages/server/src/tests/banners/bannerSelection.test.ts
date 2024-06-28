@@ -1,5 +1,5 @@
 import { contributionsBanner, signInPromptBanner } from '@sdc/shared/config';
-import { BannerTargeting, BannerTest, BannerTemplate } from '@sdc/shared/types';
+import { BannerTargeting, BannerTest } from '@sdc/shared/types';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { selectBannerTest } from './bannerSelection';
 
@@ -70,7 +70,9 @@ describe('selectBannerTest', () => {
                 {
                     name: 'variant',
                     modulePathBuilder: contributionsBanner.endpointPathBuilder,
-                    template: BannerTemplate.ContributionsBanner,
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
                     bannerContent: {
                         messageText: 'body',
                         highlightedText: 'highlighted text',
@@ -249,7 +251,9 @@ describe('selectBannerTest', () => {
                 {
                     name: 'variant',
                     modulePathBuilder: contributionsBanner.endpointPathBuilder,
-                    template: BannerTemplate.ContributionsBanner,
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
                     bannerContent: {
                         messageText: 'body',
                         cta: {
@@ -367,7 +371,9 @@ describe('selectBannerTest', () => {
                 {
                     name: 'control',
                     modulePathBuilder: signInPromptBanner.endpointPathBuilder,
-                    template: BannerTemplate.SignInPromptBanner,
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
                     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
                 },
             ],
@@ -485,7 +491,9 @@ describe('selectBannerTest', () => {
                 {
                     name: 'variant',
                     modulePathBuilder: contributionsBanner.endpointPathBuilder,
-                    template: BannerTemplate.ContributionsBanner,
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
                     bannerContent: {
                         messageText: 'body',
                         highlightedText: 'highlighted text',

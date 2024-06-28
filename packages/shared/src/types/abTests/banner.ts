@@ -19,18 +19,13 @@ import { z } from 'zod';
 import { OphanComponentType, OphanProduct } from '@guardian/libs';
 
 export enum BannerTemplate {
-    ContributionsBanner = 'ContributionsBanner',
-    ContributionsBannerWithSignIn = 'ContributionsBannerWithSignIn',
-    EnvironmentBanner = 'EnvironmentBanner',
     SignInPromptBanner = 'SignInPromptBanner',
-    WorldPressFreedomDayBanner = 'WorldPressFreedomDayBanner',
-    EuropeMomentLocalLanguageBanner = 'EuropeMomentLocalLanguageBanner',
 }
 
 export interface BannerDesignName {
     designName: string;
 }
-
+// support-admin-console only allows BannerDesignName, but here we do support other banner components
 type BannerUi = BannerTemplate | BannerDesignName;
 
 export function uiIsDesign(ui: BannerUi): ui is BannerDesignName {
