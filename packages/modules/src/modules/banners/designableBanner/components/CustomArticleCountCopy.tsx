@@ -19,7 +19,10 @@ interface CustomArticleCountProps {
     numArticles: number;
 }
 
-export function CustomArticleCountCopy({ copy, numArticles }: CustomArticleCountProps): JSX.Element {
+export function CustomArticleCountCopy({
+    copy,
+    numArticles,
+}: CustomArticleCountProps): JSX.Element {
     const [copyHead, copyTail] = copy.split('%%ARTICLE_COUNT%%');
 
     return (
