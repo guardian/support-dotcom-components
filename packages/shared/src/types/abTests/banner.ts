@@ -18,6 +18,17 @@ import { PurchaseInfoTest } from './shared';
 import { z } from 'zod';
 import { OphanComponentType, OphanProduct } from '@guardian/libs';
 
+/**
+ * The `template` field decides which React component to use for a banner.
+ * This field has type `BannerUi`, which is a union of `BannerDesignName` and `BannerTemplate`.
+ *
+ * If the type is `BannerDesignName` then the `DesignableBanner` component is used and a `designName` must be provided.
+ *
+ * If the type is `BannerTemplate` then it must be the name of one of a fixed set of "templates". Currently only the `SignInPromptBanner` exists.
+ *
+ * Note - support-admin-console (the RRCP) only allows `BannerDesignName`, but here in SDC we do support other banner components.
+ */
+
 export enum BannerTemplate {
     SignInPromptBanner = 'SignInPromptBanner',
 }
@@ -25,7 +36,7 @@ export enum BannerTemplate {
 export interface BannerDesignName {
     designName: string;
 }
-// support-admin-console only allows BannerDesignName, but here we do support other banner components
+
 type BannerUi = BannerTemplate | BannerDesignName;
 
 export function uiIsDesign(ui: BannerUi): ui is BannerDesignName {
