@@ -17,17 +17,8 @@ import {
 import type { ReactComponent } from '../../types';
 import { OphanComponentEvent, OphanComponentType } from '@guardian/libs';
 
-export type ArticleCountOptOutType =
-    | 'epic'
-    | 'banner'
-    | 'us-eoy-moment-banner'
-    | 'global-new-year-moment-banner'
-    | 'election-au-moment-banner';
-const isBanner = (type: ArticleCountOptOutType): boolean =>
-    type === 'banner' ||
-    type === 'us-eoy-moment-banner' ||
-    type === 'global-new-year-moment-banner' ||
-    type === 'election-au-moment-banner';
+export type ArticleCountOptOutType = 'epic' | 'banner';
+const isBanner = (type: ArticleCountOptOutType): boolean => type === 'banner';
 
 const optOutContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     display: inline-block;

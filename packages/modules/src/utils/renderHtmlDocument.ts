@@ -1,11 +1,5 @@
 const CDNFontPath = 'https://assets.guim.co.uk/static/frontend';
 
-interface TemplateData {
-    html: string;
-    css: string;
-    js: string;
-}
-
 export const fontFaces = `
     @font-face {
         font-family: "GH Guardian Headline";
@@ -109,34 +103,3 @@ export const previewStyles = `
         margin: 0 auto;
     }
 `;
-
-const renderComponentJs = (js: string): string => `
-    <script>const init = ${js}; init({ epicRoot: document, onReminderOpen: function(params) { console.log('onReminderOpen: ', params) } });</script>
-`;
-
-export const renderHtmlDocument = ({ html, css, js = '' }: TemplateData): string =>
-    `<!DOCTYPE html>
-    <html lang="en-GB">
-      <head>
-        <meta charset="utf-8" />
-        <title>Contributions Service Preview</title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style>
-            ${fontFaces}
-            ${cssResets}
-            ${previewStyles}
-        </style>
-        <style>
-          ${css}
-        </style>
-      </head>
-      <body>
-        <div class="preview">
-          ${html}
-        </div>
-        <script src="https://assets.guim.co.uk/polyfill.io/v3/polyfill.min.js?rum=0&features=es6,es7,es2017,es2018,default-3.6,HTMLPictureElement,IntersectionObserver,IntersectionObserverEntry,fetch,NodeList.prototype.forEach&flags=gated&callback=guardianPolyfilled&unknown=polyfill&cacheClear=1"></script>
-        ${js ? renderComponentJs(js) : ''}
-      </body>
-    </html>
-    `;

@@ -3,10 +3,10 @@ import { css } from '@emotion/react';
 import { from, headline, palette } from '@guardian/source/foundations';
 import { DesignableBannerArticleCountOptOut } from './DesignableBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
-import {
-    containsArticleCountTemplate,
-    CustomArticleCountCopy,
-} from '../../worldPressFreedomDay/components/ArticleCount';
+import { CustomArticleCountCopy } from './CustomArticleCountCopy';
+
+export const containsArticleCountTemplate = (copy: string): boolean =>
+    copy.includes('%%ARTICLE_COUNT%%');
 
 // ---- Component ---- //
 

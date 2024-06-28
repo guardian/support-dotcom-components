@@ -1,9 +1,6 @@
 import React from 'react';
 import { SerializedStyles } from '@emotion/utils';
-import { BannerTextContent } from './types';
-import { BannerContentRenderer } from './BannerContentRenderer';
 import { css } from '@emotion/react';
-import type { ReactComponent } from '../../../types';
 
 type BannerTextStyleableAreas =
     | 'container'
@@ -15,16 +12,6 @@ type BannerTextStyleableAreas =
 
 export type BannerTextStyles = {
     [key in BannerTextStyleableAreas]?: SerializedStyles | SerializedStyles[];
-};
-
-type BannerTextProps = {
-    content: BannerTextContent;
-    styles: {
-        mobile?: BannerTextStyles;
-        desktop: BannerTextStyles;
-    };
-    children?: React.ReactNode;
-    articleCount?: JSX.Element;
 };
 
 const styles = {
@@ -75,43 +62,5 @@ export const createBannerBodyCopy = (
                 );
             })}
         </div>
-    );
-};
-
-export const BannerText: ReactComponent<BannerTextProps> = ({
-    styles,
-    content,
-    children,
-    articleCount,
-}) => {
-    const mobileStyles = styles.mobile || styles.desktop;
-    const desktopStyles = styles.desktop;
-
-    return (
-        <BannerContentRenderer
-            content={content}
-            render={({ renderContent, isMobile }) => {
-                const renderStyles = isMobile ? mobileStyles : desktopStyles;
-                const { heading, subheading, paragraphs, highlightedText } = renderContent;
-
-                return (
-                    <div css={renderStyles.container}>
-                        <h2 css={renderStyles.heading}>{heading}</h2>
-                        {subheading && renderStyles.subheading && (
-                            <h3 css={renderStyles.subheading}>{subheading}</h3>
-                        )}
-
-                        {articleCount}
-
-                        <div css={renderStyles.body}>
-                            <div css={renderStyles.copy}>
-                                {createBannerBodyCopy(paragraphs, highlightedText, renderStyles)}
-                                {children}
-                            </div>
-                        </div>
-                    </div>
-                );
-            }}
-        />
     );
 };
