@@ -401,7 +401,6 @@ const styles = {
             grid-template-columns: auto;
         }
         ${from.tablet} {
-            position: static;
             grid-template-columns: 1fr 280px;
             grid-template-rows: auto 1fr auto;
             column-gap: ${space[5]}px;
@@ -423,7 +422,7 @@ const styles = {
     closeButtonOverrides: (isGridCell: boolean) => css`
         ${until.tablet} {
             position: sticky;
-            top: 0;
+            top: ${space[3]}px;
             margin-top: ${space[3]}px;
             padding-right: 10px;
             right: 0;
@@ -449,6 +448,12 @@ const styles = {
         order: ${bannerHasImage ? '2' : '1'};
         ${until.tablet} {
             ${bannerHasImage ? '' : `max-width: calc(100% - 40px - ${space[3]}px);`}
+            ${bannerHasImage
+                ? ''
+                : css`
+                      grid-row: 1;
+                      grid-column: 1;
+                  `}
         }
 
         ${from.tablet} {
@@ -487,6 +492,7 @@ const styles = {
             grid-column: 1;
         }
         ${from.tablet} {
+            margin-top: ${space[10]}px;
             grid-column: 2;
             grid-row: 1 / span 2;
             align-self: flex-start;
@@ -516,14 +522,15 @@ const styles = {
     `,
     reminderContainer: css`
         ${body.small({ lineHeight: 'regular' })};
-        grid-column: 1;
-        grid-row: 3;
         order: 4;
-        align-self: center;
+        justify-self: center;
         margin-top: ${space[2]}px;
 
         ${from.tablet} {
             align-self: end;
+            justify-self: start;
+            grid-column: 1;
+            grid-row: 3;
         }
     `,
     reminderText: css`

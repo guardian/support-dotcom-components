@@ -3,10 +3,10 @@ import { space, from } from '@guardian/source/foundations';
 
 const templateSpacing = {
     bannerContainer: css`
-        margin-bottom: ${space[4]}px;
+        padding-bottom: ${space[4]}px;
 
         ${from.tablet} {
-            margin-bottom: ${space[3]}px;
+            padding-bottom: ${space[3]}px;
         }
     `,
     bannerHeader: css`
