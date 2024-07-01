@@ -35,38 +35,6 @@ import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
 import SlideIn from './SlideIn';
 import type { ReactComponent } from '../../../types';
-import { ArticleCounts, SeparateArticleCount } from '@sdc/shared/dist/types';
-import { containsArticleCountTemplate } from '../worldPressFreedomDay/components/ArticleCount';
-
-// A separate article count is rendered as a subheading
-const buildSubheading = (
-    articleCounts: ArticleCounts,
-    separateArticleCount: boolean,
-    separateArticleCountSettings?: SeparateArticleCount,
-): JSX.Element | JSX.Element[] | null => {
-    const showAboveArticleCount =
-        (separateArticleCountSettings?.type === 'above' || separateArticleCount) &&
-        articleCounts.forTargetedWeeks >= 5;
-
-    if (
-        showAboveArticleCount &&
-        separateArticleCountSettings?.copy &&
-        containsArticleCountTemplate(separateArticleCountSettings?.copy)
-    ) {
-        return replaceArticleCount(
-            separateArticleCountSettings?.copy,
-            articleCounts.forTargetedWeeks,
-            'banner',
-        );
-    } else if (articleCounts.forTargetedWeeks >= 5 && !separateArticleCountSettings?.copy) {
-        return replaceArticleCount(
-            `You’ve read %%ARTICLE_COUNT%% articles in the last year`,
-            articleCounts.forTargetedWeeks,
-            'banner',
-        );
-    }
-    return null;
-};
 
 export const getParagraphsOrMessageText = (
     paras: string[] | undefined,
@@ -261,12 +229,6 @@ const withBannerData =
                 ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
                 : null;
 
-            const subheading = buildSubheading(
-                articleCounts,
-                !!separateArticleCount,
-                separateArticleCountSettings,
-            );
-
             if (copyHasPlaceholder) {
                 throw Error('Banner copy contains placeholders, abandoning.');
             }
@@ -275,7 +237,6 @@ const withBannerData =
                 highlightedText: highlightedTextWithArticleCount,
                 paragraphs: finaliseParagraphs(cleanParagraphs),
                 heading: headingWithArticleCount,
-                subheading,
                 primaryCta,
                 secondaryCta,
             };

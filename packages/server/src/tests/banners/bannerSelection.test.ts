@@ -1,5 +1,5 @@
-import { contributionsBanner, signInPromptBanner } from '@sdc/shared/config';
-import { BannerTargeting, BannerTest, BannerTemplate } from '@sdc/shared/types';
+import { designableBanner, signInPromptBanner } from '@sdc/shared/config';
+import { BannerTargeting, BannerTest } from '@sdc/shared/types';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { selectBannerTest } from './bannerSelection';
 
@@ -69,8 +69,10 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePathBuilder: contributionsBanner.endpointPathBuilder,
-                    template: BannerTemplate.ContributionsBanner,
+                    modulePathBuilder: designableBanner.endpointPathBuilder,
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
                     bannerContent: {
                         messageText: 'body',
                         highlightedText: 'highlighted text',
@@ -248,8 +250,10 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePathBuilder: contributionsBanner.endpointPathBuilder,
-                    template: BannerTemplate.ContributionsBanner,
+                    modulePathBuilder: designableBanner.endpointPathBuilder,
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
                     bannerContent: {
                         messageText: 'body',
                         cta: {
@@ -367,7 +371,9 @@ describe('selectBannerTest', () => {
                 {
                     name: 'control',
                     modulePathBuilder: signInPromptBanner.endpointPathBuilder,
-                    template: BannerTemplate.SignInPromptBanner,
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
                     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
                 },
             ],
@@ -484,8 +490,10 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePathBuilder: contributionsBanner.endpointPathBuilder,
-                    template: BannerTemplate.ContributionsBanner,
+                    modulePathBuilder: designableBanner.endpointPathBuilder,
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
                     bannerContent: {
                         messageText: 'body',
                         highlightedText: 'highlighted text',

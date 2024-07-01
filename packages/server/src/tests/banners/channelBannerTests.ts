@@ -1,12 +1,4 @@
-import {
-    contributionsBanner,
-    contributionsBannerWithSignIn,
-    designableBanner,
-    environmentBanner,
-    signInPromptBanner,
-    wpfdBanner,
-    europeMomentLocalLanguageBanner,
-} from '@sdc/shared/config';
+import { designableBanner, signInPromptBanner } from '@sdc/shared/config';
 import {
     BannerChannel,
     BannerTest,
@@ -26,14 +18,7 @@ import { OphanComponentType } from '@guardian/libs';
 export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;
 } = {
-    [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
-    [BannerTemplate.ContributionsBannerWithSignIn]:
-        contributionsBannerWithSignIn.endpointPathBuilder,
-    [BannerTemplate.EnvironmentBanner]: environmentBanner.endpointPathBuilder,
-    [BannerTemplate.EuropeMomentLocalLanguageBanner]:
-        europeMomentLocalLanguageBanner.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
-    [BannerTemplate.WorldPressFreedomDayBanner]: wpfdBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {

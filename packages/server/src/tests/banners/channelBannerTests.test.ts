@@ -5,7 +5,7 @@ import { BannerDesignFromTool, BannerTemplate } from '@sdc/shared/src/types';
 describe('getDesignForVariant', () => {
     it('returns undefined if the variant specifies a template', () => {
         const variantWithTemplate = factories.bannerVariant.build({
-            template: BannerTemplate.ContributionsBanner,
+            template: BannerTemplate.SignInPromptBanner,
         });
         const designs: BannerDesignFromTool[] = [factories.bannerDesign.build()];
 
