@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from, headline, palette } from '@guardian/source/foundations';
+import { from, headline } from '@guardian/source/foundations';
 import { DesignableBannerArticleCountOptOut } from './DesignableBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
 import {
