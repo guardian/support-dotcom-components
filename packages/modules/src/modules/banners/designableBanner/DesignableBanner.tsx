@@ -258,6 +258,12 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         headerSettings={templateSettings.headerSettings}
                     />
                 </div>
+                <DesignableBannerCloseButton
+                    onCloseClick={onCloseClick}
+                    settings={templateSettings.closeButtonSettings}
+                    styleOverides={styles.closeButtonOverrides(!!templateSettings.imageSettings)}
+                />
+
                 <div css={styles.contentContainer(showReminder)}>
                     {showAboveArticleCount && (
                         <DesignableBannerArticleCount
@@ -292,33 +298,21 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         />
                     )}
                 </div>
-                {templateSettings.imageSettings ? (
+                {templateSettings.imageSettings && (
                     <div
                         css={styles.bannerVisualContainer(
                             templateSettings.containerSettings.backgroundColour,
                         )}
                     >
-                        <DesignableBannerCloseButton
-                            onCloseClick={onCloseClick}
-                            settings={templateSettings.closeButtonSettings}
-                            styleOverides={styles.closeButtonOverrides(false)}
-                        />
                         <DesignableBannerVisual
                             settings={templateSettings.imageSettings}
                             bannerId={templateSettings.bannerId}
                         />
-
                         {/*
                         I think `alternativeVisual` was for using SVG as the image, which is currently beyond the scope of the design tool. Suggest we remove?
                     */}
                         {templateSettings.alternativeVisual}
                     </div>
-                ) : (
-                    <DesignableBannerCloseButton
-                        onCloseClick={onCloseClick}
-                        settings={templateSettings.closeButtonSettings}
-                        styleOverides={styles.closeButtonOverrides(true)}
-                    />
                 )}
                 {showChoiceCards && (
                     <div
@@ -387,7 +381,6 @@ const styles = {
         background: ${background};
         color: ${textColor};
         ${limitHeight ? 'max-height: 70vh;' : ''}
-        overflow: auto;
         * {
             box-sizing: border-box;
         }
@@ -400,13 +393,14 @@ const styles = {
         }
     `,
     containerOverrides: css`
-        display: flex;
-        flex-direction: column;
         position: relative;
         padding: 0 10px;
+        display: grid;
+
+        ${until.tablet} {
+            grid-template-columns: auto;
+        }
         ${from.tablet} {
-            position: static;
-            display: grid;
             grid-template-columns: 1fr 280px;
             grid-template-rows: auto 1fr auto;
             column-gap: ${space[5]}px;
@@ -427,10 +421,13 @@ const styles = {
     `,
     closeButtonOverrides: (isGridCell: boolean) => css`
         ${until.tablet} {
-            position: fixed;
+            position: sticky;
+            top: ${space[3]}px;
             margin-top: ${space[3]}px;
             padding-right: 10px;
             right: 0;
+            grid-row: 1;
+            grid-column: 1;
         }
         ${from.tablet} {
             margin-top: ${space[3]}px;
@@ -451,6 +448,12 @@ const styles = {
         order: ${bannerHasImage ? '2' : '1'};
         ${until.tablet} {
             ${bannerHasImage ? '' : `max-width: calc(100% - 40px - ${space[3]}px);`}
+            ${bannerHasImage
+                ? ''
+                : css`
+                      grid-row: 1;
+                      grid-column: 1;
+                  `}
         }
 
         ${from.tablet} {
@@ -484,7 +487,12 @@ const styles = {
     bannerVisualContainer: (background: string) => css`
         order: 1;
         background: ${background};
+        ${until.tablet} {
+            grid-row: 1;
+            grid-column: 1;
+        }
         ${from.tablet} {
+            margin-top: ${space[10]}px;
             grid-column: 2;
             grid-row: 1 / span 2;
             align-self: flex-start;
@@ -514,14 +522,15 @@ const styles = {
     `,
     reminderContainer: css`
         ${body.small({ lineHeight: 'regular' })};
-        grid-column: 1;
-        grid-row: 3;
         order: 4;
-        align-self: center;
+        justify-self: center;
         margin-top: ${space[2]}px;
 
         ${from.tablet} {
             align-self: end;
+            justify-self: start;
+            grid-column: 1;
+            grid-row: 3;
         }
     `,
     reminderText: css`
