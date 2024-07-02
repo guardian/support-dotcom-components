@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from, headline, palette } from '@guardian/source/foundations';
+import { from, headline } from '@guardian/source/foundations';
 import { DesignableBannerArticleCountOptOut } from './DesignableBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
 import { CustomArticleCountCopy } from './CustomArticleCountCopy';
@@ -27,7 +27,12 @@ export function DesignableBannerArticleCount({
         return (
             <div css={styles.container(settings.articleCountTextColour)}>
                 Congratulations on being one of our top readers globally – you&apos;ve read{' '}
-                <span css={optOutContainer}>{numArticles} articles</span> in the last year
+                <DesignableBannerArticleCountOptOut
+                    numArticles={numArticles}
+                    nextWord=" articles"
+                    settings={settings}
+                />{' '}
+                in the last year
             </div>
         );
     } else {
@@ -58,7 +63,3 @@ const styles = {
         }
     `,
 };
-
-const optOutContainer = css`
-    color: ${palette.opinion[400]};
-`;
