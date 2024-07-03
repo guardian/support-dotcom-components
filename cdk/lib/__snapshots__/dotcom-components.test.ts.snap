@@ -109,7 +109,7 @@ Object {
           },
         },
         "MaxSize": "18",
-        "MinSize": "3",
+        "MinSize": "6",
         "Tags": Array [
           Object {
             "Key": "App",
