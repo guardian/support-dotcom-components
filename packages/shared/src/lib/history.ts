@@ -80,6 +80,10 @@ const tagsOfInterest = new Set<string>([
     'technology/technology',
     'business/business',
     'tone/recipes',
+    'sport/sport',
+    'football/football',
+    'sport/olympic-games',
+    'sport/olympic-games-2024',
 ]);
 
 /**
