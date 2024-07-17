@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.6.1
+
+### Patch Changes
+
+-   Add new tags for tracking
+
 ## 2.6.0
 
 ### Minor Changes
