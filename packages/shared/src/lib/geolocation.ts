@@ -607,7 +607,8 @@ export const getCountryName = (geolocation?: string): string | undefined => {
 const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
     countryGroups[countryCodeToCountryGroupId(countryCode)]?.supportRegionId;
 
-export const isGWCheckoutUrl = (baseUrl: string): boolean => /subscribe\/weekly\/checkout/.test(baseUrl);
+export const isGWCheckoutUrl = (baseUrl: string): boolean =>
+    /subscribe\/weekly\/checkout/.test(baseUrl);
 
 export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: string): string => {
     if (countryCode) {
