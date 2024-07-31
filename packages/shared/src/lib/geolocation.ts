@@ -610,9 +610,6 @@ const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
 export const isGWCheckoutUrl = (baseUrl: string): boolean => /subscribe\/weekly\/checkout/.test(baseUrl);
 
 export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: string): string => {
-    console.log("originalUrl: ", originalUrl);
-    console.log("countryCode: ", countryCode);
-    console.log("isGWCheckoutUrl(originalUrl): ", isGWCheckoutUrl(originalUrl));
     if (countryCode) {
         const supportRegionId = countryCodeToSupportRegionId(countryCode);
         if (supportRegionId && !isGWCheckoutUrl(originalUrl)) {
