@@ -607,10 +607,13 @@ export const getCountryName = (geolocation?: string): string | undefined => {
 const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
     countryGroups[countryCodeToCountryGroupId(countryCode)]?.supportRegionId;
 
+export const isGWCheckoutUrl = (baseUrl: string): boolean =>
+    /subscribe\/weekly\/checkout/.test(baseUrl);
+
 export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: string): string => {
     if (countryCode) {
         const supportRegionId = countryCodeToSupportRegionId(countryCode);
-        if (supportRegionId) {
+        if (supportRegionId && !isGWCheckoutUrl(originalUrl)) {
             return originalUrl.replace(
                 /(support.theguardian.com)\/(contribute-in-epic|contribute|subscribe)/,
                 (_, domain, path) => `${domain}/${supportRegionId.toLowerCase()}/${path}`,
