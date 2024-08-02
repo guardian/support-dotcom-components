@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.6.2
+
+### Patch Changes
+
+-   Add new tag for investigations
+
 ## 2.6.1
 
 ### Patch Changes
