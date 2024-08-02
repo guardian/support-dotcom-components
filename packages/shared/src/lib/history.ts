@@ -84,6 +84,7 @@ const tagsOfInterest = new Set<string>([
     'football/football',
     'sport/olympic-games',
     'sport/olympic-games-2024',
+    'tracking/commissioningdesk/uk-investigations',
 ]);
 
 /**
