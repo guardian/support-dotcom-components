@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.6.3
+
+### Patch Changes
+
+-   Exports for banners migration
+
 ## 2.6.2
 
 ### Patch Changes
