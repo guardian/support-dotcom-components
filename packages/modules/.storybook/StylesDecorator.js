@@ -106,13 +106,13 @@ export const previewStyles = `
     }
 `;
 
-export const StylesDecorator = (Story) => (
+export const StylesDecorator = (StoryFn) => (
     <div>
         <style>
             {fontFaces}
             {cssResets}
             {previewStyles}
         </style>
-        <div css="preview"><Story /></div>
+        <div css="preview"><StoryFn /></div>
     </div>
 );

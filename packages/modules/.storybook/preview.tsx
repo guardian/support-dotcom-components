@@ -88,6 +88,8 @@ const preview: Preview = {
         viewport: { viewports },
         layout: 'fullscreen',
     },
+
+    tags: ['autodocs']
 };
 
 export default preview;
