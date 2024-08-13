@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import {
     ArticleCountOptOutOverlay,
     ArticleCountOptOutOverlayProps,
@@ -16,9 +16,9 @@ export default {
     },
 } as Meta;
 
-const Template: Story<ArticleCountOptOutOverlayProps> = (props: ArticleCountOptOutOverlayProps) => (
-    <ArticleCountOptOutOverlay {...props} />
-);
+const Template: StoryFn<ArticleCountOptOutOverlayProps> = (
+    props: ArticleCountOptOutOverlayProps,
+) => <ArticleCountOptOutOverlay {...props} />;
 
 export const Epic = Template.bind({});
 Epic.args = {

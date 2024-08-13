@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { SecondaryCtaType } from '@sdc/shared/types';
 
 import { props } from '../utils/storybook';
@@ -8,11 +8,9 @@ import { SignInPromptBannerUnvalidated as SignInPromptBanner } from './SignInPro
 export default {
     component: SignInPromptBanner,
     title: 'Banners/Retired',
-} as ComponentMeta<typeof SignInPromptBanner>;
+} as Meta<typeof SignInPromptBanner>;
 
-const Template: ComponentStory<typeof SignInPromptBanner> = (props) => (
-    <SignInPromptBanner {...props} />
-);
+const Template: StoryFn<typeof SignInPromptBanner> = (props) => <SignInPromptBanner {...props} />;
 
 const content = {
     heading: 'Thank you for subscribing',

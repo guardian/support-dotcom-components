@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { SignInPromptHeaderUnvalidated as SignInPromptHeader } from './SignInPromptHeader';
 import HeaderDecorator from './common/HeaderDecorator';
@@ -8,11 +8,9 @@ export default {
     component: SignInPromptHeader,
     title: 'Headers/SignInPromptHeader',
     decorators: [HeaderDecorator],
-} as ComponentMeta<typeof SignInPromptHeader>;
+} as Meta<typeof SignInPromptHeader>;
 
-const Template: ComponentStory<typeof SignInPromptHeader> = (props) => (
-    <SignInPromptHeader {...props} />
-);
+const Template: StoryFn<typeof SignInPromptHeader> = (props) => <SignInPromptHeader {...props} />;
 
 const baseArgs = {
     content: {
