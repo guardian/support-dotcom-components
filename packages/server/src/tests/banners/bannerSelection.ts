@@ -189,9 +189,8 @@ export const selectBannerTest = (
     }
 
     for (const test of tests) {
-        const deploySchedule = enableScheduledDeploys
-            ? targetingTest?.deploySchedule ?? defaultDeploySchedule
-            : undefined;
+        // eslint-disable-next-line prettier/prettier
+        const deploySchedule = enableScheduledDeploys ? targetingTest?.deploySchedule ?? defaultDeploySchedule : undefined;
 
         if (
             test.status === 'Live' &&
