@@ -14,6 +14,8 @@ const config = {
     //👇 Use getAbsolutePath when referencing Storybook's addons and frameworks
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-links'),
+    '@storybook/addon-webpack5-compiler-babel',
+    '@chromatic-com/storybook'
   ],
   typescript: {
       reactDocgen: 'none',

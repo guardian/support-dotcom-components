@@ -1,5 +1,5 @@
 import React from 'react';
-import { DecoratorFn } from '@storybook/react';
+import { Decorator } from '@storybook/react';
 import { css } from '@emotion/react';
 import { brand } from '@guardian/source/foundations';
 
@@ -8,7 +8,7 @@ const background = css`
     padding: 10px;
 `;
 
-const HeaderDecorator: DecoratorFn = (Story) => (
+const HeaderDecorator: Decorator = (Story) => (
     <div css={background}>
         <Story />
     </div>

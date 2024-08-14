@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { HeaderUnvalidated as Header } from './Header';
 import HeaderDecorator from './common/HeaderDecorator';
@@ -8,9 +8,9 @@ export default {
     component: Header,
     title: 'Headers/Header',
     decorators: [HeaderDecorator],
-} as ComponentMeta<typeof Header>;
+} as Meta<typeof Header>;
 
-const Template: ComponentStory<typeof Header> = (props) => <Header {...props} />;
+const Template: StoryFn<typeof Header> = (props) => <Header {...props} />;
 
 export const DefaultHeader = Template.bind({});
 DefaultHeader.args = {
