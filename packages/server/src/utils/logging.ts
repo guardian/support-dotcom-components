@@ -40,8 +40,8 @@ const log4jConfig = (layout: string): Configuration => ({
             backups: 5,
             compress: true,
             layout: { type: layout, separator: ',' },
-            // Owner Read & Write, Group Read
-            mode: 0o640,
+            // Owner Read & Write, Group/Other Read
+            mode: 0o644,
         },
     },
     categories: {
