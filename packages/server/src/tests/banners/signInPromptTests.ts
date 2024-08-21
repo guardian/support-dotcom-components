@@ -1,5 +1,4 @@
 import { BannerTemplate, BannerTest, BannerTestGenerator, BannerVariant } from '@sdc/shared/types';
-import { signInPromptBanner } from '@sdc/shared/dist/config';
 import { SecondaryCtaType } from '@sdc/shared/types';
 
 const baseSignInPromptTest: Omit<BannerTest, 'name' | 'variants'> = {
@@ -14,7 +13,6 @@ const baseSignInPromptTest: Omit<BannerTest, 'name' | 'variants'> = {
 
 const baseSignInPromptVariant: Omit<BannerVariant, 'bannerContent'> = {
     name: 'control',
-    modulePathBuilder: signInPromptBanner.endpointPathBuilder,
     template: BannerTemplate.SignInPromptBanner,
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };

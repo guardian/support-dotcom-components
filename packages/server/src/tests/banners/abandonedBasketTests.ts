@@ -1,4 +1,3 @@
-import { designableBanner } from '@sdc/shared/src/config/modules';
 import type { BannerTest, BannerTestGenerator, BannerVariant } from '@sdc/shared/types';
 
 const baseAbandonedBasketTest: Omit<BannerTest, 'name' | 'variants'> = {
@@ -13,7 +12,6 @@ const baseAbandonedBasketTest: Omit<BannerTest, 'name' | 'variants'> = {
 };
 
 const baseAbandonedBasketVariant: Omit<BannerVariant, 'bannerContent' | 'name'> = {
-    modulePathBuilder: designableBanner.endpointPathBuilder,
     // Requires this design to exist in the RRCP!
     template: { designName: 'ABANDONEDBASKET' },
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',

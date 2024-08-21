@@ -1,4 +1,3 @@
-import { designableBanner, signInPromptBanner } from '@sdc/shared/config';
 import {
     BannerChannel,
     BannerTest,
@@ -11,15 +10,8 @@ import {
     BannerDesignFromTool,
     bannerTestFromToolSchema,
 } from '@sdc/shared/types';
-import { BannerTemplate } from '@sdc/shared/types';
 import { getTests } from '../store';
 import { OphanComponentType } from '@guardian/libs';
-
-export const BannerPaths: {
-    [key in BannerTemplate]: (version?: string) => string;
-} = {
-    [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
-};
 
 export const BannerTemplateComponentTypes: {
     [key in BannerChannel]: OphanComponentType;
@@ -29,16 +21,6 @@ export const BannerTemplateComponentTypes: {
     signIn: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     abandonedBasket: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
-
-const modulePathBuilder =
-    (variant: BannerVariantFromTool) =>
-    (version?: string): string => {
-        if (uiIsDesign(variant.template)) {
-            return designableBanner.endpointPathBuilder(version);
-        } else {
-            return BannerPaths[variant.template](version);
-        }
-    };
 
 export const getDesignForVariant = (
     variant: BannerVariant,
@@ -55,7 +37,6 @@ const buildBannerVariant =
     (forChannel: BannerChannel) =>
     (variant: BannerVariantFromTool): BannerVariant => ({
         ...variant,
-        modulePathBuilder: modulePathBuilder(variant),
         componentType: BannerTemplateComponentTypes[forChannel],
     });
 
