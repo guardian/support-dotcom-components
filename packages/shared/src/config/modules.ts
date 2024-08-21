@@ -16,16 +16,6 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
     devServerPath: `/../../modules/dist/modules/${MODULES_VERSION}/${path}.js`,
 });
 
-export const designableBanner: ModuleInfo = getDefaultModuleInfo(
-    'designable-banner',
-    'banners/designableBanner/DesignableBanner',
-);
-
-export const signInPromptBanner: ModuleInfo = getDefaultModuleInfo(
-    'sign-in-prompt-banner',
-    'banners/signInPrompt/SignInPromptBanner',
-);
-
 export const header: ModuleInfo = getDefaultModuleInfo('header', 'headers/Header');
 
 export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
@@ -33,9 +23,4 @@ export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
     'headers/SignInPromptHeader',
 );
 
-export const moduleInfos: ModuleInfo[] = [
-    header,
-    signInPromptHeader,
-    signInPromptBanner,
-    designableBanner,
-];
+export const moduleInfos: ModuleInfo[] = [header, signInPromptHeader];
