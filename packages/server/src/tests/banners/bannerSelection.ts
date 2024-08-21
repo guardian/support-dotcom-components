@@ -118,8 +118,6 @@ const getModuleNameForVariant = (variant: BannerVariant): string => {
 const getForcedVariant = (
     forcedTestVariant: TestVariant,
     tests: BannerTest[],
-    baseUrl: string,
-    targeting: BannerTargeting,
 ): BannerTestSelection | null => {
     const test = tests.find(
         (test) => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
@@ -132,7 +130,6 @@ const getForcedVariant = (
         return {
             test,
             variant,
-            moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
             moduleName: getModuleNameForVariant(variant),
         };
     }
@@ -180,7 +177,7 @@ export const selectBannerTest = (
     }
 
     if (forcedTestVariant) {
-        return getForcedVariant(forcedTestVariant, tests, baseUrl, targeting);
+        return getForcedVariant(forcedTestVariant, tests);
     }
 
     const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);
@@ -234,7 +231,6 @@ export const selectBannerTest = (
             return {
                 test,
                 variant,
-                moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
                 moduleName: getModuleNameForVariant(variant),
                 targetingAbTest: targetingTest ? targetingTest.test : undefined,
             };

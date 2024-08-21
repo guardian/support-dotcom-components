@@ -26,7 +26,6 @@ import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 interface BannerDataResponse {
     data?: {
         module: {
-            url: string;
             name: string;
             props: BannerProps;
         };
@@ -72,7 +71,7 @@ export const buildBannerRouter = (
         );
 
         if (selectedTest) {
-            const { test, variant, moduleUrl, moduleName, targetingAbTest } = selectedTest;
+            const { test, variant, moduleName, targetingAbTest } = selectedTest;
 
             const testTracking: TestTracking = {
                 abTestName: test.name,
@@ -123,7 +122,6 @@ export const buildBannerRouter = (
             return {
                 data: {
                     module: {
-                        url: moduleUrl,
                         name: moduleName,
                         props: props,
                     },

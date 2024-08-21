@@ -56,7 +56,6 @@ export const bannerVariantFromToolSchema = z.object({
 export type BannerVariantFromTool = z.infer<typeof bannerVariantFromToolSchema>;
 
 export interface BannerVariant extends BannerVariantFromTool {
-    modulePathBuilder: (version?: string) => string;
     componentType: OphanComponentType;
     products?: OphanProduct[];
 }
@@ -69,7 +68,6 @@ export type BannerTestGenerator = () => Promise<BannerTest[]>;
 export interface BannerTestSelection {
     test: BannerTest;
     variant: BannerVariant;
-    moduleUrl: string;
     moduleName: string;
     targetingAbTest?: TargetingAbTest;
 }
