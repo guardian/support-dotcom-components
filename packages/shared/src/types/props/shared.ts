@@ -86,6 +86,22 @@ export type TickerName = 'US' | 'AU';
 
 const ticketNameSchema = z.enum(['US', 'AU']);
 
+export interface TickerStylingSettings {
+    headlineColour: string;
+    totalColour: string;
+    goalColour: string;
+    filledProgressColour: string;
+    progressBarBackgroundColour: string;
+}
+
+export const tickerStylingSettingsSchema = z.object({
+    headlineColour: z.string(),
+    totalColour: z.string(),
+    goalColour: z.string(),
+    filledProgressColour: z.string(),
+    progressBarBackgroundColour: z.string(),
+});
+
 export interface TickerSettings {
     endType: TickerEndType;
     countType: TickerCountType;
@@ -93,6 +109,7 @@ export interface TickerSettings {
     copy: TickerCopy;
     name: TickerName;
     tickerData?: TickerData;
+    tickerStylingSettings?: TickerStylingSettings;
 }
 
 export const tickerSettingsSchema = z.object({
@@ -102,6 +119,7 @@ export const tickerSettingsSchema = z.object({
     copy: tickerCopySchema,
     name: ticketNameSchema,
     tickerData: tickerDataSchema.optional(),
+    tickerStylingSettings: tickerStylingSettingsSchema.optional(),
 });
 
 export const articleCountsSchema = z.object({
