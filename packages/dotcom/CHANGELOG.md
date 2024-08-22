@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.7.0
+
+### Minor Changes
+
+-   update to ticker models to include ticker styles
+
 ## 2.6.3
 
 ### Patch Changes
