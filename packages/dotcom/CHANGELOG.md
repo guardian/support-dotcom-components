@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.8.0
+
+### Minor Changes
+
+-   Updated ticker models to match banner design model in SAC. Reverting change to ticker settings model which passed in the ticker styling settings.
+
 ## 2.7.0
 
 ### Minor Changes
