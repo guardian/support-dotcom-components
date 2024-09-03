@@ -20,11 +20,11 @@ export const ampTicker = (tickerSettings: TickerSettings, tickerData: TickerData
         : undefined;
 
     const topLeft = goalReached
-        ? tickerSettings.copy.goalReachedPrimary || `${prefix}${tickerData.total.toLocaleString()}`
+        ? tickerSettings.copy.goalReachedPrimary
         : `${prefix}${tickerData.total.toLocaleString()}`;
 
     const bottomLeft = goalReached
-        ? tickerSettings.copy.goalReachedSecondary || tickerSettings.copy.countLabel
+        ? tickerSettings.copy.goalReachedSecondary
         : tickerSettings.copy.countLabel;
 
     const topRight = goalReached
