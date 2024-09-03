@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.9.0
+
+### Minor Changes
+
+-   update to the ticker copy model to have two optional feilds
+
 ## 2.8.0
 
 ### Minor Changes
