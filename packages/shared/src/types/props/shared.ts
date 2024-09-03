@@ -61,14 +61,14 @@ export const tickerCountTypeSchema = z.nativeEnum(TickerCountType);
 
 interface TickerCopy {
     countLabel: string;
-    goalReachedPrimary: string;
-    goalReachedSecondary: string;
+    goalReachedPrimary?: string;
+    goalReachedSecondary?: string;
 }
 
 export const tickerCopySchema = z.object({
     countLabel: z.string(),
-    goalReachedPrimary: z.string(),
-    goalReachedSecondary: z.string(),
+    goalReachedPrimary: z.string().optional(),
+    goalReachedSecondary: z.string().optional(),
 });
 
 export interface TickerData {
