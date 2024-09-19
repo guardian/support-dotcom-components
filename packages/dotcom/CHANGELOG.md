@@ -1,5 +1,12 @@
 # @guardian/support-dotcom-components
 
+## 2.9.1
+
+### Patch Changes
+
+-   Adds checkout to the geolocation addRegionIdToSupportUrl
+    This is a changeset for this PR https://github.com/guardian/support-dotcom-components/pull/1221
+
 ## 2.9.0
 
 ### Minor Changes
