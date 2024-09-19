@@ -615,7 +615,7 @@ export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: strin
         const supportRegionId = countryCodeToSupportRegionId(countryCode);
         if (supportRegionId && !isGWCheckoutUrl(originalUrl)) {
             return originalUrl.replace(
-                /(support.theguardian.com)\/(contribute-in-epic|contribute|subscribe)/,
+                /(support\.theguardian\.com)\/(contribute-in-epic|contribute|subscribe|checkout)/,
                 (_, domain, path) => `${domain}/${supportRegionId.toLowerCase()}/${path}`,
             );
         }

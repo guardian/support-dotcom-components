@@ -32,6 +32,8 @@ describe('getCountryName', () => {
 
 describe('addRegionIdToSupportUrl', () => {
     const originalUrl = 'https://support.theguardian.com/contribute';
+    const checkoutUrl = 'https://support.theguardian.com/checkout';
+
     it('should modify the URL to include UK if country code is GB', () => {
         const countryCode = 'GB';
         const modifiedUrl = addRegionIdToSupportUrl(originalUrl, countryCode);
@@ -48,6 +50,24 @@ describe('addRegionIdToSupportUrl', () => {
         const countryCode = 'asdasd';
         const modifiedUrl = addRegionIdToSupportUrl(originalUrl, countryCode);
         expect(modifiedUrl).toEqual('https://support.theguardian.com/int/contribute');
+    });
+
+    it('should modify the URL to include UK if country code is GB and URL is checkout', () => {
+        const countryCode = 'GB';
+        const modifiedUrl = addRegionIdToSupportUrl(checkoutUrl, countryCode);
+        expect(modifiedUrl).toEqual('https://support.theguardian.com/uk/checkout');
+    });
+
+    it('should modify the URL to include EU if country code is PT and URL is checkout', () => {
+        const countryCode = 'PT';
+        const modifiedUrl = addRegionIdToSupportUrl(checkoutUrl, countryCode);
+        expect(modifiedUrl).toEqual('https://support.theguardian.com/eu/checkout');
+    });
+
+    it('should modify the URL to include INT if country code is unknown and URL is checkout', () => {
+        const countryCode = 'asdasd';
+        const modifiedUrl = addRegionIdToSupportUrl(checkoutUrl, countryCode);
+        expect(modifiedUrl).toEqual('https://support.theguardian.com/int/checkout');
     });
 
     it('should not modify the URL if country code is missing', () => {
