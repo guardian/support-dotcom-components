@@ -1,4 +1,3 @@
-import { JSX } from '@emotion/react/jsx-runtime';
 import { z } from 'zod';
 import {
     articleCountsSchema,
@@ -16,7 +15,7 @@ import {
 import { EpicVariant } from '../abTests';
 import { OphanComponentEvent } from '@guardian/libs';
 
-export interface EpicProps extends JSX.IntrinsicAttributes {
+export interface EpicProps {
     variant: EpicVariant;
     tracking: Tracking;
     countryCode?: string;

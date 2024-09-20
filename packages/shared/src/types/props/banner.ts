@@ -1,4 +1,3 @@
-import { JSX } from '@emotion/react/jsx-runtime';
 import {
     ArticleCounts,
     articleCountsSchema,
@@ -48,7 +47,7 @@ export const bannerContentSchema = z.object({
     secondaryCta: secondaryCtaSchema.optional(),
 });
 
-export interface BannerProps extends JSX.IntrinsicAttributes {
+export interface BannerProps {
     tracking: Tracking;
     bannerChannel: BannerChannel;
     content?: BannerContent;
