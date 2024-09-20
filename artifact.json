@@ -3,11 +3,6 @@
     "vcsURL": "git@github.com:guardian/support-dotcom-components.git",
     "actions": [
         {
-            "action": "dotcom-components-modules-upload",
-            "path": "packages/modules/dist/modules",
-            "compress": false
-        },
-        {
             "action": "dotcom-components-cloudformation",
             "path": "cdk/cdk.out/sdc-CODE.template.json",
             "compress": false
