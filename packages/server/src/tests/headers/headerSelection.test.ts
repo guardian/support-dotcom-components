@@ -1,8 +1,5 @@
-import { header } from '@sdc/shared/config';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
 import { selectBestTest } from './headerSelection';
-
-const modulePathBuilder = header.endpointPathBuilder;
 
 const remote_nonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
@@ -20,7 +17,6 @@ const remote_nonUK: HeaderTest = {
     variants: [
         {
             name: 'remote',
-            modulePathBuilder,
             content: {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
@@ -45,7 +41,6 @@ const remote_UK: HeaderTest = {
     variants: [
         {
             name: 'remote',
-            modulePathBuilder,
             content: {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
@@ -70,7 +65,6 @@ const locationsNotSet: HeaderTest = {
     variants: [
         {
             name: 'remote',
-            modulePathBuilder,
             content: {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
@@ -103,7 +97,6 @@ const header_supporter: HeaderTest = {
     variants: [
         {
             name: 'control',
-            modulePathBuilder,
             content: {
                 heading: 'Thank you',
                 subheading: 'Your support powers our independent journalism',
@@ -133,7 +126,6 @@ const header_new_supporter: HeaderTest = {
     variants: [
         {
             name: 'control',
-            modulePathBuilder,
             content: {
                 heading: 'Thank you for your support',
                 subheading: 'Enjoy the Guardian',
@@ -163,7 +155,6 @@ const header_existing_subscriber: HeaderTest = {
     variants: [
         {
             name: 'control',
-            modulePathBuilder,
             content: {
                 heading: 'Thank you for your support',
                 subheading: 'Enjoy the Guardian',
@@ -208,7 +199,6 @@ describe('selectBestTest', () => {
         const mockTargetingObject_1: HeaderTargeting = {
             showSupportMessaging: true,
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
-            modulesVersion: 'v3',
             mvtId: 900263,
             isSignedIn: true,
         };
@@ -227,7 +217,6 @@ describe('selectBestTest', () => {
         expect(result_1).toBeDefined();
         expect(result_1).toHaveProperty('test');
         expect(result_1).toHaveProperty('variant');
-        expect(result_1).toHaveProperty('modulePathBuilder');
         expect(result_1_test).toHaveProperty('name');
         expect(result_1_test.name).toBe('RemoteRrHeaderLinksTest__NonUK');
         expect(result_1_variant).toHaveProperty('name');
@@ -238,7 +227,6 @@ describe('selectBestTest', () => {
         const mockTargetingObject_2: HeaderTargeting = {
             showSupportMessaging: false,
             countryCode: 'ck',
-            modulesVersion: 'v3',
             mvtId: 900263,
             isSignedIn: true,
         };
@@ -257,7 +245,6 @@ describe('selectBestTest', () => {
         expect(result_2).toBeDefined();
         expect(result_2).toHaveProperty('test');
         expect(result_2).toHaveProperty('variant');
-        expect(result_2).toHaveProperty('modulePathBuilder');
         expect(result_2_test).toHaveProperty('name');
         expect(result_2_test.name).toBe('header-supporter');
         expect(result_2_variant).toHaveProperty('name');
@@ -268,7 +255,6 @@ describe('selectBestTest', () => {
         const mockTargetingObject_3: HeaderTargeting = {
             showSupportMessaging: true,
             countryCode: 'im', // Isle of Man (UK sterling region)
-            modulesVersion: 'v3',
             mvtId: 900263,
             isSignedIn: true,
         };
@@ -287,7 +273,6 @@ describe('selectBestTest', () => {
         expect(result_3).toBeDefined();
         expect(result_3).toHaveProperty('test');
         expect(result_3).toHaveProperty('variant');
-        expect(result_3).toHaveProperty('modulePathBuilder');
         expect(result_3_test).toHaveProperty('name');
         expect(result_3_test.name).toBe('RemoteRrHeaderLinksTest__UK');
         expect(result_3_variant).toHaveProperty('name');
@@ -298,7 +283,6 @@ describe('selectBestTest', () => {
         const mockTargetingObject_4: HeaderTargeting = {
             showSupportMessaging: false,
             countryCode: 'im',
-            modulesVersion: 'v3',
             mvtId: 900263,
             isSignedIn: true,
         };
@@ -317,7 +301,6 @@ describe('selectBestTest', () => {
         expect(result_4).toBeDefined();
         expect(result_4).toHaveProperty('test');
         expect(result_4).toHaveProperty('variant');
-        expect(result_4).toHaveProperty('modulePathBuilder');
         expect(result_4_test).toHaveProperty('name');
         expect(result_4_test.name).toBe('header-supporter');
         expect(result_4_variant).toHaveProperty('name');
@@ -329,7 +312,6 @@ describe('selectBestTest', () => {
         const mockTargetingObject_5: HeaderTargeting = {
             showSupportMessaging: true,
             countryCode: 'im', // Isle of Man (UK sterling region)
-            modulesVersion: 'v3',
             mvtId: 900263,
             isSignedIn: true,
         };
@@ -348,7 +330,6 @@ describe('selectBestTest', () => {
         expect(result_5).toBeDefined();
         expect(result_5).toHaveProperty('test');
         expect(result_5).toHaveProperty('variant');
-        expect(result_5).toHaveProperty('modulePathBuilder');
         expect(result_5_test).toHaveProperty('name');
         expect(result_5_test.name).toBe('LocationsArrayEmpty');
         expect(result_5_variant).toHaveProperty('name');
@@ -360,7 +341,6 @@ describe('selectBestTest', () => {
         const mockTargetingObject_6: HeaderTargeting = {
             showSupportMessaging: false,
             countryCode: 'im',
-            modulesVersion: 'v3',
             mvtId: 900263,
             purchaseInfo: {
                 product: 'Contribution',
@@ -379,7 +359,6 @@ describe('selectBestTest', () => {
         expect(result_6).toBeDefined();
         expect(result_6).toHaveProperty('test');
         expect(result_6).toHaveProperty('variant');
-        expect(result_6).toHaveProperty('modulePathBuilder');
         expect(result_6_test).toHaveProperty('name');
         expect(result_6_test.name).toBe('header-new-supporter');
         expect(result_6_variant).toHaveProperty('name');
@@ -391,7 +370,6 @@ describe('selectBestTest', () => {
         const mockTargetingObject_7: HeaderTargeting = {
             showSupportMessaging: false,
             countryCode: 'im',
-            modulesVersion: 'v3',
             mvtId: 900263,
             purchaseInfo: {
                 product: 'SupporterPlus',
@@ -410,7 +388,6 @@ describe('selectBestTest', () => {
         expect(result_7).toBeDefined();
         expect(result_7).toHaveProperty('test');
         expect(result_7).toHaveProperty('variant');
-        expect(result_7).toHaveProperty('modulePathBuilder');
         expect(result_7_test).toHaveProperty('name');
         expect(result_7_test.name).toBe('header-existing-subscriber');
         expect(result_7_variant).toHaveProperty('name');
@@ -422,7 +399,6 @@ describe('selectBestTest', () => {
         const mockTargetingObject_8: HeaderTargeting = {
             showSupportMessaging: false,
             countryCode: 'im',
-            modulesVersion: 'v3',
             mvtId: 900263,
             purchaseInfo: {
                 product: 'Contribution',
@@ -441,7 +417,6 @@ describe('selectBestTest', () => {
         expect(result_8).toBeDefined();
         expect(result_8).toHaveProperty('test');
         expect(result_8).toHaveProperty('variant');
-        expect(result_8).toHaveProperty('modulePathBuilder');
         expect(result_8_test).toHaveProperty('name');
         expect(result_8_test.name).toBe('header-supporter');
         expect(result_8_variant).toHaveProperty('name');

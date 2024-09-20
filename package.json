@@ -8,7 +8,6 @@
     "private": true,
     "scripts": {
         "server": "yarn workspace @sdc/server",
-        "modules": "yarn workspace @sdc/modules",
         "shared": "yarn workspace @sdc/shared",
         "dotcom": "yarn workspace @guardian/support-dotcom-components",
         "lint": "yarn workspaces run lint",

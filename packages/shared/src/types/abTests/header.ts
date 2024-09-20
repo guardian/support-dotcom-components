@@ -25,7 +25,6 @@ export type HeaderTestFromTool = z.infer<typeof headerTestFromToolSchema>;
  * Models with additional properties determined by the server
  */
 export interface HeaderVariant extends HeaderVariantFromTool {
-    modulePathBuilder?: (version?: string) => string;
     moduleName?: string;
 }
 
@@ -36,6 +35,5 @@ export interface HeaderTest extends HeaderTestFromTool {
 export interface HeaderTestSelection {
     test: HeaderTest;
     variant: HeaderVariant;
-    modulePathBuilder: (version?: string) => string;
     moduleName: string;
 }

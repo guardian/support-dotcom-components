@@ -2,7 +2,6 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import express, { Express } from 'express';
-import { isDev } from './lib/env';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
@@ -13,7 +12,6 @@ import { buildEpicRouter } from './api/epicRouter';
 import { buildBannerRouter } from './api/bannerRouter';
 import { buildHeaderRouter } from './api/headerRouter';
 import { buildAmpEpicRouter } from './api/ampEpicRouter';
-import { buildModulesRouter } from './api/modulesRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
 import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/epics/epicTests';
@@ -115,11 +113,6 @@ const buildApp = async (): Promise<Express> => {
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
     app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData, ampEpicTests));
-    // Only serve the modules from this server when running locally (DEV).
-    // In PROD/CODE we serve them from S3 via fastly.
-    if (isDev) {
-        app.use(buildModulesRouter());
-    }
 
     app.use(errorHandlingMiddleware);
 

@@ -17,7 +17,6 @@ import { ValueProvider } from '../utils/valueReloader';
 interface HeaderDataResponse {
     data?: {
         module: {
-            url: string;
             name: string;
             props: HeaderProps;
         };
@@ -49,7 +48,7 @@ export const buildHeaderRouter = (
             params.force,
         );
         if (testSelection) {
-            const { test, variant, modulePathBuilder, moduleName } = testSelection;
+            const { test, variant, moduleName } = testSelection;
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,
@@ -60,7 +59,6 @@ export const buildHeaderRouter = (
             return {
                 data: {
                     module: {
-                        url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
                         name: moduleName,
                         props: {
                             content: variant.content,

@@ -13,7 +13,6 @@ export type BannerTargeting = {
     weeklyArticleHistory?: WeeklyArticleHistory;
     articleCountToday?: number;
     hasOptedOutOfArticleCount: boolean;
-    modulesVersion?: string;
     sectionId?: string;
     tagIds?: string[];
     contentType?: string;
