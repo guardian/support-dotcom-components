@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@sdc/modules","@sdc/server","@sdc/shared"]
+  "ignore": ["@sdc/server","@sdc/shared"]
 }
