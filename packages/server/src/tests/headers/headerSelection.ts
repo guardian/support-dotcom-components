@@ -1,4 +1,3 @@
-import { header, signInPromptHeader } from '@sdc/shared/config';
 import { inCountryGroups } from '@sdc/shared/lib';
 import {
     HeaderTargeting,
@@ -13,7 +12,6 @@ import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../..
 
 import { TestVariant } from '../../lib/params';
 
-const modulePathBuilder = header.endpointPathBuilder;
 const moduleName = 'Header';
 
 // --- hardcoded tests
@@ -33,7 +31,6 @@ const nonSupportersTestNonUK: HeaderTest = {
     variants: [
         {
             name: 'remote',
-            modulePathBuilder,
             moduleName,
             content: {
                 heading: 'Support the Guardian',
@@ -60,7 +57,6 @@ const nonSupportersTestUK: HeaderTest = {
     variants: [
         {
             name: 'remote',
-            modulePathBuilder,
             moduleName,
             content: {
                 heading: 'Support the Guardian',
@@ -95,7 +91,6 @@ const supportersTest: HeaderTest = {
     variants: [
         {
             name: 'control',
-            modulePathBuilder,
             moduleName,
             content: {
                 heading: 'Thank you',
@@ -122,7 +117,6 @@ const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
 
 const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
     name: 'control',
-    modulePathBuilder: signInPromptHeader.endpointPathBuilder,
     moduleName: 'SignInPromptHeader',
 };
 
@@ -327,7 +321,6 @@ export const selectBestTest = (
     return {
         test: selectedTest,
         variant: selectedVariant,
-        modulePathBuilder: selectedVariant.modulePathBuilder || modulePathBuilder,
         moduleName: selectedVariant.moduleName || moduleName,
     };
 };
@@ -347,7 +340,6 @@ const getForcedVariant = (
         return {
             test,
             variant,
-            modulePathBuilder: variant.modulePathBuilder || modulePathBuilder,
             moduleName: variant.moduleName || moduleName,
         };
     }

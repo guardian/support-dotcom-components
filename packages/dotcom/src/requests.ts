@@ -2,7 +2,6 @@ import { BannerPayload, EpicPayload, HeaderPayload } from '../../shared/src/type
 import { TestTracking } from '../../shared/src/types/abTests/shared';
 
 export interface ModuleData {
-    url: string;
     name: string;
     props: Record<string, unknown>; // the client doesn't need to know about the module props
 }

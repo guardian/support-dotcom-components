@@ -1,4 +1,3 @@
-import { JSX } from '@emotion/react/jsx-runtime';
 import { z } from 'zod';
 import { OphanComponentEvent } from '@guardian/libs';
 
@@ -20,7 +19,7 @@ export const headerContentSchema = z.object({
     benefits: z.array(z.string()).optional(),
 });
 
-export interface HeaderProps extends JSX.IntrinsicAttributes {
+export interface HeaderProps {
     content: HeaderContent;
     tracking: Tracking;
     mobileContent?: HeaderContent;
