@@ -10,17 +10,18 @@ import {
     TestTracking,
     WeeklyArticleLog,
 } from '@sdc/shared/dist/types';
+import {
+    buildCampaignCode,
+    getReminderFields,
+    countryCodeToCountryGroupId,
+    countryCodeToVerfiedLocalLanguage,
+} from '@sdc/shared/dist/lib';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
 import { ChannelSwitches } from '../channelSwitches';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { TickerDataProvider } from '../lib/fetchTickerData';
-import {
-    buildCampaignCode,
-    getReminderFields,
-    countryCodeToCountryGroupId,
-} from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
 import { fallbackEpicTest } from '../tests/epics/fallback';
 import { logWarn } from '../utils/logging';
@@ -117,6 +118,17 @@ export const buildEpicRouter = (
         const showReminderFields =
             variant.showReminderFields ?? getReminderFields(targeting.countryCode);
 
+        const localLanguage = countryCodeToVerfiedLocalLanguage(
+            test.name,
+            variant.name,
+            targeting.countryCode,
+            {
+                epicHeader: variant.heading,
+                epicParagraphs: variant.paragraphs,
+                epicHighlightedText: variant.highlightedText,
+            },
+        );
+
         const contributionAmounts = choiceCardAmounts.get();
         const requiredCountry = targeting.countryCode ?? 'GB';
         const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
@@ -129,6 +141,9 @@ export const buildEpicRouter = (
 
         const propsVariant = {
             ...variant,
+            heading: localLanguage?.epicHeader ?? variant.heading,
+            paragraphs: localLanguage?.epicParagraphs ?? variant.paragraphs,
+            highlightedText: localLanguage?.epicHighlightedText ?? variant.highlightedText,
             tickerSettings,
             showReminderFields,
             choiceCardAmounts: variantAmounts,
