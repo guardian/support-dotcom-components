@@ -15,13 +15,14 @@ import { ChannelSwitches } from '../channelSwitches';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
 import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
-import { buildBannerCampaignCode, countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
+import { countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
+import { buildBannerCampaignCode } from '../lib/tracking';
 
 interface BannerDataResponse {
     data?: {
