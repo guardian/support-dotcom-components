@@ -1,12 +1,9 @@
-import {
-    buildAmpEpicCampaignCode,
-    inCountryGroups,
-    replaceNonArticleCountPlaceholders,
-} from '@sdc/shared/lib';
+import { inCountryGroups, replaceNonArticleCountPlaceholders } from '@sdc/shared/lib';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { ampTicker } from './ampTicker';
 import { TickerDataProvider } from '../../lib/fetchTickerData';
+import { buildAmpEpicCampaignCode } from '../../lib/tracking';
 
 // ---- Types --- //
 

@@ -16,11 +16,7 @@ import { ChannelSwitches } from '../channelSwitches';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { TickerDataProvider } from '../lib/fetchTickerData';
-import {
-    buildCampaignCode,
-    getReminderFields,
-    countryCodeToCountryGroupId,
-} from '@sdc/shared/dist/lib';
+import { getReminderFields, countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
 import { fallbackEpicTest } from '../tests/epics/fallback';
 import { logWarn } from '../utils/logging';
@@ -28,6 +24,7 @@ import { SuperModeArticle } from '../lib/superMode';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 import { BanditData } from '../bandit/banditData';
+import { buildEpicCampaignCode } from '../lib/tracking';
 
 interface EpicDataResponse {
     data?: {
@@ -137,7 +134,7 @@ export const buildEpicRouter = (
         const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
-            campaignCode: buildCampaignCode(test, variant),
+            campaignCode: buildEpicCampaignCode(test, variant),
             campaignId: `epic_${test.campaignId || test.name}`,
             componentType: 'ACQUISITIONS_EPIC',
             products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
