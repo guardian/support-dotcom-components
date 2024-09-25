@@ -24,7 +24,7 @@
 
         "lint": "eslint 'src/**/*.{ts,tsx}'",
         "setup": "tsc --build",
-        "test": "export stage=DEV; yarn test",
+        "test": "export stage=DEV; jest",
         "riffraff": "node-riffraff-artifact"
     },
     "devDependencies": {
