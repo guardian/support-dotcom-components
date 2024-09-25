@@ -1,9 +1,14 @@
 {
-  "references": [
-    { "path": "./packages/server" },
-    { "path": "./packages/shared" },
-  ],
-  "files": [],
-  "include": [],
-  "exclude": ["**/node_modules"]
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ES2020",
+        "esModuleInterop": true,
+        "moduleResolution": "bundler",
+        "sourceMap": true,
+        "strict": true,
+        "outDir": "dist"
+    },
+    "files": ["src/server/server.ts"],
+    "include": [],
+    "exclude": ["**/node_modules"]
 }

@@ -1,5 +1,0 @@
-name: support-dotcom-components
-domain-root: thegulocal.com
-mappings:
-    - prefix: contributions
-      port: 8082

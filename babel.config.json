@@ -1,17 +1,8 @@
 {
     "presets": [
-        ["@babel/preset-react",
-        { "runtime": "automatic", "importSource": "@emotion/react" }
+        "@babel/preset-typescript"
     ],
-        ["@emotion/babel-preset-css-prop"],
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "ie": "11"
-                }
-            }
-        ]
-    ],
-    "exclude": ["node_modules/**"]
+    "exclude": ["node_modules/**"],
+    "plugins": [
+    ]
 }

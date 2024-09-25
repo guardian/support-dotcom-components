@@ -37,7 +37,7 @@ jobs:
                   yarn lint
                   yarn test
 
-                  NODE_ENV=production yarn server build
+                  NODE_ENV=production yarn build-server
 
             - name: cdk
               working-directory: ./cdk
@@ -88,8 +88,8 @@ jobs:
               run: |
                   npm install -g yarn
                   yarn install
-                  yarn dotcom build
-                  yarn dotcom types
+                  yarn build-dotcom
+                  yarn build-dotcom-types
 
             - name: Release
               uses: changesets/action@v1
