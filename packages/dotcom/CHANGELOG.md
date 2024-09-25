@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 3.0.0
+
+### Major Changes
+
+-   Remove url field from response
+
 ## 2.9.1
 
 ### Patch Changes
