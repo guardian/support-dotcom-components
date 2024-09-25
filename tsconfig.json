@@ -5,8 +5,7 @@
         "esModuleInterop": true,
         "moduleResolution": "bundler",
         "sourceMap": true,
-        "strict": true,
-        "outDir": "dist"
+        "strict": true
     },
     "files": ["src/server/server.ts"],
     "include": [],

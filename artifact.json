@@ -14,7 +14,7 @@
         },
         {
             "action": "dotcom-components",
-            "path": "packages/server/dist/server.js",
+            "path": "server-dist/server.js",
             "compress": "tar"
         }
     ]
