@@ -1,5 +1,10 @@
 import { containsArticleCountPlaceholder } from '../../../shared/lib';
-import { EpicTestFromTool, EpicTest, epicTestFromToolSchema, EpicVariant } from '../../../shared/types';
+import {
+    EpicTestFromTool,
+    EpicTest,
+    epicTestFromToolSchema,
+    EpicVariant,
+} from '../../../shared/types';
 import { ChannelTypes, getTests } from '../store';
 import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 

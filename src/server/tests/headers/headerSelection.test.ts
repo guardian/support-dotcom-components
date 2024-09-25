@@ -1,4 +1,9 @@
-import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '../../../shared/types';
+import {
+    HeaderTargeting,
+    HeaderTest,
+    HeaderTestSelection,
+    HeaderVariant,
+} from '../../../shared/types';
 import { selectBestTest } from './headerSelection';
 
 const remote_nonUK: HeaderTest = {
