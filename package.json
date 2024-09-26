@@ -23,7 +23,6 @@
         "publish-dry-run": "yarn build-dotcom && yarn build-dotcom-types && npm publish --dry-run",
 
         "lint": "eslint 'src/**/*.{ts,tsx}'",
-        "setup": "tsc --build",
         "test": "export stage=DEV; jest",
         "riffraff": "node-riffraff-artifact"
     },
