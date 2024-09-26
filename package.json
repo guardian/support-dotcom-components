@@ -41,7 +41,6 @@
         "zod": "3.22.4",
 
         "@babel/core": "^7.23.2",
-        "@babel/preset-env": "7.23.2",
         "@babel/preset-typescript": "^7.23.2",
         "@changesets/cli": "^2.26.2",
         "@rollup/plugin-alias": "^3.1.1",
