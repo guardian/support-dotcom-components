@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+brew bundle --file=${DIR}/Brewfile
+
+dev-nginx setup-app ${DIR}/nginx-mappings.yaml
+
+echo "🌎 Successfully installed config. https://contributions.thegulocal.com is now setup."
