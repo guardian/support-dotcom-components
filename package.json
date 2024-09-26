@@ -1,6 +1,6 @@
 {
     "name": "support-dotcom-components",
-    "version": "2.9.1",
+    "version": "3.0.0",
     "description": "Service to serve Reader Revenue components to dotcom",
     "repository": "github:guardian/support-dotcom-components",
     "author": "The Guardian",
