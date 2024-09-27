@@ -1,10 +1,12 @@
 # Support Dotcom Components
 
-This app serves Reader Revenue messages (epics and banners) to theguardian.com.
+A Node.js server for serving marketing messages to theguardian.com ([dotcom-rendering](https://github.com/guardian/dotcom-rendering/)).
+
+Configuration of the marketing messages is primarily done from the [RRCP](https://github.com/guardian/support-admin-console).
 
 See [architecture](docs/architecture.md) for details.
 
-## Setup
+## Development
 
 This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands. To set up, first run
 
@@ -12,31 +14,18 @@ This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use`
 yarn
 ```
 
-This will install all the project dependencies. Next run
+This will install all the project dependencies.
 
-```bash
-yarn setup
-```
-
-This will do an initial build of the project. This should make your IDE happy with imports like
-
-```ts
-import { EpicProps } from '@sdc/shared/types;'
-```
-
-Which need the `@sdc/shared` package to have been built.
-
-## Development
 
 ### Server
 
 To start the server run
 
 ```bash
-yarn server start
+yarn start
 ```
 
-This will start `tsc` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
+This will start `webpack` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
 
 The server runs on port 8082 locally.
 
@@ -69,24 +58,50 @@ To run the tests run
 yarn test
 ```
 
-To run specific tests you must specify the workspace, e.g.
+To run specific tests specify the path, e.g.
 ```bash
-yarn server test src/tests/banners/bannerDeploySchedule.test.ts
+yarn test src/server/tests/banners/bannerDeploySchedule.test.ts
 ```
 
 ### Project structure
 
-This repo consists of 3 packages, managed by [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). The three packages are:
+The `/src` directory contains 3 subdirectories:
 
-- server
-- shared
-- dotcom
+- `/server` - a Node.js express server.
+- `/dotcom` - exports selected code/types for publishing to an npm package, for use by dotcom-rendering.
+- `/shared` - shared code between `/server` and `/dotcom`.
 
-`server` is an express app that runs on `node`. All the code inside this package **must** be suitable for running on `node`.
+## Publishing to npm
 
-`shared` is a npm package containing shared code for `server` and `dotcom`. All the code inside this package **must** be platform agnostic.
+`@guardian/support-dotcom-components` is a library for sharing logic and types with dotcom-rendering.
 
-`server` and `dotcom` both have a dependency on `shared`. To avoid having to manually build `shared` we make use of [typescript project references](https://www.typescriptlang.org/docs/handbook/project-references.html). This means when we e.g use typescript to build the `server` project it will automatically rebuild `shared` if it needs to.
+Releasing to NPM is handled with [changesets] and is performed by CI.
+
+On your feature branch, before merging, run `yarn dotcom changeset` from the root of the project. This will
+interactively ask you what kind of change this is (major, minor, patch) and
+allow you to describe the change. Commit the generated changeset file to git and
+push to your branch.
+
+When you merge the branch, a version release PR will be automatically opened.
+
+When this PR is merged, a new release will be pushed to NPM. The version change
+will be based on the information in your changeset file. If the version release
+PR isn't merged straight away, that's fine. Any other PRs with changesets merged
+in the meantime will cause the release PR to be updated.
+
+Not all PRs require releasing and therefore don't need a changeset. For example
+a change to the README.
+
+[changesets]: https://github.com/changesets/changesets
+
+### Updating in DCR
+
+You can manually bump the version of SDC in `package.json` and run `pnpm i`, or run
+
+`pnpm --filter=@guardian/dotcom-rendering i @guardian/support-dotcom-components@latest`
+
+from the root of the project.
+
 
 ## SSH access
 
