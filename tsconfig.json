@@ -9,5 +9,5 @@
     },
     "files": ["src/server/server.ts"],
     "include": [],
-    "exclude": ["**/node_modules"]
+    "exclude": ["node_modules"]
 }
