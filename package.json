@@ -21,6 +21,7 @@
         "build-dotcom": "rollup --config rollup.config.js",
         "build-dotcom-types": "tsc --project tsconfig.types.json",
         "publish-dry-run": "yarn build-dotcom && yarn build-dotcom-types && npm publish --dry-run",
+        "publish": "yarn build-dotcom && yarn build-dotcom-types && npm publish",
 
         "lint": "eslint 'src/**/*.{ts,tsx}'",
         "test": "export stage=DEV; jest",
