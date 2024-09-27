@@ -15,7 +15,7 @@
         "build-server": "webpack --config webpack.prod.js",
         "prestart": "webpack --config webpack.dev.js",
         "start-watch": "webpack --config webpack.dev.js --watch",
-        "start-server": "stage=DEV PORT=8082 nodemon src/server/dist/server.js",
+        "start-server": "stage=DEV PORT=8082 nodemon server-dist/server.js",
         "start": "concurrently --kill-others \"yarn start-watch\" \"yarn start-server\"",
 
         "build-dotcom": "rollup --config rollup.config.js",
