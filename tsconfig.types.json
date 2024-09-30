@@ -1,0 +1,15 @@
+{
+    "extends": "./tsconfig",
+    "compilerOptions": {
+        "target": "ES2020",
+        "outDir": "dist",
+        "declaration": true,
+        "declarationMap": true,
+        "isolatedModules": false,
+        "noEmit": false,
+        "allowJs": false,
+        "emitDeclarationOnly": true
+    },
+    "exclude": ["**/*.test.ts", "dist/**/*"],
+    "files": ["./src/dotcom/index.ts","./src/dotcom/types.ts"]
+}
