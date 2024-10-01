@@ -93,7 +93,6 @@ jobs:
             - name: Release
               uses: changesets/action@v1
               with:
-                  cwd: packages/dotcom
                   publish: yarn changeset publish
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
