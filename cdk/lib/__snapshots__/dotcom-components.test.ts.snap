@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The DotcomComponents stack matches the snapshot 1`] = `
-Object {
-  "Metadata": Object {
-    "gu:cdk:constructs": Array [
+{
+  "Metadata": {
+    "gu:cdk:constructs": [
       "GuStringParameter",
       "GuStringParameter",
       "GuAlarm",
@@ -42,67 +42,67 @@ Object {
     ],
     "gu:cdk:version": "TEST",
   },
-  "Outputs": Object {
-    "LoadBalancerDotcomcomponentsDnsName": Object {
+  "Outputs": {
+    "LoadBalancerDotcomcomponentsDnsName": {
       "Description": "DNS entry for LoadBalancerDotcomcomponents",
-      "Value": Object {
-        "Fn::GetAtt": Array [
+      "Value": {
+        "Fn::GetAtt": [
           "LoadBalancerDotcomcomponentsFF5A6F9F",
           "DNSName",
         ],
       },
     },
   },
-  "Parameters": Object {
-    "AMIDotcomcomponents": Object {
+  "Parameters": {
+    "AMIDotcomcomponents": {
       "Description": "Amazon Machine Image ID for the app dotcom-components. Use this in conjunction with AMIgo to keep AMIs up to date.",
       "Type": "AWS::EC2::Image::Id",
     },
-    "BaseUrl": Object {
+    "BaseUrl": {
       "Description": "Base URL of the service.",
       "Type": "String",
     },
-    "DistributionBucketName": Object {
+    "DistributionBucketName": {
       "Default": "/account/services/artifact.bucket",
       "Description": "SSM parameter containing the S3 bucket name holding distribution artifacts",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
-    "ELKStream": Object {
+    "ELKStream": {
       "Description": "Name of the Kinesis stream used to send logs to the central ELK stack.",
       "Type": "String",
     },
-    "LoggingStreamName": Object {
+    "LoggingStreamName": {
       "Default": "/account/services/logging.stream.name",
       "Description": "SSM parameter containing the Name (not ARN) on the kinesis stream",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
-    "VpcId": Object {
+    "VpcId": {
       "Default": "/account/vpc/primary/id",
       "Description": "Virtual Private Cloud to run EC2 instances within. Should NOT be the account default VPC.",
       "Type": "AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>",
     },
-    "dotcomcomponentsPrivateSubnets": Object {
+    "dotcomcomponentsPrivateSubnets": {
       "Default": "/account/vpc/primary/subnets/private",
       "Description": "A list of private subnets",
       "Type": "AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>",
     },
-    "dotcomcomponentsPublicSubnets": Object {
+    "dotcomcomponentsPublicSubnets": {
       "Default": "/account/vpc/primary/subnets/public",
       "Description": "A list of public subnets",
       "Type": "AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>",
     },
   },
-  "Resources": Object {
-    "AutoScalingGroupDotcomcomponentsASG512C0EA8": Object {
-      "Properties": Object {
+  "Resources": {
+    "AutoScalingGroupDotcomcomponentsASG512C0EA8": {
+      "Properties": {
         "HealthCheckGracePeriod": 120,
         "HealthCheckType": "ELB",
-        "LaunchTemplate": Object {
-          "LaunchTemplateId": Object {
+        "LaunchTemplate": {
+          "LaunchTemplateId": {
             "Ref": "supportTESTdotcomcomponentsE4D10170",
           },
-          "Version": Object {
-            "Fn::GetAtt": Array [
+          "Version": {
+            "Fn::GetAtt": [
               "supportTESTdotcomcomponentsE4D10170",
               "LatestVersionNumber",
             ],
@@ -110,59 +110,59 @@ Object {
         },
         "MaxSize": "18",
         "MinSize": "3",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "App",
             "PropagateAtLaunch": true,
             "Value": "dotcom-components",
           },
-          Object {
+          {
             "Key": "gu:cdk:version",
             "PropagateAtLaunch": true,
             "Value": "TEST",
           },
-          Object {
+          {
             "Key": "gu:repo",
             "PropagateAtLaunch": true,
             "Value": "guardian/support-dotcom-components",
           },
-          Object {
+          {
             "Key": "LogKinesisStreamName",
             "PropagateAtLaunch": true,
-            "Value": Object {
+            "Value": {
               "Ref": "LoggingStreamName",
             },
           },
-          Object {
+          {
             "Key": "Stack",
             "PropagateAtLaunch": true,
             "Value": "support",
           },
-          Object {
+          {
             "Key": "Stage",
             "PropagateAtLaunch": true,
             "Value": "TEST",
           },
         ],
-        "TargetGroupARNs": Array [
-          Object {
+        "TargetGroupARNs": [
+          {
             "Ref": "TargetGroupDotcomcomponents54FF73AB",
           },
         ],
-        "VPCZoneIdentifier": Object {
+        "VPCZoneIdentifier": {
           "Ref": "dotcomcomponentsPrivateSubnets",
         },
       },
       "Type": "AWS::AutoScaling::AutoScalingGroup",
     },
-    "AutoScalingGroupDotcomcomponentsScalingPolicyCpuScalingPolicy29FF9AE6": Object {
-      "Properties": Object {
-        "AutoScalingGroupName": Object {
+    "AutoScalingGroupDotcomcomponentsScalingPolicyCpuScalingPolicy29FF9AE6": {
+      "Properties": {
+        "AutoScalingGroupName": {
           "Ref": "AutoScalingGroupDotcomcomponentsASG512C0EA8",
         },
         "PolicyType": "TargetTrackingScaling",
-        "TargetTrackingConfiguration": Object {
-          "PredefinedMetricSpecification": Object {
+        "TargetTrackingConfiguration": {
+          "PredefinedMetricSpecification": {
             "PredefinedMetricType": "ASGAverageCPUUtilization",
           },
           "TargetValue": 40,
@@ -170,20 +170,20 @@ Object {
       },
       "Type": "AWS::AutoScaling::ScalingPolicy",
     },
-    "BanditDataLoadError6659BF65": Object {
-      "Properties": Object {
+    "BanditDataLoadError6659BF65": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::Join": Array [
+        "AlarmActions": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:aws:sns:",
-                Object {
+                {
                   "Ref": "AWS::Region",
                 },
                 ":",
-                Object {
+                {
                   "Ref": "AWS::AccountId",
                 },
                 ":alarms-handler-topic-PROD",
@@ -204,20 +204,20 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "BanditDataSelectionError8734AF1A": Object {
-      "Properties": Object {
+    "BanditDataSelectionError8734AF1A": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::Join": Array [
+        "AlarmActions": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:aws:sns:",
-                Object {
+                {
                   "Ref": "AWS::Region",
                 },
                 ":",
-                Object {
+                {
                   "Ref": "AWS::AccountId",
                 },
                 ":alarms-handler-topic-PROD",
@@ -238,32 +238,32 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "CertificateDotcomcomponents88C2E1C7": Object {
+    "CertificateDotcomcomponents88C2E1C7": {
       "DeletionPolicy": "Retain",
-      "Properties": Object {
+      "Properties": {
         "DomainName": "dotcom-components-test.support.guardianapis.com",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "App",
             "Value": "dotcom-components",
           },
-          Object {
+          {
             "Key": "gu:cdk:version",
             "Value": "TEST",
           },
-          Object {
+          {
             "Key": "gu:repo",
             "Value": "guardian/support-dotcom-components",
           },
-          Object {
+          {
             "Key": "Name",
             "Value": "DotcomComponents/CertificateDotcomcomponents",
           },
-          Object {
+          {
             "Key": "Stack",
             "Value": "support",
           },
-          Object {
+          {
             "Key": "Stage",
             "Value": "TEST",
           },
@@ -273,20 +273,20 @@ Object {
       "Type": "AWS::CertificateManager::Certificate",
       "UpdateReplacePolicy": "Retain",
     },
-    "ChannelTestsAlarmCFFD6DDE": Object {
-      "Properties": Object {
+    "ChannelTestsAlarmCFFD6DDE": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::Join": Array [
+        "AlarmActions": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:aws:sns:",
-                Object {
+                {
                   "Ref": "AWS::Region",
                 },
                 ":",
-                Object {
+                {
                   "Ref": "AWS::AccountId",
                 },
                 ":alarms-handler-topic-PROD",
@@ -307,12 +307,12 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "DescribeEC2PolicyFF5F9295": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "DescribeEC2PolicyFF5F9295": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "autoscaling:DescribeAutoScalingInstances",
                 "autoscaling:DescribeAutoScalingGroups",
                 "ec2:DescribeTags",
@@ -325,20 +325,20 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "describe-ec2-policy",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "DynamoBanditReadPolicy18B1E556": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "DynamoBanditReadPolicy18B1E556": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "dynamodb:BatchGetItem",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
@@ -346,33 +346,33 @@ Object {
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
+              "Resource": [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/support-bandit-TEST",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/support-bandit-TEST/index/*",
@@ -385,20 +385,20 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "DynamoBanditReadPolicy18B1E556",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "DynamoBannerDesignsReadPolicyFFB6E89F": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "DynamoBannerDesignsReadPolicyFFB6E89F": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "dynamodb:BatchGetItem",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
@@ -406,33 +406,33 @@ Object {
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
+              "Resource": [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/support-admin-console-banner-designs-TEST",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/support-admin-console-banner-designs-TEST/index/*",
@@ -445,20 +445,20 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "DynamoBannerDesignsReadPolicyFFB6E89F",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "DynamoReadPolicy15DC9FD5": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "DynamoReadPolicy15DC9FD5": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "dynamodb:BatchGetItem",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
@@ -466,33 +466,33 @@ Object {
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
+              "Resource": [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/super-mode-TEST",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/super-mode-TEST/index/*",
@@ -505,20 +505,20 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "DynamoReadPolicy15DC9FD5",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "DynamoReadPolicySecondaryIndex1A0FDE89": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "DynamoReadPolicySecondaryIndex1A0FDE89": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "dynamodb:BatchGetItem",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
@@ -526,33 +526,33 @@ Object {
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
+              "Resource": [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/super-mode-TEST/index/*",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/super-mode-TEST/index/*/index/*",
@@ -565,20 +565,20 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "DynamoReadPolicySecondaryIndex1A0FDE89",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "DynamoTestsReadPolicy0CE3158B": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "DynamoTestsReadPolicy0CE3158B": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "dynamodb:BatchGetItem",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
@@ -586,33 +586,33 @@ Object {
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
+              "Resource": [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/support-admin-console-channel-tests-TEST",
                     ],
                   ],
                 },
-                Object {
-                  "Fn::Join": Array [
+                {
+                  "Fn::Join": [
                     "",
-                    Array [
+                    [
                       "arn:aws:dynamodb:",
-                      Object {
+                      {
                         "Ref": "AWS::Region",
                       },
                       ":",
-                      Object {
+                      {
                         "Ref": "AWS::AccountId",
                       },
                       ":table/support-admin-console-channel-tests-TEST/index/*",
@@ -625,27 +625,27 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "DynamoTestsReadPolicy0CE3158B",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "GetDistributablePolicyDotcomcomponentsDB5B987B": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "GetDistributablePolicyDotcomcomponentsDB5B987B": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "s3:GetObject",
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:aws:s3:::",
-                    Object {
+                    {
                       "Ref": "DistributionBucketName",
                     },
                     "/support/TEST/dotcom-components/*",
@@ -657,19 +657,19 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "GetDistributablePolicyDotcomcomponentsDB5B987B",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "GuHttpsEgressSecurityGroupDotcomcomponents3638A075": Object {
-      "Properties": Object {
+    "GuHttpsEgressSecurityGroupDotcomcomponents3638A075": {
+      "Properties": {
         "GroupDescription": "Allow all outbound HTTPS traffic",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow all outbound HTTPS traffic",
             "FromPort": 443,
@@ -677,47 +677,47 @@ Object {
             "ToPort": 443,
           },
         ],
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "App",
             "Value": "dotcom-components",
           },
-          Object {
+          {
             "Key": "gu:cdk:version",
             "Value": "TEST",
           },
-          Object {
+          {
             "Key": "gu:repo",
             "Value": "guardian/support-dotcom-components",
           },
-          Object {
+          {
             "Key": "Stack",
             "Value": "support",
           },
-          Object {
+          {
             "Key": "Stage",
             "Value": "TEST",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "VpcId",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "GuHttpsEgressSecurityGroupDotcomcomponentsfromDotcomComponentsLoadBalancerDotcomcomponentsSecurityGroup54E3D2CA3030F5C9C874": Object {
-      "Properties": Object {
+    "GuHttpsEgressSecurityGroupDotcomcomponentsfromDotcomComponentsLoadBalancerDotcomcomponentsSecurityGroup54E3D2CA3030F5C9C874": {
+      "Properties": {
         "Description": "Load balancer to target",
         "FromPort": 3030,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
+        "GroupId": {
+          "Fn::GetAtt": [
             "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
             "GroupId",
           ],
         },
         "IpProtocol": "tcp",
-        "SourceSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
             "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
             "GroupId",
           ],
@@ -726,30 +726,30 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
-    "GuLogShippingPolicy981BFE5A": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "GuLogShippingPolicy981BFE5A": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "kinesis:Describe*",
                 "kinesis:Put*",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:aws:kinesis:",
-                    Object {
+                    {
                       "Ref": "AWS::Region",
                     },
                     ":",
-                    Object {
+                    {
                       "Ref": "AWS::AccountId",
                     },
                     ":stream/",
-                    Object {
+                    {
                       "Ref": "LoggingStreamName",
                     },
                   ],
@@ -760,19 +760,19 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "GuLogShippingPolicy981BFE5A",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "GuPutCloudwatchMetricsPolicyC5BCE402": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "GuPutCloudwatchMetricsPolicyC5BCE402": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "cloudwatch:PutMetricData",
               "Effect": "Allow",
               "Resource": "*",
@@ -781,22 +781,22 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "GuPutCloudwatchMetricsPolicyC5BCE402",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "InstanceRoleDotcomcomponents2E8FDE7D": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "InstanceRoleDotcomcomponents2E8FDE7D": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": Object {
+              "Principal": {
                 "Service": "ec2.amazonaws.com",
               },
             },
@@ -804,24 +804,24 @@ Object {
           "Version": "2012-10-17",
         },
         "Path": "/",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "App",
             "Value": "dotcom-components",
           },
-          Object {
+          {
             "Key": "gu:cdk:version",
             "Value": "TEST",
           },
-          Object {
+          {
             "Key": "gu:repo",
             "Value": "guardian/support-dotcom-components",
           },
-          Object {
+          {
             "Key": "Stack",
             "Value": "support",
           },
-          Object {
+          {
             "Key": "Stage",
             "Value": "TEST",
           },
@@ -829,24 +829,24 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "ListenerDotcomcomponentsF68CDC56": Object {
-      "Properties": Object {
-        "Certificates": Array [
-          Object {
-            "CertificateArn": Object {
+    "ListenerDotcomcomponentsF68CDC56": {
+      "Properties": {
+        "Certificates": [
+          {
+            "CertificateArn": {
               "Ref": "CertificateDotcomcomponents88C2E1C7",
             },
           },
         ],
-        "DefaultActions": Array [
-          Object {
-            "TargetGroupArn": Object {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
               "Ref": "TargetGroupDotcomcomponents54FF73AB",
             },
             "Type": "forward",
           },
         ],
-        "LoadBalancerArn": Object {
+        "LoadBalancerArn": {
           "Ref": "LoadBalancerDotcomcomponentsFF5A6F9F",
         },
         "Port": 443,
@@ -854,52 +854,52 @@ Object {
       },
       "Type": "AWS::ElasticLoadBalancingV2::Listener",
     },
-    "LoadBalancerDotcomcomponentsFF5A6F9F": Object {
-      "Properties": Object {
-        "LoadBalancerAttributes": Array [
-          Object {
+    "LoadBalancerDotcomcomponentsFF5A6F9F": {
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
             "Key": "deletion_protection.enabled",
             "Value": "true",
           },
-          Object {
+          {
             "Key": "routing.http.x_amzn_tls_version_and_cipher_suite.enabled",
             "Value": "true",
           },
-          Object {
+          {
             "Key": "routing.http.drop_invalid_header_fields.enabled",
             "Value": "true",
           },
         ],
         "Scheme": "internet-facing",
-        "SecurityGroups": Array [
-          Object {
-            "Fn::GetAtt": Array [
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
               "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
               "GroupId",
             ],
           },
         ],
-        "Subnets": Object {
+        "Subnets": {
           "Ref": "dotcomcomponentsPublicSubnets",
         },
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "App",
             "Value": "dotcom-components",
           },
-          Object {
+          {
             "Key": "gu:cdk:version",
             "Value": "TEST",
           },
-          Object {
+          {
             "Key": "gu:repo",
             "Value": "guardian/support-dotcom-components",
           },
-          Object {
+          {
             "Key": "Stack",
             "Value": "support",
           },
-          Object {
+          {
             "Key": "Stage",
             "Value": "TEST",
           },
@@ -908,11 +908,11 @@ Object {
       },
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
     },
-    "LoadBalancerDotcomcomponentsSecurityGroupD06C9706": Object {
-      "Properties": Object {
+    "LoadBalancerDotcomcomponentsSecurityGroupD06C9706": {
+      "Properties": {
         "GroupDescription": "Automatically created Security Group for ELB DotcomComponentsLoadBalancerDotcomcomponentsAF9F12FF",
-        "SecurityGroupIngress": Array [
-          Object {
+        "SecurityGroupIngress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Allow from anyone on port 443",
             "FromPort": 443,
@@ -920,46 +920,46 @@ Object {
             "ToPort": 443,
           },
         ],
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "App",
             "Value": "dotcom-components",
           },
-          Object {
+          {
             "Key": "gu:cdk:version",
             "Value": "TEST",
           },
-          Object {
+          {
             "Key": "gu:repo",
             "Value": "guardian/support-dotcom-components",
           },
-          Object {
+          {
             "Key": "Stack",
             "Value": "support",
           },
-          Object {
+          {
             "Key": "Stage",
             "Value": "TEST",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "VpcId",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "LoadBalancerDotcomcomponentsSecurityGrouptoDotcomComponentsGuHttpsEgressSecurityGroupDotcomcomponentsFA67604E3030942D3CE4": Object {
-      "Properties": Object {
+    "LoadBalancerDotcomcomponentsSecurityGrouptoDotcomComponentsGuHttpsEgressSecurityGroupDotcomcomponentsFA67604E3030942D3CE4": {
+      "Properties": {
         "Description": "Load balancer to target",
-        "DestinationSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
             "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
             "GroupId",
           ],
         },
         "FromPort": 3030,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
+        "GroupId": {
+          "Fn::GetAtt": [
             "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
             "GroupId",
           ],
@@ -969,18 +969,18 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupEgress",
     },
-    "LoadBalancerDotcomcomponentsSecurityGrouptoDotcomComponentsWazuhSecurityGroup719666953030B5341711": Object {
-      "Properties": Object {
+    "LoadBalancerDotcomcomponentsSecurityGrouptoDotcomComponentsWazuhSecurityGroup719666953030B5341711": {
+      "Properties": {
         "Description": "Load balancer to target",
-        "DestinationSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
             "WazuhSecurityGroup",
             "GroupId",
           ],
         },
         "FromPort": 3030,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
+        "GroupId": {
+          "Fn::GetAtt": [
             "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
             "GroupId",
           ],
@@ -990,20 +990,20 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupEgress",
     },
-    "LoadBannerDesignsAlarmE829BAEA": Object {
-      "Properties": Object {
+    "LoadBannerDesignsAlarmE829BAEA": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::Join": Array [
+        "AlarmActions": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:aws:sns:",
-                Object {
+                {
                   "Ref": "AWS::Region",
                 },
                 ":",
-                Object {
+                {
                   "Ref": "AWS::AccountId",
                 },
                 ":alarms-handler-topic-PROD",
@@ -1024,23 +1024,23 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ParameterStoreReadDotcomcomponents7A7C8BD4": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "ParameterStoreReadDotcomcomponents7A7C8BD4": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "ssm:GetParametersByPath",
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:aws:ssm:",
-                    Object {
+                    {
                       "Ref": "AWS::Region",
                     },
                     ":",
-                    Object {
+                    {
                       "Ref": "AWS::AccountId",
                     },
                     ":parameter/TEST/support/dotcom-components",
@@ -1048,22 +1048,22 @@ Object {
                 ],
               },
             },
-            Object {
-              "Action": Array [
+            {
+              "Action": [
                 "ssm:GetParameters",
                 "ssm:GetParameter",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
+              "Resource": {
+                "Fn::Join": [
                   "",
-                  Array [
+                  [
                     "arn:aws:ssm:",
-                    Object {
+                    {
                       "Ref": "AWS::Region",
                     },
                     ":",
-                    Object {
+                    {
                       "Ref": "AWS::AccountId",
                     },
                     ":parameter/TEST/support/dotcom-components/*",
@@ -1075,22 +1075,22 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "parameter-store-read-policy",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "S3ReadPolicyGuContributionsPublic821CE426": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "S3ReadPolicyGuContributionsPublic821CE426": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "s3:GetObject",
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:s3:::gu-contributions-public/epic/TEST/*",
                 "arn:aws:s3:::gu-contributions-public/header/TEST/*",
                 "arn:aws:s3:::gu-contributions-public/banner/TEST/*",
@@ -1100,22 +1100,22 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "S3ReadPolicyGuContributionsPublic821CE426",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "S3ReadPolicySupportAdminConsole06C5574B": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
+    "S3ReadPolicySupportAdminConsole06C5574B": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
               "Action": "s3:GetObject",
               "Effect": "Allow",
-              "Resource": Array [
+              "Resource": [
                 "arn:aws:s3:::support-admin-console/TEST/banner-deploy/*",
                 "arn:aws:s3:::support-admin-console/TEST/channel-switches.json",
                 "arn:aws:s3:::support-admin-console/TEST/configured-amounts-v3.json",
@@ -1126,20 +1126,20 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "S3ReadPolicySupportAdminConsole06C5574B",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "SsmSshPolicy4CFC977E": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
+    "SsmSshPolicy4CFC977E": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
                 "ec2messages:AcknowledgeMessage",
                 "ec2messages:DeleteMessage",
                 "ec2messages:FailMessage",
@@ -1162,28 +1162,28 @@ Object {
           "Version": "2012-10-17",
         },
         "PolicyName": "ssm-ssh-policy",
-        "Roles": Array [
-          Object {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "SuperModeAlarmDBFE793D": Object {
-      "Properties": Object {
+    "SuperModeAlarmDBFE793D": {
+      "Properties": {
         "ActionsEnabled": true,
-        "AlarmActions": Array [
-          Object {
-            "Fn::Join": Array [
+        "AlarmActions": [
+          {
+            "Fn::Join": [
               "",
-              Array [
+              [
                 "arn:aws:sns:",
-                Object {
+                {
                   "Ref": "AWS::Region",
                 },
                 ":",
-                Object {
+                {
                   "Ref": "AWS::AccountId",
                 },
                 ":alarms-handler-topic-PROD",
@@ -1204,8 +1204,8 @@ Object {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "TargetGroupDotcomcomponents54FF73AB": Object {
-      "Properties": Object {
+    "TargetGroupDotcomcomponents54FF73AB": {
+      "Properties": {
         "HealthCheckIntervalSeconds": 10,
         "HealthCheckPath": "/healthcheck",
         "HealthCheckProtocol": "HTTP",
@@ -1213,58 +1213,58 @@ Object {
         "HealthyThresholdCount": 5,
         "Port": 3030,
         "Protocol": "HTTP",
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "App",
             "Value": "dotcom-components",
           },
-          Object {
+          {
             "Key": "gu:cdk:version",
             "Value": "TEST",
           },
-          Object {
+          {
             "Key": "gu:repo",
             "Value": "guardian/support-dotcom-components",
           },
-          Object {
+          {
             "Key": "Stack",
             "Value": "support",
           },
-          Object {
+          {
             "Key": "Stage",
             "Value": "TEST",
           },
         ],
-        "TargetGroupAttributes": Array [
-          Object {
+        "TargetGroupAttributes": [
+          {
             "Key": "deregistration_delay.timeout_seconds",
             "Value": "30",
           },
-          Object {
+          {
             "Key": "stickiness.enabled",
             "Value": "false",
           },
         ],
         "TargetType": "instance",
         "UnhealthyThresholdCount": 2,
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "VpcId",
         },
       },
       "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
     },
-    "WazuhSecurityGroup": Object {
-      "Properties": Object {
+    "WazuhSecurityGroup": {
+      "Properties": {
         "GroupDescription": "Allow outbound traffic from wazuh agent to manager",
-        "SecurityGroupEgress": Array [
-          Object {
+        "SecurityGroupEgress": [
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Wazuh event logging",
             "FromPort": 1514,
             "IpProtocol": "tcp",
             "ToPort": 1514,
           },
-          Object {
+          {
             "CidrIp": "0.0.0.0/0",
             "Description": "Wazuh agent registration",
             "FromPort": 1515,
@@ -1272,43 +1272,43 @@ Object {
             "ToPort": 1515,
           },
         ],
-        "Tags": Array [
-          Object {
+        "Tags": [
+          {
             "Key": "gu:cdk:version",
             "Value": "TEST",
           },
-          Object {
+          {
             "Key": "gu:repo",
             "Value": "guardian/support-dotcom-components",
           },
-          Object {
+          {
             "Key": "Stack",
             "Value": "support",
           },
-          Object {
+          {
             "Key": "Stage",
             "Value": "TEST",
           },
         ],
-        "VpcId": Object {
+        "VpcId": {
           "Ref": "VpcId",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "WazuhSecurityGroupfromDotcomComponentsLoadBalancerDotcomcomponentsSecurityGroup54E3D2CA30309C6E86B6": Object {
-      "Properties": Object {
+    "WazuhSecurityGroupfromDotcomComponentsLoadBalancerDotcomcomponentsSecurityGroup54E3D2CA30309C6E86B6": {
+      "Properties": {
         "Description": "Load balancer to target",
         "FromPort": 3030,
-        "GroupId": Object {
-          "Fn::GetAtt": Array [
+        "GroupId": {
+          "Fn::GetAtt": [
             "WazuhSecurityGroup",
             "GroupId",
           ],
         },
         "IpProtocol": "tcp",
-        "SourceSecurityGroupId": Object {
-          "Fn::GetAtt": Array [
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
             "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
             "GroupId",
           ],
@@ -1317,106 +1317,106 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
-    "supportTESTdotcomcomponentsE4D10170": Object {
-      "DependsOn": Array [
+    "supportTESTdotcomcomponentsE4D10170": {
+      "DependsOn": [
         "InstanceRoleDotcomcomponents2E8FDE7D",
       ],
-      "Properties": Object {
-        "LaunchTemplateData": Object {
-          "IamInstanceProfile": Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
+      "Properties": {
+        "LaunchTemplateData": {
+          "IamInstanceProfile": {
+            "Arn": {
+              "Fn::GetAtt": [
                 "supportTESTdotcomcomponentsProfile9246E2E0",
                 "Arn",
               ],
             },
           },
-          "ImageId": Object {
+          "ImageId": {
             "Ref": "AMIDotcomcomponents",
           },
           "InstanceType": "t4g.small",
-          "MetadataOptions": Object {
+          "MetadataOptions": {
             "HttpTokens": "required",
           },
-          "SecurityGroupIds": Array [
-            Object {
-              "Fn::GetAtt": Array [
+          "SecurityGroupIds": [
+            {
+              "Fn::GetAtt": [
                 "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
                 "GroupId",
               ],
             },
-            Object {
-              "Fn::GetAtt": Array [
+            {
+              "Fn::GetAtt": [
                 "WazuhSecurityGroup",
                 "GroupId",
               ],
             },
           ],
-          "TagSpecifications": Array [
-            Object {
+          "TagSpecifications": [
+            {
               "ResourceType": "instance",
-              "Tags": Array [
-                Object {
+              "Tags": [
+                {
                   "Key": "App",
                   "Value": "dotcom-components",
                 },
-                Object {
+                {
                   "Key": "gu:cdk:version",
                   "Value": "TEST",
                 },
-                Object {
+                {
                   "Key": "gu:repo",
                   "Value": "guardian/support-dotcom-components",
                 },
-                Object {
+                {
                   "Key": "Name",
                   "Value": "DotcomComponents/support-TEST-dotcom-components",
                 },
-                Object {
+                {
                   "Key": "Stack",
                   "Value": "support",
                 },
-                Object {
+                {
                   "Key": "Stage",
                   "Value": "TEST",
                 },
               ],
             },
-            Object {
+            {
               "ResourceType": "volume",
-              "Tags": Array [
-                Object {
+              "Tags": [
+                {
                   "Key": "App",
                   "Value": "dotcom-components",
                 },
-                Object {
+                {
                   "Key": "gu:cdk:version",
                   "Value": "TEST",
                 },
-                Object {
+                {
                   "Key": "gu:repo",
                   "Value": "guardian/support-dotcom-components",
                 },
-                Object {
+                {
                   "Key": "Name",
                   "Value": "DotcomComponents/support-TEST-dotcom-components",
                 },
-                Object {
+                {
                   "Key": "Stack",
                   "Value": "support",
                 },
-                Object {
+                {
                   "Key": "Stage",
                   "Value": "TEST",
                 },
               ],
             },
           ],
-          "UserData": Object {
-            "Fn::Base64": Object {
-              "Fn::Join": Array [
+          "UserData": {
+            "Fn::Base64": {
+              "Fn::Join": [
                 "",
-                Array [
+                [
                   "#!/bin/bash
 
 groupadd support
@@ -1424,7 +1424,7 @@ useradd -r -m -s /usr/bin/nologin -g support dotcom-components
 cd /home/dotcom-components
 
 aws --region eu-west-1 s3 cp s3://",
-                  Object {
+                  {
                     "Ref": "DistributionBucketName",
                   },
                   "/support/TEST/dotcom-components/dotcom-components.tar ./
@@ -1439,7 +1439,7 @@ export TERM=xterm-256color
 export NODE_ENV=production
 export stage=TEST
 export base_url=",
-                  Object {
+                  {
                     "Ref": "BaseUrl",
                   },
                   "
@@ -1450,11 +1450,11 @@ chown -R dotcom-components:support /var/log/dotcom-components
 /usr/local/node/pm2 start --uid dotcom-components --gid support server.js
 
 /opt/aws-kinesis-agent/configure-aws-kinesis-agent ",
-                  Object {
+                  {
                     "Ref": "AWS::Region",
                   },
                   " ",
-                  Object {
+                  {
                     "Ref": "ELKStream",
                   },
                   " /var/log/dotcom-components/dotcom-components.log",
@@ -1463,31 +1463,31 @@ chown -R dotcom-components:support /var/log/dotcom-components
             },
           },
         },
-        "TagSpecifications": Array [
-          Object {
+        "TagSpecifications": [
+          {
             "ResourceType": "launch-template",
-            "Tags": Array [
-              Object {
+            "Tags": [
+              {
                 "Key": "App",
                 "Value": "dotcom-components",
               },
-              Object {
+              {
                 "Key": "gu:cdk:version",
                 "Value": "TEST",
               },
-              Object {
+              {
                 "Key": "gu:repo",
                 "Value": "guardian/support-dotcom-components",
               },
-              Object {
+              {
                 "Key": "Name",
                 "Value": "DotcomComponents/support-TEST-dotcom-components",
               },
-              Object {
+              {
                 "Key": "Stack",
                 "Value": "support",
               },
-              Object {
+              {
                 "Key": "Stage",
                 "Value": "TEST",
               },
@@ -1497,10 +1497,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::EC2::LaunchTemplate",
     },
-    "supportTESTdotcomcomponentsProfile9246E2E0": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
+    "supportTESTdotcomcomponentsProfile9246E2E0": {
+      "Properties": {
+        "Roles": [
+          {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
           },
         ],
