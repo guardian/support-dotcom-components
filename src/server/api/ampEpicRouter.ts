@@ -15,7 +15,7 @@ import { ValueProvider } from '../utils/valueReloader';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { AmpEpicTest } from '../tests/amp/ampEpicModels';
 import { OphanComponentEvent } from '@guardian/libs';
-import { buildAmpEpicCampaignCode } from '../lib/tracking';
+import { addQueryParams, buildAmpEpicCampaignCode } from '../lib/tracking';
 
 const isSupportUrl = (baseUrl: string): boolean => /\bsupport\./.test(baseUrl);
 
@@ -136,10 +136,14 @@ export const buildAmpEpicRouter = (
                     },
                     referrerUrl: req.query.webUrl,
                 };
+
                 const ampState = {
-                    ctaUrl: `${epic.cta.url}?INTCMP=${
-                        epic.cta.campaignCode
-                    }&acquisitionData=${JSON.stringify(acquisitionData)}`,
+                    ctaUrl: addQueryParams(
+                        epic.cta.url,
+                        `INTCMP=${
+                            epic.cta.campaignCode
+                        }&acquisitionData=${JSON.stringify(acquisitionData)}`,
+                    ),
                     hidePaymentIcons: !isSupportUrl(epic.cta.url),
                     reminder: {
                         ...buildReminderFields(),
