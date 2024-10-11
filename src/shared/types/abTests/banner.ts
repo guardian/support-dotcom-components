@@ -86,6 +86,11 @@ export const bannerTestFromToolSchema = testSchema.extend({
     contextTargeting: pageContextTargetingSchema,
     variants: z.array(bannerVariantFromToolSchema),
     articlesViewedSettings: articlesViewedSettingsSchema.optional(),
+    deploySchedule: z
+        .object({
+            daysBetween: z.number(),
+        })
+        .optional(),
 });
 
 export type BannerTestFromTool = z.infer<typeof bannerTestFromToolSchema>;
