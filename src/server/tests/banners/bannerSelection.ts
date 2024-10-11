@@ -61,11 +61,11 @@ function canShowAbandonedBasketBanner(
  * If the banner has been closed previously, can we show it again?
  * Takes into account both the manual deploys (from RRCP) and the scheduled deploys.
  *
- * @param targeting the targeting data from the client
- * @param test the banner test config
- * @param manualBannerDeployTimes holds the times of manual banner deploys
- * @param now the time now
- * @param scheduledBannerDeploys the configured banner deploy schedule
+ * @param targeting - the targeting data from the client
+ * @param test - the banner test config
+ * @param manualBannerDeployTimes - holds the times of manual banner deploys
+ * @param now - the time now
+ * @param scheduledBannerDeploys - the configured banner deploy schedule
  */
 export const canShowBannerAgain = (
     targeting: BannerTargeting,
