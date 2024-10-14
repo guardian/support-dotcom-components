@@ -65,7 +65,7 @@ function canShowAbandonedBasketBanner(
  * @param test - the banner test config
  * @param manualBannerDeployTimes - holds the times of manual banner deploys
  * @param now - the time now
- * @param scheduledBannerDeploys - the configured banner deploy schedule
+ * @param scheduledBannerDeploys - the configured banner channel deploy schedule
  */
 export const canShowBannerAgain = (
     targeting: BannerTargeting,
