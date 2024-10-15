@@ -1,6 +1,5 @@
 import { countryCodeToCountryGroupId, inCountryGroups } from '../../../shared/lib';
 import {
-    BannerChannel,
     BannerTargeting,
     BannerTest,
     BannerTestSelection,
@@ -29,6 +28,7 @@ import {
     defaultDeploySchedule,
 } from './bannerDeploySchedule';
 import { daysSince } from '../../lib/dates';
+import { isAfter, subDays } from 'date-fns';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -59,13 +59,18 @@ function canShowAbandonedBasketBanner(
 
 /**
  * If the banner has been closed previously, can we show it again?
- * e.g. if changes have been deployed
  * Takes into account both the manual deploys (from RRCP) and the scheduled deploys.
+ *
+ * @param targeting - the targeting data from the client
+ * @param test - the banner test config
+ * @param manualBannerDeployTimes - holds the times of manual banner deploys
+ * @param now - the time now
+ * @param scheduledBannerDeploys - the configured banner channel deploy schedule
  */
 export const canShowBannerAgain = (
     targeting: BannerTargeting,
-    bannerChannel: BannerChannel,
-    bannerDeployTimes: BannerDeployTimesProvider,
+    test: BannerTest,
+    manualBannerDeployTimes: BannerDeployTimesProvider,
     now: Date,
     scheduledBannerDeploys?: ScheduledBannerDeploys,
 ): boolean => {
@@ -75,6 +80,7 @@ export const canShowBannerAgain = (
         signInBannerLastClosedAt,
         abandonedBasketBannerLastClosedAt,
     } = targeting;
+    const { bannerChannel, deploySchedule } = test;
 
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
 
@@ -92,7 +98,13 @@ export const canShowBannerAgain = (
             return true; // banner not yet closed
         }
 
-        const deployTimes = bannerDeployTimes.getDeployTimes(bannerChannel);
+        if (deploySchedule) {
+            // this test has its own deploy schedule
+            const lastClosed = new Date(lastClosedRaw);
+            return isAfter(subDays(now, deploySchedule.daysBetween), lastClosed);
+        }
+
+        const deployTimes = manualBannerDeployTimes.getDeployTimes(bannerChannel);
         const lastManualDeploy = deployTimes[region];
         const lastClosed = new Date(lastClosedRaw);
         return (
@@ -206,13 +218,7 @@ export const selectBannerTest = (
             ) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
-            canShowBannerAgain(
-                targeting,
-                test.bannerChannel,
-                bannerDeployTimes,
-                now,
-                deploySchedule,
-            ) &&
+            canShowBannerAgain(targeting, test, bannerDeployTimes, now, deploySchedule) &&
             correctSignedInStatus(targeting.isSignedIn, test.signedInStatus) &&
             pageContextMatches(
                 targeting,

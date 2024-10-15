@@ -1,6 +1,6 @@
 import { BannerTargeting, BannerTest } from '../../../shared/types';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
-import { selectBannerTest } from './bannerSelection';
+import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 
 const getBannerDeployTimesReloader = (date: string) =>
     new BannerDeployTimesProvider({
@@ -572,6 +572,83 @@ describe('selectBannerTest', () => {
                 now,
             );
             expect(result).toBe(null);
+        });
+    });
+
+    describe('canShowBannerAgain', () => {
+        const buildTargeting = (engagementBannerLastClosedAt: string): BannerTargeting => ({
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'AU',
+            engagementBannerLastClosedAt,
+            hasOptedOutOfArticleCount: false,
+            contentType: 'Article',
+            isSignedIn: false,
+            hasConsented: true,
+        });
+
+        const test: BannerTest = {
+            name: 'test',
+            priority: 1,
+            status: 'Live',
+            bannerChannel: 'contributions',
+            isHardcoded: false,
+            userCohort: 'Everyone',
+            variants: [],
+            locations: [],
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
+        };
+        const testWithSchedule = {
+            ...test,
+            deploySchedule: {
+                daysBetween: 1,
+            },
+        };
+
+        const now = new Date('2024-01-04T00:00:00');
+
+        it('returns true if test has a deploySchedule of 1 day and lastClosedAt is more than 1 day ago', () => {
+            const lastClosedAt = '2024-01-02T00:00:00';
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00'); // manual deploy before lastClosedAt
+            expect(
+                canShowBannerAgain(
+                    buildTargeting(lastClosedAt),
+                    testWithSchedule,
+                    manualDeployTimes,
+                    now,
+                ),
+            ).toBe(true);
+        });
+
+        it('returns false if test has a deploySchedule of 1 day and lastClosedAt is less than 1 day ago', () => {
+            const lastClosedAt = '2024-01-03T12:00:00';
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00'); // manual deploy before lastClosedAt
+            expect(
+                canShowBannerAgain(buildTargeting(lastClosedAt), test, manualDeployTimes, now),
+            ).toBe(false);
+        });
+
+        it('returns true if test has no deploySchedule but manual deploy is since lastClosedAt', () => {
+            const lastClosedAt = '2024-01-02T00:00:00';
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-03T00:00:00'); // manual deploy after lastClosedAt
+            expect(
+                canShowBannerAgain(buildTargeting(lastClosedAt), test, manualDeployTimes, now),
+            ).toBe(true);
+        });
+
+        it('returns false if test has no deploySchedule and manual deploy is before lastClosedAt', () => {
+            const lastClosedAt = '2024-01-02T00:00:00';
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00'); // manual deploy before lastClosedAt
+            expect(
+                canShowBannerAgain(buildTargeting(lastClosedAt), test, manualDeployTimes, now),
+            ).toBe(false);
         });
     });
 });
