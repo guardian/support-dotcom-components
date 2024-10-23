@@ -1,5 +1,5 @@
 import { EpicTest } from '../../shared/types';
-import { selectVariantWithMVT, withinRange, selectWithSeed } from './ab';
+import { selectVariantWithMVT, withinRange, selectWithSeed, selectVariant } from './ab';
 
 const test: EpicTest = {
     name: 'example-1', // note - changing this name will change the results of the tests, as it's used for the seed
@@ -127,5 +127,30 @@ describe('selectWithSeed', () => {
 
         // Uses pseudorandom generator so they may not match precisely
         expect(Math.abs(variantCounts.control - variantCounts.v1)).toBeLessThan(10);
+    });
+});
+
+describe('selectVariant', () => {
+    it('should return same test name if no methodology configured', () => {
+        const result = selectVariant(test, 1, []);
+        expect(result?.test.name).toEqual(test.name);
+    });
+
+    it('should return same test name if one methodology is configured', () => {
+        const testWithMethodology: EpicTest = {
+            ...test,
+            methodologies: [{ name: 'ABTest' }],
+        };
+        const result = selectVariant(testWithMethodology, 1, []);
+        expect(result?.test.name).toEqual(test.name);
+    });
+
+    it('should return extended test name if one than one methodology is configured', () => {
+        const testWithMethodology: EpicTest = {
+            ...test,
+            methodologies: [{ name: 'ABTest' }, { name: 'EpsilonGreedyBandit', epsilon: 0.5 }],
+        };
+        const result = selectVariant(testWithMethodology, 1, []);
+        expect(result?.test.name).toBe('test_EpsilonGreedyBandit-0.5');
     });
 });
