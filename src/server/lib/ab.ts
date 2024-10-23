@@ -72,7 +72,7 @@ export const selectVariantWithMVT = <V extends Variant, T extends Test<V>>(
     return selectWithSeed(mvtId, seed, test.variants);
 };
 
-const selectVariantForMethodology = <V extends Variant, T extends Test<V>>(
+const selectVariantWithMethodology = <V extends Variant, T extends Test<V>>(
     test: T,
     mvtId: number,
     banditData: BanditData[],
@@ -101,8 +101,22 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(
     mvtId: number,
     banditData: BanditData[],
 ): { test: T; variant: V } | undefined => {
-    if (test.methodologies && test.methodologies.length > 0) {
-        // Assign to one of the methodologies, using the mvt value
+    if (test.methodologies && test.methodologies.length === 1) {
+        // Only one configured methodology
+        const variant = selectVariantWithMethodology<V, T>(
+            test,
+            mvtId,
+            banditData,
+            test.methodologies[0],
+        );
+        if (variant) {
+            return {
+                test,
+                variant,
+            };
+        }
+    } else if (test.methodologies) {
+        // More than one methodology, pick one of them using the mvt value
         const methodology =
             test.methodologies[getRandomNumber(test.name, mvtId) % test.methodologies.length];
 
@@ -111,7 +125,7 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(
             ...test,
             name: addMethodologyToTestName(test.name, methodology),
         };
-        const variant = selectVariantForMethodology<V, T>(
+        const variant = selectVariantWithMethodology<V, T>(
             testWithNameExtension,
             mvtId,
             banditData,
@@ -124,9 +138,9 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(
             };
         }
     } else {
-        // Default to AB test
+        // No configured methodology, default to AB test
         const methodology: Methodology = { name: 'ABTest' };
-        const variant = selectVariantForMethodology<V, T>(test, mvtId, banditData, methodology);
+        const variant = selectVariantWithMethodology<V, T>(test, mvtId, banditData, methodology);
         if (variant) {
             return {
                 test,
