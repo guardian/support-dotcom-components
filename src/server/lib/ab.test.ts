@@ -1,5 +1,5 @@
 import { EpicTest } from '../../shared/types';
-import { selectVariantWithMVT, withinRange, selectWithSeed, selectVariant } from './ab';
+import { selectVariantUsingMVT, withinRange, selectWithSeed, selectVariant } from './ab';
 
 const test: EpicTest = {
     name: 'example-1', // note - changing this name will change the results of the tests, as it's used for the seed
@@ -44,32 +44,32 @@ const controlProportionSettings = {
 
 describe('selectVariantWithMVT', () => {
     it('should select control (no controlProportion)', () => {
-        const variant = selectVariantWithMVT(test, 4);
+        const variant = selectVariantUsingMVT(test, 4);
         expect(variant.name).toBe('control');
     });
 
     it('should select variant (no controlProportion)', () => {
-        const variant = selectVariantWithMVT(test, 2);
+        const variant = selectVariantUsingMVT(test, 2);
         expect(variant.name).toBe('v1');
     });
 
     it('should select control (lower end of controlProportion)', () => {
-        const variant = selectVariantWithMVT({ ...test, controlProportionSettings }, 500000);
+        const variant = selectVariantUsingMVT({ ...test, controlProportionSettings }, 500000);
         expect(variant.name).toBe('control');
     });
 
     it('should select control (upper end of controlProportion)', () => {
-        const variant = selectVariantWithMVT({ ...test, controlProportionSettings }, 599999);
+        const variant = selectVariantUsingMVT({ ...test, controlProportionSettings }, 599999);
         expect(variant.name).toBe('control');
     });
 
     it('should select variant (below controlProportion)', () => {
-        const variant = selectVariantWithMVT({ ...test, controlProportionSettings }, 499999);
+        const variant = selectVariantUsingMVT({ ...test, controlProportionSettings }, 499999);
         expect(variant.name).toBe('v1');
     });
 
     it('should select variant (above controlProportion)', () => {
-        const variant = selectVariantWithMVT({ ...test, controlProportionSettings }, 600000);
+        const variant = selectVariantUsingMVT({ ...test, controlProportionSettings }, 600000);
         expect(variant.name).toBe('v1');
     });
 
@@ -78,7 +78,10 @@ describe('selectVariantWithMVT', () => {
             ...test,
             variants: [test.variants[0]],
         };
-        const variant = selectVariantWithMVT({ ...controlOnly, controlProportionSettings }, 600000);
+        const variant = selectVariantUsingMVT(
+            { ...controlOnly, controlProportionSettings },
+            600000,
+        );
         expect(variant.name).toBe('control');
     });
 });

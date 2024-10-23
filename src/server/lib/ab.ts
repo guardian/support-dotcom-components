@@ -45,7 +45,7 @@ export const selectWithSeed = <V extends Variant>(
  * If controlProportionSettings is set then we use this to define the range of mvt values for the control variant.
  * Otherwise we evenly distribute all variants across maxMvt.
  */
-export const selectVariantWithMVT = <V extends Variant, T extends Test<V>>(
+export const selectVariantUsingMVT = <V extends Variant, T extends Test<V>>(
     test: T,
     mvtId: number,
 ): V => {
@@ -81,7 +81,7 @@ const selectVariantWithMethodology = <V extends Variant, T extends Test<V>>(
     if (methodology.name === 'EpsilonGreedyBandit') {
         return selectVariantUsingEpsilonGreedy(banditData, test, methodology.epsilon);
     }
-    return selectVariantWithMVT<V, T>(test, mvtId);
+    return selectVariantUsingMVT<V, T>(test, mvtId);
 };
 
 const addMethodologyToTestName = (testName: string, methodology: Methodology): string => {
