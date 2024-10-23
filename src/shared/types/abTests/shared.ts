@@ -27,6 +27,17 @@ const ConsentStatus = ['HasConsented', 'HasNotConsented', 'All'] as const;
 export type ConsentStatus = (typeof ConsentStatus)[number];
 export const ConsentStatusSchema = z.enum(ConsentStatus);
 
+const abTestMethodologySchema = z.object({ name: z.literal('ABTest') });
+const epsilonGreedyMethodologySchema = z.object({
+    name: z.literal('EpsilonGreedyBandit'),
+    epsilon: z.number(),
+});
+const methodologySchema = z.discriminatedUnion('name', [
+    abTestMethodologySchema,
+    epsilonGreedyMethodologySchema,
+]);
+export type Methodology = z.infer<typeof methodologySchema>;
+
 export interface Variant {
     name: string;
 }
@@ -41,14 +52,6 @@ export interface Test<V extends Variant> {
     consentStatus?: ConsentStatus;
     methodologies?: Methodology[];
 }
-
-const abTestSchema = z.object({ name: z.literal('ABTest') });
-const epsilonGreedyBanditSchema = z.object({
-    name: z.literal('EpsilonGreedyBandit'),
-    epsilon: z.number(),
-});
-const methodologySchema = z.discriminatedUnion('name', [abTestSchema, epsilonGreedyBanditSchema]);
-export type Methodology = z.infer<typeof methodologySchema>;
 
 export const testSchema = z.object({
     name: z.string(),
