@@ -1,6 +1,14 @@
-import { Test, Variant, AmountsTests, SelectedAmountsVariant } from '../../shared/types';
+import {
+    Test,
+    Variant,
+    AmountsTests,
+    SelectedAmountsVariant,
+    Methodology,
+} from '../../shared/types';
 import { CountryGroupId } from '../../shared/lib';
 import seedrandom from 'seedrandom';
+import { BanditData } from '../bandit/banditData';
+import { selectVariantUsingEpsilonGreedy } from '../bandit/banditSelection';
 
 const maxMvt = 1000000;
 
@@ -60,9 +68,16 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
     return selectWithSeed(mvtId, seed, test.variants);
 };
 
-export const selectVariantNonSticky = <V extends Variant, T extends Test<V>>(test: T): V => {
-    const index = Math.floor(Math.random() * test.variants.length);
-    return test.variants[index];
+export const selectVariantForMethodology = <V extends Variant, T extends Test<V>>(
+    test: T,
+    mvtId: number,
+    banditData: BanditData[],
+    methodology: Methodology = { name: 'ABTest' },
+): V | undefined => {
+    if (methodology.name === 'EpsilonGreedyBandit') {
+        return selectVariantUsingEpsilonGreedy(banditData, test, methodology.epsilon);
+    }
+    return selectVariant<V, T>(test, mvtId);
 };
 
 export const selectAmountsTestVariant = (
