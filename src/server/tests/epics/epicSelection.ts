@@ -9,8 +9,7 @@ import {
     UserDeviceType,
 } from '../../../shared/types';
 import { BanditData } from '../../bandit/banditData';
-import { selectVariantUsingEpsilonGreedy } from '../../bandit/banditSelection';
-import { getRandomNumber, selectVariantNonSticky, selectVariant } from '../../lib/ab';
+import { selectVariantForMethodology } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
@@ -190,47 +189,6 @@ export interface Result {
     debug?: Debug;
 }
 
-export const AppliedLearningBanditTestsNames = {
-    BanditTestEpsilon0: 'BANDIT_ABTEST_VARIANTS', // This is the AB test
-    BanditTestEpsilon1: 'BANDIT_EPSILON1_VARIANTS',
-    BanditTestEpsilon2: 'BANDIT_EPSILON2_VARIANTS',
-} as const;
-
-export const AppliedLearningBanditTestFilter: Filter = {
-    id: 'matchesAppliedLearningBanditTestVariantsTests',
-    test: (test, targeting): boolean => {
-        const oneByThreeChance = getRandomNumber('APPLIED_LEARNING_BANDIT', targeting.mvtId) % 3;
-        if (test.name.startsWith(AppliedLearningBanditTestsNames.BanditTestEpsilon0)) {
-            return oneByThreeChance === 0;
-        }
-        if (test.name.startsWith(AppliedLearningBanditTestsNames.BanditTestEpsilon1)) {
-            return oneByThreeChance === 1;
-        }
-        if (test.name.startsWith(AppliedLearningBanditTestsNames.BanditTestEpsilon2)) {
-            return oneByThreeChance === 2;
-        }
-        return true;
-    },
-};
-
-export const NonStickyVariantsTestNames = {
-    Sticky: '2024-05-24_STICKY_VARIANTS',
-    NonSticky: '2024-05-24_NON_STICKY_VARIANTS',
-};
-export const nonStickyVariantsTestFilter: Filter = {
-    id: 'matchesNonStickyVariantsTests',
-    test: (test, targeting): boolean => {
-        const fiftyFiftyChance = getRandomNumber('NON_STICKY', targeting.mvtId) % 2;
-        if (test.name.startsWith(NonStickyVariantsTestNames.Sticky)) {
-            return fiftyFiftyChance === 0;
-        }
-        if (test.name.startsWith(NonStickyVariantsTestNames.NonSticky)) {
-            return fiftyFiftyChance === 1;
-        }
-        return true;
-    },
-};
-
 export const findTestAndVariant = (
     tests: EpicTest[],
     targeting: EpicTargeting,
@@ -259,8 +217,6 @@ export const findTestAndVariant = (
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
-            nonStickyVariantsTestFilter,
-            AppliedLearningBanditTestFilter,
             momentumMatches,
         ];
     };
@@ -326,24 +282,24 @@ export const findTestAndVariant = (
     return { debug: includeDebug ? debug : undefined };
 };
 
-function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: EpicTargeting) {
-    if (test.isBanditTest) {
-        return selectVariantUsingEpsilonGreedy(banditData, test);
-    }
+function selectEpicVariant(
+    test: EpicTest,
+    banditData: BanditData[],
+    targeting: EpicTargeting,
+): Result {
+    const variant = selectVariantForMethodology<EpicVariant, EpicTest>(
+        test,
+        targeting.mvtId || 1,
+        banditData,
+        test.methodology,
+    );
 
-    if (test.name.includes('NON_STICKY')) {
-        // Do not use the mvt value
-        const variant = selectVariantNonSticky<EpicVariant, EpicTest>(test);
+    if (variant) {
         return {
             result: { test, variant },
         };
     }
-
-    const variant = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId || 1);
-
-    return {
-        result: { test, variant },
-    };
+    return {};
 }
 
 export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {

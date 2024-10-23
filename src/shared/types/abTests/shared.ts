@@ -41,6 +41,14 @@ export interface Test<V extends Variant> {
     consentStatus?: ConsentStatus;
 }
 
+const abTestSchema = z.object({ name: z.literal('ABTest') });
+const epsilonGreedyBanditSchema = z.object({
+    name: z.literal('EpsilonGreedyBandit'),
+    epsilon: z.number(),
+});
+const methodologySchema = z.discriminatedUnion('name', [abTestSchema, epsilonGreedyBanditSchema]);
+export type Methodology = z.infer<typeof methodologySchema>;
+
 export const testSchema = z.object({
     name: z.string(),
     status: testStatusSchema,
@@ -54,6 +62,7 @@ export const testSchema = z.object({
     deviceType: deviceTypeSchema.optional(),
     signedInStatus: signedInStatusSchema.optional(),
     consentStatus: ConsentStatusSchema.optional(),
+    methodology: methodologySchema.optional(),
 });
 
 export interface ControlProportionSettings {
