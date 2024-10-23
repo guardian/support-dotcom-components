@@ -8,7 +8,7 @@ import {
     UserDeviceType,
     uiIsDesign,
 } from '../../../shared/types';
-import { selectVariant } from '../../lib/ab';
+import { selectVariantWithMVT } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import {
@@ -232,7 +232,7 @@ export const selectBannerTest = (
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
             abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket)
         ) {
-            const variant = selectVariant<BannerVariant, BannerTest>(test, targeting.mvtId);
+            const variant = selectVariantWithMVT<BannerVariant, BannerTest>(test, targeting.mvtId);
 
             return {
                 test,

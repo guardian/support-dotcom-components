@@ -39,6 +39,7 @@ export interface Test<V extends Variant> {
     deviceType?: DeviceType;
     signedInStatus?: SignedInStatus;
     consentStatus?: ConsentStatus;
+    methodologies?: Methodology[];
 }
 
 const abTestSchema = z.object({ name: z.literal('ABTest') });
@@ -62,7 +63,7 @@ export const testSchema = z.object({
     deviceType: deviceTypeSchema.optional(),
     signedInStatus: signedInStatusSchema.optional(),
     consentStatus: ConsentStatusSchema.optional(),
-    methodology: methodologySchema.optional(),
+    methodologies: methodologySchema.array().optional(),
 });
 
 export interface ControlProportionSettings {

@@ -41,10 +41,14 @@ export const selectWithSeed = <V extends Variant>(
 };
 
 /**
+ * For use in AB tests.
  * If controlProportionSettings is set then we use this to define the range of mvt values for the control variant.
  * Otherwise we evenly distribute all variants across maxMvt.
  */
-export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvtId: number): V => {
+export const selectVariantWithMVT = <V extends Variant, T extends Test<V>>(
+    test: T,
+    mvtId: number,
+): V => {
     const control = test.variants.find((v) => v.name.toLowerCase() === 'control');
     const seed = test.name.split('__')[0];
 
@@ -68,16 +72,69 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
     return selectWithSeed(mvtId, seed, test.variants);
 };
 
-export const selectVariantForMethodology = <V extends Variant, T extends Test<V>>(
+const selectVariantForMethodology = <V extends Variant, T extends Test<V>>(
     test: T,
     mvtId: number,
     banditData: BanditData[],
-    methodology: Methodology = { name: 'ABTest' },
+    methodology: Methodology,
 ): V | undefined => {
     if (methodology.name === 'EpsilonGreedyBandit') {
         return selectVariantUsingEpsilonGreedy(banditData, test, methodology.epsilon);
     }
-    return selectVariant<V, T>(test, mvtId);
+    return selectVariantWithMVT<V, T>(test, mvtId);
+};
+
+const addMethodologyToTestName = (testName: string, methodology: Methodology): string => {
+    if (methodology.name === 'EpsilonGreedyBandit') {
+        return `${test.name}_EpsilonGreedyBandit-${methodology.epsilon}`;
+    } else {
+        return `${test.name}_ABTest`;
+    }
+};
+
+/**
+ * Selects a variant from the test based on any configured methodologies.
+ * Defaults to an AB test.
+ */
+export const selectVariant = <V extends Variant, T extends Test<V>>(
+    test: T,
+    mvtId: number,
+    banditData: BanditData[],
+): { test: T; variant: V } | undefined => {
+    if (test.methodologies && test.methodologies.length > 0) {
+        // Assign to one of the methodologies, using the mvt value
+        const methodology =
+            test.methodologies[getRandomNumber(test.name, mvtId) % test.methodologies.length];
+
+        // Add the methodology to the test name so that we can track them separately
+        const testWithNameExtension = {
+            ...test,
+            name: addMethodologyToTestName(test.name, methodology),
+        };
+        const variant = selectVariantForMethodology<V, T>(
+            testWithNameExtension,
+            mvtId,
+            banditData,
+            methodology,
+        );
+        if (variant) {
+            return {
+                test: testWithNameExtension,
+                variant,
+            };
+        }
+    } else {
+        // Default to AB test
+        const methodology: Methodology = { name: 'ABTest' };
+        const variant = selectVariantForMethodology<V, T>(test, mvtId, banditData, methodology);
+        if (variant) {
+            return {
+                test,
+                variant,
+            };
+        }
+    }
+    return;
 };
 
 export const selectAmountsTestVariant = (

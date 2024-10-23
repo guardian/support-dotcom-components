@@ -9,7 +9,7 @@ import {
     UserDeviceType,
 } from '../../../shared/types';
 import { BanditData } from '../../bandit/banditData';
-import { selectVariantForMethodology } from '../../lib/ab';
+import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
@@ -287,19 +287,10 @@ function selectEpicVariant(
     banditData: BanditData[],
     targeting: EpicTargeting,
 ): Result {
-    const variant = selectVariantForMethodology<EpicVariant, EpicTest>(
-        test,
-        targeting.mvtId || 1,
-        banditData,
-        test.methodology,
-    );
-
-    if (variant) {
-        return {
-            result: { test, variant },
-        };
-    }
-    return {};
+    const result = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId || 1, banditData);
+    return {
+        result,
+    };
 }
 
 export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {

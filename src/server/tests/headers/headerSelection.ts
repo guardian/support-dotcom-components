@@ -7,7 +7,7 @@ import {
     UserDeviceType,
 } from '../../../shared/types';
 
-import { selectVariant } from '../../lib/ab';
+import { selectVariantWithMVT } from '../../lib/ab';
 import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../../lib/targeting';
 
 import { TestVariant } from '../../lib/params';
@@ -316,7 +316,7 @@ export const selectBestTest = (
         return null;
     }
 
-    const selectedVariant: HeaderVariant = selectVariant(selectedTest, targeting.mvtId);
+    const selectedVariant: HeaderVariant = selectVariantWithMVT(selectedTest, targeting.mvtId);
 
     return {
         test: selectedTest,

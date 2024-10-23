@@ -131,10 +131,12 @@ async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
     };
 }
 
+function hasBanditMethodology(test: EpicTest): boolean {
+    return !!test.methodologies?.find((method) => method.name === 'EpsilonGreedyBandit');
+}
+
 function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
-    const banditTests = epicTestsProvider
-        .get()
-        .filter((epicTest) => epicTest.methodology?.name === 'EpsilonGreedyBandit');
+    const banditTests = epicTestsProvider.get().filter(hasBanditMethodology);
     return Promise.all(
         banditTests.map((epicTest) =>
             buildBanditDataForTest(epicTest).catch((error) => {
