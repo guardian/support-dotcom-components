@@ -132,7 +132,9 @@ async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
 }
 
 function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
-    const banditTests = epicTestsProvider.get().filter((epicTest) => epicTest.isBanditTest);
+    const banditTests = epicTestsProvider
+        .get()
+        .filter((epicTest) => epicTest.methodology?.name === 'EpsilonGreedyBandit');
     return Promise.all(
         banditTests.map((epicTest) =>
             buildBanditDataForTest(epicTest).catch((error) => {
