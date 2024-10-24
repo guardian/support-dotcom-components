@@ -16,11 +16,11 @@
         "prestart": "webpack --config webpack.dev.js",
         "start-watch": "webpack --config webpack.dev.js --watch",
         "start-server": "stage=DEV PORT=8082 nodemon server-dist/server.js",
-        "start": "concurrently --kill-others \"yarn start-watch\" \"yarn start-server\"",
+        "start": "concurrently --kill-others \"pnpm start-watch\" \"pnpm start-server\"",
         "build-dotcom": "rollup --config rollup.config.js",
         "build-dotcom-types": "tsc --project tsconfig.types.json",
-        "publish-dry-run": "yarn build-dotcom && yarn build-dotcom-types && npm publish --dry-run",
-        "publish": "yarn build-dotcom && yarn build-dotcom-types && npm publish",
+        "publish-dry-run": "pnpm build-dotcom && pnpm build-dotcom-types && pnpm publish --dry-run",
+        "publish": "pnpm build-dotcom && pnpm build-dotcom-types && npm publish",
         "lint": "eslint 'src/**/*.{ts,tsx}'",
         "test": "export stage=DEV; jest",
         "riffraff": "node-riffraff-artifact"
@@ -69,7 +69,8 @@
         "ts-node-dev": "^2.0.0",
         "typescript-json-schema": "^0.42.0",
         "webpack-cli": "^4.7.2",
-        "webpack-merge": "^5.8.0"
+        "webpack-merge": "^5.8.0",
+        "body-parser": "^1.20.3"
     },
     "dependencies": {
         "@guardian/libs": "17.0.0",
