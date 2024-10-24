@@ -20,7 +20,7 @@
         "build-dotcom": "rollup --config rollup.config.js",
         "build-dotcom-types": "tsc --project tsconfig.types.json",
         "publish-dry-run": "pnpm publish --dry-run",
-        "publish": "npm publish",
+        "publish": "pnpm publish",
         "lint": "eslint 'src/**/*.{ts,tsx}'",
         "test": "export stage=DEV; jest",
         "riffraff": "node-riffraff-artifact"
