@@ -19,8 +19,8 @@
         "start": "concurrently --kill-others \"pnpm start-watch\" \"pnpm start-server\"",
         "build-dotcom": "rollup --config rollup.config.js",
         "build-dotcom-types": "tsc --project tsconfig.types.json",
-        "publish-dry-run": "pnpm build-dotcom && pnpm build-dotcom-types && pnpm publish --dry-run",
-        "publish": "pnpm build-dotcom && pnpm build-dotcom-types && npm publish",
+        "publish-dry-run": "pnpm publish --dry-run",
+        "publish": "npm publish",
         "lint": "eslint 'src/**/*.{ts,tsx}'",
         "test": "export stage=DEV; jest",
         "riffraff": "node-riffraff-artifact"
