@@ -27,6 +27,17 @@ const ConsentStatus = ['HasConsented', 'HasNotConsented', 'All'] as const;
 export type ConsentStatus = (typeof ConsentStatus)[number];
 export const ConsentStatusSchema = z.enum(ConsentStatus);
 
+const abTestMethodologySchema = z.object({ name: z.literal('ABTest') });
+const epsilonGreedyMethodologySchema = z.object({
+    name: z.literal('EpsilonGreedyBandit'),
+    epsilon: z.number(),
+});
+const methodologySchema = z.discriminatedUnion('name', [
+    abTestMethodologySchema,
+    epsilonGreedyMethodologySchema,
+]);
+export type Methodology = z.infer<typeof methodologySchema>;
+
 export interface Variant {
     name: string;
 }
@@ -39,6 +50,7 @@ export interface Test<V extends Variant> {
     deviceType?: DeviceType;
     signedInStatus?: SignedInStatus;
     consentStatus?: ConsentStatus;
+    methodologies?: Methodology[];
 }
 
 export const testSchema = z.object({
@@ -54,6 +66,7 @@ export const testSchema = z.object({
     deviceType: deviceTypeSchema.optional(),
     signedInStatus: signedInStatusSchema.optional(),
     consentStatus: ConsentStatusSchema.optional(),
+    methodologies: methodologySchema.array().optional(),
 });
 
 export interface ControlProportionSettings {

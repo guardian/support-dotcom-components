@@ -1,5 +1,5 @@
 import { TargetingAbTest, Test, Variant } from '../../shared/types';
-import { selectVariant } from './ab';
+import { selectVariantUsingMVT } from './ab';
 import { ScheduledBannerDeploys } from '../tests/banners/bannerDeploySchedule';
 
 type TargetingTestDecision = {
@@ -36,7 +36,7 @@ export const selectTargetingTest = <T>(
     );
 
     if (test) {
-        const variant: TargetingTestVariant<T> = selectVariant(test, mvtId);
+        const variant: TargetingTestVariant<T> = selectVariantUsingMVT(test, mvtId);
         return {
             canShow: variant.canShow(targeting),
             deploySchedule: variant.deploySchedule,
