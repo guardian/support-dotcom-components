@@ -11,7 +11,7 @@ See [architecture](docs/architecture.md) for details.
 This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands. To set up, first run
 
 ```bash
-yarn
+pnpm
 ```
 
 This will install all the project dependencies.
@@ -22,7 +22,7 @@ This will install all the project dependencies.
 To start the server run
 
 ```bash
-yarn start
+pnpm start
 ```
 
 This will start `webpack` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
@@ -43,7 +43,7 @@ SDC_URL=http://localhost:8082 make dev
 If you need to test against local instances of SDC + DCR through Browserstack Local then it's necessary to use the `thegulocal.com` domain.
 To do this, in SDC:
 1. setup nginx with `packages/server/scripts/nginx/setup.sh`
-2. run `base_url=https://contributions.thegulocal.com yarn server start`
+2. run `base_url=https://contributions.thegulocal.com pnpm server start`
 
 Then in DCR:
 1. setup nginx with `scripts/nginx/setup.sh`
@@ -55,12 +55,12 @@ Then in DCR:
 To run the tests run
 
 ```bash
-yarn test
+pnpm test
 ```
 
 To run specific tests specify the path, e.g.
 ```bash
-yarn test src/server/tests/banners/bannerDeploySchedule.test.ts
+pnpm test src/server/tests/banners/bannerDeploySchedule.test.ts
 ```
 
 ### Project structure
@@ -77,7 +77,7 @@ The `/src` directory contains 3 subdirectories:
 
 Releasing to NPM is handled with [changesets] and is performed by CI.
 
-On your feature branch, before merging, run `yarn dotcom changeset` from the root of the project. This will
+On your feature branch, before merging, run `pnpm dotcom changeset` from the root of the project. This will
 interactively ask you what kind of change this is (major, minor, patch) and
 allow you to describe the change. Commit the generated changeset file to git and
 push to your branch.
