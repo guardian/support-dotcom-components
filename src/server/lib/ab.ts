@@ -86,9 +86,9 @@ const selectVariantWithMethodology = <V extends Variant, T extends Test<V>>(
 
 const addMethodologyToTestName = (testName: string, methodology: Methodology): string => {
     if (methodology.name === 'EpsilonGreedyBandit') {
-        return `${test.name}_EpsilonGreedyBandit-${methodology.epsilon}`;
+        return `${testName}_EpsilonGreedyBandit-${methodology.epsilon}`;
     } else {
-        return `${test.name}_ABTest`;
+        return `${testName}_ABTest`;
     }
 };
 
