@@ -91,7 +91,6 @@
         "@guardian/libs": "^17.0.0"
     },
     "resolutions": {
-        "**/simple-update-notifier/**/semver": "7.5.2",
         "@babel/traverse": "^7.23.2"
     }
 }
