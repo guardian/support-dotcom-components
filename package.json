@@ -90,5 +90,6 @@
     "peerDependencies": {
         "zod": "^3.22.4",
         "@guardian/libs": "^17.0.0"
-    }
+    },
+    "packageManager": "pnpm@8.15.7"
 }
