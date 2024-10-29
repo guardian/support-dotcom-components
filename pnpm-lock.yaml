@@ -79,6 +79,9 @@ devDependencies:
   '@rollup/plugin-replace':
     specifier: ^2.3.3
     version: 2.4.2(rollup@2.79.2)
+  '@types/body-parser':
+    specifier: ^1.19.5
+    version: 1.19.5
   '@types/compression':
     specifier: ^1.7.0
     version: 1.7.5
