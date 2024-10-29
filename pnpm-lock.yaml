@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@babel/traverse': ^7.23.2
-
 dependencies:
   '@guardian/libs':
     specifier: 17.0.0

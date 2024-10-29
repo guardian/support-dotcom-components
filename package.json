@@ -90,8 +90,5 @@
     "peerDependencies": {
         "zod": "^3.22.4",
         "@guardian/libs": "^17.0.0"
-    },
-    "resolutions": {
-        "@babel/traverse": "^7.23.2"
     }
 }
