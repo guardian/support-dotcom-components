@@ -139,8 +139,7 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(
         }
     } else {
         // No configured methodology, default to AB test
-        const methodology: Methodology = { name: 'ABTest' };
-        const variant = selectVariantWithMethodology<V, T>(test, mvtId, banditData, methodology);
+        const variant = selectVariantUsingMVT<V, T>(test, mvtId);
         if (variant) {
             return {
                 test,
