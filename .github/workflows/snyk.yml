@@ -27,5 +27,5 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --org=guardian-growth --project-name=${{ github.repository }} --file=./yarn.lock
+          args: --org=guardian-growth --project-name=${{ github.repository }} --file=./pnpm-lock.yaml
           command: ${{ env.SNYK_COMMAND }}
