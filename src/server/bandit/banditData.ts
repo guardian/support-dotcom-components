@@ -1,11 +1,10 @@
 import { isProd } from '../lib/env';
 import * as AWS from 'aws-sdk';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
-import { BannerTest, EpicTest, Test, Variant } from '../../shared/types';
+import { BannerTest, Channel, EpicTest, Test, Variant } from '../../shared/types';
 import { z } from 'zod';
 import { logError } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
-import { ChannelTypes } from '../tests/store';
 
 const variantSampleSchema = z.object({
     variantName: z.string(),
@@ -28,7 +27,7 @@ const queryResultSchema = z.array(testSampleSchema);
 type TestSample = z.infer<typeof testSampleSchema>;
 
 // If sampleCount is not provided, all samples will be returned
-function queryForTestSamples(testName: string, channel: ChannelTypes, sampleCount?: number) {
+function queryForTestSamples(testName: string, channel: Channel, sampleCount?: number) {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     return docClient
         .query({
@@ -44,10 +43,7 @@ function queryForTestSamples(testName: string, channel: ChannelTypes, sampleCoun
         .promise();
 }
 
-async function getBanditSamplesForTest(
-    testName: string,
-    channel: ChannelTypes,
-): Promise<TestSample[]> {
+async function getBanditSamplesForTest(testName: string, channel: Channel): Promise<TestSample[]> {
     const queryResult = await queryForTestSamples(testName, channel);
 
     const parsedResults = queryResultSchema.safeParse(queryResult.Items);

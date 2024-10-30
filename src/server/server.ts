@@ -109,7 +109,7 @@ const buildApp = async (): Promise<Express> => {
             bannerDeployTimes,
             choiceCardAmounts,
             bannerDesigns,
-            bannerbanditDataBanditData,
+            banditData,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));

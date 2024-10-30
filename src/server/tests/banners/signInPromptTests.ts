@@ -7,6 +7,7 @@ import {
 } from '../../../shared/types';
 
 const baseSignInPromptTest: Omit<BannerTest, 'name' | 'variants'> = {
+    channel: 'Banner1',
     bannerChannel: 'signIn',
     isHardcoded: true,
     userCohort: 'Everyone',
