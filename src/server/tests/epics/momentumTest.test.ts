@@ -7,6 +7,7 @@ import {
 } from './momentumTest';
 
 const testDefault: EpicTest = {
+    channel: 'Epic',
     name: '2024-04-29_MOMENTUM_EPIC',
     priority: 1,
     status: 'Live',

@@ -18,6 +18,7 @@ const tickerSettings: TickerSettings = {
 };
 
 const epicTest: AmpEpicTest = {
+    channel: 'EpicAMP',
     name: 'TEST1',
     priority: 1,
     nickname: 'TEST1',
