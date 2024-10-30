@@ -1,7 +1,7 @@
 import { isProd } from '../lib/env';
 import * as AWS from 'aws-sdk';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
-import { Test, Variant } from '../../shared/types';
+import { BannerTest, EpicTest, Test, Variant } from '../../shared/types';
 import { z } from 'zod';
 import { logError } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
@@ -146,14 +146,16 @@ function hasBanditMethodology<V extends Variant, T extends Test<V>>(test: T): bo
     return !!test.methodologies?.find((method) => method.name === 'EpsilonGreedyBandit');
 }
 
-function buildBanditData<V extends Variant, T extends Test<V>>(
-    testsProvider: ValueProvider<T[]>,
-    channel: ChannelTypes,
+function buildBanditData(
+    epicTestsProvider: ValueProvider<EpicTest[]>,
+    bannerTestsProvider: ValueProvider<BannerTest[]>,
 ): Promise<BanditData[]> {
-    const banditTests = testsProvider.get().filter(hasBanditMethodology);
+    const banditTests = [...epicTestsProvider.get(), ...bannerTestsProvider.get()].filter(
+        hasBanditMethodology,
+    );
     return Promise.all(
         banditTests.map((test) =>
-            buildBanditDataForTest(test, channel).catch((error) => {
+            buildBanditDataForTest(test, test.channel).catch((error) => {
                 logError(
                     `Error fetching bandit samples for test ${test.name} from Dynamo: ${error.message}`,
                 );
@@ -164,9 +166,9 @@ function buildBanditData<V extends Variant, T extends Test<V>>(
     );
 }
 
-const buildBanditDataReloader = <V extends Variant, T extends Test<V>>(
-    testsProvider: ValueProvider<T[]>,
-    channel: ChannelTypes,
-) => buildReloader(() => buildBanditData(testsProvider, channel), 60 * 5);
+const buildBanditDataReloader = (
+    epicTestsProvider: ValueProvider<EpicTest[]>,
+    bannerTestsProvider: ValueProvider<BannerTest[]>,
+) => buildReloader(() => buildBanditData(epicTestsProvider, bannerTestsProvider), 60 * 5);
 
 export { buildBanditDataReloader };

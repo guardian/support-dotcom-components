@@ -16,6 +16,7 @@ const moduleName = 'Header';
 
 // --- hardcoded tests
 const nonSupportersTestNonUK: HeaderTest = {
+    channel: 'Header',
     name: 'RemoteRrHeaderLinksTest__NonUK',
     priority: 99,
     userCohort: 'AllNonSupporters',
@@ -49,6 +50,7 @@ const nonSupportersTestNonUK: HeaderTest = {
 };
 
 const nonSupportersTestUK: HeaderTest = {
+    channel: 'Header',
     name: 'RemoteRrHeaderLinksTest__UK',
     priority: 99,
     userCohort: 'AllNonSupporters',
@@ -75,6 +77,7 @@ const nonSupportersTestUK: HeaderTest = {
 };
 
 const supportersTest: HeaderTest = {
+    channel: 'Header',
     name: 'header-supporter',
     priority: 99,
     userCohort: 'AllExistingSupporters',
@@ -101,6 +104,7 @@ const supportersTest: HeaderTest = {
 };
 
 const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
+    channel: 'Header',
     userCohort: 'Everyone',
     priority: 99,
     status: 'Live',

@@ -1,4 +1,4 @@
-import { BannerDesignFromTool } from '../../shared/types';
+import { BannerDesignFromTool, Channel } from '../../shared/types';
 import * as AWS from 'aws-sdk';
 import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
@@ -9,18 +9,8 @@ import { removeNullValues } from '../utils/removeNullValues';
 
 const stage = isProd ? 'PROD' : 'CODE';
 
-export type ChannelTypes =
-    | 'Epic'
-    | 'EpicAMP'
-    | 'EpicAppleNews'
-    | 'EpicLiveblog'
-    | 'EpicHoldback'
-    | 'Banner1'
-    | 'Banner2'
-    | 'Header';
-
 export const getTests = <T extends { priority: number }>(
-    channel: ChannelTypes,
+    channel: Channel,
     schema: ZodSchema<T>,
 ): Promise<T[]> =>
     queryChannel(channel, stage)
@@ -50,7 +40,7 @@ export const getTests = <T extends { priority: number }>(
             return Promise.reject(error);
         });
 
-function queryChannel(channel: ChannelTypes, stage: string) {
+function queryChannel(channel: Channel, stage: string) {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     return docClient
         .query({

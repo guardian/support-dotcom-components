@@ -7,6 +7,18 @@ import {
 } from '../purchaseInfo';
 import { OphanComponentType, OphanProduct } from '@guardian/libs';
 
+const Channel = [
+    'Epic',
+    'EpicAMP',
+    'EpicAppleNews',
+    'EpicLiveblog',
+    'Banner1',
+    'Banner2',
+    'Header',
+] as const;
+export type Channel = (typeof Channel)[number];
+const channelSchema = z.enum(Channel);
+
 const TestStatus = ['Live', 'Draft', 'Archived'] as const;
 export type TestStatus = (typeof TestStatus)[number];
 
@@ -42,6 +54,7 @@ export interface Variant {
     name: string;
 }
 export interface Test<V extends Variant> {
+    channel: Channel;
     name: string;
     status: TestStatus;
     priority: number;
@@ -54,6 +67,7 @@ export interface Test<V extends Variant> {
 }
 
 export const testSchema = z.object({
+    channel: channelSchema,
     name: z.string(),
     status: testStatusSchema,
     priority: z.number(),

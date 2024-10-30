@@ -61,6 +61,7 @@ describe('selectBannerTest', () => {
         };
 
         const test: BannerTest = {
+            channel: 'Banner1',
             name: 'test',
             priority: 1,
             status: 'Live',
@@ -247,6 +248,7 @@ describe('selectBannerTest', () => {
         };
 
         const test: BannerTest = {
+            channel: 'Banner1',
             name: 'test',
             priority: 1,
             status: 'Live',
@@ -370,6 +372,7 @@ describe('selectBannerTest', () => {
         };
 
         const baseTest: Omit<BannerTest, 'name'> = {
+            channel: 'Banner1',
             bannerChannel: 'signIn',
             priority: 1,
             isHardcoded: true,
@@ -489,6 +492,7 @@ describe('selectBannerTest', () => {
         };
 
         const test: BannerTest = {
+            channel: 'Banner1',
             name: 'abandonedBasket',
             priority: 1,
             status: 'Live',
@@ -605,6 +609,7 @@ describe('selectBannerTest', () => {
         });
 
         const test: BannerTest = {
+            channel: 'Banner1',
             name: 'test',
             priority: 1,
             status: 'Live',

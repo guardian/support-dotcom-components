@@ -2,6 +2,7 @@ import { EpicTest } from '../../shared/types';
 import { selectVariantUsingMVT, withinRange, selectWithSeed, selectVariant } from './ab';
 
 const test: EpicTest = {
+    channel: 'Epic',
     name: 'example-1', // note - changing this name will change the results of the tests, as it's used for the seed
     priority: 1,
     status: 'Live',
