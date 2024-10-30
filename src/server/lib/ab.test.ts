@@ -1,5 +1,5 @@
 import { EpicTest } from '../../shared/types';
-import { selectVariant, withinRange, selectWithSeed } from './ab';
+import { selectVariantUsingMVT, withinRange, selectWithSeed, selectVariant } from './ab';
 
 const test: EpicTest = {
     name: 'example-1', // note - changing this name will change the results of the tests, as it's used for the seed
@@ -42,34 +42,34 @@ const controlProportionSettings = {
     offset: 500000,
 };
 
-describe('selectVariant', () => {
+describe('selectVariantWithMVT', () => {
     it('should select control (no controlProportion)', () => {
-        const variant = selectVariant(test, 4);
+        const variant = selectVariantUsingMVT(test, 4);
         expect(variant.name).toBe('control');
     });
 
     it('should select variant (no controlProportion)', () => {
-        const variant = selectVariant(test, 2);
+        const variant = selectVariantUsingMVT(test, 2);
         expect(variant.name).toBe('v1');
     });
 
     it('should select control (lower end of controlProportion)', () => {
-        const variant = selectVariant({ ...test, controlProportionSettings }, 500000);
+        const variant = selectVariantUsingMVT({ ...test, controlProportionSettings }, 500000);
         expect(variant.name).toBe('control');
     });
 
     it('should select control (upper end of controlProportion)', () => {
-        const variant = selectVariant({ ...test, controlProportionSettings }, 599999);
+        const variant = selectVariantUsingMVT({ ...test, controlProportionSettings }, 599999);
         expect(variant.name).toBe('control');
     });
 
     it('should select variant (below controlProportion)', () => {
-        const variant = selectVariant({ ...test, controlProportionSettings }, 499999);
+        const variant = selectVariantUsingMVT({ ...test, controlProportionSettings }, 499999);
         expect(variant.name).toBe('v1');
     });
 
     it('should select variant (above controlProportion)', () => {
-        const variant = selectVariant({ ...test, controlProportionSettings }, 600000);
+        const variant = selectVariantUsingMVT({ ...test, controlProportionSettings }, 600000);
         expect(variant.name).toBe('v1');
     });
 
@@ -78,7 +78,10 @@ describe('selectVariant', () => {
             ...test,
             variants: [test.variants[0]],
         };
-        const variant = selectVariant({ ...controlOnly, controlProportionSettings }, 600000);
+        const variant = selectVariantUsingMVT(
+            { ...controlOnly, controlProportionSettings },
+            600000,
+        );
         expect(variant.name).toBe('control');
     });
 });
@@ -127,5 +130,30 @@ describe('selectWithSeed', () => {
 
         // Uses pseudorandom generator so they may not match precisely
         expect(Math.abs(variantCounts.control - variantCounts.v1)).toBeLessThan(10);
+    });
+});
+
+describe('selectVariant', () => {
+    it('should return same test name if no methodology configured', () => {
+        const result = selectVariant(test, 1, []);
+        expect(result?.test.name).toEqual(test.name);
+    });
+
+    it('should return same test name if one methodology is configured', () => {
+        const testWithMethodology: EpicTest = {
+            ...test,
+            methodologies: [{ name: 'ABTest' }],
+        };
+        const result = selectVariant(testWithMethodology, 1, []);
+        expect(result?.test.name).toEqual(test.name);
+    });
+
+    it('should return extended test name if one than one methodology is configured', () => {
+        const testWithMethodology: EpicTest = {
+            ...test,
+            methodologies: [{ name: 'ABTest' }, { name: 'EpsilonGreedyBandit', epsilon: 0.5 }],
+        };
+        const result = selectVariant(testWithMethodology, 1, []);
+        expect(result?.test.name).toBe('example-1_EpsilonGreedyBandit-0.5');
     });
 });

@@ -1,6 +1,5 @@
-import { EpicTest, EpicVariant } from '../../shared/types';
+import { Test, Variant } from '../../shared/types';
 import { BanditData } from './banditData';
-import { AppliedLearningBanditTestsNames, Result } from '../tests/epics/epicSelection';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 
@@ -9,10 +8,10 @@ import { logError } from '../utils/logging';
  * https://en.wikipedia.org/wiki/Multi-armed_bandit#Semi-uniform_strategies
  */
 
-export function selectVariantWithHighestMean(
+export function selectVariantWithHighestMean<V extends Variant, T extends Test<V>>(
     testBanditData: BanditData,
-    test: EpicTest,
-): EpicVariant | undefined {
+    test: T,
+): V | undefined {
     const variant =
         testBanditData.bestVariants.length < 2
             ? testBanditData.bestVariants[0]
@@ -27,33 +26,24 @@ export function selectVariantWithHighestMean(
     return test.variants.find((v) => v.name === variant.variantName);
 }
 
-function selectRandomVariant(test: EpicTest): Result {
+function selectRandomVariant<V extends Variant, T extends Test<V>>(test: T): V | undefined {
     const randomVariantIndex = Math.floor(Math.random() * test.variants.length);
     const randomVariantData = test.variants[randomVariantIndex];
 
     if (!randomVariantData) {
         logError(`Failed to select random variant for bandit test: ${test.name}`);
         putMetric('bandit-selection-error');
-        return {};
+        return;
     }
 
-    return {
-        result: { test, variant: randomVariantData },
-    };
+    return randomVariantData;
 }
 
-export function epsilonValueForBanditTest(testBanditData: BanditData): number {
-    if (testBanditData.testName.includes(AppliedLearningBanditTestsNames.BanditTestEpsilon1)) {
-        return 1;
-    } else if (
-        testBanditData.testName.includes(AppliedLearningBanditTestsNames.BanditTestEpsilon2)
-    ) {
-        return 0.5;
-    }
-    return 1;
-}
-
-export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: EpicTest): Result {
+export function selectVariantUsingEpsilonGreedy<V extends Variant, T extends Test<V>>(
+    banditData: BanditData[],
+    test: T,
+    epsilon: number,
+): V | undefined {
     const testBanditData = banditData.find((bandit) => bandit.testName === test.name);
 
     if (!testBanditData) {
@@ -64,24 +54,17 @@ export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: 
     // Choose at random with probability epsilon
     const random = Math.random();
 
-    const EPSILON = epsilonValueForBanditTest(testBanditData);
-
-    if (EPSILON > random) {
+    if (epsilon > random) {
         return selectRandomVariant(test);
     }
 
-    const highestMeanVariantData = selectVariantWithHighestMean(testBanditData, test);
+    const highestMeanVariantData = selectVariantWithHighestMean<V, T>(testBanditData, test);
 
     if (!highestMeanVariantData) {
         logError(`Failed to select best variant for bandit test: ${test.name}`);
         putMetric('bandit-selection-error');
-        return {};
+        return;
     }
 
-    return {
-        result: {
-            test,
-            variant: highestMeanVariantData,
-        },
-    };
+    return highestMeanVariantData;
 }
