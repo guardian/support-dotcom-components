@@ -49,6 +49,7 @@ export const bannerContentSchema = z.object({
 
 export interface BannerProps {
     tracking: Tracking;
+    // bannerChannel is distinct from the channel defined by RRCP
     bannerChannel: BannerChannel;
     content?: BannerContent;
     mobileContent?: BannerContent;
