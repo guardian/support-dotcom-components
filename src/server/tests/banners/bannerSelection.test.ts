@@ -1,6 +1,7 @@
 import { BannerTargeting, BannerTest } from '../../../shared/types';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
+import { BanditData } from '../../bandit/banditData';
 
 const getBannerDeployTimesReloader = (date: string) =>
     new BannerDeployTimesProvider({
@@ -25,6 +26,7 @@ const getBannerDeployTimesReloader = (date: string) =>
     });
 
 const userDeviceType = 'Desktop';
+const banditData: BanditData[] = [];
 
 describe('selectBannerTest', () => {
     const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
@@ -107,6 +109,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -125,6 +128,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 false,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -143,6 +147,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -166,6 +171,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -184,6 +190,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -205,6 +212,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -286,6 +294,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -304,6 +313,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -327,6 +337,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -407,6 +418,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -527,6 +539,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -552,6 +565,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );
@@ -568,6 +582,7 @@ describe('selectBannerTest', () => {
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
                 enableScheduledBannerDeploys,
+                banditData,
                 undefined,
                 now,
             );

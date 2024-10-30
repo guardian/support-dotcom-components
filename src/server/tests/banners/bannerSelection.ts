@@ -8,7 +8,7 @@ import {
     UserDeviceType,
     uiIsDesign,
 } from '../../../shared/types';
-import { selectVariantUsingMVT } from '../../lib/ab';
+import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import {
@@ -29,6 +29,7 @@ import {
 } from './bannerDeploySchedule';
 import { daysSince } from '../../lib/dates';
 import { isAfter, subDays } from 'date-fns';
+import { BanditData } from '../../bandit/banditData';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -181,6 +182,7 @@ export const selectBannerTest = (
     bannerDeployTimes: BannerDeployTimesProvider,
     enableHardcodedBannerTests: boolean,
     enableScheduledDeploys: boolean,
+    banditData: BanditData[],
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
 ): BannerTestSelection | null => {
@@ -232,14 +234,20 @@ export const selectBannerTest = (
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
             abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket)
         ) {
-            const variant = selectVariantUsingMVT<BannerVariant, BannerTest>(test, targeting.mvtId);
-
-            return {
+            const result = selectVariant<BannerVariant, BannerTest>(
                 test,
-                variant,
-                moduleName: getModuleNameForVariant(variant),
-                targetingAbTest: targetingTest ? targetingTest.test : undefined,
-            };
+                targeting.mvtId,
+                banditData,
+            );
+
+            if (result) {
+                return {
+                    test: result.test,
+                    variant: result.variant,
+                    moduleName: getModuleNameForVariant(result.variant),
+                    targetingAbTest: targetingTest ? targetingTest.test : undefined,
+                };
+            }
         }
     }
 
