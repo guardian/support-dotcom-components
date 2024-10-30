@@ -117,7 +117,6 @@ function calculateBestVariants(variantMeans: BanditVariantData[]): BanditVariant
 
 async function buildBanditDataForTest<V extends Variant, T extends Test<V>>(
     test: T,
-    channel: ChannelTypes,
 ): Promise<BanditData> {
     if (test.variants.length === 0) {
         // No variants have been added to the test yet
@@ -127,7 +126,7 @@ async function buildBanditDataForTest<V extends Variant, T extends Test<V>>(
         };
     }
 
-    const samples = await getBanditSamplesForTest(test.name, channel);
+    const samples = await getBanditSamplesForTest(test.name, test.channel);
 
     if (samples.length === 0) {
         return getDefaultWeighting(test);
@@ -155,7 +154,7 @@ function buildBanditData(
     );
     return Promise.all(
         banditTests.map((test) =>
-            buildBanditDataForTest(test, test.channel).catch((error) => {
+            buildBanditDataForTest(test).catch((error) => {
                 logError(
                     `Error fetching bandit samples for test ${test.name} from Dynamo: ${error.message}`,
                 );
