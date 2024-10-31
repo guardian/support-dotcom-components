@@ -6,6 +6,9 @@ import { z } from 'zod';
 import { logError } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
 
+// We must have this many hourly samples before the bandit strategy begins. Variants will be selected at random until then
+const MINIMUM_SAMPLES = 6;
+
 const variantSampleSchema = z.object({
     variantName: z.string(),
     annualisedValueInGBP: z.number(),
@@ -124,7 +127,7 @@ async function buildBanditDataForTest<V extends Variant, T extends Test<V>>(
 
     const samples = await getBanditSamplesForTest(test.name, test.channel);
 
-    if (samples.length === 0) {
+    if (samples.length < MINIMUM_SAMPLES) {
         return getDefaultWeighting(test);
     }
 
