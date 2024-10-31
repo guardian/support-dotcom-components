@@ -3,6 +3,7 @@ import { BannerTargeting } from '../../shared/types';
 
 const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
+        channel: 'Banner1',
         name: 'BannerTargetingTest',
         priority: 1,
         status: 'Live',

@@ -1,6 +1,7 @@
 import type { BannerTest, BannerTestGenerator, BannerVariant } from '../../../shared/types';
 
 const baseAbandonedBasketTest: Omit<BannerTest, 'name' | 'variants'> = {
+    channel: 'Banner1',
     bannerChannel: 'abandonedBasket',
     isHardcoded: true,
     userCohort: 'AllNonSupporters',

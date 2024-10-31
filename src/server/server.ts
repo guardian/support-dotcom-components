@@ -86,7 +86,7 @@ const buildApp = async (): Promise<Express> => {
         buildBannerDesignsReloader(),
     ]);
 
-    const banditData = await buildBanditDataReloader(articleEpicTests);
+    const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
 
     // Build the routers
     app.use(
@@ -109,6 +109,7 @@ const buildApp = async (): Promise<Express> => {
             bannerDeployTimes,
             choiceCardAmounts,
             bannerDesigns,
+            banditData,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));

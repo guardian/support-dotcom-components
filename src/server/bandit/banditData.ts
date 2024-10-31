@@ -1,7 +1,7 @@
 import { isProd } from '../lib/env';
 import * as AWS from 'aws-sdk';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
-import { EpicTest } from '../../shared/types';
+import { BannerTest, Channel, EpicTest, Test, Variant } from '../../shared/types';
 import { z } from 'zod';
 import { logError } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
@@ -27,14 +27,15 @@ const queryResultSchema = z.array(testSampleSchema);
 type TestSample = z.infer<typeof testSampleSchema>;
 
 // If sampleCount is not provided, all samples will be returned
-function queryForTestSamples(testName: string, sampleCount?: number) {
+function queryForTestSamples(testName: string, channel: Channel, sampleCount?: number) {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     return docClient
         .query({
             TableName: `support-bandit-${isProd ? 'PROD' : 'CODE'}`,
             KeyConditionExpression: 'testName = :testName',
             ExpressionAttributeValues: {
-                ':testName': testName,
+                // In the bandit data table we prefix the testName with the channel
+                ':testName': `${channel}_${testName}`,
             },
             ScanIndexForward: false, // newest first
             ...(sampleCount ? { Limit: sampleCount } : {}),
@@ -42,8 +43,8 @@ function queryForTestSamples(testName: string, sampleCount?: number) {
         .promise();
 }
 
-async function getBanditSamplesForTest(testName: string): Promise<TestSample[]> {
-    const queryResult = await queryForTestSamples(testName);
+async function getBanditSamplesForTest(testName: string, channel: Channel): Promise<TestSample[]> {
+    const queryResult = await queryForTestSamples(testName, channel);
 
     const parsedResults = queryResultSchema.safeParse(queryResult.Items);
 
@@ -64,20 +65,23 @@ export interface BanditData {
     bestVariants: BanditVariantData[]; // will contain more than 1 variant if there is a tie
 }
 
-function getDefaultWeighting(epicTest: EpicTest): BanditData {
+function getDefaultWeighting<V extends Variant, T extends Test<V>>(test: T): BanditData {
     // No samples yet, set all means to zero to allow random selection
     return {
-        testName: epicTest.name,
-        bestVariants: epicTest.variants.map((variant) => ({
+        testName: test.name,
+        bestVariants: test.variants.map((variant) => ({
             variantName: variant.name,
             mean: 0,
         })),
     };
 }
 
-function calculateMeanPerVariant(samples: TestSample[], epicTest: EpicTest): BanditVariantData[] {
+function calculateMeanPerVariant<V extends Variant, T extends Test<V>>(
+    samples: TestSample[],
+    test: T,
+): BanditVariantData[] {
     const allVariantSamples = samples.flatMap((sample) => sample.variants);
-    const variantNames = epicTest.variants.map((variant) => variant.name);
+    const variantNames = test.variants.map((variant) => variant.name);
 
     return variantNames.map((variantName) => {
         const variantSamples = allVariantSamples.filter(
@@ -107,41 +111,48 @@ function calculateBestVariants(variantMeans: BanditVariantData[]): BanditVariant
     return variantMeans.filter((variant) => variant.mean === highestMean);
 }
 
-async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
-    if (epicTest.variants.length === 0) {
+async function buildBanditDataForTest<V extends Variant, T extends Test<V>>(
+    test: T,
+): Promise<BanditData> {
+    if (test.variants.length === 0) {
         // No variants have been added to the test yet
         return {
-            testName: epicTest.name,
+            testName: test.name,
             bestVariants: [],
         };
     }
 
-    const samples = await getBanditSamplesForTest(epicTest.name);
+    const samples = await getBanditSamplesForTest(test.name, test.channel);
 
     if (samples.length === 0) {
-        return getDefaultWeighting(epicTest);
+        return getDefaultWeighting(test);
     }
 
-    const variantMeans = calculateMeanPerVariant(samples, epicTest);
+    const variantMeans = calculateMeanPerVariant(samples, test);
     const bestVariants = calculateBestVariants(variantMeans);
 
     return {
-        testName: epicTest.name,
+        testName: test.name,
         bestVariants,
     };
 }
 
-function hasBanditMethodology(test: EpicTest): boolean {
+function hasBanditMethodology<V extends Variant, T extends Test<V>>(test: T): boolean {
     return !!test.methodologies?.find((method) => method.name === 'EpsilonGreedyBandit');
 }
 
-function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
-    const banditTests = epicTestsProvider.get().filter(hasBanditMethodology);
+function buildBanditData(
+    epicTestsProvider: ValueProvider<EpicTest[]>,
+    bannerTestsProvider: ValueProvider<BannerTest[]>,
+): Promise<BanditData[]> {
+    const banditTests = [...epicTestsProvider.get(), ...bannerTestsProvider.get()].filter(
+        hasBanditMethodology,
+    );
     return Promise.all(
-        banditTests.map((epicTest) =>
-            buildBanditDataForTest(epicTest).catch((error) => {
+        banditTests.map((test) =>
+            buildBanditDataForTest(test).catch((error) => {
                 logError(
-                    `Error fetching bandit samples for test ${epicTest.name} from Dynamo: ${error.message}`,
+                    `Error fetching bandit samples for test ${test.name} from Dynamo: ${error.message}`,
                 );
                 putMetric('bandit-data-load-error');
                 return Promise.reject(error);
@@ -150,7 +161,9 @@ function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<
     );
 }
 
-const buildBanditDataReloader = (epicTestsProvider: ValueProvider<EpicTest[]>) =>
-    buildReloader(() => buildBanditData(epicTestsProvider), 60 * 5);
+const buildBanditDataReloader = (
+    epicTestsProvider: ValueProvider<EpicTest[]>,
+    bannerTestsProvider: ValueProvider<BannerTest[]>,
+) => buildReloader(() => buildBanditData(epicTestsProvider, bannerTestsProvider), 60 * 5);
 
 export { buildBanditDataReloader };

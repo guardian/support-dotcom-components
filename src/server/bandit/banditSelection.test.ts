@@ -3,6 +3,7 @@ import { BanditData } from './banditData';
 import { selectVariantWithHighestMean } from './banditSelection';
 
 const epicTest: EpicTest = {
+    channel: 'Epic',
     name: 'example-1',
     priority: 1,
     status: 'Live',

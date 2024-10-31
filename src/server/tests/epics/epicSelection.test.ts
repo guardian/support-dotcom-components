@@ -47,6 +47,7 @@ const variantDefault: EpicVariant = {
 };
 
 const testDefault: EpicTest = {
+    channel: 'Epic',
     name: 'example-1',
     priority: 1,
     status: 'Live',

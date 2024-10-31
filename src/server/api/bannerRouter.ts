@@ -23,6 +23,7 @@ import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import { buildBannerCampaignCode } from '../lib/tracking';
+import { BanditData } from '../bandit/banditData';
 
 interface BannerDataResponse {
     data?: {
@@ -43,6 +44,7 @@ export const buildBannerRouter = (
     bannerDeployTimes: BannerDeployTimesProvider,
     choiceCardAmounts: ValueProvider<AmountsTests>,
     bannerDesigns: ValueProvider<BannerDesignFromTool[]>,
+    banditData: ValueProvider<BanditData[]>,
 ): Router => {
     const router = Router();
 
@@ -68,6 +70,7 @@ export const buildBannerRouter = (
             bannerDeployTimes,
             enableHardcodedBannerTests,
             enableScheduledBannerDeploys,
+            banditData.get(),
             params.force,
         );
 

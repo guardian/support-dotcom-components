@@ -7,6 +7,7 @@ import {
 import { selectBestTest } from './headerSelection';
 
 const remote_nonUK: HeaderTest = {
+    channel: 'Header',
     name: 'RemoteRrHeaderLinksTest__NonUK',
     priority: 1,
     userCohort: 'AllNonSupporters',
@@ -38,6 +39,7 @@ const remote_nonUK: HeaderTest = {
     ],
 };
 const remote_UK: HeaderTest = {
+    channel: 'Header',
     name: 'RemoteRrHeaderLinksTest__UK',
     priority: 1,
     userCohort: 'AllNonSupporters',
@@ -62,6 +64,7 @@ const remote_UK: HeaderTest = {
     ],
 };
 const locationsNotSet: HeaderTest = {
+    channel: 'Header',
     name: 'LocationsArrayEmpty',
     priority: 1,
     userCohort: 'AllNonSupporters',
@@ -86,6 +89,7 @@ const locationsNotSet: HeaderTest = {
     ],
 };
 const header_supporter: HeaderTest = {
+    channel: 'Header',
     name: 'header-supporter',
     priority: 1,
     userCohort: 'AllExistingSupporters',
@@ -111,6 +115,7 @@ const header_supporter: HeaderTest = {
 };
 
 const header_new_supporter: HeaderTest = {
+    channel: 'Header',
     name: 'header-new-supporter',
     priority: 1,
     userCohort: 'Everyone',
@@ -140,6 +145,7 @@ const header_new_supporter: HeaderTest = {
 };
 
 const header_existing_subscriber: HeaderTest = {
+    channel: 'Header',
     name: 'header-existing-subscriber',
     priority: 1,
     userCohort: 'Everyone',

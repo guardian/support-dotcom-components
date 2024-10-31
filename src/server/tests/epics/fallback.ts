@@ -1,6 +1,7 @@
 import { EpicTest, SecondaryCtaType } from '../../../shared/types';
 
 export const fallbackEpicTest: EpicTest = {
+    channel: 'Epic',
     name: 'FallbackEpicTest',
     priority: 99,
     status: 'Live',
