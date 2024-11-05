@@ -11,7 +11,7 @@ See [architecture](docs/architecture.md) for details.
 This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands. To set up, first run
 
 ```bash
-pnpm
+pnpm install
 ```
 
 This will install all the project dependencies.
@@ -77,7 +77,7 @@ The `/src` directory contains 3 subdirectories:
 
 Releasing to NPM is handled with [changesets] and is performed by CI.
 
-On your feature branch, before merging, run `pnpm dotcom changeset` from the root of the project. This will
+On your feature branch, before merging, run `pnpm changeset` from the root of the project. This will
 interactively ask you what kind of change this is (major, minor, patch) and
 allow you to describe the change. Commit the generated changeset file to git and
 push to your branch.
