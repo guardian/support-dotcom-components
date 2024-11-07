@@ -109,7 +109,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
           },
         },
         "MaxSize": "18",
-        "MinSize": "6",
+        "MinSize": "3",
         "Tags": [
           {
             "Key": "App",
