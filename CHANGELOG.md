@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 3.1.0
+
+### Minor Changes
+
+-   bc8383f: Adds a new optional field for fonts to the model for Configurable Design banners
+
 ## 3.0.0
 
 ### Major Changes
