@@ -120,9 +120,18 @@ interface ChoiceCardsDesign {
 }
 type Visual = BannerDesignImage | ChoiceCardsDesign;
 
+type FontSize = 'small' | 'medium' | 'large';
+
+interface Font {
+    size: FontSize;
+}
+
 export interface ConfigurableDesign {
     visual?: Visual;
     headerImage?: BannerDesignHeaderImage;
+    fonts?: {
+        heading: Font;
+    };
     colours: {
         basic: {
             background: HexColour;
