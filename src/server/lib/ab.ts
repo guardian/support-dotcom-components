@@ -84,14 +84,6 @@ const selectVariantWithMethodology = <V extends Variant, T extends Test<V>>(
     return selectVariantUsingMVT<V, T>(test, mvtId);
 };
 
-const addMethodologyToTestName = (testName: string, methodology: Methodology): string => {
-    if (methodology.name === 'EpsilonGreedyBandit') {
-        return `${testName}_EpsilonGreedyBandit-${methodology.epsilon}`;
-    } else {
-        return `${testName}_ABTest`;
-    }
-};
-
 /**
  * Selects a variant from the test based on any configured methodologies.
  * Defaults to an AB test.
@@ -120,10 +112,10 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(
         const methodology =
             test.methodologies[getRandomNumber(test.name, mvtId) % test.methodologies.length];
 
-        // Add the methodology to the test name so that we can track them separately
+        // if the methodology should be tracked with a different name then use that
         const testWithNameExtension = {
             ...test,
-            name: addMethodologyToTestName(test.name, methodology),
+            name: methodology.testName ?? test.name,
         };
         const variant = selectVariantWithMethodology<V, T>(
             testWithNameExtension,
