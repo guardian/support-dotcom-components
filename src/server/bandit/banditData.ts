@@ -145,7 +145,7 @@ async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditDat
 
 // Return config for each bandit methodology in this test
 function getBanditTestConfigs<V extends Variant, T extends Test<V>>(test: T): BanditTestConfig[] {
-    const bandits: Methodology[] = test.methodologies?.filter(
+    const bandits: Methodology[] = (test.methodologies ?? []).filter(
         (method) => method.name === 'EpsilonGreedyBandit',
     );
     return bandits.map((method) => ({
@@ -167,7 +167,7 @@ function buildBanditData(
         banditTests.map((banditTestConfig) =>
             buildBanditDataForTest(banditTestConfig).catch((error) => {
                 logError(
-                    `Error fetching bandit samples for test ${banditTestConfig.name} from Dynamo: ${error.message}`,
+                    `Error fetching bandit samples for test ${banditTestConfig.testName} from Dynamo: ${error.message}`,
                 );
                 putMetric('bandit-data-load-error');
                 return Promise.reject(error);
