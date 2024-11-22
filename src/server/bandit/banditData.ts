@@ -29,6 +29,12 @@ const queryResultSchema = z.array(testSampleSchema);
 
 type TestSample = z.infer<typeof testSampleSchema>;
 
+interface BanditTestConfig {
+    testName: string; // this may be specific to the methodology, e.g. MY_TEST_EpsilonGreedyBandit-0.5
+    channel: Channel;
+    variantNames: string[];
+}
+
 // If sampleCount is not provided, all samples will be returned
 function queryForTestSamples(testName: string, channel: Channel, sampleCount?: number) {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
@@ -135,12 +141,6 @@ async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditDat
         testName: test.testName,
         bestVariants,
     };
-}
-
-interface BanditTestConfig {
-    testName: string;
-    channel: Channel;
-    variantNames: string[];
 }
 
 // Return config for each bandit methodology in this test
