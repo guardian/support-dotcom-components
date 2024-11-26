@@ -26,7 +26,7 @@ export function selectVariantWithHighestMean<V extends Variant, T extends Test<V
     return test.variants.find((v) => v.name === variant.variantName);
 }
 
-function selectRandomVariant<V extends Variant, T extends Test<V>>(test: T): V | undefined {
+export function selectRandomVariant<V extends Variant, T extends Test<V>>(test: T): V | undefined {
     const randomVariantIndex = Math.floor(Math.random() * test.variants.length);
     const randomVariantData = test.variants[randomVariantIndex];
 

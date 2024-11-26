@@ -44,9 +44,11 @@ const epsilonGreedyMethodologySchema = z.object({
     name: z.literal('EpsilonGreedyBandit'),
     epsilon: z.number(),
 });
+const rouletteMethodologySchema = z.object({ name: z.literal('Roulette') });
 const methodologySchema = z.discriminatedUnion('name', [
     abTestMethodologySchema,
     epsilonGreedyMethodologySchema,
+    rouletteMethodologySchema
 ]);
 export type Methodology = z.infer<typeof methodologySchema>;
 
