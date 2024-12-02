@@ -140,7 +140,7 @@ describe('selectVariant', () => {
         expect(result?.test.name).toEqual(test.name);
     });
 
-    it('should return same test name if one methodology is configured', () => {
+    it('should return same test name if the methodology is configured with no testName', () => {
         const testWithMethodology: EpicTest = {
             ...test,
             methodologies: [{ name: 'ABTest' }],
@@ -149,10 +149,17 @@ describe('selectVariant', () => {
         expect(result?.test.name).toEqual(test.name);
     });
 
-    it('should return extended test name if one than one methodology is configured', () => {
+    it('should return extended test name if the methodology is configured with a testName', () => {
         const testWithMethodology: EpicTest = {
             ...test,
-            methodologies: [{ name: 'ABTest' }, { name: 'EpsilonGreedyBandit', epsilon: 0.5 }],
+            methodologies: [
+                { name: 'ABTest', testName: 'example-1_ABTest' },
+                {
+                    name: 'EpsilonGreedyBandit',
+                    epsilon: 0.5,
+                    testName: 'example-1_EpsilonGreedyBandit-0.5',
+                },
+            ],
         };
         const result = selectVariant(testWithMethodology, 1, []);
         expect(result?.test.name).toBe('example-1_EpsilonGreedyBandit-0.5');

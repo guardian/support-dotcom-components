@@ -1,7 +1,7 @@
 import { isProd } from '../lib/env';
 import * as AWS from 'aws-sdk';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
-import { BannerTest, Channel, EpicTest, Test, Variant } from '../../shared/types';
+import { BannerTest, Channel, EpicTest, Methodology, Test, Variant } from '../../shared/types';
 import { z } from 'zod';
 import { logError } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
@@ -28,6 +28,12 @@ const testSampleSchema = z.object({
 const queryResultSchema = z.array(testSampleSchema);
 
 type TestSample = z.infer<typeof testSampleSchema>;
+
+interface BanditTestConfig {
+    testName: string; // this may be specific to the methodology, e.g. MY_TEST_EpsilonGreedyBandit-0.5
+    channel: Channel;
+    variantNames: string[];
+}
 
 // If sampleCount is not provided, all samples will be returned
 function queryForTestSamples(testName: string, channel: Channel, sampleCount?: number) {
@@ -68,25 +74,24 @@ export interface BanditData {
     bestVariants: BanditVariantData[]; // will contain more than 1 variant if there is a tie
 }
 
-function getDefaultWeighting<V extends Variant, T extends Test<V>>(test: T): BanditData {
+function getDefaultWeighting(test: BanditTestConfig): BanditData {
     // No samples yet, set all means to zero to allow random selection
     return {
-        testName: test.name,
-        bestVariants: test.variants.map((variant) => ({
-            variantName: variant.name,
+        testName: test.testName,
+        bestVariants: test.variantNames.map((variantName) => ({
+            variantName,
             mean: 0,
         })),
     };
 }
 
-function calculateMeanPerVariant<V extends Variant, T extends Test<V>>(
+function calculateMeanPerVariant(
     samples: TestSample[],
-    test: T,
+    test: BanditTestConfig,
 ): BanditVariantData[] {
     const allVariantSamples = samples.flatMap((sample) => sample.variants);
-    const variantNames = test.variants.map((variant) => variant.name);
 
-    return variantNames.map((variantName) => {
+    return test.variantNames.map((variantName) => {
         const variantSamples = allVariantSamples.filter(
             (variantSample) => variantSample.variantName === variantName,
         );
@@ -114,18 +119,16 @@ function calculateBestVariants(variantMeans: BanditVariantData[]): BanditVariant
     return variantMeans.filter((variant) => variant.mean === highestMean);
 }
 
-async function buildBanditDataForTest<V extends Variant, T extends Test<V>>(
-    test: T,
-): Promise<BanditData> {
-    if (test.variants.length === 0) {
+async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditData> {
+    if (test.variantNames.length === 0) {
         // No variants have been added to the test yet
         return {
-            testName: test.name,
+            testName: test.testName,
             bestVariants: [],
         };
     }
 
-    const samples = await getBanditSamplesForTest(test.name, test.channel);
+    const samples = await getBanditSamplesForTest(test.testName, test.channel);
 
     if (samples.length < MINIMUM_SAMPLES) {
         return getDefaultWeighting(test);
@@ -135,27 +138,36 @@ async function buildBanditDataForTest<V extends Variant, T extends Test<V>>(
     const bestVariants = calculateBestVariants(variantMeans);
 
     return {
-        testName: test.name,
+        testName: test.testName,
         bestVariants,
     };
 }
 
-function hasBanditMethodology<V extends Variant, T extends Test<V>>(test: T): boolean {
-    return !!test.methodologies?.find((method) => method.name === 'EpsilonGreedyBandit');
+// Return config for each bandit methodology in this test
+function getBanditTestConfigs<V extends Variant, T extends Test<V>>(test: T): BanditTestConfig[] {
+    const bandits: Methodology[] = (test.methodologies ?? []).filter(
+        (method) => method.name === 'EpsilonGreedyBandit',
+    );
+    return bandits.map((method) => ({
+        testName: method.testName ?? test.name, // if the methodology should be tracked with a different name then use that
+        channel: test.channel,
+        variantNames: test.variants.map((v) => v.name),
+    }));
 }
 
 function buildBanditData(
     epicTestsProvider: ValueProvider<EpicTest[]>,
     bannerTestsProvider: ValueProvider<BannerTest[]>,
 ): Promise<BanditData[]> {
-    const banditTests = [...epicTestsProvider.get(), ...bannerTestsProvider.get()].filter(
-        hasBanditMethodology,
-    );
+    const allTests = [...epicTestsProvider.get(), ...bannerTestsProvider.get()];
+    // For each test, get any bandit methodologies so that we can fetch sample data
+    const banditTests: BanditTestConfig[] = allTests.flatMap((test) => getBanditTestConfigs(test));
+
     return Promise.all(
-        banditTests.map((test) =>
-            buildBanditDataForTest(test).catch((error) => {
+        banditTests.map((banditTestConfig) =>
+            buildBanditDataForTest(banditTestConfig).catch((error) => {
                 logError(
-                    `Error fetching bandit samples for test ${test.name} from Dynamo: ${error.message}`,
+                    `Error fetching bandit samples for test ${banditTestConfig.testName} from Dynamo: ${error.message}`,
                 );
                 putMetric('bandit-data-load-error');
                 return Promise.reject(error);

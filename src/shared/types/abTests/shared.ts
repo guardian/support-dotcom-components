@@ -44,10 +44,11 @@ const epsilonGreedyMethodologySchema = z.object({
     name: z.literal('EpsilonGreedyBandit'),
     epsilon: z.number(),
 });
-const methodologySchema = z.discriminatedUnion('name', [
-    abTestMethodologySchema,
-    epsilonGreedyMethodologySchema,
-]);
+const methodologySchema = z.intersection(
+    z.discriminatedUnion('name', [abTestMethodologySchema, epsilonGreedyMethodologySchema]),
+    // each methodology may have an optional testName, which should be used for tracking
+    z.object({ testName: z.string().optional() }),
+);
 export type Methodology = z.infer<typeof methodologySchema>;
 
 export interface Variant {
