@@ -191,11 +191,11 @@ chown -R dotcom-components:support /var/log/dotcom-components
 				},
 			),
 			new GuDynamoDBReadPolicy(this, 'DynamoReadPolicy', {
-				tableName: `super-mode-${this.stage}`,
+				tableName: `super-mode-calculator-${this.stage}`,
 			}),
 			// TODO: remove when secondary indexes are included in GuDynamoDBRead
 			new GuDynamoDBReadPolicy(this, 'DynamoReadPolicySecondaryIndex', {
-				tableName: `super-mode-${this.stage}/index/*`,
+				tableName: `super-mode-calculator-${this.stage}/index/*`,
 			}),
 			new GuPutCloudwatchMetricsPolicy(this),
 			new GuDynamoDBReadPolicy(this, 'DynamoTestsReadPolicy', {
