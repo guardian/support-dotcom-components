@@ -100,7 +100,7 @@ function queryDate(
 ) {
     return docClient
         .query({
-            TableName: `super-mode-${stage.toUpperCase()}`,
+            TableName: `super-mode-calculator-${stage.toUpperCase()}`,
             IndexName: 'end',
             KeyConditionExpression: 'endDate = :ed AND endTimestamp > :et ',
             ExpressionAttributeValues: {

@@ -479,7 +479,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
                       {
                         "Ref": "AWS::AccountId",
                       },
-                      ":table/super-mode-TEST",
+                      ":table/super-mode-calculator-TEST",
                     ],
                   ],
                 },
@@ -495,7 +495,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
                       {
                         "Ref": "AWS::AccountId",
                       },
-                      ":table/super-mode-TEST/index/*",
+                      ":table/super-mode-calculator-TEST/index/*",
                     ],
                   ],
                 },
@@ -539,7 +539,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
                       {
                         "Ref": "AWS::AccountId",
                       },
-                      ":table/super-mode-TEST/index/*",
+                      ":table/super-mode-calculator-TEST/index/*",
                     ],
                   ],
                 },
@@ -555,7 +555,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
                       {
                         "Ref": "AWS::AccountId",
                       },
-                      ":table/super-mode-TEST/index/*/index/*",
+                      ":table/super-mode-calculator-TEST/index/*/index/*",
                     ],
                   ],
                 },
