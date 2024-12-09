@@ -98,25 +98,36 @@ describe('roulette', () => {
      */
     it('should return first variant', () => {
         const rand = 0.15;
-        const variant = selectVariantUsingRoulette([buildBanditData(epicTest.variants.length)], epicTest, rand);
+        const variant = selectVariantUsingRoulette(
+            [buildBanditData(epicTest.variants.length)],
+            epicTest,
+            rand,
+        );
         expect(variant).toBe(epicTest.variants[0]);
     });
 
     it('should return second variant', () => {
         const rand = 0.49;
-        const variant = selectVariantUsingRoulette([buildBanditData(epicTest.variants.length)], epicTest, rand);
+        const variant = selectVariantUsingRoulette(
+            [buildBanditData(epicTest.variants.length)],
+            epicTest,
+            rand,
+        );
         expect(variant).toBe(epicTest.variants[1]);
     });
 
     it('should return second variant', () => {
         const rand = 0.5;
-        const variant = selectVariantUsingRoulette([buildBanditData(epicTest.variants.length)], epicTest, rand);
+        const variant = selectVariantUsingRoulette(
+            [buildBanditData(epicTest.variants.length)],
+            epicTest,
+            rand,
+        );
         expect(variant).toBe(epicTest.variants[2]);
     });
 });
 
 describe('rouletteTest2', () => {
-
     const epicTestNew: EpicTest = {
         channel: 'Epic',
         name: 'example-2',
@@ -251,17 +262,16 @@ describe('rouletteTest2', () => {
         const variant = selectVariantUsingRoulette([rouletteBanditData], epicTestNew, rand);
         expect(variant).toBe(epicTestNew.variants[2]);
     });
-    
-        /**
-         * Calculations:
-         * variants - v1 v2 v3 v4 v5
-         * means - 1 3 4 5 2
-         * sumOfMeans - 15
-         * weights - 1/15, 3/15, 4/15, 5/15, 2/15
-         * weights in decimals -(0.06666666666666667, 0.2, 0.26666666666666666, 0.3333333333333333, 0.13333333333333333)
-         * weights sorted - 0.06666666666666667, 0.13333333333333333, 0.2, 0.26666666666666666, 0.3333333333333333
-         * variants sorted - v1, v5, v2, v3, v4
-         * cumulative weights - 0.06666666666666667, 0.2, 0.4, 0.6666666666666666, 1
-         *
-         */
+    /**
+     * Calculations:
+     * variants - v1 v2 v3 v4 v5
+     * means - 1 3 4 5 2
+     * sumOfMeans - 15
+     * weights - 1/15, 3/15, 4/15, 5/15, 2/15
+     * weights in decimals -(0.06666666666666667, 0.2, 0.26666666666666666, 0.3333333333333333, 0.13333333333333333)
+     * weights sorted - 0.06666666666666667, 0.13333333333333333, 0.2, 0.26666666666666666, 0.3333333333333333
+     * variants sorted - v1, v5, v2, v3, v4
+     * cumulative weights - 0.06666666666666667, 0.2, 0.4, 0.6666666666666666, 1
+     *
+     */
 });

@@ -72,7 +72,7 @@ interface BanditVariantData {
 export interface BanditData {
     testName: string;
     bestVariants: BanditVariantData[]; // will contain more than 1 variant if there is a tie
-    variants:  BanditVariantData[];
+    variants: BanditVariantData[];
 }
 
 function getDefaultWeighting(test: BanditTestConfig): BanditData {
