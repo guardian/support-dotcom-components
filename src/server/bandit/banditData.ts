@@ -72,6 +72,7 @@ interface BanditVariantData {
 export interface BanditData {
     testName: string;
     bestVariants: BanditVariantData[]; // will contain more than 1 variant if there is a tie
+    variants:  BanditVariantData[];
 }
 
 function getDefaultWeighting(test: BanditTestConfig): BanditData {
@@ -79,6 +80,10 @@ function getDefaultWeighting(test: BanditTestConfig): BanditData {
     return {
         testName: test.testName,
         bestVariants: test.variantNames.map((variantName) => ({
+            variantName,
+            mean: 0,
+        })),
+        variants: test.variantNames.map((variantName) => ({
             variantName,
             mean: 0,
         })),
@@ -125,6 +130,7 @@ async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditDat
         return {
             testName: test.testName,
             bestVariants: [],
+            variants: [],
         };
     }
 
@@ -140,6 +146,7 @@ async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditDat
     return {
         testName: test.testName,
         bestVariants,
+        variants: variantMeans,
     };
 }
 
