@@ -74,6 +74,7 @@ const buildBanditData = (variants: number): BanditData => {
     return {
         testName: 'example-1',
         bestVariants,
+        variants: bestVariants,
     };
 };
 

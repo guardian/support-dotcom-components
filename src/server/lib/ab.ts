@@ -9,6 +9,7 @@ import { CountryGroupId } from '../../shared/lib';
 import seedrandom from 'seedrandom';
 import { BanditData } from '../bandit/banditData';
 import { selectVariantUsingEpsilonGreedy } from '../bandit/banditSelection';
+import { selectVariantUsingRoulette } from '../roulette/rouletteSelection';
 
 const maxMvt = 1000000;
 
@@ -80,6 +81,9 @@ const selectVariantWithMethodology = <V extends Variant, T extends Test<V>>(
 ): V | undefined => {
     if (methodology.name === 'EpsilonGreedyBandit') {
         return selectVariantUsingEpsilonGreedy(banditData, test, methodology.epsilon);
+    }
+    if (methodology.name === 'Roulette') {
+        return selectVariantUsingRoulette(banditData, test);
     }
     return selectVariantUsingMVT<V, T>(test, mvtId);
 };

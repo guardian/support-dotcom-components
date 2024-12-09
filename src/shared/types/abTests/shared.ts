@@ -44,8 +44,13 @@ const epsilonGreedyMethodologySchema = z.object({
     name: z.literal('EpsilonGreedyBandit'),
     epsilon: z.number(),
 });
+const rouletteMethodologySchema = z.object({ name: z.literal('Roulette') });
 const methodologySchema = z.intersection(
-    z.discriminatedUnion('name', [abTestMethodologySchema, epsilonGreedyMethodologySchema]),
+    z.discriminatedUnion('name', [
+        abTestMethodologySchema,
+        epsilonGreedyMethodologySchema,
+        rouletteMethodologySchema,
+    ]),
     // each methodology may have an optional testName, which should be used for tracking
     z.object({ testName: z.string().optional() }),
 );
