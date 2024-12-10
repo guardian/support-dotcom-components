@@ -1,20 +1,18 @@
 import { countryCodeToCountryGroupId, getCountryName, inCountryGroups } from '../../../shared/lib';
 import {
     EpicTargeting,
-    EpicVariant,
-    UserCohort,
-    EpicViewLog,
-    WeeklyArticleHistory,
     EpicTest,
+    EpicVariant,
+    EpicViewLog,
+    UserCohort,
     UserDeviceType,
+    WeeklyArticleHistory,
 } from '../../../shared/types';
 import { BanditData } from '../../bandit/banditData';
 import { selectVariant } from '../../lib/ab';
-import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
-import { SuperModeArticle } from '../../lib/superMode';
-import { isInSuperMode, superModeify } from '../../lib/superMode';
+import { isInSuperMode, SuperModeArticle, superModeify } from '../../lib/superMode';
 import {
     correctSignedInStatus,
     deviceTypeMatches,
@@ -30,33 +28,9 @@ export interface Filter {
 }
 
 export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
-    const { showSupportMessaging, isRecurringContributor } = targeting;
-
-    const lastOneOffContributionDate = targeting.lastOneOffContributionDate
-        ? new Date(targeting.lastOneOffContributionDate)
-        : undefined;
-
-    // User is a current supporter if she has a subscription or a recurring
-    // donation or has made a one-off contribution in the past 3 months.
-    const isSupporter =
-        !showSupportMessaging ||
-        isRecurringContributor ||
-        isRecentOneOffContributor(lastOneOffContributionDate);
-
-    // User is a past-contributor if she doesn't have an active subscription
-    // or recurring donation, but has made a one-off donation longer than 3
-    // months ago.
-    const isPastContributor =
-        !isSupporter &&
-        lastOneOffContributionDate &&
-        !isRecentOneOffContributor(lastOneOffContributionDate);
-
-    if (isPastContributor) {
-        return ['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone'];
-    } else if (isSupporter) {
+    if (!targeting.showSupportMessaging) {
         return ['AllExistingSupporters', 'Everyone'];
     }
-
     return ['AllNonSupporters', 'Everyone'];
 };
 
