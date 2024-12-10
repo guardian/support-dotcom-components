@@ -7,7 +7,6 @@ export default Factory.define<EpicTargeting>(() => ({
     shouldHideReaderRevenue: false,
     isMinuteArticle: false,
     isPaidContent: false,
-    isRecurringContributor: false,
     tags: [],
     showSupportMessaging: true,
     hasOptedOutOfArticleCount: false,

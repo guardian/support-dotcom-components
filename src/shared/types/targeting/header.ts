@@ -4,7 +4,6 @@ export interface HeaderTargeting {
     showSupportMessaging: boolean;
     countryCode: string;
     mvtId: number;
-    lastOneOffContributionDate?: string;
     numArticles?: number;
     purchaseInfo?: PurchaseInfo;
     isSignedIn: boolean;

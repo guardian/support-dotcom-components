@@ -42,8 +42,6 @@ const targetingDefault: EpicTargeting = {
     isPaidContent: false,
     tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
     showSupportMessaging: true,
-    isRecurringContributor: false,
-    lastOneOffContributionDate: undefined,
     mvtId: 2,
     hasOptedOutOfArticleCount: false,
 };

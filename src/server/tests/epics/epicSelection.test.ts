@@ -1,15 +1,16 @@
 import {
     ArticlesViewedSettings,
     DeviceType,
-    EpicVariant,
     EpicTargeting,
     EpicTest,
+    EpicVariant,
     SecondaryCtaType,
     UserDeviceType,
 } from '../../../shared/types';
 import { SuperModeArticle } from '../../lib/superMode';
-import { withNowAs } from '../../utils/withNowAs';
 import {
+    correctSignedInStatusFilter,
+    deviceTypeMatchesFilter,
     findTestAndVariant,
     getUserCohorts,
     hasCountryCode,
@@ -18,8 +19,6 @@ import {
     matchesCountryGroups,
     withinArticleViewedSettings,
     withinMaxViews,
-    deviceTypeMatchesFilter,
-    correctSignedInStatusFilter,
 } from './epicSelection';
 import { BanditData } from '../../bandit/banditData';
 
@@ -82,8 +81,6 @@ const targetingDefault: EpicTargeting = {
     isPaidContent: false,
     tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
     showSupportMessaging: true,
-    isRecurringContributor: false,
-    lastOneOffContributionDate: undefined,
     mvtId: 2,
     hasOptedOutOfArticleCount: false,
 };
@@ -178,31 +175,15 @@ describe('findTestAndVariant', () => {
 });
 
 describe('getUserCohort', () => {
-    const now = new Date('2020-03-31T12:30:00');
-    const twoMonthsAgo = new Date(now).setMonth(now.getMonth() - 2);
-
     it('should return "AllNonSupporters" when users is not contributor', () => {
         const targeting = {
             ...targetingDefault,
             showSupportMessaging: true,
-            isRecurringContributor: false,
-            lastOneOffContributionDate: undefined,
         };
 
         const got = getUserCohorts(targeting);
 
         expect(got).toEqual(['AllNonSupporters', 'Everyone']);
-    });
-
-    it('should return "AllExistingSupporters" when user is recurring contributor', () => {
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            isRecurringContributor: true,
-        };
-
-        const got = getUserCohorts(targeting);
-
-        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
     it('should return "AllExistingSupporters" when user has some form of paid product', () => {
@@ -214,33 +195,6 @@ describe('getUserCohort', () => {
         const got = getUserCohorts(targeting);
 
         expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
-    });
-
-    it('should return "AllExistingSupporters" when user has recent one-off contribution', () => {
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            lastOneOffContributionDate: twoMonthsAgo,
-        };
-
-        const got = withNowAs(now, () => getUserCohorts(targeting));
-
-        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
-    });
-
-    it('should return "PostAskPauseSingleContributors" when user has older one-off contribution', () => {
-        const now = new Date('2020-03-31T12:30:00');
-        const fourMonthsAgo = new Date(now).setMonth(now.getMonth() - 4);
-
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            showSupportMessaging: true,
-            isRecurringContributor: false,
-            lastOneOffContributionDate: fourMonthsAgo,
-        };
-
-        const got = withNowAs(now, () => getUserCohorts(targeting));
-
-        expect(got).toEqual(['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone']);
     });
 });
 
