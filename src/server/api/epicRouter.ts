@@ -18,7 +18,6 @@ import { selectAmountsTestVariant } from '../lib/ab';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getReminderFields, countryCodeToCountryGroupId } from '../../shared/lib';
 import { getArticleViewCounts } from '../lib/history';
-import { fallbackEpicTest } from '../tests/epics/fallback';
 import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
 import { getDeviceType } from '../lib/deviceType';
@@ -61,14 +60,14 @@ export const buildEpicRouter = (
             const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
             if (isForcingTest) {
-                return [...hardcodedTests, ...articleEpicTests.get(), fallbackEpicTest];
+                return [...hardcodedTests, ...articleEpicTests.get()];
             }
 
-            return [...hardcodedTests, ...articleEpicTests.get(), fallbackEpicTest];
+            return [...hardcodedTests, ...articleEpicTests.get()];
         } catch (err) {
             logWarn(`Error getting article epic tests: ${err}`);
 
-            return [fallbackEpicTest];
+            return [];
         }
     };
 
