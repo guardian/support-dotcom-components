@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 3.2.0
+
+### Minor Changes
+
+-   570a22a: Remove lastOneOffContributionDate and isRecurringContributor from targeting data
+
 ## 3.1.0
 
 ### Minor Changes
