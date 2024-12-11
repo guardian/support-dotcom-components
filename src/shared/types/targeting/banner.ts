@@ -19,7 +19,6 @@ export type BannerTargeting = {
     browserId?: string; // Only present if the user has consented to browserId-based targeting
     purchaseInfo?: PurchaseInfo;
     isSignedIn: boolean;
-    lastOneOffContributionDate?: string;
     hasConsented: boolean;
     abandonedBasket?: AbandonedBasket;
 };

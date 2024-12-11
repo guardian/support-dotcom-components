@@ -22,8 +22,6 @@ export type EpicTargeting = {
     weeklyArticleHistory?: WeeklyArticleHistory;
     hasOptedOutOfArticleCount: boolean;
     showSupportMessaging: boolean;
-    isRecurringContributor: boolean;
-    lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
     url?: string;
     browserId?: string; // Only present if the user has consented to browserId-based targeting
     isSignedIn?: boolean;
