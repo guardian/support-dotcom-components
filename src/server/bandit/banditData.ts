@@ -153,7 +153,7 @@ async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditDat
 // Return config for each bandit methodology in this test
 function getBanditTestConfigs<V extends Variant, T extends Test<V>>(test: T): BanditTestConfig[] {
     const bandits: Methodology[] = (test.methodologies ?? []).filter(
-        (method) => method.name === 'EpsilonGreedyBandit',
+        (method) => method.name === 'EpsilonGreedyBandit' || method.name === 'Roulette',
     );
     return bandits.map((method) => ({
         testName: method.testName ?? test.name, // if the methodology should be tracked with a different name then use that
