@@ -43,8 +43,12 @@ const abTestMethodologySchema = z.object({ name: z.literal('ABTest') });
 const epsilonGreedyMethodologySchema = z.object({
     name: z.literal('EpsilonGreedyBandit'),
     epsilon: z.number(),
+    sampleCount: z.number().optional(),
 });
-const rouletteMethodologySchema = z.object({ name: z.literal('Roulette') });
+const rouletteMethodologySchema = z.object({
+    name: z.literal('Roulette'),
+    sampleCount: z.number().optional(),
+});
 const methodologySchema = z.intersection(
     z.discriminatedUnion('name', [
         abTestMethodologySchema,
@@ -55,6 +59,7 @@ const methodologySchema = z.intersection(
     z.object({ testName: z.string().optional() }),
 );
 export type Methodology = z.infer<typeof methodologySchema>;
+export type BanditMethodology = Exclude<Methodology, { name: 'ABTest' }>;
 
 export interface Variant {
     name: string;

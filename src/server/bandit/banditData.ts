@@ -1,7 +1,14 @@
 import { isProd } from '../lib/env';
 import * as AWS from 'aws-sdk';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
-import { BannerTest, Channel, EpicTest, Methodology, Test, Variant } from '../../shared/types';
+import {
+    BanditMethodology,
+    BannerTest,
+    Channel,
+    EpicTest,
+    Test,
+    Variant,
+} from '../../shared/types';
 import { z } from 'zod';
 import { logError } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
@@ -33,6 +40,7 @@ interface BanditTestConfig {
     testName: string; // this may be specific to the methodology, e.g. MY_TEST_EpsilonGreedyBandit-0.5
     channel: Channel;
     variantNames: string[];
+    sampleCount?: number;
 }
 
 // If sampleCount is not provided, all samples will be returned
@@ -52,8 +60,12 @@ function queryForTestSamples(testName: string, channel: Channel, sampleCount?: n
         .promise();
 }
 
-async function getBanditSamplesForTest(testName: string, channel: Channel): Promise<TestSample[]> {
-    const queryResult = await queryForTestSamples(testName, channel);
+async function getBanditSamplesForTest(
+    testName: string,
+    channel: Channel,
+    sampleCount?: number,
+): Promise<TestSample[]> {
+    const queryResult = await queryForTestSamples(testName, channel, sampleCount);
 
     const parsedResults = queryResultSchema.safeParse(queryResult.Items);
 
@@ -134,7 +146,7 @@ async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditDat
         };
     }
 
-    const samples = await getBanditSamplesForTest(test.testName, test.channel);
+    const samples = await getBanditSamplesForTest(test.testName, test.channel, test.sampleCount);
 
     if (samples.length < MINIMUM_SAMPLES) {
         return getDefaultWeighting(test);
@@ -152,13 +164,15 @@ async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditDat
 
 // Return config for each bandit methodology in this test
 function getBanditTestConfigs<V extends Variant, T extends Test<V>>(test: T): BanditTestConfig[] {
-    const bandits: Methodology[] = (test.methodologies ?? []).filter(
+    const bandits: BanditMethodology[] = (test.methodologies ?? []).filter(
         (method) => method.name === 'EpsilonGreedyBandit' || method.name === 'Roulette',
-    );
+    ) as BanditMethodology[];
+
     return bandits.map((method) => ({
         testName: method.testName ?? test.name, // if the methodology should be tracked with a different name then use that
         channel: test.channel,
         variantNames: test.variants.map((v) => v.name),
+        sampleCount: method.sampleCount,
     }));
 }
 
