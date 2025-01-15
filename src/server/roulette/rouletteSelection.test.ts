@@ -125,6 +125,21 @@ describe('roulette', () => {
         );
         expect(variant).toBe(epicTest.variants[2]);
     });
+
+    it('should randomly select variant if means are 0', () => {
+        const rand = 0.49;
+        const variants = epicTest.variants.map((variant) => ({
+            variantName: variant.name,
+            mean: 0,
+        }));
+        const banditData = {
+            testName: 'example-1',
+            bestVariants: variants,
+            variants: variants,
+        };
+        const variant = selectVariantUsingRoulette([banditData], epicTest, rand);
+        expect(variant).toBeDefined();
+    });
 });
 
 describe('rouletteTest2', () => {
