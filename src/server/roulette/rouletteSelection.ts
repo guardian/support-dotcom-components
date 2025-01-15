@@ -14,6 +14,10 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
 
     const sumOfMeans = testBanditData.variants.reduce((sum, v) => sum + v.mean, 0);
 
+    if (sumOfMeans <= 0) {
+        return selectRandomVariant(test);
+    }
+
     // sorted variant weights, which will add up to 1
     const variantsWithWeights: { weight: number; variantName: string }[] = testBanditData.variants
         .map(({ variantName, mean }) => ({ variantName, weight: mean / sumOfMeans }))
