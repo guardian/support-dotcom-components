@@ -19,6 +19,7 @@ export const logging = (
             bannerTargeting: res.locals.bannerTargeting,
             epicTargeting: res.locals.epicTargeting,
             userAgent: isServerError(res.statusCode) ? req.headers['user-agent'] : undefined,
+            epicSuperMode: res.locals.epicSuperMode,
         }),
     );
     next();

@@ -189,6 +189,9 @@ export const buildEpicRouter = (
                         .slice(0, 3)
                         .map((c: WeeklyArticleLog) => JSON.stringify(c)),
                 };
+                if (!!response.data) {
+                    res.locals.epicSuperMode = response.data?.meta.labels?.includes('SUPER_MODE');
+                }
 
                 res.send(response);
             } catch (error) {
