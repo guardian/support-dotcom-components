@@ -189,6 +189,11 @@ export const buildEpicRouter = (
                         .slice(0, 3)
                         .map((c: WeeklyArticleLog) => JSON.stringify(c)),
                 };
+                if (!!response.data) {
+                    res.locals.epicSuperMode = (response.data.meta.labels ?? []).includes(
+                        'SUPER_MODE',
+                    );
+                }
 
                 res.send(response);
             } catch (error) {
@@ -217,6 +222,11 @@ export const buildEpicRouter = (
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
                 res.locals.clientName = tracking.clientName;
+                if (!!response.data) {
+                    res.locals.epicSuperMode = (response.data.meta.labels ?? []).includes(
+                        'SUPER_MODE',
+                    );
+                }
 
                 res.send(response);
             } catch (error) {
