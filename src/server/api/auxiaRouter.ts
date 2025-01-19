@@ -14,75 +14,33 @@ import { selectHeaderTest } from '../tests/headers/headerSelection';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 
-interface HeaderDataResponse {
-    data?: {
-        module: {
-            name: string;
-            props: HeaderProps;
-        };
-        meta: TestTracking;
-    };
+interface AuxiaResponseData {
+    shouldShowSignInGate: boolean;
 }
 
-export const buildAuxiaRouter = (
-    channelSwitches: ValueProvider<ChannelSwitches>,
-    tests: ValueProvider<HeaderTest[]>,
-): Router => {
+export const buildAuxiaRouter = (): Router => {
     const router = Router();
 
-    const buildHeaderData = (
-        pageTracking: PageTracking,
-        targeting: HeaderTargeting,
-        baseUrl: string,
-        params: Params,
-        req: express.Request,
-    ): HeaderDataResponse => {
-        const { enableHeaders } = channelSwitches.get();
-        if (!enableHeaders) {
-            return {};
-        }
-        const testSelection = selectHeaderTest(
-            targeting,
-            tests.get(),
-            getDeviceType(req),
-            params.force,
-        );
-        if (testSelection) {
-            const { test, variant, moduleName } = testSelection;
-            const testTracking: TestTracking = {
-                abTestName: test.name,
-                abTestVariant: variant.name,
-                campaignCode: `header_support_${test.name}_${variant.name}`,
-                componentType: 'ACQUISITIONS_HEADER',
-            };
-
-            return {
-                data: {
-                    module: {
-                        name: moduleName,
-                        props: {
-                            content: variant.content,
-                            mobileContent: variant.mobileContent,
-                            tracking: { ...pageTracking, ...testTracking },
-                            countryCode: targeting.countryCode,
-                            numArticles: targeting.numArticles,
-                        },
-                    },
-                    meta: testTracking,
-                },
-            };
-        }
-        return { data: undefined };
+    const makeResponse = (): AuxiaResponseData => {
+        return { shouldShowSignInGate: false };
     };
 
     router.post(
         '/auxia',
-        bodyContainsAllFields(['tracking', 'targeting']),
+
+        // We are disabling that check for now, we will re-enable itlater when we have a
+        // better understanding of the request payload.
+        // bodyContainsAllFields(['tracking', 'targeting']),
+
         (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const { tracking, targeting } = req.body;
-                const params = getQueryParams(req.query);
-                const response = buildHeaderData(tracking, targeting, baseUrl(req), params, req);
+                // req.body is a JSON that can be easily decronstructed
+                // const { tracking, targeting } = req.body;
+
+                // We do not need to read query parameters in this case.
+                // const params = getQueryParams(req.query);
+
+                const response = makeResponse();
                 res.send(response);
             } catch (error) {
                 next(error);

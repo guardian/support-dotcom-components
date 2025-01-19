@@ -114,7 +114,7 @@ const buildApp = async (): Promise<Express> => {
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
-    app.use(buildAuxiaRouter(channelSwitches, headerTests));
+    app.use(buildAuxiaRouter());
     app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData, ampEpicTests));
 
     app.use(errorHandlingMiddleware);
