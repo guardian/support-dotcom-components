@@ -14,25 +14,47 @@ import { selectHeaderTest } from '../tests/headers/headerSelection';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 
-interface AuxiaResponseData {
+interface AuxiaAPIRequestPayload {
+    data: string;
+}
+
+interface AuxiaAPIAnswerData {
+    data: string;
+}
+
+interface AuxiaProxyResponseData {
     shouldShowSignInGate: boolean;
 }
 
-export const buildAuxiaRouter = (): Router => {
-    const router = Router();
-
-    const makeResponse = (): AuxiaResponseData => {
-        return { shouldShowSignInGate: false };
+const buildAuxiaAPIRequestPayload = (): AuxiaAPIRequestPayload => {
+    return {
+        data: '',
     };
+};
+
+const fetchAuxiaData = async (): Promise<AuxiaAPIAnswerData> => {
+    const payload = buildAuxiaAPIRequestPayload();
+    const answer = {
+        data: '',
+    };
+    return Promise.resolve(answer);
+};
+
+const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIAnswerData): AuxiaProxyResponseData => {
+    return { shouldShowSignInGate: false };
+};
+
+export const buildAuxiaProxyRouter = (): Router => {
+    const router = Router();
 
     router.post(
         '/auxia',
 
-        // We are disabling that check for now, we will re-enable itlater when we have a
+        // We are disabling that check for now, we will re-enable it later when we have a
         // better understanding of the request payload.
         // bodyContainsAllFields(['tracking', 'targeting']),
 
-        (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 // req.body is a JSON that can be easily decronstructed
                 // const { tracking, targeting } = req.body;
@@ -40,7 +62,9 @@ export const buildAuxiaRouter = (): Router => {
                 // We do not need to read query parameters in this case.
                 // const params = getQueryParams(req.query);
 
-                const response = makeResponse();
+                const auxiaData = await fetchAuxiaData();
+                const response = buildAuxiaProxyResponseData(auxiaData);
+
                 res.send(response);
             } catch (error) {
                 next(error);

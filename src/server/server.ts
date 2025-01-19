@@ -11,7 +11,7 @@ import { logError } from './utils/logging';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildBannerRouter } from './api/bannerRouter';
 import { buildHeaderRouter } from './api/headerRouter';
-import { buildAuxiaRouter } from './api/auxiaRouter';
+import { buildAuxiaProxyRouter } from './api/auxiaProxyRouter';
 import { buildAmpEpicRouter } from './api/ampEpicRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
@@ -114,7 +114,7 @@ const buildApp = async (): Promise<Express> => {
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
-    app.use(buildAuxiaRouter());
+    app.use(buildAuxiaProxyRouter());
     app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData, ampEpicTests));
 
     app.use(errorHandlingMiddleware);
