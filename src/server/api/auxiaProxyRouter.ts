@@ -144,12 +144,6 @@ export const buildAuxiaProxyRouter = (): Router => {
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 console.log('[ff054a69] processing a query to the auxia end point');
-                // req.body is a JSON that can be easily decronstructed
-                // const { tracking, targeting } = req.body;
-
-                // We do not need to read query parameters in this case.
-                // const params = getQueryParams(req.query);
-
                 const auxiaData = await fetchAuxiaData();
                 const response = buildAuxiaProxyResponseData(auxiaData);
 
