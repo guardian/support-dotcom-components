@@ -7,9 +7,9 @@ interface AuxiaApiRequestPayloadContextualAttributes {
 }
 
 interface AuxiaApiRequestPayloadSurface {
-    surface: string,
-    minimumTreatmentCount: number,
-    maximumTreatmentCount: number,
+    surface: string;
+    minimumTreatmentCount: number;
+    maximumTreatmentCount: number;
 }
 
 interface AuxiaAPIRequestPayload {
@@ -52,12 +52,21 @@ interface AuxiaProxyResponseData {
     shouldShowSignInGate: boolean;
 }
 
-const buildAuxiaAPIRequestPayload = (): AuxiaAPIRequestPayload => {
-    // For the moment we are hard coding the project id and the user id.
-    // As well as the data provided in contextualAttributes and surfaces.
+const buildAuxiaAPIRequestPayload = async (): Promise<AuxiaAPIRequestPayload> => {
+    const projectId = await getSsmValue('PROD', 'auxia-projectId');
+    if (projectId === undefined) {
+        throw new Error('auxia-projectId is undefined');
+    }
+
+    const userId = await getSsmValue('PROD', 'auxia-userId');
+    if (userId === undefined) {
+        throw new Error('auxia-userId is undefined');
+    }
+
+    // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
-        projectId: '1869',
-        userId: 'appuser@appname.io',
+        projectId: projectId,
+        userId: userId,
         contextualAttributes: [
             {
                 key: 'profile_id',
@@ -94,7 +103,7 @@ const fetchAuxiaData = async (): Promise<AuxiaAPIAnswerData> => {
         'x-api-key': apiKey,
     };
 
-    const payload = buildAuxiaAPIRequestPayload();
+    const payload = await buildAuxiaAPIRequestPayload();
 
     const params = {
         method: 'POST',
@@ -134,7 +143,7 @@ export const buildAuxiaProxyRouter = (): Router => {
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                console.log("[ff054a69] processing a query to the auxia end point");
+                console.log('[ff054a69] processing a query to the auxia end point');
                 // req.body is a JSON that can be easily decronstructed
                 // const { tracking, targeting } = req.body;
 
