@@ -171,6 +171,24 @@ describe('replaceNonArticleCountPlaceholders', () => {
                 },
             },
         },
+        Germany: {
+            GuardianWeekly: {
+                Monthly: {
+                    price: '0.00',
+                },
+                Annual: {
+                    price: '0.00',
+                },
+            },
+            Digisub: {
+                Monthly: {
+                    price: '0.00',
+                },
+                Annual: {
+                    price: '0.00',
+                },
+            },
+        },
     };
 
     it('replaces %%COUNTRY_NAME%% and %%CURRENCY_SYMBOL%%', () => {
