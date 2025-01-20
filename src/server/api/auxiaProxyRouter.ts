@@ -1,18 +1,5 @@
 import express, { Router } from 'express';
-import { bodyContainsAllFields } from '../middleware';
-import { getQueryParams, Params } from '../lib/params';
-import { baseUrl } from '../lib/env';
-import {
-    HeaderProps,
-    HeaderTargeting,
-    HeaderTest,
-    PageTracking,
-    TestTracking,
-} from '../../shared/types';
-import { ChannelSwitches } from '../channelSwitches';
-import { selectHeaderTest } from '../tests/headers/headerSelection';
-import { getDeviceType } from '../lib/deviceType';
-import { ValueProvider } from '../utils/valueReloader';
+import { getSsmValue } from '../utils/ssm';
 
 interface AuxiaApiRequestPayloadContextualAttributes {
     key: string;
@@ -95,7 +82,12 @@ const buildAuxiaAPIRequestPayload = (): AuxiaAPIRequestPayload => {
 const fetchAuxiaData = async (): Promise<AuxiaAPIAnswerData> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
-    const apiKey = 'AIzaSyBhqEqNydCieAAa3vtHc9zIH-5nSPJAEyM';
+    // We are hardcoding PROD for the moment, because I haven't created a CODE key
+    const apiKey = await getSsmValue('PROD', 'auxia-api-key');
+
+    if (apiKey === undefined) {
+        throw new Error('auxia-api-key is undefined');
+    }
 
     const headers = {
         'Content-Type': 'application/json',
