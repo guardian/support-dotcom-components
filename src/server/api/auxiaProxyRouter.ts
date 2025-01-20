@@ -114,7 +114,6 @@ const fetchAuxiaData = async (): Promise<AuxiaAPIAnswerData> => {
     const response = await fetch(url, params);
 
     const responseBody = await response.json();
-    console.log(`[767c53e5] auxia api answer body json: ${JSON.stringify(responseBody)}`);
 
     return Promise.resolve(responseBody as AuxiaAPIAnswerData);
 };
