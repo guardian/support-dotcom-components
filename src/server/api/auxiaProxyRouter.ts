@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import { getSsmValue } from '../utils/ssm';
+import fetch from 'node-fetch';
 
 interface AuxiaApiRequestPayloadContextualAttributes {
     key: string;
@@ -52,17 +53,7 @@ interface AuxiaProxyResponseData {
     shouldShowSignInGate: boolean;
 }
 
-const buildAuxiaAPIRequestPayload = async (): Promise<AuxiaAPIRequestPayload> => {
-    const projectId = await getSsmValue('PROD', 'auxia-projectId');
-    if (projectId === undefined) {
-        throw new Error('auxia-projectId is undefined');
-    }
-
-    const userId = await getSsmValue('PROD', 'auxia-userId');
-    if (userId === undefined) {
-        throw new Error('auxia-userId is undefined');
-    }
-
+const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAPIRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
         projectId: projectId,
@@ -88,22 +79,19 @@ const buildAuxiaAPIRequestPayload = async (): Promise<AuxiaAPIRequestPayload> =>
     };
 };
 
-const fetchAuxiaData = async (): Promise<AuxiaAPIAnswerData> => {
+const fetchAuxiaData = async (
+    apiKey: string,
+    projectId: string,
+    userId: string,
+): Promise<AuxiaAPIAnswerData> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
-
-    // We are hardcoding PROD for the moment, because I haven't created a CODE key
-    const apiKey = await getSsmValue('PROD', 'auxia-api-key');
-
-    if (apiKey === undefined) {
-        throw new Error('auxia-api-key is undefined');
-    }
 
     const headers = {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
     };
 
-    const payload = await buildAuxiaAPIRequestPayload();
+    const payload = buildAuxiaAPIRequestPayload(projectId, userId);
 
     const params = {
         method: 'POST',
@@ -130,9 +118,37 @@ const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIAnswerData): AuxiaProxyR
     return { shouldShowSignInGate };
 };
 
-export const buildAuxiaProxyRouter = (): Router => {
-    const router = Router();
+interface AuxiaRouterConfig {
+    apiKey: string;
+    projectId: string;
+    userId: string;
+}
 
+export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
+    const apiKey = await getSsmValue('PROD', 'auxia-api-key');
+    if (apiKey === undefined) {
+        throw new Error('auxia-api-key is undefined');
+    }
+
+    const projectId = await getSsmValue('PROD', 'auxia-projectId');
+    if (projectId === undefined) {
+        throw new Error('auxia-projectId is undefined');
+    }
+
+    const userId = await getSsmValue('PROD', 'auxia-userId');
+    if (userId === undefined) {
+        throw new Error('auxia-userId is undefined');
+    }
+
+    return {
+        apiKey,
+        projectId,
+        userId,
+    };
+};
+
+export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
+    const router = Router();
     router.post(
         '/auxia',
 
@@ -142,7 +158,11 @@ export const buildAuxiaProxyRouter = (): Router => {
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const auxiaData = await fetchAuxiaData();
+                const auxiaData = await fetchAuxiaData(
+                    config.apiKey,
+                    config.projectId,
+                    config.userId,
+                );
                 const response = buildAuxiaProxyResponseData(auxiaData);
 
                 res.send(response);
