@@ -143,7 +143,6 @@ export const buildAuxiaProxyRouter = (): Router => {
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                console.log('[ff054a69] processing a query to the auxia end point');
                 const auxiaData = await fetchAuxiaData();
                 const response = buildAuxiaProxyResponseData(auxiaData);
 
