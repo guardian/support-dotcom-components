@@ -8,6 +8,7 @@ export const CountryGroupId = [
     'International',
     'NZDCountries',
     'Canada',
+    'Germany',
 ] as const;
 
 export type CountryGroupId = (typeof CountryGroupId)[number];
@@ -15,7 +16,7 @@ export type CountryGroupId = (typeof CountryGroupId)[number];
 export const countryGroupIdSchema = z.enum(CountryGroupId);
 
 // Used to internationalise 'Support the Guardian' links
-export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA';
+export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA' | 'DE';
 
 type IsoCurrency = 'GBP' | 'USD' | 'AUD' | 'EUR' | 'NZD' | 'CAD';
 
@@ -306,6 +307,12 @@ const countryGroups: CountryGroups = {
         countries: ['CA'],
         supportRegionId: 'CA',
     },
+    Germany: {
+        name: 'Germany',
+        currency: 'EUR',
+        countries: ['DE'],
+        supportRegionId: 'DE',
+    },
 };
 
 export type Region = keyof typeof countryGroups;
@@ -552,6 +559,7 @@ const extendedCurrencySymbol = {
     EURCountries: '€',
     NZDCountries: 'NZ$',
     International: '$',
+    Germany: '€',
 };
 
 export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupId => {
