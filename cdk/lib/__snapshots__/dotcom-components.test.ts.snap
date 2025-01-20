@@ -1121,6 +1121,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
                 "arn:aws:s3:::support-admin-console/TEST/channel-switches.json",
                 "arn:aws:s3:::support-admin-console/TEST/configured-amounts-v3.json",
                 "arn:aws:s3:::support-admin-console/TEST/guardian-weekly-propensity-test/*",
+                "arn:aws:s3:::support-admin-console/PROD/auxia-credentials.json",
               ],
             },
           ],

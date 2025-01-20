@@ -89,6 +89,8 @@ const buildApp = async (): Promise<Express> => {
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
 
+    const auxiaConfig = await getAuxiaRouterConfig();
+
     // Build the routers
     app.use(
         buildEpicRouter(
@@ -124,7 +126,7 @@ const buildApp = async (): Promise<Express> => {
         res.send('OK');
     });
 
-    app.use(buildAuxiaProxyRouter(await getAuxiaRouterConfig()));
+    app.use(buildAuxiaProxyRouter(auxiaConfig));
 
     return Promise.resolve(app);
 };

@@ -1,6 +1,12 @@
 import express, { Router } from 'express';
-import { getSsmValue } from '../utils/ssm';
-import fetch from 'node-fetch';
+// import { getSsmValue } from '../utils/ssm';
+import { fetchS3Data } from '../utils/S3';
+
+export interface AuxiaRouterConfig {
+    apiKey: string;
+    projectId: string;
+    userId: string;
+}
 
 interface AuxiaApiRequestPayloadContextualAttributes {
     key: string;
@@ -30,19 +36,6 @@ interface AuxiaAPIAnswerDataUserTreatment {
     treatmentType: string;
     surface: string;
 }
-
-/*
-    user treatments example:
-    {
-        "treatmentId": "105867",
-        "treatmentTrackingId": "105867_336_b352c123-c298-493c-a794-90852ec24961",
-        "rank": "2",
-        "contentLanguageCode": "en-GB",
-        "treatmentContent": "{\"title\":\"Create a free account\",\"body\":\"\",\"first_cta_name\":\"Register\",\"first_cta_link\":\"https://profile.theguardian.com/signin?\",\"second_cta_name\":\"Next time\",\"second_cta_link\":\"https://profile.theguardian.com/signin?\",\"subtitle\":\"\"}",
-        "treatmentType": "DISMISSABLE_SIGN_IN_GATE",
-        "surface": "ARTICLE_PAGE"
-    }
-*/
 
 interface AuxiaAPIAnswerData {
     responseId: string;
@@ -118,33 +111,41 @@ const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIAnswerData): AuxiaProxyR
     return { shouldShowSignInGate };
 };
 
-interface AuxiaRouterConfig {
-    apiKey: string;
-    projectId: string;
-    userId: string;
-}
-
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
-    const apiKey = await getSsmValue('PROD', 'auxia-api-key');
-    if (apiKey === undefined) {
-        throw new Error('auxia-api-key is undefined');
-    }
+    // -----------------------------------------------------------------
+    // The SSM based code is not working for the moment (permission problems with ssm:GetParameter)
+    // Will fix it later.
 
-    const projectId = await getSsmValue('PROD', 'auxia-projectId');
-    if (projectId === undefined) {
-        throw new Error('auxia-projectId is undefined');
-    }
+    //const apiKey = await getSsmValue('PROD', 'auxia-api-key');
+    //if (apiKey === undefined) {
+    //    throw new Error('auxia-api-key is undefined');
+    //}
 
-    const userId = await getSsmValue('PROD', 'auxia-userId');
-    if (userId === undefined) {
-        throw new Error('auxia-userId is undefined');
-    }
+    //const projectId = await getSsmValue('PROD', 'auxia-projectId');
+    //if (projectId === undefined) {
+    //    throw new Error('auxia-projectId is undefined');
+    //}
 
-    return {
+    //const userId = await getSsmValue('PROD', 'auxia-userId');
+    //if (userId === undefined) {
+    //    throw new Error('auxia-userId is undefined');
+    //}
+
+    // -----------------------------------------------------------------
+    // Instead let's get the credentials from S3
+
+    const credentials1 = await fetchS3Data('support-admin-console', `PROD/auxia-credentials.json`);
+    const credentials2 = JSON.parse(credentials1);
+
+    const apiKey = credentials2['auxia-api-key'] as string;
+    const projectId = credentials2['auxia-projectId'] as string;
+    const userId = credentials2['auxia-userId'] as string;
+
+    return Promise.resolve({
         apiKey,
         projectId,
         userId,
-    };
+    });
 };
 
 export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {

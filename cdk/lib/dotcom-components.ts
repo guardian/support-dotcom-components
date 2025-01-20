@@ -177,7 +177,8 @@ chown -R dotcom-components:support /var/log/dotcom-components
 					`${this.stage}/channel-switches.json`,
 					`${this.stage}/configured-amounts-v3.json`,
 					`${this.stage}/guardian-weekly-propensity-test/*`,
-				],
+					`PROD/auxia-credentials.json`,
+                ],
 			}),
 			new GuGetS3ObjectsPolicy(
 				this,
