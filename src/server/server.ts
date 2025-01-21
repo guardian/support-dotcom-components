@@ -11,6 +11,7 @@ import { logError } from './utils/logging';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildBannerRouter } from './api/bannerRouter';
 import { buildHeaderRouter } from './api/headerRouter';
+import { buildAuxiaProxyRouter, getAuxiaRouterConfig } from './api/auxiaProxyRouter';
 import { buildAmpEpicRouter } from './api/ampEpicRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
@@ -88,6 +89,8 @@ const buildApp = async (): Promise<Express> => {
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
 
+    const auxiaConfig = await getAuxiaRouterConfig();
+
     // Build the routers
     app.use(
         buildEpicRouter(
@@ -113,6 +116,7 @@ const buildApp = async (): Promise<Express> => {
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
+
     app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData, ampEpicTests));
 
     app.use(errorHandlingMiddleware);
@@ -121,6 +125,8 @@ const buildApp = async (): Promise<Express> => {
         res.header('Content-Type', 'text/plain');
         res.send('OK');
     });
+
+    app.use(buildAuxiaProxyRouter(auxiaConfig));
 
     return Promise.resolve(app);
 };

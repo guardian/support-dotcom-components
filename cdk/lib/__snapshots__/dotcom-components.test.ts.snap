@@ -20,6 +20,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
       "GuDynamoDBReadPolicy",
       "GuDynamoDBReadPolicy",
       "GuDynamoDBReadPolicy",
+      "GuAllowPolicy",
       "GuVpcParameter",
       "GuSubnetListParameter",
       "GuSubnetListParameter",
@@ -1120,12 +1121,34 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
                 "arn:aws:s3:::support-admin-console/TEST/channel-switches.json",
                 "arn:aws:s3:::support-admin-console/TEST/configured-amounts-v3.json",
                 "arn:aws:s3:::support-admin-console/TEST/guardian-weekly-propensity-test/*",
+                "arn:aws:s3:::support-admin-console/PROD/auxia-credentials.json",
               ],
             },
           ],
           "Version": "2012-10-17",
         },
         "PolicyName": "S3ReadPolicySupportAdminConsole06C5574B",
+        "Roles": [
+          {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SSMGetF4C837D5": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "SSMGetF4C837D5",
         "Roles": [
           {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
