@@ -1,6 +1,5 @@
 import express, { Router } from 'express';
 import { getSsmValue } from '../utils/ssm';
-// import { fetchS3Data } from '../utils/S3';
 
 export interface AuxiaRouterConfig {
     apiKey: string;
@@ -112,10 +111,6 @@ const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIAnswerData): AuxiaProxyR
 };
 
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
-    // -----------------------------------------------------------------
-    // The SSM based code is not working for the moment (permission problems with ssm:GetParameter)
-    // Will fix it later.
-
     const apiKey = await getSsmValue('PROD', 'auxia-api-key');
     if (apiKey === undefined) {
         throw new Error('auxia-api-key is undefined');
@@ -130,16 +125,6 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
     if (userId === undefined) {
         throw new Error('auxia-userId is undefined');
     }
-
-    // -----------------------------------------------------------------
-    // Instead let's get the credentials from S3
-
-    // const credentials1 = await fetchS3Data('support-admin-console', `PROD/auxia-credentials.json`);
-    // const credentials2 = JSON.parse(credentials1);
-    //
-    // const apiKey = credentials2['auxia-api-key'] as string;
-    // const projectId = credentials2['auxia-projectId'] as string;
-    // const userId = credentials2['auxia-userId'] as string;
 
     return Promise.resolve({
         apiKey,
