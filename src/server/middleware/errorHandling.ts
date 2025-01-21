@@ -14,5 +14,5 @@ export const errorHandling = (
 
     res.status(500).send({ error: message });
 
-    logInfo('Something went wrong: ' + message);
+    logInfo(`Error handling request to endpoint ${req.path}. Error message: ${message}. Stack trace: ${error.stack}. Payload: ${req.body}`);
 };
