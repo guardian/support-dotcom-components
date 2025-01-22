@@ -1,5 +1,5 @@
 import express from 'express';
-import { logInfo } from '../utils/logging';
+import { logger } from '../utils/logging';
 
 export const errorHandling = (
     error: Error,
@@ -12,7 +12,11 @@ export const errorHandling = (
 ): void => {
     const message = error.message || error.toString();
 
-    res.status(500).send({ error: message });
+    res.status(500).send();
 
-    logInfo(`Error handling request to endpoint ${req.path}. Error message: ${message}. Stack trace: ${error.stack}. Payload: ${req.body}`);
+    logger.error({
+        message,
+        stack: error.stack,
+        body: req.body,
+    });
 };
