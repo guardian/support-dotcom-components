@@ -18,5 +18,6 @@ export const errorHandling = (
         message,
         stack: error.stack,
         body: req.body,
+        path: req.path,
     });
 };
