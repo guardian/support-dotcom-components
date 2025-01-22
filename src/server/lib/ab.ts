@@ -97,24 +97,16 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(
     mvtId: number,
     banditData: BanditData[],
 ): { test: T; variant: V } | undefined => {
-    if (test.methodologies && test.methodologies.length === 1) {
-        // Only one configured methodology
-        const variant = selectVariantWithMethodology<V, T>(
-            test,
-            mvtId,
-            banditData,
-            test.methodologies[0],
-        );
-        if (variant) {
-            return {
-                test,
-                variant,
-            };
-        }
-    } else if (test.methodologies) {
-        // More than one methodology, pick one of them using the mvt value
-        const methodology =
-            test.methodologies[getRandomNumber(test.name, mvtId) % test.methodologies.length];
+    if (test.methodologies && test.methodologies.length > 0) {
+        const pickMethodology = (methodologies: Methodology[]) => {
+            if (methodologies.length === 1) {
+                return methodologies[0];
+            } else {
+                // More than one methodology, pick one of them using the mvt value
+                return methodologies[getRandomNumber(test.name, mvtId) % methodologies.length];
+            }
+        };
+        const methodology = pickMethodology(test.methodologies);
 
         // if the methodology should be tracked with a different name then use that
         const testWithNameExtension = {
