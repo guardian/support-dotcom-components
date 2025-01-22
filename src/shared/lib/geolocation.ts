@@ -13,6 +13,7 @@ export const CountryGroupId = [
 export type CountryGroupId = (typeof CountryGroupId)[number];
 
 export const countryGroupIdSchema = z.enum(CountryGroupId);
+export const targetedCountriesSchema = z.array(z.string());
 
 // Used to internationalise 'Support the Guardian' links
 export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA';
@@ -567,9 +568,10 @@ export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupI
 export const inCountryGroups = (
     countryCode?: string,
     countryGroups: CountryGroupId[] = [],
+    countryNames: string[] = [], // Accepts country names
 ): boolean => {
-    // Always True if no locations set for the test
-    if (countryGroups.length === 0) {
+    // Always True if no locations or targeted countries set for the test
+    if (countryGroups.length === 0 && countryNames.length === 0) {
         return true;
     }
 
@@ -578,7 +580,19 @@ export const inCountryGroups = (
         return false;
     }
 
-    return countryGroups.includes(countryCodeToCountryGroupId(countryCode.toUpperCase()));
+    const upperCaseCountryCode = countryCode.toUpperCase();
+    console.log('upperCaseCountryCode', upperCaseCountryCode);
+
+    // Convert country names to codes
+    const countryCodesFromNames = mapCountryNamesToCodes(countryNames);
+
+    // Check if the country is directly targeted by name (converted to code)
+    if (countryCodesFromNames.includes(upperCaseCountryCode)) {
+        return true;
+    }
+
+    // Check if the country belongs to the specified country groups
+    return countryGroups.includes(countryCodeToCountryGroupId(upperCaseCountryCode));
 };
 
 const defaultCurrencySymbol = '£';
@@ -602,6 +616,10 @@ export const getCountryName = (geolocation?: string): string | undefined => {
     }
 
     return undefined;
+};
+
+const mapCountryNamesToCodes = (names: string[]): string[] => {
+    return names.map((name) => countryNames[name] || null).filter((code): code is string => !!code);
 };
 
 const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
