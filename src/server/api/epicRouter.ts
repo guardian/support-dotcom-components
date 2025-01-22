@@ -169,7 +169,6 @@ export const buildEpicRouter = (
         (req: express.Request, res: express.Response, next: express.NextFunction): void => {
             try {
                 const epicType: EpicType = 'ARTICLE';
-                throw Error('Testing what happens when it fails');
 
                 const { tracking, targeting } = req.body;
                 const params = getQueryParams(req.query);
@@ -196,7 +195,8 @@ export const buildEpicRouter = (
                     );
                 }
 
-                res.send(response);
+                throw Error('Testing what happens when it fails');
+                // res.send(response);
             } catch (error) {
                 next(error);
             }
