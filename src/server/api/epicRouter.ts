@@ -195,8 +195,7 @@ export const buildEpicRouter = (
                     );
                 }
 
-                throw Error('Testing what happens when it fails');
-                // res.send(response);
+                res.send(response);
             } catch (error) {
                 next(error);
             }
