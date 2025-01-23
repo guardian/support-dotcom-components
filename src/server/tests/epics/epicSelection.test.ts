@@ -333,6 +333,70 @@ describe('matchesCountryGroups filter', () => {
 
         expect(got).toBe(false);
     });
+
+    it('should pass if user is in country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            targetedCountries: ['Canada'],
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if user is in targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: [],
+            targetedCountries: ['Germany'],
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if user is in both country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            targetedCountries: ['Germany'],
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if user is not in country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            targetedCountries: ['New Zealand'],
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'GB',
+        };
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
 });
 
 describe('withinArticleViewedSettings filter', () => {

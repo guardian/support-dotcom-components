@@ -13,7 +13,7 @@ export const CountryGroupId = [
 export type CountryGroupId = (typeof CountryGroupId)[number];
 
 export const countryGroupIdSchema = z.enum(CountryGroupId);
-export const targetedCountriesSchema = z.array(z.string());
+//export const targetedCountriesSchema = z.string();
 
 // Used to internationalise 'Support the Guardian' links
 export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA';
@@ -561,7 +561,6 @@ export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupI
     const foundCountryGroupId = availableCountryGroupIds.find((countryGroupId) =>
         countryGroups[countryGroupId].countries.includes(countryCode ?? ''),
     );
-
     return foundCountryGroupId || 'International';
 };
 
@@ -570,29 +569,29 @@ export const inCountryGroups = (
     countryGroups: CountryGroupId[] = [],
     countryNames: string[] = [], // Accepts country names
 ): boolean => {
-    // Always True if no locations or targeted countries set for the test
+    // Always True if no locations or targeted countries set for the test (so always displays epic)
     if (countryGroups.length === 0 && countryNames.length === 0) {
         return true;
     }
-
-    // Always False if user location unknown but test has locations set
+    // Always false if user location unknown but test has locations set (so never displays epic unless in country)
     if (!countryCode) {
         return false;
     }
 
-    const upperCaseCountryCode = countryCode.toUpperCase();
-    console.log('upperCaseCountryCode', upperCaseCountryCode);
-
-    // Convert country names to codes
-    const countryCodesFromNames = mapCountryNamesToCodes(countryNames);
-
-    // Check if the country is directly targeted by name (converted to code)
-    if (countryCodesFromNames.includes(upperCaseCountryCode)) {
+    // Check if the country belongs to the specified country groups
+    if (countryGroups.includes(countryCodeToCountryGroupId(countryCode.toUpperCase()))) {
         return true;
     }
 
-    // Check if the country belongs to the specified country groups
-    return countryGroups.includes(countryCodeToCountryGroupId(upperCaseCountryCode));
+    // Check if the country is in the targeted countries by name
+    for (const name of countryNames) {
+        const code = getCountryCodeFromName(name);
+        if (code && code.toUpperCase() === countryCode.toUpperCase()) {
+            return true;
+        }
+    }
+
+    return false;
 };
 
 const defaultCurrencySymbol = '£';
@@ -618,10 +617,6 @@ export const getCountryName = (geolocation?: string): string | undefined => {
     return undefined;
 };
 
-const mapCountryNamesToCodes = (names: string[]): string[] => {
-    return names.map((name) => countryNames[name] || null).filter((code): code is string => !!code);
-};
-
 const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
     countryGroups[countryCodeToCountryGroupId(countryCode)]?.supportRegionId;
 
@@ -640,4 +635,14 @@ export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: strin
     }
 
     return originalUrl;
+};
+
+const countryNameToCodeMap: Record<string, string> = {};
+for (const [code, name] of Object.entries(countryNames)) {
+    countryNameToCodeMap[name] = code;
+}
+
+// Function to get country code from country name
+export const getCountryCodeFromName = (countryName: string): string | undefined => {
+    return countryNameToCodeMap[countryName];
 };
