@@ -112,7 +112,7 @@ export interface EpicTest extends EpicTestFromTool {
 export const epicTestFromToolSchema = testSchema.extend({
     name: z.string(),
     status: testStatusSchema,
-    locations: z.array(countryGroupIdSchema), // deprecated
+    locations: z.array(countryGroupIdSchema),
     targetedCountries: z.array(z.string()).optional(),
     tagIds: z.array(z.string()),
     sections: z.array(z.string()),
