@@ -53,7 +53,7 @@ export const buildGutterRouter = (
                 abTestName: test.name,
                 abTestVariant: variant.name,
                 campaignCode: `gutter_support_${test.name}_${variant.name}`, // TODO: get from variant?
-                componentType: 'ACQUISITIONS_GUTTER', // TODO: Type TBC
+                componentType: 'ACQUISITIONS_OTHER', // TODO: Type TBC - ACQUISITIONS_GUTTER?  If so will need to be added to @guardian/lib Ophan Types I think
             };
 
             return {
