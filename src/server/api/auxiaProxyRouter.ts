@@ -41,7 +41,8 @@ interface AuxiaAPIResponseData {
 }
 
 interface AuxiaProxyResponseData {
-    shouldShowSignInGate: boolean;
+    responseId: string;
+    userTreatment?: AuxiaAPIResponseDataUserTreatment;
 }
 
 const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAPIRequestPayload => {
@@ -97,15 +98,13 @@ const fetchAuxiaData = async (
 };
 
 const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIResponseData): AuxiaProxyResponseData => {
-    // This is the most important function of this router, it takes the answer from auxia and
-    // and decides if the sign in gate should be shown or not.
-
-    // In the current interpretation we are saying that a non empty userTreatments array means
-    // that the sign in gate should be shown.
-
-    const shouldShowSignInGate = auxiaData.userTreatments.length > 0;
-
-    return { shouldShowSignInGate };
+    // Note the small difference between AuxiaAPIResponseData and AuxiaProxyResponseData
+    // In the case of AuxiaProxyResponseData, we have an optional userTreatment field, instead of an array of userTreatments.
+    // This is to reflect the what the client expect semantically.
+    return {
+        responseId: auxiaData.responseId,
+        userTreatment: auxiaData.userTreatments[0],
+    };
 };
 
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
