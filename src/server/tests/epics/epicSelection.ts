@@ -75,10 +75,10 @@ export const hasCountryCode: Filter = {
 export const matchesCountryGroups: Filter = {
     id: 'matchesCountryGroups',
     test: (test, targeting): boolean => {
-        const targetedCountries = test.targetedCountries
+        const targetedCountries = test.regionTargeting
             ? [
-                  ...(test.targetedCountries.locations || []),
-                  ...(test.targetedCountries.countries || []),
+                  ...(test.regionTargeting.countryGroups || []),
+                  ...(test.regionTargeting.countries || []),
               ]
             : [];
         return inCountryGroups(

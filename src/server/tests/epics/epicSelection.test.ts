@@ -297,8 +297,8 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['GBPCountries'],
-            targetedCountries: {
-                locations: ['GBPCountries'],
+            regionTargeting: {
+                countryGroups: ['GBPCountries'],
                 countries: [],
             },
         };
@@ -316,8 +316,8 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
-            targetedCountries: {
-                locations: ['EURCountries'],
+            regionTargeting: {
+                countryGroups: ['EURCountries'],
                 countries: [],
             },
         };
@@ -335,8 +335,8 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
-            targetedCountries: {
-                locations: ['EURCountries'],
+            regionTargeting: {
+                countryGroups: ['EURCountries'],
                 countries: [],
             },
         };
@@ -354,8 +354,8 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
-            targetedCountries: {
-                locations: ['EURCountries'],
+            regionTargeting: {
+                countryGroups: ['EURCountries'],
                 countries: ['Canada'],
             },
         };
@@ -373,8 +373,8 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: [],
-            targetedCountries: {
-                locations: [],
+            regionTargeting: {
+                countryGroups: [],
                 countries: ['Germany'],
             },
         };
@@ -392,8 +392,8 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
-            targetedCountries: {
-                locations: ['EURCountries'],
+            regionTargeting: {
+                countryGroups: ['EURCountries'],
                 countries: ['Germany'],
             },
         };
@@ -411,8 +411,8 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
-            targetedCountries: {
-                locations: ['EURCountries'],
+            regionTargeting: {
+                countryGroups: ['EURCountries'],
                 countries: ['New Zealand'],
             },
         };

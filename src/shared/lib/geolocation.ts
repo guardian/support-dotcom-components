@@ -14,9 +14,9 @@ export type CountryGroupId = (typeof CountryGroupId)[number];
 
 export const countryGroupIdSchema = z.enum(CountryGroupId);
 
-export const targetedCountriesSchema = z
+export const targetedRegionsSchema = z
     .object({
-        locations: z.array(countryGroupIdSchema),
+        countryGroups: z.array(countryGroupIdSchema),
         countries: z.array(z.string()).optional(),
     })
     .optional();
