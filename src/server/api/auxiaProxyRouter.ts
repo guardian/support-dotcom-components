@@ -14,7 +14,6 @@ interface AuxiaApiRequestPayloadContextualAttributes {
 
 interface AuxiaApiRequestPayloadSurface {
     surface: string;
-    minimumTreatmentCount: number;
     maximumTreatmentCount: number;
 }
 
@@ -63,8 +62,7 @@ const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAP
         surfaces: [
             {
                 surface: 'ARTICLE_PAGE',
-                minimumTreatmentCount: 1,
-                maximumTreatmentCount: 5,
+                maximumTreatmentCount: 1,
             },
         ],
         languageCode: 'en-GB',
