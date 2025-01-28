@@ -26,7 +26,7 @@ interface AuxiaAPIRequestPayload {
     languageCode: string;
 }
 
-interface AuxiaAPIAnswerDataUserTreatment {
+interface AuxiaAPIResponseDataUserTreatment {
     treatmentId: string;
     treatmentTrackingId: string;
     rank: string;
@@ -36,9 +36,9 @@ interface AuxiaAPIAnswerDataUserTreatment {
     surface: string;
 }
 
-interface AuxiaAPIAnswerData {
+interface AuxiaAPIResponseData {
     responseId: string;
-    userTreatments: AuxiaAPIAnswerDataUserTreatment[];
+    userTreatments: AuxiaAPIResponseDataUserTreatment[];
 }
 
 interface AuxiaProxyResponseData {
@@ -75,7 +75,7 @@ const fetchAuxiaData = async (
     apiKey: string,
     projectId: string,
     userId: string,
-): Promise<AuxiaAPIAnswerData> => {
+): Promise<AuxiaAPIResponseData> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
     const headers = {
@@ -95,10 +95,10 @@ const fetchAuxiaData = async (
 
     const responseBody = await response.json();
 
-    return Promise.resolve(responseBody as AuxiaAPIAnswerData);
+    return Promise.resolve(responseBody as AuxiaAPIResponseData);
 };
 
-const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIAnswerData): AuxiaProxyResponseData => {
+const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIResponseData): AuxiaProxyResponseData => {
     // This is the most important function of this router, it takes the answer from auxia and
     // and decides if the sign in gate should be shown or not.
 
