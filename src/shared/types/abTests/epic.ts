@@ -1,4 +1,4 @@
-import { CountryGroupId, countryGroupIdSchema } from '../../lib';
+import { CountryGroupId, countryGroupIdSchema, targetedCountriesSchema } from '../../lib';
 import {
     articlesViewedSettingsSchema,
     testSchema,
@@ -112,8 +112,8 @@ export interface EpicTest extends EpicTestFromTool {
 export const epicTestFromToolSchema = testSchema.extend({
     name: z.string(),
     status: testStatusSchema,
-    locations: z.array(countryGroupIdSchema),
-    targetedCountries: z.array(z.string()).optional(),
+    locations: z.array(countryGroupIdSchema), //deprecated
+    targetedCountries: targetedCountriesSchema.optional(),
     tagIds: z.array(z.string()),
     sections: z.array(z.string()),
     excludedTagIds: z.array(z.string()),

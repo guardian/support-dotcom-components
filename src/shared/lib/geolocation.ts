@@ -14,6 +14,13 @@ export type CountryGroupId = (typeof CountryGroupId)[number];
 
 export const countryGroupIdSchema = z.enum(CountryGroupId);
 
+export const targetedCountriesSchema = z
+    .object({
+        locations: z.array(countryGroupIdSchema),
+        countries: z.array(z.string()).optional(),
+    })
+    .optional();
+
 // Used to internationalise 'Support the Guardian' links
 export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA';
 
