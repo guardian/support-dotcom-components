@@ -1,9 +1,7 @@
-import { testSchema, userCohortSchema } from './shared';
+import { pageContextTargetingSchema, testSchema, userCohortSchema } from './shared';
 import { gutterContentSchema } from '../props';
 import { countryGroupIdSchema } from '../../lib';
 import { z } from 'zod';
-
-// TODO: THIS IS A MESS - TIDY!
 
 /**
  * Models and schemas for data from the database
@@ -17,6 +15,7 @@ export type GutterVariantFromTool = z.infer<typeof gutterVariantFromToolSchema>;
 export const gutterTestFromToolSchema = testSchema.extend({
     locations: z.array(countryGroupIdSchema),
     userCohort: userCohortSchema,
+    contextTargeting: pageContextTargetingSchema,
     variants: z.array(gutterVariantFromToolSchema),
 });
 export type GutterTestFromTool = z.infer<typeof gutterTestFromToolSchema>;
