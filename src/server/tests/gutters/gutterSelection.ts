@@ -90,8 +90,6 @@ export const selectBestTest = (
         return null;
     }
 
-    console.log(`candidate tests: ${selectedTest.toString()}`); // TODO: remove
-
     const selectedVariant: GutterVariant = selectVariantUsingMVT(selectedTest, targeting.mvtId);
 
     return {
