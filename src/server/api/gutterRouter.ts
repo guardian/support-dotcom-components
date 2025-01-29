@@ -13,6 +13,7 @@ import { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 import { selectGutterTest } from '../tests/gutters/gutterSelection';
+import { buildGutterCampaignCode } from '../lib/tracking';
 
 interface GutterDataResponse {
     data?: {
@@ -37,8 +38,8 @@ export const buildGutterRouter = (
         params: Params,
         req: express.Request,
     ): GutterDataResponse => {
-        const { enableHeaders } = channelSwitches.get();
-        if (!enableHeaders) {
+        const { enableGutterLiveblogs } = channelSwitches.get();
+        if (!enableGutterLiveblogs) {
             return {};
         }
         const testSelection = selectGutterTest(
@@ -52,8 +53,8 @@ export const buildGutterRouter = (
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,
-                campaignCode: `gutter_support_${test.name}_${variant.name}`, // TODO: get from variant?
-                componentType: 'ACQUISITIONS_OTHER', // TODO: Type TBC - ACQUISITIONS_GUTTER?  If so will need to be added to @guardian/lib Ophan Types I think
+                campaignCode: buildGutterCampaignCode(test.name, variant.name),
+                componentType: 'ACQUISITIONS_OTHER', // TODO: TBC - ACQUISITIONS_GUTTER? Changes will need to be made to the Ophan pipeline.
             };
 
             return {

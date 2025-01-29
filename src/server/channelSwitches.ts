@@ -10,7 +10,7 @@ export interface ChannelSwitches {
     enableHardcodedEpicTests: boolean;
     enableHardcodedBannerTests: boolean;
     enableScheduledBannerDeploys: boolean;
-    enableGutterLiveblogs: boolean; // TODO: should it just be enableGutters in both SDC and SAC?
+    enableGutterLiveblogs: boolean; // TODO: should it be the same as in SAC?
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>
