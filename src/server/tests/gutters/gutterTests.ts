@@ -3,6 +3,9 @@ import { getTests } from '../store';
 import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
 const buildGutterLiveblogTestsReloader = (): Promise<ValueReloader<GutterTestFromTool[]>> =>
-    buildReloader(() => getTests<GutterTestFromTool>('Gutter', gutterTestFromToolSchema), 60);
+    buildReloader(
+        () => getTests<GutterTestFromTool>('GutterLiveblog', gutterTestFromToolSchema),
+        60,
+    );
 
 export { buildGutterLiveblogTestsReloader };
