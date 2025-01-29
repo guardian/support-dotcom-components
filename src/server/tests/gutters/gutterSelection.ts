@@ -8,21 +8,25 @@ import {
 } from '../../../shared/types';
 
 import { selectVariantUsingMVT } from '../../lib/ab';
-import { audienceMatches, correctSignedInStatus } from '../../lib/targeting';
+import { audienceMatches, correctSignedInStatus, pageContextMatches } from '../../lib/targeting';
 
 import { TestVariant } from '../../lib/params';
-
-// TODO: consider some suitable tests and remove unnecessary ones
 
 const moduleName = 'Gutter';
 
 // hard coded tests
 const supportersTest: GutterTest = {
-    channel: 'Gutter',
-    name: 'gutter-supporter',
+    channel: 'GutterLiveblog',
+    name: 'gutter-supporter-hardcoded',
     priority: 99,
     userCohort: 'AllExistingSupporters',
     status: 'Live',
+    contextTargeting: {
+        tagIds: [],
+        sectionIds: [],
+        excludedSectionIds: [],
+        excludedTagIds: [],
+    },
     locations: [
         'AUDCountries',
         'Canada',
@@ -64,13 +68,20 @@ export const selectBestTest = (
     const { showSupportMessaging, countryCode, isSignedIn } = targeting;
 
     const selectedTest = allTests.find((test) => {
-        const { status, userCohort, locations, signedInStatus } = test;
+        const { status, userCohort, locations, signedInStatus, contextTargeting } = test;
+
+        // build pageContext
+        const pageContext = {
+            tagIds: targeting.tags.map((tag) => tag.id),
+            sectionId: targeting.sectionId,
+        };
 
         return (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
             inCountryGroups(countryCode, locations) &&
-            correctSignedInStatus(isSignedIn, signedInStatus)
+            correctSignedInStatus(isSignedIn, signedInStatus) &&
+            pageContextMatches(pageContext, contextTargeting)
         );
     });
 
@@ -78,6 +89,8 @@ export const selectBestTest = (
     if (!selectedTest || !selectedTest.variants.length) {
         return null;
     }
+
+    console.log(`candidate tests: ${selectedTest.toString()}`); // TODO: remove
 
     const selectedVariant: GutterVariant = selectVariantUsingMVT(selectedTest, targeting.mvtId);
 

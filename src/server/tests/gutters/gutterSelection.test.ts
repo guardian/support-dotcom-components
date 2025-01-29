@@ -6,14 +6,18 @@ import {
 } from '../../../shared/types';
 import { selectBestTest } from './gutterSelection';
 
-// TODO: plan some appropriate Gutter tests in the same vein.
-
-const remote_nonUK: GutterTest = {
-    channel: 'Gutter',
-    name: 'RemoteRrGutterTest__NonUK',
-    priority: 1,
+const non_supporter_non_gbp: GutterTest = {
+    channel: 'GutterLiveblog',
+    name: 'NonSupporter__NonUK',
+    priority: 0,
     userCohort: 'AllNonSupporters',
     status: 'Live',
+    contextTargeting: {
+        tagIds: [],
+        sectionIds: [],
+        excludedSectionIds: [],
+        excludedTagIds: [],
+    },
     locations: [
         'AUDCountries',
         'Canada',
@@ -24,7 +28,7 @@ const remote_nonUK: GutterTest = {
     ],
     variants: [
         {
-            name: 'remote',
+            name: 'non-supporter_non-uk',
             moduleName: 'Gutter',
             content: {
                 image: {
@@ -43,16 +47,63 @@ const remote_nonUK: GutterTest = {
     ],
 };
 
-const remote_UK: GutterTest = {
-    channel: 'Gutter',
-    name: 'RemoteRrGutterTest__UK',
-    priority: 1,
+const remote_low_priority_nonUK: GutterTest = {
+    channel: 'GutterLiveblog',
+    name: 'NonSupporter__NonUK_lower_priority',
+    priority: 1, // shouldn't appear
     userCohort: 'AllNonSupporters',
     status: 'Live',
+    contextTargeting: {
+        tagIds: [],
+        sectionIds: [],
+        excludedSectionIds: [],
+        excludedTagIds: [],
+    },
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
+    variants: [
+        {
+            name: 'non-supporter_non-uk_low-priority',
+            moduleName: 'Gutter',
+            content: {
+                image: {
+                    mainUrl: 'https://uploads.guim.co.uk/2025/01/22/not_for_sale.svg',
+                    altText: 'Not for Sale',
+                },
+                bodyCopy: [
+                    'The Guardian’s expert news coverage is funded by people like you, not a billionaire owner. Will you help us keep our independent journalism free and open to all today?',
+                ],
+                cta: {
+                    baseUrl: 'https://support.theguardian.com/contribute',
+                    text: 'Support us',
+                },
+            },
+        },
+    ],
+};
+
+const non_supporter_gbp: GutterTest = {
+    channel: 'GutterLiveblog',
+    name: 'nonSupporter__UK',
+    priority: 2,
+    userCohort: 'AllNonSupporters',
+    status: 'Live',
+    contextTargeting: {
+        tagIds: [],
+        sectionIds: [],
+        excludedSectionIds: [],
+        excludedTagIds: [],
+    },
     locations: ['GBPCountries'],
     variants: [
         {
-            name: 'remote',
+            name: 'non-supporter-gbp',
             moduleName: 'Gutter',
             content: {
                 image: {
@@ -71,12 +122,18 @@ const remote_UK: GutterTest = {
     ],
 };
 
-const locationsNotSet: GutterTest = {
-    channel: 'Gutter',
+const no_locations_set: GutterTest = {
+    channel: 'GutterLiveblog',
     name: 'LocationsArrayEmpty',
-    priority: 1,
+    priority: 3,
     userCohort: 'AllNonSupporters',
     status: 'Live',
+    contextTargeting: {
+        tagIds: [],
+        sectionIds: [],
+        excludedSectionIds: [],
+        excludedTagIds: [],
+    },
     locations: [],
     variants: [
         {
@@ -99,12 +156,19 @@ const locationsNotSet: GutterTest = {
     ],
 };
 
-const gutter_supporter: GutterTest = {
-    channel: 'Gutter',
-    name: 'gutter-supporter',
-    priority: 1,
-    userCohort: 'AllExistingSupporters',
+const tag_included: GutterTest = {
+    channel: 'GutterLiveblog',
+    name: 'included_tag',
+    priority: 4,
+    userCohort: 'Everyone',
     status: 'Live',
+    signedInStatus: 'All',
+    contextTargeting: {
+        tagIds: ['politics/politics'],
+        sectionIds: [],
+        excludedTagIds: [],
+        excludedSectionIds: [],
+    },
     locations: [
         'AUDCountries',
         'Canada',
@@ -116,7 +180,127 @@ const gutter_supporter: GutterTest = {
     ],
     variants: [
         {
-            name: 'control',
+            name: 'included_tag',
+            moduleName: 'Gutter',
+            content: {
+                image: {
+                    mainUrl: 'https://uploads.guim.co.uk/2025/01/22/not_for_sale.svg',
+                    altText: 'Not for Sale',
+                },
+                bodyCopy: [
+                    'The Guardian’s expert news coverage is funded by people like you, not a billionaire owner. Will you help us keep our independent journalism free and open to all today?',
+                ],
+                cta: {
+                    baseUrl: 'https://support.theguardian.com/contribute',
+                    text: 'Support us',
+                },
+            },
+        },
+    ],
+};
+
+const supporter_all: GutterTest = {
+    channel: 'GutterLiveblog',
+    name: 'gutter-supporter',
+    priority: 5,
+    userCohort: 'AllExistingSupporters',
+    status: 'Live',
+    contextTargeting: {
+        tagIds: [],
+        sectionIds: [],
+        excludedSectionIds: [],
+        excludedTagIds: [],
+    },
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'GBPCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
+    variants: [
+        {
+            name: 'supporter',
+            moduleName: 'Gutter',
+            content: {
+                image: {
+                    mainUrl: 'https://uploads.guim.co.uk/2025/01/22/not_for_sale.svg',
+                    altText: 'Not for Sale',
+                },
+                bodyCopy: [
+                    'The Guardian’s expert news coverage is funded by people like you, not a billionaire owner. Will you help us keep our independent journalism free and open to all today?',
+                ],
+                cta: {
+                    baseUrl: 'https://support.theguardian.com/contribute',
+                    text: 'Support us',
+                },
+            },
+        },
+    ],
+};
+
+const tag_excluded: GutterTest = {
+    channel: 'GutterLiveblog',
+    name: 'excluded_tag',
+    priority: 6,
+    userCohort: 'AllExistingSupporters',
+    status: 'Live',
+    signedInStatus: 'SignedIn',
+    contextTargeting: {
+        tagIds: [],
+        sectionIds: [],
+        excludedSectionIds: [],
+        excludedTagIds: ['sport'],
+    },
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'GBPCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
+    variants: [
+        {
+            name: 'excluded_tag',
+            moduleName: 'Gutter',
+            content: {
+                image: {
+                    mainUrl: 'https://uploads.guim.co.uk/2025/01/22/not_for_sale.svg',
+                    altText: 'Not for Sale',
+                },
+                bodyCopy: [
+                    'The Guardian’s expert news coverage is funded by people like you, not a billionaire owner. Will you help us keep our independent journalism free and open to all today?',
+                ],
+                cta: {
+                    baseUrl: 'https://support.theguardian.com/contribute',
+                    text: 'Support us',
+                },
+            },
+        },
+    ],
+};
+
+const evergreen: GutterTest = {
+    channel: 'GutterLiveblog',
+    name: 'evergreen',
+    priority: 7,
+    userCohort: 'Everyone',
+    status: 'Live',
+    signedInStatus: 'All',
+    contextTargeting: {
+        tagIds: [],
+        sectionIds: [],
+        excludedTagIds: [],
+        excludedSectionIds: [],
+    },
+    locations: [],
+    variants: [
+        {
+            name: 'evergreen_variant',
             moduleName: 'Gutter',
             content: {
                 image: {
@@ -148,13 +332,18 @@ const variantHasReturnedNull: NullReturn = {
     name: 'variant returned is null',
 };
 
-const mockTests: GutterTest[] = [remote_nonUK, gutter_supporter, remote_UK, locationsNotSet];
-const mockTestEmptyLocations: GutterTest[] = [
-    remote_nonUK,
-    locationsNotSet,
-    gutter_supporter,
-    remote_UK,
-];
+// NOTE: the order of the tests in these two arrays are important and mimic the order of tests in RRCP
+const mockTests: GutterTest[] = [
+    non_supporter_non_gbp,
+    remote_low_priority_nonUK,
+    non_supporter_gbp,
+    no_locations_set,
+    tag_included,
+    supporter_all,
+    tag_excluded,
+].sort((a, b) => (a.priority > b.priority ? 1 : -1));
+
+const mockTestEmptyLocations: GutterTest[] = [no_locations_set, evergreen];
 
 const userDeviceType = 'Desktop';
 
@@ -166,6 +355,7 @@ describe('selectBestTest', () => {
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
             mvtId: 900263,
             isSignedIn: true,
+            tags: [],
         };
 
         const result_1: GutterTestSelection | null = selectBestTest(
@@ -183,9 +373,9 @@ describe('selectBestTest', () => {
         expect(result_1).toHaveProperty('test');
         expect(result_1).toHaveProperty('variant');
         expect(result_1_test).toHaveProperty('name');
-        expect(result_1_test.name).toBe('RemoteRrGutterTest__NonUK');
+        expect(result_1_test.name).toBe('NonSupporter__NonUK');
         expect(result_1_variant).toHaveProperty('name');
-        expect(result_1_variant.name).toBe('remote');
+        expect(result_1_variant.name).toBe('non-supporter_non-uk');
     });
 
     it('It should return a non-UK supporter gutter test', () => {
@@ -195,6 +385,7 @@ describe('selectBestTest', () => {
             countryCode: 'ck',
             mvtId: 900263,
             isSignedIn: true,
+            tags: [],
         };
 
         const result_2: GutterTestSelection | null = selectBestTest(
@@ -214,7 +405,7 @@ describe('selectBestTest', () => {
         expect(result_2_test).toHaveProperty('name');
         expect(result_2_test.name).toBe('gutter-supporter');
         expect(result_2_variant).toHaveProperty('name');
-        expect(result_2_variant.name).toBe('control');
+        expect(result_2_variant.name).toBe('supporter');
     });
 
     it('It should return a UK-based non-supporter gutter test', () => {
@@ -224,6 +415,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             mvtId: 900263,
             isSignedIn: true,
+            tags: [],
         };
 
         const result_3: GutterTestSelection | null = selectBestTest(
@@ -241,9 +433,9 @@ describe('selectBestTest', () => {
         expect(result_3).toHaveProperty('test');
         expect(result_3).toHaveProperty('variant');
         expect(result_3_test).toHaveProperty('name');
-        expect(result_3_test.name).toBe('RemoteRrGutterTest__UK');
+        expect(result_3_test.name).toBe('nonSupporter__UK');
         expect(result_3_variant).toHaveProperty('name');
-        expect(result_3_variant.name).toBe('remote');
+        expect(result_3_variant.name).toBe('non-supporter-gbp');
     });
 
     it('It should return a UK-based supporter gutter test', () => {
@@ -253,6 +445,7 @@ describe('selectBestTest', () => {
             countryCode: 'im',
             mvtId: 900263,
             isSignedIn: true,
+            tags: [],
         };
 
         const result_4: GutterTestSelection | null = selectBestTest(
@@ -272,7 +465,7 @@ describe('selectBestTest', () => {
         expect(result_4_test).toHaveProperty('name');
         expect(result_4_test.name).toBe('gutter-supporter');
         expect(result_4_variant).toHaveProperty('name');
-        expect(result_4_variant.name).toBe('control');
+        expect(result_4_variant.name).toBe('supporter');
     });
 
     it('All non-supporters should return a global locations test if encountered before a test that includes their region', () => {
@@ -282,6 +475,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             mvtId: 900263,
             isSignedIn: true,
+            tags: [],
         };
 
         const result_5: GutterTestSelection | null = selectBestTest(
@@ -302,5 +496,96 @@ describe('selectBestTest', () => {
         expect(result_5_test.name).toBe('LocationsArrayEmpty');
         expect(result_5_variant).toHaveProperty('name');
         expect(result_5_variant.name).toBe('remote');
+    });
+
+    it('Page context with matching excluded tag should not return excluded_tag test', () => {
+        // Mock targeting data: not a supporter, is in UK - DONE
+        const mockTargetingObject_6: GutterTargeting = {
+            showSupportMessaging: true,
+            countryCode: 'im', // Isle of Man (UK sterling region)
+            mvtId: 900263,
+            isSignedIn: true,
+            tags: [{ id: 'sport', type: 'tone' }],
+        };
+
+        const result_6: GutterTestSelection | null = selectBestTest(
+            mockTargetingObject_6,
+            userDeviceType,
+            mockTests,
+        );
+        const result_6_test: GutterTest | NullReturn = result_6
+            ? result_6.test
+            : testHasReturnedNull;
+        const result_6_variant: GutterVariant | NullReturn = result_6
+            ? result_6.variant
+            : variantHasReturnedNull;
+        expect(result_6).toBeDefined();
+        expect(result_6).toHaveProperty('test');
+        expect(result_6).toHaveProperty('variant');
+        expect(result_6_test).toHaveProperty('name');
+        expect(result_6_test.name).not.toBe('excluded_tag');
+        expect(result_6_variant).toHaveProperty('name');
+        expect(result_6_variant.name).not.toBe('excluded_tag');
+    });
+
+    it('Page context with matching tag should return included_tag test', () => {
+        // Mock targeting data: not a supporter, is in UK - FAILING
+        const mockTargetingObject_7: GutterTargeting = {
+            showSupportMessaging: false, // i.e., is a Supporter
+            countryCode: 'fr', // france - EURCountries
+            mvtId: 900263,
+            isSignedIn: true,
+            // tags: [],
+            tags: [{ id: 'politics/politics', type: 'tone' }],
+        };
+
+        const result_7: GutterTestSelection | null = selectBestTest(
+            mockTargetingObject_7,
+            userDeviceType,
+            mockTests,
+        );
+        const result_7_test: GutterTest | NullReturn = result_7
+            ? result_7.test
+            : testHasReturnedNull;
+        const result_7_variant: GutterVariant | NullReturn = result_7
+            ? result_7.variant
+            : variantHasReturnedNull;
+        expect(result_7).toBeDefined();
+        expect(result_7).toHaveProperty('test');
+        expect(result_7).toHaveProperty('variant');
+        expect(result_7_test).toHaveProperty('name');
+        expect(result_7_test.name).toBe('included_tag');
+        expect(result_7_variant).toHaveProperty('name');
+        expect(result_7_variant.name).toBe('included_tag');
+    });
+
+    it('Backup evergreen test, variant if nothing else matches', () => {
+        // A test that picks up an evergreen result
+        const mockTargetingObject_8: GutterTargeting = {
+            showSupportMessaging: false, // i.e., is a Supporter
+            countryCode: 'fr', // france - EURCountries
+            mvtId: 900263,
+            isSignedIn: false,
+            tags: [],
+        };
+
+        const result_8: GutterTestSelection | null = selectBestTest(
+            mockTargetingObject_8,
+            userDeviceType,
+            mockTestEmptyLocations,
+        );
+        const result_8_test: GutterTest | NullReturn = result_8
+            ? result_8.test
+            : testHasReturnedNull;
+        const result_8_variant: GutterVariant | NullReturn = result_8
+            ? result_8.variant
+            : variantHasReturnedNull;
+        expect(result_8).toBeDefined();
+        expect(result_8).toHaveProperty('test');
+        expect(result_8).toHaveProperty('variant');
+        expect(result_8_test).toHaveProperty('name');
+        expect(result_8_test.name).toBe('evergreen');
+        expect(result_8_variant).toHaveProperty('name');
+        expect(result_8_variant.name).toBe('evergreen_variant');
     });
 });
