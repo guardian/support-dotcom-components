@@ -1,9 +1,4 @@
-import {
-    getCountryName,
-    getLocalCurrencySymbol,
-    addRegionIdToSupportUrl,
-    getCountryCodeFromName,
-} from './geolocation';
+import { getCountryName, getLocalCurrencySymbol, addRegionIdToSupportUrl } from './geolocation';
 
 describe('getLocalCurrencySymbol', () => {
     const currencySymbolTests = [
@@ -86,20 +81,5 @@ describe('addRegionIdToSupportUrl', () => {
         const nonconformingUrl = 'https://www.theguardian.com/uk';
         const modifiedUrl = addRegionIdToSupportUrl(nonconformingUrl, countryCode);
         expect(modifiedUrl).toEqual(nonconformingUrl);
-    });
-});
-
-describe('get Country Code from name', () => {
-    const testCases = [
-        { input: 'the UK', expected: 'GB' },
-        { input: 'the Czech Republic', expected: 'CZ' },
-        { input: 'France', expected: 'FR' },
-        { input: 'Nonexistent Country', expected: undefined },
-    ];
-
-    testCases.forEach(({ input, expected }) => {
-        it(`returns ${expected} for country name ${input}`, () => {
-            expect(getCountryCodeFromName(input)).toEqual(expected);
-        });
     });
 });

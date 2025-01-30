@@ -1,6 +1,6 @@
 import { testSchema, userCohortSchema, purchaseInfoTestSchema } from './shared';
 import { headerContentSchema } from '../props';
-import { countryGroupIdSchema } from '../../lib';
+import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
 import { z } from 'zod';
 
 /**
@@ -14,7 +14,8 @@ const headerVariantFromToolSchema = z.object({
 export type HeaderVariantFromTool = z.infer<typeof headerVariantFromToolSchema>;
 
 export const headerTestFromToolSchema = testSchema.extend({
-    locations: z.array(countryGroupIdSchema),
+    locations: z.array(countryGroupIdSchema).optional(),
+    regionTargeting: targetedRegionsSchema.optional(),
     userCohort: userCohortSchema,
     purchaseInfo: purchaseInfoTestSchema.optional(),
     variants: z.array(headerVariantFromToolSchema),

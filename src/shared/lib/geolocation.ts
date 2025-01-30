@@ -572,33 +572,26 @@ export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupI
 
 //inCountryGroups is a bad name now that it accepts country names seperately from country groups
 export const inCountryGroups = (
-    countryCode?: string,
+    countryCodeFromPayload?: string,
     countryGroups: CountryGroupId[] = [],
-    countryNames: string[] = [], // Accepts country names
+    countryCodes: string[] = [], // Accepts individual country codes
 ): boolean => {
     // Always True if no locations or targeted countries set for the test (so always displays epic)
-    if (countryGroups.length === 0 && countryNames.length === 0) {
+    if (countryGroups.length === 0 && countryCodes.length === 0) {
         return true;
     }
     // Always false if user location unknown but test has locations set (so never displays epic unless in country)
-    if (!countryCode) {
+    if (!countryCodeFromPayload) {
         return false;
     }
 
     // Check if the country belongs to the specified country groups
-    if (countryGroups.includes(countryCodeToCountryGroupId(countryCode.toUpperCase()))) {
+    if (countryGroups.includes(countryCodeToCountryGroupId(countryCodeFromPayload.toUpperCase()))) {
         return true;
     }
 
     // Check if the country is in the targeted countries by name
-    for (const name of countryNames) {
-        const code = getCountryCodeFromName(name);
-        if (code && code.toUpperCase() === countryCode.toUpperCase()) {
-            return true;
-        }
-    }
-
-    return false;
+    return countryCodes.includes(countryCodeFromPayload.toUpperCase());
 };
 
 const defaultCurrencySymbol = '£';
@@ -648,8 +641,3 @@ const countryNameToCodeMap: Record<string, string> = {};
 for (const [code, name] of Object.entries(countryNames)) {
     countryNameToCodeMap[name] = code;
 }
-
-// Function to get country code from country name
-export const getCountryCodeFromName = (countryName: string): string | undefined => {
-    return countryNameToCodeMap[countryName];
-};
