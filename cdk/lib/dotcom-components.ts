@@ -23,7 +23,7 @@ import {
 	Metric,
 	TreatMissingData,
 } from 'aws-cdk-lib/aws-cloudwatch';
-import { InstanceClass, InstanceSize, InstanceType } from 'aws-cdk-lib/aws-ec2';
+import { InstanceClass, InstanceSize, InstanceType, UserData } from 'aws-cdk-lib/aws-ec2';
 import type { Policy } from 'aws-cdk-lib/aws-iam';
 
 interface DotcomComponentsProps extends GuStackProps {
@@ -139,7 +139,7 @@ export class DotcomComponents extends GuStack {
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 		});
 
-		const userData = `#!/bin/bash
+		const userData = UserData.custom(`#!/bin/bash
 
 groupadd support
 useradd -r -m -s /usr/bin/nologin -g support dotcom-components
@@ -167,7 +167,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
 
 /opt/aws-kinesis-agent/configure-aws-kinesis-agent ${this.region} ${
 			elkStream.valueAsString
-		} /var/log/dotcom-components/dotcom-components.log`;
+		} /var/log/dotcom-components/dotcom-components.log`);
 
 		const policies: Policy[] = [
 			new GuGetS3ObjectsPolicy(this, 'S3ReadPolicySupportAdminConsole', {

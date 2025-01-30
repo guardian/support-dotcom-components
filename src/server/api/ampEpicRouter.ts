@@ -2,7 +2,6 @@ import express, { Router } from 'express';
 import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
 import cors from 'cors';
 import { AmountsTests, AmountsCardData, OneOffSignupRequest } from '../../shared/types';
-import fetch from 'node-fetch';
 import {
     buildReminderFields,
     countryCodeToCountryGroupId,
