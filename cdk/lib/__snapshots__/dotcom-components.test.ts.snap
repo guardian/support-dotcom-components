@@ -110,6 +110,11 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
           },
         },
         "MaxSize": "18",
+        "MetricsCollection": [
+          {
+            "Granularity": "1Minute",
+          },
+        ],
         "MinSize": "3",
         "Tags": [
           {
@@ -906,6 +911,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         },
         "Port": 443,
         "Protocol": "HTTPS",
+        "SslPolicy": "ELBSecurityPolicy-TLS13-1-2-2021-06",
       },
       "Type": "AWS::ElasticLoadBalancingV2::Listener",
     },
@@ -1450,6 +1456,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
           "InstanceType": "t4g.small",
           "MetadataOptions": {
             "HttpTokens": "required",
+            "InstanceMetadataTags": "enabled",
           },
           "SecurityGroupIds": [
             {
