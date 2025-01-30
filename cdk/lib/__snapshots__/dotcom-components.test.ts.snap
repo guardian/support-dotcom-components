@@ -200,6 +200,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -234,6 +252,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -303,6 +339,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -1020,6 +1074,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -1222,6 +1294,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
