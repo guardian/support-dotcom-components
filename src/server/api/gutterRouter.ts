@@ -75,7 +75,7 @@ export const buildGutterRouter = (
     };
 
     router.post(
-        '/gutter',
+        '/gutter-liveblog',
         bodyContainsAllFields(['tracking', 'targeting']),
         (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
