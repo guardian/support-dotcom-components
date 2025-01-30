@@ -77,8 +77,8 @@ export const matchesCountryGroups: Filter = {
     test: (test, targeting): boolean => {
         const targetedCountries = test.regionTargeting
             ? [
-                  ...(test.regionTargeting.countryGroups || []),
-                  ...(test.regionTargeting.countries || []),
+                  ...(test.regionTargeting.targetedCountryGroups || []),
+                  ...(test.regionTargeting.targetedCountries || []),
               ]
             : [];
         return inCountryGroups(

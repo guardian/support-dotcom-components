@@ -16,8 +16,8 @@ export const countryGroupIdSchema = z.enum(CountryGroupId);
 
 export const targetedRegionsSchema = z
     .object({
-        countryGroups: z.array(countryGroupIdSchema),
-        countries: z.array(z.string()).optional(),
+        targetedCountryGroups: z.array(countryGroupIdSchema),
+        targetedCountries: z.array(z.string()).optional(),
     })
     .optional();
 
@@ -570,6 +570,7 @@ export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupI
     return foundCountryGroupId || 'International';
 };
 
+//inCountryGroups is a bad name now that it accepts country names seperately from country groups
 export const inCountryGroups = (
     countryCode?: string,
     countryGroups: CountryGroupId[] = [],
