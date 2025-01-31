@@ -576,6 +576,9 @@ export const inCountryGroups = (
     countryGroups: CountryGroupId[] = [],
     countryCodes: string[] = [], // Accepts individual country codes
 ): boolean => {
+    console.log('countryCodeFromPayload:', countryCodeFromPayload);
+    console.log('countryGroups:', countryGroups);
+    console.log('countryCodes:', countryCodes);
     // Always True if no locations or targeted countries set for the test (so always displays epic)
     if (countryGroups.length === 0 && countryCodes.length === 0) {
         return true;
