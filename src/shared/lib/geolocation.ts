@@ -14,6 +14,13 @@ export type CountryGroupId = (typeof CountryGroupId)[number];
 
 export const countryGroupIdSchema = z.enum(CountryGroupId);
 
+export const targetedRegionsSchema = z
+    .object({
+        targetedCountryGroups: z.array(countryGroupIdSchema),
+        targetedCountryCodes: z.array(z.string()).optional(),
+    })
+    .optional();
+
 // Used to internationalise 'Support the Guardian' links
 export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA';
 
@@ -560,25 +567,31 @@ export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupI
     const foundCountryGroupId = availableCountryGroupIds.find((countryGroupId) =>
         countryGroups[countryGroupId].countries.includes(countryCode ?? ''),
     );
-
     return foundCountryGroupId || 'International';
 };
 
+//inCountryGroups is a bad name now that it accepts country names seperately from country groups
 export const inCountryGroups = (
-    countryCode?: string,
+    countryCodeFromPayload?: string,
     countryGroups: CountryGroupId[] = [],
+    countryCodes: string[] = [], // Accepts individual country codes
 ): boolean => {
-    // Always True if no locations set for the test
-    if (countryGroups.length === 0) {
+    // Always True if no locations or targeted countries set for the test (so always displays epic)
+    if (countryGroups.length === 0 && countryCodes.length === 0) {
         return true;
     }
-
-    // Always False if user location unknown but test has locations set
-    if (!countryCode) {
+    // Always false if user location unknown but test has locations set (so never displays epic unless in country)
+    if (!countryCodeFromPayload) {
         return false;
     }
 
-    return countryGroups.includes(countryCodeToCountryGroupId(countryCode.toUpperCase()));
+    // Check if the country belongs to the specified country groups
+    if (countryGroups.includes(countryCodeToCountryGroupId(countryCodeFromPayload.toUpperCase()))) {
+        return true;
+    }
+
+    // Check if the country is in the targeted countries by name
+    return countryCodes.includes(countryCodeFromPayload.toUpperCase());
 };
 
 const defaultCurrencySymbol = '£';
@@ -623,3 +636,8 @@ export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: strin
 
     return originalUrl;
 };
+
+const countryNameToCodeMap: Record<string, string> = {};
+for (const [code, name] of Object.entries(countryNames)) {
+    countryNameToCodeMap[name] = code;
+}

@@ -282,6 +282,10 @@ describe('matchesCountryGroups filter', () => {
         const test = {
             ...testDefault,
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
         };
 
         const got = matchesCountryGroups.test(test, targetingDefault);
@@ -293,6 +297,10 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['GBPCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['GBPCountries'],
+                targetedCountryCodes: [],
+            },
         };
         const targeting = {
             ...targetingDefault,
@@ -308,6 +316,10 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: [],
+            },
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
@@ -323,6 +335,86 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: [],
+            },
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'GB',
+        };
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if user is in country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: ['CA'],
+            },
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if user is in targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: ['DE'],
+            },
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if user is in both country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: ['DE'],
+            },
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if user is not in country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: ['NZ'],
+            },
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,

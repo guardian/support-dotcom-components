@@ -74,7 +74,19 @@ export const hasCountryCode: Filter = {
 
 export const matchesCountryGroups: Filter = {
     id: 'matchesCountryGroups',
-    test: (test, targeting): boolean => inCountryGroups(targeting.countryCode, test.locations),
+    test: (test, targeting): boolean => {
+        const targetedRegions = test.regionTargeting
+            ? [
+                  ...(test.regionTargeting.targetedCountryGroups || []),
+                  ...(test.regionTargeting.targetedCountryCodes || []),
+              ]
+            : [];
+        return inCountryGroups(
+            targeting.countryCode,
+            test.locations, // Country groups/region
+            targetedRegions, // Individual country names
+        );
+    },
 };
 
 export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter => ({
