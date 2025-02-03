@@ -82,7 +82,7 @@ export interface BannerTest extends BannerTestFromTool {
 
 export const bannerTestFromToolSchema = testSchema.extend({
     userCohort: userCohortSchema,
-    locations: z.array(countryGroupIdSchema).optional(),
+    locations: z.array(countryGroupIdSchema).optional(), //deprecated
     regionTargeting: targetedRegionsSchema.optional(),
     contextTargeting: pageContextTargetingSchema,
     variants: z.array(bannerVariantFromToolSchema),

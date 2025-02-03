@@ -1,6 +1,6 @@
 import { BannerTargeting, BannerTest } from '../../../shared/types';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
-import { canShowBannerAgain, matchesCountryGroups, selectBannerTest } from './bannerSelection';
+import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 import { BanditData } from '../../bandit/banditData';
 
 const getBannerDeployTimesReloader = (date: string) =>
@@ -119,6 +119,81 @@ describe('selectBannerTest', () => {
                 now,
             );
             expect(result && result.test.name).toBe('test');
+        });
+
+        it('returns test if regionTargeting (country code) matches country code from payload (targeting)', () => {
+            const testWithRegionTargeting: BannerTest = {
+                ...test,
+                regionTargeting: {
+                    targetedCountryGroups: ['UnitedStates'],
+                    targetedCountryCodes: ['AU'],
+                },
+            };
+
+            const result = selectBannerTest(
+                targeting,
+                tracking,
+                userDeviceType,
+                '',
+                [testWithRegionTargeting],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result && result.test.name).toBe('test');
+        });
+
+        it('returns test if regionTargeting (country group) matches country code from payload (targeting)', () => {
+            const testWithRegionTargeting: BannerTest = {
+                ...test,
+                regionTargeting: {
+                    targetedCountryGroups: ['AUDCountries', 'GBPCountries'],
+                    targetedCountryCodes: ['CA', 'DE'],
+                },
+            };
+
+            const result = selectBannerTest(
+                targeting,
+                tracking,
+                userDeviceType,
+                '',
+                [testWithRegionTargeting],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result && result.test.name).toBe('test');
+        });
+
+        it('returns null if regionTargeting does not match country code from payload (targeting)', () => {
+            const testWithRegionTargeting: BannerTest = {
+                ...test,
+                regionTargeting: {
+                    targetedCountryGroups: ['NZDCountries'],
+                    targetedCountryCodes: ['DE', 'FR'],
+                },
+            };
+
+            const result = selectBannerTest(
+                targeting,
+                tracking,
+                userDeviceType,
+                '',
+                [testWithRegionTargeting],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result).toBe(null);
         });
 
         it('returns null if hardcoded tests disabled', () => {
@@ -280,6 +355,10 @@ describe('selectBannerTest', () => {
                 periodInWeeks: 52,
             },
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -392,6 +471,10 @@ describe('selectBannerTest', () => {
                 },
             ],
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -521,6 +604,10 @@ describe('selectBannerTest', () => {
                 },
             ],
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -622,6 +709,10 @@ describe('selectBannerTest', () => {
             userCohort: 'Everyone',
             variants: [],
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -674,94 +765,5 @@ describe('selectBannerTest', () => {
                 canShowBannerAgain(buildTargeting(lastClosedAt), test, manualDeployTimes, now),
             ).toBe(false);
         });
-    });
-});
-
-describe('matchesCountryGroups', () => {
-    const targeting: BannerTargeting = {
-        countryCode: 'AU',
-        shouldHideReaderRevenue: false,
-        isPaidContent: false,
-        showSupportMessaging: true,
-        mvtId: 1,
-        engagementBannerLastClosedAt: '',
-        hasOptedOutOfArticleCount: false,
-        contentType: 'Article',
-        isSignedIn: false,
-        hasConsented: true,
-    };
-
-    const testDefault: BannerTest = {
-        bannerChannel: 'contributions',
-        channel: 'Banner1',
-        contextTargeting: {
-            tagIds: [],
-            sectionIds: [],
-            excludedTagIds: [],
-            excludedSectionIds: [],
-        },
-        isHardcoded: false,
-        priority: 0,
-        name: 'test',
-        status: 'Live',
-        variants: [],
-        userCohort: 'Everyone',
-        regionTargeting: {
-            targetedCountryGroups: [],
-            targetedCountryCodes: [],
-        },
-        locations: [],
-    };
-
-    it('returns true when regionTargeting is not defined', () => {
-        const test: BannerTest = {
-            ...testDefault,
-            regionTargeting: {
-                targetedCountryGroups: [],
-                targetedCountryCodes: [],
-            },
-        };
-
-        const result = matchesCountryGroups.test(test, targeting);
-        expect(result).toBe(true);
-    });
-
-    it('returns true when country is targeted by region', () => {
-        const test: BannerTest = {
-            ...testDefault,
-            regionTargeting: {
-                targetedCountryGroups: ['AUDCountries'],
-                targetedCountryCodes: [],
-            },
-        };
-
-        const result = matchesCountryGroups.test(test, targeting);
-        expect(result).toBe(true);
-    });
-
-    it('returns true when country is targeted by country', () => {
-        const test: BannerTest = {
-            ...testDefault,
-            regionTargeting: {
-                targetedCountryGroups: [],
-                targetedCountryCodes: ['AU'],
-            },
-        };
-
-        const result = matchesCountryGroups.test(test, targeting);
-        expect(result).toBe(true);
-    });
-
-    it('returns false when country is not targeted by regionTargeting', () => {
-        const test: BannerTest = {
-            ...testDefault,
-            regionTargeting: {
-                targetedCountryGroups: ['EURCountries'],
-                targetedCountryCodes: ['US'],
-            },
-        };
-
-        const result = matchesCountryGroups.test(test, targeting);
-        expect(result).toBe(false);
     });
 });
