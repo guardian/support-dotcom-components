@@ -58,6 +58,26 @@ function canShowAbandonedBasketBanner(
     return daysSince(new Date(abandonedBasketBannerLastClosedAt), now) > 0;
 }
 
+export interface Filter {
+    test: (test: BannerTest, targeting: BannerTargeting) => boolean;
+}
+
+export const matchesCountryGroups: Filter = {
+    test: (test, targeting): boolean => {
+        const targetedCountryGroups = test.regionTargeting
+            ? test.regionTargeting.targetedCountryGroups
+            : test.locations;
+        const targetedCountryCodes = test.regionTargeting
+            ? test.regionTargeting.targetedCountryCodes
+            : [];
+        return inCountryGroups(
+            targeting.countryCode,
+            targetedCountryGroups, // Country groups/region
+            targetedCountryCodes, // Individual country names
+        );
+    },
+};
+
 /**
  * If the banner has been closed previously, can we show it again?
  * Takes into account both the manual deploys (from RRCP) and the scheduled deploys.
@@ -211,7 +231,7 @@ export const selectBannerTest = (
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
-            inCountryGroups(targeting.countryCode, test.locations) &&
+            matchesCountryGroups &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,
