@@ -1,6 +1,6 @@
 import { BannerTargeting, BannerTest } from '../../../shared/types';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
-import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
+import { canShowBannerAgain, matchesCountryGroups, selectBannerTest } from './bannerSelection';
 import { BanditData } from '../../bandit/banditData';
 
 const getBannerDeployTimesReloader = (date: string) =>
@@ -90,6 +90,10 @@ describe('selectBannerTest', () => {
                 periodInWeeks: 52,
             },
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -670,5 +674,94 @@ describe('selectBannerTest', () => {
                 canShowBannerAgain(buildTargeting(lastClosedAt), test, manualDeployTimes, now),
             ).toBe(false);
         });
+    });
+});
+
+describe('matchesCountryGroups', () => {
+    const targeting: BannerTargeting = {
+        countryCode: 'AU',
+        shouldHideReaderRevenue: false,
+        isPaidContent: false,
+        showSupportMessaging: true,
+        mvtId: 1,
+        engagementBannerLastClosedAt: '',
+        hasOptedOutOfArticleCount: false,
+        contentType: 'Article',
+        isSignedIn: false,
+        hasConsented: true,
+    };
+
+    const testDefault: BannerTest = {
+        bannerChannel: 'contributions',
+        channel: 'Banner1',
+        contextTargeting: {
+            tagIds: [],
+            sectionIds: [],
+            excludedTagIds: [],
+            excludedSectionIds: [],
+        },
+        isHardcoded: false,
+        priority: 0,
+        name: 'test',
+        status: 'Live',
+        variants: [],
+        userCohort: 'Everyone',
+        regionTargeting: {
+            targetedCountryGroups: [],
+            targetedCountryCodes: [],
+        },
+        locations: [],
+    };
+
+    it('returns true when regionTargeting is not defined', () => {
+        const test: BannerTest = {
+            ...testDefault,
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
+        };
+
+        const result = matchesCountryGroups.test(test, targeting);
+        expect(result).toBe(true);
+    });
+
+    it('returns true when country is targeted by region', () => {
+        const test: BannerTest = {
+            ...testDefault,
+            regionTargeting: {
+                targetedCountryGroups: ['AUDCountries'],
+                targetedCountryCodes: [],
+            },
+        };
+
+        const result = matchesCountryGroups.test(test, targeting);
+        expect(result).toBe(true);
+    });
+
+    it('returns true when country is targeted by country', () => {
+        const test: BannerTest = {
+            ...testDefault,
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: ['AU'],
+            },
+        };
+
+        const result = matchesCountryGroups.test(test, targeting);
+        expect(result).toBe(true);
+    });
+
+    it('returns false when country is not targeted by regionTargeting', () => {
+        const test: BannerTest = {
+            ...testDefault,
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: ['US'],
+            },
+        };
+
+        const result = matchesCountryGroups.test(test, targeting);
+        expect(result).toBe(false);
     });
 });
