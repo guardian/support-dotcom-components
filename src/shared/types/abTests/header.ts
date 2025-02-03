@@ -14,7 +14,7 @@ const headerVariantFromToolSchema = z.object({
 export type HeaderVariantFromTool = z.infer<typeof headerVariantFromToolSchema>;
 
 export const headerTestFromToolSchema = testSchema.extend({
-    locations: z.array(countryGroupIdSchema).optional(),
+    locations: z.array(countryGroupIdSchema).optional(), //deprecated
     regionTargeting: targetedRegionsSchema.optional(),
     userCohort: userCohortSchema,
     purchaseInfo: purchaseInfoTestSchema.optional(),

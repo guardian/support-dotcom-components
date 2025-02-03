@@ -20,6 +20,17 @@ const remote_nonUK: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -44,7 +55,10 @@ const remote_UK: HeaderTest = {
     priority: 1,
     userCohort: 'AllNonSupporters',
     status: 'Live',
-    locations: ['GBPCountries'],
+    regionTargeting: {
+        targetedCountryGroups: ['GBPCountries'],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -70,6 +84,10 @@ const locationsNotSet: HeaderTest = {
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -103,6 +121,18 @@ const header_supporter: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'control',
@@ -129,6 +159,18 @@ const header_new_supporter: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     purchaseInfo: {
         product: ['Contribution'],
         userType: ['new', 'guest'],
@@ -159,6 +201,18 @@ const header_existing_subscriber: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     purchaseInfo: {
         product: ['SupporterPlus'],
         userType: ['current'],

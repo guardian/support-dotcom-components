@@ -29,6 +29,17 @@ const nonSupportersTestNonUK: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -56,6 +67,10 @@ const nonSupportersTestUK: HeaderTest = {
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: ['GBPCountries'],
+    regionTargeting: {
+        targetedCountryGroups: ['GBPCountries'],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -91,6 +106,18 @@ const supportersTest: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'control',
@@ -117,6 +144,18 @@ const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
 };
 
 const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
@@ -303,12 +342,16 @@ export const selectBestTest = (
     const { showSupportMessaging, countryCode, purchaseInfo, isSignedIn } = targeting;
 
     const selectedTest = allTests.find((test) => {
-        const { status, userCohort, locations, signedInStatus } = test;
+        const { status, userCohort, regionTargeting, signedInStatus } = test;
 
         return (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
-            inCountryGroups(countryCode, locations) &&
+            inCountryGroups(
+                countryCode,
+                regionTargeting?.targetedCountryGroups,
+                regionTargeting?.targetedCountryCodes,
+            ) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus)

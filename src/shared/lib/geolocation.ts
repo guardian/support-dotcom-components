@@ -570,7 +570,7 @@ export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupI
     return foundCountryGroupId || 'International';
 };
 
-//inCountryGroups is a bad name now that it accepts country names seperately from country groups
+//inCountryGroups is a bad name now that it accepts country names separately from country groups
 export const inCountryGroups = (
     countryCodeFromPayload?: string,
     countryGroups: CountryGroupId[] = [],
