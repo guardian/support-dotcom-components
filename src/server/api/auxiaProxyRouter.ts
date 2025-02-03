@@ -43,6 +43,17 @@ interface AuxiaAPIGetTreatmentsRequestPayload {
     languageCode: string;
 }
 
+interface AuxiaAPILogTreatmentInteractionRequestPayload {
+    projectId: string;
+    userId: string;
+    treatmentTrackingId: string;
+    treatmentId: string;
+    surface: string;
+    interactionType: string;
+    interactionTimeMicros: number;
+    actionName: string;
+}
+
 interface AuxiaAPIGetTreatmentsResponseData {
     responseId: string;
     userTreatments: AuxiaUserTreatment[];
@@ -58,10 +69,37 @@ interface AuxiaProxyGetTreatmentsResponseData {
 }
 
 // --------------------------------
-// Proxy Implementation
+// Proxy Common Functions
 // --------------------------------
 
-const buildAuxiaAPIRequestPayload = (
+export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
+    const apiKey = await getSsmValue('PROD', 'auxia-api-key');
+    if (apiKey === undefined) {
+        throw new Error('auxia-api-key is undefined');
+    }
+
+    const projectId = await getSsmValue('PROD', 'auxia-projectId');
+    if (projectId === undefined) {
+        throw new Error('auxia-projectId is undefined');
+    }
+
+    const userId = await getSsmValue('PROD', 'auxia-userId');
+    if (userId === undefined) {
+        throw new Error('auxia-userId is undefined');
+    }
+
+    return Promise.resolve({
+        apiKey,
+        projectId,
+        userId,
+    });
+};
+
+// --------------------------------
+// Proxy Implementation GetTreatments
+// --------------------------------
+
+const buildGetTreatmentsRequestPayload = (
     projectId: string,
     userId: string,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
@@ -97,7 +135,7 @@ const callGetTreatments = async (
         'x-api-key': apiKey,
     };
 
-    const payload = buildAuxiaAPIRequestPayload(projectId, userId);
+    const payload = buildGetTreatmentsRequestPayload(projectId, userId);
 
     const params = {
         method: 'POST',
@@ -124,31 +162,80 @@ const buildAuxiaProxyGetTreatmentsResponseData = (
     };
 };
 
-export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
-    const apiKey = await getSsmValue('PROD', 'auxia-api-key');
-    if (apiKey === undefined) {
-        throw new Error('auxia-api-key is undefined');
-    }
+// --------------------------------
+// LogTreatmentInteraction Implementation
+// --------------------------------
 
-    const projectId = await getSsmValue('PROD', 'auxia-projectId');
-    if (projectId === undefined) {
-        throw new Error('auxia-projectId is undefined');
-    }
+const buildLogTreatmentInteractionRequestPayload = (
+    projectId: string,
+    userId: string,
+    treatmentTrackingId: string,
+    treatmentId: string,
+    surface: string,
+    interactionType: string,
+    interactionTimeMicros: number,
+    actionName: string,
+): AuxiaAPILogTreatmentInteractionRequestPayload => {
+    // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
+    return {
+        projectId: projectId,
+        userId: userId,
+        treatmentTrackingId,
+        treatmentId,
+        surface,
+        interactionType,
+        interactionTimeMicros,
+        actionName,
+    };
+};
 
-    const userId = await getSsmValue('PROD', 'auxia-userId');
-    if (userId === undefined) {
-        throw new Error('auxia-userId is undefined');
-    }
+const callLogTreatmentInteration = async (
+    apiKey: string,
+    projectId: string,
+    userId: string,
+    treatmentTrackingId: string,
+    treatmentId: string,
+    surface: string,
+    interactionType: string,
+    interactionTimeMicros: number,
+    actionName: string,
+): Promise<void> => {
+    const url = 'https://apis.auxia.io/v1/LogTreatmentInteraction';
 
-    return Promise.resolve({
-        apiKey,
+    const headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+    };
+
+    const payload = buildLogTreatmentInteractionRequestPayload(
         projectId,
         userId,
-    });
+        treatmentTrackingId,
+        treatmentId,
+        surface,
+        interactionType,
+        interactionTimeMicros,
+        actionName,
+    );
+
+    const params = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+    };
+
+    await fetch(url, params);
+
+    // We are not consuming an answer from the server, so we are not returning anything.
 };
+
+// --------------------------------
+// Router
+// --------------------------------
 
 export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
     const router = Router();
+
     router.post(
         '/auxia/get-treatments',
 
@@ -166,6 +253,29 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 const response = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
 
                 res.send(response);
+            } catch (error) {
+                next(error);
+            }
+        },
+    );
+
+    router.post(
+        '/auxia/log-treatment-interaction',
+
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            try {
+                await callLogTreatmentInteration(
+                    config.apiKey,
+                    config.projectId,
+                    config.userId,
+                    req.body.treatmentTrackingId,
+                    req.body.treatmentId,
+                    req.body.surface,
+                    req.body.interactionType,
+                    req.body.interactionTimeMicros,
+                    req.body.actionName,
+                );
+                res.send({ status: 'ok' }); // this is the proxy's response, slightly more user's friendly than the api's response.
             } catch (error) {
                 next(error);
             }
