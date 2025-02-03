@@ -127,6 +127,7 @@ const no_locations_set: GutterTest = {
     name: 'LocationsArrayEmpty',
     priority: 3,
     userCohort: 'AllNonSupporters',
+    signedInStatus: 'All',
     status: 'Live',
     contextTargeting: {
         tagIds: [],
@@ -343,13 +344,13 @@ const mockTests: GutterTest[] = [
     tag_excluded,
 ].sort((a, b) => (a.priority > b.priority ? 1 : -1));
 
-const mockTestEmptyLocations: GutterTest[] = [no_locations_set, evergreen];
+const mockTestEmptyLocations: GutterTest[] = [no_locations_set, non_supporter_gbp, evergreen];
 
 const userDeviceType = 'Desktop';
 
 describe('selectBestTest', () => {
     it('It should return a non-UK non-supporter gutter test', () => {
-        // Mock targeting data: not a supporter, not in UK - DONE
+        // Mock targeting data: not a supporter, not in UK
         const mockTargetingObject_1: GutterTargeting = {
             showSupportMessaging: true,
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
@@ -379,7 +380,7 @@ describe('selectBestTest', () => {
     });
 
     it('It should return a non-UK supporter gutter test', () => {
-        // Mock targeting data: is a supporter, not in UK - DONE
+        // Mock targeting data: is a supporter, not in UK
         const mockTargetingObject_2: GutterTargeting = {
             showSupportMessaging: false,
             countryCode: 'ck',
@@ -409,7 +410,7 @@ describe('selectBestTest', () => {
     });
 
     it('It should return a UK-based non-supporter gutter test', () => {
-        // Mock targeting data: not a supporter, is in UK - DONE
+        // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_3: GutterTargeting = {
             showSupportMessaging: true,
             countryCode: 'im', // Isle of Man (UK sterling region)
@@ -469,7 +470,7 @@ describe('selectBestTest', () => {
     });
 
     it('All non-supporters should return a global locations test if encountered before a test that includes their region', () => {
-        // Mock targeting data: not a supporter, is in UK - DONE
+        // Mock targeting data: not a supporter, is in UK, LocationsArrayEmpty test set up in mockTestEmptyLocations before locale targeted test.
         const mockTargetingObject_5: GutterTargeting = {
             showSupportMessaging: true,
             countryCode: 'im', // Isle of Man (UK sterling region)
@@ -499,7 +500,7 @@ describe('selectBestTest', () => {
     });
 
     it('Page context with matching excluded tag should not return excluded_tag test', () => {
-        // Mock targeting data: not a supporter, is in UK - DONE
+        // Mock targeting data: not a supporter, is in UK, has an excluded tag
         const mockTargetingObject_6: GutterTargeting = {
             showSupportMessaging: true,
             countryCode: 'im', // Isle of Man (UK sterling region)
@@ -529,7 +530,7 @@ describe('selectBestTest', () => {
     });
 
     it('Page context with matching tag should return included_tag test', () => {
-        // Mock targeting data: not a supporter, is in UK - FAILING
+        // Mock targeting data: is a supporter, is in EU
         const mockTargetingObject_7: GutterTargeting = {
             showSupportMessaging: false, // i.e., is a Supporter
             countryCode: 'fr', // france - EURCountries
