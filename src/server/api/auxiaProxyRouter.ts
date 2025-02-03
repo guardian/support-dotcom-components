@@ -55,10 +55,6 @@ const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAP
                 key: 'profile_id',
                 stringValue: 'pr1234',
             },
-            {
-                key: 'last_action',
-                stringValue: 'button_x_clicked',
-            },
         ],
         surfaces: [
             {
