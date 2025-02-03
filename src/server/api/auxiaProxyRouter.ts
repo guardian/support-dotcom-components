@@ -55,10 +55,6 @@ const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAP
                 key: 'profile_id',
                 stringValue: 'pr1234',
             },
-            {
-                key: 'last_action',
-                stringValue: 'button_x_clicked',
-            },
         ],
         surfaces: [
             {
@@ -133,7 +129,7 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
     const router = Router();
     router.post(
-        '/auxia',
+        '/auxia/get-treatments',
 
         // We are disabling that check for now, we will re-enable it later when we have a
         // better understanding of the request payload.
