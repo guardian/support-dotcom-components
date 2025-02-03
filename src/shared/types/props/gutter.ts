@@ -9,7 +9,7 @@ export interface GutterContent {
 }
 
 export const gutterContentSchema = z.object({
-    image: imageSchema, // TODO: do we use mainUrl or leftColUrl (which is optional)?
+    image: imageSchema, // We're using mainUrl here.
     bodyCopy: z.array(z.string()),
     cta: ctaSchema.optional(),
 });
