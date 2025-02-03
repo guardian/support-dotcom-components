@@ -129,7 +129,7 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
     const router = Router();
     router.post(
-        '/auxia',
+        '/auxia/get-treatments',
 
         // We are disabling that check for now, we will re-enable it later when we have a
         // better understanding of the request payload.
