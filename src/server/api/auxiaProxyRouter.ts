@@ -93,7 +93,7 @@ const callGetTreatments = async (
     return Promise.resolve(responseBody as AuxiaAPIResponseData);
 };
 
-const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIResponseData): AuxiaProxyResponseData => {
+const buildAuxiaProxyGetTreatmentsResponseData = (auxiaData: AuxiaAPIResponseData): AuxiaProxyResponseData => {
     // Note the small difference between AuxiaAPIResponseData and AuxiaProxyResponseData
     // In the case of AuxiaProxyResponseData, we have an optional userTreatment field, instead of an array of userTreatments.
     // This is to reflect the what the client expect semantically.
@@ -142,7 +142,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     config.projectId,
                     config.userId,
                 );
-                const response = buildAuxiaProxyResponseData(auxiaData);
+                const response = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
 
                 res.send(response);
             } catch (error) {
