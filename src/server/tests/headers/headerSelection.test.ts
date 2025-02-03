@@ -12,14 +12,7 @@ const remote_nonUK: HeaderTest = {
     priority: 1,
     userCohort: 'AllNonSupporters',
     status: 'Live',
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
+    locations: [],
     regionTargeting: {
         targetedCountryGroups: [
             'AUDCountries',
@@ -112,15 +105,7 @@ const header_supporter: HeaderTest = {
     priority: 1,
     userCohort: 'AllExistingSupporters',
     status: 'Live',
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'GBPCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
+    locations: [],
     regionTargeting: {
         targetedCountryGroups: [
             'AUDCountries',
@@ -150,15 +135,7 @@ const header_new_supporter: HeaderTest = {
     priority: 1,
     userCohort: 'Everyone',
     status: 'Live',
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'GBPCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
+    locations: [],
     regionTargeting: {
         targetedCountryGroups: [
             'AUDCountries',
@@ -192,15 +169,7 @@ const header_existing_subscriber: HeaderTest = {
     priority: 1,
     userCohort: 'Everyone',
     status: 'Live',
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'GBPCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
+    locations: [],
     regionTargeting: {
         targetedCountryGroups: [
             'AUDCountries',
