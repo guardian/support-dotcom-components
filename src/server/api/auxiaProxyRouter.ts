@@ -1,31 +1,27 @@
 import express, { Router } from 'express';
 import { getSsmValue } from '../utils/ssm';
 
+// --------------------------------
+// Basic Types
+// --------------------------------
+
 export interface AuxiaRouterConfig {
     apiKey: string;
     projectId: string;
     userId: string;
 }
 
-interface AuxiaApiRequestPayloadContextualAttributes {
+interface AuxiaContextualAttributes {
     key: string;
     stringValue: string;
 }
 
-interface AuxiaApiRequestPayloadSurface {
+interface AuxiaSurface {
     surface: string;
     maximumTreatmentCount: number;
 }
 
-interface AuxiaAPIRequestPayload {
-    projectId: string;
-    userId: string;
-    contextualAttributes: AuxiaApiRequestPayloadContextualAttributes[];
-    surfaces: AuxiaApiRequestPayloadSurface[];
-    languageCode: string;
-}
-
-interface AuxiaAPIResponseDataUserTreatment {
+interface AuxiaUserTreatment {
     treatmentId: string;
     treatmentTrackingId: string;
     rank: string;
@@ -35,17 +31,40 @@ interface AuxiaAPIResponseDataUserTreatment {
     surface: string;
 }
 
-interface AuxiaAPIResponseData {
-    responseId: string;
-    userTreatments: AuxiaAPIResponseDataUserTreatment[];
+// --------------------------------
+// Auxia API Interface
+// --------------------------------
+
+interface AuxiaAPIGetTreatmentsRequestPayload {
+    projectId: string;
+    userId: string;
+    contextualAttributes: AuxiaContextualAttributes[];
+    surfaces: AuxiaSurface[];
+    languageCode: string;
 }
 
-interface AuxiaProxyResponseData {
+interface AuxiaAPIGetTreatmentsResponseData {
     responseId: string;
-    userTreatment?: AuxiaAPIResponseDataUserTreatment;
+    userTreatments: AuxiaUserTreatment[];
 }
 
-const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAPIRequestPayload => {
+// --------------------------------
+// Proxy Interface
+// --------------------------------
+
+interface AuxiaProxyGetTreatmentsResponseData {
+    responseId: string;
+    userTreatment?: AuxiaUserTreatment;
+}
+
+// --------------------------------
+// Proxy Implementation
+// --------------------------------
+
+const buildAuxiaAPIRequestPayload = (
+    projectId: string,
+    userId: string,
+): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
         projectId: projectId,
@@ -70,7 +89,7 @@ const callGetTreatments = async (
     apiKey: string,
     projectId: string,
     userId: string,
-): Promise<AuxiaAPIResponseData> => {
+): Promise<AuxiaAPIGetTreatmentsResponseData> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
     const headers = {
@@ -90,10 +109,12 @@ const callGetTreatments = async (
 
     const responseBody = await response.json();
 
-    return Promise.resolve(responseBody as AuxiaAPIResponseData);
+    return Promise.resolve(responseBody as AuxiaAPIGetTreatmentsResponseData);
 };
 
-const buildAuxiaProxyGetTreatmentsResponseData = (auxiaData: AuxiaAPIResponseData): AuxiaProxyResponseData => {
+const buildAuxiaProxyGetTreatmentsResponseData = (
+    auxiaData: AuxiaAPIGetTreatmentsResponseData,
+): AuxiaProxyGetTreatmentsResponseData => {
     // Note the small difference between AuxiaAPIResponseData and AuxiaProxyResponseData
     // In the case of AuxiaProxyResponseData, we have an optional userTreatment field, instead of an array of userTreatments.
     // This is to reflect the what the client expect semantically.
