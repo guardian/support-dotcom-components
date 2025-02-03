@@ -14,51 +14,6 @@ import { TestVariant } from '../../lib/params';
 
 const moduleName = 'Gutter';
 
-// hard coded tests
-const supportersTest: GutterTest = {
-    channel: 'GutterLiveblog',
-    name: 'gutter-supporter-hardcoded',
-    priority: 99,
-    userCohort: 'AllExistingSupporters',
-    status: 'Live',
-    contextTargeting: {
-        tagIds: [],
-        sectionIds: [],
-        excludedSectionIds: [],
-        excludedTagIds: [],
-    },
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'GBPCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
-    variants: [
-        {
-            name: 'control',
-            moduleName,
-            content: {
-                image: {
-                    mainUrl: 'https://uploads.guim.co.uk/2025/01/22/not_for_sale.svg',
-                    altText: 'Not for Sale',
-                },
-                bodyCopy: [
-                    'The Guardian’s expert news coverage is funded by people like you, not a billionaire owner. Will you help us keep our independent journalism free and open to all today?',
-                ],
-                cta: {
-                    baseUrl: 'https://support.theguardian.com/contribute',
-                    text: 'Support us',
-                },
-            },
-        },
-    ],
-};
-
-const hardcodedTests = [supportersTest];
-
 // Exported for Jest testing
 export const selectBestTest = (
     targeting: GutterTargeting,
@@ -126,10 +81,8 @@ export const selectGutterTest = (
     userDeviceType: UserDeviceType,
     forcedTestVariant?: TestVariant,
 ): GutterTestSelection | null => {
-    const allTests = [...configuredTests, ...hardcodedTests];
-
     if (forcedTestVariant) {
-        return getForcedVariant(forcedTestVariant, allTests);
+        return getForcedVariant(forcedTestVariant, configuredTests);
     }
-    return selectBestTest(targeting, userDeviceType, allTests);
+    return selectBestTest(targeting, userDeviceType, configuredTests);
 };
