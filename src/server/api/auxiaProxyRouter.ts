@@ -66,7 +66,7 @@ const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAP
     };
 };
 
-const fetchAuxiaData = async (
+const callGetTreatments = async (
     apiKey: string,
     projectId: string,
     userId: string,
@@ -137,7 +137,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const auxiaData = await fetchAuxiaData(
+                const auxiaData = await callGetTreatments(
                     config.apiKey,
                     config.projectId,
                     config.userId,
