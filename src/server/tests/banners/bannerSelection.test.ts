@@ -53,13 +53,6 @@ describe('selectBannerTest', () => {
             hasConsented: true,
         };
 
-        const tracking = {
-            ophanPageId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
-        };
-
         const test: BannerTest = {
             channel: 'Banner1',
             name: 'test',
@@ -103,7 +96,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 [test],
@@ -122,7 +114,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 [{ ...test, isHardcoded: true }],
@@ -141,7 +132,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 [test],
@@ -160,7 +150,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 [
@@ -184,7 +173,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     hasOptedOutOfArticleCount: true,
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 [test],
@@ -206,7 +194,6 @@ describe('selectBannerTest', () => {
 
             const result = selectBannerTest(
                 targetingWithTaylorReportTag,
-                tracking,
                 userDeviceType,
                 '',
                 [test],
@@ -238,13 +225,6 @@ describe('selectBannerTest', () => {
             contentType: 'Article',
             isSignedIn: false,
             hasConsented: true,
-        };
-
-        const tracking = {
-            ophanPageId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
         };
 
         const test: BannerTest = {
@@ -289,7 +269,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 [test],
@@ -308,7 +287,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 [test],
@@ -327,7 +305,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 [
@@ -362,13 +339,6 @@ describe('selectBannerTest', () => {
             contentType: 'Article',
             isSignedIn: false,
             hasConsented: true,
-        };
-
-        const tracking = {
-            ophanPageId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
         };
 
         const baseTest: Omit<BannerTest, 'name'> = {
@@ -414,7 +384,6 @@ describe('selectBannerTest', () => {
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
-                tracking,
                 userDeviceType,
                 '',
                 tests,
@@ -484,13 +453,6 @@ describe('selectBannerTest', () => {
             hasConsented: true,
         };
 
-        const tracking = {
-            ophanPageId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
-        };
-
         const test: BannerTest = {
             channel: 'Banner1',
             name: 'abandonedBasket',
@@ -536,7 +498,6 @@ describe('selectBannerTest', () => {
                         product: 'Contribution',
                     },
                 },
-                tracking,
                 userDeviceType,
                 '',
                 [test],
@@ -562,7 +523,6 @@ describe('selectBannerTest', () => {
                     },
                     abandonedBasketBannerLastClosedAt: now.toISOString(),
                 },
-                tracking,
                 userDeviceType,
                 '',
                 [test],
@@ -579,7 +539,6 @@ describe('selectBannerTest', () => {
         it('returns null when abandoned basket property not present', () => {
             const result = selectBannerTest(
                 targeting,
-                tracking,
                 userDeviceType,
                 '',
                 [test],
