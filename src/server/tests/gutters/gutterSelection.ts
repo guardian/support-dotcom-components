@@ -27,7 +27,7 @@ export const selectBestTest = (
 
         // build pageContext
         const pageContext = {
-            tagIds: targeting.tags.map((tag) => tag.id),
+            tagIds: targeting.tagIds,
             sectionId: targeting.sectionId,
         };
 

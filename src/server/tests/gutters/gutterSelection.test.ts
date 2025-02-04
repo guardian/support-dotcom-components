@@ -356,7 +356,7 @@ describe('selectBestTest', () => {
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
             mvtId: 900263,
             isSignedIn: true,
-            tags: [],
+            tagIds: [],
         };
 
         const result_1: GutterTestSelection | null = selectBestTest(
@@ -386,7 +386,7 @@ describe('selectBestTest', () => {
             countryCode: 'ck',
             mvtId: 900263,
             isSignedIn: true,
-            tags: [],
+            tagIds: [],
         };
 
         const result_2: GutterTestSelection | null = selectBestTest(
@@ -416,7 +416,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             mvtId: 900263,
             isSignedIn: true,
-            tags: [],
+            tagIds: [],
         };
 
         const result_3: GutterTestSelection | null = selectBestTest(
@@ -446,7 +446,7 @@ describe('selectBestTest', () => {
             countryCode: 'im',
             mvtId: 900263,
             isSignedIn: true,
-            tags: [],
+            tagIds: [],
         };
 
         const result_4: GutterTestSelection | null = selectBestTest(
@@ -476,7 +476,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             mvtId: 900263,
             isSignedIn: true,
-            tags: [],
+            tagIds: [],
         };
 
         const result_5: GutterTestSelection | null = selectBestTest(
@@ -506,7 +506,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             mvtId: 900263,
             isSignedIn: true,
-            tags: [{ id: 'sport', type: 'tone' }],
+            tagIds: ['sport'],
         };
 
         const result_6: GutterTestSelection | null = selectBestTest(
@@ -536,8 +536,7 @@ describe('selectBestTest', () => {
             countryCode: 'fr', // france - EURCountries
             mvtId: 900263,
             isSignedIn: true,
-            // tags: [],
-            tags: [{ id: 'politics/politics', type: 'tone' }],
+            tagIds: ['politics/politics'],
         };
 
         const result_7: GutterTestSelection | null = selectBestTest(
@@ -567,7 +566,7 @@ describe('selectBestTest', () => {
             countryCode: 'fr', // france - EURCountries
             mvtId: 900263,
             isSignedIn: false,
-            tags: [],
+            tagIds: [],
         };
 
         const result_8: GutterTestSelection | null = selectBestTest(

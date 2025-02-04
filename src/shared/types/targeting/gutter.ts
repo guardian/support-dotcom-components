@@ -1,11 +1,11 @@
-import { PageTracking, Tag } from './shared';
+import { PageTracking } from './shared';
 
 export interface GutterTargeting {
     showSupportMessaging: boolean;
     countryCode: string;
     mvtId: number;
     isSignedIn: boolean;
-    tags: Tag[];
+    tagIds?: string[];
     sectionId?: string;
 }
 
