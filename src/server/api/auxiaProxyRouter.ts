@@ -176,7 +176,6 @@ const buildLogTreatmentInteractionRequestPayload = (
     interactionTimeMicros: number,
     actionName: string,
 ): AuxiaAPILogTreatmentInteractionRequestPayload => {
-    // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
         projectId: projectId,
         userId: userId,
