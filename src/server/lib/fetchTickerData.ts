@@ -1,6 +1,4 @@
 import { Stage, TickerData, TickerName, TickerSettings } from '../../shared/types';
-import { Response } from 'node-fetch';
-import fetch from 'node-fetch';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
 import { logError } from '../utils/logging';
 
@@ -40,9 +38,7 @@ const parse = (json: any): Promise<TickerData> => {
 
 const getTickerDataForTickerTypeFetcher =
     (stage: Stage, name: TickerName) => (): Promise<TickerData> => {
-        return fetch(tickerUrl(stage, name), {
-            timeout: 1000 * 20,
-        })
+        return fetch(tickerUrl(stage, name))
             .then((response) => checkForErrors(response))
             .then((response) => response.json())
             .then(parse)

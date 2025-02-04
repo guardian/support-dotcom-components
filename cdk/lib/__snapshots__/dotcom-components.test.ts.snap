@@ -110,6 +110,11 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
           },
         },
         "MaxSize": "18",
+        "MetricsCollection": [
+          {
+            "Granularity": "1Minute",
+          },
+        ],
         "MinSize": "3",
         "Tags": [
           {
@@ -200,6 +205,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -234,6 +257,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -303,6 +344,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -852,6 +911,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         },
         "Port": 443,
         "Protocol": "HTTPS",
+        "SslPolicy": "ELBSecurityPolicy-TLS13-1-2-2021-06",
       },
       "Type": "AWS::ElasticLoadBalancingV2::Listener",
     },
@@ -1020,6 +1080,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -1222,6 +1300,24 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
       },
@@ -1360,6 +1456,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
           "InstanceType": "t4g.small",
           "MetadataOptions": {
             "HttpTokens": "required",
+            "InstanceMetadataTags": "enabled",
           },
           "SecurityGroupIds": [
             {

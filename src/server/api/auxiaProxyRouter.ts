@@ -14,7 +14,6 @@ interface AuxiaApiRequestPayloadContextualAttributes {
 
 interface AuxiaApiRequestPayloadSurface {
     surface: string;
-    minimumTreatmentCount: number;
     maximumTreatmentCount: number;
 }
 
@@ -26,7 +25,7 @@ interface AuxiaAPIRequestPayload {
     languageCode: string;
 }
 
-interface AuxiaAPIAnswerDataUserTreatment {
+interface AuxiaAPIResponseDataUserTreatment {
     treatmentId: string;
     treatmentTrackingId: string;
     rank: string;
@@ -36,13 +35,14 @@ interface AuxiaAPIAnswerDataUserTreatment {
     surface: string;
 }
 
-interface AuxiaAPIAnswerData {
+interface AuxiaAPIResponseData {
     responseId: string;
-    userTreatments: AuxiaAPIAnswerDataUserTreatment[];
+    userTreatments: AuxiaAPIResponseDataUserTreatment[];
 }
 
 interface AuxiaProxyResponseData {
-    shouldShowSignInGate: boolean;
+    responseId: string;
+    userTreatment?: AuxiaAPIResponseDataUserTreatment;
 }
 
 const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAPIRequestPayload => {
@@ -63,8 +63,7 @@ const buildAuxiaAPIRequestPayload = (projectId: string, userId: string): AuxiaAP
         surfaces: [
             {
                 surface: 'ARTICLE_PAGE',
-                minimumTreatmentCount: 1,
-                maximumTreatmentCount: 5,
+                maximumTreatmentCount: 1,
             },
         ],
         languageCode: 'en-GB',
@@ -75,7 +74,7 @@ const fetchAuxiaData = async (
     apiKey: string,
     projectId: string,
     userId: string,
-): Promise<AuxiaAPIAnswerData> => {
+): Promise<AuxiaAPIResponseData> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
     const headers = {
@@ -95,19 +94,17 @@ const fetchAuxiaData = async (
 
     const responseBody = await response.json();
 
-    return Promise.resolve(responseBody as AuxiaAPIAnswerData);
+    return Promise.resolve(responseBody as AuxiaAPIResponseData);
 };
 
-const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIAnswerData): AuxiaProxyResponseData => {
-    // This is the most important function of this router, it takes the answer from auxia and
-    // and decides if the sign in gate should be shown or not.
-
-    // In the current interpretation we are saying that a non empty userTreatments array means
-    // that the sign in gate should be shown.
-
-    const shouldShowSignInGate = auxiaData.userTreatments.length > 0;
-
-    return { shouldShowSignInGate };
+const buildAuxiaProxyResponseData = (auxiaData: AuxiaAPIResponseData): AuxiaProxyResponseData => {
+    // Note the small difference between AuxiaAPIResponseData and AuxiaProxyResponseData
+    // In the case of AuxiaProxyResponseData, we have an optional userTreatment field, instead of an array of userTreatments.
+    // This is to reflect the what the client expect semantically.
+    return {
+        responseId: auxiaData.responseId,
+        userTreatment: auxiaData.userTreatments[0],
+    };
 };
 
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
