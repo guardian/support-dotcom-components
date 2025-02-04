@@ -24,6 +24,10 @@ const epicTest: AmpEpicTest = {
     nickname: 'TEST1',
     status: 'Live',
     locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'CONTROL',
@@ -114,4 +118,24 @@ describe('ampEpicTests', () => {
             },
         });
     });
+});
+
+it('should select test based on region targeting', async () => {
+    const tests: AmpEpicTest[] = [
+        {
+            ...epicTest,
+            regionTargeting: {
+                targetedCountryGroups: ['UnitedStates'],
+                targetedCountryCodes: ['US'],
+            },
+        },
+    ];
+
+    // User in targeted country group
+    let result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'US');
+    expect(result).toEqual(expectedAmpEpic);
+
+    // User not in targeted country group
+    result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
+    expect(result).toEqual(null);
 });

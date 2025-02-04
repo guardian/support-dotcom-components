@@ -60,7 +60,13 @@ const selectAmpEpicTestAndVariant = async (
     countryCode?: string,
 ): Promise<AMPEpic | null> => {
     const test = tests.find(
-        (test) => test.status === 'Live' && inCountryGroups(countryCode, test.locations),
+        (test) =>
+            test.status === 'Live' &&
+            inCountryGroups(
+                countryCode,
+                test.regionTargeting?.targetedCountryGroups || [],
+                test.regionTargeting?.targetedCountryCodes || [],
+            ),
     );
 
     if (test && test.variants) {
