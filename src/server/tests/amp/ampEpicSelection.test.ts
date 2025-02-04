@@ -1,4 +1,3 @@
-import { CountryGroupId } from '../../../shared/lib';
 import { TickerCountType, TickerEndType, TickerSettings } from '../../../shared/types';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
@@ -101,41 +100,23 @@ describe('ampEpicTests', () => {
         expect(result).toEqual(null);
     });
 
-    it('should select test with matching locations', async () => {
-        const tests = [
-            { ...epicTest, locations: ['UnitedStates' as CountryGroupId] },
-            { ...epicTest, name: 'TEST2', nickname: 'TEST2' },
+    it('should select test based on region targeting', async () => {
+        const tests: AmpEpicTest[] = [
+            {
+                ...epicTest,
+                regionTargeting: {
+                    targetedCountryGroups: ['UnitedStates'],
+                    targetedCountryCodes: ['US'],
+                },
+            },
         ];
-        const result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
-        expect(result).toEqual({
-            ...expectedAmpEpic,
-            testName: 'TEST2',
-            variantName: 'CONTROL',
-            cta: {
-                ...expectedAmpEpic.cta,
-                componentId: 'AMP__TEST2__CONTROL',
-                campaignCode: 'AMP__TEST2__CONTROL',
-            },
-        });
+
+        // User in targeted country group
+        let result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'US');
+        expect(result).toEqual(expectedAmpEpic);
+
+        // User not in targeted country group
+        result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
+        expect(result).toEqual(null);
     });
-});
-
-it('should select test based on region targeting', async () => {
-    const tests: AmpEpicTest[] = [
-        {
-            ...epicTest,
-            regionTargeting: {
-                targetedCountryGroups: ['UnitedStates'],
-                targetedCountryCodes: ['US'],
-            },
-        },
-    ];
-
-    // User in targeted country group
-    let result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'US');
-    expect(result).toEqual(expectedAmpEpic);
-
-    // User not in targeted country group
-    result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
-    expect(result).toEqual(null);
 });
