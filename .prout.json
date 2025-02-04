@@ -1,0 +1,11 @@
+{
+    "checkpoints": {
+        "PROD": {
+            "url": "https://www.theguardian.com",
+            "overdue": "30M",
+            "messages": {
+                "seen": "prout/seen.md"
+            }
+        }
+    }
+}
