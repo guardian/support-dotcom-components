@@ -1,4 +1,4 @@
-import { PageTracking, PurchaseInfo } from './shared';
+import { PurchaseInfo } from './shared';
 
 export interface HeaderTargeting {
     showSupportMessaging: boolean;
@@ -10,6 +10,5 @@ export interface HeaderTargeting {
 }
 
 export type HeaderPayload = {
-    tracking: PageTracking;
     targeting: HeaderTargeting;
 };
