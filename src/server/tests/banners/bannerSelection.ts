@@ -4,7 +4,6 @@ import {
     BannerTest,
     BannerTestSelection,
     BannerVariant,
-    PageTracking,
     UserDeviceType,
     uiIsDesign,
 } from '../../../shared/types';
@@ -175,7 +174,6 @@ const isTaylorReportPage = (targeting: BannerTargeting): boolean => {
 
 export const selectBannerTest = (
     targeting: BannerTargeting,
-    pageTracking: PageTracking,
     userDeviceType: UserDeviceType,
     baseUrl: string,
     tests: BannerTest[],
@@ -206,7 +204,7 @@ export const selectBannerTest = (
 
         if (
             test.status === 'Live' &&
-            (!test.canRun || test.canRun(targeting, pageTracking)) &&
+            (!test.canRun || test.canRun(targeting)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&

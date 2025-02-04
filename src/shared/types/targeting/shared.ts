@@ -1,13 +1,6 @@
 import { z } from 'zod';
 import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
 
-export type PageTracking = {
-    ophanPageId: string;
-    platformId: string;
-    referrerUrl: string;
-    clientName: string;
-};
-
 export type TagCounts = {
     [tag: string]: number;
 };

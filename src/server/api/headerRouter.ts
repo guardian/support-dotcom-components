@@ -2,13 +2,7 @@ import express, { Router } from 'express';
 import { bodyContainsAllFields } from '../middleware';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
-import {
-    HeaderProps,
-    HeaderTargeting,
-    HeaderTest,
-    PageTracking,
-    TestTracking,
-} from '../../shared/types';
+import { HeaderProps, HeaderTargeting, HeaderTest, TestTracking } from '../../shared/types';
 import { ChannelSwitches } from '../channelSwitches';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
 import { getDeviceType } from '../lib/deviceType';
@@ -31,7 +25,6 @@ export const buildHeaderRouter = (
     const router = Router();
 
     const buildHeaderData = (
-        pageTracking: PageTracking,
         targeting: HeaderTargeting,
         baseUrl: string,
         params: Params,
@@ -63,7 +56,7 @@ export const buildHeaderRouter = (
                         props: {
                             content: variant.content,
                             mobileContent: variant.mobileContent,
-                            tracking: { ...pageTracking, ...testTracking },
+                            tracking: testTracking,
                             countryCode: targeting.countryCode,
                             numArticles: targeting.numArticles,
                         },
@@ -77,12 +70,12 @@ export const buildHeaderRouter = (
 
     router.post(
         '/header',
-        bodyContainsAllFields(['tracking', 'targeting']),
+        bodyContainsAllFields(['targeting']),
         (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const { tracking, targeting } = req.body;
+                const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildHeaderData(tracking, targeting, baseUrl(req), params, req);
+                const response = buildHeaderData(targeting, baseUrl(req), params, req);
                 res.send(response);
             } catch (error) {
                 next(error);

@@ -6,7 +6,6 @@ import {
     EpicTest,
     EpicType,
     EpicVariant,
-    PageTracking,
     TestTracking,
     WeeklyArticleLog,
 } from '../../shared/types';
@@ -72,7 +71,6 @@ export const buildEpicRouter = (
     };
 
     const buildEpicData = (
-        pageTracking: PageTracking,
         targeting: EpicTargeting,
         type: EpicType,
         params: Params,
@@ -142,7 +140,7 @@ export const buildEpicRouter = (
 
         const props: EpicProps = {
             variant: propsVariant,
-            tracking: { ...pageTracking, ...testTracking },
+            tracking: testTracking,
             articleCounts: getArticleViewCounts(
                 targeting.weeklyArticleHistory,
                 test.articlesViewedSettings?.periodInWeeks,
@@ -170,20 +168,12 @@ export const buildEpicRouter = (
             try {
                 const epicType: EpicType = 'ARTICLE';
 
-                const { tracking, targeting } = req.body;
+                const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildEpicData(
-                    tracking,
-                    targeting,
-                    epicType,
-                    params,
-                    baseUrl(req),
-                    req,
-                );
+                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
-                res.locals.clientName = tracking.clientName;
                 res.locals.epicTargeting = {
                     weeklyArticleHistory: (targeting.weeklyArticleHistory ?? [])
                         .slice(0, 3)
@@ -208,20 +198,12 @@ export const buildEpicRouter = (
             try {
                 const epicType: EpicType = 'LIVEBLOG';
 
-                const { tracking, targeting } = req.body;
+                const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildEpicData(
-                    tracking,
-                    targeting,
-                    epicType,
-                    params,
-                    baseUrl(req),
-                    req,
-                );
+                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
-                res.locals.clientName = tracking.clientName;
                 if (!!response.data) {
                     res.locals.epicSuperMode = (response.data.meta.labels ?? []).includes(
                         'SUPER_MODE',
