@@ -8,11 +8,6 @@ export type PageTracking = {
     clientName: string;
 };
 
-export type Tag = {
-    id: string;
-    type: string;
-};
-
 export type TagCounts = {
     [tag: string]: number;
 };

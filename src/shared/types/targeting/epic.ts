@@ -1,5 +1,10 @@
 import { EpicViewLog } from '../../lib/viewLog';
-import { PageTracking, Tag, WeeklyArticleHistory } from './shared';
+import { PageTracking, WeeklyArticleHistory } from './shared';
+
+type Tag = {
+    id: string;
+    type: string;
+};
 
 export type EpicTargeting = {
     contentType: string;
