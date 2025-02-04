@@ -333,25 +333,35 @@ const purchaseMatches = (
     return productValid && userValid;
 };
 
+export const matchesCountryGroups = (test: HeaderTest, targeting: HeaderTargeting): boolean => {
+    const targetedCountryGroups = test.regionTargeting
+        ? test.regionTargeting.targetedCountryGroups
+        : test.locations;
+    const targetedCountryCodes = test.regionTargeting
+        ? test.regionTargeting.targetedCountryCodes
+        : [];
+    return inCountryGroups(
+        targeting.countryCode,
+        targetedCountryGroups, // Country groups/region
+        targetedCountryCodes, // Individual country codes
+    );
+};
+
 // Exported for Jest testing
 export const selectBestTest = (
     targeting: HeaderTargeting,
     userDeviceType: UserDeviceType,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
-    const { showSupportMessaging, countryCode, purchaseInfo, isSignedIn } = targeting;
+    const { showSupportMessaging, purchaseInfo, isSignedIn } = targeting;
 
     const selectedTest = allTests.find((test) => {
-        const { status, userCohort, regionTargeting, signedInStatus } = test;
+        const { status, userCohort, signedInStatus } = test;
 
         return (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
-            inCountryGroups(
-                countryCode,
-                regionTargeting?.targetedCountryGroups,
-                regionTargeting?.targetedCountryCodes,
-            ) &&
+            matchesCountryGroups(test, targeting) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus)

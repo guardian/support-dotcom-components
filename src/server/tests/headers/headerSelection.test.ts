@@ -457,3 +457,31 @@ describe('selectBestTest', () => {
         expect(result_8_variant.name).toBe('control');
     });
 });
+
+it('It should select a header test based on matchesCountryGroups logic', () => {
+    // Mock targeting data: not a supporter, in a non UK country
+    const mockTargetingObject: HeaderTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'NZ',
+        mvtId: 123456,
+        isSignedIn: false,
+    };
+
+    const result: HeaderTestSelection | null = selectBestTest(
+        mockTargetingObject,
+        userDeviceType,
+        mockTests,
+    );
+    const result_test: HeaderTest | NullReturn = result ? result.test : testHasReturnedNull;
+    const result_variant: HeaderVariant | NullReturn = result
+        ? result.variant
+        : variantHasReturnedNull;
+
+    expect(result).toBeDefined();
+    expect(result).toHaveProperty('test');
+    expect(result).toHaveProperty('variant');
+    expect(result_test).toHaveProperty('name');
+    expect(result_test.name).toBe('RemoteRrHeaderLinksTest__NonUK');
+    expect(result_variant).toHaveProperty('name');
+    expect(result_variant.name).toBe('remote');
+});
