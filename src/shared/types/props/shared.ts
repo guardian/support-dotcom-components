@@ -154,11 +154,6 @@ export const trackingSchema = z.object({
     componentType: ophanComponentTypeSchema,
     products: z.array(ophanProductSchema).nullish(),
     labels: z.array(z.string()).nullish(),
-
-    // TODO - client passes these in?
-    // ophanPageId: z.string(),
-    // platformId: z.string(),
-    // referrerUrl: z.string(),
 });
 
 export interface Image {
