@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { PageTracking } from '../targeting';
 import { TestTracking } from '../abTests';
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
@@ -146,7 +145,7 @@ export const ophanComponentTypeSchema = z.enum([
     'ACQUISITIONS_OTHER',
 ]);
 
-export type Tracking = TestTracking & PageTracking;
+export type Tracking = TestTracking;
 
 export const trackingSchema = z.object({
     abTestName: z.string(),
@@ -155,10 +154,10 @@ export const trackingSchema = z.object({
     componentType: ophanComponentTypeSchema,
     products: z.array(ophanProductSchema).nullish(),
     labels: z.array(z.string()).nullish(),
+    // These fields are provided by the client
     ophanPageId: z.string(),
     platformId: z.string(),
     referrerUrl: z.string(),
-    clientName: z.string(),
 });
 
 export interface Image {

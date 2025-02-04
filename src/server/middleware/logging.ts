@@ -15,7 +15,6 @@ export const logging = (
             path: req.path,
             didRenderEpic: res.locals.didRenderEpic,
             didRenderBanner: res.locals.didRenderBanner,
-            clientName: res.locals.clientName || 'unknown',
             bannerTargeting: res.locals.bannerTargeting,
             epicTargeting: res.locals.epicTargeting,
             userAgent: isServerError(res.statusCode) ? req.headers['user-agent'] : undefined,
