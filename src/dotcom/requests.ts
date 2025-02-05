@@ -8,14 +8,14 @@ import {
 } from '../shared/types';
 import { TestTracking } from '../shared/types/abTests/shared';
 
-export interface ModuleData<T> {
+export interface ModuleData<PROPS> {
     name: string;
-    props: T;
+    props: PROPS;
 }
 
-export interface ModuleDataResponse<T> {
+export interface ModuleDataResponse<PROPS> {
     data?: {
-        module: ModuleData<T>;
+        module: ModuleData<PROPS>;
         meta: TestTracking;
     };
 }
@@ -36,11 +36,11 @@ const getForcedVariant = (type: ModuleType): string | null => {
 
 type Payload = EpicPayload | BannerPayload | HeaderPayload;
 
-const getModuleData = <T>(
+const getModuleData = <PROPS>(
     type: ModuleType,
     baseUrl: string,
     payload: Payload,
-): Promise<ModuleDataResponse<T>> => {
+): Promise<ModuleDataResponse<PROPS>> => {
     const forcedVariant = getForcedVariant(type);
     const queryString = forcedVariant ? `?force=${forcedVariant}` : '';
     const url = `${baseUrl}/${type}${queryString}`;
