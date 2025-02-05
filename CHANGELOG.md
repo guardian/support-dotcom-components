@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 5.0.0
+
+### Major Changes
+
+-   28e372b: Adds endpoints and models for tooling Gutter Ask tests and variants.
+
 ## 4.0.0
 
 ### Major Changes
