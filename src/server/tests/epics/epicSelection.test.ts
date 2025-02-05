@@ -16,7 +16,7 @@ import {
     hasCountryCode,
     inCorrectCohort,
     isNotExpired,
-    matchesCountryGroups,
+    isCountryTargetedForEpic,
     withinArticleViewedSettings,
     withinMaxViews,
 } from './epicSelection';
@@ -288,7 +288,7 @@ describe('matchesCountryGroups filter', () => {
             },
         };
 
-        const got = matchesCountryGroups.test(test, targetingDefault);
+        const got = isCountryTargetedForEpic.test(test, targetingDefault);
 
         expect(got).toBe(true);
     });
@@ -307,7 +307,7 @@ describe('matchesCountryGroups filter', () => {
             countryCode: undefined,
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(false);
     });
@@ -326,7 +326,7 @@ describe('matchesCountryGroups filter', () => {
             countryCode: 'PT',
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -345,7 +345,7 @@ describe('matchesCountryGroups filter', () => {
             countryCode: 'GB',
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(false);
     });
@@ -364,7 +364,7 @@ describe('matchesCountryGroups filter', () => {
             countryCode: 'DE',
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -383,7 +383,7 @@ describe('matchesCountryGroups filter', () => {
             countryCode: 'DE',
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -402,7 +402,7 @@ describe('matchesCountryGroups filter', () => {
             countryCode: 'DE',
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -421,7 +421,7 @@ describe('matchesCountryGroups filter', () => {
             countryCode: 'GB',
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(false);
     });

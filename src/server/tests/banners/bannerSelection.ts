@@ -58,7 +58,10 @@ function canShowAbandonedBasketBanner(
     return daysSince(new Date(abandonedBasketBannerLastClosedAt), now) > 0;
 }
 
-export const matchesCountryGroups = (test: BannerTest, targeting: BannerTargeting): boolean => {
+export const isCountryTargetedForBanner = (
+    test: BannerTest,
+    targeting: BannerTargeting,
+): boolean => {
     const targetedCountryGroups = test.regionTargeting
         ? test.regionTargeting.targetedCountryGroups
         : test.locations;
@@ -225,7 +228,7 @@ export const selectBannerTest = (
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
-            matchesCountryGroups(test, targeting) &&
+            isCountryTargetedForBanner(test, targeting) &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,

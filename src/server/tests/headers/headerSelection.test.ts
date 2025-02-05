@@ -458,7 +458,7 @@ describe('selectBestTest', () => {
     });
 });
 
-it('It should select a header test based on matchesCountryGroups logic', () => {
+it('It should select a header test based on isCountryTargetedForHeader logic', () => {
     // Mock targeting data: not a supporter, in a non UK country
     const mockTargetingObject: HeaderTargeting = {
         showSupportMessaging: true,

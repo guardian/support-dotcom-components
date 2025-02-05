@@ -16,7 +16,7 @@ type AmpExperiments = Record<
 
 // ---- Functions --- //
 
-export const matchesCountryGroups = (test: AmpEpicTest, countryCode?: string): boolean => {
+export const isCountryTargetedForAmpEpic = (test: AmpEpicTest, countryCode?: string): boolean => {
     const targetedCountryGroups = test.regionTargeting
         ? test.regionTargeting.targetedCountryGroups
         : test.locations;
@@ -74,7 +74,7 @@ const selectAmpEpicTestAndVariant = async (
     countryCode?: string,
 ): Promise<AMPEpic | null> => {
     const test = tests.find(
-        (test) => test.status === 'Live' && matchesCountryGroups(test, countryCode),
+        (test) => test.status === 'Live' && isCountryTargetedForAmpEpic(test, countryCode),
     );
 
     if (test && test.variants) {

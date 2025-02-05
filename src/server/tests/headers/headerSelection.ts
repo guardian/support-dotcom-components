@@ -333,7 +333,10 @@ const purchaseMatches = (
     return productValid && userValid;
 };
 
-export const matchesCountryGroups = (test: HeaderTest, targeting: HeaderTargeting): boolean => {
+export const isCountryTargetedForHeader = (
+    test: HeaderTest,
+    targeting: HeaderTargeting,
+): boolean => {
     const targetedCountryGroups = test.regionTargeting
         ? test.regionTargeting.targetedCountryGroups
         : test.locations;
@@ -361,7 +364,7 @@ export const selectBestTest = (
         return (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
-            matchesCountryGroups(test, targeting) &&
+            isCountryTargetedForHeader(test, targeting) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus)
