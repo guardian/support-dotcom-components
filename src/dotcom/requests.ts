@@ -5,7 +5,10 @@ import {
     EpicProps,
     HeaderPayload,
     HeaderProps,
+    GutterPayload,
+    GutterProps,
 } from '../shared/types';
+
 import { TestTracking } from '../shared/types/abTests/shared';
 
 export interface ModuleData<PROPS> {
@@ -20,7 +23,7 @@ export interface ModuleDataResponse<PROPS> {
     };
 }
 
-type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'header';
+type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'header' | 'gutter-liveblog';
 
 const getForcedVariant = (type: ModuleType): string | null => {
     if (URLSearchParams) {
@@ -34,7 +37,7 @@ const getForcedVariant = (type: ModuleType): string | null => {
     return null;
 };
 
-type Payload = EpicPayload | BannerPayload | HeaderPayload;
+type Payload = EpicPayload | BannerPayload | HeaderPayload | GutterPayload;
 
 const getModuleData = <PROPS>(
     type: ModuleType,
@@ -76,6 +79,11 @@ export const getBanner = (
     baseUrl: string,
     payload: BannerPayload,
 ): Promise<ModuleDataResponse<BannerProps>> => getModuleData('banner', baseUrl, payload);
+
+export const getGutterLiveblog = (
+    baseUrl: string,
+    payload: GutterPayload,
+): Promise<ModuleDataResponse<GutterProps>> => getModuleData('gutter-liveblog', baseUrl, payload);
 
 export const getHeader = (
     baseUrl: string,

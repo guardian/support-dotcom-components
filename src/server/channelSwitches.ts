@@ -10,6 +10,7 @@ export interface ChannelSwitches {
     enableHardcodedEpicTests: boolean;
     enableHardcodedBannerTests: boolean;
     enableScheduledBannerDeploys: boolean;
+    enableGutterLiveblogs: boolean;
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>

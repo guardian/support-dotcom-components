@@ -1,7 +1,7 @@
 import { EpicViewLog } from '../../lib/viewLog';
 import { PageTracking, WeeklyArticleHistory } from './shared';
 
-export type Tag = {
+type Tag = {
     id: string;
     type: string;
 };
