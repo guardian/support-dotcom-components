@@ -1,4 +1,3 @@
-
 import {
     BannerPayload,
     BannerProps,
@@ -6,7 +5,8 @@ import {
     EpicProps,
     HeaderPayload,
     HeaderProps,
-    GutterPayload
+    GutterPayload,
+    GutterProps,
 } from '../shared/types';
 
 import { TestTracking } from '../shared/types/abTests/shared';
