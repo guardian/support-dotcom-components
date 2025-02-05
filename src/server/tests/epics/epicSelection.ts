@@ -72,9 +72,21 @@ export const hasCountryCode: Filter = {
         test.hasCountryName ? !!getCountryName(targeting.countryCode) : true,
 };
 
-export const matchesCountryGroups: Filter = {
-    id: 'matchesCountryGroups',
-    test: (test, targeting): boolean => inCountryGroups(targeting.countryCode, test.locations),
+export const isCountryTargetedForEpic: Filter = {
+    id: 'isCountryTargetedForEpic',
+    test: (test, targeting): boolean => {
+        const targetedCountryGroups = test.regionTargeting
+            ? test.regionTargeting.targetedCountryGroups
+            : test.locations;
+        const targetedCountryCodes = test.regionTargeting
+            ? test.regionTargeting.targetedCountryCodes
+            : [];
+        return inCountryGroups(
+            targeting.countryCode,
+            targetedCountryGroups, // Country groups/region
+            targetedCountryCodes, // Individual country names
+        );
+    },
 };
 
 export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter => ({
@@ -184,7 +196,7 @@ export const findTestAndVariant = (
             pageContextFilter,
             inCorrectCohort(userCohorts, isSuperModePass),
             hasCountryCode,
-            matchesCountryGroups,
+            isCountryTargetedForEpic,
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
             ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
             respectArticleCountOptOut,

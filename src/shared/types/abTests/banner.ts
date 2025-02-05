@@ -12,7 +12,7 @@ import {
     testSchema,
     userCohortSchema,
 } from './shared';
-import { countryGroupIdSchema } from '../../lib';
+import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
 import { BannerTargeting, PageTracking } from '../targeting';
 import { PurchaseInfoTest } from './shared';
 import { z } from 'zod';
@@ -82,7 +82,8 @@ export interface BannerTest extends BannerTestFromTool {
 
 export const bannerTestFromToolSchema = testSchema.extend({
     userCohort: userCohortSchema,
-    locations: z.array(countryGroupIdSchema),
+    locations: z.array(countryGroupIdSchema).optional(), //deprecated
+    regionTargeting: targetedRegionsSchema.optional(),
     contextTargeting: pageContextTargetingSchema,
     variants: z.array(bannerVariantFromToolSchema),
     articlesViewedSettings: articlesViewedSettingsSchema.optional(),
