@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 4.0.0
+
+### Major Changes
+
+-   274c559: Add prop types to ModuleDataResponse
+
 ## 3.2.0
 
 ### Minor Changes
