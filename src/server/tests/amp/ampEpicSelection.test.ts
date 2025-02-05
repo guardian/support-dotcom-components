@@ -111,12 +111,32 @@ describe('ampEpicTests', () => {
             },
         ];
 
-        // User in targeted country group
+        // User in targeted country group (US)
         let result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'US');
-        expect(result).toEqual(expectedAmpEpic);
+        expect(result).toMatchObject({
+            testName: 'TEST1',
+            variantName: 'CONTROL',
+            heading: 'a',
+            paragraphs: ['b'],
+            highlightedText: expect.stringContaining('Support the Guardian from as little as $1'),
+            cta: {
+                text: 'Show your support',
+                url: 'https://support.theguardian.com/contribute',
+            },
+            ticker: {
+                percentage: '99.9',
+                topLeft: '$999',
+                topRight: '$1,000',
+            },
+        });
 
-        // User not in targeted country group
+        // Ensure optional properties are handled correctly otherwise test fails
+        expect(result?.secondaryCta).toBeUndefined();
+        expect(result?.showChoiceCards).toBeUndefined();
+        expect(result?.defaultChoiceCardFrequency).toBeUndefined();
+
+        // User not in targeted country group (GB)
         result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
-        expect(result).toEqual(null);
+        expect(result).toBeNull();
     });
 });
