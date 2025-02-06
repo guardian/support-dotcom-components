@@ -145,7 +145,13 @@ export const ophanComponentTypeSchema = z.enum([
     'ACQUISITIONS_OTHER',
 ]);
 
-export type Tracking = TestTracking;
+export type PageTracking = {
+    ophanPageId: string;
+    platformId: string;
+    referrerUrl: string;
+};
+
+export type Tracking = TestTracking | PageTracking;
 
 export const trackingSchema = z.object({
     abTestName: z.string(),
