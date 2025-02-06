@@ -570,8 +570,7 @@ export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupI
     return foundCountryGroupId || 'International';
 };
 
-//inCountryGroups is a bad name now that it accepts country names separately from country groups
-export const inCountryGroups = (
+export const inTargetedCountry = (
     countryCodeFromPayload?: string,
     countryGroups: CountryGroupId[] = [],
     countryCodes: string[] = [], // Accepts individual country codes
@@ -636,8 +635,3 @@ export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: strin
 
     return originalUrl;
 };
-
-const countryNameToCodeMap: Record<string, string> = {};
-for (const [code, name] of Object.entries(countryNames)) {
-    countryNameToCodeMap[name] = code;
-}

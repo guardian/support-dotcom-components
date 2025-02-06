@@ -1,4 +1,4 @@
-import { inCountryGroups, replaceNonArticleCountPlaceholders } from '../../../shared/lib';
+import { inTargetedCountry, replaceNonArticleCountPlaceholders } from '../../../shared/lib';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { ampTicker } from './ampTicker';
@@ -23,7 +23,7 @@ export const isCountryTargetedForAmpEpic = (test: AmpEpicTest, countryCode?: str
     const targetedCountryCodes = test.regionTargeting
         ? test.regionTargeting.targetedCountryCodes
         : [];
-    return inCountryGroups(
+    return inTargetedCountry(
         countryCode,
         targetedCountryGroups, // Country groups/region
         targetedCountryCodes, // Individual country codes

@@ -1,4 +1,4 @@
-import { inCountryGroups } from '../../../shared/lib';
+import { inTargetedCountry } from '../../../shared/lib';
 import {
     GutterTargeting,
     GutterTest,
@@ -24,13 +24,11 @@ export const isCountryTargetedForGutterAsks = (
     const targetedCountryCodes = test.regionTargeting
         ? test.regionTargeting.targetedCountryCodes
         : [];
-    const result = inCountryGroups(
+    return inTargetedCountry(
         targeting.countryCode,
         targetedCountryGroups, // Country groups/region
         targetedCountryCodes, // Individual country codes
     );
-    console.log(`isCountryTargetedForGutterAsks result: ${result}`);
-    return result;
 };
 
 // Exported for Jest testing

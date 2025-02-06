@@ -1,4 +1,4 @@
-import { countryCodeToCountryGroupId, inCountryGroups } from '../../../shared/lib';
+import { countryCodeToCountryGroupId, inTargetedCountry } from '../../../shared/lib';
 import {
     BannerTargeting,
     BannerTest,
@@ -68,7 +68,7 @@ export const isCountryTargetedForBanner = (
     const targetedCountryCodes = test.regionTargeting
         ? test.regionTargeting.targetedCountryCodes
         : [];
-    return inCountryGroups(
+    return inTargetedCountry(
         targeting.countryCode,
         targetedCountryGroups, // Country groups/region
         targetedCountryCodes, // Individual country codes

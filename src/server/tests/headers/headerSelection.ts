@@ -1,4 +1,4 @@
-import { inCountryGroups } from '../../../shared/lib';
+import { inTargetedCountry } from '../../../shared/lib';
 import {
     HeaderTargeting,
     HeaderTest,
@@ -343,7 +343,7 @@ export const isCountryTargetedForHeader = (
     const targetedCountryCodes = test.regionTargeting
         ? test.regionTargeting.targetedCountryCodes
         : [];
-    return inCountryGroups(
+    return inTargetedCountry(
         targeting.countryCode,
         targetedCountryGroups, // Country groups/region
         targetedCountryCodes, // Individual country codes

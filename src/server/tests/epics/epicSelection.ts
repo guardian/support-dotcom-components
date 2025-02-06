@@ -1,4 +1,4 @@
-import { countryCodeToCountryGroupId, getCountryName, inCountryGroups } from '../../../shared/lib';
+import { countryCodeToCountryGroupId, getCountryName, inTargetedCountry } from '../../../shared/lib';
 import {
     EpicTargeting,
     EpicTest,
@@ -81,7 +81,7 @@ export const isCountryTargetedForEpic: Filter = {
         const targetedCountryCodes = test.regionTargeting
             ? test.regionTargeting.targetedCountryCodes
             : [];
-        return inCountryGroups(
+        return inTargetedCountry(
             targeting.countryCode,
             targetedCountryGroups, // Country groups/region
             targetedCountryCodes, // Individual country names
