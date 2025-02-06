@@ -1,4 +1,8 @@
-import { countryCodeToCountryGroupId, getCountryName, inTargetedCountry } from '../../../shared/lib';
+import {
+    countryCodeToCountryGroupId,
+    getCountryName,
+    inTargetedCountry,
+} from '../../../shared/lib';
 import {
     EpicTargeting,
     EpicTest,
