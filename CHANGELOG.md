@@ -1,5 +1,17 @@
 # @guardian/support-dotcom-components
 
+## 5.0.0
+
+### Major Changes
+
+-   28e372b: Adds endpoints and models for tooling Gutter Ask tests and variants.
+
+## 4.0.0
+
+### Major Changes
+
+-   274c559: Add prop types to ModuleDataResponse
+
 ## 3.2.0
 
 ### Minor Changes

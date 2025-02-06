@@ -11,6 +11,7 @@ import { logError } from './utils/logging';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildBannerRouter } from './api/bannerRouter';
 import { buildHeaderRouter } from './api/headerRouter';
+import { buildGutterRouter } from './api/gutterRouter';
 import { buildAuxiaProxyRouter, getAuxiaRouterConfig } from './api/auxiaProxyRouter';
 import { buildAmpEpicRouter } from './api/ampEpicRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
@@ -24,6 +25,7 @@ import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTime
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
 import { buildBannerDesignsReloader } from './tests/banners/bannerDesigns';
+import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -72,6 +74,7 @@ const buildApp = async (): Promise<Express> => {
         bannerDeployTimes,
         headerTests,
         bannerDesigns,
+        gutterLiveblogTests,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -85,6 +88,7 @@ const buildApp = async (): Promise<Express> => {
         buildBannerDeployTimesReloader(),
         buildHeaderTestsReloader(),
         buildBannerDesignsReloader(),
+        buildGutterLiveblogTestsReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -127,6 +131,8 @@ const buildApp = async (): Promise<Express> => {
     });
 
     app.use(buildAuxiaProxyRouter(auxiaConfig));
+
+    app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests));
 
     return Promise.resolve(app);
 };

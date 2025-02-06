@@ -11,6 +11,9 @@ export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant
 export const buildAmpEpicCampaignCode = (testName: string, variantName: string): string =>
     `AMP__${testName}__${variantName}`;
 
+export const buildGutterCampaignCode = (testName: string, variantName: string): string =>
+    `gutter__${testName}__${variantName}`;
+
 export const addQueryParams = (baseUrl: string, queryParams: string) => {
     const alreadyHasQueryString = baseUrl.includes('?');
     return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryParams}`;
