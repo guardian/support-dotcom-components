@@ -2,6 +2,7 @@ export {
     BannerPayload,
     EpicPayload,
     HeaderPayload,
+    GutterPayload,
     WeeklyArticleHistory,
 } from '../shared/types/targeting';
 export * from '../shared/types/prices';
