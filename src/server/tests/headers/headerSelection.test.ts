@@ -12,14 +12,18 @@ const remote_nonUK: HeaderTest = {
     priority: 1,
     userCohort: 'AllNonSupporters',
     status: 'Live',
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
+    locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -44,7 +48,10 @@ const remote_UK: HeaderTest = {
     priority: 1,
     userCohort: 'AllNonSupporters',
     status: 'Live',
-    locations: ['GBPCountries'],
+    regionTargeting: {
+        targetedCountryGroups: ['GBPCountries'],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -70,6 +77,10 @@ const locationsNotSet: HeaderTest = {
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -94,15 +105,19 @@ const header_supporter: HeaderTest = {
     priority: 1,
     userCohort: 'AllExistingSupporters',
     status: 'Live',
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'GBPCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
+    locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'control',
@@ -120,15 +135,19 @@ const header_new_supporter: HeaderTest = {
     priority: 1,
     userCohort: 'Everyone',
     status: 'Live',
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'GBPCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
+    locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     purchaseInfo: {
         product: ['Contribution'],
         userType: ['new', 'guest'],
@@ -150,15 +169,19 @@ const header_existing_subscriber: HeaderTest = {
     priority: 1,
     userCohort: 'Everyone',
     status: 'Live',
-    locations: [
-        'AUDCountries',
-        'Canada',
-        'EURCountries',
-        'GBPCountries',
-        'NZDCountries',
-        'UnitedStates',
-        'International',
-    ],
+    locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     purchaseInfo: {
         product: ['SupporterPlus'],
         userType: ['current'],
@@ -433,4 +456,32 @@ describe('selectBestTest', () => {
         expect(result_8_variant).toHaveProperty('name');
         expect(result_8_variant.name).toBe('control');
     });
+});
+
+it('It should select a header test based on isCountryTargetedForHeader logic', () => {
+    // Mock targeting data: not a supporter, in a non UK country
+    const mockTargetingObject: HeaderTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'NZ',
+        mvtId: 123456,
+        isSignedIn: false,
+    };
+
+    const result: HeaderTestSelection | null = selectBestTest(
+        mockTargetingObject,
+        userDeviceType,
+        mockTests,
+    );
+    const result_test: HeaderTest | NullReturn = result ? result.test : testHasReturnedNull;
+    const result_variant: HeaderVariant | NullReturn = result
+        ? result.variant
+        : variantHasReturnedNull;
+
+    expect(result).toBeDefined();
+    expect(result).toHaveProperty('test');
+    expect(result).toHaveProperty('variant');
+    expect(result_test).toHaveProperty('name');
+    expect(result_test.name).toBe('RemoteRrHeaderLinksTest__NonUK');
+    expect(result_variant).toHaveProperty('name');
+    expect(result_variant.name).toBe('remote');
 });

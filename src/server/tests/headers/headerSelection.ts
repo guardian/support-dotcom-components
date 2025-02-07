@@ -1,4 +1,4 @@
-import { inCountryGroups } from '../../../shared/lib';
+import { inTargetedCountry } from '../../../shared/lib';
 import {
     HeaderTargeting,
     HeaderTest,
@@ -29,6 +29,17 @@ const nonSupportersTestNonUK: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -56,6 +67,10 @@ const nonSupportersTestUK: HeaderTest = {
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: ['GBPCountries'],
+    regionTargeting: {
+        targetedCountryGroups: ['GBPCountries'],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -91,6 +106,18 @@ const supportersTest: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'control',
@@ -117,6 +144,18 @@ const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
 };
 
 const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
@@ -294,21 +333,38 @@ const purchaseMatches = (
     return productValid && userValid;
 };
 
+export const isCountryTargetedForHeader = (
+    test: HeaderTest,
+    targeting: HeaderTargeting,
+): boolean => {
+    const targetedCountryGroups = test.regionTargeting
+        ? test.regionTargeting.targetedCountryGroups
+        : test.locations;
+    const targetedCountryCodes = test.regionTargeting
+        ? test.regionTargeting.targetedCountryCodes
+        : [];
+    return inTargetedCountry(
+        targeting.countryCode,
+        targetedCountryGroups, // Country groups/region
+        targetedCountryCodes, // Individual country codes
+    );
+};
+
 // Exported for Jest testing
 export const selectBestTest = (
     targeting: HeaderTargeting,
     userDeviceType: UserDeviceType,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
-    const { showSupportMessaging, countryCode, purchaseInfo, isSignedIn } = targeting;
+    const { showSupportMessaging, purchaseInfo, isSignedIn } = targeting;
 
     const selectedTest = allTests.find((test) => {
-        const { status, userCohort, locations, signedInStatus } = test;
+        const { status, userCohort, signedInStatus } = test;
 
         return (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
-            inCountryGroups(countryCode, locations) &&
+            isCountryTargetedForHeader(test, targeting) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus)

@@ -1,4 +1,4 @@
-import { inCountryGroups } from '../../../shared/lib';
+import { inTargetedCountry } from '../../../shared/lib';
 import {
     GutterTargeting,
     GutterTest,
@@ -14,16 +14,33 @@ import { TestVariant } from '../../lib/params';
 
 const moduleName = 'Gutter';
 
+export const isCountryTargetedForGutterAsks = (
+    test: GutterTest,
+    targeting: GutterTargeting,
+): boolean => {
+    const targetedCountryGroups = test.regionTargeting
+        ? test.regionTargeting.targetedCountryGroups
+        : test.locations;
+    const targetedCountryCodes = test.regionTargeting
+        ? test.regionTargeting.targetedCountryCodes
+        : [];
+    return inTargetedCountry(
+        targeting.countryCode,
+        targetedCountryGroups, // Country groups/region
+        targetedCountryCodes, // Individual country codes
+    );
+};
+
 // Exported for Jest testing
 export const selectBestTest = (
     targeting: GutterTargeting,
     userDeviceType: UserDeviceType,
     allTests: GutterTest[],
 ): GutterTestSelection | null => {
-    const { showSupportMessaging, countryCode, isSignedIn } = targeting;
+    const { showSupportMessaging, isSignedIn } = targeting;
 
     const selectedTest = allTests.find((test) => {
-        const { status, userCohort, locations, signedInStatus, contextTargeting } = test;
+        const { status, userCohort, signedInStatus, contextTargeting } = test;
 
         // build pageContext
         const pageContext = {
@@ -34,7 +51,7 @@ export const selectBestTest = (
         return (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
-            inCountryGroups(countryCode, locations) &&
+            isCountryTargetedForGutterAsks(test, targeting) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
             pageContextMatches(pageContext, contextTargeting)
         );

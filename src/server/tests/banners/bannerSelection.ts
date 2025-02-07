@@ -1,31 +1,31 @@
-import { countryCodeToCountryGroupId, inCountryGroups } from '../../../shared/lib';
+import { countryCodeToCountryGroupId, inTargetedCountry } from '../../../shared/lib';
 import {
     BannerTargeting,
     BannerTest,
     BannerTestSelection,
     BannerVariant,
     PageTracking,
-    UserDeviceType,
     uiIsDesign,
+    UserDeviceType,
 } from '../../../shared/types';
 import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import {
+    abandonedBasketMatches,
     audienceMatches,
+    consentStatusMatches,
     correctSignedInStatus,
     deviceTypeMatches,
-    consentStatusMatches,
     pageContextMatches,
-    abandonedBasketMatches,
 } from '../../lib/targeting';
 import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
 import {
+    defaultDeploySchedule,
     getLastScheduledDeploy,
     ScheduledBannerDeploys,
-    defaultDeploySchedule,
 } from './bannerDeploySchedule';
 import { daysSince } from '../../lib/dates';
 import { isAfter, subDays } from 'date-fns';
@@ -57,6 +57,23 @@ function canShowAbandonedBasketBanner(
 
     return daysSince(new Date(abandonedBasketBannerLastClosedAt), now) > 0;
 }
+
+export const isCountryTargetedForBanner = (
+    test: BannerTest,
+    targeting: BannerTargeting,
+): boolean => {
+    const targetedCountryGroups = test.regionTargeting
+        ? test.regionTargeting.targetedCountryGroups
+        : test.locations;
+    const targetedCountryCodes = test.regionTargeting
+        ? test.regionTargeting.targetedCountryCodes
+        : [];
+    return inTargetedCountry(
+        targeting.countryCode,
+        targetedCountryGroups, // Country groups/region
+        targetedCountryCodes, // Individual country codes
+    );
+};
 
 /**
  * If the banner has been closed previously, can we show it again?
@@ -211,7 +228,7 @@ export const selectBannerTest = (
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
-            inCountryGroups(targeting.countryCode, test.locations) &&
+            isCountryTargetedForBanner(test, targeting) &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,

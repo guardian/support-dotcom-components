@@ -90,6 +90,10 @@ describe('selectBannerTest', () => {
                 periodInWeeks: 52,
             },
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -115,6 +119,81 @@ describe('selectBannerTest', () => {
                 now,
             );
             expect(result && result.test.name).toBe('test');
+        });
+
+        it('returns test if regionTargeting (country code) matches country code from payload (targeting)', () => {
+            const testWithRegionTargeting: BannerTest = {
+                ...test,
+                regionTargeting: {
+                    targetedCountryGroups: ['UnitedStates'],
+                    targetedCountryCodes: ['AU'],
+                },
+            };
+
+            const result = selectBannerTest(
+                targeting,
+                tracking,
+                userDeviceType,
+                '',
+                [testWithRegionTargeting],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result && result.test.name).toBe('test');
+        });
+
+        it('returns test if regionTargeting (country group) matches country code from payload (targeting)', () => {
+            const testWithRegionTargeting: BannerTest = {
+                ...test,
+                regionTargeting: {
+                    targetedCountryGroups: ['AUDCountries', 'GBPCountries'],
+                    targetedCountryCodes: ['CA', 'DE'],
+                },
+            };
+
+            const result = selectBannerTest(
+                targeting,
+                tracking,
+                userDeviceType,
+                '',
+                [testWithRegionTargeting],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result && result.test.name).toBe('test');
+        });
+
+        it('returns null if regionTargeting does not match country code from payload (targeting)', () => {
+            const testWithRegionTargeting: BannerTest = {
+                ...test,
+                regionTargeting: {
+                    targetedCountryGroups: ['NZDCountries'],
+                    targetedCountryCodes: ['DE', 'FR'],
+                },
+            };
+
+            const result = selectBannerTest(
+                targeting,
+                tracking,
+                userDeviceType,
+                '',
+                [testWithRegionTargeting],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result).toBe(null);
         });
 
         it('returns null if hardcoded tests disabled', () => {
@@ -276,6 +355,10 @@ describe('selectBannerTest', () => {
                 periodInWeeks: 52,
             },
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -388,6 +471,10 @@ describe('selectBannerTest', () => {
                 },
             ],
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -517,6 +604,10 @@ describe('selectBannerTest', () => {
                 },
             ],
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],
@@ -618,6 +709,10 @@ describe('selectBannerTest', () => {
             userCohort: 'Everyone',
             variants: [],
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
             contextTargeting: {
                 tagIds: [],
                 sectionIds: [],

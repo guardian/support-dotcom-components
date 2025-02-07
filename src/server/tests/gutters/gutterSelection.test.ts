@@ -26,6 +26,17 @@ const non_supporter_non_gbp: GutterTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'non-supporter_non-uk',
@@ -67,6 +78,17 @@ const remote_low_priority_nonUK: GutterTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'non-supporter_non-uk_low-priority',
@@ -101,6 +123,10 @@ const non_supporter_gbp: GutterTest = {
         excludedTagIds: [],
     },
     locations: ['GBPCountries'],
+    regionTargeting: {
+        targetedCountryGroups: ['GBPCountries'],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'non-supporter-gbp',
@@ -136,6 +162,10 @@ const no_locations_set: GutterTest = {
         excludedTagIds: [],
     },
     locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'remote',
@@ -179,6 +209,18 @@ const tag_included: GutterTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'included_tag',
@@ -221,6 +263,18 @@ const supporter_all: GutterTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'supporter',
@@ -264,6 +318,18 @@ const tag_excluded: GutterTest = {
         'UnitedStates',
         'International',
     ],
+    regionTargeting: {
+        targetedCountryGroups: [
+            'AUDCountries',
+            'Canada',
+            'EURCountries',
+            'GBPCountries',
+            'NZDCountries',
+            'UnitedStates',
+            'International',
+        ],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'excluded_tag',
@@ -299,6 +365,10 @@ const evergreen: GutterTest = {
         excludedSectionIds: [],
     },
     locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'evergreen_variant',
@@ -443,7 +513,7 @@ describe('selectBestTest', () => {
         // Mock targeting data: is a supporter, is in UK
         const mockTargetingObject_4: GutterTargeting = {
             showSupportMessaging: false,
-            countryCode: 'im',
+            countryCode: 'us',
             mvtId: 900263,
             isSignedIn: true,
             tagIds: [],
