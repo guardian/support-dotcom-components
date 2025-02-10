@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import { getSsmValue } from '../utils/ssm';
+import { bodyContainsAllFields } from '../middleware';
 
 // --------------------------------
 // Basic Types
@@ -269,11 +270,12 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
     router.post(
         '/auxia/get-treatments',
-
-        // We are disabling that check for now, we will re-enable it later when we have a
-        // better understanding of the request payload.
-        // bodyContainsAllFields(['tracking', 'targeting']),
-
+        bodyContainsAllFields([
+            'browserId',
+            'is_supporter',
+            'daily_article_count',
+            'article_identifier',
+        ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const auxiaData = await callGetTreatments(
@@ -295,7 +297,15 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
     router.post(
         '/auxia/log-treatment-interaction',
-
+        bodyContainsAllFields([
+            'browserId',
+            'treatmentTrackingId',
+            'treatmentId',
+            'surface',
+            'interactionType',
+            'interactionTimeMicros',
+            'actionName',
+        ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 await callLogTreatmentInteration(
