@@ -8,7 +8,6 @@ import { getSsmValue } from '../utils/ssm';
 export interface AuxiaRouterConfig {
     apiKey: string;
     projectId: string;
-    userId: string;
 }
 
 interface AuxiaContextualAttributeString {
@@ -98,15 +97,9 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
         throw new Error('auxia-projectId is undefined');
     }
 
-    const userId = await getSsmValue('PROD', 'auxia-userId');
-    if (userId === undefined) {
-        throw new Error('auxia-userId is undefined');
-    }
-
     return Promise.resolve({
         apiKey,
         projectId,
-        userId,
     });
 };
 
@@ -207,7 +200,7 @@ const buildAuxiaProxyGetTreatmentsResponseData = (
 
 const buildLogTreatmentInteractionRequestPayload = (
     projectId: string,
-    userId: string,
+    browserId: string,
     treatmentTrackingId: string,
     treatmentId: string,
     surface: string,
@@ -217,7 +210,7 @@ const buildLogTreatmentInteractionRequestPayload = (
 ): AuxiaAPILogTreatmentInteractionRequestPayload => {
     return {
         projectId: projectId,
-        userId: userId,
+        userId: browserId, // In our case the userId is the browserId.
         treatmentTrackingId,
         treatmentId,
         surface,
@@ -230,7 +223,7 @@ const buildLogTreatmentInteractionRequestPayload = (
 const callLogTreatmentInteration = async (
     apiKey: string,
     projectId: string,
-    userId: string,
+    browserId: string,
     treatmentTrackingId: string,
     treatmentId: string,
     surface: string,
@@ -247,7 +240,7 @@ const callLogTreatmentInteration = async (
 
     const payload = buildLogTreatmentInteractionRequestPayload(
         projectId,
-        userId,
+        browserId,
         treatmentTrackingId,
         treatmentId,
         surface,
@@ -308,7 +301,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 await callLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
-                    config.userId,
+                    req.body.browserId,
                     req.body.treatmentTrackingId,
                     req.body.treatmentId,
                     req.body.surface,
