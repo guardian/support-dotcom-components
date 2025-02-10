@@ -21,9 +21,15 @@ interface AuxiaContextualAttributeBoolean {
     boolValue: boolean;
 }
 
+interface AuxiaContextualAttributeInteger {
+    key: string;
+    integerValue: number;
+}
+
 type AuxiaGenericContexualAttribute =
     | AuxiaContextualAttributeString
-    | AuxiaContextualAttributeBoolean;
+    | AuxiaContextualAttributeBoolean
+    | AuxiaContextualAttributeInteger;
 
 interface AuxiaSurface {
     surface: string;
@@ -112,6 +118,8 @@ const buildGetTreatmentsRequestPayload = (
     projectId: string,
     browserId: string,
     is_supporter: boolean,
+    daily_article_count: number,
+    article_identifier: string,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
@@ -125,6 +133,14 @@ const buildGetTreatmentsRequestPayload = (
             {
                 key: 'is_supporter',
                 boolValue: is_supporter,
+            },
+            {
+                key: 'daily_article_count',
+                integerValue: daily_article_count,
+            },
+            {
+                key: 'article_identifier',
+                stringValue: article_identifier,
             },
         ],
         surfaces: [
@@ -142,6 +158,8 @@ const callGetTreatments = async (
     projectId: string,
     browserId: string,
     is_supporter: boolean,
+    daily_article_count: number,
+    article_identifier: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
@@ -150,7 +168,13 @@ const callGetTreatments = async (
         'x-api-key': apiKey,
     };
 
-    const payload = buildGetTreatmentsRequestPayload(projectId, browserId, is_supporter);
+    const payload = buildGetTreatmentsRequestPayload(
+        projectId,
+        browserId,
+        is_supporter,
+        daily_article_count,
+        article_identifier,
+    );
 
     const params = {
         method: 'POST',
@@ -264,6 +288,8 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     config.projectId,
                     req.body.browserId,
                     req.body.is_supporter,
+                    req.body.daily_article_count,
+                    req.body.article_identifier,
                 );
                 const response = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
 
