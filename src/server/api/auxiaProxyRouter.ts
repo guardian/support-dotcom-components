@@ -101,12 +101,12 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 
 const buildGetTreatmentsRequestPayload = (
     projectId: string,
-    userId: string,
+    browserId: string,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
         projectId: projectId,
-        userId: userId,
+        userId: browserId, // In our case the userId is the browserId.
         contextualAttributes: [
             {
                 key: 'profile_id',
@@ -126,7 +126,7 @@ const buildGetTreatmentsRequestPayload = (
 const callGetTreatments = async (
     apiKey: string,
     projectId: string,
-    userId: string,
+    browserId: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
@@ -135,7 +135,7 @@ const callGetTreatments = async (
         'x-api-key': apiKey,
     };
 
-    const payload = buildGetTreatmentsRequestPayload(projectId, userId);
+    const payload = buildGetTreatmentsRequestPayload(projectId, browserId);
 
     const params = {
         method: 'POST',
@@ -247,7 +247,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 const auxiaData = await callGetTreatments(
                     config.apiKey,
                     config.projectId,
-                    config.userId,
+                    req.body.browserId,
                 );
                 const response = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
 
