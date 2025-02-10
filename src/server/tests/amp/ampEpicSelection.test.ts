@@ -1,4 +1,3 @@
-import { CountryGroupId } from '../../../shared/lib';
 import { TickerCountType, TickerEndType, TickerSettings } from '../../../shared/types';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
@@ -24,6 +23,10 @@ const epicTest: AmpEpicTest = {
     nickname: 'TEST1',
     status: 'Live',
     locations: [],
+    regionTargeting: {
+        targetedCountryGroups: [],
+        targetedCountryCodes: [],
+    },
     variants: [
         {
             name: 'CONTROL',
@@ -97,21 +100,43 @@ describe('ampEpicTests', () => {
         expect(result).toEqual(null);
     });
 
-    it('should select test with matching locations', async () => {
-        const tests = [
-            { ...epicTest, locations: ['UnitedStates' as CountryGroupId] },
-            { ...epicTest, name: 'TEST2', nickname: 'TEST2' },
+    it('should select test based on region targeting', async () => {
+        const tests: AmpEpicTest[] = [
+            {
+                ...epicTest,
+                regionTargeting: {
+                    targetedCountryGroups: ['UnitedStates'],
+                    targetedCountryCodes: ['US'],
+                },
+            },
         ];
-        const result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
-        expect(result).toEqual({
-            ...expectedAmpEpic,
-            testName: 'TEST2',
+
+        // User in targeted country group (US)
+        let result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'US');
+        expect(result).toMatchObject({
+            testName: 'TEST1',
             variantName: 'CONTROL',
+            heading: 'a',
+            paragraphs: ['b'],
+            highlightedText: expect.stringContaining('Support the Guardian from as little as $1'),
             cta: {
-                ...expectedAmpEpic.cta,
-                componentId: 'AMP__TEST2__CONTROL',
-                campaignCode: 'AMP__TEST2__CONTROL',
+                text: 'Show your support',
+                url: 'https://support.theguardian.com/contribute',
+            },
+            ticker: {
+                percentage: '99.9',
+                topLeft: '$999',
+                topRight: '$1,000',
             },
         });
+
+        // Ensure optional properties are handled correctly otherwise test fails
+        expect(result?.secondaryCta).toBeUndefined();
+        expect(result?.showChoiceCards).toBeUndefined();
+        expect(result?.defaultChoiceCardFrequency).toBeUndefined();
+
+        // User not in targeted country group (GB)
+        result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
+        expect(result).toBeNull();
     });
 });

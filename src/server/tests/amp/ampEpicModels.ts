@@ -9,8 +9,7 @@ import {
 } from '../../../shared/types';
 import { AMPTicker } from './ampTicker';
 import { z } from 'zod';
-
-import { countryGroupIdSchema } from '../../../shared/lib';
+import { countryGroupIdSchema, targetedRegionsSchema } from '../../../shared/lib';
 
 /**
  * Models for the data returned to AMP
@@ -52,7 +51,8 @@ const ampEpicTestVariantSchema = z.object({
 
 export const ampEpicTestSchema = testSchema.extend({
     nickname: z.string().optional(),
-    locations: z.array(countryGroupIdSchema),
+    locations: z.array(countryGroupIdSchema).optional(),
+    regionTargeting: targetedRegionsSchema.optional(),
     variants: z.array(ampEpicTestVariantSchema),
 });
 

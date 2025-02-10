@@ -1,4 +1,4 @@
-import { inCountryGroups, replaceNonArticleCountPlaceholders } from '../../../shared/lib';
+import { inTargetedCountry, replaceNonArticleCountPlaceholders } from '../../../shared/lib';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { ampTicker } from './ampTicker';
@@ -15,6 +15,20 @@ type AmpExperiments = Record<
 >;
 
 // ---- Functions --- //
+
+export const isCountryTargetedForAmpEpic = (test: AmpEpicTest, countryCode?: string): boolean => {
+    const targetedCountryGroups = test.regionTargeting
+        ? test.regionTargeting.targetedCountryGroups
+        : test.locations;
+    const targetedCountryCodes = test.regionTargeting
+        ? test.regionTargeting.targetedCountryCodes
+        : [];
+    return inTargetedCountry(
+        countryCode,
+        targetedCountryGroups, // Country groups/region
+        targetedCountryCodes, // Individual country codes
+    );
+};
 
 export const getAmpExperimentData = async (tests: AmpEpicTest[]): Promise<AmpExperiments> => {
     const ampExperiments: AmpExperiments = {
@@ -60,7 +74,7 @@ const selectAmpEpicTestAndVariant = async (
     countryCode?: string,
 ): Promise<AMPEpic | null> => {
     const test = tests.find(
-        (test) => test.status === 'Live' && inCountryGroups(countryCode, test.locations),
+        (test) => test.status === 'Live' && isCountryTargetedForAmpEpic(test, countryCode),
     );
 
     if (test && test.variants) {

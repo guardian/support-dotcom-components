@@ -1,6 +1,6 @@
 import { pageContextTargetingSchema, testSchema, userCohortSchema } from './shared';
 import { gutterContentSchema } from '../props';
-import { countryGroupIdSchema } from '../../lib';
+import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
 import { z } from 'zod';
 
 /**
@@ -13,7 +13,8 @@ const gutterVariantFromToolSchema = z.object({
 export type GutterVariantFromTool = z.infer<typeof gutterVariantFromToolSchema>;
 
 export const gutterTestFromToolSchema = testSchema.extend({
-    locations: z.array(countryGroupIdSchema),
+    locations: z.array(countryGroupIdSchema).optional(),
+    regionTargeting: targetedRegionsSchema.optional(),
     userCohort: userCohortSchema,
     contextTargeting: pageContextTargetingSchema,
     variants: z.array(gutterVariantFromToolSchema),
