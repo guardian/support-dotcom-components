@@ -8,6 +8,7 @@ import {
     Prices,
     TestTracking,
     BannerDesignFromTool,
+    Tracking,
 } from '../../shared/types';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { ChannelSwitches } from '../channelSwitches';
@@ -99,7 +100,7 @@ export const buildBannerRouter = (
             );
 
             const props: BannerProps = {
-                tracking: testTracking,
+                tracking: testTracking as Tracking, // PageTracking is added client-side
                 bannerChannel: test.bannerChannel,
                 isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,

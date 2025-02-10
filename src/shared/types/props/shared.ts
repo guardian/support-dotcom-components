@@ -151,7 +151,7 @@ export type PageTracking = {
     referrerUrl: string;
 };
 
-export type Tracking = TestTracking | PageTracking;
+export type Tracking = TestTracking & PageTracking;
 
 export const trackingSchema = z.object({
     abTestName: z.string(),

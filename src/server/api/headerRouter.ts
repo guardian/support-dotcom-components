@@ -2,7 +2,13 @@ import express, { Router } from 'express';
 import { bodyContainsAllFields } from '../middleware';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
-import { HeaderProps, HeaderTargeting, HeaderTest, TestTracking } from '../../shared/types';
+import {
+    HeaderProps,
+    HeaderTargeting,
+    HeaderTest,
+    TestTracking,
+    Tracking,
+} from '../../shared/types';
 import { ChannelSwitches } from '../channelSwitches';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
 import { getDeviceType } from '../lib/deviceType';
@@ -56,7 +62,7 @@ export const buildHeaderRouter = (
                         props: {
                             content: variant.content,
                             mobileContent: variant.mobileContent,
-                            tracking: testTracking,
+                            tracking: testTracking as Tracking, // PageTracking is added client-side
                             countryCode: targeting.countryCode,
                             numArticles: targeting.numArticles,
                         },

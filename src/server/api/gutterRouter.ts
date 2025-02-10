@@ -2,7 +2,13 @@ import express, { Router } from 'express';
 import { bodyContainsAllFields } from '../middleware';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
-import { GutterProps, GutterTest, TestTracking, GutterTargeting } from '../../shared/types';
+import {
+    GutterProps,
+    GutterTest,
+    TestTracking,
+    GutterTargeting,
+    Tracking,
+} from '../../shared/types';
 import { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
@@ -56,7 +62,7 @@ export const buildGutterRouter = (
                         name: moduleName,
                         props: {
                             content: variant.content,
-                            tracking: testTracking,
+                            tracking: testTracking as Tracking, // PageTracking is added client-side
                             countryCode: targeting.countryCode,
                         },
                     },

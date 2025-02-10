@@ -7,6 +7,7 @@ import {
     EpicType,
     EpicVariant,
     TestTracking,
+    Tracking,
     WeeklyArticleLog,
 } from '../../shared/types';
 import { getQueryParams, Params } from '../lib/params';
@@ -140,7 +141,7 @@ export const buildEpicRouter = (
 
         const props: EpicProps = {
             variant: propsVariant,
-            tracking: testTracking,
+            tracking: testTracking as Tracking, // PageTracking is added client-side
             articleCounts: getArticleViewCounts(
                 targeting.weeklyArticleHistory,
                 test.articlesViewedSettings?.periodInWeeks,
