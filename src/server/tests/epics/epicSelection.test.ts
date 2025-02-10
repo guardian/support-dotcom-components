@@ -16,7 +16,7 @@ import {
     hasCountryCode,
     inCorrectCohort,
     isNotExpired,
-    matchesCountryGroups,
+    isCountryTargetedForEpic,
     withinArticleViewedSettings,
     withinMaxViews,
 } from './epicSelection';
@@ -282,9 +282,13 @@ describe('matchesCountryGroups filter', () => {
         const test = {
             ...testDefault,
             locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
         };
 
-        const got = matchesCountryGroups.test(test, targetingDefault);
+        const got = isCountryTargetedForEpic.test(test, targetingDefault);
 
         expect(got).toBe(true);
     });
@@ -293,13 +297,17 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['GBPCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['GBPCountries'],
+                targetedCountryCodes: [],
+            },
         };
         const targeting = {
             ...targetingDefault,
             countryCode: undefined,
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(false);
     });
@@ -308,13 +316,17 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: [],
+            },
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
             countryCode: 'PT',
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -323,13 +335,93 @@ describe('matchesCountryGroups filter', () => {
         const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: [],
+            },
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
             countryCode: 'GB',
         };
 
-        const got = matchesCountryGroups.test(test, targeting);
+        const got = isCountryTargetedForEpic.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if user is in country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: ['CA'],
+            },
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = isCountryTargetedForEpic.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if user is in targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: ['DE'],
+            },
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = isCountryTargetedForEpic.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if user is in both country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: ['DE'],
+            },
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'DE',
+        };
+
+        const got = isCountryTargetedForEpic.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if user is not in country group or targeted country', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            regionTargeting: {
+                targetedCountryGroups: ['EURCountries'],
+                targetedCountryCodes: ['NZ'],
+            },
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'GB',
+        };
+
+        const got = isCountryTargetedForEpic.test(test, targeting);
 
         expect(got).toBe(false);
     });

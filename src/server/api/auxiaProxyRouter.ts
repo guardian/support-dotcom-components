@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import { getSsmValue } from '../utils/ssm';
+import { bodyContainsAllFields } from '../middleware';
 
 // --------------------------------
 // Basic Types
@@ -8,13 +9,27 @@ import { getSsmValue } from '../utils/ssm';
 export interface AuxiaRouterConfig {
     apiKey: string;
     projectId: string;
-    userId: string;
 }
 
-interface AuxiaContextualAttributes {
+interface AuxiaContextualAttributeString {
     key: string;
     stringValue: string;
 }
+
+interface AuxiaContextualAttributeBoolean {
+    key: string;
+    boolValue: boolean;
+}
+
+interface AuxiaContextualAttributeInteger {
+    key: string;
+    integerValue: number;
+}
+
+type AuxiaGenericContexualAttribute =
+    | AuxiaContextualAttributeString
+    | AuxiaContextualAttributeBoolean
+    | AuxiaContextualAttributeInteger;
 
 interface AuxiaSurface {
     surface: string;
@@ -38,7 +53,7 @@ interface AuxiaUserTreatment {
 interface AuxiaAPIGetTreatmentsRequestPayload {
     projectId: string;
     userId: string;
-    contextualAttributes: AuxiaContextualAttributes[];
+    contextualAttributes: AuxiaGenericContexualAttribute[];
     surfaces: AuxiaSurface[];
     languageCode: string;
 }
@@ -83,15 +98,9 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
         throw new Error('auxia-projectId is undefined');
     }
 
-    const userId = await getSsmValue('PROD', 'auxia-userId');
-    if (userId === undefined) {
-        throw new Error('auxia-userId is undefined');
-    }
-
     return Promise.resolve({
         apiKey,
         projectId,
-        userId,
     });
 };
 
@@ -101,16 +110,31 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 
 const buildGetTreatmentsRequestPayload = (
     projectId: string,
-    userId: string,
+    browserId: string,
+    is_supporter: boolean,
+    daily_article_count: number,
+    article_identifier: string,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
         projectId: projectId,
-        userId: userId,
+        userId: browserId, // In our case the userId is the browserId.
         contextualAttributes: [
             {
                 key: 'profile_id',
                 stringValue: 'pr1234',
+            },
+            {
+                key: 'is_supporter',
+                boolValue: is_supporter,
+            },
+            {
+                key: 'daily_article_count',
+                integerValue: daily_article_count,
+            },
+            {
+                key: 'article_identifier',
+                stringValue: article_identifier,
             },
         ],
         surfaces: [
@@ -126,7 +150,10 @@ const buildGetTreatmentsRequestPayload = (
 const callGetTreatments = async (
     apiKey: string,
     projectId: string,
-    userId: string,
+    browserId: string,
+    is_supporter: boolean,
+    daily_article_count: number,
+    article_identifier: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
@@ -135,7 +162,13 @@ const callGetTreatments = async (
         'x-api-key': apiKey,
     };
 
-    const payload = buildGetTreatmentsRequestPayload(projectId, userId);
+    const payload = buildGetTreatmentsRequestPayload(
+        projectId,
+        browserId,
+        is_supporter,
+        daily_article_count,
+        article_identifier,
+    );
 
     const params = {
         method: 'POST',
@@ -168,7 +201,7 @@ const buildAuxiaProxyGetTreatmentsResponseData = (
 
 const buildLogTreatmentInteractionRequestPayload = (
     projectId: string,
-    userId: string,
+    browserId: string,
     treatmentTrackingId: string,
     treatmentId: string,
     surface: string,
@@ -178,7 +211,7 @@ const buildLogTreatmentInteractionRequestPayload = (
 ): AuxiaAPILogTreatmentInteractionRequestPayload => {
     return {
         projectId: projectId,
-        userId: userId,
+        userId: browserId, // In our case the userId is the browserId.
         treatmentTrackingId,
         treatmentId,
         surface,
@@ -191,7 +224,7 @@ const buildLogTreatmentInteractionRequestPayload = (
 const callLogTreatmentInteration = async (
     apiKey: string,
     projectId: string,
-    userId: string,
+    browserId: string,
     treatmentTrackingId: string,
     treatmentId: string,
     surface: string,
@@ -208,7 +241,7 @@ const callLogTreatmentInteration = async (
 
     const payload = buildLogTreatmentInteractionRequestPayload(
         projectId,
-        userId,
+        browserId,
         treatmentTrackingId,
         treatmentId,
         surface,
@@ -237,17 +270,21 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
     router.post(
         '/auxia/get-treatments',
-
-        // We are disabling that check for now, we will re-enable it later when we have a
-        // better understanding of the request payload.
-        // bodyContainsAllFields(['tracking', 'targeting']),
-
+        bodyContainsAllFields([
+            'browserId',
+            'is_supporter',
+            'daily_article_count',
+            'article_identifier',
+        ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const auxiaData = await callGetTreatments(
                     config.apiKey,
                     config.projectId,
-                    config.userId,
+                    req.body.browserId,
+                    req.body.is_supporter,
+                    req.body.daily_article_count,
+                    req.body.article_identifier,
                 );
                 const response = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
 
@@ -260,13 +297,21 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
     router.post(
         '/auxia/log-treatment-interaction',
-
+        bodyContainsAllFields([
+            'browserId',
+            'treatmentTrackingId',
+            'treatmentId',
+            'surface',
+            'interactionType',
+            'interactionTimeMicros',
+            'actionName',
+        ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 await callLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
-                    config.userId,
+                    req.body.browserId,
                     req.body.treatmentTrackingId,
                     req.body.treatmentId,
                     req.body.surface,
