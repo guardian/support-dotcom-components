@@ -124,7 +124,6 @@ describe('selectBannerTest', () => {
 
             const result = selectBannerTest(
                 targeting,
-                tracking,
                 userDeviceType,
                 '',
                 [testWithRegionTargeting],
@@ -149,7 +148,6 @@ describe('selectBannerTest', () => {
 
             const result = selectBannerTest(
                 targeting,
-                tracking,
                 userDeviceType,
                 '',
                 [testWithRegionTargeting],
@@ -174,7 +172,6 @@ describe('selectBannerTest', () => {
 
             const result = selectBannerTest(
                 targeting,
-                tracking,
                 userDeviceType,
                 '',
                 [testWithRegionTargeting],
