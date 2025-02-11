@@ -6,8 +6,8 @@ import {
     HeaderProps,
     HeaderTargeting,
     HeaderTest,
-    PageTracking,
     TestTracking,
+    Tracking,
 } from '../../shared/types';
 import { ChannelSwitches } from '../channelSwitches';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
@@ -31,7 +31,6 @@ export const buildHeaderRouter = (
     const router = Router();
 
     const buildHeaderData = (
-        pageTracking: PageTracking,
         targeting: HeaderTargeting,
         baseUrl: string,
         params: Params,
@@ -63,7 +62,7 @@ export const buildHeaderRouter = (
                         props: {
                             content: variant.content,
                             mobileContent: variant.mobileContent,
-                            tracking: { ...pageTracking, ...testTracking },
+                            tracking: testTracking as Tracking, // PageTracking is added client-side
                             countryCode: targeting.countryCode,
                             numArticles: targeting.numArticles,
                         },
@@ -77,12 +76,12 @@ export const buildHeaderRouter = (
 
     router.post(
         '/header',
-        bodyContainsAllFields(['tracking', 'targeting']),
+        bodyContainsAllFields(['targeting']),
         (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const { tracking, targeting } = req.body;
+                const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildHeaderData(tracking, targeting, baseUrl(req), params, req);
+                const response = buildHeaderData(targeting, baseUrl(req), params, req);
                 res.send(response);
             } catch (error) {
                 next(error);

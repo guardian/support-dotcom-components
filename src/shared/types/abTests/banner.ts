@@ -13,7 +13,7 @@ import {
     userCohortSchema,
 } from './shared';
 import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
-import { BannerTargeting, PageTracking } from '../targeting';
+import { BannerTargeting } from '../targeting';
 import { PurchaseInfoTest } from './shared';
 import { z } from 'zod';
 import { OphanComponentType, OphanProduct } from '@guardian/libs';
@@ -60,7 +60,7 @@ export interface BannerVariant extends BannerVariantFromTool {
     products?: OphanProduct[];
 }
 
-export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) => boolean;
+export type CanRun = (targeting: BannerTargeting) => boolean;
 
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
 

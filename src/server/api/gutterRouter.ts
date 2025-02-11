@@ -5,9 +5,9 @@ import { baseUrl } from '../lib/env';
 import {
     GutterProps,
     GutterTest,
-    PageTracking,
     TestTracking,
     GutterTargeting,
+    Tracking,
 } from '../../shared/types';
 import { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
@@ -32,7 +32,6 @@ export const buildGutterRouter = (
     const router = Router();
 
     const buildGutterData = (
-        pageTracking: PageTracking,
         targeting: GutterTargeting,
         baseUrl: string,
         params: Params,
@@ -63,7 +62,7 @@ export const buildGutterRouter = (
                         name: moduleName,
                         props: {
                             content: variant.content,
-                            tracking: { ...pageTracking, ...testTracking },
+                            tracking: testTracking as Tracking, // PageTracking is added client-side
                             countryCode: targeting.countryCode,
                         },
                     },
@@ -76,12 +75,12 @@ export const buildGutterRouter = (
 
     router.post(
         '/gutter-liveblog',
-        bodyContainsAllFields(['tracking', 'targeting']),
+        bodyContainsAllFields(['targeting']),
         (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const { tracking, targeting } = req.body;
+                const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildGutterData(tracking, targeting, baseUrl(req), params, req);
+                const response = buildGutterData(targeting, baseUrl(req), params, req);
                 res.send(response);
             } catch (error) {
                 next(error);

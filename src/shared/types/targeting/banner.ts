@@ -1,4 +1,4 @@
-import { PageTracking, WeeklyArticleHistory, PurchaseInfo, AbandonedBasket } from './shared';
+import { WeeklyArticleHistory, PurchaseInfo, AbandonedBasket } from './shared';
 
 export type BannerTargeting = {
     shouldHideReaderRevenue?: boolean;
@@ -24,6 +24,5 @@ export type BannerTargeting = {
 };
 
 export type BannerPayload = {
-    tracking: PageTracking;
     targeting: BannerTargeting;
 };

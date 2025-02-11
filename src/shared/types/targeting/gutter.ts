@@ -1,5 +1,3 @@
-import { PageTracking } from './shared';
-
 export interface GutterTargeting {
     showSupportMessaging: boolean;
     countryCode: string;
@@ -10,6 +8,5 @@ export interface GutterTargeting {
 }
 
 export type GutterPayload = {
-    tracking: PageTracking;
     targeting: GutterTargeting;
 };

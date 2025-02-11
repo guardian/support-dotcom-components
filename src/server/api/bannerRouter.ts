@@ -5,10 +5,10 @@ import {
     BannerTargeting,
     BannerTest,
     AmountsTests,
-    PageTracking,
     Prices,
     TestTracking,
     BannerDesignFromTool,
+    Tracking,
 } from '../../shared/types';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { ChannelSwitches } from '../channelSwitches';
@@ -49,7 +49,6 @@ export const buildBannerRouter = (
     const router = Router();
 
     const buildBannerData = (
-        pageTracking: PageTracking,
         targeting: BannerTargeting,
         params: Params,
         req: express.Request,
@@ -63,7 +62,6 @@ export const buildBannerRouter = (
 
         const selectedTest = selectBannerTest(
             targeting,
-            pageTracking,
             getDeviceType(req),
             baseUrl(req),
             bannerTests.get(),
@@ -102,7 +100,7 @@ export const buildBannerRouter = (
             );
 
             const props: BannerProps = {
-                tracking: { ...pageTracking, ...testTracking },
+                tracking: testTracking as Tracking, // PageTracking is added client-side
                 bannerChannel: test.bannerChannel,
                 isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,
@@ -142,14 +140,13 @@ export const buildBannerRouter = (
         '/banner',
         (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const { tracking, targeting } = req.body;
+                const { targeting } = req.body;
                 const params = getQueryParams(req.query);
 
-                const response = buildBannerData(tracking, targeting, params, req);
+                const response = buildBannerData(targeting, params, req);
 
                 // for response logging
                 res.locals.didRenderBanner = !!response.data;
-                res.locals.clientName = tracking.clientName;
                 // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
                 res.locals.bannerTargeting = {
                     shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
