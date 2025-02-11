@@ -154,7 +154,7 @@ const callGetTreatments = async (
     is_supporter: boolean,
     daily_article_count: number,
     article_identifier: string,
-): Promise<AuxiaAPIGetTreatmentsResponseData> => {
+): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
     const headers = {
@@ -176,19 +176,30 @@ const callGetTreatments = async (
         body: JSON.stringify(payload),
     };
 
-    const response = await fetch(url, params);
+    try {
+        const response = await fetch(url, params);
+        const responseBody = await response.json();
 
-    const responseBody = await response.json();
-
-    return Promise.resolve(responseBody as AuxiaAPIGetTreatmentsResponseData);
+        // nb: In some circumstances, for instance if the payload although having the right
+        // schema, is going to fail Auxia's validation then the response body may not contain
+        // the userTreatments field. In this case we return undefined.
+        if (responseBody['userTreatments'] === undefined) {
+            return Promise.resolve(undefined);
+        }
+        const data = responseBody as AuxiaAPIGetTreatmentsResponseData;
+        return Promise.resolve(data);
+    } catch (error) {
+        return Promise.resolve(undefined);
+    }
 };
 
 const buildAuxiaProxyGetTreatmentsResponseData = (
     auxiaData: AuxiaAPIGetTreatmentsResponseData,
-): AuxiaProxyGetTreatmentsResponseData => {
+): AuxiaProxyGetTreatmentsResponseData | undefined => {
     // Note the small difference between AuxiaAPIResponseData and AuxiaProxyResponseData
     // In the case of AuxiaProxyResponseData, we have an optional userTreatment field, instead of an array of userTreatments.
     // This is to reflect the what the client expect semantically.
+
     return {
         responseId: auxiaData.responseId,
         userTreatment: auxiaData.userTreatments[0],
@@ -286,9 +297,13 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     req.body.daily_article_count,
                     req.body.article_identifier,
                 );
-                const response = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
 
-                res.send(response);
+                if (auxiaData !== undefined) {
+                    const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
+                    res.send({ status: true, data: data });
+                } else {
+                    res.send({ status: false });
+                }
             } catch (error) {
                 next(error);
             }
