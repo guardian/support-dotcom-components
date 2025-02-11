@@ -300,9 +300,9 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
                 if (auxiaData !== undefined) {
                     const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
-                    res.send({ status: 'ok', data: data });
+                    res.send({ status: true, data: data });
                 } else {
-                    res.send({ status: 'error' });
+                    res.send({ status: false });
                 }
             } catch (error) {
                 next(error);
