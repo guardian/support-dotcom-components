@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 6.0.0
+
+### Major Changes
+
+-   e4ee211: Remove tracking from request payload
+
 ## 5.0.0
 
 ### Major Changes
