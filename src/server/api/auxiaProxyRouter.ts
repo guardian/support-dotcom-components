@@ -333,7 +333,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     req.body.interactionTimeMicros,
                     req.body.actionName,
                 );
-                res.send({ status: 'ok' }); // this is the proxy's response, slightly more user's friendly than the api's response.
+                res.send({ status: true }); // this is the proxy's response, slightly more user's friendly than the api's response.
             } catch (error) {
                 next(error);
             }
