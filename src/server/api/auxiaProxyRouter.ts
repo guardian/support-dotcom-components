@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import { isProd } from '../lib/env';
 import { getSsmValue } from '../utils/ssm';
 import { bodyContainsAllFields } from '../middleware';
 
@@ -88,12 +89,14 @@ interface AuxiaProxyGetTreatmentsResponseData {
 // --------------------------------
 
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
-    const apiKey = await getSsmValue('PROD', 'auxia-api-key');
+    const stage = isProd ? 'PROD' : 'CODE';
+
+    const apiKey = await getSsmValue(stage, 'auxia-api-key');
     if (apiKey === undefined) {
         throw new Error('auxia-api-key is undefined');
     }
 
-    const projectId = await getSsmValue('PROD', 'auxia-projectId');
+    const projectId = await getSsmValue(stage, 'auxia-projectId');
     if (projectId === undefined) {
         throw new Error('auxia-projectId is undefined');
     }
