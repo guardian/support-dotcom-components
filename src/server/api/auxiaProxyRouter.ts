@@ -124,10 +124,6 @@ const buildGetTreatmentsRequestPayload = (
         userId: browserId, // In our case the userId is the browserId.
         contextualAttributes: [
             {
-                key: 'profile_id',
-                stringValue: 'pr1234',
-            },
-            {
                 key: 'is_supporter',
                 boolValue: is_supporter,
             },
