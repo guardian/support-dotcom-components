@@ -149,6 +149,7 @@ const buildGetTreatmentsRequestPayload = (
 const callGetTreatments = async (
     apiKey: string,
     projectId: string,
+    user_has_consented_to_personal_data_use: boolean,
     browserId: string,
     is_supporter: boolean,
     daily_article_count: number,
@@ -281,6 +282,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
     router.post(
         '/auxia/get-treatments',
         bodyContainsAllFields([
+            'user_has_consented_to_personal_data_use',
             'browserId',
             'is_supporter',
             'daily_article_count',
@@ -291,6 +293,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 const auxiaData = await callGetTreatments(
                     config.apiKey,
                     config.projectId,
+                    req.body.user_has_consented_to_personal_data_use,
                     req.body.browserId,
                     req.body.is_supporter,
                     req.body.daily_article_count,
