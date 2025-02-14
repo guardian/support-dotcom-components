@@ -235,6 +235,7 @@ const buildLogTreatmentInteractionRequestPayload = (
 const callLogTreatmentInteration = async (
     apiKey: string,
     projectId: string,
+    user_has_consented_to_personal_data_use: boolean,
     browserId: string,
     treatmentTrackingId: string,
     treatmentId: string,
@@ -315,6 +316,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
     router.post(
         '/auxia/log-treatment-interaction',
         bodyContainsAllFields([
+            'user_has_consented_to_personal_data_use',
             'browserId',
             'treatmentTrackingId',
             'treatmentId',
@@ -328,6 +330,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 await callLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
+                    req.body.user_has_consented_to_personal_data_use,
                     req.body.browserId,
                     req.body.treatmentTrackingId,
                     req.body.treatmentId,
