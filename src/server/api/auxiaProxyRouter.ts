@@ -153,7 +153,17 @@ const guDefaultGetTreatmentsResponseData = (): AuxiaAPIGetTreatmentsResponseData
         'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all. You’ll always be able to control your own';
     const second_cta_name = 'I’ll do it later';
     const privacy_button_name = 'privacy settings';
-    const treatmentContentEncoded = `{"title":"${title}","body":"${body}","first_cta_name":"Sign in","first_cta_link":"https://profile.theguardian.com/signin?","second_cta_name":"${second_cta_name}","second_cta_link":"https://profile.theguardian.com/signin?","subtitle":"${subtitle}","privacy_button_name":"${privacy_button_name}"}`;
+    const treatmentContent = {
+        title,
+        subtitle,
+        body,
+        first_cta_name: 'Sign in',
+        first_cta_link: 'https://profile.theguardian.com/signin?',
+        second_cta_name,
+        second_cta_link: 'https://profile.theguardian.com/signin?',
+        privacy_button_name,
+    };
+    const treatmentContentEncoded = JSON.stringify(treatmentContent);
     const userTreatment: AuxiaAPIUserTreatment = {
         treatmentId: 'default-treatment-id',
         treatmentTrackingId: 'default-treatment-tracking-id',
