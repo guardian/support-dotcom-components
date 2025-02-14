@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import { isProd } from '../lib/env';
 import { getSsmValue } from '../utils/ssm';
 import { bodyContainsAllFields } from '../middleware';
 
@@ -88,12 +89,14 @@ interface AuxiaProxyGetTreatmentsResponseData {
 // --------------------------------
 
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
-    const apiKey = await getSsmValue('PROD', 'auxia-api-key');
+    const stage = isProd ? 'PROD' : 'CODE';
+
+    const apiKey = await getSsmValue(stage, 'auxia-api-key');
     if (apiKey === undefined) {
         throw new Error('auxia-api-key is undefined');
     }
 
-    const projectId = await getSsmValue('PROD', 'auxia-projectId');
+    const projectId = await getSsmValue(stage, 'auxia-projectId');
     if (projectId === undefined) {
         throw new Error('auxia-projectId is undefined');
     }
@@ -120,10 +123,6 @@ const buildGetTreatmentsRequestPayload = (
         projectId: projectId,
         userId: browserId, // In our case the userId is the browserId.
         contextualAttributes: [
-            {
-                key: 'profile_id',
-                stringValue: 'pr1234',
-            },
             {
                 key: 'is_supporter',
                 boolValue: is_supporter,
@@ -334,7 +333,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     req.body.interactionTimeMicros,
                     req.body.actionName,
                 );
-                res.send({ status: 'ok' }); // this is the proxy's response, slightly more user's friendly than the api's response.
+                res.send({ status: true }); // this is the proxy's response, slightly more user's friendly than the api's response.
             } catch (error) {
                 next(error);
             }
