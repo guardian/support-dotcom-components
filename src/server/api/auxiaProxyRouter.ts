@@ -147,8 +147,13 @@ const buildGetTreatmentsRequestPayload = (
 };
 
 const guDefaultGetTreatmentsResponseData = (): AuxiaAPIGetTreatmentsResponseData => {
-    const treatmentContentEncoded =
-        '{"title":"Sign in for a personlised Guardian experience","body":"","first_cta_name":"Sign in","first_cta_link":"https://profile.theguardian.com/signin?","second_cta_name":"Next time","second_cta_link":"https://profile.theguardian.com/signin?","subtitle":"Get less asks for support and more personalised recommendations","privacy_button_name":"privacy settings"}';
+    const title = 'Register: it’s quick and easy';
+    const subtitle = 'It’s still free to read – this is not a paywall';
+    const body =
+        'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all. You’ll always be able to control your own';
+    const second_cta_name = 'I’ll do it later';
+    const privacy_button_name = 'privacy settings';
+    const treatmentContentEncoded = `{"title":"${title}","body":"${body}","first_cta_name":"Sign in","first_cta_link":"https://profile.theguardian.com/signin?","second_cta_name":"${second_cta_name}","second_cta_link":"https://profile.theguardian.com/signin?","subtitle":"${subtitle}","privacy_button_name":"${privacy_button_name}"}`;
     const userTreatment: AuxiaAPIUserTreatment = {
         treatmentId: 'default-treatment-id',
         treatmentTrackingId: 'default-treatment-tracking-id',
@@ -163,7 +168,7 @@ const guDefaultGetTreatmentsResponseData = (): AuxiaAPIGetTreatmentsResponseData
         userTreatments: [userTreatment],
     };
     return data;
-}
+};
 
 const callGetTreatments = async (
     apiKey: string,
