@@ -146,7 +146,19 @@ const buildGetTreatmentsRequestPayload = (
     };
 };
 
-const guDefaultGetTreatmentsResponseData = (): AuxiaAPIGetTreatmentsResponseData => {
+const guDefaultGetTreatmentsResponseData = (
+    daily_article_count: number,
+): AuxiaAPIGetTreatmentsResponseData => {
+    const responseId = ''; // This value is not important, it is not used by the client.
+
+    if (daily_article_count % 10 != 0) {
+        // We show the GU gate every 10 pageviews
+        return {
+            responseId,
+            userTreatments: [],
+        };
+    }
+
     const title = 'Register: it’s quick and easy';
     const subtitle = 'It’s still free to read – this is not a paywall';
     const body =
@@ -174,7 +186,7 @@ const guDefaultGetTreatmentsResponseData = (): AuxiaAPIGetTreatmentsResponseData
         surface: 'ARTICLE_PAGE',
     };
     const data: AuxiaAPIGetTreatmentsResponseData = {
-        responseId: '', // This value is not important, it is not used by the client.
+        responseId,
         userTreatments: [userTreatment],
     };
     return data;
@@ -194,7 +206,7 @@ const callGetTreatments = async (
     // If false, we return a default answer (controlled by GU).
 
     if (!user_has_consented_to_personal_data_use) {
-        const data = guDefaultGetTreatmentsResponseData();
+        const data = guDefaultGetTreatmentsResponseData(daily_article_count);
         return Promise.resolve(data);
     }
 
