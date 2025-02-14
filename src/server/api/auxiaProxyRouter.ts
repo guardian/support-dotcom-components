@@ -146,12 +146,17 @@ const buildGetTreatmentsRequestPayload = (
     };
 };
 
-const guDefaultGetTreatmentsResponseData = (
+const guDefaultShouldShowTheGate = (daily_article_count: number): boolean => {
+    // We show the GU gate every 10 pageviews
+    return daily_article_count % 10 != 0;
+};
+
+const guDefaultGateGetTreatmentsResponseData = (
     daily_article_count: number,
 ): AuxiaAPIGetTreatmentsResponseData => {
     const responseId = ''; // This value is not important, it is not used by the client.
 
-    if (daily_article_count % 10 != 0) {
+    if (!guDefaultShouldShowTheGate(daily_article_count)) {
         // We show the GU gate every 10 pageviews
         return {
             responseId,
@@ -195,18 +200,17 @@ const guDefaultGetTreatmentsResponseData = (
 const callGetTreatments = async (
     apiKey: string,
     projectId: string,
-    user_has_consented_to_personal_data_use: boolean,
-    browserId: string,
+    browserId: string | undefined,
     is_supporter: boolean,
     daily_article_count: number,
     article_identifier: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // Here the behavior depends on the value of `user_has_consented_to_personal_data_use`
-    // If true, we perform the normal API call to Auxia.
-    // If false, we return a default answer (controlled by GU).
+    // If defined, we perform the normal API call to Auxia.
+    // If undefined, we return a default answer (controlled by GU).
 
-    if (!user_has_consented_to_personal_data_use) {
-        const data = guDefaultGetTreatmentsResponseData(daily_article_count);
+    if (browserId === undefined) {
+        const data = guDefaultGateGetTreatmentsResponseData(daily_article_count);
         return Promise.resolve(data);
     }
 
@@ -290,8 +294,7 @@ const buildLogTreatmentInteractionRequestPayload = (
 const callLogTreatmentInteration = async (
     apiKey: string,
     projectId: string,
-    user_has_consented_to_personal_data_use: boolean,
-    browserId: string,
+    browserId: string | undefined,
     treatmentTrackingId: string,
     treatmentId: string,
     surface: string,
@@ -299,11 +302,11 @@ const callLogTreatmentInteration = async (
     interactionTimeMicros: number,
     actionName: string,
 ): Promise<void> => {
-    // Here the behavior depends on the value of `user_has_consented_to_personal_data_use`
-    // If true, we perform the normal API call to Auxia.
-    // If false, we do nothing.
+    // Here the behavior depends on the value of `undefined`
+    // If present, we perform the normal API call to Auxia.
+    // If undefined, we do nothing.
 
-    if (!user_has_consented_to_personal_data_use) {
+    if (browserId === undefined) {
         return;
     }
 
@@ -345,20 +348,13 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
     router.post(
         '/auxia/get-treatments',
-        bodyContainsAllFields([
-            'user_has_consented_to_personal_data_use',
-            'browserId',
-            'is_supporter',
-            'daily_article_count',
-            'article_identifier',
-        ]),
+        bodyContainsAllFields(['is_supporter', 'daily_article_count', 'article_identifier']),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const auxiaData = await callGetTreatments(
                     config.apiKey,
                     config.projectId,
-                    req.body.user_has_consented_to_personal_data_use,
-                    req.body.browserId,
+                    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
                     req.body.is_supporter,
                     req.body.daily_article_count,
                     req.body.article_identifier,
@@ -379,8 +375,6 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
     router.post(
         '/auxia/log-treatment-interaction',
         bodyContainsAllFields([
-            'user_has_consented_to_personal_data_use',
-            'browserId',
             'treatmentTrackingId',
             'treatmentId',
             'surface',
@@ -393,8 +387,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 await callLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
-                    req.body.user_has_consented_to_personal_data_use,
-                    req.body.browserId,
+                    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
                     req.body.treatmentTrackingId,
                     req.body.treatmentId,
                     req.body.surface,
