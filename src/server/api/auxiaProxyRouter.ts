@@ -12,32 +12,36 @@ export interface AuxiaRouterConfig {
     projectId: string;
 }
 
-interface AuxiaContextualAttributeString {
+// --------------------------------
+// Auxia API Types
+// --------------------------------
+
+interface AuxiaAPIContextualAttributeString {
     key: string;
     stringValue: string;
 }
 
-interface AuxiaContextualAttributeBoolean {
+interface AuxiaAPIContextualAttributeBoolean {
     key: string;
     boolValue: boolean;
 }
 
-interface AuxiaContextualAttributeInteger {
+interface AuxiaAPIContextualAttributeInteger {
     key: string;
     integerValue: number;
 }
 
-type AuxiaGenericContexualAttribute =
-    | AuxiaContextualAttributeString
-    | AuxiaContextualAttributeBoolean
-    | AuxiaContextualAttributeInteger;
+type AuxiaAPIGenericContexualAttribute =
+    | AuxiaAPIContextualAttributeString
+    | AuxiaAPIContextualAttributeBoolean
+    | AuxiaAPIContextualAttributeInteger;
 
-interface AuxiaSurface {
+interface AuxiaAPISurface {
     surface: string;
     maximumTreatmentCount: number;
 }
 
-interface AuxiaUserTreatment {
+interface AuxiaAPIUserTreatment {
     treatmentId: string;
     treatmentTrackingId: string;
     rank: string;
@@ -47,15 +51,11 @@ interface AuxiaUserTreatment {
     surface: string;
 }
 
-// --------------------------------
-// Auxia API Interface
-// --------------------------------
-
 interface AuxiaAPIGetTreatmentsRequestPayload {
     projectId: string;
     userId: string;
-    contextualAttributes: AuxiaGenericContexualAttribute[];
-    surfaces: AuxiaSurface[];
+    contextualAttributes: AuxiaAPIGenericContexualAttribute[];
+    surfaces: AuxiaAPISurface[];
     languageCode: string;
 }
 
@@ -72,16 +72,16 @@ interface AuxiaAPILogTreatmentInteractionRequestPayload {
 
 interface AuxiaAPIGetTreatmentsResponseData {
     responseId: string;
-    userTreatments: AuxiaUserTreatment[];
+    userTreatments: AuxiaAPIUserTreatment[];
 }
 
 // --------------------------------
-// Proxy Interface
+// Proxy Types
 // --------------------------------
 
 interface AuxiaProxyGetTreatmentsResponseData {
     responseId: string;
-    userTreatment?: AuxiaUserTreatment;
+    userTreatment?: AuxiaAPIUserTreatment;
 }
 
 // --------------------------------
@@ -146,6 +146,25 @@ const buildGetTreatmentsRequestPayload = (
     };
 };
 
+const guDefaultGetTreatmentsResponseData = (): AuxiaAPIGetTreatmentsResponseData => {
+    const treatmentContentEncoded =
+        '{"title":"Sign in for a personlised Guardian experience","body":"","first_cta_name":"Sign in","first_cta_link":"https://profile.theguardian.com/signin?","second_cta_name":"Next time","second_cta_link":"https://profile.theguardian.com/signin?","subtitle":"Get less asks for support and more personalised recommendations","privacy_button_name":"privacy settings"}';
+    const userTreatment: AuxiaAPIUserTreatment = {
+        treatmentId: 'default-treatment-id',
+        treatmentTrackingId: 'default-treatment-tracking-id',
+        rank: '1',
+        contentLanguageCode: 'en-GB',
+        treatmentContent: treatmentContentEncoded,
+        treatmentType: 'DISMISSABLE_SIGN_IN_GATE',
+        surface: 'ARTICLE_PAGE',
+    };
+    const data: AuxiaAPIGetTreatmentsResponseData = {
+        responseId: '', // This value is not important, it is not used by the client.
+        userTreatments: [userTreatment],
+    };
+    return data;
+}
+
 const callGetTreatments = async (
     apiKey: string,
     projectId: string,
@@ -155,6 +174,15 @@ const callGetTreatments = async (
     daily_article_count: number,
     article_identifier: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+    // Here the behavior depends on the value of `user_has_consented_to_personal_data_use`
+    // If true, we perform the normal API call to Auxia.
+    // If false, we return a default answer (controlled by GU).
+
+    if (!user_has_consented_to_personal_data_use) {
+        const data = guDefaultGetTreatmentsResponseData();
+        return Promise.resolve(data);
+    }
+
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
     const headers = {
@@ -244,6 +272,14 @@ const callLogTreatmentInteration = async (
     interactionTimeMicros: number,
     actionName: string,
 ): Promise<void> => {
+    // Here the behavior depends on the value of `user_has_consented_to_personal_data_use`
+    // If true, we perform the normal API call to Auxia.
+    // If false, we do nothing.
+
+    if (!user_has_consented_to_personal_data_use) {
+        return;
+    }
+
     const url = 'https://apis.auxia.io/v1/LogTreatmentInteraction';
 
     const headers = {
