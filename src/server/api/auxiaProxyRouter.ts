@@ -12,32 +12,36 @@ export interface AuxiaRouterConfig {
     projectId: string;
 }
 
-interface AuxiaContextualAttributeString {
+// --------------------------------
+// Auxia API Types
+// --------------------------------
+
+interface AuxiaAPIContextualAttributeString {
     key: string;
     stringValue: string;
 }
 
-interface AuxiaContextualAttributeBoolean {
+interface AuxiaAPIContextualAttributeBoolean {
     key: string;
     boolValue: boolean;
 }
 
-interface AuxiaContextualAttributeInteger {
+interface AuxiaAPIContextualAttributeInteger {
     key: string;
     integerValue: number;
 }
 
-type AuxiaGenericContexualAttribute =
-    | AuxiaContextualAttributeString
-    | AuxiaContextualAttributeBoolean
-    | AuxiaContextualAttributeInteger;
+type AuxiaAPIGenericContexualAttribute =
+    | AuxiaAPIContextualAttributeString
+    | AuxiaAPIContextualAttributeBoolean
+    | AuxiaAPIContextualAttributeInteger;
 
-interface AuxiaSurface {
+interface AuxiaAPISurface {
     surface: string;
     maximumTreatmentCount: number;
 }
 
-interface AuxiaUserTreatment {
+interface AuxiaAPIUserTreatment {
     treatmentId: string;
     treatmentTrackingId: string;
     rank: string;
@@ -47,15 +51,11 @@ interface AuxiaUserTreatment {
     surface: string;
 }
 
-// --------------------------------
-// Auxia API Interface
-// --------------------------------
-
 interface AuxiaAPIGetTreatmentsRequestPayload {
     projectId: string;
     userId: string;
-    contextualAttributes: AuxiaGenericContexualAttribute[];
-    surfaces: AuxiaSurface[];
+    contextualAttributes: AuxiaAPIGenericContexualAttribute[];
+    surfaces: AuxiaAPISurface[];
     languageCode: string;
 }
 
@@ -72,16 +72,16 @@ interface AuxiaAPILogTreatmentInteractionRequestPayload {
 
 interface AuxiaAPIGetTreatmentsResponseData {
     responseId: string;
-    userTreatments: AuxiaUserTreatment[];
+    userTreatments: AuxiaAPIUserTreatment[];
 }
 
 // --------------------------------
-// Proxy Interface
+// Proxy Types
 // --------------------------------
 
 interface AuxiaProxyGetTreatmentsResponseData {
     responseId: string;
-    userTreatment?: AuxiaUserTreatment;
+    userTreatment?: AuxiaAPIUserTreatment;
 }
 
 // --------------------------------
@@ -114,9 +114,9 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 const buildGetTreatmentsRequestPayload = (
     projectId: string,
     browserId: string,
-    is_supporter: boolean,
-    daily_article_count: number,
-    article_identifier: string,
+    isSupporter: boolean,
+    dailyArticleCount: number,
+    articleIdentifier: string,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
@@ -125,15 +125,15 @@ const buildGetTreatmentsRequestPayload = (
         contextualAttributes: [
             {
                 key: 'is_supporter',
-                boolValue: is_supporter,
+                boolValue: isSupporter,
             },
             {
                 key: 'daily_article_count',
-                integerValue: daily_article_count,
+                integerValue: dailyArticleCount,
             },
             {
                 key: 'article_identifier',
-                stringValue: article_identifier,
+                stringValue: articleIdentifier,
             },
         ],
         surfaces: [
@@ -146,14 +146,74 @@ const buildGetTreatmentsRequestPayload = (
     };
 };
 
+const guDefaultShouldShowTheGate = (daily_article_count: number): boolean => {
+    // We show the GU gate every 10 pageviews
+    return daily_article_count % 10 != 0;
+};
+
+const guDefaultGateGetTreatmentsResponseData = (
+    daily_article_count: number,
+): AuxiaAPIGetTreatmentsResponseData => {
+    const responseId = ''; // This value is not important, it is not used by the client.
+
+    if (!guDefaultShouldShowTheGate(daily_article_count)) {
+        // We show the GU gate every 10 pageviews
+        return {
+            responseId,
+            userTreatments: [],
+        };
+    }
+
+    const title = 'Register: it’s quick and easy';
+    const subtitle = 'It’s still free to read – this is not a paywall';
+    const body =
+        'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all. You’ll always be able to control your own';
+    const secondCtaName = 'I’ll do it later';
+    const privacyButtonName = 'privacy settings';
+    const treatmentContent = {
+        title,
+        subtitle,
+        body,
+        first_cta_name: 'Sign in',
+        first_cta_link: 'https://profile.theguardian.com/signin?',
+        second_cta_name: secondCtaName,
+        second_cta_link: 'https://profile.theguardian.com/signin?',
+        privacy_button_name: privacyButtonName,
+    };
+    const treatmentContentEncoded = JSON.stringify(treatmentContent);
+    const userTreatment: AuxiaAPIUserTreatment = {
+        treatmentId: 'default-treatment-id',
+        treatmentTrackingId: 'default-treatment-tracking-id',
+        rank: '1',
+        contentLanguageCode: 'en-GB',
+        treatmentContent: treatmentContentEncoded,
+        treatmentType: 'DISMISSABLE_SIGN_IN_GATE',
+        surface: 'ARTICLE_PAGE',
+    };
+    const data: AuxiaAPIGetTreatmentsResponseData = {
+        responseId,
+        userTreatments: [userTreatment],
+    };
+    return data;
+};
+
 const callGetTreatments = async (
     apiKey: string,
     projectId: string,
-    browserId: string,
-    is_supporter: boolean,
-    daily_article_count: number,
-    article_identifier: string,
+    browserId: string | undefined,
+    isSupporter: boolean,
+    dailyArticleCount: number,
+    articleIdentifier: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+    // Here the behavior depends on the value of `user_has_consented_to_personal_data_use`
+    // If defined, we perform the normal API call to Auxia.
+    // If undefined, we return a default answer (controlled by GU).
+
+    if (browserId === undefined) {
+        const data = guDefaultGateGetTreatmentsResponseData(dailyArticleCount);
+        return Promise.resolve(data);
+    }
+
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
     const headers = {
@@ -164,9 +224,9 @@ const callGetTreatments = async (
     const payload = buildGetTreatmentsRequestPayload(
         projectId,
         browserId,
-        is_supporter,
-        daily_article_count,
-        article_identifier,
+        isSupporter,
+        dailyArticleCount,
+        articleIdentifier,
     );
 
     const params = {
@@ -234,7 +294,7 @@ const buildLogTreatmentInteractionRequestPayload = (
 const callLogTreatmentInteration = async (
     apiKey: string,
     projectId: string,
-    browserId: string,
+    browserId: string | undefined,
     treatmentTrackingId: string,
     treatmentId: string,
     surface: string,
@@ -242,6 +302,14 @@ const callLogTreatmentInteration = async (
     interactionTimeMicros: number,
     actionName: string,
 ): Promise<void> => {
+    // Here the behavior depends on the value of `undefined`
+    // If present, we perform the normal API call to Auxia.
+    // If undefined, we do nothing.
+
+    if (browserId === undefined) {
+        return;
+    }
+
     const url = 'https://apis.auxia.io/v1/LogTreatmentInteraction';
 
     const headers = {
@@ -280,21 +348,16 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
     router.post(
         '/auxia/get-treatments',
-        bodyContainsAllFields([
-            'browserId',
-            'is_supporter',
-            'daily_article_count',
-            'article_identifier',
-        ]),
+        bodyContainsAllFields(['isSupporter', 'dailyArticleCount', 'articleIdentifier']),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const auxiaData = await callGetTreatments(
                     config.apiKey,
                     config.projectId,
-                    req.body.browserId,
-                    req.body.is_supporter,
-                    req.body.daily_article_count,
-                    req.body.article_identifier,
+                    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
+                    req.body.isSupporter,
+                    req.body.dailyArticleCount,
+                    req.body.articleIdentifier,
                 );
 
                 if (auxiaData !== undefined) {
@@ -312,7 +375,6 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
     router.post(
         '/auxia/log-treatment-interaction',
         bodyContainsAllFields([
-            'browserId',
             'treatmentTrackingId',
             'treatmentId',
             'surface',
@@ -325,7 +387,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 await callLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
-                    req.body.browserId,
+                    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
                     req.body.treatmentTrackingId,
                     req.body.treatmentId,
                     req.body.surface,
