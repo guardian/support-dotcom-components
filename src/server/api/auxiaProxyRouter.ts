@@ -153,7 +153,7 @@ const buildGetTreatmentsRequestPayload = (
 
 const guDefaultShouldShowTheGate = (daily_article_count: number): boolean => {
     // We show the GU gate every 10 pageviews
-    return daily_article_count % 10 != 0;
+    return daily_article_count % 10 == 0;
 };
 
 const guDefaultGateGetTreatmentsResponseData = (
