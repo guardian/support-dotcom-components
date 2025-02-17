@@ -117,6 +117,7 @@ const buildGetTreatmentsRequestPayload = (
     isSupporter: boolean,
     dailyArticleCount: number,
     articleIdentifier: string,
+    editionId: string,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
@@ -134,6 +135,10 @@ const buildGetTreatmentsRequestPayload = (
             {
                 key: 'article_identifier',
                 stringValue: articleIdentifier,
+            },
+            {
+                key: 'edition',
+                stringValue: editionId,
             },
         ],
         surfaces: [
@@ -204,6 +209,7 @@ const callGetTreatments = async (
     isSupporter: boolean,
     dailyArticleCount: number,
     articleIdentifier: string,
+    editionId: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // Here the behavior depends on the value of `user_has_consented_to_personal_data_use`
     // If defined, we perform the normal API call to Auxia.
@@ -227,6 +233,7 @@ const callGetTreatments = async (
         isSupporter,
         dailyArticleCount,
         articleIdentifier,
+        editionId,
     );
 
     const params = {
@@ -348,7 +355,12 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
     router.post(
         '/auxia/get-treatments',
-        bodyContainsAllFields(['isSupporter', 'dailyArticleCount', 'articleIdentifier']),
+        bodyContainsAllFields([
+            'isSupporter',
+            'dailyArticleCount',
+            'articleIdentifier',
+            'editionId',
+        ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const auxiaData = await callGetTreatments(
@@ -358,6 +370,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     req.body.isSupporter,
                     req.body.dailyArticleCount,
                     req.body.articleIdentifier,
+                    req.body.editionId,
                 );
 
                 if (auxiaData !== undefined) {
