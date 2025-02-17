@@ -117,6 +117,7 @@ const buildGetTreatmentsRequestPayload = (
     isSupporter: boolean,
     dailyArticleCount: number,
     articleIdentifier: string,
+    editionId: string,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
@@ -135,6 +136,10 @@ const buildGetTreatmentsRequestPayload = (
                 key: 'article_identifier',
                 stringValue: articleIdentifier,
             },
+            {
+                key: 'edition',
+                stringValue: editionId,
+            },
         ],
         surfaces: [
             {
@@ -148,7 +153,7 @@ const buildGetTreatmentsRequestPayload = (
 
 const guDefaultShouldShowTheGate = (daily_article_count: number): boolean => {
     // We show the GU gate every 10 pageviews
-    return daily_article_count % 10 != 0;
+    return daily_article_count % 10 == 0;
 };
 
 const guDefaultGateGetTreatmentsResponseData = (
@@ -167,9 +172,8 @@ const guDefaultGateGetTreatmentsResponseData = (
     const title = 'Register: it’s quick and easy';
     const subtitle = 'It’s still free to read – this is not a paywall';
     const body =
-        'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all. You’ll always be able to control your own';
+        'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all.';
     const secondCtaName = 'I’ll do it later';
-    const privacyButtonName = 'privacy settings';
     const treatmentContent = {
         title,
         subtitle,
@@ -178,7 +182,6 @@ const guDefaultGateGetTreatmentsResponseData = (
         first_cta_link: 'https://profile.theguardian.com/signin?',
         second_cta_name: secondCtaName,
         second_cta_link: 'https://profile.theguardian.com/signin?',
-        privacy_button_name: privacyButtonName,
     };
     const treatmentContentEncoded = JSON.stringify(treatmentContent);
     const userTreatment: AuxiaAPIUserTreatment = {
@@ -204,6 +207,7 @@ const callGetTreatments = async (
     isSupporter: boolean,
     dailyArticleCount: number,
     articleIdentifier: string,
+    editionId: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // Here the behavior depends on the value of `user_has_consented_to_personal_data_use`
     // If defined, we perform the normal API call to Auxia.
@@ -227,6 +231,7 @@ const callGetTreatments = async (
         isSupporter,
         dailyArticleCount,
         articleIdentifier,
+        editionId,
     );
 
     const params = {
@@ -348,7 +353,12 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
     router.post(
         '/auxia/get-treatments',
-        bodyContainsAllFields(['isSupporter', 'dailyArticleCount', 'articleIdentifier']),
+        bodyContainsAllFields([
+            'isSupporter',
+            'dailyArticleCount',
+            'articleIdentifier',
+            'editionId',
+        ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const auxiaData = await callGetTreatments(
@@ -358,6 +368,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     req.body.isSupporter,
                     req.body.dailyArticleCount,
                     req.body.articleIdentifier,
+                    req.body.editionId,
                 );
 
                 if (auxiaData !== undefined) {
