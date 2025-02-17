@@ -172,9 +172,8 @@ const guDefaultGateGetTreatmentsResponseData = (
     const title = 'Register: it’s quick and easy';
     const subtitle = 'It’s still free to read – this is not a paywall';
     const body =
-        'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all. You’ll always be able to control your own';
+        'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all.';
     const secondCtaName = 'I’ll do it later';
-    const privacyButtonName = 'privacy settings';
     const treatmentContent = {
         title,
         subtitle,
@@ -183,7 +182,6 @@ const guDefaultGateGetTreatmentsResponseData = (
         first_cta_link: 'https://profile.theguardian.com/signin?',
         second_cta_name: secondCtaName,
         second_cta_link: 'https://profile.theguardian.com/signin?',
-        privacy_button_name: privacyButtonName,
     };
     const treatmentContentEncoded = JSON.stringify(treatmentContent);
     const userTreatment: AuxiaAPIUserTreatment = {
