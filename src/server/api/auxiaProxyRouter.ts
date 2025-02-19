@@ -306,13 +306,13 @@ const callLogTreatmentInteration = async (
     interactionType: string,
     interactionTimeMicros: number,
     actionName: string,
-): Promise<void> => {
+): Promise<number> => {
     // Here the behavior depends on the value of `undefined`
     // If present, we perform the normal API call to Auxia.
     // If undefined, we do nothing.
 
     if (browserId === undefined) {
-        return;
+        return 200;
     }
 
     const url = 'https://apis.auxia.io/v1/LogTreatmentInteraction';
@@ -339,9 +339,9 @@ const callLogTreatmentInteration = async (
         body: JSON.stringify(payload),
     };
 
-    await fetch(url, params);
-
-    // We are not consuming an answer from the server, so we are not returning anything.
+    const response = await fetch(url, params);
+    const status = await response.status;
+    return Promise.resolve(status);
 };
 
 // --------------------------------
@@ -395,7 +395,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                await callLogTreatmentInteration(
+                const status = await callLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
                     req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
@@ -406,7 +406,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     req.body.interactionTimeMicros,
                     req.body.actionName,
                 );
-                res.send({ status: true }); // this is the proxy's response, slightly more user's friendly than the api's response.
+                res.send({ proxy: true, api: status });
             } catch (error) {
                 next(error);
             }
