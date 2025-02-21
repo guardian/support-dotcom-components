@@ -123,16 +123,18 @@ const buildApp = async (): Promise<Express> => {
 
     app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData, ampEpicTests));
 
+    app.use(buildAuxiaProxyRouter(auxiaConfig));
+
+    app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests));
+
+    // The error handling middleware must be the last middleware in the chain
+    // https://stackoverflow.com/questions/72227296/does-the-position-of-error-handling-middleware-matter-in-express
     app.use(errorHandlingMiddleware);
 
     app.get('/healthcheck', (req: express.Request, res: express.Response) => {
         res.header('Content-Type', 'text/plain');
         res.send('OK');
     });
-
-    app.use(buildAuxiaProxyRouter(auxiaConfig));
-
-    app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests));
 
     return Promise.resolve(app);
 };
