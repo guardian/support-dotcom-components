@@ -200,6 +200,7 @@ const guDefaultGateGetTreatmentsResponseData = (
     return data;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const callGetTreatments = async (
     apiKey: string,
     projectId: string,
@@ -257,6 +258,7 @@ const callGetTreatments = async (
     }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const buildAuxiaProxyGetTreatmentsResponseData = (
     auxiaData: AuxiaAPIGetTreatmentsResponseData,
 ): AuxiaProxyGetTreatmentsResponseData | undefined => {
@@ -296,6 +298,7 @@ const buildLogTreatmentInteractionRequestPayload = (
     };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const callLogTreatmentInteration = async (
     apiKey: string,
     projectId: string,
@@ -361,22 +364,23 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const auxiaData = await callGetTreatments(
-                    config.apiKey,
-                    config.projectId,
-                    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
-                    req.body.isSupporter,
-                    req.body.dailyArticleCount,
-                    req.body.articleIdentifier,
-                    req.body.editionId,
-                );
+                config;
+                //const auxiaData = await callGetTreatments(
+                //    config.apiKey,
+                //    config.projectId,
+                //    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
+                //    req.body.isSupporter,
+                //    req.body.dailyArticleCount,
+                //    req.body.articleIdentifier,
+                //    req.body.editionId,
+                //);
 
-                if (auxiaData !== undefined) {
-                    const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
-                    res.send({ status: true, data: data });
-                } else {
-                    res.send({ status: false });
-                }
+                //if (auxiaData !== undefined) {
+                //    const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
+                //    res.send({ status: true, data: data });
+                //} else {
+                res.send({ status: false });
+                //}
             } catch (error) {
                 next(error);
             }
@@ -395,17 +399,17 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                await callLogTreatmentInteration(
-                    config.apiKey,
-                    config.projectId,
-                    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
-                    req.body.treatmentTrackingId,
-                    req.body.treatmentId,
-                    req.body.surface,
-                    req.body.interactionType,
-                    req.body.interactionTimeMicros,
-                    req.body.actionName,
-                );
+                //await callLogTreatmentInteration(
+                //    config.apiKey,
+                //    config.projectId,
+                //    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
+                //    req.body.treatmentTrackingId,
+                //    req.body.treatmentId,
+                //    req.body.surface,
+                //    req.body.interactionType,
+                //    req.body.interactionTimeMicros,
+                //    req.body.actionName,
+                //);
                 res.send({ status: true }); // this is the proxy's response, slightly more user's friendly than the api's response.
             } catch (error) {
                 next(error);
