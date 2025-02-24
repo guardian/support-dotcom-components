@@ -1,4 +1,11 @@
-import { BannerTest, BannerVariant, EpicTest, EpicVariant } from '../../shared/types';
+import {
+    BannerTest,
+    BannerVariant,
+    EpicTest,
+    EpicVariant,
+    GutterTest,
+    GutterVariant,
+} from '../../shared/types';
 
 const campaignPrefix = 'gdnwb_copts_memco';
 
@@ -11,8 +18,8 @@ export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant
 export const buildAmpEpicCampaignCode = (testName: string, variantName: string): string =>
     `AMP__${testName}__${variantName}`;
 
-export const buildGutterCampaignCode = (testName: string, variantName: string): string =>
-    `gutter__${testName}__${variantName}`;
+export const buildGutterCampaignCode = (testName: GutterTest, variantName: GutterVariant): string =>
+    `gutter__${testName.name}__${variantName.name}`;
 
 export const addQueryParams = (baseUrl: string, queryParams: string) => {
     const alreadyHasQueryString = baseUrl.includes('?');
