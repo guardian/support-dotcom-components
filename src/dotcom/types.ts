@@ -3,6 +3,7 @@ export {
     EpicPayload,
     HeaderPayload,
     WeeklyArticleHistory,
+    GutterPayload,
 } from '../shared/types/targeting';
 export * from '../shared/types/prices';
 export { EpicProps } from '../shared/types/props/epic';
