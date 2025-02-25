@@ -143,7 +143,9 @@ buildApp()
     .then((app) => {
         const PORT = process.env.PORT || 3030;
 
-        app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+        const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+        // keep-alive timeout should match LB idle timeout value, see https://repost.aws/knowledge-center/elb-alb-troubleshoot-502-errors
+        server.keepAliveTimeout = 60000;
     })
     .catch((err) => {
         logError(`Failed to start server: ${String(err)}`);
