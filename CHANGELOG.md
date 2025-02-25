@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 6.0.1
+
+### Patch Changes
+
+-   00b1fdb: add missing export and further type safety
+
 ## 6.0.0
 
 ### Major Changes
