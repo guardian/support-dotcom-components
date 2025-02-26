@@ -83,6 +83,14 @@ export const buildEpicRouter = (
             return {};
         }
 
+        if (
+            targeting.pageId === 'info/privacy' ||
+            targeting.pageId === 'info/complaints-and-corrections' ||
+            targeting.pageId === 'about'
+        ) {
+            return {};
+        }
+
         const targetingMvtId = targeting.mvtId || 1;
 
         const tests =
