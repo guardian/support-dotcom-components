@@ -22,7 +22,7 @@ export const logging = (
             epicTargeting: res.locals.epicTargeting,
             userAgent: isServerError(res.statusCode) ? req.headers['user-agent'] : undefined,
             epicSuperMode: res.locals.epicSuperMode,
-            responseTimeMs: Math.round(responseTimeMs),
+            responseTimeInMs: Math.round(responseTimeMs),
         });
     });
     next();
