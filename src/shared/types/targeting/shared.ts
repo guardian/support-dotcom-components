@@ -28,6 +28,13 @@ export interface PurchaseInfo {
     product: purchaseInfoProduct;
 }
 
+//The pageIdsOfInterest has the pageIds in which we want to hide the SR messages
+export const pageIdsOfInterest = new Set<string>([
+    'info/privacy',
+    'info/complaints-and-corrections',
+    'about',
+]);
+
 export const abandonedBasketSchema = z.object({
     amount: z.union([z.number(), z.literal('other')]),
     billingPeriod: z.union([z.literal('ONE_OFF'), z.literal('MONTHLY'), z.literal('ANNUAL')]),

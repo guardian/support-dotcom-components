@@ -205,14 +205,6 @@ export const selectBannerTest = (
         return null;
     }
 
-    if (
-        targeting.pageId === 'info/privacy' ||
-        targeting.pageId === 'info/complaints-and-corrections' ||
-        targeting.pageId === 'about'
-    ) {
-        return null;
-    }
-
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, tests);
     }

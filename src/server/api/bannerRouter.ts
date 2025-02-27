@@ -9,6 +9,7 @@ import {
     TestTracking,
     BannerDesignFromTool,
     Tracking,
+    pageIdsOfInterest,
 } from '../../shared/types';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { ChannelSwitches } from '../channelSwitches';
@@ -57,6 +58,10 @@ export const buildBannerRouter = (
             channelSwitches.get();
 
         if (!enableBanners) {
+            return {};
+        }
+
+        if (targeting.pageId && pageIdsOfInterest.has(targeting.pageId)) {
             return {};
         }
 

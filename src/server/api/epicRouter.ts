@@ -6,6 +6,7 @@ import {
     EpicTest,
     EpicType,
     EpicVariant,
+    pageIdsOfInterest,
     TestTracking,
     Tracking,
     WeeklyArticleLog,
@@ -83,11 +84,7 @@ export const buildEpicRouter = (
             return {};
         }
 
-        if (
-            targeting.pageId === 'info/privacy' ||
-            targeting.pageId === 'info/complaints-and-corrections' ||
-            targeting.pageId === 'about'
-        ) {
+        if (targeting.pageId && pageIdsOfInterest.has(targeting.pageId)) {
             return {};
         }
 

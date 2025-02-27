@@ -8,6 +8,7 @@ import {
     TestTracking,
     GutterTargeting,
     Tracking,
+    pageIdsOfInterest,
 } from '../../shared/types';
 import { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
@@ -41,6 +42,10 @@ export const buildGutterRouter = (
         if (!enableGutterLiveblogs) {
             return {};
         }
+        if (targeting.pageId && pageIdsOfInterest.has(targeting.pageId)) {
+            return {};
+        }
+
         const testSelection = selectGutterTest(
             targeting,
             tests.get(),

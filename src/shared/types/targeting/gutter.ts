@@ -5,6 +5,7 @@ export interface GutterTargeting {
     isSignedIn: boolean;
     tagIds?: string[];
     sectionId?: string;
+    pageId?: string;
 }
 
 export type GutterPayload = {
