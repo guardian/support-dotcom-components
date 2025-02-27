@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 6.1.0
+
+### Minor Changes
+
+-   2a1a474: Add pageId to targeting
+
 ## 6.0.1
 
 ### Patch Changes
