@@ -6,7 +6,7 @@ import {
     EpicTest,
     EpicType,
     EpicVariant,
-    pageIdsOfInterest,
+    hideSRMessagingForInfoPageIds,
     TestTracking,
     Tracking,
     WeeklyArticleLog,
@@ -84,7 +84,7 @@ export const buildEpicRouter = (
             return {};
         }
 
-        if (targeting.pageId && pageIdsOfInterest.has(targeting.pageId)) {
+        if (hideSRMessagingForInfoPageIds(targeting)) {
             return {};
         }
 

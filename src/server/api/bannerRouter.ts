@@ -9,7 +9,7 @@ import {
     TestTracking,
     BannerDesignFromTool,
     Tracking,
-    pageIdsOfInterest,
+    hideSRMessagingForInfoPageIds,
 } from '../../shared/types';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { ChannelSwitches } from '../channelSwitches';
@@ -61,7 +61,7 @@ export const buildBannerRouter = (
             return {};
         }
 
-        if (targeting.pageId && pageIdsOfInterest.has(targeting.pageId)) {
+        if (hideSRMessagingForInfoPageIds(targeting)) {
             return {};
         }
 

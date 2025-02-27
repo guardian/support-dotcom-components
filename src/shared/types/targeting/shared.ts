@@ -1,5 +1,8 @@
 import { z } from 'zod';
 import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
+import { BannerTargeting } from './banner';
+import { EpicTargeting } from './epic';
+import { GutterTargeting } from './gutter';
 
 export type TagCounts = {
     [tag: string]: number;
@@ -34,6 +37,12 @@ export const pageIdsOfInterest = new Set<string>([
     'info/complaints-and-corrections',
     'about',
 ]);
+
+export const hideSRMessagingForInfoPageIds = (
+    targeting: BannerTargeting | EpicTargeting | GutterTargeting,
+): boolean => {
+    return targeting.pageId ? pageIdsOfInterest.has(targeting.pageId) : false;
+};
 
 export const abandonedBasketSchema = z.object({
     amount: z.union([z.number(), z.literal('other')]),

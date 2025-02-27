@@ -8,7 +8,7 @@ import {
     TestTracking,
     GutterTargeting,
     Tracking,
-    pageIdsOfInterest,
+    hideSRMessagingForInfoPageIds,
 } from '../../shared/types';
 import { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
@@ -42,7 +42,8 @@ export const buildGutterRouter = (
         if (!enableGutterLiveblogs) {
             return {};
         }
-        if (targeting.pageId && pageIdsOfInterest.has(targeting.pageId)) {
+
+        if (hideSRMessagingForInfoPageIds(targeting)) {
             return {};
         }
 
