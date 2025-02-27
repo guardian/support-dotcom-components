@@ -1,14 +1,17 @@
 import express from 'express';
 import { logger } from '../utils/logging';
 
-export const RequestLogName = 'request';
-
 export const logging = (
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
 ): void => {
-    res.on('finish', () =>
+    const startTime = process.hrtime();
+
+    res.on('finish', () => {
+        const [seconds, nanoseconds] = process.hrtime(startTime);
+        const responseTimeMs = seconds * 1000 + nanoseconds / 1e6;
+
         logger.info({
             status: res.statusCode,
             method: req.method,
@@ -19,8 +22,9 @@ export const logging = (
             epicTargeting: res.locals.epicTargeting,
             userAgent: isServerError(res.statusCode) ? req.headers['user-agent'] : undefined,
             epicSuperMode: res.locals.epicSuperMode,
-        }),
-    );
+            responseTimeMs: responseTimeMs.toFixed(0),
+        });
+    });
     next();
 };
 
