@@ -6,6 +6,7 @@ import {
     EpicTest,
     EpicType,
     EpicVariant,
+    hideSRMessagingForInfoPageIds,
     TestTracking,
     Tracking,
     WeeklyArticleLog,
@@ -80,6 +81,10 @@ export const buildEpicRouter = (
     ): EpicDataResponse => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
+            return {};
+        }
+
+        if (hideSRMessagingForInfoPageIds(targeting)) {
             return {};
         }
 

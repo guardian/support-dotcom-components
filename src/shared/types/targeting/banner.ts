@@ -21,6 +21,7 @@ export type BannerTargeting = {
     isSignedIn: boolean;
     hasConsented: boolean;
     abandonedBasket?: AbandonedBasket;
+    pageId?: string;
 };
 
 export type BannerPayload = {

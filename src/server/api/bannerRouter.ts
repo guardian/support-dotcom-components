@@ -9,6 +9,7 @@ import {
     TestTracking,
     BannerDesignFromTool,
     Tracking,
+    hideSRMessagingForInfoPageIds,
 } from '../../shared/types';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { ChannelSwitches } from '../channelSwitches';
@@ -57,6 +58,10 @@ export const buildBannerRouter = (
             channelSwitches.get();
 
         if (!enableBanners) {
+            return {};
+        }
+
+        if (hideSRMessagingForInfoPageIds(targeting)) {
             return {};
         }
 
