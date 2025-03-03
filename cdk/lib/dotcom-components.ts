@@ -216,7 +216,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         ];
 
 		const scaling: GuAsgCapacity = {
-			minimumInstances: this.stage === 'CODE' ? 1 : 4,
+			minimumInstances: this.stage === 'CODE' ? 1 : 6,
 			maximumInstances: this.stage === 'CODE' ? 2 : 18,
 		};
 
