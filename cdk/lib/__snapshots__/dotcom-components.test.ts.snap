@@ -115,7 +115,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
             "Granularity": "1Minute",
           },
         ],
-        "MinSize": "4",
+        "MinSize": "6",
         "Tags": [
           {
             "Key": "App",
