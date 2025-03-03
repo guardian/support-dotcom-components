@@ -216,7 +216,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         ];
 
 		const scaling: GuAsgCapacity = {
-			minimumInstances: this.stage === 'CODE' ? 1 : 6,
+			minimumInstances: this.stage === 'CODE' ? 1 : 3,
 			maximumInstances: this.stage === 'CODE' ? 2 : 18,
 		};
 
@@ -252,8 +252,8 @@ chown -R dotcom-components:support /var/log/dotcom-components
 			scaling,
 		});
 
-		ec2App.autoScalingGroup.scaleOnCpuUtilization('CpuScalingPolicy', {
-			targetUtilizationPercent: 40,
-		});
+        ec2App.autoScalingGroup.scaleOnRequestCount('RequestCountScalingPolicy', {
+            targetRequestsPerMinute: 20000,
+        });
     }
 }

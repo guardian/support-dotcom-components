@@ -115,7 +115,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
             "Granularity": "1Minute",
           },
         ],
-        "MinSize": "6",
+        "MinSize": "3",
         "Tags": [
           {
             "Key": "App",
@@ -161,7 +161,10 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
       },
       "Type": "AWS::AutoScaling::AutoScalingGroup",
     },
-    "AutoScalingGroupDotcomcomponentsScalingPolicyCpuScalingPolicy29FF9AE6": {
+    "AutoScalingGroupDotcomcomponentsScalingPolicyRequestCountScalingPolicy2E40F328": {
+      "DependsOn": [
+        "ListenerDotcomcomponentsF68CDC56",
+      ],
       "Properties": {
         "AutoScalingGroupName": {
           "Ref": "AutoScalingGroupDotcomcomponentsASG512C0EA8",
@@ -169,9 +172,64 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "PolicyType": "TargetTrackingScaling",
         "TargetTrackingConfiguration": {
           "PredefinedMetricSpecification": {
-            "PredefinedMetricType": "ASGAverageCPUUtilization",
+            "PredefinedMetricType": "ALBRequestCountPerTarget",
+            "ResourceLabel": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Fn::Select": [
+                      1,
+                      {
+                        "Fn::Split": [
+                          "/",
+                          {
+                            "Ref": "ListenerDotcomcomponentsF68CDC56",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  "/",
+                  {
+                    "Fn::Select": [
+                      2,
+                      {
+                        "Fn::Split": [
+                          "/",
+                          {
+                            "Ref": "ListenerDotcomcomponentsF68CDC56",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  "/",
+                  {
+                    "Fn::Select": [
+                      3,
+                      {
+                        "Fn::Split": [
+                          "/",
+                          {
+                            "Ref": "ListenerDotcomcomponentsF68CDC56",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  "/",
+                  {
+                    "Fn::GetAtt": [
+                      "TargetGroupDotcomcomponents54FF73AB",
+                      "TargetGroupFullName",
+                    ],
+                  },
+                ],
+              ],
+            },
           },
-          "TargetValue": 40,
+          "TargetValue": 20000,
         },
       },
       "Type": "AWS::AutoScaling::ScalingPolicy",
