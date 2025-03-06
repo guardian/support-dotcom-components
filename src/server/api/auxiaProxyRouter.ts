@@ -158,16 +158,32 @@ const guDefaultShouldShowTheGate = (daily_article_count: number): boolean => {
 
 const guDefaultGateGetTreatmentsResponseData = (
     daily_article_count: number,
+    gateDismissCount: number,
 ): AuxiaAPIGetTreatmentsResponseData => {
+    // This function is called in the case of non consenting users, which is detected by the absence of the browserId.
+
     const responseId = ''; // This value is not important, it is not used by the client.
 
-    if (!guDefaultShouldShowTheGate(daily_article_count)) {
-        // We show the GU gate every 10 pageviews
+    // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
+    // (We do not want users to have to dismiss the gate 6 times)
+
+    if (gateDismissCount > 5) {
         return {
             responseId,
             userTreatments: [],
         };
     }
+
+    // Then to prevent showing the gate too many times, we only show the gate every 10 pages views
+
+    if (!guDefaultShouldShowTheGate(daily_article_count)) {
+        return {
+            responseId,
+            userTreatments: [],
+        };
+    }
+
+    // We are now clear to show the default gu gate.
 
     const title = 'Register: it’s quick and easy';
     const subtitle = 'It’s still free to read – this is not a paywall';
@@ -200,6 +216,29 @@ const guDefaultGateGetTreatmentsResponseData = (
     return data;
 };
 
+const isValidContentType = (contentType: string): boolean => {
+    const validTypes = ['Article'];
+    return validTypes.includes(contentType);
+};
+
+const isValidSection = (sectionId: string): boolean => {
+    const invalidSections = [
+        'about',
+        'info',
+        'membership',
+        'help',
+        'guardian-live-australia',
+        'gnm-archive',
+    ];
+    return !invalidSections.some((section: string): boolean => sectionId === section);
+};
+
+const isValidTagIdCollection = (tagIds: string[]): boolean => {
+    const invalidTagIds = ['info/newsletter-sign-up'];
+    // Check that no tagId is in the invalidTagIds list.
+    return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
+};
+
 const callGetTreatments = async (
     apiKey: string,
     projectId: string,
@@ -208,15 +247,35 @@ const callGetTreatments = async (
     dailyArticleCount: number,
     articleIdentifier: string,
     editionId: string,
+    contentType: string,
+    sectionId: string,
+    tagIds: string[],
+    gateDismissCount: number,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
-    // Here the behavior depends on the value of `user_has_consented_to_personal_data_use`
-    // If defined, we perform the normal API call to Auxia.
-    // If undefined, we return a default answer (controlled by GU).
+    // The logic here is to perform a certain number of checks, each resulting with a different behavior.
+
+    // First we check page metada to comply with Guardian policies
+
+    if (
+        !isValidContentType(contentType) ||
+        !isValidSection(sectionId) ||
+        !isValidTagIdCollection(tagIds)
+    ) {
+        return Promise.resolve(undefined);
+    }
+
+    // Then we check if the user has consented to personal data use.
+    // If the user has not consented, we call for the gu-default gate, which may or may not be served depending on
+    // policies.
 
     if (browserId === undefined) {
-        const data = guDefaultGateGetTreatmentsResponseData(dailyArticleCount);
+        const data = guDefaultGateGetTreatmentsResponseData(dailyArticleCount, gateDismissCount);
         return Promise.resolve(data);
     }
+
+    console.log('We have consent to use personal data');
+
+    // We now have clearance to call the Auxia API.
 
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
@@ -358,6 +417,10 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'dailyArticleCount',
             'articleIdentifier',
             'editionId',
+            'contentType',
+            'sectionId',
+            'tagIds',
+            'gateDismissCount',
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
@@ -369,6 +432,10 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     req.body.dailyArticleCount,
                     req.body.articleIdentifier,
                     req.body.editionId,
+                    req.body.contentType,
+                    req.body.sectionId,
+                    req.body.tagIds,
+                    req.body.gateDismissCount,
                 );
 
                 if (auxiaData !== undefined) {
