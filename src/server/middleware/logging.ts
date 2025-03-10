@@ -23,6 +23,7 @@ export const logging = (
             userAgent: isServerError(res.statusCode) ? req.headers['user-agent'] : undefined,
             epicSuperMode: res.locals.epicSuperMode,
             responseTimeInMs: Math.round(responseTimeMs),
+            auxiaTreatmentId: res.locals.auxiaTreatmentId,
         });
     });
     next();
