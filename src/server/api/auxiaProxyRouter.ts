@@ -236,6 +236,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 );
                 res.locals.auxiaTreatmentId = req.body.treatmentId;
                 res.locals.auxiaTreatmentTrackingId = req.body.treatmentTrackingId;
+                res.locals.auxiaInteractionType = req.body.interactionType;
                 res.send({ status: true }); // this is the proxy's response, slightly more user's friendly than the api's response.
             } catch (error) {
                 next(error);
