@@ -24,6 +24,7 @@ export const logging = (
             epicSuperMode: res.locals.epicSuperMode,
             responseTimeInMs: Math.round(responseTimeMs),
             auxiaTreatmentId: res.locals.auxiaTreatmentId,
+            auxiaTreatmentTrackingId: res.locals.auxiaTreatmentTrackingId,
         });
     });
     next();
