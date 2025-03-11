@@ -25,6 +25,7 @@ export const logging = (
             responseTimeInMs: Math.round(responseTimeMs),
             auxiaTreatmentId: res.locals.auxiaTreatmentId,
             auxiaTreatmentTrackingId: res.locals.auxiaTreatmentTrackingId,
+            auxiaInteractionType: res.locals.auxiaInteractionType,
         });
     });
     next();
