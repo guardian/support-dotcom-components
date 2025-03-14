@@ -170,13 +170,13 @@ describe('roulette', () => {
          * ]
          *
          * normalisedWeights: [
-         *     { variantName: 'v2', weight: 0.08333333333333334 },
-         *     { variantName: 'v3', weight: 0.08333333333333334 },
-         *     { variantName: 'v1', weight: 0.8333333333333334 }
+         *     { variantName: 'v2', weight: 0.1 },
+         *     { variantName: 'v3', weight: 0.1 },
+         *     { variantName: 'v1', weight: 0.8 }
          * ]
          */
-        const variantSelection1 = selectVariantUsingRoulette([banditData], epicTest, 0.08);
-        const variantSelection2 = selectVariantUsingRoulette([banditData], epicTest, 0.16);
+        const variantSelection1 = selectVariantUsingRoulette([banditData], epicTest, 0.09);
+        const variantSelection2 = selectVariantUsingRoulette([banditData], epicTest, 0.19);
         const variantSelection3 = selectVariantUsingRoulette([banditData], epicTest, 0.2);
         expect(variantSelection1).toBe(epicTest.variants[1]);
         expect(variantSelection2).toBe(epicTest.variants[2]);

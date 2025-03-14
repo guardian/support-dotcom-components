@@ -26,11 +26,12 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
         }))
         .sort((a, b) => a.weight - b.weight);
 
-    // The sum of the weights may be greater than 1, so we now need to normalise them
+    // The sum of the weights may be greater than 1, so we now need to normalise them while ensuring no variant drops below 10%
     const sumOfWeights = variantsWithWeights.reduce((sum, v) => sum + v.weight, 0);
+    const excess = sumOfWeights - 1;
     const normalisedWeights = variantsWithWeights.map(({ variantName, weight }) => ({
         variantName,
-        weight: weight / sumOfWeights,
+        weight: weight > 0.1 && excess > 0 ? weight - excess / weight : weight,
     }));
 
     for (let i = 0, acc = 0; i < normalisedWeights.length; i++) {
