@@ -25,8 +25,12 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
     }
 
     // First set weights only for variants that would fall below 10%
+    let sumOfNonReservedMeans = 0;
     const minimumWeights = testBanditData.variants.map(({ variantName, mean }) => {
         const weight = mean / sumOfMeans;
+        if (weight >= minWeight) {
+            sumOfNonReservedMeans += mean;
+        }
         return {
             variantName,
             weight: weight < minWeight ? minWeight : 0,
@@ -39,7 +43,7 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
     const weights: { weight: number; variantName: string }[] = minimumWeights
         .map(({ variantName, weight, mean }) => ({
             variantName,
-            weight: weight === 0 ? remainder * (mean / sumOfMeans) : weight,
+            weight: weight === 0 ? remainder * (mean / sumOfNonReservedMeans) : weight,
         }))
         .sort((a, b) => a.weight - b.weight);
 
