@@ -18,23 +18,37 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
         return selectRandomVariant(test);
     }
 
-    const minWeight = 0.1; // Ensure no variant gets less than 10%
-    const variantsWithWeights: { weight: number; variantName: string }[] = testBanditData.variants
-        .map(({ variantName, mean }) => ({
+    // Ensure no variant gets less than 10%
+    const minWeight = 0.1;
+    if (testBanditData.variants.length > 9) {
+        return selectRandomVariant(test);
+    }
+
+    // First set weights only for variants that would fall below 10%
+    let sumOfNonReservedMeans = 0;
+    const minimumWeights = testBanditData.variants.map(({ variantName, mean }) => {
+        const weight = mean / sumOfMeans;
+        if (weight >= minWeight) {
+            sumOfNonReservedMeans += mean;
+        }
+        return {
             variantName,
-            weight: Math.max(mean / sumOfMeans, minWeight),
+            weight: weight < minWeight ? minWeight : 0,
+            mean,
+        };
+    });
+
+    // Now set the weights for the other variants
+    const remainder = 1 - minimumWeights.reduce((sum, v) => sum + v.weight, 0);
+    const weights: { weight: number; variantName: string }[] = minimumWeights
+        .map(({ variantName, weight, mean }) => ({
+            variantName,
+            weight: weight === 0 ? remainder * (mean / sumOfNonReservedMeans) : weight,
         }))
         .sort((a, b) => a.weight - b.weight);
 
-    // The sum of the weights may be greater than 1, so we now need to normalise them
-    const sumOfWeights = variantsWithWeights.reduce((sum, v) => sum + v.weight, 0);
-    const normalisedWeights = variantsWithWeights.map(({ variantName, weight }) => ({
-        variantName,
-        weight: weight / sumOfWeights,
-    }));
-
-    for (let i = 0, acc = 0; i < normalisedWeights.length; i++) {
-        const variant = normalisedWeights[i];
+    for (let i = 0, acc = 0; i < weights.length; i++) {
+        const variant = weights[i];
         if (rand < variant.weight + acc) {
             return test.variants.find((v) => v.name === variant.variantName);
         }
