@@ -21,7 +21,6 @@ export interface EpicProps {
     tracking: Tracking;
     countryCode?: string;
     articleCounts: ArticleCounts;
-    // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
     fetchEmail?: () => Promise<string | null>;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
