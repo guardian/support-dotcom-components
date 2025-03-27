@@ -1,6 +1,7 @@
-import { Stage, TickerData, TickerName, TickerSettings } from '../../shared/types';
-import { buildReloader, ValueProvider } from '../utils/valueReloader';
+import type { Stage, TickerData, TickerName, TickerSettings } from '../../shared/types';
 import { logError } from '../utils/logging';
+import type { ValueProvider } from '../utils/valueReloader';
+import { buildReloader } from '../utils/valueReloader';
 
 const tickerUrl = (stage: Stage, name: TickerName): string => {
     switch (stage) {
@@ -49,9 +50,7 @@ const getTickerDataForTickerTypeFetcher =
     };
 
 // Maps each ticker campaign name to a ValueProvider
-type TickerDataProviders = {
-    [name in TickerName]: ValueProvider<TickerData>;
-};
+type TickerDataProviders = Record<TickerName, ValueProvider<TickerData>>;
 
 export class TickerDataProvider {
     providers: TickerDataProviders;

@@ -1,4 +1,4 @@
-import {
+import type {
     LocalStorage,
     TagCounts,
     WeeklyArticleHistory,
@@ -10,9 +10,7 @@ const articleCountsThisWeekKey = 'gu.history.articleCountsThisWeek';
 
 export interface ArticleCountsThisWeek {
     week: number;
-    articles: {
-        [pageId: string]: number;
-    };
+    articles: Record<string, number>;
 }
 
 // Returns the previous monday for the given date, in days since epoch
@@ -118,7 +116,7 @@ export const incrementWeeklyArticleCount = (
         const weeklyArticleHistory = localStorage.get(weeklyArticleCountKey) || [];
         const currentWeek = weeklyArticleHistory[0];
 
-        if (currentWeek && currentWeek.week && currentWeek.week === mondayThisWeek) {
+        if (currentWeek?.week && currentWeek.week === mondayThisWeek) {
             // Increment this week's counter & save updated array
             currentWeek.count += 1;
 

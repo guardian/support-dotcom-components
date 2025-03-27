@@ -1,13 +1,14 @@
-import { CountryGroupId, countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
+import { z } from 'zod';
+import type { CountryGroupId} from '../../lib';
+import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
+import { variantSchema } from '../props';
+import type { EpicTargeting } from '../targeting';
 import {
     articlesViewedSettingsSchema,
     testSchema,
     testStatusSchema,
     userCohortSchema,
 } from './shared';
-import { EpicTargeting } from '../targeting';
-import { variantSchema } from '../props';
-import { z } from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
@@ -27,9 +28,7 @@ interface ContributionTypeItem {
     label: string;
     suffix: string;
 }
-export type ContributionType = {
-    [key in ContributionFrequency]: ContributionTypeItem;
-};
+export type ContributionType = Record<ContributionFrequency, ContributionTypeItem>;
 
 /*
 An amounts test can be in one of two forms:
@@ -63,9 +62,7 @@ interface AmountValuesObject {
     hideChooseYourAmount?: boolean;
 }
 
-export type AmountsCardData = {
-    [key in ContributionFrequency]: AmountValuesObject;
-};
+export type AmountsCardData = Record<ContributionFrequency, AmountValuesObject>;
 
 export interface AmountsVariant {
     variantName: string;

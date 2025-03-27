@@ -1,7 +1,7 @@
-import { Test, Variant } from '../../shared/types';
-import { BanditData } from './banditData';
+import type { Test, Variant } from '../../shared/types';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
+import type { BanditData } from './banditData';
 
 /**
  * In general we select the best known variant, except with probability 'epsilon' when we select at random.

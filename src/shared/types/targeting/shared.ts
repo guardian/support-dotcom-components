@@ -1,12 +1,10 @@
 import { z } from 'zod';
-import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
-import { BannerTargeting } from './banner';
-import { EpicTargeting } from './epic';
-import { GutterTargeting } from './gutter';
+import type { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
+import type { BannerTargeting } from './banner';
+import type { EpicTargeting } from './epic';
+import type { GutterTargeting } from './gutter';
 
-export type TagCounts = {
-    [tag: string]: number;
-};
+export type TagCounts = Record<string, number>;
 
 export type WeeklyArticleLog = {
     week: number;

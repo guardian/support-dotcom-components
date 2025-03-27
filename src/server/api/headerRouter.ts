@@ -1,18 +1,20 @@
-import express, { Router } from 'express';
-import { bodyContainsAllFields } from '../middleware';
-import { getQueryParams, Params } from '../lib/params';
-import { baseUrl } from '../lib/env';
-import {
+import type express from 'express';
+import { Router } from 'express';
+import type {
     HeaderProps,
     HeaderTargeting,
     HeaderTest,
     TestTracking,
     Tracking,
 } from '../../shared/types';
-import { ChannelSwitches } from '../channelSwitches';
-import { selectHeaderTest } from '../tests/headers/headerSelection';
+import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
-import { ValueProvider } from '../utils/valueReloader';
+import { baseUrl } from '../lib/env';
+import { getQueryParams } from '../lib/params';
+import type { Params } from '../lib/params';
+import { bodyContainsAllFields } from '../middleware';
+import { selectHeaderTest } from '../tests/headers/headerSelection';
+import type { ValueProvider } from '../utils/valueReloader';
 
 interface HeaderDataResponse {
     data?: {

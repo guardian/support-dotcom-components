@@ -1,4 +1,4 @@
-import { WeeklyArticleHistory, PurchaseInfo, AbandonedBasket } from './shared';
+import type { AbandonedBasket, PurchaseInfo, WeeklyArticleHistory } from './shared';
 
 export type BannerTargeting = {
     shouldHideReaderRevenue?: boolean;
