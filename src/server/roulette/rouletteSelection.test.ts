@@ -149,7 +149,7 @@ describe('roulette', () => {
             },
             {
                 variantName: 'v2',
-                mean: 0.1,
+                mean: 0.2,
             },
             {
                 variantName: 'v3',
