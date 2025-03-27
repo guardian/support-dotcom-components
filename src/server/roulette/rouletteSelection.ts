@@ -2,6 +2,9 @@ import { Test, Variant } from '../../shared/types';
 import { BanditData } from '../bandit/banditData';
 import { selectRandomVariant } from '../bandit/banditSelection';
 
+const calculateWeight = (min: number, mean: number, variantCount: number, sumOfMeans: number) =>
+    min + (1 - variantCount * min) * (mean / sumOfMeans);
+
 export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>(
     banditData: BanditData[],
     test: T,
@@ -22,19 +25,12 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
     const variantsWithWeights: { weight: number; variantName: string }[] = testBanditData.variants
         .map(({ variantName, mean }) => ({
             variantName,
-            weight: Math.max(mean / sumOfMeans, minWeight),
+            weight: calculateWeight(minWeight, mean, testBanditData.variants.length, sumOfMeans),
         }))
         .sort((a, b) => a.weight - b.weight);
 
-    // The sum of the weights may be greater than 1, so we now need to normalise them
-    const sumOfWeights = variantsWithWeights.reduce((sum, v) => sum + v.weight, 0);
-    const normalisedWeights = variantsWithWeights.map(({ variantName, weight }) => ({
-        variantName,
-        weight: weight / sumOfWeights,
-    }));
-
-    for (let i = 0, acc = 0; i < normalisedWeights.length; i++) {
-        const variant = normalisedWeights[i];
+    for (let i = 0, acc = 0; i < variantsWithWeights.length; i++) {
+        const variant = variantsWithWeights[i];
         if (rand < variant.weight + acc) {
             return test.variants.find((v) => v.name === variant.variantName);
         }
