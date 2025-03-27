@@ -155,10 +155,6 @@ describe('roulette', () => {
                 variantName: 'v3',
                 mean: 0,
             },
-            {
-                variantName: 'v4',
-                mean: 0,
-            },
         ];
         const banditData = {
             testName: 'example-1',
@@ -169,19 +165,16 @@ describe('roulette', () => {
         /**
          * variantsWithWeights: [
          *     { variantName: 'v3', weight: 0.1 },
-         *     { variantName: 'v4', weight: 0.1 },
-         *     { variantName: 'v2', weight: 0.15454545454545454 },
-         *     { variantName: 'v1', weight: 0.6454545454545454 }
+         *     { variantName: 'v2', weight: 0.16363636363636364 },
+         *     { variantName: 'v1', weight: 0.7363636363636363 }
          * ]
          */
         const variantSelection1 = selectVariantUsingRoulette([banditData], epicTest, 0.09);
-        const variantSelection2 = selectVariantUsingRoulette([banditData], epicTest, 0.19);
-        const variantSelection3 = selectVariantUsingRoulette([banditData], epicTest, 0.35);
-        const variantSelection4 = selectVariantUsingRoulette([banditData], epicTest, 0.36);
+        const variantSelection2 = selectVariantUsingRoulette([banditData], epicTest, 0.26);
+        const variantSelection3 = selectVariantUsingRoulette([banditData], epicTest, 0.27);
         expect(variantSelection1).toBe(epicTest.variants[2]);
-        expect(variantSelection2).toBe(epicTest.variants[3]);
-        expect(variantSelection3).toBe(epicTest.variants[1]);
-        expect(variantSelection4).toBe(epicTest.variants[0]);
+        expect(variantSelection2).toBe(epicTest.variants[1]);
+        expect(variantSelection3).toBe(epicTest.variants[0]);
     });
 });
 
