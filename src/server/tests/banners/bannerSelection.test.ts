@@ -1,7 +1,7 @@
-import { BannerTargeting, BannerTest } from '../../../shared/types';
+import type { BannerTargeting, BannerTest } from '../../../shared/types';
+import type { BanditData } from '../../bandit/banditData';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
-import { BanditData } from '../../bandit/banditData';
 
 const getBannerDeployTimesReloader = (date: string) =>
     new BannerDeployTimesProvider({

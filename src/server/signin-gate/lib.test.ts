@@ -1,13 +1,13 @@
 import {
-    guDefaultShouldShowTheGate,
+    buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
-    guGateAsAnAuxiaAPIUserTreatment,
+    buildLogTreatmentInteractionRequestPayload,
     guDefaultGateGetTreatmentsResponseData,
+    guDefaultShouldShowTheGate,
+    guGateAsAnAuxiaAPIUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
-    buildAuxiaProxyGetTreatmentsResponseData,
-    buildLogTreatmentInteractionRequestPayload,
 } from './lib';
 
 describe('guDefaultShouldShowTheGate', () => {

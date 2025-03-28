@@ -1,5 +1,5 @@
-import { BannerDesignFromTool, HexColour } from '../../shared/types';
 import { Factory } from 'fishery';
+import type { BannerDesignFromTool, HexColour } from '../../shared/types';
 
 const hexColourStringRegex = /^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$/i;
 const stringToHexColour = (colourString: string): HexColour => {

@@ -1,4 +1,5 @@
-import { HexColour, hexColourSchema, hexColourToString } from './design';
+import type { HexColour} from './design';
+import { hexColourSchema, hexColourToString } from './design';
 
 describe('hexValueColourSchema', () => {
     it('successfully parses valid hex colours', () => {

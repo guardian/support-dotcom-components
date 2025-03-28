@@ -7,7 +7,6 @@
         "sourceMap": true,
         "strict": true
     },
-    "files": ["src/server/server.ts"],
-    "include": [],
+    "include": ["src"],
     "exclude": ["node_modules"]
 }
