@@ -10,6 +10,7 @@ export default [
 
 			'rollup.config.js',
 			'webpack.*js',
+            'cdk',
 		],
 	},
 	...guardian.configs.recommended,
