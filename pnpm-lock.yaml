@@ -118,6 +118,9 @@ devDependencies:
   fishery:
     specifier: ^0.3.0
     version: 0.3.0
+  globals:
+    specifier: 15.14.0
+    version: 15.14.0
   inquirer:
     specifier: ^7.0.3
     version: 7.3.3
