@@ -1,5 +1,5 @@
-import { Test, Variant } from '../../shared/types';
-import { BanditData } from '../bandit/banditData';
+import type { Test, Variant } from '../../shared/types';
+import type { BanditData } from '../bandit/banditData';
 import { selectRandomVariant } from '../bandit/banditSelection';
 
 export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>(
@@ -19,7 +19,7 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
     }
 
     const minWeight = 0.1; // Ensure no variant gets less than 10%
-    const variantsWithWeights: { weight: number; variantName: string }[] = testBanditData.variants
+    const variantsWithWeights: Array<{ weight: number; variantName: string }> = testBanditData.variants
         .map(({ variantName, mean }) => ({
             variantName,
             weight: Math.max(mean / sumOfMeans, minWeight),

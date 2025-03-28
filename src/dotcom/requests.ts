@@ -1,15 +1,14 @@
-import {
+import type {
     BannerPayload,
     BannerProps,
     EpicPayload,
     EpicProps,
-    HeaderPayload,
-    HeaderProps,
     GutterPayload,
     GutterProps,
+    HeaderPayload,
+    HeaderProps,
 } from '../shared/types';
-
-import { TestTracking } from '../shared/types/abTests/shared';
+import type { TestTracking } from '../shared/types/abTests/shared';
 
 export interface ModuleData<PROPS> {
     name: string;

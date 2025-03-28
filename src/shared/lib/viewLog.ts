@@ -1,4 +1,4 @@
-import { LocalStorage } from '../types/targeting/shared';
+import type { LocalStorage } from '../types/targeting/shared';
 
 /**
  * We log epic views in this local storage item.

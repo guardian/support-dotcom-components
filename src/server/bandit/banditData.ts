@@ -1,7 +1,6 @@
-import { isProd } from '../lib/env';
 import * as AWS from 'aws-sdk';
-import { buildReloader, ValueProvider } from '../utils/valueReloader';
-import {
+import { z } from 'zod';
+import type {
     BanditMethodology,
     BannerTest,
     Channel,
@@ -9,9 +8,11 @@ import {
     Test,
     Variant,
 } from '../../shared/types';
-import { z } from 'zod';
-import { logError } from '../utils/logging';
+import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
+import { logError } from '../utils/logging';
+import { buildReloader } from '../utils/valueReloader';
+import type { ValueProvider } from '../utils/valueReloader';
 
 // We must have this many hourly samples before the bandit strategy begins. Variants will be selected at random until then
 const MINIMUM_SAMPLES = 6;

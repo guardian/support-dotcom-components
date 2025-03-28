@@ -1,4 +1,4 @@
-import express from 'express';
+import type express from 'express';
 
 // WARNING - do not use these in the modules, they are server-side only
 

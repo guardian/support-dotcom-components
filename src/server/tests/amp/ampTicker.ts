@@ -1,4 +1,4 @@
-import { TickerData, TickerSettings } from '../../../shared/types';
+import type { TickerData, TickerSettings } from '../../../shared/types';
 
 export interface AMPTicker {
     percentage: string;

@@ -1,6 +1,6 @@
+import type { EpicTest } from '../../shared/types';
+import type { BanditData } from '../bandit/banditData';
 import { selectVariantUsingRoulette } from './rouletteSelection';
-import { EpicTest } from '../../shared/types';
-import { BanditData } from '../bandit/banditData';
 
 const epicTest: EpicTest = {
     channel: 'Epic',

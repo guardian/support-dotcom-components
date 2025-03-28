@@ -601,7 +601,7 @@ const defaultCurrencySymbol = '£';
 // We're not sure whether this is intentional or not yet but porting as is for now
 export const getLocalCurrencySymbol = (geolocation?: string): string => {
     if (geolocation) {
-        const countryGroupId = countryCodeToCountryGroupId(geolocation) as CountryGroupId;
+        const countryGroupId = countryCodeToCountryGroupId(geolocation);
         return extendedCurrencySymbol[countryGroupId];
     }
 
@@ -617,10 +617,10 @@ export const getCountryName = (geolocation?: string): string | undefined => {
 };
 
 const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
-    countryGroups[countryCodeToCountryGroupId(countryCode)]?.supportRegionId;
+    countryGroups[countryCodeToCountryGroupId(countryCode)].supportRegionId;
 
 export const isGWCheckoutUrl = (baseUrl: string): boolean =>
-    /subscribe\/weekly\/checkout/.test(baseUrl);
+    baseUrl.includes('subscribe/weekly/checkout');
 
 export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: string): string => {
     if (countryCode) {

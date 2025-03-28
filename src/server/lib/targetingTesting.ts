@@ -1,6 +1,6 @@
-import { TargetingAbTest, Test, Variant } from '../../shared/types';
+import type { TargetingAbTest, Test, Variant } from '../../shared/types';
+import type { ScheduledBannerDeploys } from '../tests/banners/bannerDeploySchedule';
 import { selectVariantUsingMVT } from './ab';
-import { ScheduledBannerDeploys } from '../tests/banners/bannerDeploySchedule';
 
 type TargetingTestDecision = {
     canShow: boolean;
@@ -22,14 +22,14 @@ interface TargetingTestVariant<T> extends Variant {
  */
 export interface TargetingTest<T> extends Test<TargetingTestVariant<T>> {
     name: string;
-    variants: TargetingTestVariant<T>[];
+    variants: Array<TargetingTestVariant<T>>;
     canInclude: (targeting: T) => boolean; // Can browser be included in this targeting test?
 }
 
 export const selectTargetingTest = <T>(
     mvtId: number,
     targeting: T,
-    targetingTests: TargetingTest<T>[],
+    targetingTests: Array<TargetingTest<T>>,
 ): TargetingTestDecision | null => {
     const test: TargetingTest<T> | undefined = targetingTests.find((test) =>
         test.canInclude(targeting),

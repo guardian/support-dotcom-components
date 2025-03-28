@@ -1,20 +1,23 @@
-import express, { Router } from 'express';
-import { bodyContainsAllFields } from '../middleware';
-import { getQueryParams, Params } from '../lib/params';
-import { baseUrl } from '../lib/env';
-import {
+import type express from 'express';
+import { Router } from 'express';
+import type {
     GutterProps,
+    GutterTargeting,
     GutterTest,
     TestTracking,
-    GutterTargeting,
-    Tracking,
+    Tracking} from '../../shared/types';
+import {
     hideSRMessagingForInfoPageIds,
 } from '../../shared/types';
-import { ChannelSwitches } from '../channelSwitches';
+import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
-import { ValueProvider } from '../utils/valueReloader';
-import { selectGutterTest } from '../tests/gutters/gutterSelection';
+import { baseUrl } from '../lib/env';
+import { getQueryParams } from '../lib/params';
+import type { Params } from '../lib/params';
 import { buildGutterCampaignCode } from '../lib/tracking';
+import { bodyContainsAllFields } from '../middleware';
+import { selectGutterTest } from '../tests/gutters/gutterSelection';
+import type { ValueProvider } from '../utils/valueReloader';
 
 interface GutterDataResponse {
     data?: {

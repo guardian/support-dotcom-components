@@ -1,7 +1,8 @@
-import { selectTargetingTest, TargetingTest } from './targetingTesting';
-import { BannerTargeting } from '../../shared/types';
+import type { BannerTargeting } from '../../shared/types';
+import type { TargetingTest } from './targetingTesting';
+import { selectTargetingTest } from './targetingTesting';
 
-const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
+const bannerTargetingTests: Array<TargetingTest<BannerTargeting>> = [
     {
         channel: 'Banner1',
         name: 'BannerTargetingTest',

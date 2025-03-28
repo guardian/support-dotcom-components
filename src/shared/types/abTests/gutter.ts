@@ -1,7 +1,7 @@
-import { pageContextTargetingSchema, testSchema, userCohortSchema } from './shared';
-import { gutterContentSchema } from '../props';
-import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
 import { z } from 'zod';
+import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
+import { gutterContentSchema } from '../props';
+import { pageContextTargetingSchema, testSchema, userCohortSchema } from './shared';
 
 /**
  * Models and schemas for data from the database

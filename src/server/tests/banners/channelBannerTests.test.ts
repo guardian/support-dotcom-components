@@ -1,6 +1,7 @@
-import { getDesignForVariant } from './channelBannerTests';
+import type { BannerDesignFromTool} from '../../../shared/types';
+import { BannerTemplate } from '../../../shared/types';
 import { factories } from '../../factories/';
-import { BannerDesignFromTool, BannerTemplate } from '../../../shared/types';
+import { getDesignForVariant } from './channelBannerTests';
 
 describe('getDesignForVariant', () => {
     it('returns undefined if the variant specifies a template', () => {

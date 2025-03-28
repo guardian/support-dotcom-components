@@ -1,22 +1,24 @@
-import {
+import type { OphanComponentType, OphanProduct } from '@guardian/libs';
+import { z } from 'zod';
+import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
+import type {
     BannerChannel,
+    ConfigurableDesign} from '../props';
+import {
     bannerContentSchema,
-    ConfigurableDesign,
     separateArticleCountSchema,
     tickerSettingsSchema,
 } from '../props';
+import type { BannerTargeting } from '../targeting';
 import {
     articlesViewedSettingsSchema,
     pageContextTargetingSchema,
-    TargetingAbTest,
     testSchema,
     userCohortSchema,
 } from './shared';
-import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
-import { BannerTargeting } from '../targeting';
-import { PurchaseInfoTest } from './shared';
-import { z } from 'zod';
-import { OphanComponentType, OphanProduct } from '@guardian/libs';
+import type {
+    TargetingAbTest} from './shared';
+import type { PurchaseInfoTest } from './shared';
 
 /**
  * The `template` field decides which React component to use for a banner.

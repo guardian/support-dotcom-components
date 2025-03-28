@@ -1,3 +1,4 @@
+import type { ArticlesViewedSettings } from '../../shared/types';
 import {
     getArticleViewCountByMultipleTagForWeeks,
     getArticleViewCountForWeeks,
@@ -5,7 +6,6 @@ import {
     getWeeksInWindow,
     historyWithinArticlesViewedSettings,
 } from './history';
-import { ArticlesViewedSettings } from '../../shared/types';
 
 describe('getArticleViewCountForWeeks', () => {
     // Pass the current date into the tested function so the checks can be made

@@ -1,8 +1,9 @@
-import { TickerCountType, TickerEndType, TickerSettings } from '../../../shared/types';
-import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
-import { AMPEpic, AmpEpicTest } from './ampEpicModels';
-import { selectAmpEpic } from './ampEpicSelection';
+import type { TickerSettings } from '../../../shared/types';
+import { TickerCountType, TickerEndType } from '../../../shared/types';
+import type { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { TickerDataProvider } from '../../lib/fetchTickerData';
+import type { AMPEpic, AmpEpicTest } from './ampEpicModels';
+import { selectAmpEpic } from './ampEpicSelection';
 
 const tickerSettings: TickerSettings = {
     endType: TickerEndType.unlimited,

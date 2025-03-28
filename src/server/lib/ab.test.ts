@@ -1,5 +1,5 @@
-import { EpicTest } from '../../shared/types';
-import { selectVariantUsingMVT, withinRange, selectWithSeed, selectVariant } from './ab';
+import type { EpicTest } from '../../shared/types';
+import { selectVariant, selectVariantUsingMVT, selectWithSeed, withinRange } from './ab';
 
 const test: EpicTest = {
     channel: 'Epic',
@@ -119,7 +119,7 @@ describe('withinRange', () => {
 
 describe('selectWithSeed', () => {
     it('should evenly distribute to the variants', () => {
-        const variantCounts: { [key: string]: number } = {
+        const variantCounts: Record<string, number> = {
             control: 0,
             v1: 0,
         };

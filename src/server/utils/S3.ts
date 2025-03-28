@@ -1,7 +1,7 @@
-import AWS from 'aws-sdk';
-import { GetObjectOutput } from 'aws-sdk/clients/s3';
-import { isDev } from '../lib/env';
 import readline from 'readline';
+import AWS from 'aws-sdk';
+import type { GetObjectOutput } from 'aws-sdk/clients/s3';
+import { isDev } from '../lib/env';
 import { logError } from './logging';
 
 const getS3 = () => {

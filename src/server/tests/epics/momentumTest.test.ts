@@ -1,4 +1,4 @@
-import { EpicTargeting, EpicTest } from '../../../shared/types';
+import type { EpicTargeting, EpicTest } from '../../../shared/types';
 import {
     getCategoriesForThreeMonths,
     getThreeMonthsHistory,

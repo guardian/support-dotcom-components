@@ -1,5 +1,5 @@
 import path from 'path';
-import { Configuration, LoggingEvent } from 'log4js';
+import type { Configuration, LoggingEvent } from 'log4js';
 import { addLayout, configure, getLogger } from 'log4js';
 import { isDev, isProd } from '../lib/env';
 

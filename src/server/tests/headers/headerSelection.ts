@@ -1,16 +1,15 @@
 import { inTargetedCountry } from '../../../shared/lib';
-import {
+import type {
     HeaderTargeting,
     HeaderTest,
     HeaderTestSelection,
     HeaderVariant,
     UserDeviceType,
 } from '../../../shared/types';
-
 import { selectVariantUsingMVT } from '../../lib/ab';
+import type { TestVariant } from '../../lib/params';
 import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../../lib/targeting';
 
-import { TestVariant } from '../../lib/params';
 
 const moduleName = 'Header';
 
@@ -372,7 +371,7 @@ export const selectBestTest = (
     });
 
     // Failed to find a matching test, or the matching test has an empty variants Array
-    if (!selectedTest || !selectedTest.variants.length) {
+    if (!selectedTest?.variants.length) {
         return null;
     }
 

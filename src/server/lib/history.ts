@@ -1,10 +1,10 @@
-import {
+import { getMondayFromDate } from '../../shared/lib';
+import type {
     ArticleCounts,
     ArticlesViewedSettings,
     WeeklyArticleHistory,
     WeeklyArticleLog,
 } from '../../shared/types';
-import { getMondayFromDate } from '../../shared/lib';
 
 /**
  *    Gets a window of entries from the weekly article history array
@@ -90,7 +90,7 @@ export const historyWithinArticlesViewedSettings = (
     now: Date = new Date(),
 ): boolean => {
     // Allow test to pass if no articles viewed settings have been set
-    if (!articlesViewedSettings || !articlesViewedSettings.periodInWeeks) {
+    if (!articlesViewedSettings?.periodInWeeks) {
         return true;
     }
 

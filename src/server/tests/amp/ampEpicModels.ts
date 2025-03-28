@@ -1,15 +1,16 @@
-import {
+import { z } from 'zod';
+import { countryGroupIdSchema, targetedRegionsSchema } from '../../../shared/lib';
+import type {
     ContributionFrequency,
-    SecondaryCta,
-    secondaryCtaSchema,
+    SecondaryCta} from '../../../shared/types';
+import {
     contributionFrequencySchema,
     ctaSchema,
+    secondaryCtaSchema,
     testSchema,
     tickerSettingsSchema,
 } from '../../../shared/types';
-import { AMPTicker } from './ampTicker';
-import { z } from 'zod';
-import { countryGroupIdSchema, targetedRegionsSchema } from '../../../shared/lib';
+import type { AMPTicker } from './ampTicker';
 
 /**
  * Models for the data returned to AMP

@@ -1,4 +1,3 @@
-export { getEpicViewLog, logEpicView } from '../shared/lib/viewLog';
 export { getWeeklyArticleHistory, incrementWeeklyArticleCount } from '../shared/lib/history';
 export {
     replaceNonArticleCountPlaceholders,

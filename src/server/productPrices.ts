@@ -1,7 +1,8 @@
-import { fetchSupportFrontendData } from './utils/supportFrontend';
+import type { Prices } from '../shared/types';
 import { logError } from './utils/logging';
-import { buildReloader, ValueReloader } from './utils/valueReloader';
-import { Prices } from '../shared/types';
+import { fetchSupportFrontendData } from './utils/supportFrontend';
+import type { ValueReloader } from './utils/valueReloader';
+import { buildReloader } from './utils/valueReloader';
 
 const getProductPrices = (): Promise<Prices | undefined> =>
     fetchSupportFrontendData('prices')

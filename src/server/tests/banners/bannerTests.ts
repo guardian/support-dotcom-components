@@ -1,11 +1,12 @@
-import { BannerTest, BannerTestGenerator } from '../../../shared/types';
+import type { BannerTest, BannerTestGenerator } from '../../../shared/types';
+import type { ValueReloader } from '../../utils/valueReloader';
+import { buildReloader } from '../../utils/valueReloader';
+import { abandonedBasketTests } from './abandonedBasketTests';
 import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
 } from './channelBannerTests';
-import { abandonedBasketTests } from './abandonedBasketTests';
 import { signInPromptTests } from './signInPromptTests';
-import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 

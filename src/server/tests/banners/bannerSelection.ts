@@ -1,15 +1,19 @@
+import { isAfter, subDays } from 'date-fns';
 import { countryCodeToCountryGroupId, inTargetedCountry } from '../../../shared/lib';
-import {
+import type {
     BannerTargeting,
     BannerTest,
     BannerTestSelection,
     BannerVariant,
-    UserDeviceType,
+    UserDeviceType} from '../../../shared/types';
+import {
     uiIsDesign,
 } from '../../../shared/types';
+import type { BanditData } from '../../bandit/banditData';
 import { selectVariant } from '../../lib/ab';
+import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
-import { TestVariant } from '../../lib/params';
+import type { TestVariant } from '../../lib/params';
 import {
     abandonedBasketMatches,
     audienceMatches,
@@ -18,17 +22,15 @@ import {
     deviceTypeMatches,
     pageContextMatches,
 } from '../../lib/targeting';
-import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
-import { bannerTargetingTests } from './bannerTargetingTests';
+import type {
+    ScheduledBannerDeploys} from './bannerDeploySchedule';
 import {
     defaultDeploySchedule,
-    getLastScheduledDeploy,
-    ScheduledBannerDeploys,
+    getLastScheduledDeploy
 } from './bannerDeploySchedule';
-import { daysSince } from '../../lib/dates';
-import { isAfter, subDays } from 'date-fns';
-import { BanditData } from '../../bandit/banditData';
+import type { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
+import { bannerTargetingTests } from './bannerTargetingTests';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {

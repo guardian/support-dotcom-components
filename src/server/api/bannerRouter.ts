@@ -1,30 +1,33 @@
-import express, { Router } from 'express';
-import { getQueryParams, Params } from '../lib/params';
-import {
+import type express from 'express';
+import { Router } from 'express';
+import { countryCodeToCountryGroupId } from '../../shared/lib';
+import type {
+    AmountsTests,
+    BannerDesignFromTool,
     BannerProps,
     BannerTargeting,
     BannerTest,
-    AmountsTests,
     Prices,
     TestTracking,
-    BannerDesignFromTool,
-    Tracking,
+    Tracking} from '../../shared/types';
+import {
     hideSRMessagingForInfoPageIds,
 } from '../../shared/types';
+import type { BanditData } from '../bandit/banditData';
+import type { ChannelSwitches } from '../channelSwitches';
 import { selectAmountsTestVariant } from '../lib/ab';
-import { ChannelSwitches } from '../channelSwitches';
-import { selectBannerTest } from '../tests/banners/bannerSelection';
-import { baseUrl } from '../lib/env';
-import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
-import { countryCodeToCountryGroupId } from '../../shared/lib';
-import { TickerDataProvider } from '../lib/fetchTickerData';
-import { getArticleViewCounts } from '../lib/history';
-import { Debug } from '../tests/epics/epicSelection';
 import { getDeviceType } from '../lib/deviceType';
-import { ValueProvider } from '../utils/valueReloader';
-import { getDesignForVariant } from '../tests/banners/channelBannerTests';
+import { baseUrl } from '../lib/env';
+import type { TickerDataProvider } from '../lib/fetchTickerData';
+import { getArticleViewCounts } from '../lib/history';
+import type { Params } from '../lib/params';
+import { getQueryParams } from '../lib/params';
 import { buildBannerCampaignCode } from '../lib/tracking';
-import { BanditData } from '../bandit/banditData';
+import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
+import { selectBannerTest } from '../tests/banners/bannerSelection';
+import { getDesignForVariant } from '../tests/banners/channelBannerTests';
+import type { Debug } from '../tests/epics/epicSelection';
+import type { ValueProvider } from '../utils/valueReloader';
 
 interface BannerDataResponse {
     data?: {

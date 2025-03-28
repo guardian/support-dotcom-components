@@ -1,15 +1,9 @@
-import { CountryGroupId } from '../lib';
+import type { CountryGroupId } from '../lib';
 
 export type RatePlan = 'Monthly' | 'Annual';
-type ProductPriceData = {
-    [ratePlan in RatePlan]: {
+type ProductPriceData = Record<RatePlan, {
         price: string;
-    };
-};
+    }>;
 export type GuardianProduct = 'GuardianWeekly' | 'Digisub';
-type CountryGroupPriceData = {
-    [product in GuardianProduct]: ProductPriceData;
-};
-export type Prices = {
-    [country in CountryGroupId]: CountryGroupPriceData;
-};
+type CountryGroupPriceData = Record<GuardianProduct, ProductPriceData>;
+export type Prices = Record<CountryGroupId, CountryGroupPriceData>;

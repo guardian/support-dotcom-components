@@ -1,8 +1,9 @@
-import {
-    BannerTemplate,
+import type {
     BannerTest,
     BannerTestGenerator,
-    BannerVariant,
+    BannerVariant} from '../../../shared/types';
+import {
+    BannerTemplate,
     SecondaryCtaType,
 } from '../../../shared/types';
 

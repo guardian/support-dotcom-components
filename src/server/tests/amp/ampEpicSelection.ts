@@ -1,9 +1,9 @@
 import { inTargetedCountry, replaceNonArticleCountPlaceholders } from '../../../shared/lib';
-import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
-import { AMPEpic, AmpEpicTest } from './ampEpicModels';
-import { ampTicker } from './ampTicker';
-import { TickerDataProvider } from '../../lib/fetchTickerData';
+import type { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
+import type { TickerDataProvider } from '../../lib/fetchTickerData';
 import { buildAmpEpicCampaignCode } from '../../lib/tracking';
+import type { AMPEpic, AmpEpicTest } from './ampEpicModels';
+import { ampTicker } from './ampTicker';
 
 // ---- Types --- //
 
@@ -77,7 +77,7 @@ const selectAmpEpicTestAndVariant = async (
         (test) => test.status === 'Live' && isCountryTargetedForAmpEpic(test, countryCode),
     );
 
-    if (test && test.variants) {
+    if (test?.variants) {
         const assignedVariantName = ampVariantAssignments[test.name];
 
         if (!assignedVariantName) {

@@ -1,21 +1,20 @@
-import {
+import type { OphanComponentType } from '@guardian/libs';
+import type {
     BannerChannel,
+    BannerDesignFromTool,
     BannerTest,
+    BannerTestFromTool,
     BannerTestGenerator,
     BannerVariant,
-    BannerTestFromTool,
     BannerVariantFromTool,
-    uiIsDesign,
-    ConfigurableDesign,
-    BannerDesignFromTool,
+    ConfigurableDesign} from '../../../shared/types';
+import {
     bannerTestFromToolSchema,
+    uiIsDesign,
 } from '../../../shared/types';
 import { getTests } from '../store';
-import { OphanComponentType } from '@guardian/libs';
 
-export const BannerTemplateComponentTypes: {
-    [key in BannerChannel]: OphanComponentType;
-} = {
+export const BannerTemplateComponentTypes: Record<BannerChannel, OphanComponentType> = {
     contributions: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     subscriptions: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
     signIn: 'ACQUISITIONS_ENGAGEMENT_BANNER',

@@ -1,4 +1,4 @@
-import { PurchaseInfo } from './shared';
+import type { PurchaseInfo } from './shared';
 
 export interface HeaderTargeting {
     showSupportMessaging: boolean;

@@ -1,20 +1,21 @@
-import express, { Router } from 'express';
-import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
+import type { OphanComponentEvent } from '@guardian/libs';
 import cors from 'cors';
-import { AmountsTests, AmountsCardData, OneOffSignupRequest } from '../../shared/types';
+import type express from 'express';
+import { Router } from 'express';
 import {
     buildReminderFields,
     countryCodeToCountryGroupId,
     getLocalCurrencySymbol,
 } from '../../shared/lib';
+import type { AmountsCardData, AmountsTests, OneOffSignupRequest } from '../../shared/types';
 import { getAmpVariantAssignments } from '../lib/ampVariantAssignments';
-import { ampEpic } from '../tests/amp/ampEpic';
 import { isProd } from '../lib/env';
-import { ValueProvider } from '../utils/valueReloader';
-import { TickerDataProvider } from '../lib/fetchTickerData';
-import { AmpEpicTest } from '../tests/amp/ampEpicModels';
-import { OphanComponentEvent } from '@guardian/libs';
+import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { addQueryParams, buildAmpEpicCampaignCode } from '../lib/tracking';
+import { ampEpic } from '../tests/amp/ampEpic';
+import type { AmpEpicTest } from '../tests/amp/ampEpicModels';
+import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
+import type { ValueProvider } from '../utils/valueReloader';
 
 const isSupportUrl = (baseUrl: string): boolean => /\bsupport\./.test(baseUrl);
 
@@ -161,7 +162,7 @@ export const buildAmpEpicRouter = (
                                   choiceCardSelection: {
                                       frequency: defaultChoiceCardFrequency,
                                       amount: choiceCardAmountsData[defaultChoiceCardFrequency]
-                                          .amounts[1] as number,
+                                          .amounts[1],
                                   },
                                   amounts: {
                                       ONE_OFF: choiceCardAmountsData['ONE_OFF'].amounts.slice(0, 2),

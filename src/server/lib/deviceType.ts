@@ -1,5 +1,5 @@
-import { UserDeviceType } from '../../shared/types';
-import express from 'express';
+import type express from 'express';
+import type { UserDeviceType } from '../../shared/types';
 
 const isIOS = (ua: string) => /(iPad|iPhone|iPod touch)/i.test(ua);
 const isAndroid = (ua: string) => /Android/i.test(ua);

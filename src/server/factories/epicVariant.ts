@@ -1,5 +1,5 @@
-import { EpicVariant } from '../../shared/types';
 import { Factory } from 'fishery';
+import type { EpicVariant } from '../../shared/types';
 
 export default Factory.define<EpicVariant>(() => ({
     name: 'Example Variant',

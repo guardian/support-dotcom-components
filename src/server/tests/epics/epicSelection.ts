@@ -3,7 +3,7 @@ import {
     getCountryName,
     inTargetedCountry,
 } from '../../../shared/lib';
-import {
+import type {
     EpicTargeting,
     EpicTest,
     EpicVariant,
@@ -12,11 +12,12 @@ import {
     UserDeviceType,
     WeeklyArticleHistory,
 } from '../../../shared/types';
-import { BanditData } from '../../bandit/banditData';
+import type { BanditData } from '../../bandit/banditData';
 import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
-import { TestVariant } from '../../lib/params';
-import { isInSuperMode, SuperModeArticle, superModeify } from '../../lib/superMode';
+import type { TestVariant } from '../../lib/params';
+import type { SuperModeArticle} from '../../lib/superMode';
+import { isInSuperMode, superModeify } from '../../lib/superMode';
 import {
     correctSignedInStatus,
     deviceTypeMatches,

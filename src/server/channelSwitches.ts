@@ -1,6 +1,7 @@
 import { isProd } from './lib/env';
 import { fetchS3Data } from './utils/S3';
-import { buildReloader, ValueReloader } from './utils/valueReloader';
+import type { ValueReloader } from './utils/valueReloader';
+import { buildReloader } from './utils/valueReloader';
 
 export interface ChannelSwitches {
     enableEpics: boolean;

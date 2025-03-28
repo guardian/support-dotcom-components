@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TestTracking } from '../abTests';
+import type { TestTracking } from '../abTests';
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
 
@@ -114,9 +114,7 @@ export type ArticleCountType =
 
 const articleCountTypeSchema = z.enum(['for52Weeks', 'forTargetedWeeks']);
 
-export type ArticleCounts = {
-    [type in ArticleCountType]: number;
-};
+export type ArticleCounts = Record<ArticleCountType, number>;
 
 export const separateArticleCountSchema = z.object({
     type: z.literal('above'),
