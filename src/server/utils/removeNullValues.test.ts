@@ -1,4 +1,5 @@
 import { removeNullValues } from './removeNullValues';
+
 const test = {
     falsyObjects: {
         undefinedField: undefined,

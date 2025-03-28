@@ -1,4 +1,4 @@
-import { EpicVariant } from '../../../shared/types';
+import type { EpicVariant } from '../../../shared/types';
 import { variantHasArticleCountCopy } from './epicTests';
 
 const baseVariant: EpicVariant = {

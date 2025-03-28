@@ -1,10 +1,10 @@
+import type { Prices } from '../types';
 import {
     containsNonArticleCountPlaceholder,
     getDate,
     getDayOfWeek,
     replaceNonArticleCountPlaceholders,
 } from './placeholders';
-import { Prices } from '../types';
 
 describe('containsNonArticleCountPlaceholder', () => {
     it('returns true if string contains placeholder (that is not %%ARTICLE_COUNT%%)', () => {
