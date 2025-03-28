@@ -61,6 +61,8 @@ export default [
 			'@typescript-eslint/no-unused-vars': 'off',
 			'@typescript-eslint/restrict-template-expressions': 'off',
 			'@typescript-eslint/no-floating-promises': 'off',
+            '@typescript-eslint/prefer-optional-chain': 'off',
+            '@typescript-eslint/await-thenable': 'off',
 		},
 	},
 ];
