@@ -1,11 +1,9 @@
-import { getCountryName, getLocalCurrencySymbol, countryCodeToCountryGroupId } from './geolocation';
-import { GuardianProduct, Prices, RatePlan } from '../types/prices';
+import type { GuardianProduct, Prices, RatePlan } from '../types/prices';
+import { countryCodeToCountryGroupId, getCountryName, getLocalCurrencySymbol } from './geolocation';
 
 // Map each placeholder to a rule defining how to substitute it, if possible
 type PlaceholderRule = (params: { countryCode?: string; prices?: Prices }) => string | undefined;
-type PlaceholderRules = {
-    [placeholder in string]: PlaceholderRule;
-};
+type PlaceholderRules = Record<string, PlaceholderRule>;
 
 const priceSubstitution = (
     product: GuardianProduct,

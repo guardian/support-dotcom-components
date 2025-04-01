@@ -1,5 +1,5 @@
-import { EpicTest } from '../../shared/types';
 import { Factory } from 'fishery';
+import type { EpicTest } from '../../shared/types';
 
 export default Factory.define<EpicTest>(({ factories }) => ({
     channel: 'Epic',

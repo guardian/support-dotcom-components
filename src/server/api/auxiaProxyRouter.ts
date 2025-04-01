@@ -1,17 +1,19 @@
-import express, { Router } from 'express';
+import type express from 'express';
+import { Router } from 'express';
 import { isProd } from '../lib/env';
-import { getSsmValue } from '../utils/ssm';
 import { bodyContainsAllFields } from '../middleware';
+import type {
+    AuxiaAPIGetTreatmentsResponseData} from '../signin-gate/lib';
 import {
+    buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
+    buildLogTreatmentInteractionRequestPayload,
     guDefaultGateGetTreatmentsResponseData,
-    AuxiaAPIGetTreatmentsResponseData,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
-    buildAuxiaProxyGetTreatmentsResponseData,
-    buildLogTreatmentInteractionRequestPayload,
 } from '../signin-gate/lib';
+import { getSsmValue } from '../utils/ssm';
 
 export interface AuxiaRouterConfig {
     apiKey: string;

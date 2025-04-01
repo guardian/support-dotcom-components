@@ -1,26 +1,26 @@
+import type { OphanComponentEvent } from '@guardian/libs';
 import { z } from 'zod';
+import type { EpicVariant } from '../abTests';
+import type {
+    ArticleCounts,
+    Stage,
+    Tracking} from './shared';
 import {
     articleCountsSchema,
     bylineWithImageSchema,
     ctaSchema,
     imageSchema,
     secondaryCtaSchema,
-    Stage,
-    tickerSettingsSchema,
-    Tracking,
-    trackingSchema,
     separateArticleCountSchema,
-    ArticleCounts,
+    tickerSettingsSchema,
+    trackingSchema
 } from './shared';
-import { EpicVariant } from '../abTests';
-import { OphanComponentEvent } from '@guardian/libs';
 
 export interface EpicProps {
     variant: EpicVariant;
     tracking: Tracking;
     countryCode?: string;
     articleCounts: ArticleCounts;
-    // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
     fetchEmail?: () => Promise<string | null>;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;

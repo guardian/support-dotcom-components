@@ -1,8 +1,9 @@
-import { BannerChannel } from '../../../shared/types';
+import type { BannerChannel } from '../../../shared/types';
 import { isProd } from '../../lib/env';
 import { logInfo } from '../../utils/logging';
 import { fetchS3Data } from '../../utils/S3';
-import { buildReloader, ValueProvider } from '../../utils/valueReloader';
+import type { ValueProvider } from '../../utils/valueReloader';
+import { buildReloader } from '../../utils/valueReloader';
 
 /**
  * Banner deploy cache -

@@ -1,30 +1,34 @@
-import express, { Router } from 'express';
-import {
+import type express from 'express';
+import { Router } from 'express';
+import { countryCodeToCountryGroupId, getReminderFields } from '../../shared/lib';
+import type {
     AmountsTests,
     EpicProps,
     EpicTargeting,
     EpicTest,
     EpicType,
     EpicVariant,
-    hideSRMessagingForInfoPageIds,
     TestTracking,
     Tracking,
-    WeeklyArticleLog,
+    WeeklyArticleLog} from '../../shared/types';
+import {
+    hideSRMessagingForInfoPageIds
 } from '../../shared/types';
-import { getQueryParams, Params } from '../lib/params';
-import { baseUrl } from '../lib/env';
-import { ChannelSwitches } from '../channelSwitches';
-import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
+import type { BanditData } from '../bandit/banditData';
+import type { ChannelSwitches } from '../channelSwitches';
 import { selectAmountsTestVariant } from '../lib/ab';
-import { TickerDataProvider } from '../lib/fetchTickerData';
-import { getReminderFields, countryCodeToCountryGroupId } from '../../shared/lib';
-import { getArticleViewCounts } from '../lib/history';
-import { logWarn } from '../utils/logging';
-import { SuperModeArticle } from '../lib/superMode';
 import { getDeviceType } from '../lib/deviceType';
-import { ValueProvider } from '../utils/valueReloader';
-import { BanditData } from '../bandit/banditData';
+import { baseUrl } from '../lib/env';
+import type { TickerDataProvider } from '../lib/fetchTickerData';
+import { getArticleViewCounts } from '../lib/history';
+import type { Params } from '../lib/params';
+import { getQueryParams } from '../lib/params';
+import type { SuperModeArticle } from '../lib/superMode';
 import { buildEpicCampaignCode } from '../lib/tracking';
+import type { Debug} from '../tests/epics/epicSelection';
+import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
+import { logWarn } from '../utils/logging';
+import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
     data?: {
@@ -185,7 +189,7 @@ export const buildEpicRouter = (
                         .slice(0, 3)
                         .map((c: WeeklyArticleLog) => JSON.stringify(c)),
                 };
-                if (!!response.data) {
+                if (response.data) {
                     res.locals.epicSuperMode = (response.data.meta.labels ?? []).includes(
                         'SUPER_MODE',
                     );
@@ -210,7 +214,7 @@ export const buildEpicRouter = (
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
-                if (!!response.data) {
+                if (response.data) {
                     res.locals.epicSuperMode = (response.data.meta.labels ?? []).includes(
                         'SUPER_MODE',
                     );

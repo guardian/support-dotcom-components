@@ -1,13 +1,15 @@
 import { containsArticleCountPlaceholder } from '../../../shared/lib';
-import {
-    EpicTestFromTool,
-    EpicTest,
-    epicTestFromToolSchema,
-    EpicVariant,
+import type {
     Channel,
+    EpicTest,
+    EpicTestFromTool,
+    EpicVariant} from '../../../shared/types';
+import {
+    epicTestFromToolSchema
 } from '../../../shared/types';
+import type { ValueReloader } from '../../utils/valueReloader';
+import { buildReloader } from '../../utils/valueReloader';
 import { getTests } from '../store';
-import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
 export const variantHasArticleCountCopy = (variant: EpicVariant): boolean => {
     const { paragraphs, heading, highlightedText } = variant;

@@ -1,8 +1,8 @@
-import { getWeeksInWindow } from '../../lib/history';
-import { WeeklyArticleHistory, WeeklyArticleLog } from '../../../shared/types';
-import { Filter } from './epicSelection';
 import { subWeeks } from 'date-fns';
+import type { WeeklyArticleHistory, WeeklyArticleLog } from '../../../shared/types';
+import { getWeeksInWindow } from '../../lib/history';
 import { logger } from '../../utils/logging';
+import type { Filter } from './epicSelection';
 
 /*
 We categorize into 6 buckets of article count/engagement.

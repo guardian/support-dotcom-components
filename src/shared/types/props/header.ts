@@ -1,7 +1,7 @@
+import type { OphanComponentEvent } from '@guardian/libs';
 import { z } from 'zod';
-import { OphanComponentEvent } from '@guardian/libs';
-
-import { Tracking, trackingSchema, Cta, ctaSchema } from './shared';
+import type { Cta, Tracking} from './shared';
+import { ctaSchema, trackingSchema } from './shared';
 
 export interface HeaderContent {
     heading: string;

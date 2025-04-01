@@ -1,5 +1,5 @@
-import { BannerVariant } from '../../shared/types';
 import { Factory } from 'fishery';
+import type { BannerVariant } from '../../shared/types';
 
 export default Factory.define<BannerVariant>(() => ({
     name: 'Example Banner Variant',

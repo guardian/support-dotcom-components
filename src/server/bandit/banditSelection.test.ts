@@ -1,5 +1,5 @@
-import { EpicTest } from '../../shared/types';
-import { BanditData } from './banditData';
+import type { EpicTest } from '../../shared/types';
+import type { BanditData } from './banditData';
 import { selectVariantWithHighestMean } from './banditSelection';
 
 const epicTest: EpicTest = {

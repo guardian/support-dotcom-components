@@ -1,17 +1,16 @@
-import {
-    EpicTargeting,
-    UserCohort,
-    EpicViewLog,
-    Test,
-    Variant,
-    SignedInStatus,
-    PageContextTargeting,
-    UserDeviceType,
-    ConsentStatus,
+import type {
     AbandonedBasket,
     BannerChannel,
+    ConsentStatus,
+    EpicTargeting,
+    EpicViewLog,
+    PageContextTargeting,
+    SignedInStatus,
+    Test,
+    UserCohort,
+    UserDeviceType,
+    Variant,
 } from '../../shared/types';
-
 import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
@@ -101,9 +100,9 @@ export const correctSignedInStatus = (
 ): boolean => {
     switch (signedInStatus) {
         case 'SignedIn':
-            return isSignedIn === true;
+            return isSignedIn;
         case 'SignedOut':
-            return isSignedIn === false;
+            return !isSignedIn;
         default:
             return true;
     }
@@ -115,9 +114,9 @@ export const consentStatusMatches = (
 ): boolean => {
     switch (consentStatus) {
         case 'HasConsented':
-            return hasConsented === true;
+            return hasConsented;
         case 'HasNotConsented':
-            return hasConsented === false;
+            return !hasConsented;
         case 'All':
             return true;
         case undefined:
