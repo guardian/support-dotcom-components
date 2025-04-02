@@ -1,4 +1,4 @@
-import express from 'express';
+import type express from 'express';
 
 // This is a temporary 'validation' middleware to provide a minimal level of
 // validation to incoming post requests. This is in response to an ongoing alarm

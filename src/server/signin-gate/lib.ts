@@ -76,6 +76,7 @@ export const buildGetTreatmentsRequestPayload = (
     dailyArticleCount: number,
     articleIdentifier: string,
     editionId: string,
+    countryCode: string,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
@@ -97,6 +98,10 @@ export const buildGetTreatmentsRequestPayload = (
             {
                 key: 'edition',
                 stringValue: editionId,
+            },
+            {
+                key: 'country_key',
+                stringValue: countryCode,
             },
         ],
         surfaces: [

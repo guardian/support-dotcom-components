@@ -1,17 +1,19 @@
-import express, { Router } from 'express';
+import type express from 'express';
+import { Router } from 'express';
 import { isProd } from '../lib/env';
-import { getSsmValue } from '../utils/ssm';
 import { bodyContainsAllFields } from '../middleware';
+import type {
+    AuxiaAPIGetTreatmentsResponseData} from '../signin-gate/lib';
 import {
+    buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
+    buildLogTreatmentInteractionRequestPayload,
     guDefaultGateGetTreatmentsResponseData,
-    AuxiaAPIGetTreatmentsResponseData,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
-    buildAuxiaProxyGetTreatmentsResponseData,
-    buildLogTreatmentInteractionRequestPayload,
 } from '../signin-gate/lib';
+import { getSsmValue } from '../utils/ssm';
 
 export interface AuxiaRouterConfig {
     apiKey: string;
@@ -49,6 +51,7 @@ const callGetTreatments = async (
     sectionId: string,
     tagIds: string[],
     gateDismissCount: number,
+    countryCode: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // The logic here is to perform a certain number of checks, each resulting with a different behavior.
 
@@ -89,6 +92,7 @@ const callGetTreatments = async (
         dailyArticleCount,
         articleIdentifier,
         editionId,
+        countryCode
     );
 
     const params = {
@@ -180,6 +184,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'sectionId',
             'tagIds',
             'gateDismissCount',
+            'countryCode',
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
@@ -195,6 +200,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     req.body.sectionId,
                     req.body.tagIds,
                     req.body.gateDismissCount,
+                    req.body.countryCode,
                 );
 
                 if (auxiaData !== undefined) {

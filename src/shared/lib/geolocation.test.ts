@@ -1,4 +1,4 @@
-import { getCountryName, getLocalCurrencySymbol, addRegionIdToSupportUrl } from './geolocation';
+import { addRegionIdToSupportUrl, getCountryName, getLocalCurrencySymbol } from './geolocation';
 
 describe('getLocalCurrencySymbol', () => {
     const currencySymbolTests = [

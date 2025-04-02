@@ -1,10 +1,10 @@
-import { BannerDesignFromTool, Channel } from '../../shared/types';
+import { isNonNullable } from '@guardian/libs';
 import * as AWS from 'aws-sdk';
+import type { ZodSchema } from 'zod';
+import type { BannerDesignFromTool, Channel } from '../../shared/types';
 import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
-import type { ZodSchema } from 'zod';
-import { isNonNullable } from '@guardian/libs';
 import { removeNullValues } from '../utils/removeNullValues';
 
 const stage = isProd ? 'PROD' : 'CODE';

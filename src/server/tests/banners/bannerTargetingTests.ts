@@ -1,4 +1,4 @@
-import { TargetingTest } from '../../lib/targetingTesting';
-import { BannerTargeting } from '../../../shared/types';
+import type { BannerTargeting } from '../../../shared/types';
+import type { TargetingTest } from '../../lib/targetingTesting';
 
-export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [];
+export const bannerTargetingTests: Array<TargetingTest<BannerTargeting>> = [];

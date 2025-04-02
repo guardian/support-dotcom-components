@@ -1,31 +1,32 @@
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
+import { buildAmpEpicRouter } from './api/ampEpicRouter';
+import { buildAuxiaProxyRouter, getAuxiaRouterConfig } from './api/auxiaProxyRouter';
+import { buildBannerRouter } from './api/bannerRouter';
+import { buildEpicRouter } from './api/epicRouter';
+import { buildGutterRouter } from './api/gutterRouter';
+import { buildHeaderRouter } from './api/headerRouter';
+import { buildBanditDataReloader } from './bandit/banditData';
+import { buildChannelSwitchesReloader } from './channelSwitches';
+import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
+import { buildTickerDataReloader } from './lib/fetchTickerData';
+import { buildSuperModeArticlesReloader } from './lib/superMode';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
-import { buildBanditDataReloader } from './bandit/banditData';
-import { logError } from './utils/logging';
-import { buildEpicRouter } from './api/epicRouter';
-import { buildBannerRouter } from './api/bannerRouter';
-import { buildHeaderRouter } from './api/headerRouter';
-import { buildGutterRouter } from './api/gutterRouter';
-import { buildAuxiaProxyRouter, getAuxiaRouterConfig } from './api/auxiaProxyRouter';
-import { buildAmpEpicRouter } from './api/ampEpicRouter';
-import { buildChannelSwitchesReloader } from './channelSwitches';
-import { buildSuperModeArticlesReloader } from './lib/superMode';
-import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/epics/epicTests';
-import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
-import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { buildProductPricesReloader } from './productPrices';
-import { buildBannerTestsReloader } from './tests/banners/bannerTests';
-import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
-import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
+import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
 import { buildBannerDesignsReloader } from './tests/banners/bannerDesigns';
+import { buildBannerTestsReloader } from './tests/banners/bannerTests';
+import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/epics/epicTests';
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
+import { buildHeaderTestsReloader } from './tests/headers/headerTests';
+import { logError } from './utils/logging';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();

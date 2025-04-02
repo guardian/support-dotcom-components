@@ -1,13 +1,13 @@
-import {
+import seedrandom from 'seedrandom';
+import type { CountryGroupId } from '../../shared/lib';
+import type {
+    AmountsTests,
+    Methodology,
+    SelectedAmountsVariant,
     Test,
     Variant,
-    AmountsTests,
-    SelectedAmountsVariant,
-    Methodology,
 } from '../../shared/types';
-import { CountryGroupId } from '../../shared/lib';
-import seedrandom from 'seedrandom';
-import { BanditData } from '../bandit/banditData';
+import type { BanditData } from '../bandit/banditData';
 import { selectVariantUsingEpsilonGreedy } from '../bandit/banditSelection';
 import { selectVariantUsingRoulette } from '../roulette/rouletteSelection';
 

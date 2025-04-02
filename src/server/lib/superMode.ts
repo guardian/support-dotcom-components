@@ -1,11 +1,12 @@
 import * as AWS from 'aws-sdk';
-import { isProd } from './env';
 import { addDays, format } from 'date-fns';
-import { EpicTest } from '../../shared/types';
-import { CountryGroupId } from '../../shared/lib';
-import { logError, logInfo } from '../utils/logging';
+import type { CountryGroupId } from '../../shared/lib';
+import type { EpicTest } from '../../shared/types';
 import { putMetric } from '../utils/cloudwatch';
-import { buildReloader, ValueReloader } from '../utils/valueReloader';
+import { logError, logInfo } from '../utils/logging';
+import type { ValueReloader } from '../utils/valueReloader';
+import { buildReloader } from '../utils/valueReloader';
+import { isProd } from './env';
 
 const stage = isProd ? 'PROD' : 'CODE';
 
@@ -59,7 +60,7 @@ interface DynamoRecord {
     avPerView: number;
 }
 
-const REGION_TO_COUNTRY_GROUP: { [region in Region]: CountryGroupId } = {
+const REGION_TO_COUNTRY_GROUP: Record<Region, CountryGroupId> = {
     GB: 'GBPCountries',
     US: 'UnitedStates',
     AU: 'AUDCountries',

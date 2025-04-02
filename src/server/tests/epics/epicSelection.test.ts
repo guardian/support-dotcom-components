@@ -1,13 +1,15 @@
-import {
+import type {
     ArticlesViewedSettings,
     DeviceType,
     EpicTargeting,
     EpicTest,
     EpicVariant,
-    SecondaryCtaType,
-    UserDeviceType,
+    UserDeviceType} from '../../../shared/types';
+import {
+    SecondaryCtaType
 } from '../../../shared/types';
-import { SuperModeArticle } from '../../lib/superMode';
+import type { BanditData } from '../../bandit/banditData';
+import type { SuperModeArticle } from '../../lib/superMode';
 import {
     correctSignedInStatusFilter,
     deviceTypeMatchesFilter,
@@ -15,12 +17,11 @@ import {
     getUserCohorts,
     hasCountryCode,
     inCorrectCohort,
-    isNotExpired,
     isCountryTargetedForEpic,
+    isNotExpired,
     withinArticleViewedSettings,
     withinMaxViews,
 } from './epicSelection';
-import { BanditData } from '../../bandit/banditData';
 
 const variantDefault: EpicVariant = {
     name: 'control-example-1',

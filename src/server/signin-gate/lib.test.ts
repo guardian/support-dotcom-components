@@ -1,13 +1,13 @@
 import {
-    guDefaultShouldShowTheGate,
+    buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
-    guGateAsAnAuxiaAPIUserTreatment,
+    buildLogTreatmentInteractionRequestPayload,
     guDefaultGateGetTreatmentsResponseData,
+    guDefaultShouldShowTheGate,
+    guGateAsAnAuxiaAPIUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
-    buildAuxiaProxyGetTreatmentsResponseData,
-    buildLogTreatmentInteractionRequestPayload,
 } from './lib';
 
 describe('guDefaultShouldShowTheGate', () => {
@@ -28,6 +28,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
         const dailyArticleCount = 21;
         const articleIdentifier = 'articleIdentifier';
         const editionId = 'UK';
+        const countryCode = 'GB';
 
         const expectedAnswer = {
             projectId,
@@ -49,6 +50,10 @@ describe('buildGetTreatmentsRequestPayload', () => {
                     key: 'edition',
                     stringValue: editionId,
                 },
+                {
+                    key: 'country_key',
+                    stringValue: countryCode,
+                },
             ],
             surfaces: [
                 {
@@ -66,6 +71,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
             dailyArticleCount,
             articleIdentifier,
             editionId,
+            countryCode,
         );
         expect(returnedAnswer).toStrictEqual(expectedAnswer);
     });

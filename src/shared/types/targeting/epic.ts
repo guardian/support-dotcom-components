@@ -1,5 +1,5 @@
-import { EpicViewLog } from '../../lib/viewLog';
-import { WeeklyArticleHistory } from './shared';
+import type { EpicViewLog } from '../../lib/viewLog';
+import type { WeeklyArticleHistory } from './shared';
 
 type Tag = {
     id: string;

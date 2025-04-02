@@ -1,22 +1,24 @@
-import {
+import type { OphanComponentEvent } from '@guardian/libs';
+import { z } from 'zod';
+import type { SelectedAmountsVariant } from '../abTests';
+import type { Prices } from '../prices';
+import type { AbandonedBasket } from '../targeting';
+import type { ConfigurableDesign} from './design';
+import { configurableDesignSchema } from './design';
+import type {
     ArticleCounts,
-    articleCountsSchema,
     Cta,
-    ctaSchema,
     SecondaryCta,
-    secondaryCtaSchema,
     SeparateArticleCount,
     TickerSettings,
+    Tracking} from './shared';
+import {
+    articleCountsSchema,
+    ctaSchema,
+    secondaryCtaSchema,
     tickerSettingsSchema,
-    Tracking,
     trackingSchema,
 } from './shared';
-import { z } from 'zod';
-import { Prices } from '../prices';
-import { SelectedAmountsVariant } from '../abTests';
-import { ConfigurableDesign, configurableDesignSchema } from './design';
-import { AbandonedBasket } from '../targeting';
-import { OphanComponentEvent } from '@guardian/libs';
 
 export const bannerChannelSchema = z.enum([
     'contributions',
