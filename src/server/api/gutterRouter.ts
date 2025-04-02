@@ -62,7 +62,7 @@ export const buildGutterRouter = (
                 abTestName: test.name,
                 abTestVariant: variant.name,
                 campaignCode: buildGutterCampaignCode(test, variant),
-                componentType: 'ACQUISITIONS_OTHER', // TODO: TBC - ACQUISITIONS_GUTTER? Changes will need to be made to the Ophan pipeline.
+                componentType: 'ACQUISITIONS_GUTTER',
             };
 
             return {
