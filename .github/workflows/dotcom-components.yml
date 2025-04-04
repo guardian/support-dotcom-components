@@ -38,6 +38,7 @@ jobs:
               run: |
                   pnpm install
                   pnpm lint
+                  pnpm prettier:check
                   pnpm test
 
                   NODE_ENV=production pnpm build-server
@@ -93,8 +94,6 @@ jobs:
             - name: Build
               run: |
                   pnpm install
-                  pnpm lint
-                  pnpm prettier:check
                   pnpm build-dotcom
                   pnpm build-dotcom-types
 
