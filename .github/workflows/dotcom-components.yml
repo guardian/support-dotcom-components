@@ -93,6 +93,8 @@ jobs:
             - name: Build
               run: |
                   pnpm install
+                  pnpm lint
+                  pnpm prettier:check
                   pnpm build-dotcom
                   pnpm build-dotcom-types
 
