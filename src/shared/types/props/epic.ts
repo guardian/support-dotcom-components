@@ -1,10 +1,7 @@
 import type { OphanComponentEvent } from '@guardian/libs';
 import { z } from 'zod';
 import type { EpicVariant } from '../abTests';
-import type {
-    ArticleCounts,
-    Stage,
-    Tracking} from './shared';
+import type { ArticleCounts, Stage, Tracking } from './shared';
 import {
     articleCountsSchema,
     bylineWithImageSchema,
@@ -13,7 +10,7 @@ import {
     secondaryCtaSchema,
     separateArticleCountSchema,
     tickerSettingsSchema,
-    trackingSchema
+    trackingSchema,
 } from './shared';
 
 export interface EpicProps {

@@ -4,10 +4,9 @@ import type {
     EpicTargeting,
     EpicTest,
     EpicVariant,
-    UserDeviceType} from '../../../shared/types';
-import {
-    SecondaryCtaType
+    UserDeviceType,
 } from '../../../shared/types';
+import { SecondaryCtaType } from '../../../shared/types';
 import type { BanditData } from '../../bandit/banditData';
 import type { SuperModeArticle } from '../../lib/superMode';
 import {

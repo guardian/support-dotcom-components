@@ -10,7 +10,6 @@ import { selectVariantUsingMVT } from '../../lib/ab';
 import type { TestVariant } from '../../lib/params';
 import { audienceMatches, correctSignedInStatus, pageContextMatches } from '../../lib/targeting';
 
-
 const moduleName = 'Gutter';
 
 export const isCountryTargetedForGutterAsks = (

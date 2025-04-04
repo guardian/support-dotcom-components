@@ -1,6 +1,6 @@
 import type { OphanComponentEvent } from '@guardian/libs';
 import { z } from 'zod';
-import type { Cta, Image, Tracking} from './shared';
+import type { Cta, Image, Tracking } from './shared';
 import { ctaSchema, imageSchema, trackingSchema } from './shared';
 
 export interface GutterContent {

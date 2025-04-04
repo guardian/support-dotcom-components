@@ -2,8 +2,7 @@ import type express from 'express';
 import { Router } from 'express';
 import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
-import type {
-    AuxiaAPIGetTreatmentsResponseData} from '../signin-gate/lib';
+import type { AuxiaAPIGetTreatmentsResponseData } from '../signin-gate/lib';
 import {
     buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
@@ -92,7 +91,7 @@ const callGetTreatments = async (
         dailyArticleCount,
         articleIdentifier,
         editionId,
-        countryCode
+        countryCode,
     );
 
     const params = {

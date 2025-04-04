@@ -5,10 +5,9 @@ import type {
     GutterTargeting,
     GutterTest,
     TestTracking,
-    Tracking} from '../../shared/types';
-import {
-    hideSRMessagingForInfoPageIds,
+    Tracking,
 } from '../../shared/types';
+import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';

@@ -1,14 +1,8 @@
 import type { OphanComponentType, OphanProduct } from '@guardian/libs';
 import { z } from 'zod';
 import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
-import type {
-    BannerChannel,
-    ConfigurableDesign} from '../props';
-import {
-    bannerContentSchema,
-    separateArticleCountSchema,
-    tickerSettingsSchema,
-} from '../props';
+import type { BannerChannel, ConfigurableDesign } from '../props';
+import { bannerContentSchema, separateArticleCountSchema, tickerSettingsSchema } from '../props';
 import type { BannerTargeting } from '../targeting';
 import {
     articlesViewedSettingsSchema,
@@ -16,8 +10,7 @@ import {
     testSchema,
     userCohortSchema,
 } from './shared';
-import type {
-    TargetingAbTest} from './shared';
+import type { TargetingAbTest } from './shared';
 import type { PurchaseInfoTest } from './shared';
 
 /**

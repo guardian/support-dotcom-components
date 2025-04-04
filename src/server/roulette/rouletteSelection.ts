@@ -19,12 +19,13 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
     }
 
     const minWeight = 0.1; // Ensure no variant gets less than 10%
-    const variantsWithWeights: Array<{ weight: number; variantName: string }> = testBanditData.variants
-        .map(({ variantName, mean }) => ({
-            variantName,
-            weight: Math.max(mean / sumOfMeans, minWeight),
-        }))
-        .sort((a, b) => a.weight - b.weight);
+    const variantsWithWeights: Array<{ weight: number; variantName: string }> =
+        testBanditData.variants
+            .map(({ variantName, mean }) => ({
+                variantName,
+                weight: Math.max(mean / sumOfMeans, minWeight),
+            }))
+            .sort((a, b) => a.weight - b.weight);
 
     // The sum of the weights may be greater than 1, so we now need to normalise them
     const sumOfWeights = variantsWithWeights.reduce((sum, v) => sum + v.weight, 0);

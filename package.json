@@ -22,6 +22,8 @@
         "publish-dry-run": "pnpm publish --dry-run",
         "publish": "pnpm publish",
         "lint": "eslint .",
+        "prettier:check": "prettier --check ./src",
+        "prettier:fix": "prettier --write ./src",
         "test": "export stage=DEV; jest",
         "riffraff": "node-riffraff-artifact"
     },
@@ -49,7 +51,6 @@
         "body-parser": "^1.20.3",
         "concurrently": "^6.2.0",
         "eslint": "^9.19.0",
-        "eslint-plugin-prettier": "5.1.3",
         "eslint-plugin-react": "^7.33.2",
         "fishery": "^0.3.0",
         "globals": "15.14.0",

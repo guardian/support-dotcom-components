@@ -3,7 +3,7 @@ import { z } from 'zod';
 import type { SelectedAmountsVariant } from '../abTests';
 import type { Prices } from '../prices';
 import type { AbandonedBasket } from '../targeting';
-import type { ConfigurableDesign} from './design';
+import type { ConfigurableDesign } from './design';
 import { configurableDesignSchema } from './design';
 import type {
     ArticleCounts,
@@ -11,7 +11,8 @@ import type {
     SecondaryCta,
     SeparateArticleCount,
     TickerSettings,
-    Tracking} from './shared';
+    Tracking,
+} from './shared';
 import {
     articleCountsSchema,
     ctaSchema,

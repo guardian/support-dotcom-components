@@ -1,8 +1,6 @@
 import { z } from 'zod';
 import { countryGroupIdSchema, targetedRegionsSchema } from '../../../shared/lib';
-import type {
-    ContributionFrequency,
-    SecondaryCta} from '../../../shared/types';
+import type { ContributionFrequency, SecondaryCta } from '../../../shared/types';
 import {
     contributionFrequencySchema,
     ctaSchema,

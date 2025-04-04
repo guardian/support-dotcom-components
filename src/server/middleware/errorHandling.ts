@@ -7,7 +7,7 @@ export const errorHandling = (
     res: express.Response,
     // Error handling middleware in Express needs to take 4 arguments in the handler
     // for it to run when `next()` function is called in the route handler
-     
+
     next: express.NextFunction,
 ): void => {
     const message = error.message || error.toString();

@@ -5,10 +5,9 @@ import type {
     BannerTest,
     BannerTestSelection,
     BannerVariant,
-    UserDeviceType} from '../../../shared/types';
-import {
-    uiIsDesign,
+    UserDeviceType,
 } from '../../../shared/types';
+import { uiIsDesign } from '../../../shared/types';
 import type { BanditData } from '../../bandit/banditData';
 import { selectVariant } from '../../lib/ab';
 import { daysSince } from '../../lib/dates';
@@ -23,12 +22,8 @@ import {
     pageContextMatches,
 } from '../../lib/targeting';
 import { selectTargetingTest } from '../../lib/targetingTesting';
-import type {
-    ScheduledBannerDeploys} from './bannerDeploySchedule';
-import {
-    defaultDeploySchedule,
-    getLastScheduledDeploy
-} from './bannerDeploySchedule';
+import type { ScheduledBannerDeploys } from './bannerDeploySchedule';
+import { defaultDeploySchedule, getLastScheduledDeploy } from './bannerDeploySchedule';
 import type { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { bannerTargetingTests } from './bannerTargetingTests';
 

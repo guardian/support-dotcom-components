@@ -10,7 +10,6 @@ import { selectVariantUsingMVT } from '../../lib/ab';
 import type { TestVariant } from '../../lib/params';
 import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../../lib/targeting';
 
-
 const moduleName = 'Header';
 
 // --- hardcoded tests
