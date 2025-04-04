@@ -1,11 +1,5 @@
-import type {
-    BannerTest,
-    BannerTestGenerator,
-    BannerVariant} from '../../../shared/types';
-import {
-    BannerTemplate,
-    SecondaryCtaType,
-} from '../../../shared/types';
+import type { BannerTest, BannerTestGenerator, BannerVariant } from '../../../shared/types';
+import { BannerTemplate, SecondaryCtaType } from '../../../shared/types';
 
 const baseSignInPromptTest: Omit<BannerTest, 'name' | 'variants'> = {
     channel: 'Banner1',

@@ -7,11 +7,9 @@ import type {
     BannerTestGenerator,
     BannerVariant,
     BannerVariantFromTool,
-    ConfigurableDesign} from '../../../shared/types';
-import {
-    bannerTestFromToolSchema,
-    uiIsDesign,
+    ConfigurableDesign,
 } from '../../../shared/types';
+import { bannerTestFromToolSchema, uiIsDesign } from '../../../shared/types';
 import { getTests } from '../store';
 
 export const BannerTemplateComponentTypes: Record<BannerChannel, OphanComponentType> = {

@@ -1,12 +1,7 @@
 import type { OphanComponentType, OphanProduct } from '@guardian/libs';
 import { z } from 'zod';
-import type {
-    purchaseInfoProduct,
-    purchaseInfoUser} from '../purchaseInfo';
-import {
-    purchaseInfoProductSchema,
-    purchaseInfoUserSchema,
-} from '../purchaseInfo';
+import type { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
+import { purchaseInfoProductSchema, purchaseInfoUserSchema } from '../purchaseInfo';
 
 const Channel = [
     'Epic',

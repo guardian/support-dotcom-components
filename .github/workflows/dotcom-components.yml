@@ -38,6 +38,7 @@ jobs:
               run: |
                   pnpm install
                   pnpm lint
+                  pnpm prettier:check
                   pnpm test
 
                   NODE_ENV=production pnpm build-server

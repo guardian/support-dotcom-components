@@ -9,10 +9,9 @@ import type {
     BannerTest,
     Prices,
     TestTracking,
-    Tracking} from '../../shared/types';
-import {
-    hideSRMessagingForInfoPageIds,
+    Tracking,
 } from '../../shared/types';
+import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { BanditData } from '../bandit/banditData';
 import type { ChannelSwitches } from '../channelSwitches';
 import { selectAmountsTestVariant } from '../lib/ab';

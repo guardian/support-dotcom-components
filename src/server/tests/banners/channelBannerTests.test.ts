@@ -1,4 +1,4 @@
-import type { BannerDesignFromTool} from '../../../shared/types';
+import type { BannerDesignFromTool } from '../../../shared/types';
 import { BannerTemplate } from '../../../shared/types';
 import { factories } from '../../factories/';
 import { getDesignForVariant } from './channelBannerTests';

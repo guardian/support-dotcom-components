@@ -2,7 +2,7 @@
 // tests include async code so really it is not very robust.
 export const withNowAs = <T>(now: Date, fn: () => T): T => {
     const old = Date.now;
-     
+
     Date.now = () => now.valueOf(); // override
     const got = fn();
     Date.now = old;

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { CountryGroupId} from '../../lib';
+import type { CountryGroupId } from '../../lib';
 import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
 import { variantSchema } from '../props';
 import type { EpicTargeting } from '../targeting';
