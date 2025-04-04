@@ -9,7 +9,6 @@ import { buildBannerRouter } from './api/bannerRouter';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildGutterRouter } from './api/gutterRouter';
 import { buildHeaderRouter } from './api/headerRouter';
-import { buildBanditDataReloader } from './bandit/banditData';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
@@ -19,6 +18,7 @@ import {
     logging as loggingMiddleware,
 } from './middleware';
 import { buildProductPricesReloader } from './productPrices';
+import { buildBanditDataReloader } from './selection/banditData';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
 import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
 import { buildBannerDesignsReloader } from './tests/banners/bannerDesigns';

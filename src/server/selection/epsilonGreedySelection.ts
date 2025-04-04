@@ -2,6 +2,7 @@ import type { Test, Variant } from '../../shared/types';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 import type { BanditData } from './banditData';
+import { selectRandomVariant } from './helpers';
 
 /**
  * In general we select the best known variant, except with probability 'epsilon' when we select at random.
@@ -26,26 +27,11 @@ export function selectVariantWithHighestMean<V extends Variant, T extends Test<V
     return test.variants.find((v) => v.name === variant.variantName);
 }
 
-export function selectRandomVariant<V extends Variant, T extends Test<V>>(test: T): V | undefined {
-    const randomVariantIndex = Math.floor(Math.random() * test.variants.length);
-    const randomVariantData = test.variants[randomVariantIndex];
-
-    if (!randomVariantData) {
-        logError(`Failed to select random variant for bandit test: ${test.name}`);
-        putMetric('bandit-selection-error');
-        return;
-    }
-
-    return randomVariantData;
-}
-
 export function selectVariantUsingEpsilonGreedy<V extends Variant, T extends Test<V>>(
-    banditData: BanditData[],
     test: T,
     epsilon: number,
+    testBanditData?: BanditData,
 ): V | undefined {
-    const testBanditData = banditData.find((bandit) => bandit.testName === test.name);
-
     if (!testBanditData) {
         // We don't yet have bandit data for this test, select a random variant
         return selectRandomVariant(test);

@@ -6,9 +6,9 @@ import type {
     HeaderVariant,
     UserDeviceType,
 } from '../../../shared/types';
-import { selectVariantUsingMVT } from '../../lib/ab';
 import type { TestVariant } from '../../lib/params';
 import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../../lib/targeting';
+import { selectVariantUsingMVT } from '../../selection/ab';
 
 const moduleName = 'Header';
 

@@ -1,6 +1,6 @@
 import type { EpicTest } from '../../shared/types';
 import type { BanditData } from './banditData';
-import { selectVariantWithHighestMean } from './banditSelection';
+import { selectVariantWithHighestMean } from './epsilonGreedySelection';
 
 const epicTest: EpicTest = {
     channel: 'Epic',

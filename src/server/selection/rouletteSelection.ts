@@ -1,13 +1,12 @@
 import type { Test, Variant } from '../../shared/types';
-import type { BanditData } from '../bandit/banditData';
-import { selectRandomVariant } from '../bandit/banditSelection';
+import type { BanditData } from './banditData';
+import { selectRandomVariant } from './helpers';
 
 export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>(
-    banditData: BanditData[],
     test: T,
+    testBanditData?: BanditData,
     rand: number = Math.random(),
 ): V | undefined {
-    const testBanditData = banditData.find((bandit) => bandit.testName === test.name);
     if (!testBanditData) {
         return selectRandomVariant(test);
     }

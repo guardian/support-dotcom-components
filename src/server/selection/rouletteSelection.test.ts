@@ -1,5 +1,5 @@
 import type { EpicTest } from '../../shared/types';
-import type { BanditData } from '../bandit/banditData';
+import type { BanditData } from './banditData';
 import { selectVariantUsingRoulette } from './rouletteSelection';
 
 const epicTest: EpicTest = {
@@ -99,8 +99,8 @@ describe('roulette', () => {
     it('should return first variant', () => {
         const rand = 0.15;
         const variant = selectVariantUsingRoulette(
-            [buildBanditData(epicTest.variants.length)],
             epicTest,
+            buildBanditData(epicTest.variants.length),
             rand,
         );
         expect(variant).toBe(epicTest.variants[0]);
@@ -109,8 +109,8 @@ describe('roulette', () => {
     it('should return second variant', () => {
         const rand = 0.49;
         const variant = selectVariantUsingRoulette(
-            [buildBanditData(epicTest.variants.length)],
             epicTest,
+            buildBanditData(epicTest.variants.length),
             rand,
         );
         expect(variant).toBe(epicTest.variants[1]);
@@ -119,8 +119,8 @@ describe('roulette', () => {
     it('should return second variant', () => {
         const rand = 0.5;
         const variant = selectVariantUsingRoulette(
-            [buildBanditData(epicTest.variants.length)],
             epicTest,
+            buildBanditData(epicTest.variants.length),
             rand,
         );
         expect(variant).toBe(epicTest.variants[2]);
@@ -137,7 +137,7 @@ describe('roulette', () => {
             bestVariants: variants,
             variants: variants,
         };
-        const variant = selectVariantUsingRoulette([banditData], epicTest, rand);
+        const variant = selectVariantUsingRoulette(epicTest, banditData, rand);
         expect(variant).toBeDefined();
     });
 
@@ -175,9 +175,9 @@ describe('roulette', () => {
          *     { variantName: 'v1', weight: 0.8333333333333334 }
          * ]
          */
-        const variantSelection1 = selectVariantUsingRoulette([banditData], epicTest, 0.08);
-        const variantSelection2 = selectVariantUsingRoulette([banditData], epicTest, 0.16);
-        const variantSelection3 = selectVariantUsingRoulette([banditData], epicTest, 0.2);
+        const variantSelection1 = selectVariantUsingRoulette(epicTest, banditData, 0.08);
+        const variantSelection2 = selectVariantUsingRoulette(epicTest, banditData, 0.16);
+        const variantSelection3 = selectVariantUsingRoulette(epicTest, banditData, 0.2);
         expect(variantSelection1).toBe(epicTest.variants[1]);
         expect(variantSelection2).toBe(epicTest.variants[2]);
         expect(variantSelection3).toBe(epicTest.variants[0]);
@@ -298,25 +298,25 @@ describe('rouletteTest2', () => {
 
     it('should return the fifth variant', () => {
         const rand = 0.15;
-        const variant = selectVariantUsingRoulette([rouletteBanditData], epicTestNew, rand);
+        const variant = selectVariantUsingRoulette(epicTestNew, rouletteBanditData, rand);
         expect(variant).toBe(epicTestNew.variants[4]);
     });
 
     it('should return the second variant', () => {
         const rand = 0.25;
-        const variant = selectVariantUsingRoulette([rouletteBanditData], epicTestNew, rand);
+        const variant = selectVariantUsingRoulette(epicTestNew, rouletteBanditData, rand);
         expect(variant).toBe(epicTestNew.variants[1]);
     });
 
     it('should return the fourth variant', () => {
         const rand = 0.9999;
-        const variant = selectVariantUsingRoulette([rouletteBanditData], epicTestNew, rand);
+        const variant = selectVariantUsingRoulette(epicTestNew, rouletteBanditData, rand);
         expect(variant).toBe(epicTestNew.variants[3]);
     });
 
     it('should return the second variant', () => {
         const rand = 0.65;
-        const variant = selectVariantUsingRoulette([rouletteBanditData], epicTestNew, rand);
+        const variant = selectVariantUsingRoulette(epicTestNew, rouletteBanditData, rand);
         expect(variant).toBe(epicTestNew.variants[2]);
     });
     /**

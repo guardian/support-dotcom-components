@@ -7,8 +7,8 @@ import type {
     UserDeviceType,
 } from '../../../shared/types';
 import { SecondaryCtaType } from '../../../shared/types';
-import type { BanditData } from '../../bandit/banditData';
 import type { SuperModeArticle } from '../../lib/superMode';
+import type { BanditData } from '../../selection/banditData';
 import {
     correctSignedInStatusFilter,
     deviceTypeMatchesFilter,

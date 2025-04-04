@@ -1,6 +1,6 @@
 import type { TargetingAbTest, Test, Variant } from '../../shared/types';
+import { selectVariantUsingMVT } from '../selection/ab';
 import type { ScheduledBannerDeploys } from '../tests/banners/bannerDeploySchedule';
-import { selectVariantUsingMVT } from './ab';
 
 type TargetingTestDecision = {
     canShow: boolean;

@@ -1,15 +1,6 @@
-import seedrandom from 'seedrandom';
 import type { CountryGroupId } from '../../shared/lib';
-import type {
-    AmountsTests,
-    Methodology,
-    SelectedAmountsVariant,
-    Test,
-    Variant,
-} from '../../shared/types';
-import type { BanditData } from '../bandit/banditData';
-import { selectVariantUsingEpsilonGreedy } from '../bandit/banditSelection';
-import { selectVariantUsingRoulette } from '../roulette/rouletteSelection';
+import type { AmountsTests, SelectedAmountsVariant, Test, Variant } from '../../shared/types';
+import { getRandomNumber } from './helpers';
 
 const maxMvt = 1000000;
 
@@ -22,11 +13,6 @@ export const withinRange = (lower: number, proportion: number, mvtId: number): b
     } else {
         return mvtId >= lower && mvtId < upper;
     }
-};
-
-export const getRandomNumber = (seed: string, mvtId: number | string = ''): number => {
-    const rng = seedrandom(mvtId + seed);
-    return Math.abs(rng.int32());
 };
 
 export const selectWithSeed = <V extends Variant>(
@@ -71,71 +57,6 @@ export const selectVariantUsingMVT = <V extends Variant, T extends Test<V>>(
         }
     }
     return selectWithSeed(mvtId, seed, test.variants);
-};
-
-const selectVariantWithMethodology = <V extends Variant, T extends Test<V>>(
-    test: T,
-    mvtId: number,
-    banditData: BanditData[],
-    methodology: Methodology,
-): V | undefined => {
-    if (methodology.name === 'EpsilonGreedyBandit') {
-        return selectVariantUsingEpsilonGreedy(banditData, test, methodology.epsilon);
-    }
-    if (methodology.name === 'Roulette') {
-        return selectVariantUsingRoulette(banditData, test);
-    }
-    return selectVariantUsingMVT<V, T>(test, mvtId);
-};
-
-/**
- * Selects a variant from the test based on any configured methodologies.
- * Defaults to an AB test.
- */
-export const selectVariant = <V extends Variant, T extends Test<V>>(
-    test: T,
-    mvtId: number,
-    banditData: BanditData[],
-): { test: T; variant: V } | undefined => {
-    if (test.methodologies && test.methodologies.length > 0) {
-        const pickMethodology = (methodologies: Methodology[]) => {
-            if (methodologies.length === 1) {
-                return methodologies[0];
-            } else {
-                // More than one methodology, pick one of them using the mvt value
-                return methodologies[getRandomNumber(test.name, mvtId) % methodologies.length];
-            }
-        };
-        const methodology = pickMethodology(test.methodologies);
-
-        // if the methodology should be tracked with a different name then use that
-        const testWithNameExtension = {
-            ...test,
-            name: methodology.testName ?? test.name,
-        };
-        const variant = selectVariantWithMethodology<V, T>(
-            testWithNameExtension,
-            mvtId,
-            banditData,
-            methodology,
-        );
-        if (variant) {
-            return {
-                test: testWithNameExtension,
-                variant,
-            };
-        }
-    } else {
-        // No configured methodology, default to AB test
-        const variant = selectVariantUsingMVT<V, T>(test, mvtId);
-        if (variant) {
-            return {
-                test,
-                variant,
-            };
-        }
-    }
-    return;
 };
 
 export const selectAmountsTestVariant = (

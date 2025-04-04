@@ -12,8 +12,6 @@ import type {
     UserDeviceType,
     WeeklyArticleHistory,
 } from '../../../shared/types';
-import type { BanditData } from '../../bandit/banditData';
-import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import type { TestVariant } from '../../lib/params';
 import type { SuperModeArticle } from '../../lib/superMode';
@@ -25,6 +23,8 @@ import {
     shouldNotRenderEpic,
     shouldThrottle,
 } from '../../lib/targeting';
+import type { BanditData } from '../../selection/banditData';
+import { selectVariant } from '../../selection/selectVariant';
 import { momentumMatches } from './momentumTest';
 
 export interface Filter {
