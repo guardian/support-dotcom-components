@@ -9,7 +9,7 @@ export const errorHandling = (
     // for it to run when `next()` function is called in the route handler
 
     // next is required here but incompatible with the linting rule.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     next: express.NextFunction,
 ): void => {
     const message = error.message || error.toString();
