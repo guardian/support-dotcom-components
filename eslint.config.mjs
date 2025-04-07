@@ -34,13 +34,6 @@ export default [
 			// Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
 			// e.g. "@typescript-eslint/explicit-function-return-type": "off",
 			curly: 2,
-			// '@typescript-eslint/no-unused-vars': [
-			// 	'error',
-			// 	{
-			// 		args: 'after-used',
-			// 		ignoreRestSiblings: true,
-			// 	},
-			// ],
 
 			// potentially to fix later see https://trello.com/c/lc8lG7Zj
 			'@typescript-eslint/naming-convention': 'off',
@@ -59,7 +52,6 @@ export default [
 			'@typescript-eslint/prefer-promise-reject-errors': 'off',
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-floating-promise': 'off',
-			'@typescript-eslint/no-unused-vars': 'off',
 			'@typescript-eslint/restrict-template-expressions': 'off',
 			'@typescript-eslint/no-floating-promises': 'off',
             '@typescript-eslint/prefer-optional-chain': 'off',
