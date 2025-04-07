@@ -1,5 +1,5 @@
 import type { BannerTargeting, BannerTest } from '../../../shared/types';
-import type { BanditData } from '../../bandit/banditData';
+import type { BanditData } from '../../selection/banditData';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 

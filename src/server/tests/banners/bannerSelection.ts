@@ -8,8 +8,6 @@ import type {
     UserDeviceType,
 } from '../../../shared/types';
 import { uiIsDesign } from '../../../shared/types';
-import type { BanditData } from '../../bandit/banditData';
-import { selectVariant } from '../../lib/ab';
 import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import type { TestVariant } from '../../lib/params';
@@ -22,6 +20,8 @@ import {
     pageContextMatches,
 } from '../../lib/targeting';
 import { selectTargetingTest } from '../../lib/targetingTesting';
+import type { BanditData } from '../../selection/banditData';
+import { selectVariant } from '../../selection/selectVariant';
 import type { ScheduledBannerDeploys } from './bannerDeploySchedule';
 import { defaultDeploySchedule, getLastScheduledDeploy } from './bannerDeploySchedule';
 import type { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';

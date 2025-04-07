@@ -13,9 +13,7 @@ import type {
     WeeklyArticleLog,
 } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
-import type { BanditData } from '../bandit/banditData';
 import type { ChannelSwitches } from '../channelSwitches';
-import { selectAmountsTestVariant } from '../lib/ab';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -24,6 +22,8 @@ import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { SuperModeArticle } from '../lib/superMode';
 import { buildEpicCampaignCode } from '../lib/tracking';
+import { selectAmountsTestVariant } from '../selection/ab';
+import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { logWarn } from '../utils/logging';

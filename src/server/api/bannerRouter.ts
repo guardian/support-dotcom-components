@@ -12,9 +12,7 @@ import type {
     Tracking,
 } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
-import type { BanditData } from '../bandit/banditData';
 import type { ChannelSwitches } from '../channelSwitches';
-import { selectAmountsTestVariant } from '../lib/ab';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -22,6 +20,8 @@ import { getArticleViewCounts } from '../lib/history';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import { buildBannerCampaignCode } from '../lib/tracking';
+import { selectAmountsTestVariant } from '../selection/ab';
+import type { BanditData } from '../selection/banditData';
 import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';

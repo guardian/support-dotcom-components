@@ -1,5 +1,6 @@
 import type { EpicTest } from '../../shared/types';
-import { selectVariant, selectVariantUsingMVT, selectWithSeed, withinRange } from './ab';
+import { selectVariantUsingMVT, selectWithSeed, withinRange } from './ab';
+import { selectVariant } from './selectVariant';
 
 const test: EpicTest = {
     channel: 'Epic',
