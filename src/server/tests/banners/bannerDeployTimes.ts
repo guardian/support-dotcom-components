@@ -25,7 +25,7 @@ const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<Ban
     return (
         fetchS3Data(AdminConsoleBucket, `${isProd ? 'PROD' : 'CODE'}/banner-deploy/${channel}.json`)
             .then(JSON.parse)
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- not fully parsed at this point to know the type
             .then((data: any) => {
                 const times: BannerDeployTimes = {
                     UnitedKingdom: new Date(data.UnitedKingdom.timestamp),
