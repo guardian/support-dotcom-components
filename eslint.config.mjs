@@ -37,8 +37,6 @@ export default [
 
 			// potentially to fix later see https://trello.com/c/lc8lG7Zj
 			'@typescript-eslint/naming-convention': 'off',
-			'@eslint-community/eslint-comments/require-description': 'off',
-			'@typescript-eslint/ban-types': 'off',
 			'@typescript-eslint/no-unsafe-function-type': 'off',
 			'@typescript-eslint/no-unnecessary-condition': 'off',
 			'@typescript-eslint/no-unsafe-assignment': 'off',
