@@ -8,6 +8,8 @@ export const errorHandling = (
     // Error handling middleware in Express needs to take 4 arguments in the handler
     // for it to run when `next()` function is called in the route handler
 
+    // next is required here but incompatible with the linting rule.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     next: express.NextFunction,
 ): void => {
     const message = error.message || error.toString();
