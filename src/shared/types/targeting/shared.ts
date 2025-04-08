@@ -17,7 +17,7 @@ export type WeeklyArticleHistory = WeeklyArticleLog[];
 /**
  * This interface is duplicated from the @guardian/libs definition of StorageFactory. This is to avoid adding the
  * whole library as a dependency.
- * TODO: @guardian/libs is now a dependency anyway - we should consider using the library directly as it may provide some consent checking in future. 
+ * TODO: @guardian/libs is now a dependency anyway - we should consider using the library directly as it may provide some consent checking in future.
  */
 export interface LocalStorage {
     set(key: string, value: unknown): void;
