@@ -17,10 +17,11 @@ export type WeeklyArticleHistory = WeeklyArticleLog[];
 /**
  * This interface is duplicated from the @guardian/libs definition of StorageFactory. This is to avoid adding the
  * whole library as a dependency.
+ * TODO: @guardian/libs is now a dependency anyway - we should consider using the library directly as it may provide some consent checking in future.
  */
 export interface LocalStorage {
     set(key: string, value: unknown): void;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- the type checking is done where it is used
     get(key: string): any;
 }
 
