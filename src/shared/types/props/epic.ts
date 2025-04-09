@@ -18,7 +18,7 @@ export interface EpicProps {
     tracking: Tracking;
     countryCode?: string;
     articleCounts: ArticleCounts;
-    onReminderOpen?: Function;
+    onReminderOpen?: () => void;
     fetchEmail?: () => Promise<string | null>;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     openCmp?: () => void;
