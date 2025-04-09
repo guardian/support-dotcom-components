@@ -25,6 +25,7 @@ export interface ModuleDataResponse<PROPS> {
 type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'header' | 'gutter-liveblog';
 
 const getForcedVariant = (type: ModuleType): string | null => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- this is a polyfill as not all browsers recognise URLSearchParams https://caniuse.com/?search=URLSearchParams
     if (URLSearchParams) {
         const params = new URLSearchParams(window.location.search);
         const value = params.get(`force-${type}`);
