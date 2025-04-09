@@ -46,13 +46,16 @@ export const secondaryCtaSchema = z.discriminatedUnion('type', [
 ]);
 
 export enum TickerEndType {
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- interaction with scala via zio which has different naming conventions
     unlimited = 'unlimited',
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- interaction with scala via zio which has different naming conventions
     hardstop = 'hardstop', // currently unsupported
 }
 
 export const tickerEndTypeSchema = z.nativeEnum(TickerEndType);
 
 export enum TickerCountType {
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- interaction with scala via zio which has different naming conventions
     money = 'money',
 }
 
