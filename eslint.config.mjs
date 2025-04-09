@@ -36,7 +36,7 @@ export default [
 			curly: 2,
 
 			// potentially to fix later see https://trello.com/c/lc8lG7Zj
-			'@typescript-eslint/no-unnecessary-condition': 'off',
+			//'@typescript-eslint/no-unnecessary-condition': 'off',
 			'@typescript-eslint/no-unsafe-assignment': 'off',
 			'@typescript-eslint/prefer-nullish-coalescing': 'off',
 			'@typescript-eslint/no-unsafe-member-access': 'off',
