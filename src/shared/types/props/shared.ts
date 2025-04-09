@@ -46,13 +46,16 @@ export const secondaryCtaSchema = z.discriminatedUnion('type', [
 ]);
 
 export enum TickerEndType {
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- model predates linting rule
     unlimited = 'unlimited',
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- model predates linting rule
     hardstop = 'hardstop', // currently unsupported
 }
 
 export const tickerEndTypeSchema = z.nativeEnum(TickerEndType);
 
 export enum TickerCountType {
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- model predates linting rule
     money = 'money',
 }
 
