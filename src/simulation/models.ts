@@ -15,8 +15,7 @@ export interface VariantModel {
     standardDeviation: (timestep: number) => number;
 }
 
-export interface Simulation<V extends Variant, T extends Test<V>> {
-    test: T;
+export interface Simulation {
     algorithms: SelectionAlgorithm[];
     variantsScenario: VariantModel[];
     timesteps: number;
