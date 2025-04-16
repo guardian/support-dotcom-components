@@ -5,7 +5,14 @@ import type { Test, Variant } from '../shared/types';
 import type { Simulation } from './models';
 import {sample} from "./oracle";
 
-const run = <V extends Variant, T extends Test<V>>(simulation: Simulation<V, T>) => {
+const run = (simulation: Simulation) => {
+    const test: Test<Variant> = {
+        channel: 'Epic',
+        name: 'simulated-test',
+        status: 'Live',
+        priority: 1,
+        variants: simulation.variantsScenario.map(v => ({name: v.name})),
+    };
     for (const algorithm of simulation.algorithms) {
         const banditData: BanditData = {
             testName: test.name,
@@ -15,7 +22,7 @@ const run = <V extends Variant, T extends Test<V>>(simulation: Simulation<V, T>)
         for (let run = 0; run < simulation.runs; run++) {
             for (let timestep = 0; timestep < simulation.timesteps; timestep++) {
                 // initialise impressions data
-                const variantImpressions: Record<string,number> = simulation.test.variants.reduce((acc, v) => (
+                const variantImpressions: Record<string,number> = test.variants.reduce((acc, v) => (
                     {
                         ...acc,
                         [v.name]: 0,
@@ -28,7 +35,7 @@ const run = <V extends Variant, T extends Test<V>>(simulation: Simulation<V, T>)
                     impression++
                 ) {
                     // pick a variant for this impression
-                    const variant = algorithm.run(simulation.test, banditData);
+                    const variant = algorithm.run(test, banditData);
                     if (variant) {
                         variantImpressions[variant.name]++;
                     }
@@ -45,14 +52,7 @@ const run = <V extends Variant, T extends Test<V>>(simulation: Simulation<V, T>)
 };
 
 // TODO - load the config from somewhere
-run<Variant, Test<Variant>>({
-    test: {
-        channel: 'Epic',
-        name: 'my-test',
-        status: 'Live',
-        priority: 1,
-        variants: [{ name: 'v1' }, { name: 'v2' }],
-    },
+run({
     algorithms: [
         {
             name: 'roulette',
