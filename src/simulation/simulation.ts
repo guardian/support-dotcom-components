@@ -13,22 +13,25 @@ const run = (simulation: Simulation) => {
         priority: 1,
         variants: simulation.variantsScenario.map(v => ({name: v.name})),
     };
+
     for (const algorithm of simulation.algorithms) {
+        // initialise variant means to 0 at the start of the "test"
         const banditData: BanditData = {
             testName: test.name,
-            variants: [],
-            bestVariants: [],
+            variants: test.variants.map(v => ({variantName: v.name, mean: 0})),
+            // TODO - can we improve this model?
+            bestVariants: test.variants.map(v => ({variantName: v.name, mean: 0})),
         };
         for (let run = 0; run < simulation.runs; run++) {
             for (let timestep = 0; timestep < simulation.timesteps; timestep++) {
-                // initialise impressions data
+                // initialise impression counts for each variant to 0
                 const variantImpressions: Record<string,number> = test.variants.reduce((acc, v) => (
                     {
                         ...acc,
                         [v.name]: 0,
                     }
                 ), {});
-                // assign impressions
+                // assign impressions to variants using the algorithm
                 for (
                     let impression = 0;
                     impression < simulation.impressionsPerTimestep;
@@ -40,9 +43,12 @@ const run = (simulation: Simulation) => {
                         variantImpressions[variant.name]++;
                     }
                 }
+                console.log({timestep, algo: algorithm.name})
+                console.log({variantImpressions})
                 // update banditData by sampling using each variantModel
                 for (const variant of simulation.variantsScenario) {
                     const value = sample(variant, timestep);
+                    console.log({name: variant.name, value})
                     // TODO - update the mean in banditData
                     // TODO - output impressions/revenue
                 }
@@ -76,7 +82,7 @@ run({
             standardDeviation: (timestep) => 0.1,
         },
     ],
-    timesteps: 1,
-    impressionsPerTimestep: 1,
+    timesteps: 10,
+    impressionsPerTimestep: 100,
     runs: 1,
 });
