@@ -1,62 +1,57 @@
-import type {BanditData} from "../server/selection/banditData";
-import {selectVariantUsingEpsilonGreedy} from "../server/selection/epsilonGreedySelection";
-import {selectVariantUsingRoulette} from "../server/selection/rouletteSelection";
-import type {Test, Variant} from "../shared/types";
-import gaussian from 'gaussian';
+import type { BanditData } from '../server/selection/banditData';
+import { selectVariantUsingEpsilonGreedy } from '../server/selection/epsilonGreedySelection';
+import { selectVariantUsingRoulette } from '../server/selection/rouletteSelection';
+import type { Test, Variant } from '../shared/types';
+import type { Simulation } from './models';
+import {sample} from "./oracle";
 
-interface SelectionAlgorithm {
-    name: string;
-    run: <V extends Variant, T extends Test<V>>(test: T, testBanditData?: BanditData) => V | undefined;
-}
-
-interface VariantModel {
-    mean: (timestep: number) => number;
-    standardDeviation: (timestep: number) => number;
-}
-
-interface Simulation<V extends Variant, T extends Test<V>> {
-    test: T;
-    algorithms: SelectionAlgorithm[];
-    variantsScenario: VariantModel[];
-    timesteps: number;
-    impressionsPerTimestep: number;
-    runs: number;
-}
-
-const run = <V extends Variant, T extends Test<V>>(simulation: Simulation<V,T>) => {
+const run = <V extends Variant, T extends Test<V>>(simulation: Simulation<V, T>) => {
     for (const algorithm of simulation.algorithms) {
-        let banditData: BanditData = {
+        const banditData: BanditData = {
             testName: test.name,
             variants: [],
             bestVariants: [],
-        }
+        };
         for (let run = 0; run < simulation.runs; run++) {
             for (let timestep = 0; timestep < simulation.timesteps; timestep++) {
-                for (let impression = 0; impression < simulation.impressionsPerTimestep; impression++) {
+                // initialise impressions data
+                const variantImpressions: Record<string,number> = simulation.test.variants.reduce((acc, v) => (
+                    {
+                        ...acc,
+                        [v.name]: 0,
+                    }
+                ), {});
+                // assign impressions
+                for (
+                    let impression = 0;
+                    impression < simulation.impressionsPerTimestep;
+                    impression++
+                ) {
                     // pick a variant for this impression
                     const variant = algorithm.run(simulation.test, banditData);
+                    if (variant) {
+                        variantImpressions[variant.name]++;
+                    }
                 }
                 // update banditData by sampling using each variantModel
                 for (const variant of simulation.variantsScenario) {
-                    const mean = variant.mean(timestep);
-                    const sd = variant.standardDeviation(timestep);
-                    const value = gaussian(mean, sd*sd).ppf(Math.random());
+                    const value = sample(variant, timestep);
+                    // TODO - update the mean in banditData
+                    // TODO - output impressions/revenue
                 }
             }
         }
     }
-}
+};
 
-run<Variant,Test<Variant>>({
+// TODO - load the config from somewhere
+run<Variant, Test<Variant>>({
     test: {
         channel: 'Epic',
         name: 'my-test',
         status: 'Live',
         priority: 1,
-        variants: [
-            { name: 'v1' },
-            { name: 'v2' },
-        ],
+        variants: [{ name: 'v1' }, { name: 'v2' }],
     },
     algorithms: [
         {
@@ -65,20 +60,19 @@ run<Variant,Test<Variant>>({
         },
         {
             name: 'epsilon-greedy',
-            run: (test, testBanditData) => selectVariantUsingEpsilonGreedy(
-                test,
-                0.5,
-                testBanditData
-            ),
-        }
+            run: (test, testBanditData) =>
+                selectVariantUsingEpsilonGreedy(test, 0.5, testBanditData),
+        },
     ],
     variantsScenario: [
         {
-            mean: (timestep) => 1*timestep,
+            name: 'v1',
+            mean: (timestep) => 1 * timestep,
             standardDeviation: (timestep) => 0.1,
         },
         {
-            mean: (timestep) => 2*timestep,
+            name: 'v2',
+            mean: (timestep) => 2 * timestep,
             standardDeviation: (timestep) => 0.1,
         },
     ],
