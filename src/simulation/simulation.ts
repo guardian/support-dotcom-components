@@ -18,9 +18,7 @@ const run = (simulation: Simulation) => {
         // initialise variant means to 0 at the start of the "test"
         const banditData: BanditData = {
             testName: test.name,
-            variants: test.variants.map(v => ({variantName: v.name, mean: 0})),
-            // TODO - can we improve this model?
-            bestVariants: test.variants.map(v => ({variantName: v.name, mean: 0})),
+            sortedVariants: test.variants.map(v => ({variantName: v.name, mean: 0})),
         };
         for (let run = 0; run < simulation.runs; run++) {
             for (let timestep = 0; timestep < simulation.timesteps; timestep++) {
