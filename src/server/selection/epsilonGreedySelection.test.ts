@@ -62,7 +62,6 @@ const epicTest: EpicTest = {
 
 describe('selectVariantWithHighestMean', () => {
     it('should return the only variant', () => {
-        // const banditData = buildBanditData(1);
         const banditData = {
             testName: 'example-1',
             sortedVariants: [
@@ -73,7 +72,6 @@ describe('selectVariantWithHighestMean', () => {
     });
 
     it('should return the only variant with highest mean', () => {
-        // const banditData = buildBanditData(1);
         const banditData = {
             testName: 'example-1',
             sortedVariants: [
@@ -87,7 +85,6 @@ describe('selectVariantWithHighestMean', () => {
 
     it('should return first of tied best variants', () => {
         // v1 and v2 are tied
-        // const banditData = buildBanditData(2);
         const banditData = {
             testName: 'example-1',
             sortedVariants: [
@@ -104,7 +101,6 @@ describe('selectVariantWithHighestMean', () => {
 
     it('should return second of tied best variants', () => {
         // v1 and v2 are tied
-        // const banditData = buildBanditData(2);
         const banditData = {
             testName: 'example-1',
             sortedVariants: [
