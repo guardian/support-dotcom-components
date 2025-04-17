@@ -84,19 +84,14 @@ interface BanditVariantData {
 
 export interface BanditData {
     testName: string;
-    bestVariants: BanditVariantData[]; // will contain more than 1 variant if there is a tie
-    variants: BanditVariantData[];
+    sortedVariants: BanditVariantData[];  // sorted by mean, highest first
 }
 
 function getDefaultWeighting(test: BanditTestConfig): BanditData {
     // No samples yet, set all means to zero to allow random selection
     return {
         testName: test.testName,
-        bestVariants: test.variantNames.map((variantName) => ({
-            variantName,
-            mean: 0,
-        })),
-        variants: test.variantNames.map((variantName) => ({
+        sortedVariants: test.variantNames.map((variantName) => ({
             variantName,
             mean: 0,
         })),
@@ -131,19 +126,12 @@ function calculateOverallMeanForVariant(samples: VariantSample[]): number {
     );
 }
 
-function calculateBestVariants(variantMeans: BanditVariantData[]): BanditVariantData[] {
-    const variantsSortedByMeanDescending = variantMeans.sort((a, b) => b.mean - a.mean);
-    const highestMean = variantsSortedByMeanDescending[0].mean;
-    return variantMeans.filter((variant) => variant.mean === highestMean);
-}
-
 async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditData> {
     if (test.variantNames.length === 0) {
         // No variants have been added to the test yet
         return {
             testName: test.testName,
-            bestVariants: [],
-            variants: [],
+            sortedVariants: [],
         };
     }
 
@@ -154,12 +142,11 @@ async function buildBanditDataForTest(test: BanditTestConfig): Promise<BanditDat
     }
 
     const variantMeans = calculateMeanPerVariant(samples, test);
-    const bestVariants = calculateBestVariants(variantMeans);
+    const variantsSortedByMeanDescending = variantMeans.sort((a, b) => b.mean - a.mean);
 
     return {
         testName: test.testName,
-        bestVariants,
-        variants: variantMeans,
+        sortedVariants: variantsSortedByMeanDescending,
     };
 }
 
