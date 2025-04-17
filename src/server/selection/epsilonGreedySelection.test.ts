@@ -64,10 +64,8 @@ describe('selectVariantWithHighestMean', () => {
     it('should return the only variant', () => {
         const banditData = {
             testName: 'example-1',
-            sortedVariants: [
-                {variantName: 'v1', mean: 1}
-            ]
-        }
+            sortedVariants: [{ variantName: 'v1', mean: 1 }],
+        };
         expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
     });
 
@@ -75,11 +73,11 @@ describe('selectVariantWithHighestMean', () => {
         const banditData = {
             testName: 'example-1',
             sortedVariants: [
-                {variantName: 'v1', mean: 1},
-                {variantName: 'v2', mean: 0.5},
-                {variantName: 'v3', mean: 0.5},
-            ]
-        }
+                { variantName: 'v1', mean: 1 },
+                { variantName: 'v2', mean: 0.5 },
+                { variantName: 'v3', mean: 0.5 },
+            ],
+        };
         expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
     });
 
@@ -88,11 +86,11 @@ describe('selectVariantWithHighestMean', () => {
         const banditData = {
             testName: 'example-1',
             sortedVariants: [
-                {variantName: 'v1', mean: 1},
-                {variantName: 'v2', mean: 1},
-                {variantName: 'v3', mean: 0.5},
-            ]
-        }
+                { variantName: 'v1', mean: 1 },
+                { variantName: 'v2', mean: 1 },
+                { variantName: 'v3', mean: 0.5 },
+            ],
+        };
         // fix Math.random to always choose v1
         jest.spyOn(global.Math, 'random').mockReturnValue(0.1);
 
@@ -104,11 +102,11 @@ describe('selectVariantWithHighestMean', () => {
         const banditData = {
             testName: 'example-1',
             sortedVariants: [
-                {variantName: 'v1', mean: 1},
-                {variantName: 'v2', mean: 1},
-                {variantName: 'v3', mean: 0.5},
-            ]
-        }
+                { variantName: 'v1', mean: 1 },
+                { variantName: 'v2', mean: 1 },
+                { variantName: 'v3', mean: 0.5 },
+            ],
+        };
         // fix Math.random to always choose v2
         jest.spyOn(global.Math, 'random').mockReturnValue(0.8);
 

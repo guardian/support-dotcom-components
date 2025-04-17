@@ -16,14 +16,12 @@ export function selectVariantWithHighestMean<V extends Variant, T extends Test<V
     const { sortedVariants } = testBanditData;
     // variants array is sorted by mean, use just the best variants
     const bestMean = sortedVariants[0].mean;
-    const bestVariants = sortedVariants.findIndex(variant => variant.mean < bestMean);
+    const bestVariants = sortedVariants.findIndex((variant) => variant.mean < bestMean);
 
     const variant =
         bestVariants < 2
             ? sortedVariants[0]
-            : sortedVariants[
-                  Math.floor(Math.random() * bestVariants)
-              ];
+            : sortedVariants[Math.floor(Math.random() * bestVariants)];
 
     if (!variant) {
         return undefined;

@@ -84,7 +84,7 @@ interface BanditVariantData {
 
 export interface BanditData {
     testName: string;
-    sortedVariants: BanditVariantData[];  // sorted by mean, highest first
+    sortedVariants: BanditVariantData[]; // sorted by mean, highest first
 }
 
 function getDefaultWeighting(test: BanditTestConfig): BanditData {
