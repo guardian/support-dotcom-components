@@ -62,19 +62,18 @@ const epicTest: EpicTest = {
 };
 
 const buildBanditData = (variants: number): BanditData => {
-    const bestVariants = [];
+    const sortedVariants = [];
     for (let i = 0; i < variants; i++) {
         const variantName = `v${i + 1}`;
         const mean = i + 1;
-        bestVariants.push({
+        sortedVariants.push({
             variantName,
             mean,
         });
     }
     return {
         testName: 'example-1',
-        bestVariants,
-        variants: bestVariants,
+        sortedVariants,
     };
 };
 
@@ -134,8 +133,7 @@ describe('roulette', () => {
         }));
         const banditData = {
             testName: 'example-1',
-            bestVariants: variants,
-            variants: variants,
+            sortedVariants: variants,
         };
         const variant = selectVariantUsingRoulette(epicTest, banditData, rand);
         expect(variant).toBeDefined();
@@ -158,8 +156,7 @@ describe('roulette', () => {
         ];
         const banditData = {
             testName: 'example-1',
-            bestVariants: variants,
-            variants: variants,
+            sortedVariants: variants,
         };
 
         /**
@@ -266,13 +263,7 @@ describe('rouletteTest2', () => {
 
     const rouletteBanditData: BanditData = {
         testName: 'example-2',
-        bestVariants: [
-            {
-                variantName: 'v2',
-                mean: 3,
-            },
-        ],
-        variants: [
+        sortedVariants: [
             {
                 variantName: 'v1',
                 mean: 1,

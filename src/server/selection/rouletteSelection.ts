@@ -11,7 +11,7 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
         return selectRandomVariant(test);
     }
 
-    const sumOfMeans = testBanditData.variants.reduce((sum, v) => sum + v.mean, 0);
+    const sumOfMeans = testBanditData.sortedVariants.reduce((sum, v) => sum + v.mean, 0);
 
     if (sumOfMeans <= 0) {
         return selectRandomVariant(test);
@@ -19,7 +19,7 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
 
     const minWeight = 0.1; // Ensure no variant gets less than 10%
     const variantsWithWeights: Array<{ weight: number; variantName: string }> =
-        testBanditData.variants
+        testBanditData.sortedVariants
             .map(({ variantName, mean }) => ({
                 variantName,
                 weight: Math.max(mean / sumOfMeans, minWeight),
