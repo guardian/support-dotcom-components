@@ -1,5 +1,4 @@
 import type { EpicTest } from '../../shared/types';
-import type { BanditData } from './banditData';
 import { selectVariantWithHighestMean } from './epsilonGreedySelection';
 
 const epicTest: EpicTest = {
@@ -61,41 +60,53 @@ const epicTest: EpicTest = {
     hasArticleCountInCopy: true,
 };
 
-const buildBanditData = (variants: number): BanditData => {
-    const bestVariants = [];
-    for (let i = 0; i < variants; i++) {
-        const variantName = `v${i + 1}`;
-        const mean = i + 1;
-        bestVariants.push({
-            variantName,
-            mean,
-        });
-    }
-    return {
-        testName: 'example-1',
-        bestVariants,
-        variants: bestVariants,
-    };
-};
-
 describe('selectVariantWithHighestMean', () => {
-    it('should return the only variant with highest mean', () => {
-        const banditData = buildBanditData(1);
+    it('should return the only variant', () => {
+        const banditData = {
+            testName: 'example-1',
+            sortedVariants: [{ variantName: 'v1', mean: 1 }],
+        };
         expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
     });
 
-    it('should return first of best variants', () => {
+    it('should return the only variant with highest mean', () => {
+        const banditData = {
+            testName: 'example-1',
+            sortedVariants: [
+                { variantName: 'v1', mean: 1 },
+                { variantName: 'v2', mean: 0.5 },
+                { variantName: 'v3', mean: 0.5 },
+            ],
+        };
+        expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
+    });
+
+    it('should return first of tied best variants', () => {
         // v1 and v2 are tied
-        const banditData = buildBanditData(2);
+        const banditData = {
+            testName: 'example-1',
+            sortedVariants: [
+                { variantName: 'v1', mean: 1 },
+                { variantName: 'v2', mean: 1 },
+                { variantName: 'v3', mean: 0.5 },
+            ],
+        };
         // fix Math.random to always choose v1
         jest.spyOn(global.Math, 'random').mockReturnValue(0.1);
 
         expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
     });
 
-    it('should return second of best variants', () => {
+    it('should return second of tied best variants', () => {
         // v1 and v2 are tied
-        const banditData = buildBanditData(2);
+        const banditData = {
+            testName: 'example-1',
+            sortedVariants: [
+                { variantName: 'v1', mean: 1 },
+                { variantName: 'v2', mean: 1 },
+                { variantName: 'v3', mean: 0.5 },
+            ],
+        };
         // fix Math.random to always choose v2
         jest.spyOn(global.Math, 'random').mockReturnValue(0.8);
 
