@@ -1,4 +1,4 @@
-import type { BanditData } from '../server/selection/banditData';
+import type {BanditData, VariantSample} from '../server/selection/banditData';
 import { selectVariantUsingEpsilonGreedy } from '../server/selection/epsilonGreedySelection';
 import { selectVariantUsingRoulette } from '../server/selection/rouletteSelection';
 import type { Test, Variant } from '../shared/types';
@@ -16,6 +16,7 @@ const run = (simulation: Simulation) => {
 
     for (const algorithm of simulation.algorithms) {
         // initialise variant means to 0 at the start of the "test"
+        let samples = [];
         const banditData: BanditData = {
             testName: test.name,
             sortedVariants: test.variants.map(v => ({variantName: v.name, mean: 0})),
@@ -47,7 +48,17 @@ const run = (simulation: Simulation) => {
                 for (const variant of simulation.variantsScenario) {
                     const value = sample(variant, timestep);
                     console.log({name: variant.name, value})
+
+                    // TODO - create a chart
+
                     // TODO - update the mean in banditData
+                    const variantSample: VariantSample = {
+                        variantName: variant.name,
+                        views: variantImpressions[variant.name],
+                        annualisedValueInGBP: value * variantImpressions[variant.name],
+                        annualisedValueInGBPPerView: value,
+                    };
+
                     // TODO - output impressions/revenue
                 }
             }

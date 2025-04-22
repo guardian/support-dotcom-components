@@ -24,7 +24,7 @@ const variantSampleSchema = z.object({
     views: z.number(),
 });
 
-type VariantSample = z.infer<typeof variantSampleSchema>;
+export type VariantSample = z.infer<typeof variantSampleSchema>;
 
 const testSampleSchema = z.object({
     testName: z.string(),
