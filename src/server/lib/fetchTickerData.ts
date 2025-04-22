@@ -81,9 +81,11 @@ export const buildTickerDataReloader = async (stage: Stage): Promise<TickerDataP
     const reloaders: TickerDataProviders = await Promise.all([
         buildReloader(getTickerDataForTickerTypeFetcher(stage, 'US'), 60),
         buildReloader(getTickerDataForTickerTypeFetcher(stage, 'AU'), 60),
-    ]).then(([US, AU]) => ({
+        buildReloader(getTickerDataForTickerTypeFetcher(stage, 'global'), 60),
+    ]).then(([US, AU, global]) => ({
         US,
         AU,
+        global,
     }));
     return new TickerDataProvider(reloaders);
 };

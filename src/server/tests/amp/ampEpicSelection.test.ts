@@ -86,6 +86,7 @@ const expectedAmpEpic: AMPEpic = {
 const tickerDataReloader = new TickerDataProvider({
     US: { get: () => ({ total: 999, goal: 1000 }) },
     AU: { get: () => ({ total: 999, goal: 1000 }) },
+    global: { get: () => ({ total: 999, goal: 1000 }) },
 });
 
 describe('ampEpicTests', () => {

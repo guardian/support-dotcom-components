@@ -84,9 +84,9 @@ export const tickerDataSchema = z.object({
 });
 
 // Corresponds to .json file names in S3
-export type TickerName = 'US' | 'AU';
+export type TickerName = 'US' | 'AU' | 'global';
 
-const ticketNameSchema = z.enum(['US', 'AU']);
+const tickerNameSchema = z.enum(['US', 'AU', 'global']);
 
 export interface TickerSettings {
     endType: TickerEndType;
@@ -102,7 +102,7 @@ export const tickerSettingsSchema = z.object({
     countType: tickerCountTypeSchema,
     currencySymbol: z.string(),
     copy: tickerCopySchema,
-    name: ticketNameSchema,
+    name: tickerNameSchema,
     tickerData: tickerDataSchema.optional(),
 });
 
