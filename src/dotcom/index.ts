@@ -6,7 +6,7 @@ export {
 export * from '../shared/lib/geolocation';
 export * from '../shared/lib/viewLog';
 export * from '../shared/lib/reminderFields';
-export { SecondaryCtaType, TickerCountType, TickerEndType } from '../shared/types/props/shared';
+export { SecondaryCtaType } from '../shared/types/props/shared';
 export { hexColourToString } from '../shared/types/props/design';
 export { contributionTabFrequencies } from '../shared/types/abTests/epic';
 export { headerPropsSchema } from '../shared/types/props/header';

@@ -10,7 +10,7 @@ export interface AMPTicker {
 }
 
 export const ampTicker = (tickerSettings: TickerSettings, tickerData: TickerData): AMPTicker => {
-    const prefix = tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
+    const prefix = tickerSettings.currencySymbol;
     const goalReached = tickerData.total >= tickerData.goal;
     const totalPlusFifteen = tickerData.total + tickerData.total * 0.15;
     const percentage =
@@ -20,12 +20,10 @@ export const ampTicker = (tickerSettings: TickerSettings, tickerData: TickerData
         : undefined;
 
     const topLeft = goalReached
-        ? tickerSettings.copy.goalReachedPrimary || `${prefix}${tickerData.total.toLocaleString()}`
+        ? tickerSettings.copy.countLabel || `${prefix}${tickerData.total.toLocaleString()}`
         : `${prefix}${tickerData.total.toLocaleString()}`;
 
-    const bottomLeft = goalReached
-        ? tickerSettings.copy.goalReachedSecondary || tickerSettings.copy.countLabel
-        : tickerSettings.copy.countLabel;
+    const bottomLeft = tickerSettings.copy.countLabel;
 
     const topRight = goalReached
         ? `${prefix}${tickerData.total.toLocaleString()}`
