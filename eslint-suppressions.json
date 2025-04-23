@@ -196,17 +196,6 @@
       "count": 2
     }
   },
-  "src/server/tests/amp/ampTicker.ts": {
-    "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-enum-comparison": {
-      "count": 1
-    },
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 2
-    }
-  },
   "src/server/tests/banners/bannerDeployTimes.ts": {
     "@typescript-eslint/no-unsafe-argument": {
       "count": 5
