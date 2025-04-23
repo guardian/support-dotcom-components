@@ -45,32 +45,12 @@ export const secondaryCtaSchema = z.discriminatedUnion('type', [
     contributionsReminderSecondaryCtaSchema,
 ]);
 
-export enum TickerEndType {
-    // eslint-disable-next-line @typescript-eslint/naming-convention -- model predates linting rule
-    unlimited = 'unlimited',
-    // eslint-disable-next-line @typescript-eslint/naming-convention -- model predates linting rule
-    hardstop = 'hardstop', // currently unsupported
-}
-
-export const tickerEndTypeSchema = z.nativeEnum(TickerEndType);
-
-export enum TickerCountType {
-    // eslint-disable-next-line @typescript-eslint/naming-convention -- model predates linting rule
-    money = 'money',
-}
-
-export const tickerCountTypeSchema = z.nativeEnum(TickerCountType);
-
 interface TickerCopy {
     countLabel: string;
-    goalReachedPrimary?: string;
-    goalReachedSecondary?: string;
 }
 
 export const tickerCopySchema = z.object({
     countLabel: z.string(),
-    goalReachedPrimary: z.string().optional(),
-    goalReachedSecondary: z.string().optional(),
 });
 
 export interface TickerData {
