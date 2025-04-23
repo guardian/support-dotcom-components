@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 6.2.0
+
+### Minor Changes
+
+-   c86a393: Update tickerSettings
+
 ## 6.1.0
 
 ### Minor Changes
