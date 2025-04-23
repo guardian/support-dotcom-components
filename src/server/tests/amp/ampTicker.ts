@@ -10,7 +10,7 @@ export interface AMPTicker {
 }
 
 export const ampTicker = (tickerSettings: TickerSettings, tickerData: TickerData): AMPTicker => {
-    const prefix = tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
+    const prefix = tickerSettings.currencySymbol;
     const goalReached = tickerData.total >= tickerData.goal;
     const totalPlusFifteen = tickerData.total + tickerData.total * 0.15;
     const percentage =

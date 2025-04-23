@@ -6,8 +6,6 @@ import type { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicSelection';
 
 const tickerSettings: TickerSettings = {
-    endType: TickerEndType.unlimited,
-    countType: TickerCountType.money,
     currencySymbol: '$',
     copy: {
         countLabel: 'contributions',

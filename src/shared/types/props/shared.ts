@@ -89,8 +89,6 @@ export type TickerName = 'US' | 'AU' | 'global';
 const tickerNameSchema = z.enum(['US', 'AU', 'global']);
 
 export interface TickerSettings {
-    endType: TickerEndType;
-    countType: TickerCountType;
     currencySymbol: string;
     copy: TickerCopy;
     name: TickerName;
@@ -98,8 +96,6 @@ export interface TickerSettings {
 }
 
 export const tickerSettingsSchema = z.object({
-    endType: tickerEndTypeSchema,
-    countType: tickerCountTypeSchema,
     currencySymbol: z.string(),
     copy: tickerCopySchema,
     name: tickerNameSchema,
