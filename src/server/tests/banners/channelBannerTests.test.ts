@@ -34,7 +34,7 @@ describe('getDesignForVariant', () => {
         expect(design).toBeDefined();
         expect(design?.visual?.kind).toBe('Image');
         if (design?.visual?.kind === 'Image') {
-            expect(design?.visual?.altText).toBe('Bar Alt');
+            expect(design.visual.altText).toBe('Bar Alt');
         }
     });
 
