@@ -163,6 +163,30 @@ export base_url=${baseUrl.valueAsString}
 mkdir /var/log/dotcom-components
 chown -R dotcom-components:support /var/log/dotcom-components
 
+cat > /opt/aws/amazon-cloudwatch-agent/bin/config.json <<'EOF'
+{
+  "metrics": {
+    "metrics_collected": {
+      "mem": {
+        "measurement": [
+          "mem_available_percent",
+          "mem_available"
+        ],
+        "metrics_collection_interval": 60
+      }
+    },
+    "append_dimensions": {
+      "App": "${appName}",
+      "Stack": "${this.stack}",
+      "Stage": "${this.stage}",
+      "AutoScalingGroupName": "\${aws:AutoScalingGroupName}",
+      "InstanceId": "\${aws:InstanceId}"
+    }
+  }
+}
+EOF
+sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s
+
 /usr/local/node/pm2 start --uid dotcom-components --gid support server.js
 
 /opt/aws-kinesis-agent/configure-aws-kinesis-agent ${this.region} ${
