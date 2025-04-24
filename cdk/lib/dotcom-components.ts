@@ -163,7 +163,6 @@ export base_url=${baseUrl.valueAsString}
 mkdir /var/log/dotcom-components
 chown -R dotcom-components:support /var/log/dotcom-components
 
-instanceid=$(ec2metadata --instance-id)
 cat > cloudwatch_config.json <<__END__
 {
   "metrics": {
@@ -180,13 +179,12 @@ cat > cloudwatch_config.json <<__END__
       "App": "${appName}",
       "Stack": "${this.stack}",
       "Stage": "${this.stage}",
-      "InstanceId": "\$instanceid"
+      "InstanceId": "\${aws:InstanceId}"
     }
   }
 }
 __END__
-amazon-cloudwatch-agent-ctl -a fetch-config -c file:cloudwatch_config.json
-amazon-cloudwatch-agent-ctl -a start
+amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:cloudwatch_config.json -s
 
 /usr/local/node/pm2 start --uid dotcom-components --gid support server.js
 
