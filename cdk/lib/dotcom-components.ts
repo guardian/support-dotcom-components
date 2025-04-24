@@ -9,7 +9,7 @@ import {
 	GuStringParameter,
 } from '@guardian/cdk/lib/constructs/core';
 import {
-    GuAllowPolicy,
+	GuAllowPolicy,
 	GuDynamoDBReadPolicy,
 	GuGetS3ObjectsPolicy,
 	GuPutCloudwatchMetricsPolicy,
@@ -23,7 +23,12 @@ import {
 	Metric,
 	TreatMissingData,
 } from 'aws-cdk-lib/aws-cloudwatch';
-import { InstanceClass, InstanceSize, InstanceType, UserData } from 'aws-cdk-lib/aws-ec2';
+import {
+	InstanceClass,
+	InstanceSize,
+	InstanceType,
+	UserData,
+} from 'aws-cdk-lib/aws-ec2';
 import type { Policy } from 'aws-cdk-lib/aws-iam';
 
 interface DotcomComponentsProps extends GuStackProps {
@@ -202,7 +207,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 					`${this.stage}/configured-amounts-v3.json`,
 					`${this.stage}/guardian-weekly-propensity-test/*`,
 					`PROD/auxia-credentials.json`,
-                ],
+				],
 			}),
 			new GuGetS3ObjectsPolicy(
 				this,
@@ -233,11 +238,11 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 			new GuDynamoDBReadPolicy(this, 'DynamoBanditReadPolicy', {
 				tableName: `support-bandit-${this.stage}`,
 			}),
-            new GuAllowPolicy(this, 'SSMGet', {
-                actions: ['ssm:GetParameter'],
-                resources: ['*'],
-            }),
-        ];
+			new GuAllowPolicy(this, 'SSMGet', {
+				actions: ['ssm:GetParameter'],
+				resources: ['*'],
+			}),
+		];
 
 		const scaling: GuAsgCapacity = {
 			minimumInstances: this.stage === 'CODE' ? 1 : 3,
@@ -276,8 +281,11 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 			scaling,
 		});
 
-        ec2App.autoScalingGroup.scaleOnRequestCount('RequestCountScalingPolicy', {
-            targetRequestsPerMinute: 20000,
-        });
-    }
+		ec2App.autoScalingGroup.scaleOnRequestCount(
+			'RequestCountScalingPolicy',
+			{
+				targetRequestsPerMinute: 20000,
+			},
+		);
+	}
 }
