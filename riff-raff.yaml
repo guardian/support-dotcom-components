@@ -13,7 +13,7 @@ deployments:
             cloudFormationStackByTags: false
             amiParameter: AMIDotcomcomponents
             amiTags:
-                Recipe: jammy-membership-node18
+                Recipe: jammy-membership-node22
                 AmigoStage: PROD
 
     dotcom-components:
