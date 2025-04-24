@@ -1625,8 +1625,11 @@ export base_url=",
 mkdir /var/log/dotcom-components
 chown -R dotcom-components:support /var/log/dotcom-components
 
-cat > cloudwatch_config.json <<__END__
+cat > /opt/aws/amazon-cloudwatch-agent/bin/config.json <<'EOF'
 {
+ "agent": {
+    "run_as_user": "root"
+  },
   "metrics": {
     "metrics_collected": {
       "mem": {
@@ -1638,15 +1641,13 @@ cat > cloudwatch_config.json <<__END__
       }
     },
     "append_dimensions": {
-      "App": "dotcom-components",
-      "Stack": "support",
-      "Stage": "TEST",
+      "AutoScalingGroupName": "\${aws:AutoScalingGroupName}",
       "InstanceId": "\${aws:InstanceId}"
     }
   }
 }
-__END__
-amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:cloudwatch_config.json -s
+EOF
+sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s
 
 /usr/local/node/pm2 start --uid dotcom-components --gid support server.js
 
