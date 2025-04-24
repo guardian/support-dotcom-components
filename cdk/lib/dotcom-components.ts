@@ -165,9 +165,6 @@ chown -R dotcom-components:support /var/log/dotcom-components
 
 cat > /opt/aws/amazon-cloudwatch-agent/bin/config.json <<'EOF'
 {
- "agent": {
-    "run_as_user": "root"
-  },
   "metrics": {
     "metrics_collected": {
       "mem": {
@@ -179,6 +176,9 @@ cat > /opt/aws/amazon-cloudwatch-agent/bin/config.json <<'EOF'
       }
     },
     "append_dimensions": {
+      "App": "${appName}",
+      "Stack": "${this.stack}",
+      "Stage": "${this.stage}",
       "AutoScalingGroupName": "\${aws:AutoScalingGroupName}",
       "InstanceId": "\${aws:InstanceId}"
     }
