@@ -1625,6 +1625,28 @@ export base_url=",
 mkdir /var/log/dotcom-components
 chown -R dotcom-components:support /var/log/dotcom-components
 
+cat > cloudwatch_config.json <<__END__
+{
+  "metrics": {
+    "metrics_collected": {
+      "mem": {
+        "measurement": [
+          "mem_available_percent",
+          "mem_available"
+        ],
+        "metrics_collection_interval": 60
+      }
+    },
+    "append_dimensions": {
+      "InstanceId": "\${aws:InstanceId}",
+      "InstanceType": "\${aws:InstanceType}"
+    }
+  }
+}
+__END__
+amazon-cloudwatch-agent-ctl -a fetch-config -c file:cloudwatch_config.json
+amazon-cloudwatch-agent-ctl -a start
+
 /usr/local/node/pm2 start --uid dotcom-components --gid support server.js
 
 /opt/aws-kinesis-agent/configure-aws-kinesis-agent ",
