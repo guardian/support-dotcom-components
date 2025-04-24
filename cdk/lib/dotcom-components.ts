@@ -177,6 +177,9 @@ cat > cloudwatch_config.json <<__END__
       }
     },
     "append_dimensions": {
+      "App": "${appName}",
+      "Stack": "${this.stack}",
+      "Stage": "${this.stage}",
       "InstanceId": "\$instanceid"
     }
   }

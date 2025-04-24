@@ -1639,6 +1639,9 @@ cat > cloudwatch_config.json <<__END__
       }
     },
     "append_dimensions": {
+      "App": "dotcom-components",
+      "Stack": "support",
+      "Stage": "TEST",
       "InstanceId": "$instanceid"
     }
   }
