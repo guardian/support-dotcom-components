@@ -163,6 +163,7 @@ export base_url=${baseUrl.valueAsString}
 mkdir /var/log/dotcom-components
 chown -R dotcom-components:support /var/log/dotcom-components
 
+instanceid=$(ec2metadata --instance-id)
 cat > cloudwatch_config.json <<__END__
 {
   "metrics": {
@@ -176,8 +177,7 @@ cat > cloudwatch_config.json <<__END__
       }
     },
     "append_dimensions": {
-      "InstanceId": "\${aws:InstanceId}",
-      "InstanceType": "\${aws:InstanceType}"
+      "InstanceId": "\$instanceid"
     }
   }
 }
