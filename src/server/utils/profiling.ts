@@ -30,8 +30,8 @@ export class Profiler {
                     }
                 }
             })
-            .catch(() => {
-                logError('Error getting profiling config from Parameter Store');
+            .catch((error) => {
+                logError(`Error getting profiling config from Parameter Store: ${error}`);
             })
             .finally(() => {
                 setTimeout(() => {
