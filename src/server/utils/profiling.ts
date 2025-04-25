@@ -1,7 +1,7 @@
 import { Session } from 'node:inspector/promises';
 import { Readable } from 'stream';
 import { formatISO } from 'date-fns';
-import { logger } from './logging';
+import { logError, logInfo } from './logging';
 import { streamToS3 } from './S3';
 import { getSsmValue } from './ssm';
 
@@ -31,7 +31,7 @@ export class Profiler {
                 }
             })
             .catch(() => {
-                logger.error('Error getting profiling config from Parameter Store');
+                logError('Error getting profiling config from Parameter Store');
             })
             .finally(() => {
                 setTimeout(() => {
@@ -53,13 +53,13 @@ export class Profiler {
             stream.push(m.params.chunk);
         });
 
-        logger.info('Taking heap snapshot');
+        logInfo('Taking heap snapshot');
         await session.post('HeapProfiler.takeHeapSnapshot');
 
         stream.push(null); // end the stream
         session.disconnect(); // end the profiling session
 
         await upload.promise();
-        logger.info(`Finished uploading heap snapshot to S3 with key: ${key}`);
+        logInfo(`Finished uploading heap snapshot to S3 with key: ${key}`);
     }
 }
