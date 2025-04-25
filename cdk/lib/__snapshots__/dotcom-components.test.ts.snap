@@ -14,6 +14,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
       "GuDistributionBucketParameter",
       "GuGetS3ObjectsPolicy",
       "GuGetS3ObjectsPolicy",
+      "GuPutS3ObjectsPolicy",
       "GuDynamoDBReadPolicy",
       "GuDynamoDBReadPolicy",
       "GuPutCloudwatchMetricsPolicy",
@@ -1212,6 +1213,27 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "parameter-store-read-policy",
+        "Roles": [
+          {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "S3PutPolicyGuReaderRevenuePrivateB7B014BB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:PutObject",
+              "Effect": "Allow",
+              "Resource": "arn:aws:s3:::gu-reader-revenue-private/support-dotcom-components/heapSnapshots/TEST/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "S3PutPolicyGuReaderRevenuePrivateB7B014BB",
         "Roles": [
           {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
