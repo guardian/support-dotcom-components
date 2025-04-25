@@ -175,7 +175,9 @@ cat > /opt/aws/amazon-cloudwatch-agent/bin/config.json <<'EOF'
       "mem": {
         "measurement": [
           "mem_available_percent",
-          "mem_available"
+          "mem_available",
+          "mem_used_percent",
+          "mem_used"
         ],
         "metrics_collection_interval": 60
       }
