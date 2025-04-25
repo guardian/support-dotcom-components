@@ -27,6 +27,7 @@ import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
+import { Profiler } from './utils/profiling';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -137,6 +138,8 @@ const buildApp = async (): Promise<Express> => {
         res.send('OK');
     });
 
+    new Profiler();
+
     return Promise.resolve(app);
 };
 
@@ -147,6 +150,8 @@ buildApp()
         const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
         // keep-alive timeout should match LB idle timeout value, see https://repost.aws/knowledge-center/elb-alb-troubleshoot-502-errors
         server.keepAliveTimeout = 60000;
+
+        // void heapProfile();
     })
     .catch((err) => {
         logError(`Failed to start server: ${String(err)}`);
