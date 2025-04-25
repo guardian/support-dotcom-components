@@ -1,6 +1,7 @@
 import { Session } from 'node:inspector/promises';
 import { Readable } from 'stream';
 import { formatISO } from 'date-fns';
+import { getInstanceId } from './awsMetadata';
 import { logError, logInfo } from './logging';
 import { streamToS3 } from './S3';
 import { getSsmValue } from './ssm';
@@ -44,7 +45,8 @@ export class Profiler {
     async takeHeapSnapshot() {
         const session = new Session();
         const stream = new Readable();
-        const key = `support-dotcom-components/heapSnapshots/${stage}/${formatISO(new Date())}.heapsnapshot`;
+        const instanceId = await getInstanceId();
+        const key = `support-dotcom-components/heapSnapshots/${stage}/${instanceId}-${formatISO(new Date())}.heapsnapshot`;
 
         const upload = streamToS3(bucket, key, stream);
 
