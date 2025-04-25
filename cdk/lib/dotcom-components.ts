@@ -180,6 +180,7 @@ cat > /opt/aws/amazon-cloudwatch-agent/bin/config.json <<'EOF'
         "metrics_collection_interval": 60
       }
     },
+    "aggregation_dimensions" : [["AutoScalingGroupName"]],
     "append_dimensions": {
       "App": "${appName}",
       "Stack": "${this.stack}",
