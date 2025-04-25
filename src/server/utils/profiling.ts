@@ -26,7 +26,7 @@ export class Profiler {
                 if (ssmValue) {
                     const config = JSON.parse(ssmValue) as ProfilerConfig;
                     if (config.enableHeapProfiling) {
-                        return this.takeHeapProfile();
+                        return this.takeHeapSnapshot();
                     }
                 }
             })
@@ -41,7 +41,7 @@ export class Profiler {
     }
 
     // Takes a heap snapshot and streams the result to S3
-    async takeHeapProfile() {
+    async takeHeapSnapshot() {
         const session = new Session();
         const stream = new Readable();
         const key = `support-dotcom-components/heapSnapshots/${stage}/${formatISO(new Date())}.heapsnapshot`;
