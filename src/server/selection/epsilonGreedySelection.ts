@@ -18,10 +18,15 @@ export function selectVariantWithHighestMean<V extends Variant, T extends Test<V
     const bestMean = sortedVariants[0].mean;
     const bestVariants = sortedVariants.findIndex((variant) => variant.mean < bestMean);
 
+    if (bestVariants === -1) {
+        // all variants are tied
+        return selectRandomVariant(test);
+    }
+
     const variant =
         bestVariants < 2
             ? sortedVariants[0]
-            : sortedVariants[Math.floor(Math.random() * bestVariants)];
+            : sortedVariants[Math.floor(Math.random() * bestVariants)]; // more than 1
 
     if (!variant) {
         return undefined;

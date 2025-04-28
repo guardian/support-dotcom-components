@@ -66,7 +66,11 @@ describe('selectVariantWithHighestMean', () => {
             testName: 'example-1',
             sortedVariants: [{ variantName: 'v1', mean: 1 }],
         };
-        expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
+        const testWithOneVariant = {
+            ...epicTest,
+            variants: [epicTest.variants[0]],
+        };
+        expect(selectVariantWithHighestMean(banditData, testWithOneVariant)?.name).toEqual('v1');
     });
 
     it('should return the only variant with highest mean', () => {
@@ -81,7 +85,7 @@ describe('selectVariantWithHighestMean', () => {
         expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
     });
 
-    it('should return first of tied best variants', () => {
+    it('should randomly pick from tied best variants when not all variants are tied', () => {
         // v1 and v2 are tied
         const banditData = {
             testName: 'example-1',
@@ -93,23 +97,33 @@ describe('selectVariantWithHighestMean', () => {
         };
         // fix Math.random to always choose v1
         jest.spyOn(global.Math, 'random').mockReturnValue(0.1);
-
         expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
+
+        // fix Math.random to always choose v2
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.8);
+        expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v2');
     });
 
-    it('should return second of tied best variants', () => {
-        // v1 and v2 are tied
+    it('should randomly pick from tied best variants when all variants are tied', () => {
+        // all variants are tied
         const banditData = {
             testName: 'example-1',
             sortedVariants: [
-                { variantName: 'v1', mean: 1 },
-                { variantName: 'v2', mean: 1 },
-                { variantName: 'v3', mean: 0.5 },
+                { variantName: 'v1', mean: 0 },
+                { variantName: 'v2', mean: 0 },
+                { variantName: 'v3', mean: 0 },
             ],
         };
-        // fix Math.random to always choose v2
-        jest.spyOn(global.Math, 'random').mockReturnValue(0.8);
+        // fix Math.random to always choose v1
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.1);
+        expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v1');
 
+        // fix Math.random to always choose v2
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
         expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v2');
+
+        // fix Math.random to always choose v3
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.8);
+        expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v3');
     });
 });
