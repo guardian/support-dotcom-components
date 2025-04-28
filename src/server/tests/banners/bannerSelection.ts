@@ -140,7 +140,7 @@ const DESIGNABLE_BANNER_V2_TEMPLATE_NAME = 'DesignableBannerV2';
 
 const getModuleNameForVariant = (variant: BannerVariant): string => {
     if (uiIsDesign(variant.template)) {
-        return variant.name === 'BANNER_V2'
+        return variant.name.includes('BANNER_V2')
             ? DESIGNABLE_BANNER_V2_TEMPLATE_NAME
             : DESIGNABLE_BANNER_TEMPLATE_NAME;
     } else {
