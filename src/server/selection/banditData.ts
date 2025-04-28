@@ -118,7 +118,7 @@ function calculateMeanPerVariant(
     });
 }
 
-function calculateOverallMeanForVariant(samples: VariantSample[]): number {
+export function calculateOverallMeanForVariant(samples: VariantSample[]): number {
     const population = samples.reduce((acc, sample) => acc + sample.views, 0);
     return samples.reduce(
         (acc, sample) => acc + (sample.views / population) * sample.annualisedValueInGBPPerView,
