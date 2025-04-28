@@ -1,4 +1,9 @@
-import type {BanditData, VariantSample} from '../server/selection/banditData';
+import {
+    BanditData,
+    calculateMeanPerVariant,
+    calculateOverallMeanForVariant,
+    VariantSample
+} from '../server/selection/banditData';
 import { selectVariantUsingEpsilonGreedy } from '../server/selection/epsilonGreedySelection';
 import { selectVariantUsingRoulette } from '../server/selection/rouletteSelection';
 import type { Test, Variant } from '../shared/types';
@@ -16,13 +21,27 @@ const run = (simulation: Simulation) => {
 
     for (const algorithm of simulation.algorithms) {
         // initialise variant means to 0 at the start of the "test"
-        let samples = [];
-        const banditData: BanditData = {
-            testName: test.name,
-            sortedVariants: test.variants.map(v => ({variantName: v.name, mean: 0})),
-        };
+        const samples: Record<string, VariantSample[]> = {};
+        for (const variant of simulation.variantsScenario) {
+            samples[variant.name] = [];
+        }
+
         for (let run = 0; run < simulation.runs; run++) {
             for (let timestep = 0; timestep < simulation.timesteps; timestep++) {
+                // Calculate the means for each variant using all of the samples so far
+                const banditData: BanditData = {
+                    testName: test.name,
+                    sortedVariants: [],
+                };
+                for (const variant of test.variants) {
+                    const mean = calculateOverallMeanForVariant(samples[variant.name]);
+                    banditData.sortedVariants.push({
+                        variantName: variant.name,
+                        mean,
+                    });
+                }
+                banditData.sortedVariants = banditData.sortedVariants.sort((a, b) => b.mean - a.mean);
+
                 // initialise impression counts for each variant to 0
                 const variantImpressions: Record<string,number> = test.variants.reduce((acc, v) => (
                     {
@@ -49,17 +68,19 @@ const run = (simulation: Simulation) => {
                     const value = sample(variant, timestep);
                     console.log({name: variant.name, value})
 
-                    // TODO - create a chart
-
-                    // TODO - update the mean in banditData
                     const variantSample: VariantSample = {
                         variantName: variant.name,
                         views: variantImpressions[variant.name],
                         annualisedValueInGBP: value * variantImpressions[variant.name],
                         annualisedValueInGBPPerView: value,
                     };
+                    samples[variant.name].push(variantSample);
 
-                    // TODO - output impressions/revenue
+                    // TODO - output to file?
+                    console.log({
+                        timestep,
+                        ...variantSample,
+                    });
                 }
             }
         }
