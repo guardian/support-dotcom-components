@@ -1,6 +1,5 @@
 import {
     BanditData,
-    calculateMeanPerVariant,
     calculateOverallMeanForVariant,
     VariantSample
 } from '../server/selection/banditData';
@@ -103,12 +102,12 @@ run({
     variantsScenario: [
         {
             name: 'v1',
-            mean: (timestep) => 1 * timestep,
+            mean: (timestep) => 5 * timestep,
             standardDeviation: (timestep) => 0.1,
         },
         {
             name: 'v2',
-            mean: (timestep) => 2 * timestep,
+            mean: (timestep) => 8 * timestep,
             standardDeviation: (timestep) => 0.1,
         },
     ],
