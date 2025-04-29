@@ -234,3 +234,21 @@ export const buildLogTreatmentInteractionRequestPayload = (
         actionName,
     };
 };
+
+export const articleIdentifierIsAllowed = (articleIdentifier: string): boolean => {
+    // This function was introduced to handle the specific request of not showing a gate for
+    // this url: https://www.theguardian.com/tips
+    // articleIdentifier are given to the end point under the following format:
+    // - 'www.theguardian.com/money/2017/mar/10/ministers-to-criminalise-use-of-ticket-tout-harvesting-software'
+    // - 'www.theguardian.com/tips'
+
+    // For the moment we are only going to check for that one string, we will refactor
+    // if more come in in the future
+
+    const denyPrefixes = [
+        'www.theguardian.com/tips',
+        'www.theguardian.com/help/ng-interactive/2017/mar/17/contact-the-guardian-securely',
+    ];
+
+    return !denyPrefixes.some((denyIdentifer) => articleIdentifier.startsWith(denyIdentifer));
+};
