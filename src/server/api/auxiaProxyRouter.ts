@@ -2,8 +2,9 @@ import type express from 'express';
 import { Router } from 'express';
 import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
-import type { AuxiaAPIGetTreatmentsResponseData } from '../signin-gate/lib';
+import type { AuxiaAPIGetTreatmentsResponseData, AuxiaAPIUserTreatment } from '../signin-gate/lib';
 import {
+    articleIdentifierIsAllowed,
     buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
     buildLogTreatmentInteractionRequestPayload,
@@ -59,7 +60,8 @@ const callGetTreatments = async (
     if (
         !isValidContentType(contentType) ||
         !isValidSection(sectionId) ||
-        !isValidTagIdCollection(tagIds)
+        !isValidTagIdCollection(tagIds) ||
+        !articleIdentifierIsAllowed(articleIdentifier)
     ) {
         return Promise.resolve(undefined);
     }
@@ -102,7 +104,9 @@ const callGetTreatments = async (
 
     try {
         const response = await fetch(url, params);
-        const responseBody = await response.json();
+        const responseBody = (await response.json()) as {
+            userTreatments: AuxiaAPIUserTreatment[] | undefined;
+        };
 
         // nb: In some circumstances, for instance if the payload although having the right
         // schema, is going to fail Auxia's validation then the response body may not contain
@@ -187,19 +191,36 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
+                const body = req.body as {
+                    browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
+                    isSupporter: boolean;
+                    dailyArticleCount: number; // [1]
+                    articleIdentifier: string;
+                    editionId: string;
+                    contentType: string;
+                    sectionId: string;
+                    tagIds: string[];
+                    gateDismissCount: number;
+                    countryCode: string;
+                };
+
+                // [1] articleIdentifier examples:
+                //  - 'www.theguardian.com/money/2017/mar/10/ministers-to-criminalise-use-of-ticket-tout-harvesting-software'
+                //  - 'www.theguardian.com/tips'
+
                 const auxiaData = await callGetTreatments(
                     config.apiKey,
                     config.projectId,
-                    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
-                    req.body.isSupporter,
-                    req.body.dailyArticleCount,
-                    req.body.articleIdentifier,
-                    req.body.editionId,
-                    req.body.contentType,
-                    req.body.sectionId,
-                    req.body.tagIds,
-                    req.body.gateDismissCount,
-                    req.body.countryCode,
+                    body.browserId,
+                    body.isSupporter,
+                    body.dailyArticleCount,
+                    body.articleIdentifier,
+                    body.editionId,
+                    body.contentType,
+                    body.sectionId,
+                    body.tagIds,
+                    body.gateDismissCount,
+                    body.countryCode,
                 );
 
                 if (auxiaData !== undefined) {
@@ -228,20 +249,29 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
+                const body = req.body as {
+                    browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
+                    treatmentTrackingId: string;
+                    treatmentId: string;
+                    surface: string;
+                    interactionType: string;
+                    interactionTimeMicros: number;
+                    actionName: string;
+                };
                 await callLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
-                    req.body.browserId, // optional field, will not be sent by the client is user has not consented to personal data use.
-                    req.body.treatmentTrackingId,
-                    req.body.treatmentId,
-                    req.body.surface,
-                    req.body.interactionType,
-                    req.body.interactionTimeMicros,
-                    req.body.actionName,
+                    body.browserId,
+                    body.treatmentTrackingId,
+                    body.treatmentId,
+                    body.surface,
+                    body.interactionType,
+                    body.interactionTimeMicros,
+                    body.actionName,
                 );
-                res.locals.auxiaTreatmentId = req.body.treatmentId;
-                res.locals.auxiaTreatmentTrackingId = req.body.treatmentTrackingId;
-                res.locals.auxiaInteractionType = req.body.interactionType;
+                res.locals.auxiaTreatmentId = body.treatmentId;
+                res.locals.auxiaTreatmentTrackingId = body.treatmentTrackingId;
+                res.locals.auxiaInteractionType = body.interactionType;
                 res.send({ status: true }); // this is the proxy's response, slightly more user's friendly than the api's response.
             } catch (error) {
                 next(error);
