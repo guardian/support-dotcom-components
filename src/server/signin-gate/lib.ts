@@ -245,7 +245,10 @@ export const articleIdentifierIsAllowed = (articleIdentifier: string): boolean =
     // For the moment we are only going to check for that one string, we will refactor
     // if more come in in the future
 
-    const denyPrefixes = ['www.theguardian.com/tips'];
+    const denyPrefixes = [
+        'www.theguardian.com/tips',
+        'www.theguardian.com/help/ng-interactive/2017/mar/17/contact-the-guardian-securely',
+    ];
 
     return !denyPrefixes.some((denyIdentifer) => articleIdentifier.startsWith(denyIdentifer));
 };
