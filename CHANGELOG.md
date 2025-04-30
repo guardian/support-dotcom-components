@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 6.3.0
+
+### Minor Changes
+
+-   2d0a92f: Changes to make goal copy configurable
+
 ## 6.2.0
 
 ### Minor Changes
