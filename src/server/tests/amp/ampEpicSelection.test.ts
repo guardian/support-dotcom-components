@@ -8,7 +8,6 @@ const tickerSettings: TickerSettings = {
     currencySymbol: '$',
     copy: {
         countLabel: 'contributions',
-        goalCopy: 'goal',
     },
     name: 'US',
 };

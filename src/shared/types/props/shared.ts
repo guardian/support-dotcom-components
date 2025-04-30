@@ -47,12 +47,12 @@ export const secondaryCtaSchema = z.discriminatedUnion('type', [
 
 interface TickerCopy {
     countLabel: string;
-    goalCopy: string;
+    goalCopy?: string;
 }
 
 export const tickerCopySchema = z.object({
     countLabel: z.string(),
-    goalCopy: z.string(),
+    goalCopy: z.string().optional(),
 });
 
 export interface TickerData {
