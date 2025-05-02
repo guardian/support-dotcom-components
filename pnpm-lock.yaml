@@ -9,8 +9,8 @@ dependencies:
     specifier: 22.0.1
     version: 22.0.1(tslib@2.8.0)(typescript@5.5.4)
   '@guardian/ophan-tracker-js':
-    specifier: 2.2.9
-    version: 2.2.9
+    specifier: 2.2.10
+    version: 2.2.10
   aws-sdk:
     specifier: ^2.862.0
     version: 2.1691.0
@@ -988,8 +988,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /@guardian/ophan-tracker-js@2.2.9:
-    resolution: {integrity: sha512-P7rmc1RnRq8zKe9rpjsiGKBzlopcVz7XM/1gYOlsIfPudYTYL2F7YgY9lIU1sitUNWAMmqw4+oY5mO9WXBYi4Q==}
+  /@guardian/ophan-tracker-js@2.2.10:
+    resolution: {integrity: sha512-WqE5bPagZ7AYUc2Fb0xDgNfhmdS9wK1IJcUjTD6CrlPim67SiRragw4fy+CP2OwShkfiWFmb9l/TgQLbuvUlIQ==}
     engines: {node: '>=16'}
     dependencies:
       '@guardian/tsconfig': 1.0.0
