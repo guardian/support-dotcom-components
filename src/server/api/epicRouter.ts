@@ -142,7 +142,8 @@ export const buildEpicRouter = (
 
         const choiceCardsSettings =
             variant.showChoiceCards && isVatCompliantCountry
-                ? getChoiceCardsSettings(requiredRegion, 'Epic', productCatalog.get())
+                ? (variant.choiceCardsSettings ??
+                  getChoiceCardsSettings(requiredRegion, 'Epic', productCatalog.get()))
                 : undefined;
 
         const propsVariant: EpicVariant = {
