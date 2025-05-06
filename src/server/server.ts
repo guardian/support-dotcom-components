@@ -17,6 +17,7 @@ import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
+import { buildProductCatalogReloader } from './productCatalog';
 import { buildProductPricesReloader } from './productPrices';
 import { buildBanditDataReloader } from './selection/banditData';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
@@ -27,7 +28,6 @@ import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
-import { buildProductCatalogReloader } from './productCatalog';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -106,7 +106,6 @@ const buildApp = async (): Promise<Express> => {
             superModeArticles,
             articleEpicTests,
             liveblogEpicTests,
-            choiceCardAmounts,
             tickerData,
             banditData,
             productCatalog,

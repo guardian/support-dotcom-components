@@ -568,7 +568,7 @@ export const isoCurrencyToCurrencySymbol: Record<IsoCurrency, string> = {
     EUR: '€',
     NZD: 'NZ$',
     CAD: 'CA$',
-}
+};
 
 export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupId => {
     const availableCountryGroupIds = Object.keys(countryGroups) as CountryGroupId[];

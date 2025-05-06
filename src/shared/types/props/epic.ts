@@ -89,10 +89,10 @@ export const variantSchema = z.object({
     maxViews: maxViewsSchema.optional(),
     showSignInLink: z.boolean().optional(),
     bylineWithImage: bylineWithImageSchema.optional(),
-    showChoiceCards: z.boolean().optional(), // deprecated, use choiceCardsSettings
+    showChoiceCards: z.boolean().optional(),
+    choiceCardsSettings: choiceCardsSettings.nullish(),
     choiceCardAmounts: selectedAmountsVariantSchema.optional(), // deprecated, use choiceCardsSettings
     defaultChoiceCardFrequency: contributionFrequencySchema.optional(), // deprecated, use choiceCardsSettings
-    choiceCardsSettings: choiceCardsSettings.nullish(),
 });
 
 export const epicPropsSchema = z.object({

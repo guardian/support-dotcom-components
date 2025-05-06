@@ -2,7 +2,6 @@ import type express from 'express';
 import { Router } from 'express';
 import { countryCodeToCountryGroupId, getReminderFields } from '../../shared/lib';
 import type {
-    AmountsTests,
     EpicProps,
     EpicTargeting,
     EpicTest,
@@ -14,6 +13,7 @@ import type {
 } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
+import { getChoiceCardsSettings } from '../lib/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -22,14 +22,12 @@ import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { SuperModeArticle } from '../lib/superMode';
 import { buildEpicCampaignCode } from '../lib/tracking';
-import { selectAmountsTestVariant } from '../selection/ab';
+import type { ProductCatalog } from '../productCatalog';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
-import { getChoiceCardsSettings } from '../lib/choiceCards';
-import { ProductCatalog } from '../productCatalog';
 
 interface EpicDataResponse {
     data?: {
@@ -51,7 +49,6 @@ export const buildEpicRouter = (
     superModeArticles: ValueProvider<SuperModeArticle[]>,
     articleEpicTests: ValueProvider<EpicTest[]>,
     liveblogEpicTests: ValueProvider<EpicTest[]>,
-    choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
@@ -123,26 +120,17 @@ export const buildEpicRouter = (
         const showReminderFields =
             variant.showReminderFields ?? getReminderFields(targeting.countryCode);
 
-        const contributionAmounts = choiceCardAmounts.get();
         const requiredCountry = targeting.countryCode ?? 'GB';
         const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
-        const variantAmounts = selectAmountsTestVariant(
-            contributionAmounts,
-            requiredCountry,
-            requiredRegion,
-            targetingMvtId,
-        );
 
-        const choiceCardsSettings =
-            variant.showChoiceCards ?
-                getChoiceCardsSettings(requiredRegion, 'Epic', productCatalog.get()) :
-                undefined;
+        const choiceCardsSettings = variant.showChoiceCards
+            ? getChoiceCardsSettings(requiredRegion, 'Epic', productCatalog.get())
+            : undefined;
 
         const propsVariant: EpicVariant = {
             ...variant,
             tickerSettings,
             showReminderFields,
-            choiceCardAmounts: variantAmounts,
             choiceCardsSettings,
         };
 

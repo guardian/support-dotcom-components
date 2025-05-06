@@ -19,15 +19,17 @@ type ProductName = 'Contribution' | 'SupporterPlus';
 export type ProductCatalog = Record<ProductName, Product>;
 
 const fetchProductCatalog = (): Promise<ProductCatalog> => {
-    const domain = isProd ? 'https://product-catalog.guardianapis.com' : 'https://product-catalog.code.dev-guardianapis.com'
+    const domain = isProd
+        ? 'https://product-catalog.guardianapis.com'
+        : 'https://product-catalog.code.dev-guardianapis.com';
     return fetch(`${domain}/product-catalog.json`)
-        .then(response => response.json())
-        .then(data => data as ProductCatalog)
+        .then((response) => response.json())
+        .then((data) => data as ProductCatalog)
         .catch((error: Error) => {
             logError(`Failed to fetch product catalog: ${error.message}`);
             return Promise.reject(error);
         });
-}
+};
 
 const buildProductCatalogReloader = (): Promise<ValueReloader<ProductCatalog>> =>
     buildReloader(fetchProductCatalog, 60);
