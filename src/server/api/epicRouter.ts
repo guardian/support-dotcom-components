@@ -2,6 +2,7 @@ import type express from 'express';
 import { Router } from 'express';
 import { countryCodeToCountryGroupId, getReminderFields } from '../../shared/lib';
 import type {
+    AmountsTests,
     EpicProps,
     EpicTargeting,
     EpicTest,
@@ -23,6 +24,7 @@ import { getQueryParams } from '../lib/params';
 import type { SuperModeArticle } from '../lib/superMode';
 import { buildEpicCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
+import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
@@ -49,6 +51,7 @@ export const buildEpicRouter = (
     superModeArticles: ValueProvider<SuperModeArticle[]>,
     articleEpicTests: ValueProvider<EpicTest[]>,
     liveblogEpicTests: ValueProvider<EpicTest[]>,
+    choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
@@ -120,12 +123,27 @@ export const buildEpicRouter = (
         const showReminderFields =
             variant.showReminderFields ?? getReminderFields(targeting.countryCode);
 
+        /**
+         * We assign the user to an amounts test even though this is not used for the newer choice cards.
+         * This is because we also use the special VAT_COMPLIANCE amounts test to disable choice cards
+         * if a user is in a non-VAT compliant country.
+         * In future we should migrate to a better way of configuring this.
+         */
+        const contributionAmounts = choiceCardAmounts.get();
         const requiredCountry = targeting.countryCode ?? 'GB';
         const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
+        const variantAmounts = selectAmountsTestVariant(
+            contributionAmounts,
+            requiredCountry,
+            requiredRegion,
+            targetingMvtId,
+        );
+        const isVatCompliantCountry = variantAmounts?.testName !== 'VAT_COMPLIANCE';
 
-        const choiceCardsSettings = variant.showChoiceCards
-            ? getChoiceCardsSettings(requiredRegion, 'Epic', productCatalog.get())
-            : undefined;
+        const choiceCardsSettings =
+            variant.showChoiceCards && isVatCompliantCountry
+                ? getChoiceCardsSettings(requiredRegion, 'Epic', productCatalog.get())
+                : undefined;
 
         const propsVariant: EpicVariant = {
             ...variant,

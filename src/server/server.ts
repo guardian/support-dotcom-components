@@ -106,6 +106,7 @@ const buildApp = async (): Promise<Express> => {
             superModeArticles,
             articleEpicTests,
             liveblogEpicTests,
+            choiceCardAmounts,
             tickerData,
             banditData,
             productCatalog,
