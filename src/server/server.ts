@@ -27,6 +27,7 @@ import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
+import { buildProductCatalogReloader } from './productCatalog';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -76,6 +77,7 @@ const buildApp = async (): Promise<Express> => {
         headerTests,
         bannerDesigns,
         gutterLiveblogTests,
+        productCatalog,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -90,6 +92,7 @@ const buildApp = async (): Promise<Express> => {
         buildHeaderTestsReloader(),
         buildBannerDesignsReloader(),
         buildGutterLiveblogTestsReloader(),
+        buildProductCatalogReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -106,6 +109,7 @@ const buildApp = async (): Promise<Express> => {
             choiceCardAmounts,
             tickerData,
             banditData,
+            productCatalog,
         ),
     );
     app.use(

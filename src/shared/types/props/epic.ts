@@ -1,6 +1,7 @@
 import type { OphanComponentEvent } from '@guardian/libs';
 import { z } from 'zod';
 import type { EpicVariant } from '../abTests';
+import { choiceCardsSettings } from './choiceCards';
 import type { ArticleCounts, Stage, Tracking } from './shared';
 import {
     articleCountsSchema,
@@ -88,9 +89,10 @@ export const variantSchema = z.object({
     maxViews: maxViewsSchema.optional(),
     showSignInLink: z.boolean().optional(),
     bylineWithImage: bylineWithImageSchema.optional(),
-    showChoiceCards: z.boolean().optional(),
-    choiceCardAmounts: selectedAmountsVariantSchema.optional(),
-    defaultChoiceCardFrequency: contributionFrequencySchema.optional(),
+    showChoiceCards: z.boolean().optional(), // deprecated, use choiceCardsSettings
+    choiceCardAmounts: selectedAmountsVariantSchema.optional(), // deprecated, use choiceCardsSettings
+    defaultChoiceCardFrequency: contributionFrequencySchema.optional(), // deprecated, use choiceCardsSettings
+    choiceCardsSettings: choiceCardsSettings.nullish(),
 });
 
 export const epicPropsSchema = z.object({

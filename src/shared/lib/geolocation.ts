@@ -24,9 +24,9 @@ export const targetedRegionsSchema = z
 // Used to internationalise 'Support the Guardian' links
 export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA';
 
-type IsoCurrency = 'GBP' | 'USD' | 'AUD' | 'EUR' | 'NZD' | 'CAD';
+export type IsoCurrency = 'GBP' | 'USD' | 'AUD' | 'EUR' | 'NZD' | 'CAD';
 
-type CountryGroup = {
+export type CountryGroup = {
     name: string;
     currency: IsoCurrency;
     countries: string[];
@@ -35,7 +35,7 @@ type CountryGroup = {
 
 type CountryGroups = Record<CountryGroupId, CountryGroup>;
 
-const countryGroups: CountryGroups = {
+export const countryGroups: CountryGroups = {
     GBPCountries: {
         name: 'United Kingdom',
         currency: 'GBP',
@@ -560,6 +560,15 @@ const extendedCurrencySymbol = {
     NZDCountries: 'NZ$',
     International: '$',
 };
+
+export const isoCurrencyToCurrencySymbol: Record<IsoCurrency, string> = {
+    GBP: '£',
+    USD: '$',
+    AUD: '$',
+    EUR: '€',
+    NZD: 'NZ$',
+    CAD: 'CA$',
+}
 
 export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupId => {
     const availableCountryGroupIds = Object.keys(countryGroups) as CountryGroupId[];

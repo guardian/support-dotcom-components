@@ -28,6 +28,8 @@ import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
+import { getChoiceCardsSettings } from '../lib/choiceCards';
+import { ProductCatalog } from '../productCatalog';
 
 interface EpicDataResponse {
     data?: {
@@ -52,6 +54,7 @@ export const buildEpicRouter = (
     choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
+    productCatalog: ValueProvider<ProductCatalog>,
 ): Router => {
     const router = Router();
 
@@ -130,11 +133,17 @@ export const buildEpicRouter = (
             targetingMvtId,
         );
 
-        const propsVariant = {
+        const choiceCardsSettings =
+            variant.showChoiceCards ?
+                getChoiceCardsSettings(requiredRegion, 'Epic', productCatalog.get()) :
+                undefined;
+
+        const propsVariant: EpicVariant = {
             ...variant,
             tickerSettings,
             showReminderFields,
             choiceCardAmounts: variantAmounts,
+            choiceCardsSettings,
         };
 
         const testTracking: TestTracking = {
