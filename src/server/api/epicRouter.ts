@@ -13,9 +13,11 @@ import type {
     WeeklyArticleLog,
 } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
+import type { BrazeEpicTest } from '../braze/brazeEpic';
+import { brazeEpicSchema, transformBrazeEpic } from '../braze/brazeEpic';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
-import { baseUrl } from '../lib/env';
+import { baseUrl, isProd } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { Params } from '../lib/params';
@@ -26,7 +28,8 @@ import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
-import { logWarn } from '../utils/logging';
+import { logInfo, logWarn } from '../utils/logging';
+import { getSsmValue } from '../utils/ssm';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
@@ -44,7 +47,7 @@ interface EpicDataResponse {
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [];
 
-export const buildEpicRouter = (
+export const buildEpicRouter = async (
     channelSwitches: ValueProvider<ChannelSwitches>,
     superModeArticles: ValueProvider<SuperModeArticle[]>,
     articleEpicTests: ValueProvider<EpicTest[]>,
@@ -54,6 +57,9 @@ export const buildEpicRouter = (
     banditData: ValueProvider<BanditData[]>,
 ): Router => {
     const router = Router();
+
+    const stage = isProd ? 'PROD' : 'CODE';
+    const brazeApiKey = await getSsmValue(stage, 'braze-api-key');
 
     const getArticleEpicTests = (
         mvtId: number,
@@ -225,6 +231,34 @@ export const buildEpicRouter = (
             }
         },
     );
+
+    router.post('/braze/epic', (req: express.Request, res: express.Response) => {
+        // No need for CORS here, this endpoint is requested server-to-server
+        res.removeHeader('Access-Control-Allow-Origin');
+
+        if (req.header('X-Api-Key') !== brazeApiKey) {
+            res.status(401);
+            res.send();
+            return;
+        }
+
+        const parseResult = brazeEpicSchema.safeParse(req.body);
+
+        if (!parseResult.success) {
+            res.status(400);
+            res.send(parseResult.error);
+            return;
+        }
+
+        const liveblogEpic = parseResult.data;
+        const message: BrazeEpicTest = transformBrazeEpic(liveblogEpic);
+
+        // await addBrazeEpicTest(liveblogEpic.brazeUUID, message);
+        logInfo(JSON.stringify(message));
+
+        res.status(201);
+        res.send();
+    });
 
     return router;
 };
