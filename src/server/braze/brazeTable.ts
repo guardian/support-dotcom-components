@@ -19,8 +19,8 @@ export const fetchBrazeEpicTests = async (brazeUUID: string): Promise<BrazeEpicT
             },
         })
         .promise()
-        .then(result => result.Items ?? [])
-        .catch(error => {
+        .then((result) => result.Items ?? [])
+        .catch((error) => {
             logError(`Error fetching braze epic tests from dynamo: ${error}`);
             return [];
         });

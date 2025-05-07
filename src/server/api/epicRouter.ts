@@ -15,6 +15,7 @@ import type {
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { BrazeEpicTest } from '../braze/brazeEpic';
 import { brazeEpicSchema, transformBrazeEpic } from '../braze/brazeEpic';
+import { addBrazeEpicTest } from '../braze/brazeTable';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
@@ -30,7 +31,6 @@ import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { logInfo, logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
-import { addBrazeEpicTest } from '../braze/brazeTable';
 
 interface EpicDataResponse {
     data?: {

@@ -17,6 +17,7 @@ import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
+import { brazeMessagesMiddleware } from './middleware/brazeMessagesMiddleware';
 import { buildProductPricesReloader } from './productPrices';
 import { buildBanditDataReloader } from './selection/banditData';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
@@ -28,7 +29,6 @@ import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
 import { getSsmValue } from './utils/ssm';
-import { brazeMessagesMiddleware } from './middleware/brazeMessagesMiddleware';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
