@@ -99,7 +99,8 @@ const buildApp = async (): Promise<Express> => {
 
     const auxiaConfig = await getAuxiaRouterConfig();
 
-    const brazeApiKey = (await getSsmValue(stage, 'braze-api-key')) ?? '';
+    const brazeWebhookApiKey = (await getSsmValue(stage, 'braze-webhook-api-key')) ?? '';
+    const brazeCustomEventApiKey = (await getSsmValue(stage, 'braze-custom-event-api-key')) ?? '';
 
     // Build the routers
     app.use(
@@ -111,7 +112,8 @@ const buildApp = async (): Promise<Express> => {
             choiceCardAmounts,
             tickerData,
             banditData,
-            brazeApiKey,
+            brazeWebhookApiKey,
+            brazeCustomEventApiKey,
         ),
     );
     app.use(

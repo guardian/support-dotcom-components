@@ -55,7 +55,8 @@ export const buildEpicRouter = (
     choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
-    brazeApiKey: string,
+    brazeWebhookApiKey: string,
+    brazeCustomEventApiKey: string,
 ): Router => {
     const router = Router();
 
@@ -117,7 +118,7 @@ export const buildEpicRouter = (
                 componentType: 'ACQUISITIONS_EPIC',
                 products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
                 // @ts-expect-error -- TODO
-                brazeMessageIdentifier: brazeTest.testName,
+                brazeMessageIdentifier: `${brazeTest.testName}:${brazeTest.variantName}`,
             };
 
             const props: EpicProps = {
@@ -289,7 +290,7 @@ export const buildEpicRouter = (
         // No need for CORS here, this endpoint is requested server-to-server
         res.removeHeader('Access-Control-Allow-Origin');
 
-        if (req.header('X-Api-Key') !== brazeApiKey) {
+        if (req.header('X-Api-Key') !== brazeWebhookApiKey) {
             res.status(401);
             res.send();
             return;
@@ -318,7 +319,26 @@ export const buildEpicRouter = (
         const { brazeMessageIdentifier, brazeUUID } = req.body;
         if (brazeUUID && brazeMessageIdentifier) {
             await removeBrazeEpicTest(brazeUUID as string, brazeMessageIdentifier as string);
-            // TODO - send event to braze
+
+            await fetch('https://rest.fra-01.braze.eu/users/track', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${brazeCustomEventApiKey}`,
+                },
+                body: JSON.stringify({
+                    events: [
+                        {
+                            external_id: brazeUUID as string,
+                            name: 'epic_impression',
+                            properties: {
+                                id: brazeMessageIdentifier as string,
+                            },
+                            time: new Date().toISOString(),
+                        },
+                    ],
+                }),
+            });
             res.status(200);
         } else {
             res.status(400);
