@@ -318,7 +318,8 @@ export const buildEpicRouter = (
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO
         const { brazeMessageIdentifier, brazeUUID } = req.body;
         if (brazeUUID && brazeMessageIdentifier) {
-            await removeBrazeEpicTest(brazeUUID as string, brazeMessageIdentifier as string);
+            const testName = (brazeMessageIdentifier as string).split(':')[0];
+            await removeBrazeEpicTest(brazeUUID as string, testName);
 
             await fetch('https://rest.fra-01.braze.eu/users/track', {
                 method: 'POST',
