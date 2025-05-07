@@ -321,6 +321,9 @@ export const buildEpicRouter = (
             const testName = (brazeMessageIdentifier as string).split(':')[0];
             await removeBrazeEpicTest(brazeUUID as string, testName);
 
+            logInfo(
+                `Sending event to braze: epic_${eventType}, ${brazeMessageIdentifier as string}`,
+            );
             await fetch('https://rest.fra-01.braze.eu/users/track', {
                 method: 'POST',
                 headers: {
