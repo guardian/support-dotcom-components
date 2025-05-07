@@ -10,7 +10,8 @@ import {
 } from '@guardian/cdk/lib/constructs/core';
 import {
 	GuAllowPolicy,
-	GuDynamoDBReadPolicy, GuDynamoDBWritePolicy,
+	GuDynamoDBReadPolicy,
+	GuDynamoDBWritePolicy,
 	GuGetS3ObjectsPolicy,
 	GuPutCloudwatchMetricsPolicy,
 } from '@guardian/cdk/lib/constructs/iam';
@@ -268,7 +269,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 						},
 						unhealthyInstancesAlarm: true,
 						snsTopicName,
-				  }
+					}
 				: { noMonitoring: true };
 
 		const ec2App = new GuEc2App(this, {

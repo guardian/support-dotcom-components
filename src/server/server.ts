@@ -28,6 +28,7 @@ import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
 import { getSsmValue } from './utils/ssm';
+import { brazeMessagesMiddleware } from './middleware/brazeMessagesMiddleware';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -58,6 +59,7 @@ const buildApp = async (): Promise<Express> => {
     app.use(cors(corsOptions));
     app.use(loggingMiddleware);
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(brazeMessagesMiddleware);
 
     const stage =
         process.env.stage === 'CODE' ? 'CODE' : process.env.stage === 'DEV' ? 'DEV' : 'PROD';

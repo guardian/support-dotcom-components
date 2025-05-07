@@ -30,6 +30,7 @@ import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { logInfo, logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
+import { addBrazeEpicTest } from '../braze/brazeTable';
 
 interface EpicDataResponse {
     data?: {
@@ -229,7 +230,7 @@ export const buildEpicRouter = (
         },
     );
 
-    router.post('/braze/epic', (req: express.Request, res: express.Response) => {
+    router.post('/braze/epic', async (req: express.Request, res: express.Response) => {
         // No need for CORS here, this endpoint is requested server-to-server
         res.removeHeader('Access-Control-Allow-Origin');
 
@@ -250,7 +251,7 @@ export const buildEpicRouter = (
         const liveblogEpic = parseResult.data;
         const message: BrazeEpicTest = transformBrazeEpic(liveblogEpic);
 
-        // await addBrazeEpicTest(liveblogEpic.brazeUUID, message);
+        await addBrazeEpicTest(liveblogEpic.brazeUUID, message);
         logInfo(JSON.stringify(message));
 
         res.status(201);
