@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.0.0
+
+### Major Changes
+
+-   dcdd727: Use types directly from Ophan instead of from libs
+
 ## 6.3.0
 
 ### Minor Changes
