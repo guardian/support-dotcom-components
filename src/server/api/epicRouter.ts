@@ -17,7 +17,7 @@ import type { BrazeEpicTest } from '../braze/brazeEpic';
 import { brazeEpicSchema, transformBrazeEpic } from '../braze/brazeEpic';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
-import { baseUrl, isProd } from '../lib/env';
+import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { Params } from '../lib/params';
@@ -29,7 +29,6 @@ import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { logInfo, logWarn } from '../utils/logging';
-import { getSsmValue } from '../utils/ssm';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
@@ -47,7 +46,7 @@ interface EpicDataResponse {
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [];
 
-export const buildEpicRouter = async (
+export const buildEpicRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
     superModeArticles: ValueProvider<SuperModeArticle[]>,
     articleEpicTests: ValueProvider<EpicTest[]>,
@@ -55,11 +54,9 @@ export const buildEpicRouter = async (
     choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
+    brazeApiKey: string,
 ): Router => {
     const router = Router();
-
-    const stage = isProd ? 'PROD' : 'CODE';
-    const brazeApiKey = await getSsmValue(stage, 'braze-api-key');
 
     const getArticleEpicTests = (
         mvtId: number,

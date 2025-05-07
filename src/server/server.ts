@@ -27,6 +27,7 @@ import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
+import { getSsmValue } from './utils/ssm';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -96,6 +97,8 @@ const buildApp = async (): Promise<Express> => {
 
     const auxiaConfig = await getAuxiaRouterConfig();
 
+    const brazeApiKey = (await getSsmValue(stage, 'braze-api-key')) ?? '';
+
     // Build the routers
     app.use(
         buildEpicRouter(
@@ -106,6 +109,7 @@ const buildApp = async (): Promise<Express> => {
             choiceCardAmounts,
             tickerData,
             banditData,
+            brazeApiKey,
         ),
     );
     app.use(
