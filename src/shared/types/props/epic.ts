@@ -1,4 +1,4 @@
-import type { OphanComponentEvent } from '@guardian/libs';
+import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
 import type { EpicVariant } from '../abTests';
 import type { ArticleCounts, Stage, Tracking } from './shared';
@@ -20,7 +20,7 @@ export interface EpicProps {
     articleCounts: ArticleCounts;
     onReminderOpen?: () => void;
     fetchEmail?: () => Promise<string | null>;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => void;
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
     stage?: Stage;
