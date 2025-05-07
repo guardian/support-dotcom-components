@@ -20,7 +20,7 @@ export interface EpicProps {
     articleCounts: ArticleCounts;
     onReminderOpen?: () => void;
     fetchEmail?: () => Promise<string | null>;
-    submitComponentEvent?: (componentEvent: ComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
     stage?: Stage;

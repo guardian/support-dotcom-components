@@ -59,7 +59,7 @@ export interface BannerProps {
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
-    submitComponentEvent?: (componentEvent: ComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     articleCounts: ArticleCounts;
     hasOptedOutOfArticleCount?: boolean;
     fetchEmail?: () => Promise<string | null>;

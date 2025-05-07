@@ -24,7 +24,7 @@ export interface HeaderProps {
     tracking: Tracking;
     mobileContent?: HeaderContent;
     countryCode?: string;
-    submitComponentEvent?: (componentEvent: ComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     numArticles?: number;
 }
 
