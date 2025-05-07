@@ -42,3 +42,18 @@ export const addBrazeEpicTest = async (brazeUUID: string, test: BrazeEpicTest): 
         .promise()
         .then(() => undefined);
 };
+
+export const removeBrazeEpicTest = async (brazeUUID: string, testName: string): Promise<void> => {
+    const docClient = getDocClient();
+
+    return docClient
+        .delete({
+            TableName: getTableName(stage),
+            Key: {
+                brazeUUID,
+                testName,
+            },
+        })
+        .promise()
+        .then(() => undefined);
+};
