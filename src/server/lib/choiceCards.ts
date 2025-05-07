@@ -4,13 +4,26 @@ import type { Channel } from '../../shared/types';
 import type { ChoiceCard, ChoiceCardsSettings } from '../../shared/types/props/choiceCards';
 import type { ProductCatalog } from '../productCatalog';
 
-// TODO - regional
 interface ChoiceCardsSettingsMap {
-    epic: (isoCurrency: IsoCurrency, productCatalog: ProductCatalog) => ChoiceCardsSettings;
-    banner: (isoCurrency: IsoCurrency, productCatalog: ProductCatalog) => ChoiceCardsSettings;
+    epic: (countryGroupId: CountryGroupId, isoCurrency: IsoCurrency, productCatalog: ProductCatalog) => ChoiceCardsSettings;
+    banner: (countryGroupId: CountryGroupId, isoCurrency: IsoCurrency, productCatalog: ProductCatalog) => ChoiceCardsSettings;
 }
 
+const oneOffCard = (countryGroupId: CountryGroupId, currencySymbol: string): ChoiceCard => ({
+    product: {
+        supportTier: 'OneOff',
+    },
+    label: countryGroupId === 'UnitedStates' ? `Support once from just ${currencySymbol}1` : `Support with another amount`,
+    isDefault: false,
+    benefits: [
+        {
+            copy: countryGroupId === 'UnitedStates' ? `We welcome support of any size, any time - whether you choose to give ${currencySymbol}1 or more` : 'We welcome support of any size, any time',
+        },
+    ],
+});
+
 const fullChoiceCards = (
+    countryGroupId: CountryGroupId,
     isoCurrency: IsoCurrency,
     productCatalog: ProductCatalog,
 ): ChoiceCard[] => [
@@ -49,22 +62,11 @@ const fullChoiceCards = (
             copy: 'Recommended',
         },
     },
-    {
-        product: {
-            supportTier: 'OneOff',
-        },
-        label: `Support with another amount`,
-        isDefault: false,
-        benefits: [
-            {
-                // TODO - no bullet - done client side?
-                copy: 'We welcome support of any size, any time',
-            },
-        ],
-    },
+    oneOffCard(countryGroupId, isoCurrencyToCurrencySymbol[isoCurrency]),
 ];
 
 const shorterChoiceCards = (
+    countryGroupId: CountryGroupId,
     isoCurrency: IsoCurrency,
     productCatalog: ProductCatalog,
 ): ChoiceCard[] => [
@@ -96,34 +98,24 @@ const shorterChoiceCards = (
             copy: 'Recommended',
         },
     },
-    {
-        product: {
-            supportTier: 'OneOff',
-        },
-        label: `Support with another amount`,
-        isDefault: false,
-        benefits: [
-            {
-                // TODO - no bullet
-                copy: 'We welcome support of any size, any time',
-            },
-        ],
-    },
+    oneOffCard(countryGroupId, isoCurrencyToCurrencySymbol[isoCurrency]),
 ];
 
 const epicChoiceCardsSettings: (
+    countryGroupId: CountryGroupId,
     isoCurrency: IsoCurrency,
     productCatalog: ProductCatalog,
-) => ChoiceCardsSettings = (isoCurrency, productCatalog) => ({
-    choiceCards: fullChoiceCards(isoCurrency, productCatalog),
+) => ChoiceCardsSettings = (countryGroupId, isoCurrency, productCatalog) => ({
+    choiceCards: fullChoiceCards(countryGroupId, isoCurrency, productCatalog),
     // same on mobile
 });
 
 const bannerChoiceCardsSettings: (
+    countryGroupId: CountryGroupId,
     isoCurrency: IsoCurrency,
     productCatalog: ProductCatalog,
-) => ChoiceCardsSettings = (isoCurrency, productCatalog) => ({
-    choiceCards: shorterChoiceCards(isoCurrency, productCatalog),
+) => ChoiceCardsSettings = (countryGroupId, isoCurrency, productCatalog) => ({
+    choiceCards: shorterChoiceCards(countryGroupId, isoCurrency, productCatalog),
     // same on mobile
 });
 
@@ -139,9 +131,9 @@ export const getChoiceCardsSettings = (
 ): ChoiceCardsSettings | undefined => {
     const isoCurrency = countryGroups[countryGroupId].currency;
     if (channel === 'Epic') {
-        return choiceCardsSettingsMap.epic(isoCurrency, productCatalog);
+        return choiceCardsSettingsMap.epic(countryGroupId, isoCurrency, productCatalog);
     } else if (channel === 'Banner1' || channel === 'Banner2') {
-        return choiceCardsSettingsMap.banner(isoCurrency, productCatalog);
+        return choiceCardsSettingsMap.banner(countryGroupId, isoCurrency, productCatalog);
     }
     return undefined;
 };
