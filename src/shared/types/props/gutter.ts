@@ -19,7 +19,7 @@ export interface GutterProps {
     content: GutterContent;
     tracking: Tracking;
     countryCode?: string;
-    submitComponentEvent?: (componentEvent: ComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
 }
 
 export const gutterPropsSchema = z.object({
