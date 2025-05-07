@@ -314,10 +314,10 @@ export const buildEpicRouter = (
         res.send();
     });
 
-    router.post('/braze/epic-view', async (req: express.Request, res: express.Response) => {
+    router.post('/braze/epic/event', async (req: express.Request, res: express.Response) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO
-        const { brazeMessageIdentifier, brazeUUID } = req.body;
-        if (brazeUUID && brazeMessageIdentifier) {
+        const { brazeMessageIdentifier, brazeUUID, eventType } = req.body;
+        if (brazeUUID && brazeMessageIdentifier && eventType) {
             const testName = (brazeMessageIdentifier as string).split(':')[0];
             await removeBrazeEpicTest(brazeUUID as string, testName);
 
@@ -331,7 +331,7 @@ export const buildEpicRouter = (
                     events: [
                         {
                             external_id: brazeUUID as string,
-                            name: 'epic_impression',
+                            name: `epic_${eventType}`,
                             properties: {
                                 id: brazeMessageIdentifier as string,
                             },
