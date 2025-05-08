@@ -150,6 +150,7 @@ export const buildEpicRouter = (
             ...variant,
             tickerSettings,
             showReminderFields,
+            choiceCardAmounts: variantAmounts, // deprecated, to be removed soon
             choiceCardsSettings,
         };
 
