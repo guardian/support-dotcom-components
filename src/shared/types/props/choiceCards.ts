@@ -28,9 +28,6 @@ const pillSchema = z.object({
 
 const choiceCardSchema = z.object({
     product: productSchema,
-    // TODO - should the tool provide label?
-    // for recurring, just 'Support'?
-    // for one-off, allow currency template?
     label: z.string(), // e.g. "Support $15/month"
     isDefault: z.boolean(), // default selected choice card
     benefitsLabel: z.string().nullish(), // e.g. "Unlock All-access digital benefits:"
