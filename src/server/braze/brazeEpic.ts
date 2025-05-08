@@ -25,48 +25,15 @@ export const brazeEpicSchema = z.object({
 
 export type BrazeEpic = z.infer<typeof brazeEpicSchema>;
 
-export const transformBrazeEpic = (liveblogEpic: BrazeEpic): BrazeEpicTest => {
-    return {
-        testName: liveblogEpic.testName,
-        variantName: liveblogEpic.variantName,
-        heading: liveblogEpic.heading,
-        highlightedText: liveblogEpic.highlightedText,
-        paragraphs: liveblogEpic.paragraphs.split('|'),
-        tagIds: liveblogEpic.tagIds.split('|'),
-        cta: {
-            text: liveblogEpic.ctaText,
-            baseUrl: liveblogEpic.ctaBaseUrl,
-        },
-    };
-    // const variant: EpicVariant = {
-    //     name: liveblogEpic.variantName,
-    //     heading: liveblogEpic.heading,
-    //     paragraphs: liveblogEpic.paragraphs.split('|'),
-    //     highlightedText: liveblogEpic.highlightedText,
-    //     cta: {
-    //         text: liveblogEpic.ctaText,
-    //         baseUrl: liveblogEpic.ctaBaseUrl,
-    //     },
-    // }
-    // const test: EpicTest = {
-    //     name: liveblogEpic.testName,
-    //     hasArticleCountInCopy: false,
-    //     variants: [variant],
-    //     tagIds: liveblogEpic.tagIds.split('|'),
-    //     status: 'Live',
-    //     channel: 'Epic',
-    //     priority: 0,
-    //     sections: [],
-    //     excludedTagIds: [],
-    //     excludedSections: [],
-    //     alwaysAsk: false,
-    //     userCohort: 'AllExistingSupporters',
-    //     hasCountryName: false,
-    //     highPriority: false,
-    //     useLocalViewLog: false,
-    // };
-    // return {
-    //     variant,
-    //     test,
-    // };
-};
+export const transformBrazeEpic = (liveblogEpic: BrazeEpic): BrazeEpicTest => ({
+    testName: liveblogEpic.testName,
+    variantName: liveblogEpic.variantName,
+    heading: liveblogEpic.heading,
+    highlightedText: liveblogEpic.highlightedText,
+    paragraphs: liveblogEpic.paragraphs.split('|'),
+    tagIds: liveblogEpic.tagIds.split('|'),
+    cta: {
+        text: liveblogEpic.ctaText,
+        baseUrl: liveblogEpic.ctaBaseUrl,
+    },
+});
