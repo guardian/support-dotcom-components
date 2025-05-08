@@ -7,6 +7,7 @@ export async function getSsmValue(stage: string, id: string): Promise<string | u
     const response = await client
         .getParameter({
             Name: name,
+            WithDecryption: true,
         })
         .promise();
 

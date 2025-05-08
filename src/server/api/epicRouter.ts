@@ -13,6 +13,9 @@ import type {
     WeeklyArticleLog,
 } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
+import type { BrazeEpicTest } from '../braze/brazeEpic';
+import { brazeEpicSchema, transformBrazeEpic } from '../braze/brazeEpic';
+import { addBrazeEpicTest, removeBrazeEpicTest } from '../braze/brazeTable';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
@@ -26,7 +29,7 @@ import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
-import { logWarn } from '../utils/logging';
+import { logInfo, logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
@@ -52,6 +55,8 @@ export const buildEpicRouter = (
     choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
+    brazeWebhookApiKey: string,
+    brazeCustomEventApiKey: string,
 ): Router => {
     const router = Router();
 
@@ -75,16 +80,71 @@ export const buildEpicRouter = (
         }
     };
 
+    const getBrazeMessage = (
+        clientTagIds: string[],
+        brazeTests: BrazeEpicTest[],
+    ): BrazeEpicTest | undefined =>
+        brazeTests.find(
+            (test) =>
+                test.tagIds.length === 0 ||
+                test.tagIds.some((tagId) => clientTagIds.includes(tagId)),
+        );
+
     const buildEpicData = (
         targeting: EpicTargeting,
         type: EpicType,
         params: Params,
         baseUrl: string,
         req: express.Request,
+        res: express.Response,
     ): EpicDataResponse => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
             return {};
+        }
+
+        const brazeTest = getBrazeMessage(
+            targeting.tags.map((tag) => tag.id),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- TODO
+            res.locals.brazeMessages ?? [],
+        );
+
+        if (brazeTest) {
+            const testTracking: TestTracking = {
+                abTestName: brazeTest.testName,
+                abTestVariant: brazeTest.variantName,
+                campaignCode: `${brazeTest.testName}_${brazeTest.variantName}`,
+                campaignId: `${brazeTest.testName}_${brazeTest.variantName}`,
+                componentType: 'ACQUISITIONS_EPIC',
+                products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+                // @ts-expect-error -- TODO
+                brazeMessageIdentifier: `${brazeTest.testName}:${brazeTest.variantName}`,
+            };
+
+            const props: EpicProps = {
+                variant: {
+                    name: brazeTest.testName,
+                    heading: brazeTest.heading,
+                    paragraphs: brazeTest.paragraphs,
+                    highlightedText: brazeTest.highlightedText,
+                    cta: brazeTest.cta,
+                },
+                articleCounts: { for52Weeks: 0, forTargetedWeeks: 0 },
+                countryCode: targeting.countryCode,
+                tracking: testTracking as Tracking,
+            };
+
+            return {
+                data: {
+                    variant: props.variant,
+                    meta: testTracking,
+                    module: {
+                        name:
+                            type === 'ARTICLE' ? 'ContributionsEpic' : 'ContributionsLiveblogEpic',
+                        props,
+                    },
+                },
+            };
         }
 
         if (hideSRMessagingForInfoPageIds(targeting)) {
@@ -179,7 +239,7 @@ export const buildEpicRouter = (
 
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
+                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req, res);
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
@@ -209,7 +269,7 @@ export const buildEpicRouter = (
 
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
+                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req, res);
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
@@ -225,6 +285,70 @@ export const buildEpicRouter = (
             }
         },
     );
+
+    router.post('/braze/epic', async (req: express.Request, res: express.Response) => {
+        // No need for CORS here, this endpoint is requested server-to-server
+        res.removeHeader('Access-Control-Allow-Origin');
+
+        if (req.header('X-Api-Key') !== brazeWebhookApiKey) {
+            res.status(401);
+            res.send();
+            return;
+        }
+
+        const parseResult = brazeEpicSchema.safeParse(req.body);
+
+        if (!parseResult.success) {
+            res.status(400);
+            res.send(parseResult.error);
+            return;
+        }
+
+        const liveblogEpic = parseResult.data;
+        const message: BrazeEpicTest = transformBrazeEpic(liveblogEpic);
+
+        await addBrazeEpicTest(liveblogEpic.brazeUUID, message);
+        logInfo(JSON.stringify(message));
+
+        res.status(201);
+        res.send();
+    });
+
+    router.post('/braze/epic/event', async (req: express.Request, res: express.Response) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- TODO
+        const { brazeMessageIdentifier, brazeUUID, eventType } = req.body;
+        if (brazeUUID && brazeMessageIdentifier && eventType) {
+            const testName = (brazeMessageIdentifier as string).split(':')[0];
+            await removeBrazeEpicTest(brazeUUID as string, testName);
+
+            logInfo(
+                `Sending event to braze: epic_${eventType}, ${brazeMessageIdentifier as string}`,
+            );
+            await fetch('https://rest.fra-01.braze.eu/users/track', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${brazeCustomEventApiKey}`,
+                },
+                body: JSON.stringify({
+                    events: [
+                        {
+                            external_id: brazeUUID as string,
+                            name: `epic_${eventType}`,
+                            properties: {
+                                id: brazeMessageIdentifier as string,
+                            },
+                            time: new Date().toISOString(),
+                        },
+                    ],
+                }),
+            });
+            res.status(200);
+        } else {
+            res.status(400);
+        }
+        res.send();
+    });
 
     return router;
 };

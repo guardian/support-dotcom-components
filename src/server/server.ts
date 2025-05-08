@@ -17,6 +17,7 @@ import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
+import { brazeMessagesMiddleware } from './middleware/brazeMessagesMiddleware';
 import { buildProductPricesReloader } from './productPrices';
 import { buildBanditDataReloader } from './selection/banditData';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
@@ -27,6 +28,7 @@ import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
+import { getSsmValue } from './utils/ssm';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -57,6 +59,7 @@ const buildApp = async (): Promise<Express> => {
     app.use(cors(corsOptions));
     app.use(loggingMiddleware);
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(brazeMessagesMiddleware);
 
     const stage =
         process.env.stage === 'CODE' ? 'CODE' : process.env.stage === 'DEV' ? 'DEV' : 'PROD';
@@ -96,6 +99,9 @@ const buildApp = async (): Promise<Express> => {
 
     const auxiaConfig = await getAuxiaRouterConfig();
 
+    const brazeWebhookApiKey = (await getSsmValue(stage, 'braze-webhook-api-key')) ?? '';
+    const brazeCustomEventApiKey = (await getSsmValue(stage, 'braze-custom-event-api-key')) ?? '';
+
     // Build the routers
     app.use(
         buildEpicRouter(
@@ -106,6 +112,8 @@ const buildApp = async (): Promise<Express> => {
             choiceCardAmounts,
             tickerData,
             banditData,
+            brazeWebhookApiKey,
+            brazeCustomEventApiKey,
         ),
     );
     app.use(
