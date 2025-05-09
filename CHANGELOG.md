@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.0.1
+
+### Patch Changes
+
+-   a9394bf: Fix return types for submitComponentEvent types
+
 ## 7.0.0
 
 ### Major Changes
