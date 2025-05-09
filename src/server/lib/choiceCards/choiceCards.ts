@@ -23,7 +23,6 @@ const enrichChoiceCard = (
     productCatalog: ProductCatalog,
 ): ChoiceCard => {
     const currencySymbol = isoCurrencyToCurrencySymbol[isoCurrency];
-    console.log({ currencySymbol });
 
     const buildLabelForRecurringProduct = (
         ratePlan: RatePlan,
@@ -64,9 +63,7 @@ export const getChoiceCardsSettings = (
     variantChoiceCardSettings?: ChoiceCardsSettings, // defined only if the test variant overrides the default settings
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
-    console.log({ countryGroupId });
     const isoCurrency = countryGroups[countryGroupId].currency;
-    console.log({ isoCurrency });
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant
