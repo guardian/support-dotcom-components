@@ -24,6 +24,8 @@ const productSchema = z.discriminatedUnion('supportTier', [
 
 const pillSchema = z.object({
     copy: z.string(), // e.g. "Recommended", may be overridden if a promo applies
+    // Pill colours are configurable for e.g. showing a different design on a discounted product
+    textColour: hexColourSchema.nullish(),
     backgroundColour: hexColourSchema.nullish(),
 });
 
