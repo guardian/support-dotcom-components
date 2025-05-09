@@ -6,6 +6,7 @@ const productBenefitSchema = z.object({
 });
 
 const ratePlanSchema = z.union([z.literal('Monthly'), z.literal('Annual')]);
+export type RatePlan = z.infer<typeof ratePlanSchema>;
 
 const productSchema = z.discriminatedUnion('supportTier', [
     z.object({

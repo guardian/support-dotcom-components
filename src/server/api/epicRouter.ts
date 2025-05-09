@@ -14,7 +14,7 @@ import type {
 } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
-import { getChoiceCardsSettings } from '../lib/choiceCards';
+import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -142,8 +142,12 @@ export const buildEpicRouter = (
 
         const choiceCardsSettings =
             variant.showChoiceCards && isVatCompliantCountry
-                ? (variant.choiceCardsSettings ??
-                  getChoiceCardsSettings(requiredRegion, 'Epic', productCatalog.get()))
+                ? getChoiceCardsSettings(
+                      requiredRegion,
+                      'Epic',
+                      productCatalog.get(),
+                      variant.choiceCardsSettings ?? undefined,
+                  )
                 : undefined;
 
         const propsVariant: EpicVariant = {
