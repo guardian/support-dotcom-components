@@ -1,9 +1,9 @@
 import type { CountryGroupId } from '../../../shared/lib';
 import type { ChoiceCard, ChoiceCardsSettings } from '../../../shared/types/props/choiceCards';
 
-export const currencySymbolTemplate = '%%CURRENCY_SYMBOL%%';
+const currencySymbolTemplate = '%%CURRENCY_SYMBOL%%';
 
-export const oneOffCard = (countryGroupId: CountryGroupId): ChoiceCard => ({
+const oneOffCard = (countryGroupId: CountryGroupId): ChoiceCard => ({
     product: {
         supportTier: 'OneOff',
     },
@@ -103,4 +103,4 @@ const defaultBannerChoiceCardsSettings = (countryGroupId: CountryGroupId): Choic
     // same on mobile
 });
 
-export { defaultEpicChoiceCardsSettings, defaultBannerChoiceCardsSettings };
+export { currencySymbolTemplate, defaultEpicChoiceCardsSettings, defaultBannerChoiceCardsSettings };
