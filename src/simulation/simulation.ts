@@ -76,6 +76,10 @@ const run = (simulation: Simulation) => {
                     samples[variant.name].push(variantSample);
 
                     // TODO - output to file?
+                    // row per algo/run/timestep/variant:
+                    // - previous mean
+                    // - impressions
+                    // - value
                     console.log({
                         timestep,
                         ...variantSample,

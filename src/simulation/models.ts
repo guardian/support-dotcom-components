@@ -11,6 +11,7 @@ export interface SelectionAlgorithm {
 
 export interface VariantModel {
     name: string;
+    // TODO - make total timesteps available
     mean: (timestep: number) => number;
     standardDeviation: (timestep: number) => number;
 }
