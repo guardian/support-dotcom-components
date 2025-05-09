@@ -28,7 +28,7 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
             supportTier: 'Contribution',
             ratePlan: 'Monthly',
         },
-        label: '',
+        label: '', // label is generated for recurring products
         isDefault: false,
         benefitsLabel: 'Unlock Support benefits:',
         benefits: [
@@ -42,7 +42,7 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
             supportTier: 'SupporterPlus',
             ratePlan: 'Monthly',
         },
-        label: '',
+        label: '', // label is generated for recurring products
         isDefault: true,
         benefitsLabel: 'Unlock All-access digital benefits:',
         benefits: [
@@ -67,7 +67,7 @@ const shorterChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
             supportTier: 'Contribution',
             ratePlan: 'Monthly',
         },
-        label: '',
+        label: '', // label is generated for recurring products
         isDefault: false,
         benefits: [
             {
@@ -80,7 +80,7 @@ const shorterChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
             supportTier: 'SupporterPlus',
             ratePlan: 'Monthly',
         },
-        label: '',
+        label: '', // label is generated for recurring products
         isDefault: true,
         benefits: [
             { copy: 'Unlimited access to the Guardian app and Feast app' },
