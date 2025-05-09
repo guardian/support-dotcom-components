@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { countryGroupIdSchema, targetedRegionsSchema } from '../../lib';
 import type { BannerChannel, ConfigurableDesign } from '../props';
 import { bannerContentSchema, separateArticleCountSchema, tickerSettingsSchema } from '../props';
+import { choiceCardsSettings } from '../props/choiceCards';
 import type { BannerTargeting } from '../targeting';
 import {
     articlesViewedSettingsSchema,
@@ -46,6 +47,7 @@ export const bannerVariantFromToolSchema = z.object({
     mobileBannerContent: bannerContentSchema.optional(),
     separateArticleCount: z.boolean().optional(),
     separateArticleCountSettings: separateArticleCountSchema.optional(),
+    choiceCardsSettings: choiceCardsSettings.nullish(),
 });
 
 export type BannerVariantFromTool = z.infer<typeof bannerVariantFromToolSchema>;

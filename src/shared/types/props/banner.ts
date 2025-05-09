@@ -3,6 +3,8 @@ import { z } from 'zod';
 import type { SelectedAmountsVariant } from '../abTests';
 import type { Prices } from '../prices';
 import type { AbandonedBasket } from '../targeting';
+import type { ChoiceCardsSettings } from './choiceCards';
+import { choiceCardsSettings } from './choiceCards';
 import type { ConfigurableDesign } from './design';
 import { configurableDesignSchema } from './design';
 import type {
@@ -67,6 +69,7 @@ export interface BannerProps {
     separateArticleCountSettings?: SeparateArticleCount;
     prices?: Prices;
     choiceCardAmounts?: SelectedAmountsVariant;
+    choiceCardsSettings?: ChoiceCardsSettings;
     design?: ConfigurableDesign;
     abandonedBasket?: AbandonedBasket;
 }
@@ -85,4 +88,5 @@ export const bannerSchema = z.object({
     fetchEmail: z.any().nullish(),
     separateArticleCount: z.boolean().nullish(),
     design: configurableDesignSchema.nullish(),
+    choiceCardsSettings: choiceCardsSettings.nullish(),
 });

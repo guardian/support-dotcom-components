@@ -122,6 +122,7 @@ const buildApp = async (): Promise<Express> => {
             choiceCardAmounts,
             bannerDesigns,
             banditData,
+            productCatalog,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
