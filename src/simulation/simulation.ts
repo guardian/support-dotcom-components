@@ -16,7 +16,7 @@ const outputFilePath = './simulation_results.csv';
 
 
 const run = (simulation: Simulation) => {
-    fs.writeFileSync(outputFilePath, 'algorithm,run,timestep,variant,mean,impressions,value\n', 'utf8');
+    fs.writeFileSync(outputFilePath, 'algorithm,run,timestep,variant,mean,impressions,annualisedValueInGBPPerView,annualisedValueInGBP\n', 'utf8');
 
     const test: Test<Variant> = {
         channel: 'Epic',
@@ -72,7 +72,7 @@ const run = (simulation: Simulation) => {
                 console.log({variantImpressions})
                 // update banditData by sampling using each variantModel
                 for (const variant of simulation.variantsScenario) {
-                    const value = sample(variant, timestep);
+                    const value = sample(variant, timestep, simulation.timesteps);
                     console.log({name: variant.name, value})
 
                     const variantSample: VariantSample = {
@@ -84,7 +84,7 @@ const run = (simulation: Simulation) => {
                     samples[variant.name].push(variantSample);
 
                     const currentMean = banditData.sortedVariants.find(v => v.variantName === variant.name)?.mean;
-                    const row = `${algorithm.name},${run},${timestep},${variant.name},${currentMean},${variantSample.views},${variantSample.annualisedValueInGBP}\n`;
+                    const row = `${algorithm.name},${run},${timestep},${variant.name},${currentMean},${variantSample.views},${variantSample.annualisedValueInGBPPerView},${variantSample.annualisedValueInGBP}\n`;
                     fs.appendFileSync(outputFilePath, row, 'utf8');
                 }
             }
@@ -108,16 +108,21 @@ run({
     variantsScenario: [
         {
             name: 'v1',
-            mean: (timestep) => 5 * timestep,
+            mean: () => 25,
             standardDeviation: (timestep) => 0.1,
         },
         {
             name: 'v2',
-            mean: (timestep) => 8 * timestep,
+            mean: (timestep, totalTimesteps) => (100 * (timestep+1)) / totalTimesteps,
+            standardDeviation: (timestep) => 0.1,
+        },
+        {
+            name: 'v3',
+            mean: (timestep) => Math.sin((timestep)/32)*100,
             standardDeviation: (timestep) => 0.1,
         },
     ],
-    timesteps: 10,
+    timesteps: 100,
     impressionsPerTimestep: 100,
     runs: 1,
 });
