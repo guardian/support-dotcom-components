@@ -11,6 +11,7 @@ import type {
     TestTracking,
     Tracking,
 } from '../../shared/types';
+import { channelFromBannerChannel } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
@@ -116,7 +117,7 @@ export const buildBannerRouter = (
                 design?.visual?.kind === 'ChoiceCards' && isVatCompliantCountry
                     ? getChoiceCardsSettings(
                           requiredRegion,
-                          'Epic',
+                          channelFromBannerChannel(test.bannerChannel),
                           productCatalog.get(),
                           variant.choiceCardsSettings ?? undefined,
                       )

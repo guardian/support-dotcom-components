@@ -1,6 +1,6 @@
 import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
-import type { SelectedAmountsVariant } from '../abTests';
+import type { Channel, SelectedAmountsVariant } from '../abTests';
 import type { Prices } from '../prices';
 import type { AbandonedBasket } from '../targeting';
 import type { ChoiceCardsSettings } from './choiceCards';
@@ -31,6 +31,9 @@ export const bannerChannelSchema = z.enum([
 ]);
 
 export type BannerChannel = z.infer<typeof bannerChannelSchema>;
+
+export const channelFromBannerChannel = (bannerChannel: BannerChannel): Channel =>
+    bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
 
 export interface BannerContent {
     heading?: string;
