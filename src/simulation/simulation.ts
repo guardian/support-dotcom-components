@@ -1,7 +1,10 @@
-import {
+import * as fs from 'fs';
+import type {
     BanditData,
-    calculateOverallMeanForVariant,
     VariantSample
+} from '../server/selection/banditData';
+import {
+    calculateOverallMeanForVariant
 } from '../server/selection/banditData';
 import { selectVariantUsingEpsilonGreedy } from '../server/selection/epsilonGreedySelection';
 import { selectVariantUsingRoulette } from '../server/selection/rouletteSelection';
@@ -9,7 +12,12 @@ import type { Test, Variant } from '../shared/types';
 import type { Simulation } from './models';
 import {sample} from "./oracle";
 
+const outputFilePath = './simulation_results.csv';
+
+
 const run = (simulation: Simulation) => {
+    fs.writeFileSync(outputFilePath, 'algorithm,run,timestep,variant,mean,impressions,value\n', 'utf8');
+
     const test: Test<Variant> = {
         channel: 'Epic',
         name: 'simulated-test',
@@ -75,15 +83,9 @@ const run = (simulation: Simulation) => {
                     };
                     samples[variant.name].push(variantSample);
 
-                    // TODO - output to file?
-                    // row per algo/run/timestep/variant:
-                    // - previous mean
-                    // - impressions
-                    // - value
-                    console.log({
-                        timestep,
-                        ...variantSample,
-                    });
+                    const currentMean = banditData.sortedVariants.find(v => v.variantName === variant.name)?.mean;
+                    const row = `${algorithm.name},${run},${timestep},${variant.name},${currentMean},${variantSample.views},${variantSample.annualisedValueInGBP}\n`;
+                    fs.appendFileSync(outputFilePath, row, 'utf8');
                 }
             }
         }
