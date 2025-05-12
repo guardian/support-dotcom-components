@@ -1,4 +1,4 @@
-import type { OphanComponentEvent } from '@guardian/libs';
+import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
 import type { SelectedAmountsVariant } from '../abTests';
 import type { Prices } from '../prices';
@@ -61,7 +61,7 @@ export interface BannerProps {
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     articleCounts: ArticleCounts;
     hasOptedOutOfArticleCount?: boolean;
     fetchEmail?: () => Promise<string | null>;

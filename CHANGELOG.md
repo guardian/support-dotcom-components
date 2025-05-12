@@ -1,5 +1,23 @@
 # @guardian/support-dotcom-components
 
+## 7.1.0
+
+### Minor Changes
+
+-   f7a28cc: Add choiceCardSettings to epic response
+
+## 7.0.1
+
+### Patch Changes
+
+-   a9394bf: Fix return types for submitComponentEvent types
+
+## 7.0.0
+
+### Major Changes
+
+-   dcdd727: Use types directly from Ophan instead of from libs
+
 ## 6.3.0
 
 ### Minor Changes

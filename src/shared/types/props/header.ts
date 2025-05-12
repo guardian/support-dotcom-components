@@ -1,4 +1,4 @@
-import type { OphanComponentEvent } from '@guardian/libs';
+import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
 import type { Cta, Tracking } from './shared';
 import { ctaSchema, trackingSchema } from './shared';
@@ -24,7 +24,7 @@ export interface HeaderProps {
     tracking: Tracking;
     mobileContent?: HeaderContent;
     countryCode?: string;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     numArticles?: number;
 }
 

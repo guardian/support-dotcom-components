@@ -1,6 +1,6 @@
 {
     "name": "@guardian/support-dotcom-components",
-    "version": "6.3.0",
+    "version": "7.1.0",
     "description": "Service to serve Reader Revenue components to dotcom",
     "repository": "github:guardian/support-dotcom-components",
     "author": "The Guardian",
@@ -76,6 +76,7 @@
     },
     "dependencies": {
         "@guardian/libs": "22.0.1",
+        "@guardian/ophan-tracker-js": "2.2.10",
         "aws-sdk": "^2.862.0",
         "compression": "1.7.4",
         "cors": "^2.8.5",
