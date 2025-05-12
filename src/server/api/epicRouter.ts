@@ -14,6 +14,7 @@ import type {
 } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
+import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -22,6 +23,7 @@ import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { SuperModeArticle } from '../lib/superMode';
 import { buildEpicCampaignCode } from '../lib/tracking';
+import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
@@ -52,6 +54,7 @@ export const buildEpicRouter = (
     choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
+    productCatalog: ValueProvider<ProductCatalog>,
 ): Router => {
     const router = Router();
 
@@ -120,6 +123,12 @@ export const buildEpicRouter = (
         const showReminderFields =
             variant.showReminderFields ?? getReminderFields(targeting.countryCode);
 
+        /**
+         * We assign the user to an amounts test even though this is not used for the newer choice cards.
+         * This is because we also use the special VAT_COMPLIANCE amounts test to disable choice cards
+         * if a user is in a non-VAT compliant country.
+         * In future we should migrate to a better way of configuring this.
+         */
         const contributionAmounts = choiceCardAmounts.get();
         const requiredCountry = targeting.countryCode ?? 'GB';
         const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
@@ -129,12 +138,24 @@ export const buildEpicRouter = (
             requiredRegion,
             targetingMvtId,
         );
+        const isVatCompliantCountry = variantAmounts?.testName !== 'VAT_COMPLIANCE';
 
-        const propsVariant = {
+        const choiceCardsSettings =
+            variant.showChoiceCards && isVatCompliantCountry
+                ? getChoiceCardsSettings(
+                      requiredRegion,
+                      'Epic',
+                      productCatalog.get(),
+                      variant.choiceCardsSettings ?? undefined,
+                  )
+                : undefined;
+
+        const propsVariant: EpicVariant = {
             ...variant,
             tickerSettings,
             showReminderFields,
-            choiceCardAmounts: variantAmounts,
+            choiceCardAmounts: variantAmounts, // deprecated, to be removed soon
+            choiceCardsSettings,
         };
 
         const testTracking: TestTracking = {

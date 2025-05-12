@@ -1,6 +1,7 @@
 import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
 import type { EpicVariant } from '../abTests';
+import { choiceCardsSettings } from './choiceCards';
 import type { ArticleCounts, Stage, Tracking } from './shared';
 import {
     articleCountsSchema,
@@ -89,8 +90,9 @@ export const variantSchema = z.object({
     showSignInLink: z.boolean().optional(),
     bylineWithImage: bylineWithImageSchema.optional(),
     showChoiceCards: z.boolean().optional(),
-    choiceCardAmounts: selectedAmountsVariantSchema.optional(),
-    defaultChoiceCardFrequency: contributionFrequencySchema.optional(),
+    choiceCardsSettings: choiceCardsSettings.nullish(),
+    choiceCardAmounts: selectedAmountsVariantSchema.optional(), // deprecated, use choiceCardsSettings
+    defaultChoiceCardFrequency: contributionFrequencySchema.optional(), // deprecated, use choiceCardsSettings
 });
 
 export const epicPropsSchema = z.object({

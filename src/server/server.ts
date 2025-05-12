@@ -17,6 +17,7 @@ import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
+import { buildProductCatalogReloader } from './productCatalog';
 import { buildProductPricesReloader } from './productPrices';
 import { buildBanditDataReloader } from './selection/banditData';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
@@ -76,6 +77,7 @@ const buildApp = async (): Promise<Express> => {
         headerTests,
         bannerDesigns,
         gutterLiveblogTests,
+        productCatalog,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -90,6 +92,7 @@ const buildApp = async (): Promise<Express> => {
         buildHeaderTestsReloader(),
         buildBannerDesignsReloader(),
         buildGutterLiveblogTestsReloader(),
+        buildProductCatalogReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -106,6 +109,7 @@ const buildApp = async (): Promise<Express> => {
             choiceCardAmounts,
             tickerData,
             banditData,
+            productCatalog,
         ),
     );
     app.use(
