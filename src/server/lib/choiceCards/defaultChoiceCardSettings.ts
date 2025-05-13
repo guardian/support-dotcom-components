@@ -30,7 +30,6 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         },
         label: '', // label is generated for recurring products
         isDefault: false,
-        benefitsLabel: 'Unlock Support benefits:',
         benefits: [
             {
                 copy: 'Give to the Guardian every month with Support',
