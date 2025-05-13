@@ -11,8 +11,10 @@ import type {
     TestTracking,
     Tracking,
 } from '../../shared/types';
+import { channelFromBannerChannel } from '../../shared/types';
 import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
+import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -20,6 +22,7 @@ import { getArticleViewCounts } from '../lib/history';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import { buildBannerCampaignCode } from '../lib/tracking';
+import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
@@ -48,6 +51,7 @@ export const buildBannerRouter = (
     choiceCardAmounts: ValueProvider<AmountsTests>,
     bannerDesigns: ValueProvider<BannerDesignFromTool[]>,
     banditData: ValueProvider<BanditData[]>,
+    productCatalog: ValueProvider<ProductCatalog>,
 ): Router => {
     const router = Router();
 
@@ -95,6 +99,8 @@ export const buildBannerRouter = (
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
+            const design = getDesignForVariant(variant, bannerDesigns.get());
+
             const contributionAmounts = choiceCardAmounts.get();
             const requiredCountry = targeting.countryCode ?? 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
@@ -105,6 +111,17 @@ export const buildBannerRouter = (
                 requiredRegion,
                 targetingMvtId,
             );
+            const isVatCompliantCountry = variantAmounts?.testName !== 'VAT_COMPLIANCE';
+
+            const choiceCardsSettings =
+                design?.visual?.kind === 'ChoiceCards' && isVatCompliantCountry
+                    ? getChoiceCardsSettings(
+                          requiredRegion,
+                          channelFromBannerChannel(test.bannerChannel),
+                          productCatalog.get(),
+                          variant.choiceCardsSettings ?? undefined,
+                      )
+                    : undefined;
 
             const props: BannerProps = {
                 tracking: testTracking as Tracking, // PageTracking is added client-side
@@ -123,8 +140,9 @@ export const buildBannerRouter = (
                 separateArticleCount: variant.separateArticleCount,
                 separateArticleCountSettings: variant.separateArticleCountSettings,
                 prices: productPrices.get(),
-                choiceCardAmounts: variantAmounts,
-                design: getDesignForVariant(variant, bannerDesigns.get()),
+                choiceCardsSettings,
+                choiceCardAmounts: variantAmounts, // deprecated, to be removed soon
+                design,
                 abandonedBasket: targeting.abandonedBasket,
             };
 
