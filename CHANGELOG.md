@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.2.0
+
+### Minor Changes
+
+-   2564822: Add choiceCardsSettings to banner response
+
 ## 7.1.0
 
 ### Minor Changes
