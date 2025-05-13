@@ -204,11 +204,18 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     gateDismissCount: number;
                     countryCode: string;
                     mvtId: number;
+                    should_show_legacy_gate_tmp: boolean; // [2]
                 };
 
                 // [1] articleIdentifier examples:
                 //  - 'www.theguardian.com/money/2017/mar/10/ministers-to-criminalise-use-of-ticket-tout-harvesting-software'
                 //  - 'www.theguardian.com/tips'
+
+                // [2] temporary attribute to help imminent rerouting of non Auxia audience share
+                // to SDC, but without requiring a
+                // full duplication of the client side logic into SDC.
+                // See https://github.com/guardian/dotcom-rendering/pull/13944
+                // for details.
 
                 const auxiaData = await callGetTreatments(
                     config.apiKey,
