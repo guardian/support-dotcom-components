@@ -28,6 +28,7 @@ import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
+import { Profiler } from './utils/profiling';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -141,6 +142,8 @@ const buildApp = async (): Promise<Express> => {
         res.header('Content-Type', 'text/plain');
         res.send('OK');
     });
+
+    new Profiler();
 
     return Promise.resolve(app);
 };

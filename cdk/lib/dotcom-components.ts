@@ -13,6 +13,7 @@ import {
 	GuDynamoDBReadPolicy,
 	GuGetS3ObjectsPolicy,
 	GuPutCloudwatchMetricsPolicy,
+	GuPutS3ObjectsPolicy,
 } from '@guardian/cdk/lib/constructs/iam';
 import type { Alarms } from '@guardian/cdk/lib/patterns/ec2-app/base';
 import type { GuAsgCapacity } from '@guardian/cdk/lib/types';
@@ -224,6 +225,16 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 					],
 				},
 			),
+			new GuPutS3ObjectsPolicy(
+				this,
+				'S3PutPolicyGuReaderRevenuePrivate',
+				{
+					bucketName: 'gu-reader-revenue-private',
+					paths: [
+						`support-dotcom-components/heapSnapshots/${this.stage}/*`,
+					],
+				},
+			),
 			new GuDynamoDBReadPolicy(this, 'DynamoReadPolicy', {
 				tableName: `super-mode-calculator-${this.stage}`,
 			}),
@@ -262,7 +273,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 						},
 						unhealthyInstancesAlarm: true,
 						snsTopicName,
-				  }
+					}
 				: { noMonitoring: true };
 
 		const ec2App = new GuEc2App(this, {

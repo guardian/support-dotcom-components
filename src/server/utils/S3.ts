@@ -1,4 +1,5 @@
 import readline from 'readline';
+import type { Readable } from 'stream';
 import AWS from 'aws-sdk';
 import type { GetObjectOutput } from 'aws-sdk/clients/s3';
 import { isDev } from '../lib/env';
@@ -58,4 +59,13 @@ export const streamS3DataByLine = ({ bucket, key, onLine, onComplete }: S3Stream
     stream.on('error', (error) =>
         logError(`Error streaming from S3 for ${bucket}/${key}: ${error}`),
     );
+};
+
+export const streamToS3 = (bucket: string, key: string, stream: Readable) => {
+    const s3 = getS3();
+    return s3.upload({
+        Bucket: bucket,
+        Key: key,
+        Body: stream,
+    });
 };
