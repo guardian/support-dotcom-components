@@ -33,7 +33,7 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         benefitsLabel: 'Unlock Support benefits:',
         benefits: [
             {
-                copy: 'Exclusive newsletter for supporters, sent every week from the Guardian newsroom',
+                copy: 'Give to the Guardian every month with Support',
             },
         ],
     },
@@ -71,7 +71,7 @@ const shorterChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         isDefault: false,
         benefits: [
             {
-                copy: 'Exclusive newsletter for supporters, sent every week from the Guardian newsroom',
+                copy: 'Give to the Guardian every month with Support',
             },
         ],
     },
