@@ -9,6 +9,7 @@ import {
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
+    mvtIdIsAuxiaAudienceShare,
 } from './lib';
 
 describe('guDefaultShouldShowTheGate', () => {
@@ -241,4 +242,13 @@ describe('articleIdentifierIsAllowed', () => {
     expect(articleIdentifierIsAllowed('www.theguardian.com/tips')).toBe(false);
     expect(articleIdentifierIsAllowed('www.theguardian.com/tips#test')).toBe(false);
     expect(articleIdentifierIsAllowed('www.theguardian.com/tips/test')).toBe(false);
+});
+
+describe('mvtIdIsInTheNaturalAuxiaShareOfAudience', () => {
+    expect(mvtIdIsAuxiaAudienceShare(0)).toBe(false);
+    expect(mvtIdIsAuxiaAudienceShare(1)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(210945)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(210946)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(350000)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(350001)).toBe(false);
 });

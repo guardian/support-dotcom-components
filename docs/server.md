@@ -7,41 +7,47 @@ See [architecture](docs/architecture.md) for details.
 This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands. To set up, first run
 
 ```bash
-pnpm install
+$ pnpm install
 ```
 
 This will install all the project dependencies.
 
+If you have a linting problem, try
+
+```bash
+$ pnpm prettier:fix
+```
 
 ### Server
 
 To start the server run
 
 ```bash
-pnpm start
+$ pnpm start
 ```
 
 This will start `webpack` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
 
 The server runs on port 8082 locally.
 
-
 #### DCR
 
 A local instance of DCR will use the `SDC_URL` environment variable to get the url for requests to SDC. To point DCR at a local instance of SDC we can therefore run DCR like
 
 ```bash
-SDC_URL=http://localhost:8082 make dev
+$ SDC_URL=http://localhost:8082 make dev
 ```
 
-
 #### Browserstack Local:
+
 If you need to test against local instances of SDC + DCR through Browserstack Local then it's necessary to use the `thegulocal.com` domain.
 To do this, in SDC:
+
 1. setup nginx with `packages/server/scripts/nginx/setup.sh`
 2. run `base_url=https://contributions.thegulocal.com pnpm server start`
 
 Then in DCR:
+
 1. setup nginx with `scripts/nginx/setup.sh`
 2. run `SDC_URL=https://contributions.thegulocal.com make dev`
 3. use https://r.thegulocal.com, rather than localhost
@@ -51,21 +57,22 @@ Then in DCR:
 To run the tests run
 
 ```bash
-pnpm test
+$ pnpm test
 ```
 
 To run specific tests specify the path, e.g.
+
 ```bash
-pnpm test src/server/tests/banners/bannerDeploySchedule.test.ts
+$ pnpm test src/server/tests/banners/bannerDeploySchedule.test.ts
 ```
 
 ### Project structure
 
 The `/src` directory contains 3 subdirectories:
 
-- `/server` - a Node.js express server.
-- `/dotcom` - exports selected code/types for publishing to an npm package, for use by dotcom-rendering.
-- `/shared` - shared code between `/server` and `/dotcom`.
+-   `/server` - a Node.js express server.
+-   `/dotcom` - exports selected code/types for publishing to an npm package, for use by dotcom-rendering.
+-   `/shared` - shared code between `/server` and `/dotcom`.
 
 ## Publishing to npm
 
@@ -94,15 +101,19 @@ a change to the README.
 
 You can manually bump the version of SDC in `package.json` and run `pnpm i`, or run
 
-`pnpm --filter=@guardian/dotcom-rendering i @guardian/support-dotcom-components@latest`
+```
+$ pnpm --filter=@guardian/dotcom-rendering i @guardian/support-dotcom-components@latest
+```
 
 from the root of the project.
-
 
 ## SSH access
 
 To ssh onto an instance use:
-`ssm ssh --profile <aws profile> -x --ssm-tunnel -i <instance ID>`
+
+```
+$ ssm ssh --profile <aws profile> -x --ssm-tunnel -i <instance ID>
+```
 
 ## Logging
 

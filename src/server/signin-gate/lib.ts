@@ -252,3 +252,42 @@ export const articleIdentifierIsAllowed = (articleIdentifier: string): boolean =
 
     return !denyPrefixes.some((denyIdentifer) => articleIdentifier.startsWith(denyIdentifer));
 };
+
+export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
+    /*
+        In May 2025, we decided that we would decommission the old / previous definition
+        of the Auxia share of the audience, which was done using a client side defined AB test,
+        by which the "first" 35% of the audience is sent to Auxia, and the rest (65%) split between
+        "SignInGateMainVariant" and "SignInGateMainControl"
+        (
+            https://github.com/guardian/dotcom-rendering/blob/d6e44406cffb362c99d5734f6e82f6e664682da8/dotcom-rendering/src/experiments/tests/auxia-sign-in-gate.ts
+        )
+
+        ... and move to those shares being controlled by SDC and in particular SDC's default gate
+        taking over the old gate hard coded into DCR.
+
+        To maintain invariance of how the cohorts are defined, SDC, must be able to convert a
+        mvtId into a share of audience. Passing the mvtId to the GetTreatment call was done in these two PRs:
+
+        https://github.com/guardian/dotcom-rendering/pull/13938
+        https://github.com/guardian/dotcom-rendering/pull/13941
+
+        In particular we must be able to take a mvtId and simply return
+        a boolean indicating whether or not it is in the first 35% of the audience. This is what this function
+        does.
+
+        This is the function that needs to be modified when we want to increase the share of the
+        audience given to the Auxia experiment in the future.
+    */
+
+    // The MVT calculator is very useful: https://ab-tests.netlify.app
+
+    // The Auxia experiment is 35% audience with 0% offset.
+
+    // The value numbers we are interested in are between 1 and 350_000 [1]
+    // (essentially the first 35% of the total of 1_000_000 possible values for mvtId)
+
+    // [1] Interestingly, 0 is not considered a valid mvtId number.
+
+    return mvtId > 0 && mvtId <= 350_000;
+};
