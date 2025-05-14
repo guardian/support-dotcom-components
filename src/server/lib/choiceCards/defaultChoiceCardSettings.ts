@@ -43,7 +43,7 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         },
         label: '', // label is generated for recurring products
         isDefault: true,
-        benefitsLabel: 'Unlock All-access digital benefits:',
+        benefitsLabel: 'Unlock <strong>All-access digital</strong> benefits:',
         benefits: [
             { copy: 'Unlimited access to the Guardian app' },
             { copy: 'Unlimited access to our new Feast App' },
