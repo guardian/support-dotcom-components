@@ -12,6 +12,7 @@ import {
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
+    mvtIdIsAuxiaAudienceShare,
 } from '../signin-gate/lib';
 import { getSsmValue } from '../utils/ssm';
 
@@ -217,20 +218,38 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 // See https://github.com/guardian/dotcom-rendering/pull/13944
                 // for details.
 
-                const auxiaData = await callGetTreatments(
-                    config.apiKey,
-                    config.projectId,
-                    body.browserId,
-                    body.isSupporter,
-                    body.dailyArticleCount,
-                    body.articleIdentifier,
-                    body.editionId,
-                    body.contentType,
-                    body.sectionId,
-                    body.tagIds,
-                    body.gateDismissCount,
-                    body.countryCode,
-                );
+                // As a first step of handling this request, we first check whether the call is from the Auxia
+                // audience or the non Auxia audience. If it is from the non Auxia audience, then we follow the value of
+                // should_show_legacy_gate_tmp to decide whether to return a default gate or not. If it is from the Auxia
+                // audience, then we proceed with `callGetTreatments` as normal.
+
+                let auxiaData;
+
+                if (!mvtIdIsAuxiaAudienceShare(body.mvtId)) {
+                    if (body.should_show_legacy_gate_tmp) {
+                        auxiaData = guDefaultGateGetTreatmentsResponseData(
+                            body.dailyArticleCount,
+                            body.gateDismissCount,
+                        );
+                    } else {
+                        auxiaData = undefined;
+                    }
+                } else {
+                    auxiaData = await callGetTreatments(
+                        config.apiKey,
+                        config.projectId,
+                        body.browserId,
+                        body.isSupporter,
+                        body.dailyArticleCount,
+                        body.articleIdentifier,
+                        body.editionId,
+                        body.contentType,
+                        body.sectionId,
+                        body.tagIds,
+                        body.gateDismissCount,
+                        body.countryCode,
+                    );
+                }
 
                 if (auxiaData !== undefined) {
                     const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
