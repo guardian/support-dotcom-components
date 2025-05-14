@@ -188,6 +188,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'tagIds',
             'gateDismissCount',
             'countryCode',
+            'mvtId',
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
@@ -202,6 +203,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     tagIds: string[];
                     gateDismissCount: number;
                     countryCode: string;
+                    mvtId: number;
                 };
 
                 // [1] articleIdentifier examples:
