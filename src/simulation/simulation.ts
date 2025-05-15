@@ -16,6 +16,13 @@ const outputFilePath = './simulation_results.csv';
 
 
 const run = (simulation: Simulation) => {
+    // TODO - output cumulative AV
+    /**
+     * - cumulativeSampledMean, based on all samples so far
+     * - averageValueInGBPPerView - average sampled value for this timestep
+     * - totalValueInGBP - total £ value for this timestep
+     * - cumulativeValueInGBP - total £ value over all previous timesteps
+     */
     fs.writeFileSync(outputFilePath, 'algorithm,run,timestep,variant,mean,impressions,annualisedValueInGBPPerView,annualisedValueInGBP\n', 'utf8');
 
     const test: Test<Variant> = {
@@ -72,6 +79,7 @@ const run = (simulation: Simulation) => {
                 console.log({variantImpressions})
                 // update banditData by sampling using each variantModel
                 for (const variant of simulation.variantsScenario) {
+                    // TODO - call sample per 1000 impressions, then average across 1000 batches to get value
                     const value = sample(variant, timestep, simulation.timesteps);
                     console.log({name: variant.name, value})
 
