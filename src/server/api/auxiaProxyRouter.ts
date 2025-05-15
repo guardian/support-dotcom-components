@@ -218,14 +218,20 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 // See https://github.com/guardian/dotcom-rendering/pull/13944
                 // for details.
 
-                // As a first step of handling this request, we first check whether the call is from the Auxia
-                // audience or the non Auxia audience. If it is from the non Auxia audience, then we follow the value of
-                // should_show_legacy_gate_tmp to decide whether to return a default gate or not. If it is from the Auxia
-                // audience, then we proceed with `callGetTreatments` as normal.
+                // The handling of this request is as follows
+                // If the country is Ireland (country code IE), then we call Auxia.
+                // Otherwise we split between the natural Auxia share of the Audience
+                // and the non Auxia share of the audience (in this later case we return the gu-default gate)
+
+                // Note: we are kepping a bit of logic here, but only for initial clarity, we are going to
+                // refactor shortly.
+
+                const isIreland: boolean = body.countryCode === 'IE';
 
                 let auxiaData;
 
-                if (!mvtIdIsAuxiaAudienceShare(body.mvtId)) {
+                if (!mvtIdIsAuxiaAudienceShare(body.mvtId) && !isIreland) {
+                    // This clause run if we are the non Auxia share of the audience and not Ireland
                     if (body.should_show_legacy_gate_tmp) {
                         auxiaData = guDefaultGateGetTreatmentsResponseData(
                             body.dailyArticleCount,
@@ -235,6 +241,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                         auxiaData = undefined;
                     }
                 } else {
+                    // This clause runs if we are the natural Auxia share of the Audience or Ireland.
                     auxiaData = await callGetTreatments(
                         config.apiKey,
                         config.projectId,
