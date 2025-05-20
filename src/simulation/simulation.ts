@@ -19,11 +19,12 @@ const run = (simulation: Simulation) => {
     // TODO - output cumulative AV
     /**
      * - cumulativeSampledMean, based on all samples so far
+     * - impressions - for this timestep
      * - averageValueInGBPPerView - average sampled value for this timestep
      * - totalValueInGBP - total £ value for this timestep
      * - cumulativeValueInGBP - total £ value over all previous timesteps
      */
-    fs.writeFileSync(outputFilePath, 'algorithm,run,timestep,variant,mean,impressions,annualisedValueInGBPPerView,annualisedValueInGBP\n', 'utf8');
+    fs.writeFileSync(outputFilePath, 'algorithm,run,timestep,variant,cumulativeSampledMean,impressions,averageValueInGBPPerView,totalValueInGBP,cumulativeValueInGBP\n', 'utf8');
 
     const test: Test<Variant> = {
         channel: 'Epic',
@@ -36,8 +37,10 @@ const run = (simulation: Simulation) => {
     for (const algorithm of simulation.algorithms) {
         // initialise variant means to 0 at the start of the "test"
         const samples: Record<string, VariantSample[]> = {};
+        const cumulativeValueInGBP: Record<string, number> = {};
         for (const variant of simulation.variantsScenario) {
             samples[variant.name] = [];
+            cumulativeValueInGBP[variant.name] = 0;
         }
 
         for (let run = 0; run < simulation.runs; run++) {
@@ -97,8 +100,10 @@ const run = (simulation: Simulation) => {
                     };
                     samples[variant.name].push(variantSample);
 
-                    const currentMean = banditData.sortedVariants.find(v => v.variantName === variant.name)?.mean;
-                    const row = `${algorithm.name},${run},${timestep},${variant.name},${currentMean},${variantSample.views},${variantSample.annualisedValueInGBPPerView},${variantSample.annualisedValueInGBP}\n`;
+                    cumulativeValueInGBP[variant.name] += variantSample.annualisedValueInGBP;
+
+                    const cumulativeSampledMean = banditData.sortedVariants.find(v => v.variantName === variant.name)?.mean;
+                    const row = `${algorithm.name},${run},${timestep},${variant.name},${cumulativeSampledMean},${variantSample.views},${variantSample.annualisedValueInGBPPerView},${variantSample.annualisedValueInGBP},${cumulativeValueInGBP[variant.name]}\n`;
                     fs.appendFileSync(outputFilePath, row, 'utf8');
                 }
             }
