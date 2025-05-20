@@ -79,15 +79,21 @@ const run = (simulation: Simulation) => {
                 console.log({variantImpressions})
                 // update banditData by sampling using each variantModel
                 for (const variant of simulation.variantsScenario) {
-                    // TODO - call sample per 1000 impressions, then average across 1000 batches to get value
-                    const value = sample(variant, timestep, simulation.timesteps);
-                    console.log({name: variant.name, value})
+                    // TODO - is this the correct approach?
+                    const batches = variantImpressions[variant.name] / 10;
+                    let sum = 0;
+                    for (let batch = 0; batch < batches; batch++) {
+                        const value = sample(variant, timestep, simulation.timesteps);
+                        sum += value;
+                    }
+                    const meanValue = sum / batches;
+                    console.log({name: variant.name, meanValue})
 
                     const variantSample: VariantSample = {
                         variantName: variant.name,
                         views: variantImpressions[variant.name],
-                        annualisedValueInGBP: value * variantImpressions[variant.name],
-                        annualisedValueInGBPPerView: value,
+                        annualisedValueInGBP: meanValue * variantImpressions[variant.name],
+                        annualisedValueInGBPPerView: meanValue,
                     };
                     samples[variant.name].push(variantSample);
 
