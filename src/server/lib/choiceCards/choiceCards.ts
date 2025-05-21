@@ -16,6 +16,14 @@ import {
 const replaceCurrencyTemplate = (s: string, currencySymbol: string) =>
     s.replace(currencySymbolTemplate, currencySymbol);
 
+const ratePlanCopy = (ratePlan: RatePlan): string => {
+    if (ratePlan === 'Monthly') {
+        return 'monthly';
+    } else {
+        return 'annually';
+    }
+};
+
 // Add pricing, currency etc
 const enrichChoiceCard = (
     choiceCard: ChoiceCard,
@@ -29,7 +37,7 @@ const enrichChoiceCard = (
         tier: 'Contribution' | 'SupporterPlus',
     ) => {
         const price = productCatalog[tier].ratePlans.Monthly.pricing[isoCurrency];
-        return `Support ${currencySymbol}${price}/${ratePlan.toLowerCase()}`;
+        return `Support ${currencySymbol}${price}/${ratePlanCopy(ratePlan)}`;
     };
     const buildLabelForOneOffContribution = (label: string) =>
         replaceCurrencyTemplate(label, currencySymbol);
