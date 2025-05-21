@@ -53,6 +53,7 @@ const enrichChoiceCard = (
         isDefault: choiceCard.isDefault,
         benefitsLabel: choiceCard.benefitsLabel,
         benefits,
+        pill: choiceCard.pill,
     };
 };
 
