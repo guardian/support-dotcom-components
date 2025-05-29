@@ -70,8 +70,8 @@ const enrichChoiceCard = (
         if (promotion) {
             return {
                 copy: `${promotion.discountPercent}% off`,
-                textColour: { r: 'C7', g: '00', b: '00', kind: 'hex' }, // neutral[100]
-                backgroundColour: { r: 'FF', g: 'FF', b: 'FF', kind: 'hex' }, // error[400]
+                backgroundColour: { r: 'C7', g: '00', b: '00', kind: 'hex' }, // error[400]
+                textColour: { r: 'FF', g: 'FF', b: 'FF', kind: 'hex' }, // neutral[100]
             };
         } else {
             return choiceCard.pill;
