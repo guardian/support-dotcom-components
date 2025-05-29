@@ -66,7 +66,19 @@ const enrichChoiceCard = (
         copy: replaceCurrencyTemplate(benefit.copy, currencySymbol),
     }));
 
-    const pill = promotion ? { copy: `${promotion.discountPercent}% off` } : choiceCard.pill;
+    const buildPill = (): ChoiceCard['pill'] => {
+        if (promotion) {
+            return {
+                copy: `${promotion.discountPercent}% off`,
+                textColour: { r: 'C7', g: '00', b: '00', kind: 'hex' }, // neutral[100]
+                backgroundColour: { r: 'FF', g: 'FF', b: 'FF', kind: 'hex' }, // error[400]
+            };
+        } else {
+            return choiceCard.pill;
+        }
+    };
+
+    const pill = buildPill();
 
     return {
         product: choiceCard.product,
