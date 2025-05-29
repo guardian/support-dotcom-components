@@ -4,7 +4,7 @@ export interface Promotion {
     code: string;
     discountPercent: number;
     product: {
-        supportTier: 'SupporterPlus';   // The only product we support for now
+        supportTier: 'SupporterPlus'; // The only product we support for now
         ratePlan: RatePlan;
     };
 }
@@ -15,5 +15,5 @@ export const JunePromotion: Promotion = {
     product: {
         supportTier: 'SupporterPlus',
         ratePlan: 'Annual',
-    }
+    },
 };

@@ -97,9 +97,15 @@ const junePromoEpicChoiceCardsSettings = (countryGroupId: CountryGroupId): Choic
     // same on mobile
 });
 
-const junePromoBannerChoiceCardsSettings = (countryGroupId: CountryGroupId): ChoiceCardsSettings => ({
+const junePromoBannerChoiceCardsSettings = (
+    countryGroupId: CountryGroupId,
+): ChoiceCardsSettings => ({
     choiceCards: shorterChoiceCards(countryGroupId),
     // same on mobile
 });
 
-export { currencySymbolTemplate, junePromoEpicChoiceCardsSettings, junePromoBannerChoiceCardsSettings };
+export {
+    currencySymbolTemplate,
+    junePromoEpicChoiceCardsSettings,
+    junePromoBannerChoiceCardsSettings,
+};

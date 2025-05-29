@@ -14,7 +14,7 @@ describe('getChoiceCardsSettings when variantChoiceCardSettings is undefined', (
                         EUR: 60,
                         GBP: 60,
                         CAD: 5,
-                        AUD: 100
+                        AUD: 100,
                     },
                 },
                 Annual: {
@@ -24,9 +24,9 @@ describe('getChoiceCardsSettings when variantChoiceCardSettings is undefined', (
                         EUR: 60,
                         GBP: 60,
                         CAD: 5,
-                        AUD: 100
+                        AUD: 100,
                     },
-                }
+                },
             },
         },
         SupporterPlus: {
@@ -62,13 +62,21 @@ describe('getChoiceCardsSettings when variantChoiceCardSettings is undefined', (
         };
         const variantChoiceCardSettings = undefined;
 
-        const result = getChoiceCardsSettings('UnitedStates', 'Epic', mockProductCatalog, variantChoiceCardSettings, cta);
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            variantChoiceCardSettings,
+            cta,
+        );
 
         expect(result).toBeDefined();
         expect(result?.choiceCards[1].label).toEqual('Support $15/monthly');
         expect(result?.choiceCards[1].pill?.copy).toBe('Recommended');
-        expect(result?.choiceCards[1].product).toEqual({ supportTier: 'SupporterPlus', ratePlan: 'Monthly'});
-
+        expect(result?.choiceCards[1].product).toEqual({
+            supportTier: 'SupporterPlus',
+            ratePlan: 'Monthly',
+        });
     });
 
     it('returns choice cards with June promotion applied', () => {
@@ -78,11 +86,20 @@ describe('getChoiceCardsSettings when variantChoiceCardSettings is undefined', (
         };
         const variantChoiceCardSettings = undefined;
 
-        const result = getChoiceCardsSettings('UnitedStates', 'Epic', mockProductCatalog, variantChoiceCardSettings, cta);
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            variantChoiceCardSettings,
+            cta,
+        );
 
         expect(result).toBeDefined();
         expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $7.5/year');
         expect(result?.choiceCards[1].pill?.copy).toBe('50% off');
-        expect(result?.choiceCards[1].product).toEqual({ supportTier: 'SupporterPlus', ratePlan: 'Annual'});
+        expect(result?.choiceCards[1].product).toEqual({
+            supportTier: 'SupporterPlus',
+            ratePlan: 'Annual',
+        });
     });
 });

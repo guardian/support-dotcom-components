@@ -14,7 +14,10 @@ import {
     defaultBannerChoiceCardsSettings,
     defaultEpicChoiceCardsSettings,
 } from './defaultChoiceCardSettings';
-import { junePromoBannerChoiceCardsSettings, junePromoEpicChoiceCardsSettings } from './junePromoChoiceCardSettings';
+import {
+    junePromoBannerChoiceCardsSettings,
+    junePromoEpicChoiceCardsSettings,
+} from './junePromoChoiceCardSettings';
 
 const replaceCurrencyTemplate = (s: string, currencySymbol: string) =>
     s.replace(currencySymbolTemplate, currencySymbol);
@@ -42,7 +45,7 @@ const enrichChoiceCard = (
     ) => {
         const price = productCatalog[tier].ratePlans.Monthly.pricing[isoCurrency];
         if (promotion) {
-            return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${price*(promotion.discountPercent/100)}/${ratePlanCopy(ratePlan)}`;
+            return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${price * (promotion.discountPercent / 100)}/${ratePlanCopy(ratePlan)}`;
         } else {
             return `Support ${currencySymbol}${price}/${ratePlanCopy(ratePlan)}`;
         }
@@ -63,7 +66,7 @@ const enrichChoiceCard = (
         copy: replaceCurrencyTemplate(benefit.copy, currencySymbol),
     }));
 
-    const pill = promotion ? {copy: `${promotion.discountPercent}% off`} : choiceCard.pill;
+    const pill = promotion ? { copy: `${promotion.discountPercent}% off` } : choiceCard.pill;
 
     return {
         product: choiceCard.product,
@@ -82,7 +85,7 @@ const getPromoCodeFromUrl = (url: string): string | undefined => {
     } catch {
         return undefined;
     }
-}
+};
 
 export const getChoiceCardsSettings = (
     countryGroupId: CountryGroupId,
@@ -101,21 +104,28 @@ export const getChoiceCardsSettings = (
     } else {
         // Use the default settings
         if (channel === 'Epic') {
-            choiceCardsSettings = hasJunePromoCode ? junePromoEpicChoiceCardsSettings(countryGroupId) : defaultEpicChoiceCardsSettings(countryGroupId);
+            choiceCardsSettings = hasJunePromoCode
+                ? junePromoEpicChoiceCardsSettings(countryGroupId)
+                : defaultEpicChoiceCardsSettings(countryGroupId);
         } else if (channel === 'Banner1' || channel === 'Banner2') {
-            choiceCardsSettings = hasJunePromoCode ? junePromoBannerChoiceCardsSettings(countryGroupId) : defaultBannerChoiceCardsSettings(countryGroupId);
+            choiceCardsSettings = hasJunePromoCode
+                ? junePromoBannerChoiceCardsSettings(countryGroupId)
+                : defaultBannerChoiceCardsSettings(countryGroupId);
         }
     }
 
     const getPromotion = (choiceCard: ChoiceCard): Promotion | undefined => {
         if (!hasJunePromoCode) {
             return undefined;
-        } else if (choiceCard.product.supportTier === 'SupporterPlus' && choiceCard.product.ratePlan === JunePromotion.product.ratePlan) {
+        } else if (
+            choiceCard.product.supportTier === 'SupporterPlus' &&
+            choiceCard.product.ratePlan === JunePromotion.product.ratePlan
+        ) {
             return JunePromotion;
         } else {
             return undefined;
         }
-    }
+    };
 
     if (choiceCardsSettings) {
         // Prepare the choice cards settings for rendering
