@@ -43,7 +43,7 @@ const enrichChoiceCard = (
         ratePlan: RatePlan,
         tier: 'Contribution' | 'SupporterPlus',
     ) => {
-        const price = productCatalog[tier].ratePlans.Monthly.pricing[isoCurrency];
+        const price = productCatalog[tier].ratePlans[ratePlan].pricing[isoCurrency];
         if (promotion) {
             return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${price * (promotion.discountPercent / 100)}/${ratePlanCopy(ratePlan)}`;
         } else {
