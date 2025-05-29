@@ -95,7 +95,7 @@ describe('getChoiceCardsSettings when variantChoiceCardSettings is undefined', (
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $7.5/year');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$150</s> $75/year');
         expect(result?.choiceCards[1].pill?.copy).toBe('50% off');
         expect(result?.choiceCards[1].product).toEqual({
             supportTier: 'SupporterPlus',
