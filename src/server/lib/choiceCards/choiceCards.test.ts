@@ -3,7 +3,7 @@ import type { ProductCatalog } from '../../productCatalog';
 import { JunePromotion } from '../promotions/promotions';
 import { getChoiceCardsSettings } from './choiceCards';
 
-describe('getChoiceCardsSettings when variantChoiceCardSettings is undefined', () => {
+describe('getChoiceCardsSettings', () => {
     const mockProductCatalog: ProductCatalog = {
         Contribution: {
             ratePlans: {
