@@ -48,37 +48,14 @@ const callGetTreatments = async (
     dailyArticleCount: number,
     articleIdentifier: string,
     editionId: string,
-    contentType: string,
-    sectionId: string,
-    tagIds: string[],
-    gateDismissCount: number,
     countryCode: string,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
-    // The logic here is to perform a certain number of checks, each resulting with a different behavior.
-
-    // First we check page metada to comply with Guardian policies
-
-    if (
-        !isValidContentType(contentType) ||
-        !isValidSection(sectionId) ||
-        !isValidTagIdCollection(tagIds) ||
-        !articleIdentifierIsAllowed(articleIdentifier)
-    ) {
-        return Promise.resolve(undefined);
-    }
-
-    // Then we check if the user has consented to personal data use.
-    // If the user has not consented, we call for the gu-default gate, which may or may not be served depending on
-    // policies.
-
-    if (browserId === undefined) {
-        const data = guDefaultGateGetTreatmentsResponseData(dailyArticleCount, gateDismissCount);
-        return Promise.resolve(data);
-    }
-
-    console.log('We have consent to use personal data');
-
     // We now have clearance to call the Auxia API.
+
+    // If the browser id could not be recovered client side, then we do not call auxia
+    if (browserId === undefined) {
+        return;
+    }
 
     const url = 'https://apis.auxia.io/v1/GetTreatments';
 
@@ -219,6 +196,39 @@ const getTreatments = async (
         }
     }
 
+    // ---------------------------------------------------------------------
+    // If we reached this point, then we are the Auxia share of the audience
+    // ---------------------------------------------------------------------
+
+    // First we check page metada to comply with Guardian policies.
+    // If the policies are not met, then we do not display a gate
+
+    if (
+        !isValidContentType(body.contentType) ||
+        !isValidSection(body.sectionId) ||
+        !isValidTagIdCollection(body.tagIds) ||
+        !articleIdentifierIsAllowed(body.articleIdentifier)
+    ) {
+        return Promise.resolve(undefined);
+    }
+
+    // Then we check whether or not the user has consented for the use of third parties
+    // If they have not, we attempt to return the default gate.
+
+    // The way we perform that check at the moment is simply to see if browserId is defined or not
+
+    // Note that `guDefaultGateGetTreatmentsResponseData` performs some checks
+    // using `dailyArticleCount` and `dailyArticleCount`
+    // Note: we could, one day, move the check outside the function itself (not very important right now)
+
+    if (body.browserId === undefined) {
+        const data = guDefaultGateGetTreatmentsResponseData(
+            body.dailyArticleCount,
+            body.gateDismissCount,
+        );
+        return Promise.resolve(data);
+    }
+
     return callGetTreatments(
         config.apiKey,
         config.projectId,
@@ -227,10 +237,6 @@ const getTreatments = async (
         body.dailyArticleCount,
         body.articleIdentifier,
         body.editionId,
-        body.contentType,
-        body.sectionId,
-        body.tagIds,
-        body.gateDismissCount,
         body.countryCode,
     );
 };
