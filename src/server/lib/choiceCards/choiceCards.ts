@@ -110,8 +110,7 @@ export const getChoiceCardsSettings = (
     const getPromotion = (choiceCard: ChoiceCard): Promotion | undefined => {
         if (!hasJunePromoCode) {
             return undefined;
-        }
-        else if (choiceCard.product.supportTier === 'SupporterPlus' && choiceCard.product.ratePlan === JunePromotion.product.ratePlan) {
+        } else if (choiceCard.product.supportTier === 'SupporterPlus' && choiceCard.product.ratePlan === JunePromotion.product.ratePlan) {
             return JunePromotion;
         } else {
             return undefined;

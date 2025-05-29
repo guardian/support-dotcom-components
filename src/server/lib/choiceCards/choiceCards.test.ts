@@ -55,20 +55,6 @@ describe('getChoiceCardsSettings when variantChoiceCardSettings is undefined', (
         },
     };
 
-    it('returns choice cards with June promotion applied', () => {
-        const cta: Cta = {
-            baseUrl: `https://support.theguardian.com/contribute?promoCode=${JunePromotion.code}`,
-            text: 'Support',
-        };
-        const variantChoiceCardSettings = undefined;
-
-        const result = getChoiceCardsSettings('UnitedStates', 'Epic', mockProductCatalog, variantChoiceCardSettings, cta);
-
-        expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $7.5/year');
-        expect(result?.choiceCards[1].pill?.copy).toBe('50% off');
-    });
-
     it('returns default settings without promotion applied', () => {
         const cta: Cta = {
             baseUrl: `https://support.theguardian.com/contribute`,
@@ -81,5 +67,22 @@ describe('getChoiceCardsSettings when variantChoiceCardSettings is undefined', (
         expect(result).toBeDefined();
         expect(result?.choiceCards[1].label).toEqual('Support $15/monthly');
         expect(result?.choiceCards[1].pill?.copy).toBe('Recommended');
+        expect(result?.choiceCards[1].product).toEqual({ supportTier: 'SupporterPlus', ratePlan: 'Monthly'});
+
+    });
+
+    it('returns choice cards with June promotion applied', () => {
+        const cta: Cta = {
+            baseUrl: `https://support.theguardian.com/contribute?promoCode=${JunePromotion.code}`,
+            text: 'Support',
+        };
+        const variantChoiceCardSettings = undefined;
+
+        const result = getChoiceCardsSettings('UnitedStates', 'Epic', mockProductCatalog, variantChoiceCardSettings, cta);
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $7.5/year');
+        expect(result?.choiceCards[1].pill?.copy).toBe('50% off');
+        expect(result?.choiceCards[1].product).toEqual({ supportTier: 'SupporterPlus', ratePlan: 'Annual'});
     });
 });
