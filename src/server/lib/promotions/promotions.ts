@@ -11,7 +11,7 @@ export interface Promotion {
 
 export const JunePromotion: Promotion = {
     code: '30OFFANNUALJUNE',
-    discountPercent: 50,
+    discountPercent: 30,
     product: {
         supportTier: 'SupporterPlus',
         ratePlan: 'Annual',
