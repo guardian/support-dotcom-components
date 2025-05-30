@@ -45,7 +45,8 @@ const enrichChoiceCard = (
     ) => {
         const price = productCatalog[tier].ratePlans[ratePlan].pricing[isoCurrency];
         if (promotion) {
-            return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${price * (promotion.discountPercent / 100)}/${ratePlanCopy(ratePlan)}`;
+            const discount = price * (promotion.discountPercent / 100);
+            return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${price - discount}/${ratePlanCopy(ratePlan)}`;
         } else {
             return `Support ${currencySymbol}${price}/${ratePlanCopy(ratePlan)}`;
         }
