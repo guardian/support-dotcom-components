@@ -185,7 +185,7 @@ const getTreatments = async (
     // Auxia is not going to process non consented traffic for targetting.)
 
     if (body.countryCode === 'IE') {
-        return callGetTreatments(
+        const answerFromAuxia = await callGetTreatments(
             config.apiKey,
             config.projectId,
             body.browserId,
@@ -196,13 +196,35 @@ const getTreatments = async (
             body.countryCode,
             body.hasConsented,
         );
+
+        if (body.hasConsented) {
+            // If the user had consented we return the answer from Auxia
+            return answerFromAuxia;
+        } else {
+            // Otherwise we still make the call, but we return the default gate
+
+            // We have made the call to Auxia and synchronously waited for the answer
+            // (We will improve this in a future change).
+            // We now decide whether to send back the default gate
+            if (body.should_show_legacy_gate_tmp) {
+                const auxiaData = guDefaultGateGetTreatmentsResponseData(
+                    body.dailyArticleCount,
+                    body.gateDismissCount,
+                );
+                return Promise.resolve(auxiaData);
+            } else {
+                return Promise.resolve(undefined);
+            }
+        }
     }
 
     // Then, we check whether the call is from the Auxia audience or the non Auxia audience.
     // If it is from the non Auxia audience, then we follow the value of
     // should_show_legacy_gate_tmp to decide whether to return a default gate or not.
-    // If it is from the Auxia audience, then we proceed with `callGetTreatments` as normal.
-    // Note that "Auxia audience" and "non Auxia audience" are concepts from the way the Audience
+
+    // If it is from the Auxia audience, then  move to the next section
+
+    // Note that "Auxia audience" and "non Auxia audience" are concepts from the way the audience
     // was split between 35% expose to the Auxia gate and 65% being shown the default GU gate
     // That split used to be done client side, but it's now been moved to SDC and is driven by
     // `mvtIdIsAuxiaAudienceShare`.
