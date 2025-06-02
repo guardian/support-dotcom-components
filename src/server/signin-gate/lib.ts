@@ -77,6 +77,7 @@ export const buildGetTreatmentsRequestPayload = (
     articleIdentifier: string,
     editionId: string,
     countryCode: string,
+    hasConsented: boolean,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
@@ -102,6 +103,10 @@ export const buildGetTreatmentsRequestPayload = (
             {
                 key: 'country_key',
                 stringValue: countryCode,
+            },
+            {
+                key: 'has_consented',
+                boolValue: hasConsented,
             },
         ],
         surfaces: [
@@ -145,8 +150,6 @@ export const guDefaultGateGetTreatmentsResponseData = (
     daily_article_count: number,
     gateDismissCount: number,
 ): AuxiaAPIGetTreatmentsResponseData => {
-    // This function is called in the case of non consenting users, which is detected by the absence of the browserId.
-
     const responseId = ''; // This value is not important, it is not used by the client.
 
     // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
