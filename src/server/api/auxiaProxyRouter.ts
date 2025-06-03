@@ -49,6 +49,7 @@ const callGetTreatments = async (
     articleIdentifier: string,
     editionId: string,
     countryCode: string,
+    hasConsented: boolean,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // We now have clearance to call the Auxia API.
 
@@ -72,6 +73,7 @@ const callGetTreatments = async (
         articleIdentifier,
         editionId,
         countryCode,
+        hasConsented,
     );
 
     const params = {
@@ -160,6 +162,7 @@ interface GetTreatmentRequestBody {
     countryCode: string;
     mvtId: number;
     should_show_legacy_gate_tmp: boolean; // [2]
+    hasConsented: boolean;
 }
 
 // [1] articleIdentifier examples:
@@ -238,6 +241,7 @@ const getTreatments = async (
         body.articleIdentifier,
         body.editionId,
         body.countryCode,
+        body.hasConsented,
     );
 };
 
@@ -262,6 +266,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'countryCode',
             'mvtId',
             'should_show_legacy_gate_tmp',
+            'hasConsented',
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
