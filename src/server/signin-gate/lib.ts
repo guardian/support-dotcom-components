@@ -77,6 +77,7 @@ export const buildGetTreatmentsRequestPayload = (
     articleIdentifier: string,
     editionId: string,
     countryCode: string,
+    hasConsented: boolean,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
@@ -102,6 +103,10 @@ export const buildGetTreatmentsRequestPayload = (
             {
                 key: 'country_key',
                 stringValue: countryCode,
+            },
+            {
+                key: 'has_consented',
+                boolValue: hasConsented,
             },
         ],
         surfaces: [

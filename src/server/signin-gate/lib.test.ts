@@ -31,6 +31,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
         const articleIdentifier = 'articleIdentifier';
         const editionId = 'UK';
         const countryCode = 'GB';
+        const hasConsented = true;
 
         const expectedAnswer = {
             projectId,
@@ -56,6 +57,10 @@ describe('buildGetTreatmentsRequestPayload', () => {
                     key: 'country_key',
                     stringValue: countryCode,
                 },
+                {
+                    key: 'has_consented',
+                    boolValue: hasConsented,
+                },
             ],
             surfaces: [
                 {
@@ -74,6 +79,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
             articleIdentifier,
             editionId,
             countryCode,
+            hasConsented,
         );
         expect(returnedAnswer).toStrictEqual(expectedAnswer);
     });
