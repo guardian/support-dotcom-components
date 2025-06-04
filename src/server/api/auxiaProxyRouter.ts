@@ -112,10 +112,7 @@ const callLogTreatmentInteration = async (
     interactionTimeMicros: number,
     actionName: string,
 ): Promise<void> => {
-    // Here the behavior depends on the value of `undefined`
-    // If present, we perform the normal API call to Auxia.
-    // If undefined, we do nothing.
-
+    // If the browser id could not be recovered client side, then we do not call auxia
     if (browserId === undefined) {
         return;
     }
@@ -182,10 +179,55 @@ const getTreatments = async (
     // This function gets the body of a '/auxia/get-treatments' request and return the data to post to the client
     // or undefined.
 
-    // As a first step of handling this request, we first check whether the call is from the Auxia
-    // audience or the non Auxia audience. If it is from the non Auxia audience, then we follow the value of
-    // should_show_legacy_gate_tmp to decide whether to return a default gate or not. If it is from the Auxia
-    // audience, then we proceed with `callGetTreatments` as normal.
+    // As a first step we need to check whether we are in Ireland ot not. If we are in Ireland
+    // as a consequence of the great Ireland opening of May 2025 (tm), we send the entire
+    // traffic (consented or not consented) to Auxia. (For privacy vigilantes reading this,
+    // Auxia is not going to process non consented traffic for targetting.)
+
+    if (body.countryCode === 'IE') {
+        const answerFromAuxia = await callGetTreatments(
+            config.apiKey,
+            config.projectId,
+            body.browserId,
+            body.isSupporter,
+            body.dailyArticleCount,
+            body.articleIdentifier,
+            body.editionId,
+            body.countryCode,
+            body.hasConsented,
+        );
+
+        if (body.hasConsented) {
+            // If the user had consented we return the answer from Auxia
+            return answerFromAuxia;
+        } else {
+            // Otherwise we still make the call, but we return the default gate
+
+            // We have made the call to Auxia and synchronously waited for the answer
+            // (We will improve this in a future change).
+            // We now decide whether to send back the default gate
+            if (body.should_show_legacy_gate_tmp) {
+                const auxiaData = guDefaultGateGetTreatmentsResponseData(
+                    body.dailyArticleCount,
+                    body.gateDismissCount,
+                );
+                return Promise.resolve(auxiaData);
+            } else {
+                return Promise.resolve(undefined);
+            }
+        }
+    }
+
+    // Then, we check whether the call is from the Auxia audience or the non Auxia audience.
+    // If it is from the non Auxia audience, then we follow the value of
+    // should_show_legacy_gate_tmp to decide whether to return a default gate or not.
+
+    // If it is from the Auxia audience, then  move to the next section
+
+    // Note that "Auxia audience" and "non Auxia audience" are concepts from the way the audience
+    // was split between 35% expose to the Auxia gate and 65% being shown the default GU gate
+    // That split used to be done client side, but it's now been moved to SDC and is driven by
+    // `mvtIdIsAuxiaAudienceShare`.
 
     if (!mvtIdIsAuxiaAudienceShare(body.mvtId)) {
         if (body.should_show_legacy_gate_tmp) {
@@ -217,14 +259,11 @@ const getTreatments = async (
 
     // Then we check whether or not the user has consented for the use of third parties
     // If they have not, we attempt to return the default gate.
-
-    // The way we perform that check at the moment is simply to see if browserId is defined or not
-
     // Note that `guDefaultGateGetTreatmentsResponseData` performs some checks
     // using `dailyArticleCount` and `dailyArticleCount`
     // Note: we could, one day, move the check outside the function itself (not very important right now)
 
-    if (body.browserId === undefined) {
+    if (!body.hasConsented) {
         const data = guDefaultGateGetTreatmentsResponseData(
             body.dailyArticleCount,
             body.gateDismissCount,
@@ -241,8 +280,11 @@ const getTreatments = async (
         body.articleIdentifier,
         body.editionId,
         body.countryCode,
-        body.hasConsented,
+        body.hasConsented, // [1]
     );
+
+    // [1] here the value should be true, because it's only in Ireland that we send non consented
+    // requests to Auxia, and this should have happened earlier.
 };
 
 // --------------------------------
