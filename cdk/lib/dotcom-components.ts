@@ -241,6 +241,9 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 			new GuDynamoDBReadPolicy(this, 'DynamoBanditReadPolicy', {
 				tableName: `support-bandit-${this.stage}`,
 			}),
+			new GuDynamoDBReadPolicy(this, 'DynamoPromosReadPolicy', {
+				tableName: `MembershipSub-PromoCode-View-${this.stage}`,
+			}),
 			new GuAllowPolicy(this, 'SSMGet', {
 				actions: ['ssm:GetParameter'],
 				resources: ['*'],
@@ -262,7 +265,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 						},
 						unhealthyInstancesAlarm: true,
 						snsTopicName,
-				  }
+					}
 				: { noMonitoring: true };
 
 		const ec2App = new GuEc2App(this, {
