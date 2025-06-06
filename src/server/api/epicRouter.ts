@@ -21,7 +21,7 @@ import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
-import type { PromotionsMap } from '../lib/promotions/promotions';
+import type { PromotionsCache } from '../lib/promotions/promotions';
 import type { SuperModeArticle } from '../lib/superMode';
 import { buildEpicCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
@@ -56,7 +56,7 @@ export const buildEpicRouter = (
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
-    promotions: ValueProvider<PromotionsMap>,
+    promotions: ValueProvider<PromotionsCache>,
 ): Router => {
     const router = Router();
 
