@@ -82,14 +82,12 @@ const run = (simulation: Simulation) => {
                 console.log({variantImpressions})
                 // update banditData by sampling using each variantModel
                 for (const variant of simulation.variantsScenario) {
-                    // TODO - is this the correct approach?
-                    const batches = variantImpressions[variant.name] / 10;
                     let sum = 0;
-                    for (let batch = 0; batch < batches; batch++) {
+                    for (let batch = 0; batch < variantImpressions[variant.name]; batch++) {
                         const value = sample(variant, timestep, simulation.timesteps);
                         sum += value;
                     }
-                    const meanValue = sum / batches;
+                    const meanValue = sum / variantImpressions[variant.name];
                     console.log({name: variant.name, meanValue})
 
                     const variantSample: VariantSample = {
