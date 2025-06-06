@@ -7,7 +7,7 @@ import type {
     RatePlan,
 } from '../../../shared/types/props/choiceCards';
 import type { ProductCatalog } from '../../productCatalog';
-import type { Promotion, PromotionsMap } from '../promotions/promotions';
+import type { Promotion, PromotionsCache } from '../promotions/promotions';
 import {
     currencySymbolTemplate,
     defaultBannerChoiceCardsSettings,
@@ -104,7 +104,7 @@ export const getChoiceCardsSettings = (
     countryGroupId: CountryGroupId,
     channel: Channel,
     productCatalog: ProductCatalog,
-    promotions: PromotionsMap,
+    promotions: PromotionsCache,
     variantChoiceCardSettings?: ChoiceCardsSettings, // defined only if the test variant overrides the default settings
     cta?: Cta,
 ): ChoiceCardsSettings | undefined => {

@@ -1,7 +1,7 @@
 import type { Cta } from '../../../shared/types';
 import type { ChoiceCardsSettings } from '../../../shared/types/props/choiceCards';
 import type { ProductCatalog } from '../../productCatalog';
-import type { PromotionsMap } from '../promotions/promotions';
+import type { PromotionsCache } from '../promotions/promotions';
 import { getChoiceCardsSettings } from './choiceCards';
 import { defaultEpicChoiceCardsSettings } from './defaultChoiceCardSettings';
 
@@ -61,7 +61,7 @@ describe('getChoiceCardsSettings', () => {
         },
     };
 
-    const promotionsMap: PromotionsMap = {
+    const mockPromotionsCache: PromotionsCache = {
         PROMO_A: {
             promoCode: 'PROMO_A',
             productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Annual.id],
@@ -86,7 +86,7 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            promotionsMap,
+            mockPromotionsCache,
             variantChoiceCardSettings,
             cta,
         );
@@ -112,7 +112,7 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            promotionsMap,
+            mockPromotionsCache,
             variantChoiceCardSettings,
             cta,
         );
@@ -151,7 +151,7 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            promotionsMap,
+            mockPromotionsCache,
             variantChoiceCardSettings,
             cta,
         );

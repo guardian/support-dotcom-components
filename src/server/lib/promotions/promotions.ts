@@ -13,7 +13,7 @@ export interface Promotion {
     productRatePlanIds: string[]; // the product rate plans that this promo applies to
     discountPercent: number;
 }
-export type PromotionsMap = Record<PromoCode, Promotion>;
+export type PromotionsCache = Record<PromoCode, Promotion>;
 
 // The model we get from DynamoDb. Most fields are ignored. Any targeting must be done in the RRCP
 interface PromotionTableItem {
@@ -39,10 +39,10 @@ const mapTableItemToPromotion = (item: PromotionTableItem): Promotion[] => {
 };
 
 // Does a full scan of the Promotions table - there isn't a smarter way to do this with the existing schema.
-const fetchPromotions = async (): Promise<PromotionsMap> => {
+const fetchPromotions = async (): Promise<PromotionsCache> => {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     const tableName = `MembershipSub-Promotions-${stage}`;
-    const promotionsMap: PromotionsMap = {};
+    const promotionsCache: PromotionsCache = {};
     let lastEvaluatedKey: AWS.DynamoDB.DocumentClient.Key | undefined; // for paginating through the dynamodb results
 
     try {
@@ -64,7 +64,7 @@ const fetchPromotions = async (): Promise<PromotionsMap> => {
                 if (item.promotionType.name === 'percent_discount' && item.promotionType.amount) {
                     const promotions = mapTableItemToPromotion(item);
                     promotions.forEach((promotion) => {
-                        promotionsMap[promotion.promoCode] = promotion;
+                        promotionsCache[promotion.promoCode] = promotion;
                     });
                 }
             });
@@ -72,8 +72,8 @@ const fetchPromotions = async (): Promise<PromotionsMap> => {
             lastEvaluatedKey = result.LastEvaluatedKey;
         } while (lastEvaluatedKey);
 
-        logInfo(`Got ${Object.keys(promotionsMap).length} promotion codes from DynamoDb`);
-        return promotionsMap;
+        logInfo(`Got ${Object.keys(promotionsCache).length} promotion codes from DynamoDb`);
+        return promotionsCache;
     } catch (error) {
         logError(`Error fetching promotions from DynamoDB: ${String(error)}`);
         putMetric('promotions-fetch-error');
@@ -81,5 +81,5 @@ const fetchPromotions = async (): Promise<PromotionsMap> => {
     }
 };
 
-export const buildPromotionsReloader = (): Promise<ValueReloader<PromotionsMap>> =>
+export const buildPromotionsReloader = (): Promise<ValueReloader<PromotionsCache>> =>
     buildReloader(fetchPromotions, 60 * 5);
