@@ -7,8 +7,7 @@ import type {
     RatePlan,
 } from '../../../shared/types/props/choiceCards';
 import type { ProductCatalog } from '../../productCatalog';
-import type { Promotion } from '../promotions/promotions';
-import { JunePromotion } from '../promotions/promotions';
+import type { Promotion, PromotionsMap } from '../promotions/promotions';
 import {
     currencySymbolTemplate,
     defaultBannerChoiceCardsSettings,
@@ -17,6 +16,7 @@ import {
 import {
     junePromoBannerChoiceCardsSettings,
     junePromoEpicChoiceCardsSettings,
+    JunePromotionCode,
 } from './junePromoChoiceCardSettings';
 
 const replaceCurrencyTemplate = (s: string, currencySymbol: string) =>
@@ -104,12 +104,14 @@ export const getChoiceCardsSettings = (
     countryGroupId: CountryGroupId,
     channel: Channel,
     productCatalog: ProductCatalog,
+    promotions: PromotionsMap,
     variantChoiceCardSettings?: ChoiceCardsSettings, // defined only if the test variant overrides the default settings
     cta?: Cta,
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
-    const hasJunePromoCode = cta ? getPromoCodeFromUrl(cta.baseUrl) === JunePromotion.code : false;
+    const promoCode = cta ? getPromoCodeFromUrl(cta.baseUrl) : undefined;
+    const hasJunePromoCode = promoCode === JunePromotionCode;
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant
@@ -128,13 +130,18 @@ export const getChoiceCardsSettings = (
     }
 
     const getPromotion = (choiceCard: ChoiceCard): Promotion | undefined => {
-        if (!hasJunePromoCode) {
-            return undefined;
-        } else if (
-            choiceCard.product.supportTier === 'SupporterPlus' &&
-            choiceCard.product.ratePlan === JunePromotion.product.ratePlan
-        ) {
-            return JunePromotion;
+        // We only support promos for SupporterPlus for now
+        if (promoCode && choiceCard.product.supportTier === 'SupporterPlus') {
+            const promo = promotions[promoCode];
+            // Does the productRatePlanId match?
+            const choiceCardProduct =
+                productCatalog['SupporterPlus'].ratePlans[choiceCard.product.ratePlan];
+            const matches = promo.productRatePlanIds.includes(choiceCardProduct.id);
+            if (matches) {
+                return promo;
+            } else {
+                return undefined;
+            }
         } else {
             return undefined;
         }

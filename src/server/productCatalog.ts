@@ -7,6 +7,7 @@ import { buildReloader } from './utils/valueReloader';
 type RatePlan = 'Monthly' | 'Annual';
 
 interface ProductRatePlan {
+    id: string; // the product rate plan id, which we can use to map to promotions
     pricing: Record<IsoCurrency, number>;
 }
 
