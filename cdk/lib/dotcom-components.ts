@@ -242,7 +242,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 				tableName: `support-bandit-${this.stage}`,
 			}),
 			new GuDynamoDBReadPolicy(this, 'DynamoPromosReadPolicy', {
-				tableName: `MembershipSub-PromoCode-View-${this.stage}`,
+				tableName: `MembershipSub-Promotions-${this.stage}`,
 			}),
 			new GuAllowPolicy(this, 'SSMGet', {
 				actions: ['ssm:GetParameter'],
