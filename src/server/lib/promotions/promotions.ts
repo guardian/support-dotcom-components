@@ -1,19 +1,85 @@
-import type { RatePlan } from '../../../shared/types/props/choiceCards';
+import * as AWS from 'aws-sdk';
+import { putMetric } from '../../utils/cloudwatch';
+import { logError, logInfo } from '../../utils/logging';
+import type { ValueReloader } from '../../utils/valueReloader';
+import { buildReloader } from '../../utils/valueReloader';
+import { isProd } from '../env';
 
+const stage = isProd ? 'PROD' : 'CODE';
+
+type PromoCode = string;
 export interface Promotion {
-    code: string;
+    promoCode: PromoCode;
+    productRatePlanIds: string[]; // the product rate plans that this promo applies to
     discountPercent: number;
-    product: {
-        supportTier: 'SupporterPlus'; // The only product we support for now
-        ratePlan: RatePlan;
+}
+export type PromotionsCache = Record<PromoCode, Promotion>;
+
+// The model we get from DynamoDb. Most fields are ignored. Any targeting must be done in the RRCP
+interface PromotionTableItem {
+    appliesTo: {
+        productRatePlanIds: string[];
+    };
+    codes: Record<string, string[]>;
+    promotionType: {
+        amount: number;
+        name: string;
     };
 }
 
-export const JunePromotion: Promotion = {
-    code: '30OFFANNUALJUNE',
-    discountPercent: 30,
-    product: {
-        supportTier: 'SupporterPlus',
-        ratePlan: 'Annual',
-    },
+const mapTableItemToPromotion = (item: PromotionTableItem): Promotion[] => {
+    // It's possible to have more than one promo code per promo - flatten them all into an array
+    const allCodes: string[] = Object.values(item.codes).flat();
+
+    return allCodes.map((promoCode) => ({
+        promoCode,
+        discountPercent: item.promotionType.amount,
+        productRatePlanIds: item.appliesTo.productRatePlanIds,
+    }));
 };
+
+// Does a full scan of the Promotions table - there isn't a smarter way to do this with the existing schema.
+const fetchPromotions = async (): Promise<PromotionsCache> => {
+    const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
+    const tableName = `MembershipSub-Promotions-${stage}`;
+    const promotionsCache: PromotionsCache = {};
+    let lastEvaluatedKey: AWS.DynamoDB.DocumentClient.Key | undefined; // for paginating through the dynamodb results
+
+    try {
+        logInfo(`Scanning ${tableName} for promotions`);
+
+        do {
+            const params: AWS.DynamoDB.DocumentClient.ScanInput = {
+                TableName: tableName,
+            };
+
+            if (lastEvaluatedKey) {
+                params.ExclusiveStartKey = lastEvaluatedKey;
+            }
+
+            const result = await docClient.scan(params).promise();
+            const items = result.Items as PromotionTableItem[];
+
+            items.forEach((item) => {
+                if (item.promotionType.name === 'percent_discount' && item.promotionType.amount) {
+                    const promotions = mapTableItemToPromotion(item);
+                    promotions.forEach((promotion) => {
+                        promotionsCache[promotion.promoCode] = promotion;
+                    });
+                }
+            });
+
+            lastEvaluatedKey = result.LastEvaluatedKey;
+        } while (lastEvaluatedKey);
+
+        logInfo(`Got ${Object.keys(promotionsCache).length} promotion codes from DynamoDb`);
+        return promotionsCache;
+    } catch (error) {
+        logError(`Error fetching promotions from DynamoDB: ${String(error)}`);
+        putMetric('promotions-fetch-error');
+        throw error;
+    }
+};
+
+export const buildPromotionsReloader = (): Promise<ValueReloader<PromotionsCache>> =>
+    buildReloader(fetchPromotions, 60 * 5);

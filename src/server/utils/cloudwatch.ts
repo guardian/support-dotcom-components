@@ -12,7 +12,8 @@ type Metric =
     | 'channel-tests-error'
     | 'banner-designs-load-error'
     | 'bandit-data-load-error'
-    | 'bandit-selection-error';
+    | 'bandit-selection-error'
+    | 'promotions-fetch-error';
 
 // Sends a single metric to cloudwatch.
 // Avoid doing this per-request, to avoid high costs. This should instead be called from within a cacheAsync

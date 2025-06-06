@@ -144,6 +144,24 @@ export class DotcomComponents extends GuStack {
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 		});
 
+		new GuAlarm(this, 'PromotionsFetchError', {
+			app: appName,
+			alarmName: `support-${appName}: Promotions fetch error - ${this.stage}`,
+			alarmDescription: 'Error fetching promotions data from DynamoDb',
+			snsTopicName,
+			metric: new Metric({
+				metricName: 'promotions-fetch-error',
+				namespace,
+				period: Duration.minutes(60),
+				statistic: 'sum',
+			}),
+			threshold: 1,
+			evaluationPeriods: 1,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			treatMissingData: TreatMissingData.NOT_BREACHING,
+		});
+
 		const userData = UserData.custom(`#!/bin/bash
 
 groupadd support
@@ -241,6 +259,9 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 			new GuDynamoDBReadPolicy(this, 'DynamoBanditReadPolicy', {
 				tableName: `support-bandit-${this.stage}`,
 			}),
+			new GuDynamoDBReadPolicy(this, 'DynamoPromosReadPolicy', {
+				tableName: `MembershipSub-Promotions-${this.stage}`,
+			}),
 			new GuAllowPolicy(this, 'SSMGet', {
 				actions: ['ssm:GetParameter'],
 				resources: ['*'],
@@ -262,7 +283,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 						},
 						unhealthyInstancesAlarm: true,
 						snsTopicName,
-				  }
+					}
 				: { noMonitoring: true };
 
 		const ec2App = new GuEc2App(this, {
