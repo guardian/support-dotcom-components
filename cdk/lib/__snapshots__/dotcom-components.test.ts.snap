@@ -598,7 +598,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
                       {
                         "Ref": "AWS::AccountId",
                       },
-                      ":table/MembershipSub-PromoCode-View-TEST",
+                      ":table/MembershipSub-Promotions-TEST",
                     ],
                   ],
                 },
@@ -614,7 +614,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
                       {
                         "Ref": "AWS::AccountId",
                       },
-                      ":table/MembershipSub-PromoCode-View-TEST/index/*",
+                      ":table/MembershipSub-Promotions-TEST/index/*",
                     ],
                   ],
                 },
