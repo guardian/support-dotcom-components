@@ -3,6 +3,8 @@ import type { ChoiceCard, ChoiceCardsSettings } from '../../../shared/types/prop
 
 const currencySymbolTemplate = '%%CURRENCY_SYMBOL%%';
 
+export const JunePromotionCode = '30OFFANNUALJUNE';
+
 const oneOffCard = (countryGroupId: CountryGroupId): ChoiceCard => ({
     product: {
         supportTier: 'OneOff',

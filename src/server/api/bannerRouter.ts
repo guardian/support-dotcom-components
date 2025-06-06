@@ -21,6 +21,7 @@ import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
+import type { PromotionsMap } from '../lib/promotions/promotions';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
@@ -52,6 +53,7 @@ export const buildBannerRouter = (
     bannerDesigns: ValueProvider<BannerDesignFromTool[]>,
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
+    promotions: ValueProvider<PromotionsMap>,
 ): Router => {
     const router = Router();
 
@@ -119,6 +121,7 @@ export const buildBannerRouter = (
                           requiredRegion,
                           channelFromBannerChannel(test.bannerChannel),
                           productCatalog.get(),
+                          promotions.get(),
                           variant.choiceCardsSettings ?? undefined,
                           variant.bannerContent?.cta,
                       )
