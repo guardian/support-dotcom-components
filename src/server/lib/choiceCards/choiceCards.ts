@@ -123,18 +123,18 @@ export const getChoiceCardsSettings = (
         // We only support promos for SupporterPlus for now
         if (promoCode && choiceCard.product.supportTier === 'SupporterPlus') {
             const promo = promotions[promoCode];
-            // Does the productRatePlanId match?
-            const choiceCardProduct =
-                productCatalog['SupporterPlus'].ratePlans[choiceCard.product.ratePlan];
-            const matches = promo.productRatePlanIds.includes(choiceCardProduct.id);
-            if (matches) {
-                return promo;
-            } else {
-                return undefined;
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- in case the promo code isn't in the table
+            if (promo) {
+                // Does the productRatePlanId match?
+                const choiceCardProduct =
+                    productCatalog['SupporterPlus'].ratePlans[choiceCard.product.ratePlan];
+                const matches = promo.productRatePlanIds.includes(choiceCardProduct.id);
+                if (matches) {
+                    return promo;
+                }
             }
-        } else {
-            return undefined;
         }
+        return undefined;
     };
 
     if (choiceCardsSettings) {
