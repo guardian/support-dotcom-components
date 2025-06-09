@@ -13,11 +13,6 @@ import {
     defaultBannerChoiceCardsSettings,
     defaultEpicChoiceCardsSettings,
 } from './defaultChoiceCardSettings';
-import {
-    junePromoBannerChoiceCardsSettings,
-    junePromoEpicChoiceCardsSettings,
-    JunePromotionCode,
-} from './junePromoChoiceCardSettings';
 
 const replaceCurrencyTemplate = (s: string, currencySymbol: string) =>
     s.replace(currencySymbolTemplate, currencySymbol);
@@ -111,7 +106,6 @@ export const getChoiceCardsSettings = (
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
     const promoCode = cta ? getPromoCodeFromUrl(cta.baseUrl) : undefined;
-    const hasJunePromoCode = promoCode === JunePromotionCode;
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant
@@ -119,13 +113,9 @@ export const getChoiceCardsSettings = (
     } else {
         // Use the default settings
         if (channel === 'Epic') {
-            choiceCardsSettings = hasJunePromoCode
-                ? junePromoEpicChoiceCardsSettings(countryGroupId)
-                : defaultEpicChoiceCardsSettings(countryGroupId);
+            choiceCardsSettings = defaultEpicChoiceCardsSettings(countryGroupId);
         } else if (channel === 'Banner1' || channel === 'Banner2') {
-            choiceCardsSettings = hasJunePromoCode
-                ? junePromoBannerChoiceCardsSettings(countryGroupId)
-                : defaultBannerChoiceCardsSettings(countryGroupId);
+            choiceCardsSettings = defaultBannerChoiceCardsSettings(countryGroupId);
         }
     }
 
