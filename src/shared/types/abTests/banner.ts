@@ -48,6 +48,7 @@ export const bannerVariantFromToolSchema = z.object({
     separateArticleCount: z.boolean().optional(),
     separateArticleCountSettings: separateArticleCountSchema.optional(),
     choiceCardsSettings: choiceCardsSettings.nullish(),
+    promoCodes: z.array(z.string()).nullish(),
 });
 
 export type BannerVariantFromTool = z.infer<typeof bannerVariantFromToolSchema>;

@@ -86,6 +86,7 @@ export const variantSchema = z.object({
     image: imageSchema.optional(),
     showReminderFields: reminderFieldsSchema.optional(),
     separateArticleCount: separateArticleCountSchema.optional(),
+    promoCodes: z.array(z.string()).nullish(),
     maxViews: maxViewsSchema.optional(),
     showSignInLink: z.boolean().optional(),
     bylineWithImage: bylineWithImageSchema.optional(),
