@@ -1,4 +1,3 @@
-import type { Cta } from '../../../shared/types';
 import type { ChoiceCardsSettings } from '../../../shared/types/props/choiceCards';
 import type { ProductCatalog } from '../../productCatalog';
 import type { PromotionsCache } from '../promotions/promotions';
@@ -75,20 +74,16 @@ describe('getChoiceCardsSettings', () => {
     };
 
     it('returns default settings without promotion applied', () => {
-        const cta: Cta = {
-            baseUrl: `https://support.theguardian.com/contribute`,
-            text: 'Support',
-        };
-
         const variantChoiceCardSettings = undefined;
+        const promoCodes: string[] = [];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
             mockPromotionsCache,
+            promoCodes,
             variantChoiceCardSettings,
-            cta,
         );
 
         expect(result).toBeDefined();
@@ -101,20 +96,16 @@ describe('getChoiceCardsSettings', () => {
     });
 
     it('returns choice cards with monthly discount (PROMO_B) applied', () => {
-        const cta: Cta = {
-            baseUrl: `https://support.theguardian.com/contribute?promoCode=PROMO_B`,
-            text: 'Support',
-        };
-
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
+        const promoCodes: string[] = ['PROMO_B'];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
             mockPromotionsCache,
+            promoCodes,
             variantChoiceCardSettings,
-            cta,
         );
 
         expect(result).toBeDefined();
@@ -127,11 +118,6 @@ describe('getChoiceCardsSettings', () => {
     });
 
     it('returns choice cards with annual discount (PROMO_A) applied', () => {
-        const cta: Cta = {
-            baseUrl: `https://support.theguardian.com/contribute?promoCode=PROMO_A`,
-            text: 'Support',
-        };
-
         // Make the SupporterPlus choice card ratePlan Annual
         const variantChoiceCardSettings: ChoiceCardsSettings = {
             choiceCards: [
@@ -146,14 +132,15 @@ describe('getChoiceCardsSettings', () => {
                 defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
             ],
         };
+        const promoCodes: string[] = ['PROMO_A'];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
             mockPromotionsCache,
+            promoCodes,
             variantChoiceCardSettings,
-            cta,
         );
 
         expect(result).toBeDefined();
