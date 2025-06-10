@@ -96,7 +96,7 @@ export const getChoiceCardsSettings = (
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
-    const promotions = promoCodes.map(code => promotionsCache[code]).filter(Boolean);
+    const promotions = promoCodes.map((code) => promotionsCache[code]).filter(Boolean);
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant
@@ -116,8 +116,9 @@ export const getChoiceCardsSettings = (
             const { ratePlan } = choiceCard.product;
             const choiceCardProduct = productCatalog['SupporterPlus'].ratePlans[ratePlan];
             // Find a promo with a matching productRatePlanId
-            return promotions
-                .find(promo => promo.productRatePlanIds.includes(choiceCardProduct.id));
+            return promotions.find((promo) =>
+                promo.productRatePlanIds.includes(choiceCardProduct.id),
+            );
         }
         return undefined;
     };
