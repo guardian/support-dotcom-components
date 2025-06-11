@@ -1,13 +1,16 @@
 import type { Cta } from '../../../shared/types';
+import type { ChoiceCardsSettings } from '../../../shared/types/props/choiceCards';
 import type { ProductCatalog } from '../../productCatalog';
-import { JunePromotion } from '../promotions/promotions';
+import type { PromotionsCache } from '../promotions/promotions';
 import { getChoiceCardsSettings } from './choiceCards';
+import { defaultEpicChoiceCardsSettings } from './defaultChoiceCardSettings';
 
 describe('getChoiceCardsSettings', () => {
     const mockProductCatalog: ProductCatalog = {
         Contribution: {
             ratePlans: {
                 Monthly: {
+                    id: 'Contribution-Monthly',
                     pricing: {
                         USD: 60,
                         NZD: 60,
@@ -18,6 +21,7 @@ describe('getChoiceCardsSettings', () => {
                     },
                 },
                 Annual: {
+                    id: 'Contribution-Annual',
                     pricing: {
                         USD: 60,
                         NZD: 60,
@@ -32,6 +36,7 @@ describe('getChoiceCardsSettings', () => {
         SupporterPlus: {
             ratePlans: {
                 Monthly: {
+                    id: 'SupporterPlus-Annual',
                     pricing: {
                         USD: 15,
                         NZD: 20,
@@ -42,6 +47,7 @@ describe('getChoiceCardsSettings', () => {
                     },
                 },
                 Annual: {
+                    id: 'SupporterPlus-Annual',
                     pricing: {
                         USD: 150,
                         NZD: 200,
@@ -55,17 +61,32 @@ describe('getChoiceCardsSettings', () => {
         },
     };
 
+    const mockPromotionsCache: PromotionsCache = {
+        PROMO_A: {
+            promoCode: 'PROMO_A',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Annual.id],
+            discountPercent: 30,
+        },
+        PROMO_B: {
+            promoCode: 'PROMO_B',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            discountPercent: 40,
+        },
+    };
+
     it('returns default settings without promotion applied', () => {
         const cta: Cta = {
             baseUrl: `https://support.theguardian.com/contribute`,
             text: 'Support',
         };
+
         const variantChoiceCardSettings = undefined;
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
+            mockPromotionsCache,
             variantChoiceCardSettings,
             cta,
         );
@@ -79,17 +100,58 @@ describe('getChoiceCardsSettings', () => {
         });
     });
 
-    it('returns choice cards with June promotion applied', () => {
+    it('returns choice cards with monthly discount (PROMO_B) applied', () => {
         const cta: Cta = {
-            baseUrl: `https://support.theguardian.com/contribute?promoCode=${JunePromotion.code}`,
+            baseUrl: `https://support.theguardian.com/contribute?promoCode=PROMO_B`,
             text: 'Support',
         };
-        const variantChoiceCardSettings = undefined;
+
+        const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
+            mockPromotionsCache,
+            variantChoiceCardSettings,
+            cta,
+        );
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/monthly');
+        expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
+        expect(result?.choiceCards[1].product).toEqual({
+            supportTier: 'SupporterPlus',
+            ratePlan: 'Monthly',
+        });
+    });
+
+    it('returns choice cards with annual discount (PROMO_A) applied', () => {
+        const cta: Cta = {
+            baseUrl: `https://support.theguardian.com/contribute?promoCode=PROMO_A`,
+            text: 'Support',
+        };
+
+        // Make the SupporterPlus choice card ratePlan Annual
+        const variantChoiceCardSettings: ChoiceCardsSettings = {
+            choiceCards: [
+                defaultEpicChoiceCardsSettings('GBPCountries').choiceCards[0],
+                {
+                    ...defaultEpicChoiceCardsSettings('GBPCountries').choiceCards[1],
+                    product: {
+                        ratePlan: 'Annual',
+                        supportTier: 'SupporterPlus',
+                    },
+                },
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
+            ],
+        };
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
             variantChoiceCardSettings,
             cta,
         );

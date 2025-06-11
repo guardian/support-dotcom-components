@@ -7,17 +7,12 @@ import type {
     RatePlan,
 } from '../../../shared/types/props/choiceCards';
 import type { ProductCatalog } from '../../productCatalog';
-import type { Promotion } from '../promotions/promotions';
-import { JunePromotion } from '../promotions/promotions';
+import type { Promotion, PromotionsCache } from '../promotions/promotions';
 import {
     currencySymbolTemplate,
     defaultBannerChoiceCardsSettings,
     defaultEpicChoiceCardsSettings,
 } from './defaultChoiceCardSettings';
-import {
-    junePromoBannerChoiceCardsSettings,
-    junePromoEpicChoiceCardsSettings,
-} from './junePromoChoiceCardSettings';
 
 const replaceCurrencyTemplate = (s: string, currencySymbol: string) =>
     s.replace(currencySymbolTemplate, currencySymbol);
@@ -104,12 +99,13 @@ export const getChoiceCardsSettings = (
     countryGroupId: CountryGroupId,
     channel: Channel,
     productCatalog: ProductCatalog,
+    promotions: PromotionsCache,
     variantChoiceCardSettings?: ChoiceCardsSettings, // defined only if the test variant overrides the default settings
     cta?: Cta,
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
-    const hasJunePromoCode = cta ? getPromoCodeFromUrl(cta.baseUrl) === JunePromotion.code : false;
+    const promoCode = cta ? getPromoCodeFromUrl(cta.baseUrl) : undefined;
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant
@@ -117,27 +113,28 @@ export const getChoiceCardsSettings = (
     } else {
         // Use the default settings
         if (channel === 'Epic') {
-            choiceCardsSettings = hasJunePromoCode
-                ? junePromoEpicChoiceCardsSettings(countryGroupId)
-                : defaultEpicChoiceCardsSettings(countryGroupId);
+            choiceCardsSettings = defaultEpicChoiceCardsSettings(countryGroupId);
         } else if (channel === 'Banner1' || channel === 'Banner2') {
-            choiceCardsSettings = hasJunePromoCode
-                ? junePromoBannerChoiceCardsSettings(countryGroupId)
-                : defaultBannerChoiceCardsSettings(countryGroupId);
+            choiceCardsSettings = defaultBannerChoiceCardsSettings(countryGroupId);
         }
     }
 
     const getPromotion = (choiceCard: ChoiceCard): Promotion | undefined => {
-        if (!hasJunePromoCode) {
-            return undefined;
-        } else if (
-            choiceCard.product.supportTier === 'SupporterPlus' &&
-            choiceCard.product.ratePlan === JunePromotion.product.ratePlan
-        ) {
-            return JunePromotion;
-        } else {
-            return undefined;
+        // We only support promos for SupporterPlus for now
+        if (promoCode && choiceCard.product.supportTier === 'SupporterPlus') {
+            const promo = promotions[promoCode];
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- in case the promo code isn't in the table
+            if (promo) {
+                // Does the productRatePlanId match?
+                const choiceCardProduct =
+                    productCatalog['SupporterPlus'].ratePlans[choiceCard.product.ratePlan];
+                const matches = promo.productRatePlanIds.includes(choiceCardProduct.id);
+                if (matches) {
+                    return promo;
+                }
+            }
         }
+        return undefined;
     };
 
     if (choiceCardsSettings) {
