@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.3.0
+
+### Minor Changes
+
+-   49779e7: Add promoCodes field to test variant models
+
 ## 7.2.0
 
 ### Minor Changes
