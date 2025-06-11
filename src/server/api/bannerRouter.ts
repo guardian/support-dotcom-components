@@ -122,8 +122,8 @@ export const buildBannerRouter = (
                           channelFromBannerChannel(test.bannerChannel),
                           productCatalog.get(),
                           promotions.get(),
+                          variant.promoCodes ?? [],
                           variant.choiceCardsSettings ?? undefined,
-                          variant.bannerContent?.cta,
                       )
                     : undefined;
 

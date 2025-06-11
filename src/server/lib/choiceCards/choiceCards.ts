@@ -1,6 +1,6 @@
 import type { CountryGroupId, IsoCurrency } from '../../../shared/lib';
 import { countryGroups, isoCurrencyToCurrencySymbol } from '../../../shared/lib';
-import type { Channel, Cta } from '../../../shared/types';
+import type { Channel } from '../../../shared/types';
 import type {
     ChoiceCard,
     ChoiceCardsSettings,
@@ -86,26 +86,17 @@ const enrichChoiceCard = (
     };
 };
 
-const getPromoCodeFromUrl = (url: string): string | undefined => {
-    try {
-        const parsedUrl = new URL(url);
-        return parsedUrl.searchParams.get('promoCode') ?? undefined;
-    } catch {
-        return undefined;
-    }
-};
-
 export const getChoiceCardsSettings = (
     countryGroupId: CountryGroupId,
     channel: Channel,
     productCatalog: ProductCatalog,
-    promotions: PromotionsCache,
+    promotionsCache: PromotionsCache,
+    promoCodes: string[],
     variantChoiceCardSettings?: ChoiceCardsSettings, // defined only if the test variant overrides the default settings
-    cta?: Cta,
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
-    const promoCode = cta ? getPromoCodeFromUrl(cta.baseUrl) : undefined;
+    const promotions = promoCodes.map((code) => promotionsCache[code]).filter(Boolean);
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant
@@ -121,18 +112,13 @@ export const getChoiceCardsSettings = (
 
     const getPromotion = (choiceCard: ChoiceCard): Promotion | undefined => {
         // We only support promos for SupporterPlus for now
-        if (promoCode && choiceCard.product.supportTier === 'SupporterPlus') {
-            const promo = promotions[promoCode];
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- in case the promo code isn't in the table
-            if (promo) {
-                // Does the productRatePlanId match?
-                const choiceCardProduct =
-                    productCatalog['SupporterPlus'].ratePlans[choiceCard.product.ratePlan];
-                const matches = promo.productRatePlanIds.includes(choiceCardProduct.id);
-                if (matches) {
-                    return promo;
-                }
-            }
+        if (promotions.length > 0 && choiceCard.product.supportTier === 'SupporterPlus') {
+            const { ratePlan } = choiceCard.product;
+            const choiceCardProduct = productCatalog['SupporterPlus'].ratePlans[ratePlan];
+            // Find a promo with a matching productRatePlanId
+            return promotions.find((promo) =>
+                promo.productRatePlanIds.includes(choiceCardProduct.id),
+            );
         }
         return undefined;
     };

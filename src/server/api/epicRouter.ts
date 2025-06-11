@@ -149,8 +149,8 @@ export const buildEpicRouter = (
                       'Epic',
                       productCatalog.get(),
                       promotions.get(),
+                      variant.promoCodes ?? [],
                       variant.choiceCardsSettings ?? undefined,
-                      variant.cta,
                   )
                 : undefined;
 

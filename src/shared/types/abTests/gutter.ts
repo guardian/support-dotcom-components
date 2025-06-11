@@ -9,6 +9,7 @@ import { pageContextTargetingSchema, testSchema, userCohortSchema } from './shar
 const gutterVariantFromToolSchema = z.object({
     name: z.string(),
     content: gutterContentSchema,
+    promoCodes: z.array(z.string()).nullish(),
 });
 export type GutterVariantFromTool = z.infer<typeof gutterVariantFromToolSchema>;
 
