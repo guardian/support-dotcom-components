@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.4.0
+
+### Minor Changes
+
+-   95ab5c7: Add promoCodes field to banner model
+
 ## 7.3.0
 
 ### Minor Changes
