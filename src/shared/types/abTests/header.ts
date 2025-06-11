@@ -10,6 +10,7 @@ const headerVariantFromToolSchema = z.object({
     name: z.string(),
     content: headerContentSchema,
     mobileContent: headerContentSchema.optional(),
+    promoCodes: z.array(z.string()).nullish(),
 });
 export type HeaderVariantFromTool = z.infer<typeof headerVariantFromToolSchema>;
 

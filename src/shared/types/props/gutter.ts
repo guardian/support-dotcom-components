@@ -20,6 +20,7 @@ export interface GutterProps {
     tracking: Tracking;
     countryCode?: string;
     submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
+    promoCodes?: string[];
 }
 
 export const gutterPropsSchema = z.object({
@@ -27,4 +28,5 @@ export const gutterPropsSchema = z.object({
     tracking: trackingSchema,
     countryCode: z.string().optional(),
     submitComponentEvent: z.any(),
+    promoCodes: z.array(z.string()).nullish(),
 });
