@@ -75,6 +75,7 @@ export interface BannerProps {
     choiceCardsSettings?: ChoiceCardsSettings;
     design?: ConfigurableDesign;
     abandonedBasket?: AbandonedBasket;
+    promoCodes?: string[];
 }
 
 export const bannerSchema = z.object({
@@ -92,4 +93,5 @@ export const bannerSchema = z.object({
     separateArticleCount: z.boolean().nullish(),
     design: configurableDesignSchema.nullish(),
     choiceCardsSettings: choiceCardsSettings.nullish(),
+    promoCodes: z.array(z.string()).nullish(),
 });
