@@ -1,8 +1,9 @@
-import * as AWS from 'aws-sdk';
+import type { Dimension } from '@aws-sdk/client-cloudwatch';
+import { CloudWatch } from '@aws-sdk/client-cloudwatch';
 import { isProd } from '../lib/env';
 import { logError } from './logging';
 
-const cloudwatch = new AWS.CloudWatch({ region: 'eu-west-1' });
+const cloudwatch = new CloudWatch({ region: 'eu-west-1' });
 
 const stage = isProd ? 'PROD' : 'CODE';
 const namespace = `support-dotcom-components-${stage}`;
@@ -16,11 +17,8 @@ type Metric =
     | 'promotions-fetch-error';
 
 // Sends a single metric to cloudwatch.
-// Avoid doing this per-request, to avoid high costs. This should instead be called from within a cacheAsync
-export const putMetric = (
-    metricName: Metric,
-    dimensions: AWS.CloudWatch.Dimension[] = [],
-): void => {
+// Avoid doing this per-request, to avoid high costs. This should instead be called from within a ValueReloader
+export const putMetric = (metricName: Metric, dimensions: Dimension[] = []): void => {
     cloudwatch
         .putMetricData({
             Namespace: namespace,
@@ -33,6 +31,5 @@ export const putMetric = (
                 },
             ],
         })
-        .promise()
         .catch((error) => logError(`Error putting cloudwatch metric: ${error}`));
 };
