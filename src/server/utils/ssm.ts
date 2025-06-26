@@ -9,7 +9,7 @@ const getSSMClient = () => {
             region: 'eu-west-1',
         });
     }
-    return new SSMClient();
+    return new SSMClient({ region: 'eu-west-1' });
 };
 
 export async function getSsmValue(stage: string, id: string): Promise<string | undefined> {

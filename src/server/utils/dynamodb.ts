@@ -12,5 +12,5 @@ export const getDynamoDbClient = (): DynamoDBDocumentClient => {
             }),
         );
     }
-    return DynamoDBDocumentClient.from(new DynamoDB());
+    return DynamoDBDocumentClient.from(new DynamoDB({ region: 'eu-west-1' }));
 };
