@@ -2,9 +2,10 @@ import type { Dimension } from '@aws-sdk/client-cloudwatch';
 import { PutMetricDataCommand } from '@aws-sdk/client-cloudwatch';
 import { CloudWatchClient } from '@aws-sdk/client-cloudwatch';
 import { isProd } from '../lib/env';
+import { credentials, region } from './aws';
 import { logError } from './logging';
 
-const cloudwatch = new CloudWatchClient({ region: 'eu-west-1' });
+const cloudwatch = new CloudWatchClient({ region, credentials: credentials() });
 
 const stage = isProd ? 'PROD' : 'CODE';
 const namespace = `support-dotcom-components-${stage}`;

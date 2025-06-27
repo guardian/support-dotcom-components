@@ -1,13 +1,11 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
-import { fromIni, fromNodeProviderChain } from '@aws-sdk/credential-providers';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
-import { isDev } from '../lib/env';
+import { credentials, region } from './aws';
 
-export const getDynamoDbClient = (): DynamoDBDocumentClient => {
-    return DynamoDBDocumentClient.from(
+export const getDynamoDbClient = () =>
+    DynamoDBDocumentClient.from(
         new DynamoDB({
-            credentials: isDev ? fromIni({ profile: 'membership' }) : fromNodeProviderChain(),
-            region: 'eu-west-1',
+            credentials: credentials(),
+            region,
         }),
     );
-};

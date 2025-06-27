@@ -1,17 +1,12 @@
 import type { GetObjectCommandOutput } from '@aws-sdk/client-s3';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { fromIni } from '@aws-sdk/credential-providers';
-import { isDev } from '../lib/env';
+import { credentials, region } from './aws';
 
-const getS3 = (): S3Client => {
-    if (isDev) {
-        return new S3Client({
-            credentials: fromIni({ profile: 'membership' }),
-            region: 'eu-west-1',
-        });
-    }
-    return new S3Client();
-};
+const getS3 = (): S3Client =>
+    new S3Client({
+        credentials: credentials(),
+        region,
+    });
 
 export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
     const client = getS3();
