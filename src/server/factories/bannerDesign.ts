@@ -50,10 +50,6 @@ export default Factory.define<BannerDesignFromTool>(() => ({
                 text: stringToHexColour('FFFFFF'),
                 background: stringToHexColour('0077B6'),
             },
-            hover: {
-                text: stringToHexColour('FFFFFF'),
-                background: stringToHexColour('004E7C'),
-            },
         },
         secondaryCta: {
             default: {
@@ -61,21 +57,12 @@ export default Factory.define<BannerDesignFromTool>(() => ({
                 background: stringToHexColour('F1F8FC'),
                 border: stringToHexColour('FFFFFF'),
             },
-            hover: {
-                text: stringToHexColour('004E7C'),
-                background: stringToHexColour('E5E5E5'),
-                border: stringToHexColour('222527'),
-            },
         },
         closeButton: {
             default: {
                 text: stringToHexColour('052962'),
                 background: stringToHexColour('F1F8FC'),
                 border: stringToHexColour('052962'),
-            },
-            hover: {
-                text: stringToHexColour('052962'),
-                background: stringToHexColour('E5E5E5'),
             },
         },
         ticker: {
