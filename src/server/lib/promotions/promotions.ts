@@ -1,5 +1,7 @@
-import * as AWS from 'aws-sdk';
+import type { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
+import { ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { putMetric } from '../../utils/cloudwatch';
+import { getDynamoDbClient } from '../../utils/dynamodb';
 import { logError, logInfo } from '../../utils/logging';
 import type { ValueReloader } from '../../utils/valueReloader';
 import { buildReloader } from '../../utils/valueReloader';
@@ -40,16 +42,16 @@ const mapTableItemToPromotion = (item: PromotionTableItem): Promotion[] => {
 
 // Does a full scan of the Promotions table - there isn't a smarter way to do this with the existing schema.
 const fetchPromotions = async (): Promise<PromotionsCache> => {
-    const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
+    const docClient = getDynamoDbClient();
     const tableName = `MembershipSub-Promotions-${stage}`;
     const promotionsCache: PromotionsCache = {};
-    let lastEvaluatedKey: AWS.DynamoDB.DocumentClient.Key | undefined; // for paginating through the dynamodb results
+    let lastEvaluatedKey: ScanCommandInput['ExclusiveStartKey']; // for paginating through the dynamodb results
 
     try {
         logInfo(`Scanning ${tableName} for promotions`);
 
         do {
-            const params: AWS.DynamoDB.DocumentClient.ScanInput = {
+            const params: ScanCommandInput = {
                 TableName: tableName,
             };
 
@@ -57,7 +59,7 @@ const fetchPromotions = async (): Promise<PromotionsCache> => {
                 params.ExclusiveStartKey = lastEvaluatedKey;
             }
 
-            const result = await docClient.scan(params).promise();
+            const result = await docClient.send(new ScanCommand(params));
             const items = result.Items as PromotionTableItem[];
 
             items.forEach((item) => {

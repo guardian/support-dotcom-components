@@ -1,8 +1,10 @@
-import * as AWS from 'aws-sdk';
+import type { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { addDays, format } from 'date-fns';
 import type { CountryGroupId } from '../../shared/lib';
 import type { EpicTest } from '../../shared/types';
 import { putMetric } from '../utils/cloudwatch';
+import { getDynamoDbClient } from '../utils/dynamodb';
 import { logError, logInfo } from '../utils/logging';
 import type { ValueReloader } from '../utils/valueReloader';
 import { buildReloader } from '../utils/valueReloader';
@@ -16,7 +18,7 @@ export interface SuperModeArticle {
 }
 
 const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
-    const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
+    const docClient = getDynamoDbClient();
     const records = await queryActiveArticles(stage, docClient).catch((error) => {
         logError(`Error fetching super mode articles from dynamo: ${error}`);
         putMetric('super-mode-error');
@@ -76,7 +78,7 @@ function regionToCountryGroupId(region: Region): CountryGroupId {
 
 export async function queryActiveArticles(
     stage: string,
-    docClient: AWS.DynamoDB.DocumentClient,
+    docClient: DynamoDBDocumentClient,
     now: Date = new Date(),
 ): Promise<DynamoRecord[]> {
     const tomorrow = addDays(now, 1);
@@ -97,10 +99,10 @@ function queryDate(
     endDate: string,
     endTimestamp: string,
     stage: string,
-    docClient: AWS.DynamoDB.DocumentClient,
+    docClient: DynamoDBDocumentClient,
 ) {
-    return docClient
-        .query({
+    return docClient.send(
+        new QueryCommand({
             TableName: `super-mode-calculator-${stage.toUpperCase()}`,
             IndexName: 'end',
             KeyConditionExpression: 'endDate = :ed AND endTimestamp > :et ',
@@ -108,8 +110,8 @@ function queryDate(
                 ':ed': endDate,
                 ':et': endTimestamp,
             },
-        })
-        .promise();
+        }),
+    );
 }
 
 function toDateString(date: Date): string {
