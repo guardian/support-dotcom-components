@@ -54,14 +54,15 @@ const throttledPutAllMetrics = throttle(
                         Namespace: namespace,
                         MetricData: metricData,
                     }),
-                ).catch((error) => {
-                logError(`Error putting cloudwatch metric: ${String(error)}`);
-                // Assume it failed to send metrics, add them back onto metricCache
-                // @ts-expect-error - Object.keys is untyped
-                Object.keys(metricCacheCopy).forEach((metric: Metric) => {
-                    metricCache[metric] = metricCacheCopy[metric] + metricCache[metric];
+                )
+                .catch((error) => {
+                    logError(`Error putting cloudwatch metric: ${String(error)}`);
+                    // Assume it failed to send metrics, add them back onto metricCache
+                    // @ts-expect-error - Object.keys is untyped
+                    Object.keys(metricCacheCopy).forEach((metric: Metric) => {
+                        metricCache[metric] = metricCacheCopy[metric] + metricCache[metric];
+                    });
                 });
-            });
         }
     },
     THROTTLE_SECONDS * 1000,
