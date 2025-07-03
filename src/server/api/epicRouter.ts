@@ -29,7 +29,8 @@ import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
-import { logWarn } from '../utils/logging';
+import { putMetric } from '../utils/cloudwatch';
+import { logger, logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
@@ -87,6 +88,8 @@ export const buildEpicRouter = (
         baseUrl: string,
         req: express.Request,
     ): EpicDataResponse => {
+        putMetric('bandit-selection-error');
+        logger.info('Console log for debugging purposes');
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
             return {};
