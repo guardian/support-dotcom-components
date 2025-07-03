@@ -47,6 +47,9 @@ dependencies:
   lodash.debounce:
     specifier: ^4.0.8
     version: 4.0.8
+  lodash.throttle:
+    specifier: ^4.1.1
+    version: 4.1.1
   log4js:
     specifier: ^6.3.0
     version: 6.9.1
@@ -109,6 +112,9 @@ devDependencies:
   '@types/lodash.debounce':
     specifier: ^4.0.6
     version: 4.0.9
+  '@types/lodash.throttle':
+    specifier: ^4.1.7
+    version: 4.1.9
   '@types/node':
     specifier: ^22.10.7
     version: 22.10.7
@@ -1856,7 +1862,7 @@ packages:
       '@mojotech/json-type-validation': 3.1.0
       '@types/temp': 0.8.34
       archiver: 3.1.1
-      aws-sdk: 2.1691.0
+      aws-sdk: 2.1692.0
       ora: 4.1.1
       temp: 0.9.4
       yaml: 1.10.2
@@ -3106,6 +3112,12 @@ packages:
       '@types/lodash': 4.17.12
     dev: true
 
+  /@types/lodash.throttle@4.1.9:
+    resolution: {integrity: sha512-PCPVfpfueguWZQB7pJQK890F2scYKoDUL3iM522AptHWn7d5NQmeS/LTEHIcLr5PaTzl3dK2Z0xSUHHTHwaL5g==}
+    dependencies:
+      '@types/lodash': 4.17.12
+    dev: true
+
   /@types/lodash@4.17.12:
     resolution: {integrity: sha512-sviUmCE8AYdaF/KIHLDJBQgeYzPBI0vf/17NaYehBJfYD1j6/L95Slh07NlyK2iNyBNaEkb3En2jRt+a8y3xZQ==}
     dev: true
@@ -3876,8 +3888,8 @@ packages:
       possible-typed-array-names: 1.0.0
     dev: true
 
-  /aws-sdk@2.1691.0:
-    resolution: {integrity: sha512-/F2YC+DlsY3UBM2Bdnh5RLHOPNibS/+IcjUuhP8XuctyrN+MlL+fWDAiela32LTDk7hMy4rx8MTgvbJ+0blO5g==}
+  /aws-sdk@2.1692.0:
+    resolution: {integrity: sha512-x511uiJ/57FIsbgUe5csJ13k3uzu25uWQE+XqfBis/sB0SFoiElJWXRkgEAUh0U6n40eT3ay5Ue4oPkRMu1LYw==}
     engines: {node: '>= 10.0.0'}
     requiresBuild: true
     dependencies:
@@ -4133,7 +4145,7 @@ packages:
     resolution: {integrity: sha512-xq+q3SRMOxGivLhBNaUdC64hDTQwejJ+H0T/NB1XMtTVEwNTrfFF3gAxiyW0Bu/xWEGhjVKgUcMhCrUy2+uCWg==}
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
     dev: true
 
@@ -7152,6 +7164,10 @@ packages:
   /lodash.startcase@4.4.0:
     resolution: {integrity: sha512-+WKqsK294HMSc2jEbNgpHpd0JfIBhp7rEV4aqXWqFr6AlXov+SlcgB1Fv01y2kGe3Gc8nMW7VA0SrGuSkRfIEg==}
     dev: true
+
+  /lodash.throttle@4.1.1:
+    resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
+    dev: false
 
   /lodash.union@4.6.0:
     resolution: {integrity: sha512-c4pB2CdGrGdjMKYLA+XiRDO7Y0PRQbm/Gzg8qMj+QH+pFVAoTp5sBpO0odL3FjoPCGjK96p6qsP+yQoiLoOBcw==}
