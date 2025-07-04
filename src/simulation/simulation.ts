@@ -11,6 +11,7 @@ import { selectVariantUsingRoulette } from '../server/selection/rouletteSelectio
 import type { Test, Variant } from '../shared/types';
 import type { Simulation } from './models';
 import {sample} from "./oracle";
+import { selectRandomVariant } from '../server/selection/helpers';
 
 const outputFilePath = './simulation_results.csv';
 
@@ -73,9 +74,17 @@ const run = (simulation: Simulation) => {
                     impression++
                 ) {
                     // pick a variant for this impression
-                    const variant = algorithm.run(test, banditData);
-                    if (variant) {
-                        variantImpressions[variant.name]++;
+                    if (timestep < 6) {
+                        // random selection in the discovery period
+                        const variant = selectRandomVariant(test);
+                        if (variant) {
+                            variantImpressions[variant.name]++;
+                        }
+                    } else {
+                        const variant = algorithm.run(test, banditData);
+                        if (variant) {
+                            variantImpressions[variant.name]++;
+                        }
                     }
                 }
                 console.log({timestep, algo: algorithm.name})
