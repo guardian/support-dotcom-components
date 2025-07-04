@@ -25,7 +25,7 @@ const variantSampleSchema = z.object({
     views: z.number(),
 });
 
-type VariantSample = z.infer<typeof variantSampleSchema>;
+export type VariantSample = z.infer<typeof variantSampleSchema>;
 
 const testSampleSchema = z.object({
     testName: z.string(),
@@ -119,7 +119,7 @@ function calculateMeanPerVariant(
     });
 }
 
-function calculateOverallMeanForVariant(samples: VariantSample[]): number {
+export function calculateOverallMeanForVariant(samples: VariantSample[]): number {
     const population = samples.reduce((acc, sample) => acc + sample.views, 0);
     return samples.reduce(
         (acc, sample) => acc + (sample.views / population) * sample.annualisedValueInGBPPerView,
