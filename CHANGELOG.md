@@ -1,5 +1,47 @@
 # @guardian/support-dotcom-components
 
+## 7.4.0
+
+### Minor Changes
+
+-   95ab5c7: Add promoCodes field to banner model
+
+## 7.3.0
+
+### Minor Changes
+
+-   49779e7: Add promoCodes field to test variant models
+
+## 7.2.0
+
+### Minor Changes
+
+-   2564822: Add choiceCardsSettings to banner response
+
+## 7.1.0
+
+### Minor Changes
+
+-   f7a28cc: Add choiceCardSettings to epic response
+
+## 7.0.1
+
+### Patch Changes
+
+-   a9394bf: Fix return types for submitComponentEvent types
+
+## 7.0.0
+
+### Major Changes
+
+-   dcdd727: Use types directly from Ophan instead of from libs
+
+## 6.3.0
+
+### Minor Changes
+
+-   2d0a92f: Changes to make goal copy configurable
+
 ## 6.2.0
 
 ### Minor Changes

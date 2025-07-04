@@ -1,8 +1,10 @@
-import type { OphanComponentEvent } from '@guardian/libs';
+import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
-import type { SelectedAmountsVariant } from '../abTests';
+import type { Channel, SelectedAmountsVariant } from '../abTests';
 import type { Prices } from '../prices';
 import type { AbandonedBasket } from '../targeting';
+import type { ChoiceCardsSettings } from './choiceCards';
+import { choiceCardsSettings } from './choiceCards';
 import type { ConfigurableDesign } from './design';
 import { configurableDesignSchema } from './design';
 import type {
@@ -29,6 +31,9 @@ export const bannerChannelSchema = z.enum([
 ]);
 
 export type BannerChannel = z.infer<typeof bannerChannelSchema>;
+
+export const channelFromBannerChannel = (bannerChannel: BannerChannel): Channel =>
+    bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
 
 export interface BannerContent {
     heading?: string;
@@ -59,7 +64,7 @@ export interface BannerProps {
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     articleCounts: ArticleCounts;
     hasOptedOutOfArticleCount?: boolean;
     fetchEmail?: () => Promise<string | null>;
@@ -67,8 +72,10 @@ export interface BannerProps {
     separateArticleCountSettings?: SeparateArticleCount;
     prices?: Prices;
     choiceCardAmounts?: SelectedAmountsVariant;
+    choiceCardsSettings?: ChoiceCardsSettings;
     design?: ConfigurableDesign;
     abandonedBasket?: AbandonedBasket;
+    promoCodes?: string[];
 }
 
 export const bannerSchema = z.object({
@@ -85,4 +92,6 @@ export const bannerSchema = z.object({
     fetchEmail: z.any().nullish(),
     separateArticleCount: z.boolean().nullish(),
     design: configurableDesignSchema.nullish(),
+    choiceCardsSettings: choiceCardsSettings.nullish(),
+    promoCodes: z.array(z.string()).nullish(),
 });

@@ -1,4 +1,5 @@
 import {
+    articleIdentifierIsAllowed,
     buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
     buildLogTreatmentInteractionRequestPayload,
@@ -8,6 +9,7 @@ import {
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
+    mvtIdIsAuxiaAudienceShare,
 } from './lib';
 
 describe('guDefaultShouldShowTheGate', () => {
@@ -29,6 +31,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
         const articleIdentifier = 'articleIdentifier';
         const editionId = 'UK';
         const countryCode = 'GB';
+        const hasConsented = true;
 
         const expectedAnswer = {
             projectId,
@@ -54,6 +57,10 @@ describe('buildGetTreatmentsRequestPayload', () => {
                     key: 'country_key',
                     stringValue: countryCode,
                 },
+                {
+                    key: 'has_consented',
+                    boolValue: hasConsented,
+                },
             ],
             surfaces: [
                 {
@@ -72,6 +79,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
             articleIdentifier,
             editionId,
             countryCode,
+            hasConsented,
         );
         expect(returnedAnswer).toStrictEqual(expectedAnswer);
     });
@@ -229,4 +237,24 @@ describe('buildLogTreatmentInteractionRequestPayload', () => {
             ),
         ).toStrictEqual(expectedAnswer);
     });
+});
+
+describe('articleIdentifierIsAllowed', () => {
+    expect(
+        articleIdentifierIsAllowed(
+            'www.theguardian.com/money/2017/mar/10/ministers-to-criminalise-use-of-ticket-tout-harvesting-software',
+        ),
+    ).toBe(true);
+    expect(articleIdentifierIsAllowed('www.theguardian.com/tips')).toBe(false);
+    expect(articleIdentifierIsAllowed('www.theguardian.com/tips#test')).toBe(false);
+    expect(articleIdentifierIsAllowed('www.theguardian.com/tips/test')).toBe(false);
+});
+
+describe('mvtIdIsInTheNaturalAuxiaShareOfAudience', () => {
+    expect(mvtIdIsAuxiaAudienceShare(0)).toBe(false);
+    expect(mvtIdIsAuxiaAudienceShare(1)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(210945)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(210946)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(350000)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(350001)).toBe(false);
 });

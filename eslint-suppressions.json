@@ -21,17 +21,6 @@
       "count": 1
     }
   },
-  "src/server/api/auxiaProxyRouter.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 4
-    },
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 21
-    },
-    "@typescript-eslint/no-unsafe-argument": {
-      "count": 17
-    }
-  },
   "src/server/api/bannerRouter.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 1
@@ -150,14 +139,6 @@
       "count": 1
     }
   },
-  "src/server/selection/banditData.ts": {
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 1
-    },
-    "@typescript-eslint/prefer-promise-reject-errors": {
-      "count": 1
-    }
-  },
   "src/server/selection/epsilonGreedySelection.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 1
@@ -236,28 +217,6 @@
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 2
-    }
-  },
-  "src/server/tests/store.ts": {
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 2
-    },
-    "@typescript-eslint/prefer-promise-reject-errors": {
-      "count": 1
-    },
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-return": {
-      "count": 1
-    }
-  },
-  "src/server/utils/S3.ts": {
-    "@typescript-eslint/no-base-to-string": {
-      "count": 1
-    },
-    "@typescript-eslint/prefer-promise-reject-errors": {
-      "count": 1
     }
   },
   "src/server/utils/logging.ts": {

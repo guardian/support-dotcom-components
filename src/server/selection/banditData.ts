@@ -1,4 +1,4 @@
-import * as AWS from 'aws-sdk';
+import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { z } from 'zod';
 import type {
     BanditMethodology,
@@ -10,6 +10,7 @@ import type {
 } from '../../shared/types';
 import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
+import { getDynamoDbClient } from '../utils/dynamodb';
 import { logError } from '../utils/logging';
 import { buildReloader } from '../utils/valueReloader';
 import type { ValueProvider } from '../utils/valueReloader';
@@ -46,9 +47,9 @@ interface BanditTestConfig {
 
 // If sampleCount is not provided, all samples will be returned
 function queryForTestSamples(testName: string, channel: Channel, sampleCount?: number) {
-    const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
-    return docClient
-        .query({
+    const docClient = getDynamoDbClient();
+    return docClient.send(
+        new QueryCommand({
             TableName: `support-bandit-${isProd ? 'PROD' : 'CODE'}`,
             KeyConditionExpression: 'testName = :testName',
             ExpressionAttributeValues: {
@@ -57,8 +58,8 @@ function queryForTestSamples(testName: string, channel: Channel, sampleCount?: n
             },
             ScanIndexForward: false, // newest first
             ...(sampleCount ? { Limit: sampleCount } : {}),
-        })
-        .promise();
+        }),
+    );
 }
 
 async function getBanditSamplesForTest(
@@ -174,7 +175,7 @@ function buildBanditData(
 
     return Promise.all(
         banditTests.map((banditTestConfig) =>
-            buildBanditDataForTest(banditTestConfig).catch((error) => {
+            buildBanditDataForTest(banditTestConfig).catch((error: Error) => {
                 logError(
                     `Error fetching bandit samples for test ${banditTestConfig.testName} from Dynamo: ${error.message}`,
                 );

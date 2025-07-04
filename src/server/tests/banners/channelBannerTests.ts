@@ -9,6 +9,7 @@ import type {
     BannerVariantFromTool,
     ConfigurableDesign,
 } from '../../../shared/types';
+import { channelFromBannerChannel } from '../../../shared/types';
 import { bannerTestFromToolSchema, uiIsDesign } from '../../../shared/types';
 import { getTests } from '../store';
 
@@ -38,7 +39,7 @@ const buildBannerVariant =
     });
 
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
-    const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
+    const channel = channelFromBannerChannel(bannerChannel);
     return (): Promise<BannerTest[]> =>
         getTests<BannerTestFromTool>(channel, bannerTestFromToolSchema).then((tests) => {
             return tests.map((testParams: BannerTestFromTool): BannerTest => {

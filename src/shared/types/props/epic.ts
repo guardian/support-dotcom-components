@@ -1,6 +1,7 @@
-import type { OphanComponentEvent } from '@guardian/libs';
+import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
 import type { EpicVariant } from '../abTests';
+import { choiceCardsSettings } from './choiceCards';
 import type { ArticleCounts, Stage, Tracking } from './shared';
 import {
     articleCountsSchema,
@@ -20,7 +21,7 @@ export interface EpicProps {
     articleCounts: ArticleCounts;
     onReminderOpen?: () => void;
     fetchEmail?: () => Promise<string | null>;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
     stage?: Stage;
@@ -85,12 +86,14 @@ export const variantSchema = z.object({
     image: imageSchema.optional(),
     showReminderFields: reminderFieldsSchema.optional(),
     separateArticleCount: separateArticleCountSchema.optional(),
+    promoCodes: z.array(z.string()).nullish(),
     maxViews: maxViewsSchema.optional(),
     showSignInLink: z.boolean().optional(),
     bylineWithImage: bylineWithImageSchema.optional(),
     showChoiceCards: z.boolean().optional(),
-    choiceCardAmounts: selectedAmountsVariantSchema.optional(),
-    defaultChoiceCardFrequency: contributionFrequencySchema.optional(),
+    choiceCardsSettings: choiceCardsSettings.nullish(),
+    choiceCardAmounts: selectedAmountsVariantSchema.optional(), // deprecated, use choiceCardsSettings
+    defaultChoiceCardFrequency: contributionFrequencySchema.optional(), // deprecated, use choiceCardsSettings
 });
 
 export const epicPropsSchema = z.object({

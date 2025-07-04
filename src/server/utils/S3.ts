@@ -1,61 +1,32 @@
-import readline from 'readline';
-import AWS from 'aws-sdk';
-import type { GetObjectOutput } from 'aws-sdk/clients/s3';
-import { isDev } from '../lib/env';
-import { logError } from './logging';
+import type { GetObjectCommandOutput } from '@aws-sdk/client-s3';
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { credentials, region } from './aws';
 
-const getS3 = () => {
-    if (isDev) {
-        AWS.config.credentials = new AWS.SharedIniFileCredentials({
-            profile: 'membership',
-        });
-    }
-    return new AWS.S3();
-};
+const getS3 = (): S3Client =>
+    new S3Client({
+        credentials: credentials(),
+        region,
+    });
 
 export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
-    return getS3()
-        .getObject({
-            Bucket: bucket,
-            Key: key,
-        })
-        .promise()
-        .then((result: GetObjectOutput) => {
+    const client = getS3();
+    return client
+        .send(
+            new GetObjectCommand({
+                Bucket: bucket,
+                Key: key,
+            }),
+        )
+        .then((result: GetObjectCommandOutput) => {
             if (result.Body) {
-                return Promise.resolve(result.Body.toString('utf-8'));
+                return Promise.resolve(result.Body.transformToString());
             } else {
                 return Promise.reject(
                     new Error(`Missing Body in S3 response for ${bucket}/${key}`),
                 );
             }
         })
-        .catch((err) => Promise.reject(`Failed to fetch S3 object ${bucket}/${key}: ${err}`));
-};
-
-interface S3StreamConfig {
-    bucket: string;
-    key: string;
-    onLine: (line: string) => void;
-    onComplete?: () => void;
-}
-export const streamS3DataByLine = ({ bucket, key, onLine, onComplete }: S3StreamConfig): void => {
-    const input = getS3()
-        .getObject({
-            Bucket: bucket,
-            Key: key,
-        })
-        .createReadStream();
-
-    const stream = readline.createInterface({
-        input,
-        terminal: false,
-    });
-
-    stream.on('line', onLine);
-    if (onComplete) {
-        stream.on('close', onComplete);
-    }
-    stream.on('error', (error) =>
-        logError(`Error streaming from S3 for ${bucket}/${key}: ${error}`),
-    );
+        .catch((err) =>
+            Promise.reject(Error(`Failed to fetch S3 object ${bucket}/${key}: ${err}`)),
+        );
 };

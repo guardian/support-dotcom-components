@@ -1,4 +1,4 @@
-import type { OphanComponentEvent } from '@guardian/libs';
+import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
 import type { Cta, Image, Tracking } from './shared';
 import { ctaSchema, imageSchema, trackingSchema } from './shared';
@@ -19,7 +19,8 @@ export interface GutterProps {
     content: GutterContent;
     tracking: Tracking;
     countryCode?: string;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
+    promoCodes?: string[];
 }
 
 export const gutterPropsSchema = z.object({
@@ -27,4 +28,5 @@ export const gutterPropsSchema = z.object({
     tracking: trackingSchema,
     countryCode: z.string().optional(),
     submitComponentEvent: z.any(),
+    promoCodes: z.array(z.string()).nullish(),
 });

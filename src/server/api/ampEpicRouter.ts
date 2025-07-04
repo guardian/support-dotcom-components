@@ -1,4 +1,4 @@
-import type { OphanComponentEvent } from '@guardian/libs';
+import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import cors from 'cors';
 import type express from 'express';
 import { Router } from 'express';
@@ -225,7 +225,7 @@ export const buildAmpEpicRouter = (
                 const browserIdQuery =
                     browserIdCookie && browserId ? `&${browserIdCookie}=${browserId}` : '';
 
-                const ophanComponentEvent: OphanComponentEvent = {
+                const ophanComponentEvent: ComponentEvent = {
                     component: {
                         componentType: 'ACQUISITIONS_EPIC',
                         products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],

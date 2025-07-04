@@ -6,6 +6,7 @@ module.exports = {
     output: {
         filename: 'server.js',
         path: path.resolve(__dirname, 'server-dist'),
+        chunkFormat: false
     },
     resolve: {
         extensions: ['.ts', '.js'],

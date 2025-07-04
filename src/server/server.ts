@@ -12,11 +12,13 @@ import { buildHeaderRouter } from './api/headerRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
+import { buildPromotionsReloader } from './lib/promotions/promotions';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
+import { buildProductCatalogReloader } from './productCatalog';
 import { buildProductPricesReloader } from './productPrices';
 import { buildBanditDataReloader } from './selection/banditData';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
@@ -76,6 +78,8 @@ const buildApp = async (): Promise<Express> => {
         headerTests,
         bannerDesigns,
         gutterLiveblogTests,
+        productCatalog,
+        promotions,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -90,6 +94,8 @@ const buildApp = async (): Promise<Express> => {
         buildHeaderTestsReloader(),
         buildBannerDesignsReloader(),
         buildGutterLiveblogTestsReloader(),
+        buildProductCatalogReloader(),
+        buildPromotionsReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -106,6 +112,8 @@ const buildApp = async (): Promise<Express> => {
             choiceCardAmounts,
             tickerData,
             banditData,
+            productCatalog,
+            promotions,
         ),
     );
     app.use(
@@ -118,6 +126,8 @@ const buildApp = async (): Promise<Express> => {
             choiceCardAmounts,
             bannerDesigns,
             banditData,
+            productCatalog,
+            promotions,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));

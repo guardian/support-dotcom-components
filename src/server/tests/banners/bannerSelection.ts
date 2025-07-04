@@ -135,14 +135,11 @@ export const canShowBannerAgain = (
     );
 };
 
-const DESIGNABLE_BANNER_TEMPLATE_NAME = 'DesignableBanner';
 const DESIGNABLE_BANNER_V2_TEMPLATE_NAME = 'DesignableBannerV2';
 
 const getModuleNameForVariant = (variant: BannerVariant): string => {
     if (uiIsDesign(variant.template)) {
-        return variant.name === 'BANNER_V2'
-            ? DESIGNABLE_BANNER_V2_TEMPLATE_NAME
-            : DESIGNABLE_BANNER_TEMPLATE_NAME;
+        return DESIGNABLE_BANNER_V2_TEMPLATE_NAME;
     } else {
         return variant.template;
     }
