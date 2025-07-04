@@ -117,7 +117,12 @@ run({
             run: selectVariantUsingRoulette,
         },
         {
-            name: 'epsilon-greedy',
+            name: 'epsilon-greedy-1',
+            run: (test, testBanditData) =>
+                selectVariantUsingEpsilonGreedy(test, 1, testBanditData),
+        },
+        {
+            name: 'epsilon-greedy-0.5',
             run: (test, testBanditData) =>
                 selectVariantUsingEpsilonGreedy(test, 0.5, testBanditData),
         },
