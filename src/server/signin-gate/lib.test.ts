@@ -32,6 +32,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
         const editionId = 'UK';
         const countryCode = 'GB';
         const hasConsented = true;
+        const shouldNotServeMandatory = false;
 
         const expectedAnswer = {
             projectId,
@@ -61,6 +62,10 @@ describe('buildGetTreatmentsRequestPayload', () => {
                     key: 'has_consented',
                     boolValue: hasConsented,
                 },
+                {
+                    key: 'should_not_serve_mandatory',
+                    boolValue: shouldNotServeMandatory,
+                },
             ],
             surfaces: [
                 {
@@ -80,6 +85,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
             editionId,
             countryCode,
             hasConsented,
+            shouldNotServeMandatory,
         );
         expect(returnedAnswer).toStrictEqual(expectedAnswer);
     });

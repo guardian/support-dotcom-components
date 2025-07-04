@@ -50,6 +50,7 @@ const callGetTreatments = async (
     editionId: string,
     countryCode: string,
     hasConsented: boolean,
+    shouldNotServeMandatory: boolean,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // We now have clearance to call the Auxia API.
 
@@ -74,6 +75,7 @@ const callGetTreatments = async (
         editionId,
         countryCode,
         hasConsented,
+        shouldNotServeMandatory,
     );
 
     const params = {
@@ -160,6 +162,7 @@ interface GetTreatmentRequestBody {
     mvtId: number;
     should_show_legacy_gate_tmp: boolean; // [2]
     hasConsented: boolean;
+    shouldNotServeMandatory: boolean; // [2]
 }
 
 // [1] articleIdentifier examples:
@@ -171,6 +174,10 @@ interface GetTreatmentRequestBody {
 // full duplication of the client side logic into SDC.
 // See https://github.com/guardian/dotcom-rendering/pull/13944
 // for details.
+
+// [2]
+// date: 03rd July 2025
+// If shouldNotServeMandatory, we should not show a mandatory gate.
 
 const getTreatments = async (
     config: AuxiaRouterConfig,
@@ -195,6 +202,7 @@ const getTreatments = async (
             body.editionId,
             body.countryCode,
             body.hasConsented,
+            body.shouldNotServeMandatory,
         );
 
         if (body.hasConsented) {
@@ -281,6 +289,7 @@ const getTreatments = async (
         body.editionId,
         body.countryCode,
         body.hasConsented, // [1]
+        body.shouldNotServeMandatory,
     );
 
     // [1] here the value should be true, because it's only in Ireland that we send non consented
@@ -309,6 +318,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'mvtId',
             'should_show_legacy_gate_tmp',
             'hasConsented',
+            'shouldNotServeMandatory',
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
