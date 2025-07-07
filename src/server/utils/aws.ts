@@ -1,7 +1,7 @@
 import { fromIni, fromNodeProviderChain } from '@aws-sdk/credential-providers';
-import { isDev } from '../lib/env';
+import { chain as providerChain } from '@smithy/property-provider';
 
 export const region = 'eu-west-1';
 
 export const credentials = () =>
-    isDev ? fromIni({ profile: 'membership' }) : fromNodeProviderChain();
+    providerChain(fromIni({ profile: 'membership' }), fromNodeProviderChain());
