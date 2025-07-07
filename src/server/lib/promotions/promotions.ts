@@ -1,7 +1,7 @@
 import type { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 import { ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { putMetric } from '../../utils/cloudwatch';
-import { getDynamoDbClient } from '../../utils/dynamodb';
+import { dynamoDbClient } from '../../utils/dynamodb';
 import { logError, logInfo } from '../../utils/logging';
 import type { ValueReloader } from '../../utils/valueReloader';
 import { buildReloader } from '../../utils/valueReloader';
@@ -42,7 +42,6 @@ const mapTableItemToPromotion = (item: PromotionTableItem): Promotion[] => {
 
 // Does a full scan of the Promotions table - there isn't a smarter way to do this with the existing schema.
 const fetchPromotions = async (): Promise<PromotionsCache> => {
-    const docClient = getDynamoDbClient();
     const tableName = `MembershipSub-Promotions-${stage}`;
     const promotionsCache: PromotionsCache = {};
     let lastEvaluatedKey: ScanCommandInput['ExclusiveStartKey']; // for paginating through the dynamodb results
@@ -59,7 +58,7 @@ const fetchPromotions = async (): Promise<PromotionsCache> => {
                 params.ExclusiveStartKey = lastEvaluatedKey;
             }
 
-            const result = await docClient.send(new ScanCommand(params));
+            const result = await dynamoDbClient.send(new ScanCommand(params));
             const items = result.Items as PromotionTableItem[];
 
             items.forEach((item) => {

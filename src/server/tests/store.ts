@@ -4,7 +4,7 @@ import type { ZodSchema } from 'zod';
 import type { BannerDesignFromTool, Channel } from '../../shared/types';
 import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
-import { getDynamoDbClient } from '../utils/dynamodb';
+import { dynamoDbClient } from '../utils/dynamodb';
 import { logError } from '../utils/logging';
 import { removeNullValues } from '../utils/removeNullValues';
 
@@ -42,8 +42,7 @@ export const getTests = <T extends { priority: number }>(
         });
 
 function queryChannel(channel: Channel, stage: string) {
-    const docClient = getDynamoDbClient();
-    return docClient.send(
+    return dynamoDbClient.send(
         new QueryCommand({
             TableName: `support-admin-console-channel-tests-${stage.toUpperCase()}`,
             KeyConditionExpression: 'channel = :channel',
@@ -60,8 +59,7 @@ function queryChannel(channel: Channel, stage: string) {
 }
 
 export const getBannerDesigns = (): Promise<BannerDesignFromTool[]> => {
-    const docClient = getDynamoDbClient();
-    return docClient
+    return dynamoDbClient
         .send(
             new ScanCommand({
                 TableName: `support-admin-console-banner-designs-${stage.toUpperCase()}`,
