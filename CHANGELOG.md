@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.5.0
+
+### Minor Changes
+
+-   58771fd: Bump "@guardian/ophan-tracker-js" to "2.3.1"
+
 ## 7.4.0
 
 ### Minor Changes
