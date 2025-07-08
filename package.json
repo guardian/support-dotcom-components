@@ -77,7 +77,7 @@
     },
     "dependencies": {
         "@guardian/libs": "22.0.1",
-        "@guardian/ophan-tracker-js": "2.2.10",
+        "@guardian/ophan-tracker-js": "2.3.1",
         "@aws-sdk/client-s3": "^3.835.0",
         "@aws-sdk/client-dynamodb": "^3.835.0",
         "@aws-sdk/lib-dynamodb": "^3.835.0",

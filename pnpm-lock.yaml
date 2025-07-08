@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@aws-sdk/client-cloudwatch':
     specifier: ^3.835.0
@@ -27,8 +23,8 @@ dependencies:
     specifier: 22.0.1
     version: 22.0.1(tslib@2.8.0)(typescript@5.5.4)
   '@guardian/ophan-tracker-js':
-    specifier: 2.2.10
-    version: 2.2.10
+    specifier: 2.3.1
+    version: 2.3.1
   compression:
     specifier: 1.7.4
     version: 1.7.4
@@ -1869,8 +1865,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /@guardian/ophan-tracker-js@2.2.10:
-    resolution: {integrity: sha512-WqE5bPagZ7AYUc2Fb0xDgNfhmdS9wK1IJcUjTD6CrlPim67SiRragw4fy+CP2OwShkfiWFmb9l/TgQLbuvUlIQ==}
+  /@guardian/ophan-tracker-js@2.3.1:
+    resolution: {integrity: sha512-AvxBTQMe2MC2ssLSuxCxEA8+1lAK3IEZaVOsjsZeX0l0orIc6tBmpuENFjdhd+NV61p0BJQRWqw7b8EQY2HfSA==}
     engines: {node: '>=16'}
     dependencies:
       '@guardian/tsconfig': 1.0.0
@@ -9890,3 +9886,7 @@ packages:
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
