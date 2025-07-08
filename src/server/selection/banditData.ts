@@ -10,7 +10,7 @@ import type {
 } from '../../shared/types';
 import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
-import { getDynamoDbClient } from '../utils/dynamodb';
+import { dynamoDbClient } from '../utils/dynamodb';
 import { logError } from '../utils/logging';
 import { buildReloader } from '../utils/valueReloader';
 import type { ValueProvider } from '../utils/valueReloader';
@@ -47,8 +47,7 @@ interface BanditTestConfig {
 
 // If sampleCount is not provided, all samples will be returned
 function queryForTestSamples(testName: string, channel: Channel, sampleCount?: number) {
-    const docClient = getDynamoDbClient();
-    return docClient.send(
+    return dynamoDbClient.send(
         new QueryCommand({
             TableName: `support-bandit-${isProd ? 'PROD' : 'CODE'}`,
             KeyConditionExpression: 'testName = :testName',

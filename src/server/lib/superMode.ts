@@ -4,7 +4,7 @@ import { addDays, format } from 'date-fns';
 import type { CountryGroupId } from '../../shared/lib';
 import type { EpicTest } from '../../shared/types';
 import { putMetric } from '../utils/cloudwatch';
-import { getDynamoDbClient } from '../utils/dynamodb';
+import { dynamoDbClient } from '../utils/dynamodb';
 import { logError, logInfo } from '../utils/logging';
 import type { ValueReloader } from '../utils/valueReloader';
 import { buildReloader } from '../utils/valueReloader';
@@ -18,8 +18,7 @@ export interface SuperModeArticle {
 }
 
 const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
-    const docClient = getDynamoDbClient();
-    const records = await queryActiveArticles(stage, docClient).catch((error) => {
+    const records = await queryActiveArticles(stage, dynamoDbClient).catch((error) => {
         logError(`Error fetching super mode articles from dynamo: ${error}`);
         putMetric('super-mode-error');
         return [];
