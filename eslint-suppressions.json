@@ -1,9 +1,4 @@
 {
-  "src/dotcom/requests.ts": {
-    "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1
-    }
-  },
   "src/server/api/ampEpicRouter.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 3
