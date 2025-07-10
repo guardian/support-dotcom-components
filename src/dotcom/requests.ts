@@ -1,3 +1,4 @@
+import { URLSearchParams } from 'url';
 import type {
     BannerPayload,
     BannerProps,
@@ -25,15 +26,8 @@ export interface ModuleDataResponse<PROPS> {
 type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'header' | 'gutter-liveblog';
 
 const getForcedVariant = (type: ModuleType): string | null => {
-    if (URLSearchParams) {
-        const params = new URLSearchParams(window.location.search);
-        const value = params.get(`force-${type}`);
-        if (value) {
-            return value;
-        }
-    }
-
-    return null;
+    const params = new URLSearchParams(window.location.search);
+    return params.get(`force-${type}`);
 };
 
 type Payload = EpicPayload | BannerPayload | HeaderPayload | GutterPayload;
