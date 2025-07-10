@@ -1,6 +1,6 @@
 import type { Test, Variant } from '../../shared/types';
 import type { BanditData } from './banditData';
-import { selectRandomVariant } from './helpers';
+import { filterValidVariants, selectRandomVariant } from './helpers';
 
 export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>(
     test: T,
@@ -11,20 +11,20 @@ export function selectVariantUsingRoulette<V extends Variant, T extends Test<V>>
         return selectRandomVariant(test);
     }
 
-    const sumOfMeans = testBanditData.sortedVariants.reduce((sum, v) => sum + v.mean, 0);
+    const sortedVariants = filterValidVariants(testBanditData.sortedVariants, test);
+    const sumOfMeans = sortedVariants.reduce((sum, v) => sum + v.mean, 0);
 
     if (sumOfMeans <= 0) {
         return selectRandomVariant(test);
     }
 
     const minWeight = 0.1; // Ensure no variant gets less than 10%
-    const variantsWithWeights: Array<{ weight: number; variantName: string }> =
-        testBanditData.sortedVariants
-            .map(({ variantName, mean }) => ({
-                variantName,
-                weight: Math.max(mean / sumOfMeans, minWeight),
-            }))
-            .sort((a, b) => a.weight - b.weight);
+    const variantsWithWeights: Array<{ weight: number; variantName: string }> = sortedVariants
+        .map(({ variantName, mean }) => ({
+            variantName,
+            weight: Math.max(mean / sumOfMeans, minWeight),
+        }))
+        .sort((a, b) => a.weight - b.weight);
 
     // The sum of the weights may be greater than 1, so we now need to normalise them
     const sumOfWeights = variantsWithWeights.reduce((sum, v) => sum + v.weight, 0);

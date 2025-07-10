@@ -77,7 +77,7 @@ async function getBanditSamplesForTest(
     return parsedResults.data;
 }
 
-interface BanditVariantData {
+export interface BanditVariantData {
     variantName: string;
     mean: number;
 }
