@@ -66,11 +66,6 @@
       "count": 1
     }
   },
-  "src/server/channelSwitches.ts": {
-    "@typescript-eslint/no-unsafe-return": {
-      "count": 1
-    }
-  },
   "src/server/factories/test.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
