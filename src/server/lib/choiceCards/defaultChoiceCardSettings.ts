@@ -20,6 +20,7 @@ const oneOffCard = (countryGroupId: CountryGroupId): ChoiceCard => ({
                     : 'We welcome support of any size, any time',
         },
     ],
+    destinationUrl: null, // Will use default CTA behavior
 });
 
 const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
@@ -35,6 +36,7 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
                 copy: 'Give to the Guardian every month with Support',
             },
         ],
+        destinationUrl: null, // Will use default CTA behavior
     },
     {
         product: {
@@ -56,6 +58,7 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         pill: {
             copy: 'Recommended',
         },
+        destinationUrl: null, // Will use default CTA behavior
     },
     oneOffCard(countryGroupId),
 ];
@@ -88,6 +91,7 @@ const shorterChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         pill: {
             copy: 'Recommended',
         },
+        destinationUrl: null, // Will use default CTA behavior
     },
     oneOffCard(countryGroupId),
 ];

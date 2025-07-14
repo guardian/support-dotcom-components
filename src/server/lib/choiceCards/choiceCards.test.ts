@@ -93,6 +93,35 @@ describe('getChoiceCardsSettings', () => {
             supportTier: 'SupporterPlus',
             ratePlan: 'Monthly',
         });
+        expect(result?.choiceCards[1].destinationUrl).toBeNull();
+    });
+
+    it('preserves custom destinationUrl when provided', () => {
+        const variantChoiceCardSettings: ChoiceCardsSettings = {
+            choiceCards: [
+                {
+                    ...defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[0],
+                    destinationUrl: 'https://support.theguardian.com/contribute/one-time',
+                },
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[1],
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
+            ],
+        };
+        const promoCodes: string[] = [];
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            promoCodes,
+            variantChoiceCardSettings,
+        );
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[0].destinationUrl).toEqual(
+            'https://support.theguardian.com/contribute/one-time',
+        );
     });
 
     it('returns choice cards with monthly discount (PROMO_B) applied', () => {
