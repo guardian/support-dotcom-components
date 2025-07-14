@@ -1,6 +1,6 @@
 {
     "name": "@guardian/support-dotcom-components",
-    "version": "7.5.0",
+    "version": "7.6.0",
     "description": "Service to serve Reader Revenue components to dotcom",
     "repository": "github:guardian/support-dotcom-components",
     "author": "The Guardian",
