@@ -36,6 +36,7 @@ const choiceCardSchema = z.object({
     benefitsLabel: z.string().nullish(), // e.g. "Unlock All-access digital benefits:"
     benefits: z.array(productBenefitSchema),
     pill: pillSchema.nullish(),
+    destinationUrl: z.string().nullish(), // Optional override URL for this choice card
 });
 
 export type ChoiceCard = z.infer<typeof choiceCardSchema>;

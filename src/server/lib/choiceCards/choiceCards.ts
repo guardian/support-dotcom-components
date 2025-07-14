@@ -83,6 +83,7 @@ const enrichChoiceCard = (
         benefitsLabel: choiceCard.benefitsLabel,
         benefits,
         pill,
+        destinationUrl: choiceCard.destinationUrl, // Preserve the destination URL
     };
 };
 
