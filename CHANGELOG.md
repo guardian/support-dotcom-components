@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.6.0
+
+### Minor Changes
+
+-   aaf3a5a: adds destination url parameter to choice card
+
 ## 7.5.0
 
 ### Minor Changes
