@@ -21,7 +21,8 @@ export const getEpicViewLog = (localStorage: LocalStorage): EpicViewLog | undefi
     // Return undefined instead of null if view log does not exist
     // Needed because the localStorage API returns null for non-existing keys
     // but Contributions API expects a view log or undefined.
-    return localStorage.get(viewLogKey) || undefined;
+    const viewLog = localStorage.get(viewLogKey) as EpicViewLog | null;
+    return viewLog ?? undefined;
 };
 
 /**
