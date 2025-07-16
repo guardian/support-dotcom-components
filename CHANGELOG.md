@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.6.1
+
+### Patch Changes
+
+-   f4d9508: lint fixes
+
 ## 7.6.0
 
 ### Minor Changes
