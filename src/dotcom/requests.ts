@@ -1,4 +1,3 @@
-import { URLSearchParams } from 'url';
 import type {
     BannerPayload,
     BannerProps,
