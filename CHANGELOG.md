@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.6.2
+
+### Patch Changes
+
+-   0d8301c: use global URLSearchParams
+
 ## 7.6.1
 
 ### Patch Changes
