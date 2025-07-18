@@ -85,7 +85,6 @@ interface CtaStateDesign {
 }
 export interface CtaDesign {
     default: CtaStateDesign;
-    hover: CtaStateDesign;
 }
 
 interface TickerDesign {
