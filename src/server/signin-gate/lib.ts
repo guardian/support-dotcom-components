@@ -125,7 +125,7 @@ export const buildGetTreatmentsRequestPayload = (
 };
 
 export const guGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
-    const title = 'Register: it’s quick and easy';
+    const title = "Sign in: it's quick and easy";
     const subtitle = 'It’s still free to read – this is not a paywall';
     const body =
         'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all.';
@@ -134,8 +134,8 @@ export const guGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
         title,
         subtitle,
         body,
-        first_cta_name: 'Sign in',
-        first_cta_link: 'https://profile.theguardian.com/signin?',
+        first_cta_name: 'Create an account',
+        first_cta_link: 'https://profile.theguardian.com/register?',
         second_cta_name: secondCtaName,
         second_cta_link: 'https://profile.theguardian.com/signin?',
     };
