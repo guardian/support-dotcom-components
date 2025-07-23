@@ -9,6 +9,7 @@ import {
     buildGetTreatmentsRequestPayload,
     buildLogTreatmentInteractionRequestPayload,
     guDefaultGateGetTreatmentsResponseData,
+    guGateAsAnAuxiaAPIUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
@@ -198,11 +199,11 @@ const getTreatments = async (
     // The attribute mustShowDefaultGate overrides any other behavior, we check it first
 
     if (body.mustShowDefaultGate) {
-        const auxiaData = guDefaultGateGetTreatmentsResponseData(
-            body.dailyArticleCount,
-            body.gateDismissCount,
-        );
-        return Promise.resolve(auxiaData);
+        const data: AuxiaAPIGetTreatmentsResponseData = {
+            responseId: '',
+            userTreatments: [guGateAsAnAuxiaAPIUserTreatment()],
+        };
+        return data;
     }
 
     // Then, we need to check whether we are in Ireland ot not. If we are in Ireland
