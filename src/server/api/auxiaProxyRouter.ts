@@ -162,7 +162,8 @@ interface GetTreatmentRequestBody {
     mvtId: number;
     should_show_legacy_gate_tmp: boolean; // [2]
     hasConsented: boolean;
-    shouldNotServeMandatory: boolean; // [2]
+    shouldNotServeMandatory: boolean; // [3]
+    mustShowDefaultGate: boolean; // [4]
 }
 
 // [1] articleIdentifier examples:
@@ -175,9 +176,17 @@ interface GetTreatmentRequestBody {
 // See https://github.com/guardian/dotcom-rendering/pull/13944
 // for details.
 
-// [2]
+// [3]
 // date: 03rd July 2025
 // If shouldNotServeMandatory, we should not show a mandatory gate.
+
+// [4]
+// date: 23rd July 2025
+// author: Pascal
+// In order to facilitate internal testing, this attribute forces
+// the display of a sign-in gate, namely the default gu gate. If it is true then
+// the default gate is going to be displayed. Note that this applies to both auxia and
+// non auxia audiences.
 
 const getTreatments = async (
     config: AuxiaRouterConfig,
@@ -186,7 +195,17 @@ const getTreatments = async (
     // This function gets the body of a '/auxia/get-treatments' request and return the data to post to the client
     // or undefined.
 
-    // As a first step we need to check whether we are in Ireland ot not. If we are in Ireland
+    // The attribute mustShowDefaultGate overrides any other behavior, we check it first
+
+    if (body.mustShowDefaultGate) {
+        const auxiaData = guDefaultGateGetTreatmentsResponseData(
+            body.dailyArticleCount,
+            body.gateDismissCount,
+        );
+        return Promise.resolve(auxiaData);
+    }
+
+    // Then, we need to check whether we are in Ireland ot not. If we are in Ireland
     // as a consequence of the great Ireland opening of May 2025 (tm), we send the entire
     // traffic (consented or not consented) to Auxia. (For privacy vigilantes reading this,
     // Auxia is not going to process non consented traffic for targetting.)
@@ -319,6 +338,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'should_show_legacy_gate_tmp',
             'hasConsented',
             'shouldNotServeMandatory',
+            'mustShowDefaultGate',
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
