@@ -2,4 +2,4 @@
 '@guardian/support-dotcom-components': minor
 ---
 
-Remove hover from CTA banner design
+Remove hover from CtaDesign type as now automated
