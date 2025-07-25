@@ -203,7 +203,27 @@ const getTreatments = async (
     // This function gets the body of a '/auxia/get-treatments' request and return the data to post to the client
     // or undefined.
 
-    // The attribute showDefaultGate overrides any other behavior, we check it first
+    // In the case that
+    //
+    //    1. body.shouldServeDismissible is true
+    //       (which at the moment is controlled by
+    //       utm_source=newsshowcase, via DRC:decideShouldServeDismissible), and
+    //
+    //    2. body.showDefaultGate is defined (regardless of its value)
+    //
+    // Then we serve a non dismissible gate. In other words
+    // body.shouldServeDismissible take priority over the fact that body.showDefaultGate
+    // could possibly have value 'mandatory'
+
+    if (body.showDefaultGate !== undefined && body.shouldServeDismissible) {
+        const data: AuxiaAPIGetTreatmentsResponseData = {
+            responseId: '',
+            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+        };
+        return data;
+    }
+
+    // The attribute showDefaultGate overrides any other behavior
 
     if (body.showDefaultGate) {
         if (body.showDefaultGate == 'mandatory') {
