@@ -51,7 +51,7 @@ const callGetTreatments = async (
     editionId: string,
     countryCode: string,
     hasConsented: boolean,
-    shouldNotServeMandatory: boolean,
+    shouldServeDismissible: boolean,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // We now have clearance to call the Auxia API.
 
@@ -76,7 +76,7 @@ const callGetTreatments = async (
         editionId,
         countryCode,
         hasConsented,
-        shouldNotServeMandatory,
+        shouldServeDismissible,
     );
 
     const params = {
@@ -149,6 +149,8 @@ const callLogTreatmentInteration = async (
     // We are not consuming an answer from the server, so we are not returning anything.
 };
 
+type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
+
 interface GetTreatmentRequestBody {
     browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
     isSupporter: boolean;
@@ -163,8 +165,8 @@ interface GetTreatmentRequestBody {
     mvtId: number;
     should_show_legacy_gate_tmp: boolean; // [2]
     hasConsented: boolean;
-    shouldNotServeMandatory: boolean; // [3]
-    mustShowDefaultGate: boolean; // [4]
+    shouldServeDismissible: boolean; // [3]
+    mustShowDefaultGate: ShowGateValues; // [4]
 }
 
 // [1] articleIdentifier examples:
@@ -182,12 +184,16 @@ interface GetTreatmentRequestBody {
 // If shouldNotServeMandatory, we should not show a mandatory gate.
 
 // [4]
-// date: 23rd July 2025
+
+// date: 25rd July 2025
 // author: Pascal
-// In order to facilitate internal testing, this attribute forces
-// the display of a sign-in gate, namely the default gu gate. If it is true then
-// the default gate is going to be displayed. Note that this applies to both auxia and
-// non auxia audiences.
+
+// In order to facilitate internal testing, this attribute, when defined, forces
+// the display of a sign-in gate. The values 'true' and 'dismissible' displays the
+// dismissible variant of the gu default gate, and the value 'mandatory' displays
+// the mandatory variant of the gu default gate.
+
+// Note that this attributes override the value of should_show_legacy_gate_tmp.
 
 const getTreatments = async (
     config: AuxiaRouterConfig,
@@ -222,7 +228,7 @@ const getTreatments = async (
             body.editionId,
             body.countryCode,
             body.hasConsented,
-            body.shouldNotServeMandatory,
+            body.shouldServeDismissible,
         );
 
         if (body.hasConsented) {
@@ -309,7 +315,7 @@ const getTreatments = async (
         body.editionId,
         body.countryCode,
         body.hasConsented, // [1]
-        body.shouldNotServeMandatory,
+        body.shouldServeDismissible,
     );
 
     // [1] here the value should be true, because it's only in Ireland that we send non consented
@@ -338,9 +344,15 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'mvtId',
             'should_show_legacy_gate_tmp',
             'hasConsented',
-            'shouldNotServeMandatory',
-            'mustShowDefaultGate',
+            'shouldServeDismissible',
         ]),
+
+        // The following attributes are used but are nullable,
+        // so are not in the mandatory set of payload fields (as defined above).
+        // Nullable attributes:
+        //     'browserId'
+        //     'mustShowDefaultGate'
+
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const getTreatmentRequestBody = req.body as GetTreatmentRequestBody;
