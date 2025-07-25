@@ -78,7 +78,7 @@ export const buildGetTreatmentsRequestPayload = (
     editionId: string,
     countryCode: string,
     hasConsented: boolean,
-    shouldNotServeMandatory: boolean,
+    shouldServeDismissible: boolean,
 ): AuxiaAPIGetTreatmentsRequestPayload => {
     // For the moment we are hard coding the data provided in contextualAttributes and surfaces.
     return {
@@ -111,7 +111,7 @@ export const buildGetTreatmentsRequestPayload = (
             },
             {
                 key: 'should_not_serve_mandatory',
-                boolValue: shouldNotServeMandatory,
+                boolValue: shouldServeDismissible,
             },
         ],
         surfaces: [
