@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.7.0
+
+### Minor Changes
+
+-   27ed0b4: Remove hover from CtaDesign type as now automated
+
 ## 7.6.2
 
 ### Patch Changes
