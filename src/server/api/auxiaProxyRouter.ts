@@ -205,19 +205,17 @@ const getTreatments = async (
 
     // The attribute showDefaultGate overrides any other behavior, we check it first
 
-    const dismissibleGateValues = ['true', 'dismissible'];
-
-    if (body.showDefaultGate !== undefined) {
-        if (dismissibleGateValues.includes(body.showDefaultGate)) {
+    if (body.showDefaultGate) {
+        if (body.showDefaultGate == 'mandatory') {
             const data: AuxiaAPIGetTreatmentsResponseData = {
                 responseId: '',
-                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+                userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
             };
             return data;
         } else {
             const data: AuxiaAPIGetTreatmentsResponseData = {
                 responseId: '',
-                userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
             };
             return data;
         }
