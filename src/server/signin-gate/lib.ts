@@ -124,7 +124,10 @@ export const buildGetTreatmentsRequestPayload = (
     };
 };
 
-export const guGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
+export const guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
+    // The contract we have with the client is that a gate is dismissible if the second_cta_name
+    // is not empty. Otherwise the gate is Mandatory
+
     const title = "Sign in: it's quick and easy";
     const subtitle = 'It’s still free to read – this is not a paywall';
     const body =
@@ -138,6 +141,35 @@ export const guGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
         first_cta_link: 'https://profile.theguardian.com/register?',
         second_cta_name: secondCtaName,
         second_cta_link: 'https://profile.theguardian.com/signin?',
+    };
+    const treatmentContentEncoded = JSON.stringify(treatmentContent);
+    return {
+        treatmentId: 'default-treatment-id',
+        treatmentTrackingId: 'default-treatment-tracking-id',
+        rank: '1',
+        contentLanguageCode: 'en-GB',
+        treatmentContent: treatmentContentEncoded,
+        treatmentType: 'DISMISSABLE_SIGN_IN_GATE',
+        surface: 'ARTICLE_PAGE',
+    };
+};
+
+export const guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
+    // The contract we have with the client is that a gate is dismissible if the second_cta_name
+    // is not empty. Otherwise the gate is Mandatory
+
+    const title = "Sign in: it's quick and easy";
+    const subtitle = 'It’s still free to read – this is not a paywall';
+    const body =
+        'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all.';
+    const treatmentContent = {
+        title,
+        subtitle,
+        body,
+        first_cta_name: 'Create an account',
+        first_cta_link: 'https://profile.theguardian.com/register?',
+        second_cta_name: '', // empty string here makes the gate mandatory
+        second_cta_link: '',
     };
     const treatmentContentEncoded = JSON.stringify(treatmentContent);
     return {
@@ -180,7 +212,7 @@ export const guDefaultGateGetTreatmentsResponseData = (
 
     const data: AuxiaAPIGetTreatmentsResponseData = {
         responseId,
-        userTreatments: [guGateAsAnAuxiaAPIUserTreatment()],
+        userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
     };
     return data;
 };
