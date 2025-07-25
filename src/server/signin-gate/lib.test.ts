@@ -3,9 +3,9 @@ import {
     buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
     buildLogTreatmentInteractionRequestPayload,
+    guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment,
     guDefaultGateGetTreatmentsResponseData,
     guDefaultShouldShowTheGate,
-    guDefaultGateDismissibleAsAnAuxiaAPIUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
@@ -92,7 +92,7 @@ describe('buildGetTreatmentsRequestPayload', () => {
 });
 
 describe('guDefaultGateGetTreatmentsResponseData', () => {
-    const guGateAsAuxiaUserTreatment1 = guDefaultGateDismissibleAsAnAuxiaAPIUserTreatment();
+    const guGateAsAuxiaUserTreatment1 = guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment();
 
     it('should not return gate data if the number of gate dismissal is less than 5 (or equal to 5)', () => {
         // We are setting the daily article count to a value which would allow for the gate to be shown

@@ -8,8 +8,9 @@ import {
     buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
     buildLogTreatmentInteractionRequestPayload,
-    guDefaultGateDismissibleAsAnAuxiaAPIUserTreatment,
+    guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment,
     guDefaultGateGetTreatmentsResponseData,
+    guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
@@ -202,14 +203,26 @@ const getTreatments = async (
     // This function gets the body of a '/auxia/get-treatments' request and return the data to post to the client
     // or undefined.
 
-    // The attribute mustShowDefaultGate overrides any other behavior, we check it first
+    // The attribute showDefaultGate overrides any other behavior, we check it first
 
-    if (body.showDefaultGate) {
-        const data: AuxiaAPIGetTreatmentsResponseData = {
-            responseId: '',
-            userTreatments: [guDefaultGateDismissibleAsAnAuxiaAPIUserTreatment()],
-        };
-        return data;
+    const dismissibleGateValues = ['true', 'dismissible'];
+    const mandatoryGateValues = ['mandatory'];
+
+    if (body.showDefaultGate !== undefined) {
+        if (dismissibleGateValues.includes(body.showDefaultGate)) {
+            const data: AuxiaAPIGetTreatmentsResponseData = {
+                responseId: '',
+                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            };
+            return data;
+        }
+        if (mandatoryGateValues.includes(body.showDefaultGate)) {
+            const data: AuxiaAPIGetTreatmentsResponseData = {
+                responseId: '',
+                userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+            };
+            return data;
+        }
     }
 
     // Then, we need to check whether we are in Ireland ot not. If we are in Ireland

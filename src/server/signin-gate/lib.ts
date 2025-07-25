@@ -124,8 +124,7 @@ export const buildGetTreatmentsRequestPayload = (
     };
 };
 
-export const guDefaultGateDismissibleAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
-
+export const guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
@@ -155,8 +154,7 @@ export const guDefaultGateDismissibleAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUse
     };
 };
 
-export const guDefaultGateMandatoryAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
-
+export const guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
@@ -214,7 +212,7 @@ export const guDefaultGateGetTreatmentsResponseData = (
 
     const data: AuxiaAPIGetTreatmentsResponseData = {
         responseId,
-        userTreatments: [guDefaultGateDismissibleAsAnAuxiaAPIUserTreatment()],
+        userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
     };
     return data;
 };
