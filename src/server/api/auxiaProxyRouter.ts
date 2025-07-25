@@ -51,7 +51,7 @@ const callGetTreatments = async (
     editionId: string,
     countryCode: string,
     hasConsented: boolean,
-    shouldNotServeMandatory: boolean,
+    shouldServeDismissible: boolean,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // We now have clearance to call the Auxia API.
 
@@ -76,7 +76,7 @@ const callGetTreatments = async (
         editionId,
         countryCode,
         hasConsented,
-        shouldNotServeMandatory,
+        shouldServeDismissible,
     );
 
     const params = {
@@ -163,7 +163,7 @@ interface GetTreatmentRequestBody {
     mvtId: number;
     should_show_legacy_gate_tmp: boolean; // [2]
     hasConsented: boolean;
-    shouldNotServeMandatory: boolean; // [3]
+    shouldServeDismissible: boolean; // [3]
     mustShowDefaultGate: boolean; // [4]
 }
 
@@ -179,7 +179,7 @@ interface GetTreatmentRequestBody {
 
 // [3]
 // date: 03rd July 2025
-// If shouldNotServeMandatory, we should not show a mandatory gate.
+// If shouldServeDismissible, we should show a dismissible (not mandatory) gate.
 
 // [4]
 // date: 23rd July 2025
@@ -222,7 +222,7 @@ const getTreatments = async (
             body.editionId,
             body.countryCode,
             body.hasConsented,
-            body.shouldNotServeMandatory,
+            body.shouldServeDismissible,
         );
 
         if (body.hasConsented) {
@@ -309,7 +309,7 @@ const getTreatments = async (
         body.editionId,
         body.countryCode,
         body.hasConsented, // [1]
-        body.shouldNotServeMandatory,
+        body.shouldServeDismissible,
     );
 
     // [1] here the value should be true, because it's only in Ireland that we send non consented
@@ -338,7 +338,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'mvtId',
             'should_show_legacy_gate_tmp',
             'hasConsented',
-            'shouldNotServeMandatory',
+            'shouldServeDismissible',
             'mustShowDefaultGate',
         ]),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
