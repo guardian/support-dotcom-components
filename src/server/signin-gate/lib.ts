@@ -124,7 +124,7 @@ export const buildGetTreatmentsRequestPayload = (
     };
 };
 
-export const guGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
+export const guDefaultGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
     const title = "Sign in: it's quick and easy";
     const subtitle = 'It’s still free to read – this is not a paywall';
     const body =
@@ -180,7 +180,7 @@ export const guDefaultGateGetTreatmentsResponseData = (
 
     const data: AuxiaAPIGetTreatmentsResponseData = {
         responseId,
-        userTreatments: [guGateAsAnAuxiaAPIUserTreatment()],
+        userTreatments: [guDefaultGateAsAnAuxiaAPIUserTreatment()],
     };
     return data;
 };

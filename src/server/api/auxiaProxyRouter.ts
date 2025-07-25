@@ -9,7 +9,7 @@ import {
     buildGetTreatmentsRequestPayload,
     buildLogTreatmentInteractionRequestPayload,
     guDefaultGateGetTreatmentsResponseData,
-    guGateAsAnAuxiaAPIUserTreatment,
+    guDefaultGateAsAnAuxiaAPIUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
@@ -201,7 +201,7 @@ const getTreatments = async (
     if (body.mustShowDefaultGate) {
         const data: AuxiaAPIGetTreatmentsResponseData = {
             responseId: '',
-            userTreatments: [guGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDefaultGateAsAnAuxiaAPIUserTreatment()],
         };
         return data;
     }
