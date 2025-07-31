@@ -62,13 +62,6 @@ export interface AuxiaAPIGetTreatmentsResponseData {
     userTreatments: AuxiaAPIUserTreatment[];
 }
 
-export const guDefaultShouldShowTheGate = (daily_article_count: number): boolean => {
-    // We show the GU gate every 10 pageviews
-    // Note: this behavior was arbitrarily decided by Pascal at the beginning of the Auxia project.
-    // Note that the value of gateDismissCount (see guDefaultGateGetTreatmentsResponseData) overrides it.
-    return daily_article_count % 10 == 0;
-};
-
 export const buildGetTreatmentsRequestPayload = (
     projectId: string,
     browserId: string,
@@ -193,15 +186,6 @@ export const guDefaultGateGetTreatmentsResponseData = (
     // (We do not want users to have to dismiss the gate 6 times)
 
     if (gateDismissCount > 5) {
-        return {
-            responseId,
-            userTreatments: [],
-        };
-    }
-
-    // Then to prevent showing the gate too many times, we only show the gate every 10 pages views
-
-    if (!guDefaultShouldShowTheGate(daily_article_count)) {
         return {
             responseId,
             userTreatments: [],
