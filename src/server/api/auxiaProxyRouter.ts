@@ -152,7 +152,7 @@ const callLogTreatmentInteration = async (
 
 type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
 
-interface GetTreatmentRequestBody {
+export interface GetTreatmentRequestBody {
     browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
     isSupporter: boolean;
     dailyArticleCount: number; // [1]
@@ -196,7 +196,7 @@ interface GetTreatmentRequestBody {
 
 // Note that this attributes override the value of should_show_legacy_gate_tmp.
 
-const getTreatments = async (
+export const getTreatments = async (
     config: AuxiaRouterConfig,
     body: GetTreatmentRequestBody,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {

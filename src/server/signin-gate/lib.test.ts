@@ -1,3 +1,5 @@
+import type { AuxiaRouterConfig, GetTreatmentRequestBody } from '../api/auxiaProxyRouter';
+import { getTreatments } from '../api/auxiaProxyRouter';
 import {
     articleIdentifierIsAllowed,
     buildAuxiaProxyGetTreatmentsResponseData,
@@ -5,22 +7,11 @@ import {
     buildLogTreatmentInteractionRequestPayload,
     guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment,
     guDefaultGateGetTreatmentsResponseData,
-    guDefaultShouldShowTheGate,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
     mvtIdIsAuxiaAudienceShare,
 } from './lib';
-
-describe('guDefaultShouldShowTheGate', () => {
-    it('should return false if a non multiple of 10', () => {
-        expect(guDefaultShouldShowTheGate(21)).toBe(false);
-    });
-
-    it('should return true if a multiple of 10', () => {
-        expect(guDefaultShouldShowTheGate(30)).toBe(true);
-    });
-});
 
 describe('buildGetTreatmentsRequestPayload', () => {
     it('should return return the right payload', () => {
@@ -113,17 +104,6 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [],
         };
         expect(guDefaultGateGetTreatmentsResponseData(daily_article_count, 6)).toStrictEqual(
-            expectAnswer,
-        );
-    });
-    it('should not return gate data if the daily article count is not a multiple of 10', () => {
-        // We are setting the gateDismissCount to a value which would allow for the gate to be shown
-        const gateDismissCount = 0;
-        const expectAnswer = {
-            responseId: '',
-            userTreatments: [],
-        };
-        expect(guDefaultGateGetTreatmentsResponseData(1, gateDismissCount)).toStrictEqual(
             expectAnswer,
         );
     });
@@ -263,4 +243,36 @@ describe('mvtIdIsInTheNaturalAuxiaShareOfAudience', () => {
     expect(mvtIdIsAuxiaAudienceShare(210946)).toBe(true);
     expect(mvtIdIsAuxiaAudienceShare(350000)).toBe(true);
     expect(mvtIdIsAuxiaAudienceShare(350001)).toBe(false);
+});
+
+describe('getTreatments', () => {
+    it('should return a gate in the case of the Giulia experiment', async () => {
+        const config: AuxiaRouterConfig = {
+            apiKey: 'sample',
+            projectId: 'sample',
+        };
+        const body: GetTreatmentRequestBody = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'UK',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 350001,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+        };
+        const treatment = await getTreatments(config, body);
+        const expectedAnswer = {
+            responseId: '',
+            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+        };
+        expect(treatment).toStrictEqual(expectedAnswer);
+    });
 });
