@@ -308,7 +308,7 @@ export const getTreatments = async (
     // If we reached this point, then we are the Auxia share of the audience
     // ---------------------------------------------------------------------
 
-    // First we check page metada to comply with Guardian policies.
+    // We check page metada to comply with Guardian policies.
     // If the policies are not met, then we do not display a gate
 
     if (
