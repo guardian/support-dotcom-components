@@ -7,6 +7,7 @@ import {
     buildLogTreatmentInteractionRequestPayload,
     guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment,
     guDefaultGateGetTreatmentsResponseData,
+    guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
@@ -282,6 +283,102 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: true, // <- [tested]
             showDefaultGate: 'mandatory', // <- [tested]
+        };
+        const treatment = await getTreatments(config, body);
+        const expectedAnswer = {
+            responseId: '',
+            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+        };
+        expect(treatment).toStrictEqual(expectedAnswer);
+    });
+
+    it('2', async () => {
+        // Similar to test 1, but here we have
+        // showDefaultGate: 'dismissible'
+
+        const config: AuxiaRouterConfig = {
+            apiKey: 'sample',
+            projectId: 'sample',
+        };
+        const body: GetTreatmentRequestBody = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'UK',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 350001,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: true, // <- [tested]
+            showDefaultGate: 'dismissible', // <- [tested]
+        };
+        const treatment = await getTreatments(config, body);
+        const expectedAnswer = {
+            responseId: '',
+            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+        };
+        expect(treatment).toStrictEqual(expectedAnswer);
+    });
+
+    // From this point shouldServeDismissible is going to be false.
+    // We pursue with two tests showing that showDefaultGate is correctly listened to.
+
+    it('3', async () => {
+        const config: AuxiaRouterConfig = {
+            apiKey: 'sample',
+            projectId: 'sample',
+        };
+        const body: GetTreatmentRequestBody = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'UK',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 350001,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: false,
+            showDefaultGate: 'mandatory', // <- [tested]
+        };
+        const treatment = await getTreatments(config, body);
+        const expectedAnswer = {
+            responseId: '',
+            userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+        };
+        expect(treatment).toStrictEqual(expectedAnswer);
+    });
+
+    it('4', async () => {
+        const config: AuxiaRouterConfig = {
+            apiKey: 'sample',
+            projectId: 'sample',
+        };
+        const body: GetTreatmentRequestBody = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'UK',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 350001,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: false,
+            showDefaultGate: 'dismissible', // <- [tested]
         };
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
