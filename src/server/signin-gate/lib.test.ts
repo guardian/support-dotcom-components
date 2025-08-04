@@ -253,7 +253,7 @@ describe('getTreatments', () => {
 
     // This tests is following the logic getTreatments from top to bottom.
 
-    it('1', async () => {
+    it('test shouldServeDismissible and showDefaultGate:mandatory interacting together', async () => {
         // If we receive instruction to serve a default gate (showDefaultGate
         // can be `mandatory`, `dismissible` or `undefined`, and here we mean not
         // undefined), but also the condition to serve a dismissible gate,
@@ -292,7 +292,7 @@ describe('getTreatments', () => {
         expect(treatment).toStrictEqual(expectedAnswer);
     });
 
-    it('2', async () => {
+    it('test shouldServeDismissible and showDefaultGate:dismissible interacting together', async () => {
         // Similar to test 1, but here we have
         // showDefaultGate: 'dismissible'
 
@@ -330,7 +330,7 @@ describe('getTreatments', () => {
     // The attribute showDefaultGate overrides any other behavior
     // We pursue with two tests showing that showDefaultGate is correctly listened to.
 
-    it('3', async () => {
+    it('showDefaultGate:mandatory overrides any other behavior', async () => {
         const config: AuxiaRouterConfig = {
             apiKey: 'sample',
             projectId: 'sample',
@@ -360,7 +360,7 @@ describe('getTreatments', () => {
         expect(treatment).toStrictEqual(expectedAnswer);
     });
 
-    it('4', async () => {
+    it('showDefaultGate:dismissible overrides any other behavior', async () => {
         const config: AuxiaRouterConfig = {
             apiKey: 'sample',
             projectId: 'sample',
