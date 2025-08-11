@@ -113,10 +113,34 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
 
     it('should return a dismissible gate if gateDisplayCount is in {0, 1, 2}', () => {
         const gateDismissCount = 2; // low number allowing for a gate
-        const gateDisplayCount = 1; // dismissible gate
+        const gateDisplayCount = 0; // dismissible gate
         const expectAnswer = {
             responseId: '',
             userTreatments: [dismissibleGuGateTreatment],
+        };
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount),
+        ).toStrictEqual(expectAnswer);
+    });
+
+    it('should return a dismissible gate if gateDisplayCount is in {0, 1, 2}', () => {
+        const gateDismissCount = 2; // low number allowing for a gate
+        const gateDisplayCount = 2; // dismissible gate
+        const expectAnswer = {
+            responseId: '',
+            userTreatments: [dismissibleGuGateTreatment],
+        };
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount),
+        ).toStrictEqual(expectAnswer);
+    });
+
+    it('should return a mandatory gate if gateDisplayCount is >= 3', () => {
+        const gateDismissCount = 2; // low number allowing for a gate
+        const gateDisplayCount = 3; // mandatory gate
+        const expectAnswer = {
+            responseId: '',
+            userTreatments: [mandatoryGuGateTreatment],
         };
         expect(
             guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount),
