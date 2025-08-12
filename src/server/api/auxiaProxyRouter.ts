@@ -168,6 +168,7 @@ export interface GetTreatmentRequestBody {
     hasConsented: boolean;
     shouldServeDismissible: boolean; // [3]
     showDefaultGate: ShowGateValues; // [4]
+    gateDisplayCount: number; // [5]
 }
 
 // [1] articleIdentifier examples:
@@ -195,6 +196,26 @@ export interface GetTreatmentRequestBody {
 // the mandatory variant of the gu default gate.
 
 // Note that this attributes override the value of should_show_legacy_gate_tmp.
+
+// [5] (comment group: 04f093f0)
+
+// date: 11 Aug 2025
+// author: Pascal
+
+// gateDisplayCount was introduced to enrich the behavior of the default gate.
+// That number represents the number of times the gate has been displayed, excluding the
+// current rendering. Therefore the first time the number is 0.
+
+// At the time these lines are written we want the experience for non consented users
+// in Ireland, to be that the gates, as they display are (first line) corresponding
+// to values of gateDisplayCount (second line)
+//  -------------------------------------------------------------------------
+// | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
+// |     0       |      1      |      2      |      3           etc          |
+//  -------------------------------------------------------------------------
+
+// For non consenting users outside ireland, the behavior doesn't change, we serve
+// dismissible gates
 
 export const getTreatments = async (
     config: AuxiaRouterConfig,
@@ -271,8 +292,9 @@ export const getTreatments = async (
             // We now decide whether to send back the default gate
             if (body.should_show_legacy_gate_tmp) {
                 const auxiaData = guDefaultGateGetTreatmentsResponseData(
-                    body.dailyArticleCount,
                     body.gateDismissCount,
+                    body.gateDisplayCount,
+                    body.countryCode,
                 );
                 return Promise.resolve(auxiaData);
             } else {
@@ -295,8 +317,9 @@ export const getTreatments = async (
     if (!mvtIdIsAuxiaAudienceShare(body.mvtId)) {
         if (body.should_show_legacy_gate_tmp) {
             const auxiaData = guDefaultGateGetTreatmentsResponseData(
-                body.dailyArticleCount,
                 body.gateDismissCount,
+                body.gateDisplayCount,
+                body.countryCode,
             );
             return Promise.resolve(auxiaData);
         } else {
@@ -328,8 +351,9 @@ export const getTreatments = async (
 
     if (!body.hasConsented) {
         const data = guDefaultGateGetTreatmentsResponseData(
-            body.dailyArticleCount,
             body.gateDismissCount,
+            body.gateDisplayCount,
+            body.countryCode,
         );
         return Promise.resolve(data);
     }
@@ -374,6 +398,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'should_show_legacy_gate_tmp',
             'hasConsented',
             'shouldServeDismissible',
+            'gateDisplayCount',
         ]),
 
         // The following attributes are used but are nullable,

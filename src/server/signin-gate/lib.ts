@@ -177,8 +177,9 @@ export const guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserT
 };
 
 export const guDefaultGateGetTreatmentsResponseData = (
-    daily_article_count: number,
     gateDismissCount: number,
+    gateDisplayCount: number,
+    countryCode: string,
 ): AuxiaAPIGetTreatmentsResponseData => {
     const responseId = ''; // This value is not important, it is not used by the client.
 
@@ -194,10 +195,44 @@ export const guDefaultGateGetTreatmentsResponseData = (
 
     // We are now clear to show the default gu gate.
 
-    const data: AuxiaAPIGetTreatmentsResponseData = {
-        responseId,
-        userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
-    };
+    // (comment group: 04f093f0)
+
+    // gateDisplayCount was introduced to enrich the behavior of the default gate.
+    // That number represents the number of times the gate has been displayed, excluding the
+    // current rendering. Therefore the first time the number is 0.
+
+    // At the time these lines are written we want the experience for non consented users
+    // in Ireland to be that the gates, as they display are (first line) corresponding
+    // to values of gateDisplayCount (second line)
+    //  -------------------------------------------------------------------------
+    // | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
+    // |     0       |      1      |      2      |      3           etc          |
+    //  -------------------------------------------------------------------------
+
+    // For non consenting users outside ireland, the behavior remains the same
+
+    if (countryCode !== 'IE') {
+        const data: AuxiaAPIGetTreatmentsResponseData = {
+            responseId,
+            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+        };
+        return data;
+    }
+
+    let data: AuxiaAPIGetTreatmentsResponseData;
+
+    if (gateDisplayCount >= 3) {
+        data = {
+            responseId,
+            userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+        };
+    } else {
+        data = {
+            responseId,
+            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+        };
+    }
+
     return data;
 };
 

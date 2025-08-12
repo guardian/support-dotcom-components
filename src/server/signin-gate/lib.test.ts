@@ -84,40 +84,109 @@ describe('buildGetTreatmentsRequestPayload', () => {
 });
 
 describe('guDefaultGateGetTreatmentsResponseData', () => {
-    const guGateAsAuxiaUserTreatment1 = guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment();
+    const dismissibleGuGateTreatment = guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment();
+    const mandatoryGuGateTreatment = guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment();
 
-    it('should not return gate data if the number of gate dismissal is less than 5 (or equal to 5)', () => {
-        // We are setting the daily article count to a value which would allow for the gate to be shown
-        const daily_article_count = 0;
-        const expectAnswer = {
-            responseId: '',
-            userTreatments: [guGateAsAuxiaUserTreatment1],
-        };
-        expect(guDefaultGateGetTreatmentsResponseData(daily_article_count, 5)).toStrictEqual(
-            expectAnswer,
-        );
-    });
-    it('should not return gate data if the number of gate dismissal is more than 5', () => {
-        // We are setting the daily article count to a value which would allow for the gate to be shown
-        const daily_article_count = 0;
+    it('should not return gate data if the number of gate dismissal is more than 5 (low gate display count)', () => {
+        const gateDismissCount = 6;
+        const gateDisplayCount = 0; // dismissible gate
         const expectAnswer = {
             responseId: '',
             userTreatments: [],
         };
-        expect(guDefaultGateGetTreatmentsResponseData(daily_article_count, 6)).toStrictEqual(
-            expectAnswer,
-        );
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+        ).toStrictEqual(expectAnswer);
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'FR'),
+        ).toStrictEqual(expectAnswer);
     });
-    it('should not return gate data if the daily article count is a multiple of 10', () => {
-        // We are setting the gateDismissCount to a value which would allow for the gate to be shown
-        const gateDismissCount = 0;
+
+    it('should not return gate data if the number of gate dismissal is more than 5 (high gate display count)', () => {
+        const gateDismissCount = 6;
+        const gateDisplayCount = 10; // mandatory gate
         const expectAnswer = {
             responseId: '',
-            userTreatments: [guGateAsAuxiaUserTreatment1],
+            userTreatments: [],
         };
-        expect(guDefaultGateGetTreatmentsResponseData(10, gateDismissCount)).toStrictEqual(
-            expectAnswer,
-        );
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+        ).toStrictEqual(expectAnswer);
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'FR'),
+        ).toStrictEqual(expectAnswer);
+    });
+
+    it('[in Ireland] should return a dismissible gate if gateDisplayCount is in {0, 1, 2}', () => {
+        const gateDismissCount = 2; // low number allowing for a gate
+        const gateDisplayCount = 0; // dismissible gate
+        const expectAnswer = {
+            responseId: '',
+            userTreatments: [dismissibleGuGateTreatment],
+        };
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+        ).toStrictEqual(expectAnswer);
+    });
+
+    it('[in Ireland] should return a dismissible gate if gateDisplayCount is in {0, 1, 2}', () => {
+        const gateDismissCount = 2; // low number allowing for a gate
+        const gateDisplayCount = 2; // dismissible gate
+        const expectAnswer = {
+            responseId: '',
+            userTreatments: [dismissibleGuGateTreatment],
+        };
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+        ).toStrictEqual(expectAnswer);
+    });
+
+    it('[in Ireland] should return a mandatory gate if gateDisplayCount is >= 3', () => {
+        const gateDismissCount = 2; // low number allowing for a gate
+        const gateDisplayCount = 3; // mandatory gate
+        const expectAnswer = {
+            responseId: '',
+            userTreatments: [mandatoryGuGateTreatment],
+        };
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+        ).toStrictEqual(expectAnswer);
+    });
+
+    it('[Ireland] should return a mandatory gate if gateDisplayCount is >= 3', () => {
+        const gateDismissCount = 2; // low number allowing for a gate
+        const gateDisplayCount = 6; // mandatory gate
+        const expectAnswer = {
+            responseId: '',
+            userTreatments: [mandatoryGuGateTreatment],
+        };
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+        ).toStrictEqual(expectAnswer);
+    });
+
+    it('[outside Ireland] should return a dismissible gate for any gateDisplayCount', () => {
+        const gateDismissCount = 2; // low number allowing for a gate
+        const gateDisplayCount = 0; // mandatory gate
+        const expectAnswer = {
+            responseId: '',
+            userTreatments: [dismissibleGuGateTreatment],
+        };
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'FR'),
+        ).toStrictEqual(expectAnswer);
+    });
+
+    it('[outside Ireland] should return a dismissible gate for any gateDisplayCount', () => {
+        const gateDismissCount = 2; // low number allowing for a gate
+        const gateDisplayCount = 6; // mandatory gate
+        const expectAnswer = {
+            responseId: '',
+            userTreatments: [dismissibleGuGateTreatment],
+        };
+        expect(
+            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'FR'),
+        ).toStrictEqual(expectAnswer);
     });
 });
 
@@ -283,6 +352,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: true, // <- [tested]
             showDefaultGate: 'mandatory', // <- [tested]
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
@@ -316,6 +386,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: true, // <- [tested]
             showDefaultGate: 'dismissible', // <- [tested]
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
@@ -351,6 +422,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: false,
             showDefaultGate: 'mandatory', // <- [tested]
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
@@ -381,6 +453,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: false,
             showDefaultGate: 'dismissible', // <- [tested]
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
@@ -420,6 +493,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: false,
             showDefaultGate: undefined,
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         expect(treatment).toStrictEqual(undefined);
@@ -446,6 +520,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: false,
             showDefaultGate: undefined,
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         expect(treatment).toStrictEqual(undefined);
@@ -472,6 +547,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: false,
             showDefaultGate: undefined,
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         expect(treatment).toStrictEqual(undefined);
@@ -498,6 +574,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: false,
             showDefaultGate: undefined,
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         expect(treatment).toStrictEqual(undefined);
@@ -527,6 +604,7 @@ describe('getTreatments', () => {
             hasConsented: true,
             shouldServeDismissible: false,
             showDefaultGate: undefined,
+            gateDisplayCount: 0,
         };
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
