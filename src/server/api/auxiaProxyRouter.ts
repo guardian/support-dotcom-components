@@ -207,12 +207,15 @@ export interface GetTreatmentRequestBody {
 // current rendering. Therefore the first time the number is 0.
 
 // At the time these lines are written we want the experience for non consented users
-// to be that the gates, as they display are (first line) corresponding to values
-// of gateDisplayCount (second line)
+// in Ireland, to be that the gates, as they display are (first line) corresponding
+// to values of gateDisplayCount (second line)
 //  -------------------------------------------------------------------------
 // | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
 // |     0       |      1      |      2      |      3           etc          |
 //  -------------------------------------------------------------------------
+
+// For non consenting users outside ireland, the behavior doesn't change, we serve
+// dismissible gates
 
 export const getTreatments = async (
     config: AuxiaRouterConfig,
@@ -291,6 +294,7 @@ export const getTreatments = async (
                 const auxiaData = guDefaultGateGetTreatmentsResponseData(
                     body.gateDismissCount,
                     body.gateDisplayCount,
+                    body.countryCode,
                 );
                 return Promise.resolve(auxiaData);
             } else {
@@ -315,6 +319,7 @@ export const getTreatments = async (
             const auxiaData = guDefaultGateGetTreatmentsResponseData(
                 body.gateDismissCount,
                 body.gateDisplayCount,
+                body.countryCode,
             );
             return Promise.resolve(auxiaData);
         } else {
@@ -348,6 +353,7 @@ export const getTreatments = async (
         const data = guDefaultGateGetTreatmentsResponseData(
             body.gateDismissCount,
             body.gateDisplayCount,
+            body.countryCode,
         );
         return Promise.resolve(data);
     }

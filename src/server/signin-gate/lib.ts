@@ -179,6 +179,7 @@ export const guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserT
 export const guDefaultGateGetTreatmentsResponseData = (
     gateDismissCount: number,
     gateDisplayCount: number,
+    countryCode: string,
 ): AuxiaAPIGetTreatmentsResponseData => {
     const responseId = ''; // This value is not important, it is not used by the client.
 
@@ -201,12 +202,22 @@ export const guDefaultGateGetTreatmentsResponseData = (
     // current rendering. Therefore the first time the number is 0.
 
     // At the time these lines are written we want the experience for non consented users
-    // to be that the gates, as they display are (first line) corresponding to values
-    // of gateDisplayCount (second line)
+    // in Ireland to be that the gates, as they display are (first line) corresponding
+    // to values of gateDisplayCount (second line)
     //  -------------------------------------------------------------------------
     // | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
     // |     0       |      1      |      2      |      3           etc          |
     //  -------------------------------------------------------------------------
+
+    // For non consenting users outside ireland, the behavior remains the same
+
+    if (countryCode !== 'IE') {
+        const data: AuxiaAPIGetTreatmentsResponseData = {
+            responseId,
+            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+        };
+        return data;
+    }
 
     let data: AuxiaAPIGetTreatmentsResponseData;
 
