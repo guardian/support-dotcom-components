@@ -47,13 +47,13 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         isDefault: true,
         benefitsLabel: 'Unlock <strong>All-access digital</strong> benefits:',
         benefits: [
-            { copy: 'Unlimited access to the Guardian app' },
-            { copy: 'Unlimited access to our new Feast App' },
+            { copy: 'Far fewer asks for support' },
             { copy: 'Ad-free reading on all your devices' },
+            { copy: 'Unlimited access to the premium Guardian app' },
             {
                 copy: 'Exclusive newsletter for supporters, sent every week from the Guardian newsroom',
             },
-            { copy: 'Far fewer asks for support' },
+            { copy: 'Unlimited access to our new Guardian Feast App' },
         ],
         pill: {
             copy: 'Recommended',
@@ -85,7 +85,7 @@ const shorterChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         label: '', // label is generated for recurring products
         isDefault: true,
         benefits: [
-            { copy: 'Unlimited access to the Guardian app and Feast app' },
+            { copy: 'Far fewer asks for support' },
             { copy: 'Ad-free reading on all your devices' },
         ],
         pill: {
