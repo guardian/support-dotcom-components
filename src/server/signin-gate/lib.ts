@@ -1,3 +1,5 @@
+import type { AuxiaRouterConfig, GetTreatmentRequestBody } from '../api/auxiaProxyRouter';
+
 interface AuxiaAPIContextualAttributeString {
     key: string;
     stringValue: string;
@@ -349,4 +351,314 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
     // [1] Interestingly, 0 is not considered a valid mvtId number.
 
     return mvtId > 0 && mvtId <= 350_000;
+};
+
+export enum GateType {
+    None, // [1]
+    GuDismissible, // [2]
+    GuMandatory, // [3]
+    Auxia, // [4]
+    AuxiaAnalyticThenNone, // [5]
+    AuxiaAnalyticThenGuDismissible, // [6]
+    AuxiaAnalyticThenGuMandatory, // [7]
+}
+
+// [1] Signals no gate to display
+// [2] Signals the Gu Dismissible gate
+// [3] Signals the Gu Mandatory gate
+// [4] Query the Auxia API and return the result to the client
+// [5] Here, we query Auxia for analytics, but then show no gate
+// [6] Here, we query Auxia for analytics but do not return the result and instead return the Gu Dismissible gate
+// [7] Same as [5] but we return the Gu Mandatory gate
+
+export const decideGateTypeNoneOrDismissible = (gateDismissCount: number): GateType => {
+    // -----------------------------------------------------------------------
+    // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
+    // (We do not want users to have to dismiss the gate 6 times)
+
+    if (gateDismissCount > 5) {
+        return GateType.None;
+    }
+
+    // -----------------------------------------------------------------------
+    // We are now clear to show the default (dismissible) gu gate.
+
+    return GateType.GuDismissible;
+};
+
+export const decideGuGateTypeNonConsentedIreland = (
+    dailyArticleCount: number,
+    gateDisplayCount: number,
+): GateType => {
+    // -----------------------------------------------------------------------
+    // If we reach this point, we are in Ireland
+
+    if (dailyArticleCount < 3) {
+        return GateType.AuxiaAnalyticThenNone;
+    }
+
+    // gateDisplayCount was introduced to enrich the behavior of the default gate.
+    // That number represents the number of times the gate has been displayed, excluding the
+    // current rendering. Therefore the first time the number is 0.
+
+    // At the time these lines are written we want the experience for non consented users
+    // in Ireland to be that the gates, as they display are (first line) corresponding
+    // to values of gateDisplayCount (second line)
+    //  -------------------------------------------------------------------------
+    // | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
+    // |     0       |      1      |      2      |      3           etc          |
+    //  -------------------------------------------------------------------------
+
+    if (gateDisplayCount >= 3) {
+        return GateType.AuxiaAnalyticThenGuMandatory;
+    }
+
+    return GateType.AuxiaAnalyticThenGuDismissible;
+};
+
+export const decideGateTypeFromGetTreatmentsRequestPayload = (
+    getTreatmentsRequestPayload: GetTreatmentRequestBody,
+): GateType => {
+    // This function is a pure function (without any side effects) which gets the body
+    // of a '/auxia/get-treatments' request and returns the correct GateType.
+    // It was introduced to separate the choice of the gate from it's actual build,
+    // which in the case of Auxia, requires an API call, but more importantly to
+    // encapsulate and more logically test the logic of gate selection.
+
+    // The comments are the specs it must comply with.
+
+    // --------------------------------------------------------------
+    // If both conditions are true
+    //
+    //    1. body.shouldServeDismissible is true
+    //       which at the moment is controlled by utm_source=newsshowcase,
+    //       (exposed as DRC:decideShouldServeDismissible), and
+    //
+    //    2. body.showDefaultGate is defined (regardless of its value)
+    //
+    // Then we serve a non dismissible gate. In other words
+    // body.shouldServeDismissible take priority over the fact that body.showDefaultGate
+    // could possibly have value 'mandatory'
+
+    if (
+        getTreatmentsRequestPayload.showDefaultGate !== undefined &&
+        getTreatmentsRequestPayload.shouldServeDismissible
+    ) {
+        return GateType.GuDismissible;
+    }
+
+    // --------------------------------------------------------------
+    // The attribute showDefaultGate overrides any other behavior
+
+    if (getTreatmentsRequestPayload.showDefaultGate) {
+        if (getTreatmentsRequestPayload.showDefaultGate == 'mandatory') {
+            return GateType.GuMandatory;
+        } else {
+            return GateType.GuDismissible;
+        }
+    }
+
+    // We check page metada to comply with Guardian policies.
+    // If the policies are not met, then we do not display a gate
+    // Note that at the time these lines are written (Aug 13th 2025),
+    // these checks are also performed client side, but those client side checks
+    // might be decommissioned in the future.
+
+    if (
+        !isValidContentType(getTreatmentsRequestPayload.contentType) ||
+        !isValidSection(getTreatmentsRequestPayload.sectionId) ||
+        !isValidTagIdCollection(getTreatmentsRequestPayload.tagIds) ||
+        !articleIdentifierIsAllowed(getTreatmentsRequestPayload.articleIdentifier)
+    ) {
+        return GateType.None;
+    }
+
+    // --------------------------------------------------------------
+    // Then, we need to check whether we are in Ireland ot not. If we are in Ireland
+    // as a consequence of the great Ireland opening of May 2025 (tm), we send the entire
+    // traffic (consented or not consented) to Auxia. (For privacy vigilantes reading this,
+    // Auxia is not going to process non consented traffic for targetting.)
+
+    if (getTreatmentsRequestPayload.countryCode === 'IE') {
+        if (mvtIdIsAuxiaAudienceShare(getTreatmentsRequestPayload.mvtId)) {
+            return GateType.Auxia;
+        } else {
+            return decideGuGateTypeNonConsentedIreland(
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.gateDisplayCount,
+            );
+        }
+    }
+
+    // --------------------------------------------------------------
+    // Then, we check whether the call is from the Auxia audience or the non Auxia audience.
+    // If it is from the non Auxia audience, then we follow the value of
+    // should_show_legacy_gate_tmp to decide whether to return a default gate or not.
+
+    // If it is from the Auxia audience, then  move to the next section
+
+    // Note that "Auxia audience" and "non Auxia audience" are concepts from the way the audience
+    // was split between 35% expose to the Auxia gate and 65% being shown the default GU gate
+    // That split used to be done client side, but it's now been moved to SDC and is driven by
+    // `mvtIdIsAuxiaAudienceShare`.
+
+    if (!mvtIdIsAuxiaAudienceShare(getTreatmentsRequestPayload.mvtId)) {
+        if (getTreatmentsRequestPayload.should_show_legacy_gate_tmp) {
+            return decideGateTypeNoneOrDismissible(getTreatmentsRequestPayload.gateDismissCount);
+        } else {
+            return GateType.None;
+        }
+    }
+
+    // --------------------------------------------------------------
+    // Auxia share of the audience (outside Ireland)
+
+    return GateType.Auxia;
+};
+
+export const gateTypeToGate = async (
+    config: AuxiaRouterConfig,
+    gateType: GateType,
+    getTreatmentsRequestPayload: GetTreatmentRequestBody,
+): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+    switch (gateType) {
+        case GateType.None:
+            return Promise.resolve(undefined);
+        case GateType.GuDismissible:
+            return {
+                responseId: '',
+                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            };
+        case GateType.GuMandatory:
+            return {
+                responseId: '',
+                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            };
+        case GateType.Auxia:
+            return await callGetTreatments(
+                config.apiKey,
+                config.projectId,
+                getTreatmentsRequestPayload.browserId,
+                getTreatmentsRequestPayload.isSupporter,
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.articleIdentifier,
+                getTreatmentsRequestPayload.editionId,
+                getTreatmentsRequestPayload.countryCode,
+                getTreatmentsRequestPayload.hasConsented,
+                getTreatmentsRequestPayload.shouldServeDismissible,
+            );
+        case GateType.AuxiaAnalyticThenNone:
+            await callGetTreatments(
+                config.apiKey,
+                config.projectId,
+                getTreatmentsRequestPayload.browserId,
+                getTreatmentsRequestPayload.isSupporter,
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.articleIdentifier,
+                getTreatmentsRequestPayload.editionId,
+                getTreatmentsRequestPayload.countryCode,
+                getTreatmentsRequestPayload.hasConsented,
+                getTreatmentsRequestPayload.shouldServeDismissible,
+            );
+            return Promise.resolve(undefined);
+        case GateType.AuxiaAnalyticThenGuDismissible:
+            await callGetTreatments(
+                config.apiKey,
+                config.projectId,
+                getTreatmentsRequestPayload.browserId,
+                getTreatmentsRequestPayload.isSupporter,
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.articleIdentifier,
+                getTreatmentsRequestPayload.editionId,
+                getTreatmentsRequestPayload.countryCode,
+                getTreatmentsRequestPayload.hasConsented,
+                getTreatmentsRequestPayload.shouldServeDismissible,
+            );
+            return {
+                responseId: '',
+                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            };
+        case GateType.AuxiaAnalyticThenGuMandatory:
+            await callGetTreatments(
+                config.apiKey,
+                config.projectId,
+                getTreatmentsRequestPayload.browserId,
+                getTreatmentsRequestPayload.isSupporter,
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.articleIdentifier,
+                getTreatmentsRequestPayload.editionId,
+                getTreatmentsRequestPayload.countryCode,
+                getTreatmentsRequestPayload.hasConsented,
+                getTreatmentsRequestPayload.shouldServeDismissible,
+            );
+            return {
+                responseId: '',
+                userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+            };
+        default:
+            console.error('Unknown direction');
+    }
+};
+
+export const callGetTreatments = async (
+    apiKey: string,
+    projectId: string,
+    browserId: string | undefined,
+    isSupporter: boolean,
+    dailyArticleCount: number,
+    articleIdentifier: string,
+    editionId: string,
+    countryCode: string,
+    hasConsented: boolean,
+    shouldServeDismissible: boolean,
+): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+    // We now have clearance to call the Auxia API.
+
+    // If the browser id could not be recovered client side, then we do not call auxia
+    if (browserId === undefined) {
+        return;
+    }
+
+    const url = 'https://apis.auxia.io/v1/GetTreatments';
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+    };
+
+    const payload = buildGetTreatmentsRequestPayload(
+        projectId,
+        browserId,
+        isSupporter,
+        dailyArticleCount,
+        articleIdentifier,
+        editionId,
+        countryCode,
+        hasConsented,
+        shouldServeDismissible,
+    );
+
+    const params = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+    };
+
+    try {
+        const response = await fetch(url, params);
+        const responseBody = (await response.json()) as {
+            userTreatments: AuxiaAPIUserTreatment[] | undefined;
+        };
+
+        // nb: In some circumstances, for instance if the payload although having the right
+        // schema, is going to fail Auxia's validation then the response body may not contain
+        // the userTreatments field. In this case we return undefined.
+        if (responseBody['userTreatments'] === undefined) {
+            return Promise.resolve(undefined);
+        }
+        const data = responseBody as AuxiaAPIGetTreatmentsResponseData;
+        return Promise.resolve(data);
+    } catch (error) {
+        return Promise.resolve(undefined);
+    }
 };
