@@ -1,18 +1,18 @@
 import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
 import { getTreatments } from '../api/auxiaProxyRouter';
-import type { GetTreatmentRequestBody } from './lib';
+import type { GetTreatmentsRequestPayload } from './lib';
 import {
     articleIdentifierIsAllowed,
-    buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
+    buildGuUserTreatmentsEnvelop,
     buildLogTreatmentInteractionRequestPayload,
-    guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment,
-    guDefaultGateGetTreatmentsResponseData,
-    guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment,
+    guDismissibleUserTreatment,
+    guMandatoryUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
     mvtIdIsAuxiaAudienceShare,
+    userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
 } from './lib';
 
 describe('buildGetTreatmentsRequestPayload', () => {
@@ -85,8 +85,8 @@ describe('buildGetTreatmentsRequestPayload', () => {
 });
 
 describe('guDefaultGateGetTreatmentsResponseData', () => {
-    const dismissibleGuGateTreatment = guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment();
-    const mandatoryGuGateTreatment = guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment();
+    const dismissibleGuGateTreatment = guDismissibleUserTreatment();
+    const mandatoryGuGateTreatment = guMandatoryUserTreatment();
 
     it('should not return gate data if the number of gate dismissal is more than 5 (low gate display count)', () => {
         const gateDismissCount = 6;
@@ -96,10 +96,10 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [],
         };
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'IE'),
         ).toStrictEqual(expectAnswer);
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'FR'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'FR'),
         ).toStrictEqual(expectAnswer);
     });
 
@@ -111,10 +111,10 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [],
         };
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'IE'),
         ).toStrictEqual(expectAnswer);
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'FR'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'FR'),
         ).toStrictEqual(expectAnswer);
     });
 
@@ -126,7 +126,7 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [dismissibleGuGateTreatment],
         };
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'IE'),
         ).toStrictEqual(expectAnswer);
     });
 
@@ -138,7 +138,7 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [dismissibleGuGateTreatment],
         };
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'IE'),
         ).toStrictEqual(expectAnswer);
     });
 
@@ -150,7 +150,7 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [mandatoryGuGateTreatment],
         };
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'IE'),
         ).toStrictEqual(expectAnswer);
     });
 
@@ -162,7 +162,7 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [mandatoryGuGateTreatment],
         };
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'IE'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'IE'),
         ).toStrictEqual(expectAnswer);
     });
 
@@ -174,7 +174,7 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [dismissibleGuGateTreatment],
         };
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'FR'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'FR'),
         ).toStrictEqual(expectAnswer);
     });
 
@@ -186,7 +186,7 @@ describe('guDefaultGateGetTreatmentsResponseData', () => {
             userTreatments: [dismissibleGuGateTreatment],
         };
         expect(
-            guDefaultGateGetTreatmentsResponseData(gateDismissCount, gateDisplayCount, 'FR'),
+            buildGuUserTreatmentsEnvelop(gateDismissCount, gateDisplayCount, 'FR'),
         ).toStrictEqual(expectAnswer);
     });
 });
@@ -253,7 +253,9 @@ describe('buildAuxiaProxyGetTreatmentsResponseData', () => {
                 surface: 'surface',
             },
         };
-        expect(buildAuxiaProxyGetTreatmentsResponseData(auxiaData)).toStrictEqual(expectedAnswer);
+        expect(userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(auxiaData)).toStrictEqual(
+            expectedAnswer,
+        );
     });
 
     it('build things correctly, in the case of no treatment', () => {
@@ -265,7 +267,9 @@ describe('buildAuxiaProxyGetTreatmentsResponseData', () => {
             responseId: 'responseId',
             userTreatment: undefined,
         };
-        expect(buildAuxiaProxyGetTreatmentsResponseData(auxiaData)).toStrictEqual(expectedAnswer);
+        expect(userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(auxiaData)).toStrictEqual(
+            expectedAnswer,
+        );
     });
 });
 
@@ -337,7 +341,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -358,7 +362,7 @@ describe('getTreatments', () => {
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
             responseId: '',
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
         expect(treatment).toStrictEqual(expectedAnswer);
     });
@@ -371,7 +375,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -392,7 +396,7 @@ describe('getTreatments', () => {
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
             responseId: '',
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
         expect(treatment).toStrictEqual(expectedAnswer);
     });
@@ -407,7 +411,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -428,7 +432,7 @@ describe('getTreatments', () => {
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
             responseId: '',
-            userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guMandatoryUserTreatment()],
         };
         expect(treatment).toStrictEqual(expectedAnswer);
     });
@@ -438,7 +442,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -459,7 +463,7 @@ describe('getTreatments', () => {
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
             responseId: '',
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
         expect(treatment).toStrictEqual(expectedAnswer);
     });
@@ -478,7 +482,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -505,7 +509,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -532,7 +536,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -559,7 +563,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -589,7 +593,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3, // <- [tested]
@@ -610,7 +614,7 @@ describe('getTreatments', () => {
         const treatment = await getTreatments(config, body);
         const expectedAnswer = {
             responseId: '',
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
         expect(treatment).toStrictEqual(expectedAnswer);
     });

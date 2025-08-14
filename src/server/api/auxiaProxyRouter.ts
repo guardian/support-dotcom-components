@@ -2,22 +2,19 @@ import type express from 'express';
 import { Router } from 'express';
 import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
-import type {
-    AuxiaAPIGetTreatmentsResponseData,
-    GetTreatmentRequestBody,
-} from '../signin-gate/lib';
+import type { GetTreatmentsRequestPayload, UserTreatmentsEnvelop } from '../signin-gate/lib';
 import {
     articleIdentifierIsAllowed,
-    buildAuxiaProxyGetTreatmentsResponseData,
+    buildGuUserTreatmentsEnvelop,
+    callAuxiaLogTreatmentInteration,
     callGetTreatments,
-    callLogTreatmentInteration,
-    guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment,
-    guDefaultGateGetTreatmentsResponseData,
-    guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment,
+    guDismissibleUserTreatment,
+    guMandatoryUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
     mvtIdIsAuxiaAudienceShare,
+    userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
 } from '../signin-gate/lib';
 import { getSsmValue } from '../utils/ssm';
 
@@ -47,8 +44,8 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 
 export const getTreatments = async (
     config: AuxiaRouterConfig,
-    body: GetTreatmentRequestBody,
-): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+    body: GetTreatmentsRequestPayload,
+): Promise<UserTreatmentsEnvelop | undefined> => {
     // This function gets the body of a '/auxia/get-treatments' request and return the data to post to the client
     // or undefined.
 
@@ -65,9 +62,9 @@ export const getTreatments = async (
     // could possibly have value 'mandatory'
 
     if (body.showDefaultGate !== undefined && body.shouldServeDismissible) {
-        const data: AuxiaAPIGetTreatmentsResponseData = {
+        const data: UserTreatmentsEnvelop = {
             responseId: '',
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
         return data;
     }
@@ -76,18 +73,17 @@ export const getTreatments = async (
 
     if (body.showDefaultGate) {
         if (body.showDefaultGate == 'mandatory') {
-            const data: AuxiaAPIGetTreatmentsResponseData = {
+            const data: UserTreatmentsEnvelop = {
                 responseId: '',
-                userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
-            };
-            return data;
-        } else {
-            const data: AuxiaAPIGetTreatmentsResponseData = {
-                responseId: '',
-                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+                userTreatments: [guMandatoryUserTreatment()],
             };
             return data;
         }
+        const data: UserTreatmentsEnvelop = {
+            responseId: '',
+            userTreatments: [guDismissibleUserTreatment()],
+        };
+        return data;
     }
 
     // Then, we need to check whether we are in Ireland ot not. If we are in Ireland
@@ -119,7 +115,7 @@ export const getTreatments = async (
             // (We will improve this in a future change).
             // We now decide whether to send back the default gate
             if (body.should_show_legacy_gate_tmp) {
-                const auxiaData = guDefaultGateGetTreatmentsResponseData(
+                const auxiaData = buildGuUserTreatmentsEnvelop(
                     body.gateDismissCount,
                     body.gateDisplayCount,
                     body.countryCode,
@@ -144,7 +140,7 @@ export const getTreatments = async (
 
     if (!mvtIdIsAuxiaAudienceShare(body.mvtId)) {
         if (body.should_show_legacy_gate_tmp) {
-            const auxiaData = guDefaultGateGetTreatmentsResponseData(
+            const auxiaData = buildGuUserTreatmentsEnvelop(
                 body.gateDismissCount,
                 body.gateDisplayCount,
                 body.countryCode,
@@ -178,7 +174,7 @@ export const getTreatments = async (
     // Note: we could, one day, move the check outside the function itself (not very important right now)
 
     if (!body.hasConsented) {
-        const data = guDefaultGateGetTreatmentsResponseData(
+        const data = buildGuUserTreatmentsEnvelop(
             body.gateDismissCount,
             body.gateDisplayCount,
             body.countryCode,
@@ -237,10 +233,11 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const getTreatmentRequestBody = req.body as GetTreatmentRequestBody;
-                const auxiaData = await getTreatments(config, getTreatmentRequestBody);
-                if (auxiaData !== undefined) {
-                    const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
+                const payload = req.body as GetTreatmentsRequestPayload;
+                const userTreatments = await getTreatments(config, payload);
+                if (userTreatments !== undefined) {
+                    const data =
+                        userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(userTreatments);
                     res.locals.auxiaTreatmentId = data?.userTreatment?.treatmentId;
                     res.locals.auxiaTreatmentTrackingId = data?.userTreatment?.treatmentTrackingId;
                     res.send({ status: true, data: data });
@@ -274,7 +271,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     interactionTimeMicros: number;
                     actionName: string;
                 };
-                await callLogTreatmentInteration(
+                await callAuxiaLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
                     body.browserId,
