@@ -78,13 +78,12 @@ export const getTreatments = async (
                 userTreatments: [guMandatoryUserTreatment()],
             };
             return data;
-        } else {
-            const data: UserTreatmentsEnvelop = {
-                responseId: '',
-                userTreatments: [guDismissibleUserTreatment()],
-            };
-            return data;
         }
+        const data: UserTreatmentsEnvelop = {
+            responseId: '',
+            userTreatments: [guDismissibleUserTreatment()],
+        };
+        return data;
     }
 
     // Then, we need to check whether we are in Ireland ot not. If we are in Ireland
