@@ -9,8 +9,8 @@ import type {
 import {
     articleIdentifierIsAllowed,
     buildAuxiaProxyGetTreatmentsResponseData,
+    callAuxiaLogTreatmentInteration,
     callGetTreatments,
-    callLogTreatmentInteration,
     guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment,
     guDefaultGateGetTreatmentsResponseData,
     guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment,
@@ -274,7 +274,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     interactionTimeMicros: number;
                     actionName: string;
                 };
-                await callLogTreatmentInteration(
+                await callAuxiaLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
                     body.browserId,

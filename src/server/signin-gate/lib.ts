@@ -489,7 +489,7 @@ export const callGetTreatments = async (
     }
 };
 
-export const callLogTreatmentInteration = async (
+export const callAuxiaLogTreatmentInteration = async (
     apiKey: string,
     projectId: string,
     browserId: string | undefined,
