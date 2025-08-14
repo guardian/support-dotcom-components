@@ -9,11 +9,11 @@ import type {
 import {
     articleIdentifierIsAllowed,
     buildAuxiaProxyGetTreatmentsResponseData,
+    buildGuUserTreatmentsEnvelop,
     callAuxiaLogTreatmentInteration,
     callGetTreatments,
-    guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment,
-    guDefaultGateGetTreatmentsResponseData,
-    guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment,
+    guDismissibleUserTreatment,
+    guMandatoryUserTreatment,
     isValidContentType,
     isValidSection,
     isValidTagIdCollection,
@@ -67,7 +67,7 @@ export const getTreatments = async (
     if (body.showDefaultGate !== undefined && body.shouldServeDismissible) {
         const data: AuxiaAPIGetTreatmentsResponseData = {
             responseId: '',
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
         return data;
     }
@@ -78,13 +78,13 @@ export const getTreatments = async (
         if (body.showDefaultGate == 'mandatory') {
             const data: AuxiaAPIGetTreatmentsResponseData = {
                 responseId: '',
-                userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+                userTreatments: [guMandatoryUserTreatment()],
             };
             return data;
         } else {
             const data: AuxiaAPIGetTreatmentsResponseData = {
                 responseId: '',
-                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+                userTreatments: [guDismissibleUserTreatment()],
             };
             return data;
         }
@@ -119,7 +119,7 @@ export const getTreatments = async (
             // (We will improve this in a future change).
             // We now decide whether to send back the default gate
             if (body.should_show_legacy_gate_tmp) {
-                const auxiaData = guDefaultGateGetTreatmentsResponseData(
+                const auxiaData = buildGuUserTreatmentsEnvelop(
                     body.gateDismissCount,
                     body.gateDisplayCount,
                     body.countryCode,
@@ -144,7 +144,7 @@ export const getTreatments = async (
 
     if (!mvtIdIsAuxiaAudienceShare(body.mvtId)) {
         if (body.should_show_legacy_gate_tmp) {
-            const auxiaData = guDefaultGateGetTreatmentsResponseData(
+            const auxiaData = buildGuUserTreatmentsEnvelop(
                 body.gateDismissCount,
                 body.gateDisplayCount,
                 body.countryCode,
@@ -178,7 +178,7 @@ export const getTreatments = async (
     // Note: we could, one day, move the check outside the function itself (not very important right now)
 
     if (!body.hasConsented) {
-        const data = guDefaultGateGetTreatmentsResponseData(
+        const data = buildGuUserTreatmentsEnvelop(
             body.gateDismissCount,
             body.gateDisplayCount,
             body.countryCode,

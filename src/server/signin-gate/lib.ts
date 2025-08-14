@@ -192,7 +192,7 @@ export const buildGetTreatmentsRequestPayload = (
     };
 };
 
-export const guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
+export const guDismissibleUserTreatment = (): AuxiaAPIUserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
@@ -222,7 +222,7 @@ export const guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUse
     };
 };
 
-export const guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
+export const guMandatoryUserTreatment = (): AuxiaAPIUserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
@@ -251,7 +251,7 @@ export const guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserT
     };
 };
 
-export const guDefaultGateGetTreatmentsResponseData = (
+export const buildGuUserTreatmentsEnvelop = (
     gateDismissCount: number,
     gateDisplayCount: number,
     countryCode: string,
@@ -289,7 +289,7 @@ export const guDefaultGateGetTreatmentsResponseData = (
     if (countryCode !== 'IE') {
         const data: AuxiaAPIGetTreatmentsResponseData = {
             responseId,
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
         return data;
     }
@@ -299,12 +299,12 @@ export const guDefaultGateGetTreatmentsResponseData = (
     if (gateDisplayCount >= 3) {
         data = {
             responseId,
-            userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guMandatoryUserTreatment()],
         };
     } else {
         data = {
             responseId,
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
     }
 
