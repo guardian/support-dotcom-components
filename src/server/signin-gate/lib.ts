@@ -29,7 +29,7 @@ interface AuxiaAPISurface {
 
 interface ProxyGetTreatmentsAnswerData {
     responseId: string;
-    userTreatment?: AuxiaAPIUserTreatment;
+    userTreatment?: UserTreatment;
 }
 
 interface AuxiaAPILogTreatmentInteractionRequestPayload {
@@ -43,7 +43,7 @@ interface AuxiaAPILogTreatmentInteractionRequestPayload {
     actionName: string;
 }
 
-export interface AuxiaAPIUserTreatment {
+export interface UserTreatment {
     treatmentId: string;
     treatmentTrackingId: string;
     rank: string;
@@ -63,7 +63,7 @@ export interface AuxiaAPIGetTreatmentsRequestPayload {
 
 export interface AuxiaAPIGetTreatmentsResponseData {
     responseId: string;
-    userTreatments: AuxiaAPIUserTreatment[];
+    userTreatments: UserTreatment[];
 }
 
 type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
@@ -192,7 +192,7 @@ export const buildGetTreatmentsRequestPayload = (
     };
 };
 
-export const guDismissibleUserTreatment = (): AuxiaAPIUserTreatment => {
+export const guDismissibleUserTreatment = (): UserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
@@ -222,7 +222,7 @@ export const guDismissibleUserTreatment = (): AuxiaAPIUserTreatment => {
     };
 };
 
-export const guMandatoryUserTreatment = (): AuxiaAPIUserTreatment => {
+export const guMandatoryUserTreatment = (): UserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
@@ -473,7 +473,7 @@ export const callGetTreatments = async (
     try {
         const response = await fetch(url, params);
         const responseBody = (await response.json()) as {
-            userTreatments: AuxiaAPIUserTreatment[] | undefined;
+            userTreatments: UserTreatment[] | undefined;
         };
 
         // nb: In some circumstances, for instance if the payload although having the right
