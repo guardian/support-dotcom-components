@@ -27,7 +27,7 @@ interface AuxiaAPISurface {
     maximumTreatmentCount: number;
 }
 
-interface AuxiaProxyGetTreatmentsResponseData {
+interface ProxyGetTreatmentsAnswerData {
     responseId: string;
     userTreatment?: AuxiaAPIUserTreatment;
 }
@@ -336,7 +336,7 @@ export const isValidTagIdCollection = (tagIds: string[]): boolean => {
 
 export const buildAuxiaProxyGetTreatmentsResponseData = (
     auxiaData: AuxiaAPIGetTreatmentsResponseData,
-): AuxiaProxyGetTreatmentsResponseData | undefined => {
+): ProxyGetTreatmentsAnswerData | undefined => {
     // Note the small difference between AuxiaAPIResponseData and AuxiaProxyResponseData
     // In the case of AuxiaProxyResponseData, we have an optional userTreatment field, instead of an array of userTreatments.
     // This is to reflect the what the client expect semantically.
