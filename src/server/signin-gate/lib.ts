@@ -1,4 +1,8 @@
-import type { AuxiaRouterConfig, GetTreatmentRequestBody } from '../api/auxiaProxyRouter';
+import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
+
+// --------------------------------------------------------
+// Types
+// --------------------------------------------------------
 
 interface AuxiaAPIContextualAttributeString {
     key: string;
@@ -25,9 +29,9 @@ interface AuxiaAPISurface {
     maximumTreatmentCount: number;
 }
 
-interface AuxiaProxyGetTreatmentsResponseData {
+interface ProxyGetTreatmentsAnswerData {
     responseId: string;
-    userTreatment?: AuxiaAPIUserTreatment;
+    userTreatment?: UserTreatment;
 }
 
 interface AuxiaAPILogTreatmentInteractionRequestPayload {
@@ -41,7 +45,7 @@ interface AuxiaAPILogTreatmentInteractionRequestPayload {
     actionName: string;
 }
 
-export interface AuxiaAPIUserTreatment {
+export interface UserTreatment {
     treatmentId: string;
     treatmentTrackingId: string;
     rank: string;
@@ -59,10 +63,99 @@ export interface AuxiaAPIGetTreatmentsRequestPayload {
     languageCode: string;
 }
 
-export interface AuxiaAPIGetTreatmentsResponseData {
+export interface UserTreatmentsEnvelop {
     responseId: string;
-    userTreatments: AuxiaAPIUserTreatment[];
+    userTreatments: UserTreatment[];
 }
+
+export enum GateType {
+    None, // [1]
+    GuDismissible, // [2]
+    GuMandatory, // [3]
+    Auxia, // [4]
+    AuxiaAnalyticThenNone, // [5]
+    AuxiaAnalyticThenGuDismissible, // [6]
+    AuxiaAnalyticThenGuMandatory, // [7]
+}
+
+// [1] Signals no gate to display
+// [2] Signals the Gu Dismissible gate
+// [3] Signals the Gu Mandatory gate
+// [4] Query the Auxia API and return the result to the client
+// [5] Here, we query Auxia for analytics, but then show no gate
+// [6] Here, we query Auxia for analytics but do not return the result and instead return the Gu Dismissible gate
+// [7] Same as [5] but we return the Gu Mandatory gate
+
+type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
+
+export interface GetTreatmentsRequestPayload {
+    browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
+    isSupporter: boolean;
+    dailyArticleCount: number; // [1]
+    articleIdentifier: string;
+    editionId: string;
+    contentType: string;
+    sectionId: string;
+    tagIds: string[];
+    gateDismissCount: number;
+    countryCode: string;
+    mvtId: number;
+    should_show_legacy_gate_tmp: boolean; // [2]
+    hasConsented: boolean;
+    shouldServeDismissible: boolean; // [3]
+    showDefaultGate: ShowGateValues; // [4]
+    gateDisplayCount: number; // [5]
+}
+
+// [1] articleIdentifier examples:
+//  - 'www.theguardian.com/money/2017/mar/10/ministers-to-criminalise-use-of-ticket-tout-harvesting-software'
+//  - 'www.theguardian.com/tips'
+
+// [2] temporary attribute to help imminent rerouting of non Auxia audience share
+// to SDC, but without requiring a
+// full duplication of the client side logic into SDC.
+// See https://github.com/guardian/dotcom-rendering/pull/13944
+// for details.
+
+// [3]
+// date: 03rd July 2025
+// If shouldServeDismissible, we should show a dismissible (not mandatory) gate.
+
+// [4]
+
+// date: 25rd July 2025
+// author: Pascal
+
+// In order to facilitate internal testing, this attribute, when defined, forces
+// the display of a sign-in gate. The values 'true' and 'dismissible' displays the
+// dismissible variant of the gu default gate, and the value 'mandatory' displays
+// the mandatory variant of the gu default gate.
+
+// Note that this attributes override the value of should_show_legacy_gate_tmp.
+
+// [5] (comment group: 04f093f0)
+
+// date: 11 Aug 2025
+// author: Pascal
+
+// gateDisplayCount was introduced to enrich the behavior of the default gate.
+// That number represents the number of times the gate has been displayed, excluding the
+// current rendering. Therefore the first time the number is 0.
+
+// At the time these lines are written we want the experience for non consented users
+// in Ireland, to be that the gates, as they display are (first line) corresponding
+// to values of gateDisplayCount (second line)
+//  -------------------------------------------------------------------------
+// | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
+// |     0       |      1      |      2      |      3           etc          |
+//  -------------------------------------------------------------------------
+
+// For non consenting users outside ireland, the behavior doesn't change, we serve
+// dismissible gates
+
+// --------------------------------------------------------
+// Pure Functions
+// --------------------------------------------------------
 
 export const buildGetTreatmentsRequestPayload = (
     projectId: string,
@@ -119,7 +212,7 @@ export const buildGetTreatmentsRequestPayload = (
     };
 };
 
-export const guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
+export const guDismissibleUserTreatment = (): UserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
@@ -149,7 +242,7 @@ export const guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUse
     };
 };
 
-export const guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserTreatment => {
+export const guMandatoryUserTreatment = (): UserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
@@ -178,11 +271,11 @@ export const guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment = (): AuxiaAPIUserT
     };
 };
 
-export const guDefaultGateGetTreatmentsResponseData = (
+export const buildGuUserTreatmentsEnvelop = (
     gateDismissCount: number,
     gateDisplayCount: number,
     countryCode: string,
-): AuxiaAPIGetTreatmentsResponseData => {
+): UserTreatmentsEnvelop => {
     const responseId = ''; // This value is not important, it is not used by the client.
 
     // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
@@ -214,24 +307,24 @@ export const guDefaultGateGetTreatmentsResponseData = (
     // For non consenting users outside ireland, the behavior remains the same
 
     if (countryCode !== 'IE') {
-        const data: AuxiaAPIGetTreatmentsResponseData = {
+        const data: UserTreatmentsEnvelop = {
             responseId,
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
         return data;
     }
 
-    let data: AuxiaAPIGetTreatmentsResponseData;
+    let data: UserTreatmentsEnvelop;
 
     if (gateDisplayCount >= 3) {
         data = {
             responseId,
-            userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guMandatoryUserTreatment()],
         };
     } else {
         data = {
             responseId,
-            userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
+            userTreatments: [guDismissibleUserTreatment()],
         };
     }
 
@@ -261,16 +354,16 @@ export const isValidTagIdCollection = (tagIds: string[]): boolean => {
     return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
 };
 
-export const buildAuxiaProxyGetTreatmentsResponseData = (
-    auxiaData: AuxiaAPIGetTreatmentsResponseData,
-): AuxiaProxyGetTreatmentsResponseData | undefined => {
-    // Note the small difference between AuxiaAPIResponseData and AuxiaProxyResponseData
-    // In the case of AuxiaProxyResponseData, we have an optional userTreatment field, instead of an array of userTreatments.
-    // This is to reflect the what the client expect semantically.
+export const userTreatmentsEnvelopToProxyGetTreatmentsAnswerData = (
+    envelop: UserTreatmentsEnvelop,
+): ProxyGetTreatmentsAnswerData | undefined => {
+    // Note the small difference between UserTreatmentsEnvelop and ProxyGetTreatmentsAnswerData
+    // In the case of ProxyGetTreatmentsAnswerData, we have an optional userTreatment field,
+    // instead of an array of userTreatments. This is to reflect the what the client expect semantically.
 
     return {
-        responseId: auxiaData.responseId,
-        userTreatment: auxiaData.userTreatments[0],
+        responseId: envelop.responseId,
+        userTreatment: envelop.userTreatments[0],
     };
 };
 
@@ -353,24 +446,6 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
     return mvtId > 0 && mvtId <= 350_000;
 };
 
-export enum GateType {
-    None, // [1]
-    GuDismissible, // [2]
-    GuMandatory, // [3]
-    Auxia, // [4]
-    AuxiaAnalyticThenNone, // [5]
-    AuxiaAnalyticThenGuDismissible, // [6]
-    AuxiaAnalyticThenGuMandatory, // [7]
-}
-
-// [1] Signals no gate to display
-// [2] Signals the Gu Dismissible gate
-// [3] Signals the Gu Mandatory gate
-// [4] Query the Auxia API and return the result to the client
-// [5] Here, we query Auxia for analytics, but then show no gate
-// [6] Here, we query Auxia for analytics but do not return the result and instead return the Gu Dismissible gate
-// [7] Same as [5] but we return the Gu Mandatory gate
-
 export const decideGateTypeNoneOrDismissible = (gateDismissCount: number): GateType => {
     // -----------------------------------------------------------------------
     // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
@@ -416,8 +491,8 @@ export const decideGuGateTypeNonConsentedIreland = (
     return GateType.AuxiaAnalyticThenGuDismissible;
 };
 
-export const decideGateTypeFromGetTreatmentsRequestPayload = (
-    getTreatmentsRequestPayload: GetTreatmentRequestBody,
+export const getTreatmentsRequestPayloadToGateType = (
+    getTreatmentsRequestPayload: GetTreatmentsRequestPayload,
 ): GateType => {
     // This function is a pure function (without any side effects) which gets the body
     // of a '/auxia/get-treatments' request and returns the correct GateType.
@@ -516,91 +591,11 @@ export const decideGateTypeFromGetTreatmentsRequestPayload = (
     return GateType.Auxia;
 };
 
-export const gateTypeToGate = async (
-    config: AuxiaRouterConfig,
-    gateType: GateType,
-    getTreatmentsRequestPayload: GetTreatmentRequestBody,
-): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
-    switch (gateType) {
-        case GateType.None:
-            return Promise.resolve(undefined);
-        case GateType.GuDismissible:
-            return {
-                responseId: '',
-                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
-            };
-        case GateType.GuMandatory:
-            return {
-                responseId: '',
-                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
-            };
-        case GateType.Auxia:
-            return await callGetTreatments(
-                config.apiKey,
-                config.projectId,
-                getTreatmentsRequestPayload.browserId,
-                getTreatmentsRequestPayload.isSupporter,
-                getTreatmentsRequestPayload.dailyArticleCount,
-                getTreatmentsRequestPayload.articleIdentifier,
-                getTreatmentsRequestPayload.editionId,
-                getTreatmentsRequestPayload.countryCode,
-                getTreatmentsRequestPayload.hasConsented,
-                getTreatmentsRequestPayload.shouldServeDismissible,
-            );
-        case GateType.AuxiaAnalyticThenNone:
-            await callGetTreatments(
-                config.apiKey,
-                config.projectId,
-                getTreatmentsRequestPayload.browserId,
-                getTreatmentsRequestPayload.isSupporter,
-                getTreatmentsRequestPayload.dailyArticleCount,
-                getTreatmentsRequestPayload.articleIdentifier,
-                getTreatmentsRequestPayload.editionId,
-                getTreatmentsRequestPayload.countryCode,
-                getTreatmentsRequestPayload.hasConsented,
-                getTreatmentsRequestPayload.shouldServeDismissible,
-            );
-            return Promise.resolve(undefined);
-        case GateType.AuxiaAnalyticThenGuDismissible:
-            await callGetTreatments(
-                config.apiKey,
-                config.projectId,
-                getTreatmentsRequestPayload.browserId,
-                getTreatmentsRequestPayload.isSupporter,
-                getTreatmentsRequestPayload.dailyArticleCount,
-                getTreatmentsRequestPayload.articleIdentifier,
-                getTreatmentsRequestPayload.editionId,
-                getTreatmentsRequestPayload.countryCode,
-                getTreatmentsRequestPayload.hasConsented,
-                getTreatmentsRequestPayload.shouldServeDismissible,
-            );
-            return {
-                responseId: '',
-                userTreatments: [guDefaultDismissibleGateAsAnAuxiaAPIUserTreatment()],
-            };
-        case GateType.AuxiaAnalyticThenGuMandatory:
-            await callGetTreatments(
-                config.apiKey,
-                config.projectId,
-                getTreatmentsRequestPayload.browserId,
-                getTreatmentsRequestPayload.isSupporter,
-                getTreatmentsRequestPayload.dailyArticleCount,
-                getTreatmentsRequestPayload.articleIdentifier,
-                getTreatmentsRequestPayload.editionId,
-                getTreatmentsRequestPayload.countryCode,
-                getTreatmentsRequestPayload.hasConsented,
-                getTreatmentsRequestPayload.shouldServeDismissible,
-            );
-            return {
-                responseId: '',
-                userTreatments: [guDefaultMandatoryGateAsAnAuxiaAPIUserTreatment()],
-            };
-        default:
-            console.error('Unknown direction');
-    }
-};
+// --------------------------------------------------------
+// Effect Functions
+// --------------------------------------------------------
 
-export const callGetTreatments = async (
+export const callAuxiaGetTreatments = async (
     apiKey: string,
     projectId: string,
     browserId: string | undefined,
@@ -611,7 +606,7 @@ export const callGetTreatments = async (
     countryCode: string,
     hasConsented: boolean,
     shouldServeDismissible: boolean,
-): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+): Promise<UserTreatmentsEnvelop | undefined> => {
     // We now have clearance to call the Auxia API.
 
     // If the browser id could not be recovered client side, then we do not call auxia
@@ -647,7 +642,7 @@ export const callGetTreatments = async (
     try {
         const response = await fetch(url, params);
         const responseBody = (await response.json()) as {
-            userTreatments: AuxiaAPIUserTreatment[] | undefined;
+            userTreatments: UserTreatment[] | undefined;
         };
 
         // nb: In some circumstances, for instance if the payload although having the right
@@ -656,9 +651,138 @@ export const callGetTreatments = async (
         if (responseBody['userTreatments'] === undefined) {
             return Promise.resolve(undefined);
         }
-        const data = responseBody as AuxiaAPIGetTreatmentsResponseData;
+        const data = responseBody as UserTreatmentsEnvelop;
         return Promise.resolve(data);
     } catch (error) {
         return Promise.resolve(undefined);
     }
+};
+
+export const gateTypeToUserTreatmentsEnvelop = async (
+    config: AuxiaRouterConfig,
+    gateType: GateType,
+    getTreatmentsRequestPayload: GetTreatmentsRequestPayload,
+): Promise<UserTreatmentsEnvelop | undefined> => {
+    switch (gateType) {
+        case GateType.None:
+            return Promise.resolve(undefined);
+        case GateType.GuDismissible:
+            return {
+                responseId: '',
+                userTreatments: [guDismissibleUserTreatment()],
+            };
+        case GateType.GuMandatory:
+            return {
+                responseId: '',
+                userTreatments: [guDismissibleUserTreatment()],
+            };
+        case GateType.Auxia:
+            return await callAuxiaGetTreatments(
+                config.apiKey,
+                config.projectId,
+                getTreatmentsRequestPayload.browserId,
+                getTreatmentsRequestPayload.isSupporter,
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.articleIdentifier,
+                getTreatmentsRequestPayload.editionId,
+                getTreatmentsRequestPayload.countryCode,
+                getTreatmentsRequestPayload.hasConsented,
+                getTreatmentsRequestPayload.shouldServeDismissible,
+            );
+        case GateType.AuxiaAnalyticThenNone:
+            await callAuxiaGetTreatments(
+                config.apiKey,
+                config.projectId,
+                getTreatmentsRequestPayload.browserId,
+                getTreatmentsRequestPayload.isSupporter,
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.articleIdentifier,
+                getTreatmentsRequestPayload.editionId,
+                getTreatmentsRequestPayload.countryCode,
+                getTreatmentsRequestPayload.hasConsented,
+                getTreatmentsRequestPayload.shouldServeDismissible,
+            );
+            return Promise.resolve(undefined);
+        case GateType.AuxiaAnalyticThenGuDismissible:
+            await callAuxiaGetTreatments(
+                config.apiKey,
+                config.projectId,
+                getTreatmentsRequestPayload.browserId,
+                getTreatmentsRequestPayload.isSupporter,
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.articleIdentifier,
+                getTreatmentsRequestPayload.editionId,
+                getTreatmentsRequestPayload.countryCode,
+                getTreatmentsRequestPayload.hasConsented,
+                getTreatmentsRequestPayload.shouldServeDismissible,
+            );
+            return {
+                responseId: '',
+                userTreatments: [guDismissibleUserTreatment()],
+            };
+        case GateType.AuxiaAnalyticThenGuMandatory:
+            await callAuxiaGetTreatments(
+                config.apiKey,
+                config.projectId,
+                getTreatmentsRequestPayload.browserId,
+                getTreatmentsRequestPayload.isSupporter,
+                getTreatmentsRequestPayload.dailyArticleCount,
+                getTreatmentsRequestPayload.articleIdentifier,
+                getTreatmentsRequestPayload.editionId,
+                getTreatmentsRequestPayload.countryCode,
+                getTreatmentsRequestPayload.hasConsented,
+                getTreatmentsRequestPayload.shouldServeDismissible,
+            );
+            return {
+                responseId: '',
+                userTreatments: [guMandatoryUserTreatment()],
+            };
+        default:
+            console.error('Unknown direction');
+    }
+};
+
+export const callAuxiaLogTreatmentInteration = async (
+    apiKey: string,
+    projectId: string,
+    browserId: string | undefined,
+    treatmentTrackingId: string,
+    treatmentId: string,
+    surface: string,
+    interactionType: string,
+    interactionTimeMicros: number,
+    actionName: string,
+): Promise<void> => {
+    // If the browser id could not be recovered client side, then we do not call auxia
+    if (browserId === undefined) {
+        return;
+    }
+
+    const url = 'https://apis.auxia.io/v1/LogTreatmentInteraction';
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+    };
+
+    const payload = buildLogTreatmentInteractionRequestPayload(
+        projectId,
+        browserId,
+        treatmentTrackingId,
+        treatmentId,
+        surface,
+        interactionType,
+        interactionTimeMicros,
+        actionName,
+    );
+
+    const params = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+    };
+
+    await fetch(url, params);
+
+    // We are not consuming an answer from the server, so we are not returning anything.
 };
