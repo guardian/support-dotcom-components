@@ -1,5 +1,6 @@
-import type { AuxiaRouterConfig, GetTreatmentRequestBody } from '../api/auxiaProxyRouter';
+import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
 import { getTreatments } from '../api/auxiaProxyRouter';
+import type { GetTreatmentRequestBody } from './lib';
 import {
     articleIdentifierIsAllowed,
     buildAuxiaProxyGetTreatmentsResponseData,

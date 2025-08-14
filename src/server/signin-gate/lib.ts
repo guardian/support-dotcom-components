@@ -1,3 +1,7 @@
+// --------------------------------------------------------
+// Types
+// --------------------------------------------------------
+
 interface AuxiaAPIContextualAttributeString {
     key: string;
     stringValue: string;
@@ -61,6 +65,77 @@ export interface AuxiaAPIGetTreatmentsResponseData {
     responseId: string;
     userTreatments: AuxiaAPIUserTreatment[];
 }
+
+type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
+
+export interface GetTreatmentRequestBody {
+    browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
+    isSupporter: boolean;
+    dailyArticleCount: number; // [1]
+    articleIdentifier: string;
+    editionId: string;
+    contentType: string;
+    sectionId: string;
+    tagIds: string[];
+    gateDismissCount: number;
+    countryCode: string;
+    mvtId: number;
+    should_show_legacy_gate_tmp: boolean; // [2]
+    hasConsented: boolean;
+    shouldServeDismissible: boolean; // [3]
+    showDefaultGate: ShowGateValues; // [4]
+    gateDisplayCount: number; // [5]
+}
+
+// [1] articleIdentifier examples:
+//  - 'www.theguardian.com/money/2017/mar/10/ministers-to-criminalise-use-of-ticket-tout-harvesting-software'
+//  - 'www.theguardian.com/tips'
+
+// [2] temporary attribute to help imminent rerouting of non Auxia audience share
+// to SDC, but without requiring a
+// full duplication of the client side logic into SDC.
+// See https://github.com/guardian/dotcom-rendering/pull/13944
+// for details.
+
+// [3]
+// date: 03rd July 2025
+// If shouldServeDismissible, we should show a dismissible (not mandatory) gate.
+
+// [4]
+
+// date: 25rd July 2025
+// author: Pascal
+
+// In order to facilitate internal testing, this attribute, when defined, forces
+// the display of a sign-in gate. The values 'true' and 'dismissible' displays the
+// dismissible variant of the gu default gate, and the value 'mandatory' displays
+// the mandatory variant of the gu default gate.
+
+// Note that this attributes override the value of should_show_legacy_gate_tmp.
+
+// [5] (comment group: 04f093f0)
+
+// date: 11 Aug 2025
+// author: Pascal
+
+// gateDisplayCount was introduced to enrich the behavior of the default gate.
+// That number represents the number of times the gate has been displayed, excluding the
+// current rendering. Therefore the first time the number is 0.
+
+// At the time these lines are written we want the experience for non consented users
+// in Ireland, to be that the gates, as they display are (first line) corresponding
+// to values of gateDisplayCount (second line)
+//  -------------------------------------------------------------------------
+// | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
+// |     0       |      1      |      2      |      3           etc          |
+//  -------------------------------------------------------------------------
+
+// For non consenting users outside ireland, the behavior doesn't change, we serve
+// dismissible gates
+
+// --------------------------------------------------------
+// Functions
+// --------------------------------------------------------
 
 export const buildGetTreatmentsRequestPayload = (
     projectId: string,
@@ -349,4 +424,112 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
     // [1] Interestingly, 0 is not considered a valid mvtId number.
 
     return mvtId > 0 && mvtId <= 350_000;
+};
+
+export const callGetTreatments = async (
+    apiKey: string,
+    projectId: string,
+    browserId: string | undefined,
+    isSupporter: boolean,
+    dailyArticleCount: number,
+    articleIdentifier: string,
+    editionId: string,
+    countryCode: string,
+    hasConsented: boolean,
+    shouldServeDismissible: boolean,
+): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+    // We now have clearance to call the Auxia API.
+
+    // If the browser id could not be recovered client side, then we do not call auxia
+    if (browserId === undefined) {
+        return;
+    }
+
+    const url = 'https://apis.auxia.io/v1/GetTreatments';
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+    };
+
+    const payload = buildGetTreatmentsRequestPayload(
+        projectId,
+        browserId,
+        isSupporter,
+        dailyArticleCount,
+        articleIdentifier,
+        editionId,
+        countryCode,
+        hasConsented,
+        shouldServeDismissible,
+    );
+
+    const params = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+    };
+
+    try {
+        const response = await fetch(url, params);
+        const responseBody = (await response.json()) as {
+            userTreatments: AuxiaAPIUserTreatment[] | undefined;
+        };
+
+        // nb: In some circumstances, for instance if the payload although having the right
+        // schema, is going to fail Auxia's validation then the response body may not contain
+        // the userTreatments field. In this case we return undefined.
+        if (responseBody['userTreatments'] === undefined) {
+            return Promise.resolve(undefined);
+        }
+        const data = responseBody as AuxiaAPIGetTreatmentsResponseData;
+        return Promise.resolve(data);
+    } catch (error) {
+        return Promise.resolve(undefined);
+    }
+};
+
+export const callLogTreatmentInteration = async (
+    apiKey: string,
+    projectId: string,
+    browserId: string | undefined,
+    treatmentTrackingId: string,
+    treatmentId: string,
+    surface: string,
+    interactionType: string,
+    interactionTimeMicros: number,
+    actionName: string,
+): Promise<void> => {
+    // If the browser id could not be recovered client side, then we do not call auxia
+    if (browserId === undefined) {
+        return;
+    }
+
+    const url = 'https://apis.auxia.io/v1/LogTreatmentInteraction';
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+    };
+
+    const payload = buildLogTreatmentInteractionRequestPayload(
+        projectId,
+        browserId,
+        treatmentTrackingId,
+        treatmentId,
+        surface,
+        interactionType,
+        interactionTimeMicros,
+        actionName,
+    );
+
+    const params = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(payload),
+    };
+
+    await fetch(url, params);
+
+    // We are not consuming an answer from the server, so we are not returning anything.
 };
