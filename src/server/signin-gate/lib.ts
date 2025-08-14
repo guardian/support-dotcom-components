@@ -68,7 +68,7 @@ export interface AuxiaAPIGetTreatmentsResponseData {
 
 type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
 
-export interface GetTreatmentRequestBody {
+export interface GetTreatmentsRequestPayload {
     browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
     isSupporter: boolean;
     dailyArticleCount: number; // [1]

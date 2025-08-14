@@ -1,6 +1,6 @@
 import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
 import { getTreatments } from '../api/auxiaProxyRouter';
-import type { GetTreatmentRequestBody } from './lib';
+import type { GetTreatmentsRequestPayload } from './lib';
 import {
     articleIdentifierIsAllowed,
     buildAuxiaProxyGetTreatmentsResponseData,
@@ -337,7 +337,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -371,7 +371,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -407,7 +407,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -438,7 +438,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -478,7 +478,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -505,7 +505,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -532,7 +532,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -559,7 +559,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -589,7 +589,7 @@ describe('getTreatments', () => {
             apiKey: 'sample',
             projectId: 'sample',
         };
-        const body: GetTreatmentRequestBody = {
+        const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3, // <- [tested]

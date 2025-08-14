@@ -4,7 +4,7 @@ import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
 import type {
     AuxiaAPIGetTreatmentsResponseData,
-    GetTreatmentRequestBody,
+    GetTreatmentsRequestPayload,
 } from '../signin-gate/lib';
 import {
     articleIdentifierIsAllowed,
@@ -47,7 +47,7 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 
 export const getTreatments = async (
     config: AuxiaRouterConfig,
-    body: GetTreatmentRequestBody,
+    body: GetTreatmentsRequestPayload,
 ): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
     // This function gets the body of a '/auxia/get-treatments' request and return the data to post to the client
     // or undefined.
@@ -237,7 +237,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const getTreatmentRequestBody = req.body as GetTreatmentRequestBody;
+                const getTreatmentRequestBody = req.body as GetTreatmentsRequestPayload;
                 const auxiaData = await getTreatments(config, getTreatmentRequestBody);
                 if (auxiaData !== undefined) {
                     const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
