@@ -2,13 +2,9 @@ import type express from 'express';
 import { Router } from 'express';
 import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
-import type {
-    AuxiaAPIGetTreatmentsResponseData,
-    GetTreatmentsRequestPayload,
-} from '../signin-gate/lib';
+import type { GetTreatmentsRequestPayload, UserTreatmentsEnvelop } from '../signin-gate/lib';
 import {
     articleIdentifierIsAllowed,
-    buildAuxiaProxyGetTreatmentsResponseData,
     buildGuUserTreatmentsEnvelop,
     callAuxiaLogTreatmentInteration,
     callGetTreatments,
@@ -18,6 +14,7 @@ import {
     isValidSection,
     isValidTagIdCollection,
     mvtIdIsAuxiaAudienceShare,
+    userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
 } from '../signin-gate/lib';
 import { getSsmValue } from '../utils/ssm';
 
@@ -48,7 +45,7 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 export const getTreatments = async (
     config: AuxiaRouterConfig,
     body: GetTreatmentsRequestPayload,
-): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+): Promise<UserTreatmentsEnvelop | undefined> => {
     // This function gets the body of a '/auxia/get-treatments' request and return the data to post to the client
     // or undefined.
 
@@ -65,7 +62,7 @@ export const getTreatments = async (
     // could possibly have value 'mandatory'
 
     if (body.showDefaultGate !== undefined && body.shouldServeDismissible) {
-        const data: AuxiaAPIGetTreatmentsResponseData = {
+        const data: UserTreatmentsEnvelop = {
             responseId: '',
             userTreatments: [guDismissibleUserTreatment()],
         };
@@ -76,13 +73,13 @@ export const getTreatments = async (
 
     if (body.showDefaultGate) {
         if (body.showDefaultGate == 'mandatory') {
-            const data: AuxiaAPIGetTreatmentsResponseData = {
+            const data: UserTreatmentsEnvelop = {
                 responseId: '',
                 userTreatments: [guMandatoryUserTreatment()],
             };
             return data;
         } else {
-            const data: AuxiaAPIGetTreatmentsResponseData = {
+            const data: UserTreatmentsEnvelop = {
                 responseId: '',
                 userTreatments: [guDismissibleUserTreatment()],
             };
@@ -240,7 +237,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                 const getTreatmentRequestBody = req.body as GetTreatmentsRequestPayload;
                 const auxiaData = await getTreatments(config, getTreatmentRequestBody);
                 if (auxiaData !== undefined) {
-                    const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
+                    const data = userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(auxiaData);
                     res.locals.auxiaTreatmentId = data?.userTreatment?.treatmentId;
                     res.locals.auxiaTreatmentTrackingId = data?.userTreatment?.treatmentTrackingId;
                     res.send({ status: true, data: data });

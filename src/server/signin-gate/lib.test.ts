@@ -3,7 +3,6 @@ import { getTreatments } from '../api/auxiaProxyRouter';
 import type { GetTreatmentsRequestPayload } from './lib';
 import {
     articleIdentifierIsAllowed,
-    buildAuxiaProxyGetTreatmentsResponseData,
     buildGetTreatmentsRequestPayload,
     buildGuUserTreatmentsEnvelop,
     buildLogTreatmentInteractionRequestPayload,
@@ -13,6 +12,7 @@ import {
     isValidSection,
     isValidTagIdCollection,
     mvtIdIsAuxiaAudienceShare,
+    userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
 } from './lib';
 
 describe('buildGetTreatmentsRequestPayload', () => {
@@ -253,7 +253,9 @@ describe('buildAuxiaProxyGetTreatmentsResponseData', () => {
                 surface: 'surface',
             },
         };
-        expect(buildAuxiaProxyGetTreatmentsResponseData(auxiaData)).toStrictEqual(expectedAnswer);
+        expect(userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(auxiaData)).toStrictEqual(
+            expectedAnswer,
+        );
     });
 
     it('build things correctly, in the case of no treatment', () => {
@@ -265,7 +267,9 @@ describe('buildAuxiaProxyGetTreatmentsResponseData', () => {
             responseId: 'responseId',
             userTreatment: undefined,
         };
-        expect(buildAuxiaProxyGetTreatmentsResponseData(auxiaData)).toStrictEqual(expectedAnswer);
+        expect(userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(auxiaData)).toStrictEqual(
+            expectedAnswer,
+        );
     });
 });
 

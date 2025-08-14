@@ -61,7 +61,7 @@ export interface AuxiaAPIGetTreatmentsRequestPayload {
     languageCode: string;
 }
 
-export interface AuxiaAPIGetTreatmentsResponseData {
+export interface UserTreatmentsEnvelop {
     responseId: string;
     userTreatments: UserTreatment[];
 }
@@ -255,7 +255,7 @@ export const buildGuUserTreatmentsEnvelop = (
     gateDismissCount: number,
     gateDisplayCount: number,
     countryCode: string,
-): AuxiaAPIGetTreatmentsResponseData => {
+): UserTreatmentsEnvelop => {
     const responseId = ''; // This value is not important, it is not used by the client.
 
     // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
@@ -287,14 +287,14 @@ export const buildGuUserTreatmentsEnvelop = (
     // For non consenting users outside ireland, the behavior remains the same
 
     if (countryCode !== 'IE') {
-        const data: AuxiaAPIGetTreatmentsResponseData = {
+        const data: UserTreatmentsEnvelop = {
             responseId,
             userTreatments: [guDismissibleUserTreatment()],
         };
         return data;
     }
 
-    let data: AuxiaAPIGetTreatmentsResponseData;
+    let data: UserTreatmentsEnvelop;
 
     if (gateDisplayCount >= 3) {
         data = {
@@ -334,16 +334,16 @@ export const isValidTagIdCollection = (tagIds: string[]): boolean => {
     return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
 };
 
-export const buildAuxiaProxyGetTreatmentsResponseData = (
-    auxiaData: AuxiaAPIGetTreatmentsResponseData,
+export const userTreatmentsEnvelopToProxyGetTreatmentsAnswerData = (
+    envelop: UserTreatmentsEnvelop,
 ): ProxyGetTreatmentsAnswerData | undefined => {
     // Note the small difference between AuxiaAPIResponseData and AuxiaProxyResponseData
     // In the case of AuxiaProxyResponseData, we have an optional userTreatment field, instead of an array of userTreatments.
     // This is to reflect the what the client expect semantically.
 
     return {
-        responseId: auxiaData.responseId,
-        userTreatment: auxiaData.userTreatments[0],
+        responseId: envelop.responseId,
+        userTreatment: envelop.userTreatments[0],
     };
 };
 
@@ -437,7 +437,7 @@ export const callGetTreatments = async (
     countryCode: string,
     hasConsented: boolean,
     shouldServeDismissible: boolean,
-): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
+): Promise<UserTreatmentsEnvelop | undefined> => {
     // We now have clearance to call the Auxia API.
 
     // If the browser id could not be recovered client side, then we do not call auxia
@@ -482,7 +482,7 @@ export const callGetTreatments = async (
         if (responseBody['userTreatments'] === undefined) {
             return Promise.resolve(undefined);
         }
-        const data = responseBody as AuxiaAPIGetTreatmentsResponseData;
+        const data = responseBody as UserTreatmentsEnvelop;
         return Promise.resolve(data);
     } catch (error) {
         return Promise.resolve(undefined);
