@@ -234,10 +234,11 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const getTreatmentRequestBody = req.body as GetTreatmentsRequestPayload;
-                const auxiaData = await getTreatments(config, getTreatmentRequestBody);
-                if (auxiaData !== undefined) {
-                    const data = userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(auxiaData);
+                const payload = req.body as GetTreatmentsRequestPayload;
+                const userTreatments = await getTreatments(config, payload);
+                if (userTreatments !== undefined) {
+                    const data =
+                        userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(userTreatments);
                     res.locals.auxiaTreatmentId = data?.userTreatment?.treatmentId;
                     res.locals.auxiaTreatmentTrackingId = data?.userTreatment?.treatmentTrackingId;
                     res.send({ status: true, data: data });
