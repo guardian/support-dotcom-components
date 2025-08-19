@@ -1,11 +1,11 @@
-import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
-import { getTreatments } from '../api/auxiaProxyRouter';
 import type { GetTreatmentsRequestPayload } from './lib';
 import {
     articleIdentifierIsAllowed,
     buildGetTreatmentsRequestPayload,
     buildGuUserTreatmentsEnvelop,
     buildLogTreatmentInteractionRequestPayload,
+    GateType,
+    getTreatmentsRequestPayloadToGateType,
     guDismissibleUserTreatment,
     guMandatoryUserTreatment,
     isValidContentType,
@@ -320,27 +320,8 @@ describe('mvtIdIsInTheNaturalAuxiaShareOfAudience', () => {
     expect(mvtIdIsAuxiaAudienceShare(350001)).toBe(false);
 });
 
-describe('getTreatments', () => {
-    // Function getTreatments is written as a set of conditions, from higher priority to lower
-    // priority, where the first satisfactory condition determines the type of gate
-    // that is going to be displayed/
-
-    // This tests is following the logic getTreatments from top to bottom.
-
-    it('test shouldServeDismissible and showDefaultGate:mandatory interacting together', async () => {
-        // If we receive instruction to serve a default gate (showDefaultGate
-        // can be `mandatory`, `dismissible` or `undefined`, and here we mean not
-        // undefined), but also the condition to serve a dismissible gate,
-        // then the latter condition takes priority, and we should serve
-        // a dismissible gate.
-
-        // This condition essentially resolve the semantic conflict between
-        // showDefaultGate:mandatory and shouldServeDismissible:true
-
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
-        };
+describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
+    it('test shouldServeDismissible and showDefaultGate:mandatory interacting together', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -359,22 +340,11 @@ describe('getTreatments', () => {
             showDefaultGate: 'mandatory', // <- [tested]
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        const expectedAnswer = {
-            responseId: '',
-            userTreatments: [guDismissibleUserTreatment()],
-        };
-        expect(treatment).toStrictEqual(expectedAnswer);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
 
-    it('test shouldServeDismissible and showDefaultGate:dismissible interacting together', async () => {
-        // Similar to test 1, but here we have
-        // showDefaultGate: 'dismissible'
-
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
-        };
+    it('test shouldServeDismissible and showDefaultGate:dismissible interacting together', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -393,24 +363,11 @@ describe('getTreatments', () => {
             showDefaultGate: 'dismissible', // <- [tested]
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        const expectedAnswer = {
-            responseId: '',
-            userTreatments: [guDismissibleUserTreatment()],
-        };
-        expect(treatment).toStrictEqual(expectedAnswer);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
 
-    // From this point shouldServeDismissible is going to be false.
-
-    // The attribute showDefaultGate overrides any other behavior
-    // We pursue with two tests showing that showDefaultGate is correctly listened to.
-
-    it('showDefaultGate:mandatory overrides any other behavior', async () => {
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
-        };
+    it('showDefaultGate:mandatory overrides any other behavior', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -429,19 +386,11 @@ describe('getTreatments', () => {
             showDefaultGate: 'mandatory', // <- [tested]
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        const expectedAnswer = {
-            responseId: '',
-            userTreatments: [guMandatoryUserTreatment()],
-        };
-        expect(treatment).toStrictEqual(expectedAnswer);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.GuMandatory);
     });
 
-    it('showDefaultGate:dismissible overrides any other behavior', async () => {
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
-        };
+    it('showDefaultGate:dismissible overrides any other behavior', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -460,28 +409,126 @@ describe('getTreatments', () => {
             showDefaultGate: 'dismissible', // <- [tested]
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        const expectedAnswer = {
-            responseId: '',
-            userTreatments: [guDismissibleUserTreatment()],
-        };
-        expect(treatment).toStrictEqual(expectedAnswer);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
 
-    // At this point there should be a test of being in Ireland, but we are postponing this test
-    // for a bit and will do w refactoring in the meantime.
-
-    // TODO: Ireland test
-    // ....
-
-    // We check page metada to comply with Guardian policies.
-    // If the policies are not met, then we do not display a gate
-
-    it('invalid attribute: contentType', async () => {
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
+    it('non consenting users in Ireland, low dailyArticleCount', () => {
+        const body: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 0,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'GB',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'IE',
+            mvtId: 450_000, // <- Non Auxia
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+            gateDisplayCount: 0,
         };
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenNone);
+    });
+
+    it('non consenting users in Ireland, low dailyArticleCount=3 (start of gate showing)', () => {
+        const body: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'IE',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 450_000, // <- Non Auxia
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+            gateDisplayCount: 0,
+        };
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.GuDismissible);
+    });
+
+    it('non consenting users in Ireland, low gateDisplayCount: 1 (still dismissible)', () => {
+        const body: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 10,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'IE',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'IE',
+            mvtId: 450_000, // <- Non Auxia
+            should_show_legacy_gate_tmp: true,
+            hasConsented: false,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+            gateDisplayCount: 1,
+        };
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuDismissible);
+    });
+
+    it('non consenting users in Ireland, low gateDisplayCount: 3 (mandatory from now on)', () => {
+        const body: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 10,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'GB',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'IE',
+            mvtId: 450_000, // <- Non Auxia
+            should_show_legacy_gate_tmp: true, // <- In Ireland, this value is irrelevant, since we count dailyArticleCount and gateDisplayCount
+            hasConsented: false,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+            gateDisplayCount: 3,
+        };
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuMandatory);
+    });
+
+    it('non consenting users in Ireland, low gateDisplayCount: 4 (mandatory from now on)', () => {
+        const body: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 10,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'GB',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'IE',
+            mvtId: 450_000, // <- Non Auxia
+            should_show_legacy_gate_tmp: true, // <- In Ireland, this value is irrelevant, since we count dailyArticleCount and gateDisplayCount
+            hasConsented: true,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+            gateDisplayCount: 4,
+        };
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuMandatory);
+    });
+
+    it('invalid attribute: contentType', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -500,15 +547,11 @@ describe('getTreatments', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        expect(treatment).toStrictEqual(undefined);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.None);
     });
 
-    it('invalid attribute: sectionId', async () => {
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
-        };
+    it('invalid attribute: sectionId', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -527,15 +570,11 @@ describe('getTreatments', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        expect(treatment).toStrictEqual(undefined);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.None);
     });
 
-    it('invalid attribute: tagIds', async () => {
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
-        };
+    it('invalid attribute: tagIds', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -554,15 +593,11 @@ describe('getTreatments', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        expect(treatment).toStrictEqual(undefined);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.None);
     });
 
-    it('invalid attribute: articleIdentifier', async () => {
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
-        };
+    it('invalid attribute: articleIdentifier', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -581,18 +616,11 @@ describe('getTreatments', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        expect(treatment).toStrictEqual(undefined);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.None);
     });
 
-    // Should return a gate if we are not in the Auxia share and
-    // dailyArticleCount: 3
-
-    it('should return a gate in the case of the Giulia experiment', async () => {
-        const config: AuxiaRouterConfig = {
-            apiKey: 'sample',
-            projectId: 'sample',
-        };
+    it('should return a gate in the case of the Giulia experiment', () => {
         const body: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -611,11 +639,7 @@ describe('getTreatments', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const treatment = await getTreatments(config, body);
-        const expectedAnswer = {
-            responseId: '',
-            userTreatments: [guDismissibleUserTreatment()],
-        };
-        expect(treatment).toStrictEqual(expectedAnswer);
+        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
 });
