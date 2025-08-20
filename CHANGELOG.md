@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.8.0
+
+### Minor Changes
+
+-   9659d5e: Bump version of `@guardian/ophan-tracker-js` and set as peer dependency
+
 ## 7.7.0
 
 ### Minor Changes
