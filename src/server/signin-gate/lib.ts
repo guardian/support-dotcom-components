@@ -344,6 +344,7 @@ export const isValidSection = (sectionId: string): boolean => {
         'help',
         'guardian-live-australia',
         'gnm-archive',
+        'thefilter',
     ];
     return !invalidSections.includes(sectionId);
 };
