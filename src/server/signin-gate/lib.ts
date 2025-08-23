@@ -349,7 +349,7 @@ export const isValidSection = (sectionId: string): boolean => {
     return !invalidSections.includes(sectionId);
 };
 
-export const isValidTagIdCollection = (tagIds: string[]): boolean => {
+export const isValidTagIds = (tagIds: string[]): boolean => {
     const invalidTagIds = ['info/newsletter-sign-up'];
     // Check that no tagId is in the invalidTagIds list.
     return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
@@ -499,8 +499,39 @@ export const decideGuGateTypeNonConsentedIreland = (
     return GateType.AuxiaAnalyticThenGuDismissible;
 };
 
+// The prefix `gtrp`, carried by some functions, means "GetTreatmentsRequestPayload", and
+// is used for those with signature: GetTreatmentsRequestPayload -> Type
+
+export const gtrpIsAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    return mvtIdIsAuxiaAudienceShare(payload.mvtId);
+};
+
+export const gtrpIsGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    return !gtrpIsAuxiaAudienceShare(payload);
+};
+
+//export const gtrpIsConsentedUser = (payload: GetTreatmentsRequestPayload): boolean => {
+//    return true;
+//};
+
+export const pageMetaDataMakesItEligibleForGateDisplay = (
+    contentType: string,
+    sectionId: string,
+    tagIds: string[],
+): boolean => {
+    return isValidContentType(contentType) && isValidSection(sectionId) && isValidTagIds(tagIds);
+};
+
+export const gtrpPageIsEligibleForGateDisplay = (payload: GetTreatmentsRequestPayload): boolean => {
+    return pageMetaDataMakesItEligibleForGateDisplay(
+        payload.contentType,
+        payload.sectionId,
+        payload.tagIds,
+    );
+};
+
 export const getTreatmentsRequestPayloadToGateType = (
-    getTreatmentsRequestPayload: GetTreatmentsRequestPayload,
+    payload: GetTreatmentsRequestPayload,
 ): GateType => {
     // This function is a pure function (without any side effects) which gets the body
     // of a '/auxia/get-treatments' request and returns the correct GateType.
@@ -508,7 +539,11 @@ export const getTreatmentsRequestPayloadToGateType = (
     // which in the case of Auxia, requires an API call, but more importantly to
     // encapsulate and more logically test the logic of gate selection.
 
-    // The comments are the specs it must comply with.
+    if (!gtrpPageIsEligibleForGateDisplay(payload)) {
+        // August 23rd: this check should return true because we are performing
+        // a similar check client side to reduce traffic to SDC
+        return GateType.None;
+    }
 
     // --------------------------------------------------------------
     // If both conditions are true
@@ -519,22 +554,19 @@ export const getTreatmentsRequestPayloadToGateType = (
     //
     //    2. body.showDefaultGate is defined (regardless of its value)
     //
-    // Then we serve a non dismissible gate. In other words
+    // Then we serve a dismissible gate. In other words
     // body.shouldServeDismissible take priority over the fact that body.showDefaultGate
     // could possibly have value 'mandatory'
 
-    if (
-        getTreatmentsRequestPayload.showDefaultGate !== undefined &&
-        getTreatmentsRequestPayload.shouldServeDismissible
-    ) {
+    if (payload.showDefaultGate !== undefined && payload.shouldServeDismissible) {
         return GateType.GuDismissible;
     }
 
     // --------------------------------------------------------------
     // The attribute showDefaultGate overrides any other behavior
 
-    if (getTreatmentsRequestPayload.showDefaultGate) {
-        if (getTreatmentsRequestPayload.showDefaultGate == 'mandatory') {
+    if (payload.showDefaultGate) {
+        if (payload.showDefaultGate == 'mandatory') {
             return GateType.GuMandatory;
         } else {
             return GateType.GuDismissible;
@@ -548,10 +580,10 @@ export const getTreatmentsRequestPayloadToGateType = (
     // might be decommissioned in the future.
 
     if (
-        !isValidContentType(getTreatmentsRequestPayload.contentType) ||
-        !isValidSection(getTreatmentsRequestPayload.sectionId) ||
-        !isValidTagIdCollection(getTreatmentsRequestPayload.tagIds) ||
-        !articleIdentifierIsAllowed(getTreatmentsRequestPayload.articleIdentifier)
+        !isValidContentType(payload.contentType) ||
+        !isValidSection(payload.sectionId) ||
+        !isValidTagIds(payload.tagIds) ||
+        !articleIdentifierIsAllowed(payload.articleIdentifier)
     ) {
         return GateType.None;
     }
@@ -562,13 +594,13 @@ export const getTreatmentsRequestPayloadToGateType = (
     // traffic (consented or not consented) to Auxia. (For privacy vigilantes reading this,
     // Auxia is not going to process non consented traffic for targetting.)
 
-    if (getTreatmentsRequestPayload.countryCode === 'IE') {
-        if (mvtIdIsAuxiaAudienceShare(getTreatmentsRequestPayload.mvtId)) {
+    if (payload.countryCode === 'IE') {
+        if (mvtIdIsAuxiaAudienceShare(payload.mvtId)) {
             return GateType.Auxia;
         } else {
             return decideGuGateTypeNonConsentedIreland(
-                getTreatmentsRequestPayload.dailyArticleCount,
-                getTreatmentsRequestPayload.gateDisplayCount,
+                payload.dailyArticleCount,
+                payload.gateDisplayCount,
             );
         }
     }
@@ -585,9 +617,9 @@ export const getTreatmentsRequestPayloadToGateType = (
     // That split used to be done client side, but it's now been moved to SDC and is driven by
     // `mvtIdIsAuxiaAudienceShare`.
 
-    if (!mvtIdIsAuxiaAudienceShare(getTreatmentsRequestPayload.mvtId)) {
-        if (getTreatmentsRequestPayload.should_show_legacy_gate_tmp) {
-            return decideGateTypeNoneOrDismissible(getTreatmentsRequestPayload.gateDismissCount);
+    if (!mvtIdIsAuxiaAudienceShare(payload.mvtId)) {
+        if (payload.should_show_legacy_gate_tmp) {
+            return decideGateTypeNoneOrDismissible(payload.gateDismissCount);
         } else {
             return GateType.None;
         }

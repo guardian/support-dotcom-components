@@ -6,11 +6,13 @@ import {
     buildLogTreatmentInteractionRequestPayload,
     GateType,
     getTreatmentsRequestPayloadToGateType,
+    gtrpIsAuxiaAudienceShare,
+    gtrpIsGuardianAudienceShare,
     guDismissibleUserTreatment,
     guMandatoryUserTreatment,
     isValidContentType,
     isValidSection,
-    isValidTagIdCollection,
+    isValidTagIds,
     mvtIdIsAuxiaAudienceShare,
     userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
 } from './lib';
@@ -214,14 +216,12 @@ describe('isValidSection', () => {
 
 describe('isValidTagIdCollection', () => {
     it('accepts `random`', () => {
-        expect(isValidTagIdCollection(['random/random', 'random/otherRandom'])).toBe(true);
+        expect(isValidTagIds(['random/random', 'random/otherRandom'])).toBe(true);
     });
 
     it('does not accept `info/newsletter-sign-up`', () => {
         // `info/newsletter-sign-up` is taken from the list of hard coded invalid sections
-        expect(isValidTagIdCollection(['info/newsletter-sign-up', 'random/otherRandom'])).toBe(
-            false,
-        );
+        expect(isValidTagIds(['info/newsletter-sign-up', 'random/otherRandom'])).toBe(false);
     });
 });
 
@@ -322,7 +322,7 @@ describe('mvtIdIsInTheNaturalAuxiaShareOfAudience', () => {
 
 describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
     it('test shouldServeDismissible and showDefaultGate:mandatory interacting together', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -340,12 +340,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: 'mandatory', // <- [tested]
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
 
     it('test shouldServeDismissible and showDefaultGate:dismissible interacting together', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -363,12 +363,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: 'dismissible', // <- [tested]
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
 
     it('showDefaultGate:mandatory overrides any other behavior', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -386,12 +386,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: 'mandatory', // <- [tested]
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.GuMandatory);
     });
 
     it('showDefaultGate:dismissible overrides any other behavior', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -409,12 +409,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: 'dismissible', // <- [tested]
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
 
     it('non consenting users in Ireland, low dailyArticleCount', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 0,
@@ -432,12 +432,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenNone);
     });
 
     it('non consenting users in Ireland, low dailyArticleCount=3 (start of gate showing)', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -455,12 +455,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
 
     it('non consenting users in Ireland, low gateDisplayCount: 1 (still dismissible)', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 10,
@@ -478,12 +478,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 1,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuDismissible);
     });
 
     it('non consenting users in Ireland, low gateDisplayCount: 3 (mandatory from now on)', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 10,
@@ -501,12 +501,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 3,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuMandatory);
     });
 
     it('non consenting users in Ireland, low gateDisplayCount: 4 (mandatory from now on)', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 10,
@@ -524,12 +524,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 4,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuMandatory);
     });
 
     it('invalid attribute: contentType', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -547,12 +547,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.None);
     });
 
     it('invalid attribute: sectionId', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -570,12 +570,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.None);
     });
 
     it('invalid attribute: tagIds', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -593,12 +593,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.None);
     });
 
     it('invalid attribute: articleIdentifier', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3,
@@ -616,12 +616,12 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.None);
     });
 
     it('should return a gate in the case of the Giulia experiment', () => {
-        const body: GetTreatmentsRequestPayload = {
+        const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
             dailyArticleCount: 3, // <- [tested]
@@ -639,7 +639,91 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(body);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
         expect(gateType).toStrictEqual(GateType.GuDismissible);
     });
+});
+
+describe('gtrpIsAuxiaShareOfTheAudience', () => {
+    const payload1: GetTreatmentsRequestPayload = {
+        browserId: 'sample',
+        isSupporter: false,
+        dailyArticleCount: 3, // <- [tested]
+        articleIdentifier: 'sample: article identifier',
+        editionId: 'UK',
+        contentType: 'Article',
+        sectionId: 'uk-news',
+        tagIds: ['type/article'],
+        gateDismissCount: 0,
+        countryCode: 'GB',
+        mvtId: 250001,
+        should_show_legacy_gate_tmp: true,
+        hasConsented: true,
+        shouldServeDismissible: false,
+        showDefaultGate: undefined,
+        gateDisplayCount: 0,
+    };
+    const payload2: GetTreatmentsRequestPayload = {
+        browserId: 'sample',
+        isSupporter: false,
+        dailyArticleCount: 3, // <- [tested]
+        articleIdentifier: 'sample: article identifier',
+        editionId: 'UK',
+        contentType: 'Article',
+        sectionId: 'uk-news',
+        tagIds: ['type/article'],
+        gateDismissCount: 0,
+        countryCode: 'GB',
+        mvtId: 450001,
+        should_show_legacy_gate_tmp: true,
+        hasConsented: true,
+        shouldServeDismissible: false,
+        showDefaultGate: undefined,
+        gateDisplayCount: 0,
+    };
+
+    expect(gtrpIsAuxiaAudienceShare(payload1)).toBe(true);
+    expect(gtrpIsAuxiaAudienceShare(payload2)).toBe(false);
+});
+
+describe('gtrpIsGuardianShareOfTheAudience', () => {
+    const payload1: GetTreatmentsRequestPayload = {
+        browserId: 'sample',
+        isSupporter: false,
+        dailyArticleCount: 3, // <- [tested]
+        articleIdentifier: 'sample: article identifier',
+        editionId: 'UK',
+        contentType: 'Article',
+        sectionId: 'uk-news',
+        tagIds: ['type/article'],
+        gateDismissCount: 0,
+        countryCode: 'GB',
+        mvtId: 250001,
+        should_show_legacy_gate_tmp: true,
+        hasConsented: true,
+        shouldServeDismissible: false,
+        showDefaultGate: undefined,
+        gateDisplayCount: 0,
+    };
+    const payload2: GetTreatmentsRequestPayload = {
+        browserId: 'sample',
+        isSupporter: false,
+        dailyArticleCount: 3, // <- [tested]
+        articleIdentifier: 'sample: article identifier',
+        editionId: 'UK',
+        contentType: 'Article',
+        sectionId: 'uk-news',
+        tagIds: ['type/article'],
+        gateDismissCount: 0,
+        countryCode: 'GB',
+        mvtId: 450001,
+        should_show_legacy_gate_tmp: true,
+        hasConsented: true,
+        shouldServeDismissible: false,
+        showDefaultGate: undefined,
+        gateDisplayCount: 0,
+    };
+
+    expect(gtrpIsGuardianAudienceShare(payload1)).toBe(false);
+    expect(gtrpIsGuardianAudienceShare(payload2)).toBe(true);
 });
