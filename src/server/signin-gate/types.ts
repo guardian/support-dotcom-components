@@ -1,3 +1,7 @@
+// --------------------------------------------------------
+// Types
+// --------------------------------------------------------
+
 export interface AuxiaAPIContextualAttributeString {
     key: string;
     stringValue: string;
