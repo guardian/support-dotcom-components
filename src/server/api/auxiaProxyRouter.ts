@@ -2,13 +2,13 @@ import type express from 'express';
 import { Router } from 'express';
 import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
-import type { GetTreatmentsRequestPayload } from '../signin-gate/lib';
+import { getTreatmentsRequestPayloadToGateType } from '../signin-gate/dispatch';
 import {
     callAuxiaLogTreatmentInteration,
     gateTypeToUserTreatmentsEnvelop,
-    getTreatmentsRequestPayloadToGateType,
-    userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
-} from '../signin-gate/lib';
+} from '../signin-gate/libEffect';
+import { userTreatmentsEnvelopToProxyGetTreatmentsAnswerData } from '../signin-gate/libPure';
+import type { GetTreatmentsRequestPayload } from '../signin-gate/types';
 import { getSsmValue } from '../utils/ssm';
 
 export interface AuxiaRouterConfig {
