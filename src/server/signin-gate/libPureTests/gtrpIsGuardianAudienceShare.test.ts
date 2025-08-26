@@ -1,7 +1,7 @@
 import { gtrpIsGuardianAudienceShare } from '../libPure';
 import type { GetTreatmentsRequestPayload } from '../types';
 
-it('gtrpIsGuardianShareOfTheAudience', () => {
+it('gtrpIsGuardianAudienceShare', () => {
     const payload1: GetTreatmentsRequestPayload = {
         browserId: 'sample',
         isSupporter: false,
