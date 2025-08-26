@@ -66,6 +66,23 @@ export interface UserTreatmentsEnvelop {
     userTreatments: UserTreatment[];
 }
 
+export type GateType =
+    | 'None' // [1]
+    | 'GuDismissible' // [2]
+    | 'GuMandatory' // [3]
+    | 'AuxiaAPI' // [4]
+    | 'AuxiaAnalyticThenNone' // [5]
+    | 'AuxiaAnalyticThenGuDismissible' // [6]
+    | 'AuxiaAnalyticThenGuMandatory'; // [7]
+
+// [1] Signals no gate to display
+// [2] Signals the Gu Dismissible gate
+// [3] Signals the Gu Mandatory gate
+// [4] Query the Auxia API and return the result to the client
+// [5] Here, we query Auxia for analytics, but then show no gate
+// [6] Here, we query Auxia for analytics but do not return the result and instead return the Gu Dismissible gate
+// [7] Same as [5] but we return the Gu Mandatory gate
+
 type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
 
 export interface GetTreatmentsRequestPayload {
@@ -132,20 +149,3 @@ export interface GetTreatmentsRequestPayload {
 
 // For non consenting users outside ireland, the behavior doesn't change, we serve
 // dismissible gates
-
-export type GateType =
-    | 'None' // [1]
-    | 'GuDismissible' // [2]
-    | 'GuMandatory' // [3]
-    | 'AuxiaAPI' // [4]
-    | 'AuxiaAnalyticThenNone' // [5]
-    | 'AuxiaAnalyticThenGuDismissible' // [6]
-    | 'AuxiaAnalyticThenGuMandatory'; // [7]
-
-// [1] Signals no gate to display
-// [2] Signals the Gu Dismissible gate
-// [3] Signals the Gu Mandatory gate
-// [4] Query the Auxia API and return the result to the client
-// [5] Here, we query Auxia for analytics, but then show no gate
-// [6] Here, we query Auxia for analytics but do not return the result and instead return the Gu Dismissible gate
-// [7] Same as [5] but we return the Gu Mandatory gate
