@@ -354,6 +354,66 @@ export const decideGuGateTypeNonConsentedIreland = (
     return 'AuxiaAnalyticThenGuDismissible';
 };
 
+// The prefix `gtrp`, carried by some functions, means "GetTreatmentsRequestPayload", and
+// is used for those with signature: GetTreatmentsRequestPayload -> Type
+
+export const gtrpIsAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    return mvtIdIsAuxiaAudienceShare(payload.mvtId);
+};
+
+export const gtrpIsGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    return !gtrpIsAuxiaAudienceShare(payload);
+};
+
+//export const gtrpIsConsentedUser = (payload: GetTreatmentsRequestPayload): boolean => {
+//    return true;
+//};
+
+export const pageMetaDataIsEligibleForGateDisplay = (
+    contentType: string,
+    sectionId: string,
+    tagIds: string[],
+): boolean => {
+    return isValidContentType(contentType) && isValidSection(sectionId) && isValidTagIds(tagIds);
+};
+
+export const gtrpPageMetadataIsEligibleForGateDisplay = (
+    payload: GetTreatmentsRequestPayload,
+): boolean => {
+    return pageMetaDataIsEligibleForGateDisplay(
+        payload.contentType,
+        payload.sectionId,
+        payload.tagIds,
+    );
+};
+
+export const gtrpIsOverridingConditionShowDismissibleGate = (
+    payload: GetTreatmentsRequestPayload,
+): boolean => {
+    return payload.shouldServeDismissible;
+};
+
+export const gtrpIsStaffTestConditionShowDefaultGate = (
+    payload: GetTreatmentsRequestPayload,
+): boolean => {
+    return payload.showDefaultGate !== undefined;
+};
+
+export const staffTestConditionToDefaultGate = (payload: GetTreatmentsRequestPayload): GateType => {
+    if (payload.showDefaultGate === undefined) {
+        return 'None';
+    }
+    if (payload.showDefaultGate == 'mandatory') {
+        return 'GuMandatory';
+    }
+    // values 'true' or 'dismissible'
+    return 'GuDismissible';
+};
+
+export const gtrpUserHasConsented = (payload: GetTreatmentsRequestPayload): boolean => {
+    return payload.hasConsented;
+};
+
 export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
 ): GateType => {
