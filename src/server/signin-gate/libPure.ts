@@ -418,7 +418,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
 ): GateType => {
     // This function is a pure function (without any side effects) which gets the body
-    // of a '/auxia/get-treatments' request and returns the correct '
+    // of a '/auxia/get-treatments' request and returns the correct GateType
     // It was introduced to separate the choice of the gate from it's actual build,
     // which in the case of Auxia, requires an API call, but more importantly to
     // encapsulate and more logically test the logic of gate selection.
