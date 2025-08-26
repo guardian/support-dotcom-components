@@ -19,14 +19,16 @@ No gate display the first 3 page views
                |  - No Auxia notification                     | - No Auxia notification                      |
  un-consented  |  - Guardian drives the gate:                 | - Guardian drives the gate:                  |
                |    - No gate display the first 3 page views  |   - No gate display the first 3 page views   |
-               |    - Gate: dismissible gates, then no gate   |   - dismissible gates, then no gate after 5 dismisses
+               |    - Gate: dismissible gates,                |   - Gate: dismissible gates                  |
+               |            then no gate after 5 dismisses    |           then no gate after 5 dismisses     |
                |                                              |                                              |
     -----------|-----------------------------------------------------------------------------------------------------
                |                                              |                                              |
                |  - Auxia drives the gate                     | - No Auxia notification                      |
     consented  |                                              | - Guardian drivess the gate:                 |
                |                                              |   - No gate display the first 3 page views   |
-               |                                              |   - Gate: dismissible gates, then no gate after 5 dismisses
+               |                                              |   - Gate: dismissible gates                  |
+               |                                              |           then no gate after 5 dismisses     |
                |                                              |                                              |
                 ---------------------------------------------------------------------------------------------
                                                               |
@@ -51,7 +53,8 @@ No gate display the first 3 page views
                |  - Auxia drives the gate                     | - No Auxia notification                      |
     consented  |                                              | - Guardian drives the gate:                  |
                |                                              |   - No gate display the first 3 page views   |
-               |                                              |   - Gate: dismissible gates, then no gate after 5 dismisses
+               |                                              |   - Gate: dismissible gates                  |
+               |                                              |           then no gate after 5 dismisses     |
                |                                              |                                              |
                 ---------------------------------------------------------------------------------------------
                                                               |
