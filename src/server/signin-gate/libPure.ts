@@ -5,12 +5,12 @@
 import type {
     AuxiaAPIGetTreatmentsRequestPayload,
     AuxiaAPILogTreatmentInteractionRequestPayload,
+    GateType,
     GetTreatmentsRequestPayload,
     ProxyGetTreatmentsAnswerData,
     UserTreatment,
     UserTreatmentsEnvelop,
 } from './types';
-import { GateType } from './types';
 
 export const buildGetTreatmentsRequestPayload = (
     projectId: string,
@@ -315,13 +315,13 @@ export const decideGateTypeNoneOrDismissible = (gateDismissCount: number): GateT
     // (We do not want users to have to dismiss the gate 6 times)
 
     if (gateDismissCount > 5) {
-        return GateType.None;
+        return 'None';
     }
 
     // -----------------------------------------------------------------------
     // We are now clear to show the default (dismissible) gu gate.
 
-    return GateType.GuDismissible;
+    return 'GuDismissible';
 };
 
 export const decideGuGateTypeNonConsentedIreland = (
@@ -332,7 +332,7 @@ export const decideGuGateTypeNonConsentedIreland = (
     // If we reach this point, we are in Ireland
 
     if (dailyArticleCount < 3) {
-        return GateType.AuxiaAnalyticThenNone;
+        return 'AuxiaAnalyticThenNone';
     }
 
     // gateDisplayCount was introduced to enrich the behavior of the default gate.
@@ -348,10 +348,10 @@ export const decideGuGateTypeNonConsentedIreland = (
     //  -------------------------------------------------------------------------
 
     if (gateDisplayCount >= 3) {
-        return GateType.AuxiaAnalyticThenGuMandatory;
+        return 'AuxiaAnalyticThenGuMandatory';
     }
 
-    return GateType.AuxiaAnalyticThenGuDismissible;
+    return 'AuxiaAnalyticThenGuDismissible';
 };
 
 export const getTreatmentsRequestPayloadToGateType = (
@@ -382,7 +382,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         getTreatmentsRequestPayload.showDefaultGate !== undefined &&
         getTreatmentsRequestPayload.shouldServeDismissible
     ) {
-        return GateType.GuDismissible;
+        return 'GuDismissible';
     }
 
     // --------------------------------------------------------------
@@ -390,9 +390,9 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (getTreatmentsRequestPayload.showDefaultGate) {
         if (getTreatmentsRequestPayload.showDefaultGate == 'mandatory') {
-            return GateType.GuMandatory;
+            return 'GuMandatory';
         } else {
-            return GateType.GuDismissible;
+            return 'GuDismissible';
         }
     }
 
@@ -408,7 +408,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         !isValidTagIdCollection(getTreatmentsRequestPayload.tagIds) ||
         !articleIdentifierIsAllowed(getTreatmentsRequestPayload.articleIdentifier)
     ) {
-        return GateType.None;
+        return 'None';
     }
 
     // --------------------------------------------------------------
@@ -419,7 +419,7 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (getTreatmentsRequestPayload.countryCode === 'IE') {
         if (mvtIdIsAuxiaAudienceShare(getTreatmentsRequestPayload.mvtId)) {
-            return GateType.Auxia;
+            return 'AuxiaAPI';
         } else {
             return decideGuGateTypeNonConsentedIreland(
                 getTreatmentsRequestPayload.dailyArticleCount,
@@ -444,12 +444,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         if (getTreatmentsRequestPayload.should_show_legacy_gate_tmp) {
             return decideGateTypeNoneOrDismissible(getTreatmentsRequestPayload.gateDismissCount);
         } else {
-            return GateType.None;
+            return 'None';
         }
     }
 
     // --------------------------------------------------------------
     // Auxia share of the audience (outside Ireland)
 
-    return GateType.Auxia;
+    return 'AuxiaAPI';
 };
