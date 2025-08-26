@@ -66,15 +66,14 @@ export interface UserTreatmentsEnvelop {
     userTreatments: UserTreatment[];
 }
 
-export enum GateType {
-    None, // [1]
-    GuDismissible, // [2]
-    GuMandatory, // [3]
-    Auxia, // [4]
-    AuxiaAnalyticThenNone, // [5]
-    AuxiaAnalyticThenGuDismissible, // [6]
-    AuxiaAnalyticThenGuMandatory, // [7]
-}
+export type GateType =
+    | 'None' // [1]
+    | 'GuDismissible' // [2]
+    | 'GuMandatory' // [3]
+    | 'AuxiaAPI' // [4]
+    | 'AuxiaAnalyticThenNone' // [5]
+    | 'AuxiaAnalyticThenGuDismissible' // [6]
+    | 'AuxiaAnalyticThenGuMandatory'; // [7]
 
 // [1] Signals no gate to display
 // [2] Signals the Gu Dismissible gate

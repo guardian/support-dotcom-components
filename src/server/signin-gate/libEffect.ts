@@ -9,8 +9,12 @@ import {
     guDismissibleUserTreatment,
     guMandatoryUserTreatment,
 } from './libPure';
-import type { GetTreatmentsRequestPayload, UserTreatment, UserTreatmentsEnvelop } from './types';
-import { GateType } from './types';
+import type {
+    GateType,
+    GetTreatmentsRequestPayload,
+    UserTreatment,
+    UserTreatmentsEnvelop,
+} from './types';
 
 export const callAuxiaGetTreatments = async (
     apiKey: string,
@@ -81,19 +85,19 @@ export const gateTypeToUserTreatmentsEnvelop = async (
     getTreatmentsRequestPayload: GetTreatmentsRequestPayload,
 ): Promise<UserTreatmentsEnvelop | undefined> => {
     switch (gateType) {
-        case GateType.None:
+        case 'None':
             return Promise.resolve(undefined);
-        case GateType.GuDismissible:
+        case 'GuDismissible':
             return {
                 responseId: '',
                 userTreatments: [guDismissibleUserTreatment()],
             };
-        case GateType.GuMandatory:
+        case 'GuMandatory':
             return {
                 responseId: '',
                 userTreatments: [guDismissibleUserTreatment()],
             };
-        case GateType.Auxia:
+        case 'AuxiaAPI':
             return await callAuxiaGetTreatments(
                 config.apiKey,
                 config.projectId,
@@ -106,7 +110,7 @@ export const gateTypeToUserTreatmentsEnvelop = async (
                 getTreatmentsRequestPayload.hasConsented,
                 getTreatmentsRequestPayload.shouldServeDismissible,
             );
-        case GateType.AuxiaAnalyticThenNone:
+        case 'AuxiaAnalyticThenNone':
             await callAuxiaGetTreatments(
                 config.apiKey,
                 config.projectId,
@@ -120,7 +124,7 @@ export const gateTypeToUserTreatmentsEnvelop = async (
                 getTreatmentsRequestPayload.shouldServeDismissible,
             );
             return Promise.resolve(undefined);
-        case GateType.AuxiaAnalyticThenGuDismissible:
+        case 'AuxiaAnalyticThenGuDismissible':
             await callAuxiaGetTreatments(
                 config.apiKey,
                 config.projectId,
@@ -137,7 +141,7 @@ export const gateTypeToUserTreatmentsEnvelop = async (
                 responseId: '',
                 userTreatments: [guDismissibleUserTreatment()],
             };
-        case GateType.AuxiaAnalyticThenGuMandatory:
+        case 'AuxiaAnalyticThenGuMandatory':
             await callAuxiaGetTreatments(
                 config.apiKey,
                 config.projectId,

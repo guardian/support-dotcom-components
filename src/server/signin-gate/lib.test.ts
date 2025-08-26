@@ -13,7 +13,6 @@ import {
     userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
 } from './libPure';
 import type { GetTreatmentsRequestPayload } from './types';
-import { GateType } from './types';
 
 describe('buildGetTreatmentsRequestPayload', () => {
     it('should return return the right payload', () => {
@@ -341,7 +340,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.GuDismissible);
+        expect(gateType).toStrictEqual('GuDismissible');
     });
 
     it('test shouldServeDismissible and showDefaultGate:dismissible interacting together', () => {
@@ -364,7 +363,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.GuDismissible);
+        expect(gateType).toStrictEqual('GuDismissible');
     });
 
     it('showDefaultGate:mandatory overrides any other behavior', () => {
@@ -387,7 +386,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.GuMandatory);
+        expect(gateType).toStrictEqual('GuMandatory');
     });
 
     it('showDefaultGate:dismissible overrides any other behavior', () => {
@@ -410,7 +409,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.GuDismissible);
+        expect(gateType).toStrictEqual('GuDismissible');
     });
 
     it('non consenting users in Ireland, low dailyArticleCount', () => {
@@ -433,7 +432,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenNone);
+        expect(gateType).toStrictEqual('AuxiaAnalyticThenNone');
     });
 
     it('non consenting users in Ireland, low dailyArticleCount=3 (start of gate showing)', () => {
@@ -456,7 +455,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.GuDismissible);
+        expect(gateType).toStrictEqual('GuDismissible');
     });
 
     it('non consenting users in Ireland, low gateDisplayCount: 1 (still dismissible)', () => {
@@ -479,7 +478,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 1,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuDismissible);
+        expect(gateType).toStrictEqual('AuxiaAnalyticThenGuDismissible');
     });
 
     it('non consenting users in Ireland, low gateDisplayCount: 3 (mandatory from now on)', () => {
@@ -502,7 +501,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 3,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuMandatory);
+        expect(gateType).toStrictEqual('AuxiaAnalyticThenGuMandatory');
     });
 
     it('non consenting users in Ireland, low gateDisplayCount: 4 (mandatory from now on)', () => {
@@ -525,7 +524,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 4,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.AuxiaAnalyticThenGuMandatory);
+        expect(gateType).toStrictEqual('AuxiaAnalyticThenGuMandatory');
     });
 
     it('invalid attribute: contentType', () => {
@@ -548,7 +547,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.None);
+        expect(gateType).toStrictEqual('None');
     });
 
     it('invalid attribute: sectionId', () => {
@@ -571,7 +570,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.None);
+        expect(gateType).toStrictEqual('None');
     });
 
     it('invalid attribute: tagIds', () => {
@@ -594,7 +593,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.None);
+        expect(gateType).toStrictEqual('None');
     });
 
     it('invalid attribute: articleIdentifier', () => {
@@ -617,7 +616,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.None);
+        expect(gateType).toStrictEqual('None');
     });
 
     it('should return a gate in the case of the Giulia experiment', () => {
@@ -640,6 +639,6 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(body);
-        expect(gateType).toStrictEqual(GateType.GuDismissible);
+        expect(gateType).toStrictEqual('GuDismissible');
     });
 });
