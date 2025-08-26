@@ -11,8 +11,8 @@ import {
     isValidTagIdCollection,
     mvtIdIsAuxiaAudienceShare,
     userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
-} from './libPure';
-import type { GetTreatmentsRequestPayload } from './types';
+} from '../libPure';
+import type { GetTreatmentsRequestPayload } from '../types';
 
 describe('buildGetTreatmentsRequestPayload', () => {
     it('should return return the right payload', () => {
