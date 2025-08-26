@@ -322,7 +322,7 @@ describe('mvtIdIsInTheNaturalAuxiaShareOfAudience', () => {
     expect(mvtIdIsAuxiaAudienceShare(350001)).toBe(false);
 });
 
-describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
+describe('getTreatmentsRequestPayloadToGateType', () => {
     it('test shouldServeDismissible and showDefaultGate:mandatory interacting together', () => {
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -416,7 +416,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
     });
 
     it('Ireland, Guardian share, consented, ', () => {
-        // [02]
+        // [02] (copy from logic.md)
         //
         // prerequisites:
         // - World without Ireland
@@ -522,7 +522,14 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
     });
 
     it('Ireland, un-consented, Guardian share', () => {
-        // [08]
+        // [08] (copy from logic.md)
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Guardian share of the audience
+        // - user has consented
+        //
+        // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
         // - No gate display the first 3 page views

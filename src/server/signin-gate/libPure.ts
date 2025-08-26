@@ -484,7 +484,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         gtrpIsAuxiaAudienceShare(payload) &&
         gtrpUserHasConsented(payload)
     ) {
-        // [07]
+        // [07] (copy from logic.md)
         //
         // prerequisites:
         // - Ireland
@@ -501,7 +501,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         gtrpIsAuxiaAudienceShare(payload) &&
         !gtrpUserHasConsented(payload)
     ) {
-        // [05]
+        // [05] (copy from logic.md)
         //
         // prerequisites:
         // - Ireland
@@ -527,7 +527,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         gtrpIsGuardianAudienceShare(payload) &&
         gtrpUserHasConsented(payload)
     ) {
-        // [08]
+        // [08] (copy from logic.md)
         //
         // prerequisites:
         // - Ireland
@@ -555,7 +555,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         gtrpIsGuardianAudienceShare(payload) &&
         !gtrpUserHasConsented(payload)
     ) {
-        // [06]
+        // [06] (copy from logic.md)
         //
         // prerequisites:
         // - Ireland
@@ -584,7 +584,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         gtrpIsAuxiaAudienceShare(payload) &&
         gtrpUserHasConsented(payload)
     ) {
-        // [03]
+        // [03] (copy from logic.md)
         //
         // prerequisites:
         // - World without Ireland
@@ -601,7 +601,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         gtrpIsAuxiaAudienceShare(payload) &&
         !gtrpUserHasConsented(payload)
     ) {
-        // [01]
+        // [01] (copy from logic.md)
         //
         // prerequisites:
         // - World without Ireland
@@ -629,7 +629,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         gtrpIsGuardianAudienceShare(payload) &&
         gtrpUserHasConsented(payload)
     ) {
-        // [02]
+        // [02] (copy from logic.md)
         //
         // prerequisites:
         // - World without Ireland
@@ -657,7 +657,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         gtrpIsGuardianAudienceShare(payload) &&
         !gtrpUserHasConsented(payload)
     ) {
-        // [04]
+        // [04] (copy from logic.md)
         //
         // prerequisites:
         // - World without Ireland
