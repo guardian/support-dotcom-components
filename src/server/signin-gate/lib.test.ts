@@ -1,10 +1,8 @@
-import type { GetTreatmentsRequestPayload } from './lib';
 import {
     articleIdentifierIsAllowed,
     buildGetTreatmentsRequestPayload,
     buildGuUserTreatmentsEnvelop,
     buildLogTreatmentInteractionRequestPayload,
-    GateType,
     getTreatmentsRequestPayloadToGateType,
     guDismissibleUserTreatment,
     guMandatoryUserTreatment,
@@ -13,7 +11,9 @@ import {
     isValidTagIdCollection,
     mvtIdIsAuxiaAudienceShare,
     userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
-} from './lib';
+} from './libPure';
+import type { GetTreatmentsRequestPayload } from './types';
+import { GateType } from './types';
 
 describe('buildGetTreatmentsRequestPayload', () => {
     it('should return return the right payload', () => {
