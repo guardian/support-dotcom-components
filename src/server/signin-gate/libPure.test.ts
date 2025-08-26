@@ -507,7 +507,14 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
         expect(gateType).toStrictEqual('AuxiaAnalyticThenGuMandatory');
     });
 
-    it('non consenting users in Ireland, low gateDisplayCount: 4 (mandatory from now on)', () => {
+    it('Ireland, un-consented, Guardian share', () => {
+        // [08]
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: dismissible gates
+        //         then no gate after 5 dismisses
+
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -517,7 +524,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             contentType: 'Article',
             sectionId: 'uk-news',
             tagIds: ['type/article'],
-            gateDismissCount: 0,
+            gateDismissCount: 4,
             countryCode: 'IE',
             mvtId: 450_000, // <- Non Auxia
             should_show_legacy_gate_tmp: true, // <- In Ireland, this value is irrelevant, since we count dailyArticleCount and gateDisplayCount
@@ -527,7 +534,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 4,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(payload);
-        expect(gateType).toStrictEqual('AuxiaAnalyticThenGuMandatory');
+        expect(gateType).toStrictEqual('AuxiaAnalyticThenGuDismissible');
     });
 
     it('invalid attribute: contentType', () => {
