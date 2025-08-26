@@ -204,7 +204,7 @@ export const isValidSection = (sectionId: string): boolean => {
     return !invalidSections.includes(sectionId);
 };
 
-export const isValidTagIdCollection = (tagIds: string[]): boolean => {
+export const isValidTagIds = (tagIds: string[]): boolean => {
     const invalidTagIds = ['info/newsletter-sign-up'];
     // Check that no tagId is in the invalidTagIds list.
     return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
@@ -405,7 +405,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     if (
         !isValidContentType(getTreatmentsRequestPayload.contentType) ||
         !isValidSection(getTreatmentsRequestPayload.sectionId) ||
-        !isValidTagIdCollection(getTreatmentsRequestPayload.tagIds) ||
+        !isValidTagIds(getTreatmentsRequestPayload.tagIds) ||
         !articleIdentifierIsAllowed(getTreatmentsRequestPayload.articleIdentifier)
     ) {
         return 'None';
