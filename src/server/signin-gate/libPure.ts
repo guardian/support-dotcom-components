@@ -468,116 +468,217 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     // --------------------------------------------------------------
     // We now move to the normal behavior of the gate
-    // See logic.md for the source of truth
 
-    if (payload.countryCode === 'IE') {
-        if (gtrpIsAuxiaAudienceShare(payload)) {
-            if (gtrpUserHasConsented(payload)) {
-                // [07]
-                // - Auxia drives the gate
-                return 'AuxiaAPI';
-            } else {
-                // [05]
-                // - Notify Auxia for analytics
-                // - No gate display the first 3 page views
-                // - Gate: 3x dismissal, then mandatory
-                if (payload.dailyArticleCount < 3) {
-                    return 'AuxiaAnalyticThenNone';
-                }
-                if (payload.gateDismissCount < 3) {
-                    return 'AuxiaAnalyticThenGuDismissible';
-                } else {
-                    return 'AuxiaAnalyticThenGuMandatory';
-                }
-            }
+    // Note that we should strive to meet the following conditions
+    // 1. Use the logic.md file as the source of truth. In particular, and
+    //    among other things, it's the first file to be modified when a
+    //    request for change comes from the business.
+    // 2. The logic.md file should try and have a structure that partition
+    //    the space into mutually exclusive zones
+    // 3. The below part of this function should try and reproduce the partitioning
+    //    of the space. Therefore one and only one condition of the below conditions
+    //    should correspond to a given payload.
+
+    if (
+        payload.countryCode === 'IE' &&
+        gtrpIsAuxiaAudienceShare(payload) &&
+        gtrpUserHasConsented(payload)
+    ) {
+        // [07]
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Auxia share of the audience
+        // - user has consented
+        //
+        // effects:
+        // - Auxia drives the gate
+        return 'AuxiaAPI';
+    }
+
+    if (
+        payload.countryCode === 'IE' &&
+        gtrpIsAuxiaAudienceShare(payload) &&
+        !gtrpUserHasConsented(payload)
+    ) {
+        // [05]
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Auxia share of the audience
+        // - user has NOT consented
+        //
+        // effects:
+        // - Notify Auxia for analytics
+        // - No gate display the first 3 page views
+        // - Gate: 3x dismissal, then mandatory
+        if (payload.dailyArticleCount < 3) {
+            return 'AuxiaAnalyticThenNone';
+        }
+        if (payload.gateDismissCount < 3) {
+            return 'AuxiaAnalyticThenGuDismissible';
         } else {
-            if (gtrpUserHasConsented(payload)) {
-                // [08]
-                // - No Auxia notification
-                // - Guardian drives the gate:
-                // - No gate display the first 3 page views
-                // - Gate: dismissible gates
-                //         then no gate after 5 dismisses
-                if (payload.dailyArticleCount < 3) {
-                    return 'AuxiaAnalyticThenNone';
-                }
-                if (payload.gateDismissCount < 5) {
-                    return 'AuxiaAnalyticThenGuDismissible';
-                } else {
-                    return 'AuxiaAnalyticThenNone';
-                }
-            } else {
-                // [06]
-                // - No Auxia notification
-                // - Guardian drives the gate:
-                // - No gate display the first 3 page views
-                // - Gate: 3x dismissal, then mandatory
-                if (payload.dailyArticleCount < 3) {
-                    return 'AuxiaAnalyticThenNone';
-                }
-                if (payload.gateDisplayCount < 3) {
-                    return 'AuxiaAnalyticThenGuDismissible';
-                } else {
-                    return 'AuxiaAnalyticThenGuMandatory';
-                }
-            }
+            return 'AuxiaAnalyticThenGuMandatory';
+        }
+    }
+
+    if (
+        payload.countryCode === 'IE' &&
+        gtrpIsGuardianAudienceShare(payload) &&
+        gtrpUserHasConsented(payload)
+    ) {
+        // [08]
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Guardian share of the audience
+        // - user has consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: dismissible gates
+        //         then no gate after 5 dismisses
+        if (payload.dailyArticleCount < 3) {
+            return 'None';
+        }
+        if (payload.gateDismissCount < 5) {
+            return 'GuDismissible';
+        } else {
+            return 'None';
+        }
+    }
+
+    if (
+        payload.countryCode === 'IE' &&
+        gtrpIsGuardianAudienceShare(payload) &&
+        !gtrpUserHasConsented(payload)
+    ) {
+        // [06]
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Guardian share of the audience
+        // - user has NOT consented
+        //
+        // effects:
+        // - Notify Auxia for analytics
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: 3x dismissal, then mandatory
+        if (payload.dailyArticleCount < 3) {
+            return 'AuxiaAnalyticThenNone';
+        }
+        if (payload.gateDisplayCount < 3) {
+            return 'AuxiaAnalyticThenGuDismissible';
+        } else {
+            return 'AuxiaAnalyticThenGuMandatory';
         }
     }
 
     // World without Ireland
 
-    if (gtrpIsAuxiaAudienceShare(payload)) {
-        if (gtrpUserHasConsented(payload)) {
-            // [03]
-            // Auxia drives the gate
-            return 'AuxiaAPI';
-        } else {
-            // [01]
-            // - No Auxia notification
-            // - Guardian drives the gate:
-            //   - No gate display the first 3 page views
-            //   - Gate: dismissible gates
-            //           then no gate after 5 dismisses
-            if (payload.dailyArticleCount < 3) {
-                return 'None';
-            }
-            if (payload.gateDismissCount < 5) {
-                return 'GuDismissible';
-            } else {
-                return 'None';
-            }
+    if (
+        payload.countryCode !== 'IE' &&
+        gtrpIsAuxiaAudienceShare(payload) &&
+        gtrpUserHasConsented(payload)
+    ) {
+        // [03]
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Auxia share of the audience
+        // - user has consented
+        //
+        // effects:
+        // Auxia drives the gate
+        return 'AuxiaAPI';
+    }
+
+    if (
+        payload.countryCode !== 'IE' &&
+        gtrpIsAuxiaAudienceShare(payload) &&
+        !gtrpUserHasConsented(payload)
+    ) {
+        // [01]
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Auxia share of the audience
+        // - user has NOT consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        //   - No gate display the first 3 page views
+        //   - Gate: dismissible gates
+        //           then no gate after 5 dismisses
+        if (payload.dailyArticleCount < 3) {
+            return 'None';
         }
-    } else {
-        if (gtrpUserHasConsented(payload)) {
-            // [02]
-            // - No Auxia notification
-            // - Guardian drives the gate:
-            // - No gate display the first 3 page views
-            // - Gate: dismissible gates
-            //        then no gate after 5 dismisses
-            if (payload.dailyArticleCount < 3) {
-                return 'None';
-            }
-            if (payload.gateDisplayCount < 5) {
-                return 'GuDismissible';
-            } else {
-                return 'None';
-            }
+        if (payload.gateDismissCount < 5) {
+            return 'GuDismissible';
         } else {
-            // [04]
-            // - No Auxia notification
-            // - Guardian drives the gate:
-            // - No gate display the first 3 page views
-            // - Gate: dismissible gates
-            //        then no gate after 5 dismisses
-            if (payload.dailyArticleCount < 3) {
-                return 'None';
-            }
-            if (payload.gateDisplayCount < 5) {
-                return 'GuDismissible';
-            } else {
-                return 'None';
-            }
+            return 'None';
         }
     }
+
+    if (
+        payload.countryCode !== 'IE' &&
+        gtrpIsGuardianAudienceShare(payload) &&
+        gtrpUserHasConsented(payload)
+    ) {
+        // [02]
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Guardian share of the audience
+        // - user has consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: dismissible gates
+        //        then no gate after 5 dismisses
+        if (payload.dailyArticleCount < 3) {
+            return 'None';
+        }
+        if (payload.gateDisplayCount < 5) {
+            return 'GuDismissible';
+        } else {
+            return 'None';
+        }
+    }
+
+    if (
+        payload.countryCode !== 'IE' &&
+        gtrpIsGuardianAudienceShare(payload) &&
+        !gtrpUserHasConsented(payload)
+    ) {
+        // [04]
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Guardian share of the audience
+        // - user has NOT consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: dismissible gates
+        //        then no gate after 5 dismisses
+        if (payload.dailyArticleCount < 3) {
+            return 'None';
+        }
+        if (payload.gateDisplayCount < 5) {
+            return 'GuDismissible';
+        } else {
+            return 'None';
+        }
+    }
+
+    return 'None'; // default option which corresponds to an error condition since the payload fell through all the checks
 };

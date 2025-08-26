@@ -415,7 +415,21 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
         expect(gateType).toStrictEqual('GuDismissible');
     });
 
-    it('non consenting users in Ireland, low dailyArticleCount', () => {
+    it('Ireland, Guardian share, consented, ', () => {
+        // [02]
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Guardian share of the audience
+        // - user has consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: dismissible gates
+        //        then no gate after 5 dismisses
+
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -435,7 +449,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 0,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(payload);
-        expect(gateType).toStrictEqual('AuxiaAnalyticThenNone');
+        expect(gateType).toStrictEqual('None');
     });
 
     it('non consenting users in Ireland, low dailyArticleCount=3 (start of gate showing)', () => {
@@ -534,7 +548,7 @@ describe('decideGateTypeFromGetTreatmentsRequestPayload', () => {
             gateDisplayCount: 4,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(payload);
-        expect(gateType).toStrictEqual('AuxiaAnalyticThenGuDismissible');
+        expect(gateType).toStrictEqual('GuDismissible');
     });
 
     it('invalid attribute: contentType', () => {

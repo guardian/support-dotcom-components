@@ -48,7 +48,7 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                 ---------------------------------------------------------------------------------------------
                | [05]                                         | [06]                                         |
                |                                              |                                              |
-               |  - Notify Auxia for analytics                | - No Auxia notification                      |
+               |  - Notify Auxia for analytics                | - Notify Auxia for analytics                 |
  un-consented  |  - Guardian drives the gate:                 | - Guardian drives the gate:                  |
                |    - No gate display the first 3 page views  |   - No gate display the first 3 page views   |
                |    - Gate: 3x dismissal, then mandatory      |   - Gate: 3x dismissal, then mandatory       |
