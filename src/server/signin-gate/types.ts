@@ -66,7 +66,7 @@ export interface UserTreatmentsEnvelop {
     userTreatments: UserTreatment[];
 }
 
-export type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
+type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
 
 export interface GetTreatmentsRequestPayload {
     browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
@@ -137,7 +137,7 @@ export type GateType =
     | 'None' // [1]
     | 'GuDismissible' // [2]
     | 'GuMandatory' // [3]
-    | 'Auxia' // [4]
+    | 'AuxiaAPI' // [4]
     | 'AuxiaAnalyticThenNone' // [5]
     | 'AuxiaAnalyticThenGuDismissible' // [6]
     | 'AuxiaAnalyticThenGuMandatory'; // [7]

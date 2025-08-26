@@ -475,7 +475,7 @@ export const getTreatmentsRequestPayloadToGateType = (
             if (gtrpUserHasConsented(payload)) {
                 // [07]
                 // - Auxia drives the gate
-                return 'Auxia';
+                return 'AuxiaAPI';
             } else {
                 // [05]
                 // - Notify Auxia for analytics
@@ -530,7 +530,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         if (gtrpUserHasConsented(payload)) {
             // [03]
             // Auxia drives the gate
-            return 'Auxia';
+            return 'AuxiaAPI';
         } else {
             // [01]
             // - No Auxia notification

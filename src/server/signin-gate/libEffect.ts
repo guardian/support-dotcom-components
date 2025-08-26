@@ -97,7 +97,7 @@ export const gateTypeToUserTreatmentsEnvelop = async (
                 responseId: '',
                 userTreatments: [guDismissibleUserTreatment()],
             };
-        case 'Auxia':
+        case 'AuxiaAPI':
             return await callAuxiaGetTreatments(
                 config.apiKey,
                 config.projectId,
