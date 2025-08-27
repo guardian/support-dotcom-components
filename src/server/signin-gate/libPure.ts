@@ -354,6 +354,63 @@ export const decideGuGateTypeNonConsentedIreland = (
     return 'AuxiaAnalyticThenGuDismissible';
 };
 
+export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    return mvtIdIsAuxiaAudienceShare(payload.mvtId);
+};
+
+export const isGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    return !isAuxiaAudienceShare(payload);
+};
+
+//export const gtrpIsConsentedUser = (payload: GetTreatmentsRequestPayload): boolean => {
+//    return true;
+//};
+
+export const pageMetaDataIsEligibleForGateDisplay = (
+    contentType: string,
+    sectionId: string,
+    tagIds: string[],
+): boolean => {
+    return isValidContentType(contentType) && isValidSection(sectionId) && isValidTagIds(tagIds);
+};
+
+export const payloadMetadataIsEligibleForGateDisplay = (
+    payload: GetTreatmentsRequestPayload,
+): boolean => {
+    return pageMetaDataIsEligibleForGateDisplay(
+        payload.contentType,
+        payload.sectionId,
+        payload.tagIds,
+    );
+};
+
+export const isOverridingConditionShowDismissibleGate = (
+    payload: GetTreatmentsRequestPayload,
+): boolean => {
+    return payload.shouldServeDismissible;
+};
+
+export const isStaffTestConditionShowDefaultGate = (
+    payload: GetTreatmentsRequestPayload,
+): boolean => {
+    return payload.showDefaultGate !== undefined;
+};
+
+export const staffTestConditionToDefaultGate = (payload: GetTreatmentsRequestPayload): GateType => {
+    if (payload.showDefaultGate === undefined) {
+        return 'None';
+    }
+    if (payload.showDefaultGate == 'mandatory') {
+        return 'GuMandatory';
+    }
+    // values 'true' or 'dismissible'
+    return 'GuDismissible';
+};
+
+export const userHasConsented = (payload: GetTreatmentsRequestPayload): boolean => {
+    return payload.hasConsented;
+};
+
 export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
 ): GateType => {
