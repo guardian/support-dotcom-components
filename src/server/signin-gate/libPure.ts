@@ -332,7 +332,7 @@ export const decideGuGateTypeNonConsentedIreland = (
     // If we reach this point, we are in Ireland
 
     if (dailyArticleCount < 3) {
-        return 'AuxiaAnalyticThenNone';
+        return 'AuxiaAnalyticsThenNone';
     }
 
     // gateDisplayCount was introduced to enrich the behavior of the default gate.
@@ -348,10 +348,10 @@ export const decideGuGateTypeNonConsentedIreland = (
     //  -------------------------------------------------------------------------
 
     if (gateDisplayCount >= 3) {
-        return 'AuxiaAnalyticThenGuMandatory';
+        return 'AuxiaAnalyticsThenGuMandatory';
     }
 
-    return 'AuxiaAnalyticThenGuDismissible';
+    return 'AuxiaAnalyticsThenGuDismissible';
 };
 
 // The prefix `gtrp`, carried by some functions, means "GetTreatmentsRequestPayload", and
@@ -505,12 +505,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // - No gate display the first 3 page views
         // - Gate: 3x dismissal, then mandatory
         if (payload.dailyArticleCount < 3) {
-            return 'AuxiaAnalyticThenNone';
+            return 'AuxiaAnalyticsThenNone';
         }
         if (payload.gateDismissCount < 3) {
-            return 'AuxiaAnalyticThenGuDismissible';
+            return 'AuxiaAnalyticsThenGuDismissible';
         } else {
-            return 'AuxiaAnalyticThenGuMandatory';
+            return 'AuxiaAnalyticsThenGuMandatory';
         }
     }
 
@@ -560,12 +560,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // - No gate display the first 3 page views
         // - Gate: 3x dismissal, then mandatory
         if (payload.dailyArticleCount < 3) {
-            return 'AuxiaAnalyticThenNone';
+            return 'AuxiaAnalyticsThenNone';
         }
         if (payload.gateDisplayCount < 3) {
-            return 'AuxiaAnalyticThenGuDismissible';
+            return 'AuxiaAnalyticsThenGuDismissible';
         } else {
-            return 'AuxiaAnalyticThenGuMandatory';
+            return 'AuxiaAnalyticsThenGuMandatory';
         }
     }
 
