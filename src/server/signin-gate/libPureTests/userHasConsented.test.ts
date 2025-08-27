@@ -1,7 +1,7 @@
-import { gtrpIsAuxiaAudienceShare } from '../libPure';
+import { userHasConsented } from '../libPure';
 import type { GetTreatmentsRequestPayload } from '../types';
 
-it('gtrpIsAuxiaAudienceShare', () => {
+it('userHasConsented', () => {
     const payload1: GetTreatmentsRequestPayload = {
         browserId: 'sample',
         isSupporter: false,
@@ -20,6 +20,8 @@ it('gtrpIsAuxiaAudienceShare', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
     };
+    expect(userHasConsented(payload1)).toBe(true);
+
     const payload2: GetTreatmentsRequestPayload = {
         browserId: 'sample',
         isSupporter: false,
@@ -33,12 +35,10 @@ it('gtrpIsAuxiaAudienceShare', () => {
         countryCode: 'GB',
         mvtId: 450001,
         should_show_legacy_gate_tmp: true,
-        hasConsented: true,
-        shouldServeDismissible: false,
-        showDefaultGate: undefined,
+        hasConsented: false,
+        shouldServeDismissible: true,
+        showDefaultGate: 'true',
         gateDisplayCount: 0,
     };
-
-    expect(gtrpIsAuxiaAudienceShare(payload1)).toBe(true);
-    expect(gtrpIsAuxiaAudienceShare(payload2)).toBe(false);
+    expect(userHasConsented(payload2)).toBe(false);
 });
