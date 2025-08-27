@@ -1,7 +1,7 @@
-import { gtrpIsGuardianAudienceShare } from '../libPure';
+import { isGuardianAudienceShare } from '../libPure';
 import type { GetTreatmentsRequestPayload } from '../types';
 
-it('gtrpIsGuardianAudienceShare', () => {
+it('isGuardianAudienceShare', () => {
     const payload1: GetTreatmentsRequestPayload = {
         browserId: 'sample',
         isSupporter: false,
@@ -39,6 +39,6 @@ it('gtrpIsGuardianAudienceShare', () => {
         gateDisplayCount: 0,
     };
 
-    expect(gtrpIsGuardianAudienceShare(payload1)).toBe(false);
-    expect(gtrpIsGuardianAudienceShare(payload2)).toBe(true);
+    expect(isGuardianAudienceShare(payload1)).toBe(false);
+    expect(isGuardianAudienceShare(payload2)).toBe(true);
 });

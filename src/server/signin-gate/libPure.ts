@@ -354,20 +354,13 @@ export const decideGuGateTypeNonConsentedIreland = (
     return 'AuxiaAnalyticsThenGuDismissible';
 };
 
-// The prefix `gtrp`, carried by some functions, means "GetTreatmentsRequestPayload", and
-// is used for those with signature: GetTreatmentsRequestPayload -> Type
-
-export const gtrpIsAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
     return mvtIdIsAuxiaAudienceShare(payload.mvtId);
 };
 
-export const gtrpIsGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
-    return !gtrpIsAuxiaAudienceShare(payload);
+export const isGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    return !isAuxiaAudienceShare(payload);
 };
-
-//export const gtrpIsConsentedUser = (payload: GetTreatmentsRequestPayload): boolean => {
-//    return true;
-//};
 
 export const pageMetaDataIsEligibleForGateDisplay = (
     contentType: string,
@@ -377,7 +370,7 @@ export const pageMetaDataIsEligibleForGateDisplay = (
     return isValidContentType(contentType) && isValidSection(sectionId) && isValidTagIds(tagIds);
 };
 
-export const gtrpPageMetadataIsEligibleForGateDisplay = (
+export const payloadMetadataIsEligibleForGateDisplay = (
     payload: GetTreatmentsRequestPayload,
 ): boolean => {
     return pageMetaDataIsEligibleForGateDisplay(
@@ -387,13 +380,13 @@ export const gtrpPageMetadataIsEligibleForGateDisplay = (
     );
 };
 
-export const gtrpIsOverridingConditionShowDismissibleGate = (
+export const isOverridingConditionShowDismissibleGate = (
     payload: GetTreatmentsRequestPayload,
 ): boolean => {
     return payload.shouldServeDismissible;
 };
 
-export const gtrpIsStaffTestConditionShowDefaultGate = (
+export const isStaffTestConditionShowDefaultGate = (
     payload: GetTreatmentsRequestPayload,
 ): boolean => {
     return payload.showDefaultGate !== undefined;
@@ -410,7 +403,7 @@ export const staffTestConditionToDefaultGate = (payload: GetTreatmentsRequestPay
     return 'GuDismissible';
 };
 
-export const gtrpUserHasConsented = (payload: GetTreatmentsRequestPayload): boolean => {
+export const userHasConsented = (payload: GetTreatmentsRequestPayload): boolean => {
     return payload.hasConsented;
 };
 
@@ -437,7 +430,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     // reduce traffic to SDC, so we should never actually return
     // from here.
 
-    if (!gtrpPageMetadataIsEligibleForGateDisplay(payload)) {
+    if (!payloadMetadataIsEligibleForGateDisplay(payload)) {
         return 'None';
     }
 
@@ -447,14 +440,14 @@ export const getTreatmentsRequestPayloadToGateType = (
     // (exposed as DRC:decideShouldServeDismissible), then we serve
     // the dismissible gate
 
-    if (gtrpIsOverridingConditionShowDismissibleGate(payload)) {
+    if (isOverridingConditionShowDismissibleGate(payload)) {
         return 'GuDismissible';
     }
 
     // --------------------------------------------------------------
     // Staff testing gate feature
 
-    if (gtrpIsStaffTestConditionShowDefaultGate(payload)) {
+    if (isStaffTestConditionShowDefaultGate(payload)) {
         return staffTestConditionToDefaultGate(payload);
     }
 
@@ -473,8 +466,8 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (
         payload.countryCode === 'IE' &&
-        gtrpIsAuxiaAudienceShare(payload) &&
-        gtrpUserHasConsented(payload)
+        isAuxiaAudienceShare(payload) &&
+        userHasConsented(payload)
     ) {
         // [07] (copy from logic.md)
         //
@@ -490,8 +483,8 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (
         payload.countryCode === 'IE' &&
-        gtrpIsAuxiaAudienceShare(payload) &&
-        !gtrpUserHasConsented(payload)
+        isAuxiaAudienceShare(payload) &&
+        !userHasConsented(payload)
     ) {
         // [05] (copy from logic.md)
         //
@@ -516,8 +509,8 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (
         payload.countryCode === 'IE' &&
-        gtrpIsGuardianAudienceShare(payload) &&
-        gtrpUserHasConsented(payload)
+        isGuardianAudienceShare(payload) &&
+        userHasConsented(payload)
     ) {
         // [08] (copy from logic.md)
         //
@@ -544,8 +537,8 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (
         payload.countryCode === 'IE' &&
-        gtrpIsGuardianAudienceShare(payload) &&
-        !gtrpUserHasConsented(payload)
+        isGuardianAudienceShare(payload) &&
+        !userHasConsented(payload)
     ) {
         // [06] (copy from logic.md)
         //
@@ -573,8 +566,8 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (
         payload.countryCode !== 'IE' &&
-        gtrpIsAuxiaAudienceShare(payload) &&
-        gtrpUserHasConsented(payload)
+        isAuxiaAudienceShare(payload) &&
+        userHasConsented(payload)
     ) {
         // [03] (copy from logic.md)
         //
@@ -590,8 +583,8 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (
         payload.countryCode !== 'IE' &&
-        gtrpIsAuxiaAudienceShare(payload) &&
-        !gtrpUserHasConsented(payload)
+        isAuxiaAudienceShare(payload) &&
+        !userHasConsented(payload)
     ) {
         // [01] (copy from logic.md)
         //
@@ -618,8 +611,8 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (
         payload.countryCode !== 'IE' &&
-        gtrpIsGuardianAudienceShare(payload) &&
-        gtrpUserHasConsented(payload)
+        isGuardianAudienceShare(payload) &&
+        userHasConsented(payload)
     ) {
         // [02] (copy from logic.md)
         //
@@ -646,8 +639,8 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     if (
         payload.countryCode !== 'IE' &&
-        gtrpIsGuardianAudienceShare(payload) &&
-        !gtrpUserHasConsented(payload)
+        isGuardianAudienceShare(payload) &&
+        !userHasConsented(payload)
     ) {
         // [04] (copy from logic.md)
         //
