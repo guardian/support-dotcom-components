@@ -444,7 +444,8 @@ export const getTreatmentsRequestPayloadToGateType = (
     // --------------------------------------------------------------
     // If payload.shouldServeDismissible (boolean) is true
     // which at the moment is controlled by utm_source=newsshowcase,
-    // (exposed as DRC:decideShouldServeDismissible), and
+    // (exposed as DRC:decideShouldServeDismissible), then we serve
+    // the dismissible gate
 
     if (gtrpIsOverridingConditionShowDismissibleGate(payload)) {
         return 'GuDismissible';
