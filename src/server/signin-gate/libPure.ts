@@ -204,7 +204,7 @@ export const isValidSection = (sectionId: string): boolean => {
     return !invalidSections.includes(sectionId);
 };
 
-export const isValidTagIdCollection = (tagIds: string[]): boolean => {
+export const isValidTagIds = (tagIds: string[]): boolean => {
     const invalidTagIds = ['info/newsletter-sign-up'];
     // Check that no tagId is in the invalidTagIds list.
     return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
@@ -355,7 +355,7 @@ export const decideGuGateTypeNonConsentedIreland = (
 };
 
 export const getTreatmentsRequestPayloadToGateType = (
-    getTreatmentsRequestPayload: GetTreatmentsRequestPayload,
+    payload: GetTreatmentsRequestPayload,
 ): GateType => {
     // This function is a pure function (without any side effects) which gets the body
     // of a '/auxia/get-treatments' request and returns the correct GateType.
@@ -378,18 +378,15 @@ export const getTreatmentsRequestPayloadToGateType = (
     // body.shouldServeDismissible take priority over the fact that body.showDefaultGate
     // could possibly have value 'mandatory'
 
-    if (
-        getTreatmentsRequestPayload.showDefaultGate !== undefined &&
-        getTreatmentsRequestPayload.shouldServeDismissible
-    ) {
+    if (payload.showDefaultGate !== undefined && payload.shouldServeDismissible) {
         return 'GuDismissible';
     }
 
     // --------------------------------------------------------------
     // The attribute showDefaultGate overrides any other behavior
 
-    if (getTreatmentsRequestPayload.showDefaultGate) {
-        if (getTreatmentsRequestPayload.showDefaultGate == 'mandatory') {
+    if (payload.showDefaultGate) {
+        if (payload.showDefaultGate == 'mandatory') {
             return 'GuMandatory';
         } else {
             return 'GuDismissible';
@@ -403,10 +400,10 @@ export const getTreatmentsRequestPayloadToGateType = (
     // might be decommissioned in the future.
 
     if (
-        !isValidContentType(getTreatmentsRequestPayload.contentType) ||
-        !isValidSection(getTreatmentsRequestPayload.sectionId) ||
-        !isValidTagIdCollection(getTreatmentsRequestPayload.tagIds) ||
-        !articleIdentifierIsAllowed(getTreatmentsRequestPayload.articleIdentifier)
+        !isValidContentType(payload.contentType) ||
+        !isValidSection(payload.sectionId) ||
+        !isValidTagIds(payload.tagIds) ||
+        !articleIdentifierIsAllowed(payload.articleIdentifier)
     ) {
         return 'None';
     }
@@ -417,13 +414,13 @@ export const getTreatmentsRequestPayloadToGateType = (
     // traffic (consented or not consented) to Auxia. (For privacy vigilantes reading this,
     // Auxia is not going to process non consented traffic for targetting.)
 
-    if (getTreatmentsRequestPayload.countryCode === 'IE') {
-        if (mvtIdIsAuxiaAudienceShare(getTreatmentsRequestPayload.mvtId)) {
+    if (payload.countryCode === 'IE') {
+        if (mvtIdIsAuxiaAudienceShare(payload.mvtId)) {
             return 'AuxiaAPI';
         } else {
             return decideGuGateTypeNonConsentedIreland(
-                getTreatmentsRequestPayload.dailyArticleCount,
-                getTreatmentsRequestPayload.gateDisplayCount,
+                payload.dailyArticleCount,
+                payload.gateDisplayCount,
             );
         }
     }
@@ -440,9 +437,9 @@ export const getTreatmentsRequestPayloadToGateType = (
     // That split used to be done client side, but it's now been moved to SDC and is driven by
     // `mvtIdIsAuxiaAudienceShare`.
 
-    if (!mvtIdIsAuxiaAudienceShare(getTreatmentsRequestPayload.mvtId)) {
-        if (getTreatmentsRequestPayload.should_show_legacy_gate_tmp) {
-            return decideGateTypeNoneOrDismissible(getTreatmentsRequestPayload.gateDismissCount);
+    if (!mvtIdIsAuxiaAudienceShare(payload.mvtId)) {
+        if (payload.should_show_legacy_gate_tmp) {
+            return decideGateTypeNoneOrDismissible(payload.gateDismissCount);
         } else {
             return 'None';
         }

@@ -2,27 +2,27 @@
 // Types
 // --------------------------------------------------------
 
-interface AuxiaAPIContextualAttributeString {
+export interface AuxiaAPIContextualAttributeString {
     key: string;
     stringValue: string;
 }
 
-interface AuxiaAPIContextualAttributeBoolean {
+export interface AuxiaAPIContextualAttributeBoolean {
     key: string;
     boolValue: boolean;
 }
 
-interface AuxiaAPIContextualAttributeInteger {
+export interface AuxiaAPIContextualAttributeInteger {
     key: string;
     integerValue: number;
 }
 
-type AuxiaAPIGenericContexualAttribute =
+export type AuxiaAPIGenericContexualAttribute =
     | AuxiaAPIContextualAttributeString
     | AuxiaAPIContextualAttributeBoolean
     | AuxiaAPIContextualAttributeInteger;
 
-interface AuxiaAPISurface {
+export interface AuxiaAPISurface {
     surface: string;
     maximumTreatmentCount: number;
 }
