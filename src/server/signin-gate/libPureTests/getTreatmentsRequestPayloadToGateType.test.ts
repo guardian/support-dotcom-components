@@ -2,7 +2,99 @@ import { getTreatmentsRequestPayloadToGateType } from '../libPure';
 import type { GetTreatmentsRequestPayload } from '../types';
 
 describe('getTreatmentsRequestPayloadToGateType', () => {
-    it('test shouldServeDismissible and showDefaultGate:mandatory interacting together', () => {
+    it('We do not show the gate on some specific article urls', () => {
+        const payload: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'www.theguardian.com/tips', // <-[] tested]
+            editionId: 'UK',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 350001,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: true,
+            showDefaultGate: 'mandatory',
+            gateDisplayCount: 0,
+        };
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        expect(gateType).toStrictEqual('None');
+    });
+
+    it('Not all pages are eligible for gate display. Invalid content type', () => {
+        const payload: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'www.theguardian.com/tips',
+            editionId: 'UK',
+            contentType: 'InvalidContentType', // <- [tested]
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 350001,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: true,
+            showDefaultGate: 'mandatory',
+            gateDisplayCount: 0,
+        };
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        expect(gateType).toStrictEqual('None');
+    });
+
+    it('Not all pages are eligible for gate display. Invalid section', () => {
+        const payload: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'www.theguardian.com/tips',
+            editionId: 'UK',
+            contentType: 'Article',
+            sectionId: 'about', // <- tested
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 350001,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: true,
+            showDefaultGate: 'mandatory',
+            gateDisplayCount: 0,
+        };
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        expect(gateType).toStrictEqual('None');
+    });
+
+    it('Not all pages are eligible for gate display. Invalid tagId', () => {
+        const payload: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 3,
+            articleIdentifier: 'www.theguardian.com/tips',
+            editionId: 'UK',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['info/newsletter-sign-up'], // <- [tested]
+            gateDismissCount: 0,
+            countryCode: 'GB',
+            mvtId: 350001,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: true,
+            shouldServeDismissible: true,
+            showDefaultGate: 'mandatory',
+            gateDisplayCount: 0,
+        };
+        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        expect(gateType).toStrictEqual('None');
+    });
+
+    it('payload.shouldServeDismissible overrides everything else (part 1)', () => {
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -25,7 +117,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         expect(gateType).toStrictEqual('GuDismissible');
     });
 
-    it('test shouldServeDismissible and showDefaultGate:dismissible interacting together', () => {
+    it('payload.shouldServeDismissible overrides everything else (part 2)', () => {
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -48,7 +140,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         expect(gateType).toStrictEqual('GuDismissible');
     });
 
-    it('showDefaultGate:mandatory overrides any other behavior', () => {
+    it('Staff testing gate feature (part 1)', () => {
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,
@@ -71,7 +163,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         expect(gateType).toStrictEqual('GuMandatory');
     });
 
-    it('showDefaultGate:dismissible overrides any other behavior', () => {
+    it('Staff testing gate feature (part 2)', () => {
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
             isSupporter: false,

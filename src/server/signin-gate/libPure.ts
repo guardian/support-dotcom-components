@@ -431,7 +431,9 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     // --------------------------------------------------------------
-    // Note that we are doing an identical check client side to
+    // Not all pages are eligible for gate display.
+    //
+    // We are doing an identical check client side to
     // reduce traffic to SDC, so we should never actually return
     // from here.
 
@@ -440,7 +442,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     // --------------------------------------------------------------
-    // If body.shouldServeDismissible (boolean) is true
+    // If payload.shouldServeDismissible (boolean) is true
     // which at the moment is controlled by utm_source=newsshowcase,
     // (exposed as DRC:decideShouldServeDismissible), and
 
@@ -449,21 +451,10 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     // --------------------------------------------------------------
-    // The attribute showDefaultGate overrides any other behavior
+    // Staff testing gate feature
 
     if (gtrpIsStaffTestConditionShowDefaultGate(payload)) {
         return staffTestConditionToDefaultGate(payload);
-    }
-
-    // --------------------------------------------------------------
-    // We check page metadata to comply with Guardian policies.
-    // If the policies are not met, then we do not display a gate
-    // Note that at the time these lines are written (Aug 13th 2025),
-    // these checks are also performed client side, but those client side checks
-    // might be decommissioned in the future.
-
-    if (!gtrpPageMetadataIsEligibleForGateDisplay(payload)) {
-        return 'None';
     }
 
     // --------------------------------------------------------------
