@@ -354,15 +354,12 @@ export const decideGuGateTypeNonConsentedIreland = (
     return 'AuxiaAnalyticThenGuDismissible';
 };
 
-// The prefix `gtrp`, carried by some functions, means "GetTreatmentsRequestPayload", and
-// is used for those with signature: GetTreatmentsRequestPayload -> Type
-
-export const gtrpIsAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
     return mvtIdIsAuxiaAudienceShare(payload.mvtId);
 };
 
-export const gtrpIsGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
-    return !gtrpIsAuxiaAudienceShare(payload);
+export const isGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    return !isAuxiaAudienceShare(payload);
 };
 
 //export const gtrpIsConsentedUser = (payload: GetTreatmentsRequestPayload): boolean => {
@@ -377,7 +374,7 @@ export const pageMetaDataIsEligibleForGateDisplay = (
     return isValidContentType(contentType) && isValidSection(sectionId) && isValidTagIds(tagIds);
 };
 
-export const gtrpPageMetadataIsEligibleForGateDisplay = (
+export const payloadMetadataIsEligibleForGateDisplay = (
     payload: GetTreatmentsRequestPayload,
 ): boolean => {
     return pageMetaDataIsEligibleForGateDisplay(
@@ -387,13 +384,13 @@ export const gtrpPageMetadataIsEligibleForGateDisplay = (
     );
 };
 
-export const gtrpIsOverridingConditionShowDismissibleGate = (
+export const isOverridingConditionShowDismissibleGate = (
     payload: GetTreatmentsRequestPayload,
 ): boolean => {
     return payload.shouldServeDismissible;
 };
 
-export const gtrpIsStaffTestConditionShowDefaultGate = (
+export const isStaffTestConditionShowDefaultGate = (
     payload: GetTreatmentsRequestPayload,
 ): boolean => {
     return payload.showDefaultGate !== undefined;
@@ -410,7 +407,7 @@ export const staffTestConditionToDefaultGate = (payload: GetTreatmentsRequestPay
     return 'GuDismissible';
 };
 
-export const gtrpUserHasConsented = (payload: GetTreatmentsRequestPayload): boolean => {
+export const userHasConsented = (payload: GetTreatmentsRequestPayload): boolean => {
     return payload.hasConsented;
 };
 

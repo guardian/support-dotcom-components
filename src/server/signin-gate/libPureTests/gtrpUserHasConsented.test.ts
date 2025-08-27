@@ -1,4 +1,4 @@
-import { gtrpUserHasConsented } from '../libPure';
+import { userHasConsented } from '../libPure';
 import type { GetTreatmentsRequestPayload } from '../types';
 
 it('gtrpUserHasConsented', () => {
@@ -20,7 +20,7 @@ it('gtrpUserHasConsented', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
     };
-    expect(gtrpUserHasConsented(payload1)).toBe(true);
+    expect(userHasConsented(payload1)).toBe(true);
 
     const payload2: GetTreatmentsRequestPayload = {
         browserId: 'sample',
@@ -40,5 +40,5 @@ it('gtrpUserHasConsented', () => {
         showDefaultGate: 'true',
         gateDisplayCount: 0,
     };
-    expect(gtrpUserHasConsented(payload2)).toBe(false);
+    expect(userHasConsented(payload2)).toBe(false);
 });

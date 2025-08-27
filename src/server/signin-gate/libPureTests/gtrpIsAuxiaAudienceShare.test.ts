@@ -1,4 +1,4 @@
-import { gtrpIsAuxiaAudienceShare } from '../libPure';
+import { isAuxiaAudienceShare } from '../libPure';
 import type { GetTreatmentsRequestPayload } from '../types';
 
 it('gtrpIsAuxiaAudienceShare', () => {
@@ -39,6 +39,6 @@ it('gtrpIsAuxiaAudienceShare', () => {
         gateDisplayCount: 0,
     };
 
-    expect(gtrpIsAuxiaAudienceShare(payload1)).toBe(true);
-    expect(gtrpIsAuxiaAudienceShare(payload2)).toBe(false);
+    expect(isAuxiaAudienceShare(payload1)).toBe(true);
+    expect(isAuxiaAudienceShare(payload2)).toBe(false);
 });

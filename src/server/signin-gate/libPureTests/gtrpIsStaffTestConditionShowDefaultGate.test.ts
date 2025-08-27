@@ -1,4 +1,4 @@
-import { gtrpIsStaffTestConditionShowDefaultGate } from '../libPure';
+import { isStaffTestConditionShowDefaultGate } from '../libPure';
 import type { GetTreatmentsRequestPayload } from '../types';
 
 it('gtrpIsStaffTestConditionShowDefaultGate', () => {
@@ -20,7 +20,7 @@ it('gtrpIsStaffTestConditionShowDefaultGate', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
     };
-    expect(gtrpIsStaffTestConditionShowDefaultGate(payload1)).toBe(false);
+    expect(isStaffTestConditionShowDefaultGate(payload1)).toBe(false);
 
     const payload2: GetTreatmentsRequestPayload = {
         browserId: 'sample',
@@ -40,7 +40,7 @@ it('gtrpIsStaffTestConditionShowDefaultGate', () => {
         showDefaultGate: 'true',
         gateDisplayCount: 0,
     };
-    expect(gtrpIsStaffTestConditionShowDefaultGate(payload2)).toBe(true);
+    expect(isStaffTestConditionShowDefaultGate(payload2)).toBe(true);
 
     const payload3: GetTreatmentsRequestPayload = {
         browserId: 'sample',
@@ -60,5 +60,5 @@ it('gtrpIsStaffTestConditionShowDefaultGate', () => {
         showDefaultGate: 'dismissible',
         gateDisplayCount: 0,
     };
-    expect(gtrpIsStaffTestConditionShowDefaultGate(payload3)).toBe(true);
+    expect(isStaffTestConditionShowDefaultGate(payload3)).toBe(true);
 });
