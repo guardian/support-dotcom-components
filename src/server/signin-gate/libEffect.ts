@@ -110,7 +110,7 @@ export const gateTypeToUserTreatmentsEnvelop = async (
                 getTreatmentsRequestPayload.hasConsented,
                 getTreatmentsRequestPayload.shouldServeDismissible,
             );
-        case 'AuxiaAnalyticThenNone':
+        case 'AuxiaAnalyticsThenNone':
             await callAuxiaGetTreatments(
                 config.apiKey,
                 config.projectId,
@@ -124,7 +124,7 @@ export const gateTypeToUserTreatmentsEnvelop = async (
                 getTreatmentsRequestPayload.shouldServeDismissible,
             );
             return Promise.resolve(undefined);
-        case 'AuxiaAnalyticThenGuDismissible':
+        case 'AuxiaAnalyticsThenGuDismissible':
             await callAuxiaGetTreatments(
                 config.apiKey,
                 config.projectId,
@@ -141,7 +141,7 @@ export const gateTypeToUserTreatmentsEnvelop = async (
                 responseId: '',
                 userTreatments: [guDismissibleUserTreatment()],
             };
-        case 'AuxiaAnalyticThenGuMandatory':
+        case 'AuxiaAnalyticsThenGuMandatory':
             await callAuxiaGetTreatments(
                 config.apiKey,
                 config.projectId,

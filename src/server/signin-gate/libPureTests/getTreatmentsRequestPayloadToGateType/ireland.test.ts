@@ -178,7 +178,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             gateDisplayCount: 8,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(payload);
-        expect(gateType).toStrictEqual('AuxiaAnalyticThenNone');
+        expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
     });
 
     it('logic.md [05], first gate displays', () => {
@@ -213,7 +213,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             gateDisplayCount: 1,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(payload);
-        expect(gateType).toStrictEqual('AuxiaAnalyticThenGuDismissible');
+        expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuDismissible');
     });
 
     it('logic.md [05], latter gate displays', () => {
@@ -248,7 +248,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             gateDisplayCount: 5,
         };
         const gateType = getTreatmentsRequestPayloadToGateType(payload);
-        expect(gateType).toStrictEqual('AuxiaAnalyticThenGuMandatory');
+        expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuMandatory');
     });
 
     // TODO: write the tests for
