@@ -1,7 +1,7 @@
 import { userHasConsented } from '../libPure';
 import type { GetTreatmentsRequestPayload } from '../types';
 
-it('gtrpUserHasConsented', () => {
+it('userHasConsented', () => {
     const payload1: GetTreatmentsRequestPayload = {
         browserId: 'sample',
         isSupporter: false,

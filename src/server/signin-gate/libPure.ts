@@ -332,7 +332,7 @@ export const decideGuGateTypeNonConsentedIreland = (
     // If we reach this point, we are in Ireland
 
     if (dailyArticleCount < 3) {
-        return 'AuxiaAnalyticThenNone';
+        return 'AuxiaAnalyticsThenNone';
     }
 
     // gateDisplayCount was introduced to enrich the behavior of the default gate.
@@ -348,10 +348,10 @@ export const decideGuGateTypeNonConsentedIreland = (
     //  -------------------------------------------------------------------------
 
     if (gateDisplayCount >= 3) {
-        return 'AuxiaAnalyticThenGuMandatory';
+        return 'AuxiaAnalyticsThenGuMandatory';
     }
 
-    return 'AuxiaAnalyticThenGuDismissible';
+    return 'AuxiaAnalyticsThenGuDismissible';
 };
 
 export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
@@ -361,10 +361,6 @@ export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): bool
 export const isGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
     return !isAuxiaAudienceShare(payload);
 };
-
-//export const gtrpIsConsentedUser = (payload: GetTreatmentsRequestPayload): boolean => {
-//    return true;
-//};
 
 export const pageMetaDataIsEligibleForGateDisplay = (
     contentType: string,
@@ -415,95 +411,259 @@ export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
 ): GateType => {
     // This function is a pure function (without any side effects) which gets the body
-    // of a '/auxia/get-treatments' request and returns the correct GateType.
+    // of a '/auxia/get-treatments' request and returns the correct GateType
     // It was introduced to separate the choice of the gate from it's actual build,
     // which in the case of Auxia, requires an API call, but more importantly to
     // encapsulate and more logically test the logic of gate selection.
 
-    // The comments are the specs it must comply with.
-
     // --------------------------------------------------------------
-    // If both conditions are true
-    //
-    //    1. body.shouldServeDismissible is true
-    //       which at the moment is controlled by utm_source=newsshowcase,
-    //       (exposed as DRC:decideShouldServeDismissible), and
-    //
-    //    2. body.showDefaultGate is defined (regardless of its value)
-    //
-    // Then we serve a non dismissible gate. In other words
-    // body.shouldServeDismissible take priority over the fact that body.showDefaultGate
-    // could possibly have value 'mandatory'
+    // We do not show the gate on some specific article urls
 
-    if (payload.showDefaultGate !== undefined && payload.shouldServeDismissible) {
-        return 'GuDismissible';
-    }
-
-    // --------------------------------------------------------------
-    // The attribute showDefaultGate overrides any other behavior
-
-    if (payload.showDefaultGate) {
-        if (payload.showDefaultGate == 'mandatory') {
-            return 'GuMandatory';
-        } else {
-            return 'GuDismissible';
-        }
-    }
-
-    // We check page metada to comply with Guardian policies.
-    // If the policies are not met, then we do not display a gate
-    // Note that at the time these lines are written (Aug 13th 2025),
-    // these checks are also performed client side, but those client side checks
-    // might be decommissioned in the future.
-
-    if (
-        !isValidContentType(payload.contentType) ||
-        !isValidSection(payload.sectionId) ||
-        !isValidTagIds(payload.tagIds) ||
-        !articleIdentifierIsAllowed(payload.articleIdentifier)
-    ) {
+    if (!articleIdentifierIsAllowed(payload.articleIdentifier)) {
         return 'None';
     }
 
     // --------------------------------------------------------------
-    // Then, we need to check whether we are in Ireland ot not. If we are in Ireland
-    // as a consequence of the great Ireland opening of May 2025 (tm), we send the entire
-    // traffic (consented or not consented) to Auxia. (For privacy vigilantes reading this,
-    // Auxia is not going to process non consented traffic for targetting.)
+    // Not all pages are eligible for gate display.
+    //
+    // We are doing an identical check client side to
+    // reduce traffic to SDC, so we should never actually return
+    // from here.
 
-    if (payload.countryCode === 'IE') {
-        if (mvtIdIsAuxiaAudienceShare(payload.mvtId)) {
-            return 'AuxiaAPI';
-        } else {
-            return decideGuGateTypeNonConsentedIreland(
-                payload.dailyArticleCount,
-                payload.gateDisplayCount,
-            );
-        }
+    if (!payloadMetadataIsEligibleForGateDisplay(payload)) {
+        return 'None';
     }
 
     // --------------------------------------------------------------
-    // Then, we check whether the call is from the Auxia audience or the non Auxia audience.
-    // If it is from the non Auxia audience, then we follow the value of
-    // should_show_legacy_gate_tmp to decide whether to return a default gate or not.
+    // If payload.shouldServeDismissible (boolean) is true
+    // which at the moment is controlled by utm_source=newsshowcase,
+    // (exposed as DRC:decideShouldServeDismissible), then we serve
+    // the dismissible gate
 
-    // If it is from the Auxia audience, then  move to the next section
+    if (isOverridingConditionShowDismissibleGate(payload)) {
+        return 'GuDismissible';
+    }
 
-    // Note that "Auxia audience" and "non Auxia audience" are concepts from the way the audience
-    // was split between 35% expose to the Auxia gate and 65% being shown the default GU gate
-    // That split used to be done client side, but it's now been moved to SDC and is driven by
-    // `mvtIdIsAuxiaAudienceShare`.
+    // --------------------------------------------------------------
+    // Staff testing gate feature
 
-    if (!mvtIdIsAuxiaAudienceShare(payload.mvtId)) {
-        if (payload.should_show_legacy_gate_tmp) {
-            return decideGateTypeNoneOrDismissible(payload.gateDismissCount);
+    if (isStaffTestConditionShowDefaultGate(payload)) {
+        return staffTestConditionToDefaultGate(payload);
+    }
+
+    // --------------------------------------------------------------
+    // We now move to the normal behavior of the gate
+
+    // Note that we should strive to meet the following conditions
+    // 1. Use the logic.md file as the source of truth. In particular, and
+    //    among other things, it's the first file to be modified when a
+    //    request for change comes from the business.
+    // 2. The logic.md file should try and have a structure that partition
+    //    the space into mutually exclusive zones
+    // 3. The below part of this function should try and reproduce the partitioning
+    //    of the space. Therefore one and only one condition of the below conditions
+    //    should correspond to a given payload.
+
+    if (
+        payload.countryCode === 'IE' &&
+        isAuxiaAudienceShare(payload) &&
+        userHasConsented(payload)
+    ) {
+        // [07] (copy from logic.md)
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Auxia share of the audience
+        // - user has consented
+        //
+        // effects:
+        // - Auxia drives the gate
+        return 'AuxiaAPI';
+    }
+
+    if (
+        payload.countryCode === 'IE' &&
+        isAuxiaAudienceShare(payload) &&
+        !userHasConsented(payload)
+    ) {
+        // [05] (copy from logic.md)
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Auxia share of the audience
+        // - user has NOT consented
+        //
+        // effects:
+        // - Notify Auxia for analytics
+        // - No gate display the first 3 page views
+        // - Gate: 3x dismissal, then mandatory
+        if (payload.dailyArticleCount < 3) {
+            return 'AuxiaAnalyticsThenNone';
+        }
+        if (payload.gateDismissCount < 3) {
+            return 'AuxiaAnalyticsThenGuDismissible';
+        } else {
+            return 'AuxiaAnalyticsThenGuMandatory';
+        }
+    }
+
+    if (
+        payload.countryCode === 'IE' &&
+        isGuardianAudienceShare(payload) &&
+        userHasConsented(payload)
+    ) {
+        // [08] (copy from logic.md)
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Guardian share of the audience
+        // - user has consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: dismissible gates
+        //         then no gate after 5 dismisses
+        if (payload.dailyArticleCount < 3) {
+            return 'None';
+        }
+        if (payload.gateDismissCount < 5) {
+            return 'GuDismissible';
         } else {
             return 'None';
         }
     }
 
-    // --------------------------------------------------------------
-    // Auxia share of the audience (outside Ireland)
+    if (
+        payload.countryCode === 'IE' &&
+        isGuardianAudienceShare(payload) &&
+        !userHasConsented(payload)
+    ) {
+        // [06] (copy from logic.md)
+        //
+        // prerequisites:
+        // - Ireland
+        // - Is Guardian share of the audience
+        // - user has NOT consented
+        //
+        // effects:
+        // - Notify Auxia for analytics
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: 3x dismissal, then mandatory
+        if (payload.dailyArticleCount < 3) {
+            return 'AuxiaAnalyticsThenNone';
+        }
+        if (payload.gateDisplayCount < 3) {
+            return 'AuxiaAnalyticsThenGuDismissible';
+        } else {
+            return 'AuxiaAnalyticsThenGuMandatory';
+        }
+    }
 
-    return 'AuxiaAPI';
+    // World without Ireland
+
+    if (
+        payload.countryCode !== 'IE' &&
+        isAuxiaAudienceShare(payload) &&
+        userHasConsented(payload)
+    ) {
+        // [03] (copy from logic.md)
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Auxia share of the audience
+        // - user has consented
+        //
+        // effects:
+        // Auxia drives the gate
+        return 'AuxiaAPI';
+    }
+
+    if (
+        payload.countryCode !== 'IE' &&
+        isAuxiaAudienceShare(payload) &&
+        !userHasConsented(payload)
+    ) {
+        // [01] (copy from logic.md)
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Auxia share of the audience
+        // - user has NOT consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        //   - No gate display the first 3 page views
+        //   - Gate: dismissible gates
+        //           then no gate after 5 dismisses
+        if (payload.dailyArticleCount < 3) {
+            return 'None';
+        }
+        if (payload.gateDismissCount < 5) {
+            return 'GuDismissible';
+        } else {
+            return 'None';
+        }
+    }
+
+    if (
+        payload.countryCode !== 'IE' &&
+        isGuardianAudienceShare(payload) &&
+        userHasConsented(payload)
+    ) {
+        // [02] (copy from logic.md)
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Guardian share of the audience
+        // - user has consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: dismissible gates
+        //        then no gate after 5 dismisses
+        if (payload.dailyArticleCount < 3) {
+            return 'None';
+        }
+        if (payload.gateDisplayCount < 5) {
+            return 'GuDismissible';
+        } else {
+            return 'None';
+        }
+    }
+
+    if (
+        payload.countryCode !== 'IE' &&
+        isGuardianAudienceShare(payload) &&
+        !userHasConsented(payload)
+    ) {
+        // [04] (copy from logic.md)
+        //
+        // prerequisites:
+        // - World without Ireland
+        // - Is Guardian share of the audience
+        // - user has NOT consented
+        //
+        // effects:
+        // - No Auxia notification
+        // - Guardian drives the gate:
+        // - No gate display the first 3 page views
+        // - Gate: dismissible gates
+        //        then no gate after 5 dismisses
+        if (payload.dailyArticleCount < 3) {
+            return 'None';
+        }
+        if (payload.gateDisplayCount < 5) {
+            return 'GuDismissible';
+        } else {
+            return 'None';
+        }
+    }
+
+    return 'None'; // default option which corresponds to an error condition since the payload fell through all the checks
 };
