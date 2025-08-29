@@ -24,7 +24,9 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |                                              |
                |  - No Auxia notification                     | - No Auxia notification                      |
  un-consented  |  - Guardian drives the gate:                 | - Guardian drives the gate:                  |
-               |    - No gate display the first 3 page views  |   - No gate display the first 3 page views   |
+               |    - No gate for 30 days after a single      |   - No gate for 30 days after a single       |
+               |      contribution event [01]                 |     contribution event [01]                  |
+               |    - No gate the first 3 page views          |   - No gate display the first 3 page views   |
                |    - Gate: dismissible gates,                |   - Gate: dismissible gates                  |
                |            then no gate after 5 dismisses    |           then no gate after 5 dismisses     |
                |                                              |                                              |
@@ -33,6 +35,8 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |                                              |
                |  - Auxia drives the gate                     | - No Auxia notification                      |
     consented  |                                              | - Guardian drivess the gate:                 |
+               |                                              |   - No gate for 30 days after a single       |
+               |                                              |     contribution event [01]                  |
                |                                              |   - No gate display the first 3 page views   |
                |                                              |   - Gate: dismissible gates                  |
                |                                              |           then no gate after 5 dismisses     |
@@ -40,6 +44,8 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                 ---------------------------------------------------------------------------------------------
                                                               |
                                                               |
+
+[01] use gu_hide_support_messaging cookie
 ```
 
 ### Ireland
@@ -53,7 +59,9 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |                                              |
                |  - Notify Auxia for analytics                | - Notify Auxia for analytics                 |
  un-consented  |  - Guardian drives the gate:                 | - Guardian drives the gate:                  |
-               |    - No gate display the first 3 page views  |   - No gate display the first 3 page views   |
+               |    - No gate for 30 days after a single      |   - No gate for 30 days after a single       |
+               |      contribution event [02]                 |     contribution event [02]                  |
+               |    - No gate the first 3 page views          |   - No gate the first 3 page views           |
                |    - Gate: 3x dismissal, then mandatory      |   - Gate: 3x dismissal, then mandatory       |
                |                                              |                                              |
     -----------|-----------------------------------------------------------------------------------------------------
@@ -61,11 +69,15 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |                                              |
                |  - Auxia drives the gate                     | - No Auxia notification                      |
     consented  |                                              | - Guardian drives the gate:                  |
-               |                                              |   - No gate display the first 3 page views   |
+               |                                              |   - No gate for 30 days after a single       |
+               |                                              |     contribution event [02]                  |
+               |                                              |   - No gate the first 3 page views           |
                |                                              |   - Gate: dismissible gates                  |
                |                                              |           then no gate after 5 dismisses     |
                |                                              |                                              |
                 ---------------------------------------------------------------------------------------------
                                                               |
                                                               |
+
+[02] use gu_hide_support_messaging cookie
 ```
