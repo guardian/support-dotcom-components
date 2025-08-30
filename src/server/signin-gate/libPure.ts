@@ -309,51 +309,6 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
     return mvtId > 0 && mvtId <= 350_000;
 };
 
-export const decideGateTypeNoneOrDismissible = (gateDismissCount: number): GateType => {
-    // -----------------------------------------------------------------------
-    // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
-    // (We do not want users to have to dismiss the gate 6 times)
-
-    if (gateDismissCount > 5) {
-        return 'None';
-    }
-
-    // -----------------------------------------------------------------------
-    // We are now clear to show the default (dismissible) gu gate.
-
-    return 'GuDismissible';
-};
-
-export const decideGuGateTypeNonConsentedIreland = (
-    dailyArticleCount: number,
-    gateDisplayCount: number,
-): GateType => {
-    // -----------------------------------------------------------------------
-    // If we reach this point, we are in Ireland
-
-    if (dailyArticleCount < 3) {
-        return 'AuxiaAnalyticsThenNone';
-    }
-
-    // gateDisplayCount was introduced to enrich the behavior of the default gate.
-    // That number represents the number of times the gate has been displayed, excluding the
-    // current rendering. Therefore the first time the number is 0.
-
-    // At the time these lines are written we want the experience for non consented users
-    // in Ireland to be that the gates, as they display are (first line) corresponding
-    // to values of gateDisplayCount (second line)
-    //  -------------------------------------------------------------------------
-    // | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
-    // |     0       |      1      |      2      |      3           etc          |
-    //  -------------------------------------------------------------------------
-
-    if (gateDisplayCount >= 3) {
-        return 'AuxiaAnalyticsThenGuMandatory';
-    }
-
-    return 'AuxiaAnalyticsThenGuDismissible';
-};
-
 export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
     return mvtIdIsAuxiaAudienceShare(payload.mvtId);
 };
@@ -407,9 +362,30 @@ export const userHasConsented = (payload: GetTreatmentsRequestPayload): boolean 
     return payload.hasConsented;
 };
 
+export const hideSupportMessagingHasOverride = (
+    payload: GetTreatmentsRequestPayload,
+    now: number,
+): boolean => {
+    // now: current time in milliseconds since epoch
+    // nb: We pass now instead of getting it within the body to make the function pure and testable
+
+    // Return true if we have a hideSupportMessagingTimestamp and it's less than 30 days old
+    if (payload.hideSupportMessagingTimestamp === undefined) {
+        return false;
+    }
+    if (!Number.isInteger(payload.hideSupportMessagingTimestamp)) {
+        return false;
+    }
+    const limit = 86400 * 30 * 1000; // milliseconds over 30 days
+    return now - payload.hideSupportMessagingTimestamp < limit;
+};
+
 export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
+    now: number,
 ): GateType => {
+    // now: current time in milliseconds since epoch
+
     // This function is a pure function (without any side effects) which gets the body
     // of a '/auxia/get-treatments' request and returns the correct GateType
     // It was introduced to separate the choice of the gate from it's actual build,
@@ -496,9 +472,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - Notify Auxia for analytics
         // - Guardian drives the gate:
-        //   - No gate for 30 days after a single contribution event
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
         //   - No gate display the first 3 page views
         //   - 3x dismissal, then mandatory
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'AuxiaAnalyticsThenNone';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'AuxiaAnalyticsThenNone';
         }
@@ -524,9 +503,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        //   - No gate for 30 days after a single contribution event
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
         //   - No gate display the first 3 page views
         //   - Dismissible gates then no gate after 5 dismisses
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'None';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -552,8 +534,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - Notify Auxia for analytics
         // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
         //   - No gate display the first 3 page views
         //   - 3x dismissal, then mandatory
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'AuxiaAnalyticsThenNone';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'AuxiaAnalyticsThenNone';
         }
@@ -598,8 +584,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
         //   - No gate display the first 3 page views
         //   - Dismissible gates then no gate after 5 dismisses
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'None';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -625,8 +615,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
         //   - No gate display the first 3 page views
         //   - Dismissible gates then no gate after 5 dismisses
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'None';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -652,8 +646,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
         //   - No gate display the first 3 page views
         //   - Dismissible gates then no gate after 5 dismisses
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'None';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }

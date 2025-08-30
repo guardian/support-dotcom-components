@@ -20,8 +20,10 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             shouldServeDismissible: true,
             showDefaultGate: 'mandatory',
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -43,8 +45,10 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             shouldServeDismissible: true,
             showDefaultGate: 'mandatory',
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -66,8 +70,10 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             shouldServeDismissible: true,
             showDefaultGate: 'mandatory',
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -89,8 +95,10 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             shouldServeDismissible: true,
             showDefaultGate: 'mandatory',
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -112,8 +120,10 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             shouldServeDismissible: true, // <- [tested]
             showDefaultGate: 'mandatory', // <- [tested]
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('GuDismissible');
     });
 
@@ -135,8 +145,10 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             shouldServeDismissible: true, // <- [tested]
             showDefaultGate: 'dismissible', // <- [tested]
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('GuDismissible');
     });
 
@@ -158,8 +170,10 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             shouldServeDismissible: false,
             showDefaultGate: 'mandatory', // <- [tested]
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('GuMandatory');
     });
 
@@ -181,8 +195,10 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             shouldServeDismissible: false,
             showDefaultGate: 'dismissible', // <- [tested]
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('GuDismissible');
     });
 });

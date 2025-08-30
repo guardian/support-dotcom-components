@@ -19,6 +19,7 @@ it('isAuxiaAudienceShare', () => {
         shouldServeDismissible: false,
         showDefaultGate: undefined,
         gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: undefined,
     };
     const payload2: GetTreatmentsRequestPayload = {
         browserId: 'sample',
@@ -37,6 +38,7 @@ it('isAuxiaAudienceShare', () => {
         shouldServeDismissible: false,
         showDefaultGate: undefined,
         gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: undefined,
     };
 
     expect(isAuxiaAudienceShare(payload1)).toBe(true);
