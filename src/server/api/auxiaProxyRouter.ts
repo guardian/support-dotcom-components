@@ -68,6 +68,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
         // Nullable attributes:
         //     'browserId'
         //     'showDefaultGate'
+        //     'hideSupportMessagingTimestamp'
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {

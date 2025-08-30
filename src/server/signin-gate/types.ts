@@ -102,6 +102,7 @@ export interface GetTreatmentsRequestPayload {
     shouldServeDismissible: boolean; // [3]
     showDefaultGate: ShowGateValues; // [4]
     gateDisplayCount: number; // [5]
+    hideSupportMessagingTimestamp: number | undefined; // [6]
 }
 
 // [1] articleIdentifier examples:
@@ -149,3 +150,13 @@ export interface GetTreatmentsRequestPayload {
 
 // For non consenting users outside ireland, the behavior doesn't change, we serve
 // dismissible gates
+
+// [6]
+
+// date: 30th August 2025
+// author: Pascal
+
+// `hideSupportMessagingTimestamp: number | undefined` was introduced to implement the effect
+// of not showing the gate if the reader has performed a single contribution in the past 30 days.
+// It is either undefined or return the timestamp carried by cookie `gu_hide_support_messaging`
+// See: https://github.com/guardian/support-frontend/blob/7a5c0f9209054c24934b876771392531c261f51c/support-frontend/assets/helpers/storage/contributionsCookies.ts#L11
