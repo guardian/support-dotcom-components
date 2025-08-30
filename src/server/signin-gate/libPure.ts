@@ -495,8 +495,10 @@ export const getTreatmentsRequestPayloadToGateType = (
         //
         // effects:
         // - Notify Auxia for analytics
-        // - No gate display the first 3 page views
-        // - Gate: 3x dismissal, then mandatory
+        // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event
+        //   - No gate display the first 3 page views
+        //   - 3x dismissal, then mandatory
         if (payload.dailyArticleCount < 3) {
             return 'AuxiaAnalyticsThenNone';
         }
@@ -522,9 +524,9 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //         then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -550,8 +552,8 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - Notify Auxia for analytics
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: 3x dismissal, then mandatory
+        //   - No gate display the first 3 page views
+        //   - 3x dismissal, then mandatory
         if (payload.dailyArticleCount < 3) {
             return 'AuxiaAnalyticsThenNone';
         }
@@ -597,8 +599,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         // - No Auxia notification
         // - Guardian drives the gate:
         //   - No gate display the first 3 page views
-        //   - Gate: dismissible gates
-        //           then no gate after 5 dismisses
+        //   - Dismissible gates then no gate after 5 dismisses
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -624,9 +625,8 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //        then no gate after 5 dismisses
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -652,9 +652,8 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //        then no gate after 5 dismisses
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }

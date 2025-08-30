@@ -27,8 +27,8 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |    - No gate for 30 days after a single      |   - No gate for 30 days after a single       |
                |      contribution event [01]                 |     contribution event [01]                  |
                |    - No gate the first 3 page views          |   - No gate display the first 3 page views   |
-               |    - Gate: dismissible gates,                |   - Gate: dismissible gates                  |
-               |            then no gate after 5 dismisses    |           then no gate after 5 dismisses     |
+               |    - Dismissible gates,                      |   - Dismissible gates                        |
+               |      then no gate after 5 dismisses          |     then no gate after 5 dismisses           |
                |                                              |                                              |
     -----------|-----------------------------------------------------------------------------------------------------
                | [03]                                         | [04]                                         |
@@ -38,8 +38,8 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |   - No gate for 30 days after a single       |
                |                                              |     contribution event [01]                  |
                |                                              |   - No gate display the first 3 page views   |
-               |                                              |   - Gate: dismissible gates                  |
-               |                                              |           then no gate after 5 dismisses     |
+               |                                              |   - Dismissible gates                        |
+               |                                              |     then no gate after 5 dismisses           |
                |                                              |                                              |
                 ---------------------------------------------------------------------------------------------
                                                               |
@@ -62,7 +62,7 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |    - No gate for 30 days after a single      |   - No gate for 30 days after a single       |
                |      contribution event [02]                 |     contribution event [02]                  |
                |    - No gate the first 3 page views          |   - No gate the first 3 page views           |
-               |    - Gate: 3x dismissal, then mandatory      |   - Gate: 3x dismissal, then mandatory       |
+               |    - 3x dismissal, then mandatory            |   - 3x dismissal, then mandatory             |
                |                                              |                                              |
     -----------|-----------------------------------------------------------------------------------------------------
                | [07]                                         | [08]                                         |
@@ -72,8 +72,8 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |   - No gate for 30 days after a single       |
                |                                              |     contribution event [02]                  |
                |                                              |   - No gate the first 3 page views           |
-               |                                              |   - Gate: dismissible gates                  |
-               |                                              |           then no gate after 5 dismisses     |
+               |                                              |   - Dismissible gates                        |
+               |                                              |     then no gate after 5 dismisses           |
                |                                              |                                              |
                 ---------------------------------------------------------------------------------------------
                                                               |
