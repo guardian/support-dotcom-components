@@ -309,51 +309,6 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
     return mvtId > 0 && mvtId <= 350_000;
 };
 
-export const decideGateTypeNoneOrDismissible = (gateDismissCount: number): GateType => {
-    // -----------------------------------------------------------------------
-    // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
-    // (We do not want users to have to dismiss the gate 6 times)
-
-    if (gateDismissCount > 5) {
-        return 'None';
-    }
-
-    // -----------------------------------------------------------------------
-    // We are now clear to show the default (dismissible) gu gate.
-
-    return 'GuDismissible';
-};
-
-export const decideGuGateTypeNonConsentedIreland = (
-    dailyArticleCount: number,
-    gateDisplayCount: number,
-): GateType => {
-    // -----------------------------------------------------------------------
-    // If we reach this point, we are in Ireland
-
-    if (dailyArticleCount < 3) {
-        return 'AuxiaAnalyticsThenNone';
-    }
-
-    // gateDisplayCount was introduced to enrich the behavior of the default gate.
-    // That number represents the number of times the gate has been displayed, excluding the
-    // current rendering. Therefore the first time the number is 0.
-
-    // At the time these lines are written we want the experience for non consented users
-    // in Ireland to be that the gates, as they display are (first line) corresponding
-    // to values of gateDisplayCount (second line)
-    //  -------------------------------------------------------------------------
-    // | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
-    // |     0       |      1      |      2      |      3           etc          |
-    //  -------------------------------------------------------------------------
-
-    if (gateDisplayCount >= 3) {
-        return 'AuxiaAnalyticsThenGuMandatory';
-    }
-
-    return 'AuxiaAnalyticsThenGuDismissible';
-};
-
 export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
     return mvtIdIsAuxiaAudienceShare(payload.mvtId);
 };
