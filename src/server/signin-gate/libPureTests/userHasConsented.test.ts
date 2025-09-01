@@ -19,6 +19,7 @@ it('userHasConsented', () => {
         shouldServeDismissible: false,
         showDefaultGate: undefined,
         gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: undefined,
     };
     expect(userHasConsented(payload1)).toBe(true);
 
@@ -39,6 +40,7 @@ it('userHasConsented', () => {
         shouldServeDismissible: true,
         showDefaultGate: 'true',
         gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: undefined,
     };
     expect(userHasConsented(payload2)).toBe(false);
 });

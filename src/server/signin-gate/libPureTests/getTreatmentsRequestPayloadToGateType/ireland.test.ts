@@ -30,8 +30,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('AuxiaAPI');
     });
 
@@ -46,9 +48,9 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //         then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -67,8 +69,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 4,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -83,9 +87,9 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //         then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -104,8 +108,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 4,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('GuDismissible');
     });
 
@@ -120,9 +126,9 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //         then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -141,8 +147,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 8,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -156,8 +164,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
         //
         // effects:
         // - Notify Auxia for analytics
-        // - No gate display the first 3 page views
-        // - Gate: 3x dismissal, then mandatory
+        // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - 3x dismissal, then mandatory
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -176,8 +186,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 8,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
     });
 
@@ -191,8 +203,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
         //
         // effects:
         // - Notify Auxia for analytics
-        // - No gate display the first 3 page views
-        // - Gate: 3x dismissal, then mandatory
+        // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - 3x dismissal, then mandatory
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -211,8 +225,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 1,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuDismissible');
     });
 
@@ -226,8 +242,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
         //
         // effects:
         // - Notify Auxia for analytics
-        // - No gate display the first 3 page views
-        // - Gate: 3x dismissal, then mandatory
+        // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - 3x dismissal, then mandatory
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -246,8 +264,10 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 5,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuMandatory');
     });
 
@@ -262,6 +282,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
     // effects:
     // - Notify Auxia for analytics
     // - Guardian drives the gate:
-    // - No gate display the first 3 page views
-    // - Gate: 3x dismissal, then mandatory
+    //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+    //   - No gate display the first 3 page views
+    //   - 3x dismissal, then mandatory
 });

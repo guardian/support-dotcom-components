@@ -13,9 +13,9 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //        then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -34,8 +34,10 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
     it('logic.md [02], first dismissible gates', () => {
@@ -49,9 +51,9 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //        then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -70,8 +72,10 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 1,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('GuDismissible');
     });
     it('logic.md [02], high gate dismiss count', () => {
@@ -85,9 +89,9 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //        then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
 
         const payload: GetTreatmentsRequestPayload = {
             browserId: 'sample',
@@ -106,8 +110,10 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             shouldServeDismissible: false,
             showDefaultGate: undefined,
             gateDisplayCount: 7,
+            hideSupportMessagingTimestamp: undefined,
         };
-        const gateType = getTreatmentsRequestPayloadToGateType(payload);
+        const now = 1756568322187; // current time in milliseconds since epoch
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
 });

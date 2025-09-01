@@ -19,6 +19,7 @@ it('staffTestConditionToDefaultGate', () => {
         shouldServeDismissible: false,
         showDefaultGate: undefined,
         gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: undefined,
     };
     expect(staffTestConditionToDefaultGate(payload1)).toBe('None');
 
@@ -39,6 +40,7 @@ it('staffTestConditionToDefaultGate', () => {
         shouldServeDismissible: true,
         showDefaultGate: 'true',
         gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: undefined,
     };
     expect(staffTestConditionToDefaultGate(payload2)).toBe('GuDismissible');
 
@@ -59,6 +61,7 @@ it('staffTestConditionToDefaultGate', () => {
         shouldServeDismissible: true,
         showDefaultGate: 'dismissible',
         gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: undefined,
     };
     expect(staffTestConditionToDefaultGate(payload3)).toBe('GuDismissible');
 
@@ -79,6 +82,7 @@ it('staffTestConditionToDefaultGate', () => {
         shouldServeDismissible: true,
         showDefaultGate: 'mandatory',
         gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: undefined,
     };
     expect(staffTestConditionToDefaultGate(payload4)).toBe('GuMandatory');
 });

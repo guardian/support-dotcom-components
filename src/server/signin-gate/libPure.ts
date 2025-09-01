@@ -362,9 +362,46 @@ export const userHasConsented = (payload: GetTreatmentsRequestPayload): boolean 
     return payload.hasConsented;
 };
 
+export const hideSupportMessagingHasOverride = (
+    payload: GetTreatmentsRequestPayload,
+    now: number,
+): boolean => {
+    // Purpose:
+    // Return true if we have a hideSupportMessagingTimestamp and it's less than 30 days old
+
+    // Parameters:
+    //   - payload
+    //   - now: current time in milliseconds since epoch
+    //          (nb: We pass now instead of getting it within the body
+    //           to make the function pure and testable)
+
+    // Date: 1 September 2025
+    //
+    // The payload.hideSupportMessagingTimestamp, could be in the future,
+    // this happens if the user has performed a recurring contribution.
+    // We have guarded against that situation client side
+    // https://github.com/guardian/dotcom-rendering/pull/14462
+    // but also guard against it here.
+
+    if (payload.hideSupportMessagingTimestamp === undefined) {
+        return false;
+    }
+    if (!Number.isInteger(payload.hideSupportMessagingTimestamp)) {
+        return false;
+    }
+    if (payload.hideSupportMessagingTimestamp > now) {
+        return false;
+    }
+    const limit = 86400 * 30 * 1000; // milliseconds over 30 days
+    return now - payload.hideSupportMessagingTimestamp < limit;
+};
+
 export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
+    now: number,
 ): GateType => {
+    // now: current time in milliseconds since epoch
+
     // This function is a pure function (without any side effects) which gets the body
     // of a '/auxia/get-treatments' request and returns the correct GateType
     // It was introduced to separate the choice of the gate from it's actual build,
@@ -450,8 +487,13 @@ export const getTreatmentsRequestPayloadToGateType = (
         //
         // effects:
         // - Notify Auxia for analytics
-        // - No gate display the first 3 page views
-        // - Gate: 3x dismissal, then mandatory
+        // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - 3x dismissal, then mandatory
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'AuxiaAnalyticsThenNone';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'AuxiaAnalyticsThenNone';
         }
@@ -477,9 +519,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //         then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'None';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -505,8 +550,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - Notify Auxia for analytics
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: 3x dismissal, then mandatory
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - 3x dismissal, then mandatory
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'AuxiaAnalyticsThenNone';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'AuxiaAnalyticsThenNone';
         }
@@ -551,9 +600,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
         //   - No gate display the first 3 page views
-        //   - Gate: dismissible gates
-        //           then no gate after 5 dismisses
+        //   - Dismissible gates then no gate after 5 dismisses
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'None';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -579,9 +631,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //        then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'None';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }
@@ -607,9 +662,12 @@ export const getTreatmentsRequestPayloadToGateType = (
         // effects:
         // - No Auxia notification
         // - Guardian drives the gate:
-        // - No gate display the first 3 page views
-        // - Gate: dismissible gates
-        //        then no gate after 5 dismisses
+        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+        //   - No gate display the first 3 page views
+        //   - Dismissible gates then no gate after 5 dismisses
+        if (hideSupportMessagingHasOverride(payload, now)) {
+            return 'None';
+        }
         if (payload.dailyArticleCount < 3) {
             return 'None';
         }

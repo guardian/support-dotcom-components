@@ -68,11 +68,13 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
         // Nullable attributes:
         //     'browserId'
         //     'showDefaultGate'
+        //     'hideSupportMessagingTimestamp'
 
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
+                const now = Date.now(); // current time in milliseconds since epoch
                 const payload = req.body as GetTreatmentsRequestPayload;
-                const gateType = getTreatmentsRequestPayloadToGateType(payload);
+                const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
                 const envelop = await gateTypeToUserTreatmentsEnvelop(config, gateType, payload);
                 if (envelop !== undefined) {
                     const data = userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(envelop);
