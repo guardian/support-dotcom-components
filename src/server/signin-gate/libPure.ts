@@ -366,14 +366,30 @@ export const hideSupportMessagingHasOverride = (
     payload: GetTreatmentsRequestPayload,
     now: number,
 ): boolean => {
-    // now: current time in milliseconds since epoch
-    // nb: We pass now instead of getting it within the body to make the function pure and testable
-
+    // Purpose:
     // Return true if we have a hideSupportMessagingTimestamp and it's less than 30 days old
+
+    // Parameters:
+    //   - payload
+    //   - now: current time in milliseconds since epoch
+    //          (nb: We pass now instead of getting it within the body
+    //           to make the function pure and testable)
+
+    // Date: 1 September 2025
+    //
+    // The payload.hideSupportMessagingTimestamp, could be in the future,
+    // this happens if the user has performed a recurring contribution.
+    // We have guarded against that situation client side
+    // https://github.com/guardian/dotcom-rendering/pull/14462
+    // but also guard against it here.
+
     if (payload.hideSupportMessagingTimestamp === undefined) {
         return false;
     }
     if (!Number.isInteger(payload.hideSupportMessagingTimestamp)) {
+        return false;
+    }
+    if (payload.hideSupportMessagingTimestamp > now) {
         return false;
     }
     const limit = 86400 * 30 * 1000; // milliseconds over 30 days

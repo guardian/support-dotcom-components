@@ -118,6 +118,31 @@ it('hideSupportMessagingHasOverride, defined, less than 30 days ago', () => {
     expect(hideSupportMessagingHasOverride(payload, now)).toBe(true);
 });
 
+it('hideSupportMessagingHasOverride, defined, value in the future', () => {
+    const payload = {
+        browserId: 'sample',
+        isSupporter: false,
+        dailyArticleCount: 0,
+        articleIdentifier: 'sample: article identifier',
+        editionId: 'GB',
+        contentType: 'Article',
+        sectionId: 'uk-news',
+        tagIds: ['type/article'],
+        gateDismissCount: 0,
+        countryCode: 'FR', // <- [outside ireland]
+        mvtId: 450_000, // <- [Guardian]
+        should_show_legacy_gate_tmp: true,
+        hasConsented: true, // <- [consented]
+        shouldServeDismissible: false,
+        showDefaultGate: undefined,
+        gateDisplayCount: 0,
+        hideSupportMessagingTimestamp: 1756722953000, // <- tested: 2025-09-01 11:35:53 +0100 (future value relatively to now)
+    };
+
+    const now = 1756568890120; // 2025-08-30 16:48:10 +0100 (less than 30 days)
+    expect(hideSupportMessagingHasOverride(payload, now)).toBe(false);
+});
+
 // We also test getTreatmentsRequestPayloadToGateType
 
 it('getTreatmentsRequestPayloadToGateType, without override', () => {
