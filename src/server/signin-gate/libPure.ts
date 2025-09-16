@@ -121,7 +121,7 @@ export const guMandatoryUserTreatment = (): UserTreatment => {
         rank: '1',
         contentLanguageCode: 'en-GB',
         treatmentContent: treatmentContentEncoded,
-        treatmentType: 'DISMISSABLE_SIGN_IN_GATE',
+        treatmentType: 'NONDISMISSIBLE_SIGN_IN_GATE',
         surface: 'ARTICLE_PAGE',
     };
 };
