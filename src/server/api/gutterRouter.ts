@@ -7,12 +7,12 @@ import type {
     TestTracking,
     Tracking,
 } from '../../shared/types';
-import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import { getQueryParams } from '../lib/params';
 import type { Params } from '../lib/params';
+import { pageIdIsExcluded } from '../lib/targeting';
 import { buildGutterCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
 import { selectGutterTest } from '../tests/gutters/gutterSelection';
@@ -45,7 +45,7 @@ export const buildGutterRouter = (
             return {};
         }
 
-        if (hideSRMessagingForInfoPageIds(targeting)) {
+        if (pageIdIsExcluded(targeting)) {
             return {};
         }
 

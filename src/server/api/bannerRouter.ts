@@ -12,7 +12,6 @@ import type {
     Tracking,
 } from '../../shared/types';
 import { channelFromBannerChannel } from '../../shared/types';
-import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
@@ -22,6 +21,7 @@ import { getArticleViewCounts } from '../lib/history';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
+import { pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
@@ -69,7 +69,7 @@ export const buildBannerRouter = (
             return {};
         }
 
-        if (hideSRMessagingForInfoPageIds(targeting)) {
+        if (pageIdIsExcluded(targeting)) {
             return {};
         }
 
