@@ -1,9 +1,9 @@
 import type {
     AbandonedBasket,
-    BannerChannel,
+    BannerChannel, BannerTargeting,
     ConsentStatus,
     EpicTargeting,
-    EpicViewLog,
+    EpicViewLog, GutterTargeting,
     PageContextTargeting,
     SignedInStatus,
     Test,
@@ -165,4 +165,18 @@ export const pageContextMatches = (
             pageHasASection(excludedSectionIds, pageContext.sectionId));
 
     return inclusionsMatch && !exclusionsMatch;
+};
+
+// Hide all messages on these pages
+const excludedPageIds = new Set<string>([
+    'info/privacy',
+    'info/complaints-and-corrections',
+    'about',
+    'the-whole-picture',
+]);
+
+export const pageIdIsExcluded = (
+    targeting: BannerTargeting | EpicTargeting | GutterTargeting,
+): boolean => {
+    return targeting.pageId ? excludedPageIds.has(targeting.pageId) : false;
 };

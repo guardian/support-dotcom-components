@@ -1,8 +1,5 @@
 import { z } from 'zod';
 import type { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
-import type { BannerTargeting } from './banner';
-import type { EpicTargeting } from './epic';
-import type { GutterTargeting } from './gutter';
 
 export type TagCounts = Record<string, number>;
 
@@ -29,19 +26,6 @@ export interface PurchaseInfo {
     userType: purchaseInfoUser;
     product: purchaseInfoProduct;
 }
-
-//The pageIdsOfInterest has the pageIds in which we want to hide the SR messages
-export const pageIdsOfInterest = new Set<string>([
-    'info/privacy',
-    'info/complaints-and-corrections',
-    'about',
-]);
-
-export const hideSRMessagingForInfoPageIds = (
-    targeting: BannerTargeting | EpicTargeting | GutterTargeting,
-): boolean => {
-    return targeting.pageId ? pageIdsOfInterest.has(targeting.pageId) : false;
-};
 
 export const abandonedBasketSchema = z.object({
     amount: z.union([z.number(), z.literal('other')]),

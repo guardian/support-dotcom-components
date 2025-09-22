@@ -12,7 +12,6 @@ import type {
     Tracking,
     WeeklyArticleLog,
 } from '../../shared/types';
-import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
@@ -23,6 +22,7 @@ import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
 import type { SuperModeArticle } from '../lib/superMode';
+import { pageIdIsExcluded } from '../lib/targeting';
 import { buildEpicCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
@@ -92,7 +92,7 @@ export const buildEpicRouter = (
             return {};
         }
 
-        if (hideSRMessagingForInfoPageIds(targeting)) {
+        if (pageIdIsExcluded(targeting)) {
             return {};
         }
 
