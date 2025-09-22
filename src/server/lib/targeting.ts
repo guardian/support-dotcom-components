@@ -1,9 +1,11 @@
 import type {
     AbandonedBasket,
-    BannerChannel, BannerTargeting,
+    BannerChannel,
+    BannerTargeting,
     ConsentStatus,
     EpicTargeting,
-    EpicViewLog, GutterTargeting,
+    EpicViewLog,
+    GutterTargeting,
     PageContextTargeting,
     SignedInStatus,
     Test,
