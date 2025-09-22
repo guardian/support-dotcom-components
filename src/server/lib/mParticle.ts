@@ -3,11 +3,19 @@ import { getSsmValue } from '../utils/ssm';
 import { isProd } from './env';
 
 const MParticleConfigSchema = z.object({
-    apiKey: z.string(),
-    apiSecret: z.string(),
-    orgId: z.string(),
-    accountId: z.string(),
-    workspaceId: z.string(),
+    // For the request body to /oauth/token, to create a bearer token
+    oauthTokenEndpoint: z.object({
+        client_id: z.string(),
+        client_secret: z.string(),
+        audience: z.string(),
+        grant_type: z.string(),
+    }),
+    // For use in the request path to /userprofile, to fetch user data
+    userProfileEndpoint: z.object({
+        orgId: z.string(),
+        accountId: z.string(),
+        workspaceId: z.string(),
+    }),
 });
 type MParticleConfig = z.infer<typeof MParticleConfigSchema>;
 
@@ -28,7 +36,7 @@ const MParticleOAuthTokenSchema = z.object({
 // TODO - refactor to build after fetching config and fetching first bearer token
 export const getMParticleConfig = async (): Promise<MParticleConfig> => {
     const stage = isProd ? 'PROD' : 'CODE';
-    const ssmValue = await getSsmValue(stage, '/mparticle');
+    const ssmValue = await getSsmValue(stage, 'mparticle');
     const parsed = MParticleConfigSchema.safeParse(ssmValue);
     if (parsed.success) {
         return parsed.data;
@@ -53,12 +61,7 @@ export class MParticle {
             const response = await fetch('https://sso.auth.mparticle.com/oauth/token', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    client_id: this.config.apiKey,
-                    client_secret: this.config.apiSecret,
-                    audience: "https://api.mparticle.com",
-                    grant_type: 'client_credentials'
-                })
+                body: JSON.stringify(this.config.oauthTokenEndpoint)
             });
             const data = await response.json() as unknown;
             const parsed = MParticleOAuthTokenSchema.safeParse(data);
@@ -86,8 +89,8 @@ export class MParticle {
     }
 
     async getUserProfile(browserId: string): Promise<MParticleProfile | undefined> {
-        const { orgId, accountId, workspaceId } = this.config;
-        const url = `https://api.mparticle.com/userprofile/v1/resolve/${orgId}/${accountId}/${workspaceId}?fields=user_attributes,audience_memberships`;
+        const { orgId, accountId, workspaceId } = this.config.userProfileEndpoint;
+            const url = `https://api.mparticle.com/userprofile/v1/resolve/${orgId}/${accountId}/${workspaceId}?fields=user_attributes,audience_memberships`;
 
         try {
             const response = await fetch(url, {
