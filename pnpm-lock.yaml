@@ -27,8 +27,8 @@ dependencies:
     specifier: 22.0.1
     version: 22.0.1(tslib@2.8.0)(typescript@5.5.4)
   '@guardian/ophan-tracker-js':
-    specifier: 2.4.1
-    version: 2.4.1
+    specifier: 2.6.1
+    version: 2.6.1
   compression:
     specifier: 1.7.4
     version: 1.7.4
@@ -1869,8 +1869,8 @@ packages:
       yargs: 15.4.1
     dev: true
 
-  /@guardian/ophan-tracker-js@2.4.1:
-    resolution: {integrity: sha512-2u/1So21U5zxkLKBwLGOJMIeKf4Y5oNqo5xYlFf84PgVMamuxYPZX1x+Gq95x2fy+qGltJW19djRvdJMp2hR9g==}
+  /@guardian/ophan-tracker-js@2.6.1:
+    resolution: {integrity: sha512-YTBL/PDUTs6jGf9nN7EY7l9xM64pHWGKkf+TEYrXYQI/1vHaLO4wVEW5Ss5g6dNOHNDibELJy+MEZBm6zTzgGw==}
     engines: {node: '>=16'}
     dependencies:
       '@guardian/tsconfig': 1.0.0
