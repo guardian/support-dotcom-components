@@ -17,7 +17,7 @@ The sign-in gate is fetched by the [banner picker](https://github.com/guardian/d
 
 For details of the current configuration, see [logic.md](/src/server/signin-gate/logic.md).
 
-SDC also has an endpoint for tracking interactions (view/click) with the gate: `/auxia/log-treatment-interaction`. These events are forward on to Auxia, and are independent of the standard Ophan tracking.
+SDC also has an endpoint for tracking interactions (view/click) with the gate: `/auxia/log-treatment-interaction`. These events are forwarded on to Auxia, and are independent of the standard Ophan tracking.
 
 ### Data
 From the Guardian's perspective, Auxia gets its data for ML model training and analytics in two ways:
