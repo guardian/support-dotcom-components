@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.8.1
+
+### Patch Changes
+
+-   f5c0882: bump ophan-tracker-js to be compatible with dotcom-rendering
+
 ## 7.8.0
 
 ### Minor Changes
