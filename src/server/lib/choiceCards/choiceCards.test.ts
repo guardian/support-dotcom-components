@@ -119,9 +119,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[0].destination).toEqual(
-            'Checkout',
-        );
+        expect(result?.choiceCards[0].destination).toEqual('Checkout');
     });
 
     it('returns choice cards with monthly discount (PROMO_B) applied', () => {
