@@ -93,15 +93,15 @@ describe('getChoiceCardsSettings', () => {
             supportTier: 'SupporterPlus',
             ratePlan: 'Monthly',
         });
-        expect(result?.choiceCards[1].destinationUrl).toBeNull();
+        expect(result?.choiceCards[1].destination).toEqual('LandingPage');
     });
 
-    it('preserves custom destinationUrl when provided', () => {
+    it('preserves custom destination when provided', () => {
         const variantChoiceCardSettings: ChoiceCardsSettings = {
             choiceCards: [
                 {
                     ...defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[0],
-                    destinationUrl: 'https://support.theguardian.com/contribute/one-time',
+                    destination: 'Checkout',
                 },
                 defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[1],
                 defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
@@ -119,8 +119,8 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[0].destinationUrl).toEqual(
-            'https://support.theguardian.com/contribute/one-time',
+        expect(result?.choiceCards[0].destination).toEqual(
+            'Checkout',
         );
     });
 
