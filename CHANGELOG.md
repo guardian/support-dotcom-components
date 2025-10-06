@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.9.0
+
+### Minor Changes
+
+-   1a8b474: Replace ChoiceCard destinationUrl with destination
+
 ## 7.8.1
 
 ### Patch Changes
