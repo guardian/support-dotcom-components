@@ -456,10 +456,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     //    of the space. Therefore one and only one condition of the below conditions
     //    should correspond to a given payload.
 
-    if (
-        payload.countryCode === 'IE' &&
-        userHasConsented(payload)
-    ) {
+    if (payload.countryCode === 'IE' && userHasConsented(payload)) {
         // [07] (copy from logic.md)
         //
         // prerequisites:
@@ -471,10 +468,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         return 'AuxiaAPI';
     }
 
-    if (
-        payload.countryCode === 'IE' &&
-        !userHasConsented(payload)
-    ) {
+    if (payload.countryCode === 'IE' && !userHasConsented(payload)) {
         // [05] (copy from logic.md)
         //
         // prerequisites:
