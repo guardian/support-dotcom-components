@@ -456,16 +456,11 @@ export const getTreatmentsRequestPayloadToGateType = (
     //    of the space. Therefore one and only one condition of the below conditions
     //    should correspond to a given payload.
 
-    if (
-        payload.countryCode === 'IE' &&
-        isAuxiaAudienceShare(payload) &&
-        userHasConsented(payload)
-    ) {
+    if (payload.countryCode === 'IE' && userHasConsented(payload)) {
         // [07] (copy from logic.md)
         //
         // prerequisites:
         // - Ireland
-        // - Is Auxia share of the audience
         // - user has consented
         //
         // effects:
@@ -473,16 +468,11 @@ export const getTreatmentsRequestPayloadToGateType = (
         return 'AuxiaAPI';
     }
 
-    if (
-        payload.countryCode === 'IE' &&
-        isAuxiaAudienceShare(payload) &&
-        !userHasConsented(payload)
-    ) {
+    if (payload.countryCode === 'IE' && !userHasConsented(payload)) {
         // [05] (copy from logic.md)
         //
         // prerequisites:
         // - Ireland
-        // - Is Auxia share of the audience
         // - user has NOT consented
         //
         // effects:
@@ -498,68 +488,6 @@ export const getTreatmentsRequestPayloadToGateType = (
             return 'AuxiaAnalyticsThenNone';
         }
         if (payload.gateDismissCount < 3) {
-            return 'AuxiaAnalyticsThenGuDismissible';
-        } else {
-            return 'AuxiaAnalyticsThenGuMandatory';
-        }
-    }
-
-    if (
-        payload.countryCode === 'IE' &&
-        isGuardianAudienceShare(payload) &&
-        userHasConsented(payload)
-    ) {
-        // [08] (copy from logic.md)
-        //
-        // prerequisites:
-        // - Ireland
-        // - Is Guardian share of the audience
-        // - user has consented
-        //
-        // effects:
-        // - No Auxia notification
-        // - Guardian drives the gate:
-        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
-        //   - No gate display the first 3 page views
-        //   - Dismissible gates then no gate after 5 dismisses
-        if (hideSupportMessagingHasOverride(payload, now)) {
-            return 'None';
-        }
-        if (payload.dailyArticleCount < 3) {
-            return 'None';
-        }
-        if (payload.gateDismissCount < 5) {
-            return 'GuDismissible';
-        } else {
-            return 'None';
-        }
-    }
-
-    if (
-        payload.countryCode === 'IE' &&
-        isGuardianAudienceShare(payload) &&
-        !userHasConsented(payload)
-    ) {
-        // [06] (copy from logic.md)
-        //
-        // prerequisites:
-        // - Ireland
-        // - Is Guardian share of the audience
-        // - user has NOT consented
-        //
-        // effects:
-        // - Notify Auxia for analytics
-        // - Guardian drives the gate:
-        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
-        //   - No gate display the first 3 page views
-        //   - 3x dismissal, then mandatory
-        if (hideSupportMessagingHasOverride(payload, now)) {
-            return 'AuxiaAnalyticsThenNone';
-        }
-        if (payload.dailyArticleCount < 3) {
-            return 'AuxiaAnalyticsThenNone';
-        }
-        if (payload.gateDisplayCount < 3) {
             return 'AuxiaAnalyticsThenGuDismissible';
         } else {
             return 'AuxiaAnalyticsThenGuMandatory';

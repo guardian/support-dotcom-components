@@ -51,33 +51,32 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
 ### Ireland
 
 ```
-                                                              |
-                   Auxia share of the Audience                |     Guardian share of the Audience
-                               35%                            |                65%
-                ---------------------------------------------------------------------------------------------
-               | [05]                                         | [06]                                         |
-               |                                              |                                              |
-               |  - Notify Auxia for analytics                | - Notify Auxia for analytics                 |
- un-consented  |  - Guardian drives the gate:                 | - Guardian drives the gate:                  |
-               |    - No gate for 30 days after a single      |   - No gate for 30 days after a single       |
-               |      contribution event [02]                 |     contribution event [02]                  |
-               |    - No gate the first 3 page views          |   - No gate the first 3 page views           |
-               |    - 3x dismissal, then mandatory            |   - 3x dismissal, then mandatory             |
-               |                                              |                                              |
-    -----------|-----------------------------------------------------------------------------------------------------
-               | [07]                                         | [08]                                         |
-               |                                              |                                              |
-               |  - Auxia drives the gate                     | - No Auxia notification                      |
-    consented  |                                              | - Guardian drives the gate:                  |
-               |                                              |   - No gate for 30 days after a single       |
-               |                                              |     contribution event [02]                  |
-               |                                              |   - No gate the first 3 page views           |
-               |                                              |   - Dismissible gates                        |
-               |                                              |     then no gate after 5 dismisses           |
-               |                                              |                                              |
-                ---------------------------------------------------------------------------------------------
-                                                              |
-                                                              |
+
+                   Auxia share of the Audience
+                               100%
+                ----------------------------------------------
+               | [05]                                         |
+               |                                              |
+               |  - Notify Auxia for analytics                |
+ un-consented  |  - Guardian drives the gate:                 |
+               |    - No gate for 30 days after a single      |
+               |      contribution event [02]                 |
+               |    - No gate the first 3 page views          |
+               |    - 3x dismissal, then mandatory            |
+               |                                              |
+    -----------|-----------------------------------------------
+               | [07]                                         |
+               |                                              |
+               |  - Auxia drives the gate                     |
+    consented  |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+                ----------------------------------------------
+
 
 [02] use gu_hide_support_messaging cookie
 ```
