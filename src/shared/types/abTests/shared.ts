@@ -5,7 +5,6 @@ import { purchaseInfoProductSchema, purchaseInfoUserSchema } from '../purchaseIn
 
 const Channel = [
     'Epic',
-    'EpicAMP',
     'EpicAppleNews',
     'EpicLiveblog',
     'Banner1',
