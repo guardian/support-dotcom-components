@@ -15,9 +15,6 @@ export const buildEpicCampaignCode = (test: EpicTest, variant: EpicVariant): str
 export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>
     `${test.name}_${variant.name}`;
 
-export const buildAmpEpicCampaignCode = (testName: string, variantName: string): string =>
-    `AMP__${testName}__${variantName}`;
-
 export const buildGutterCampaignCode = (testName: GutterTest, variantName: GutterVariant): string =>
     `gutter__${testName.name}__${variantName.name}`;
 

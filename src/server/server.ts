@@ -3,7 +3,6 @@ import compression from 'compression';
 import cors from 'cors';
 import type { Express } from 'express';
 import express from 'express';
-import { buildAmpEpicRouter } from './api/ampEpicRouter';
 import { buildAuxiaProxyRouter, getAuxiaRouterConfig } from './api/auxiaProxyRouter';
 import { buildBannerRouter } from './api/bannerRouter';
 import { buildEpicRouter } from './api/epicRouter';
@@ -21,7 +20,6 @@ import {
 import { buildProductCatalogReloader } from './productCatalog';
 import { buildProductPricesReloader } from './productPrices';
 import { buildBanditDataReloader } from './selection/banditData';
-import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
 import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
 import { buildBannerDesignsReloader } from './tests/banners/bannerDesigns';
 import { buildBannerTestsReloader } from './tests/banners/bannerTests';
@@ -69,7 +67,6 @@ const buildApp = async (): Promise<Express> => {
         superModeArticles,
         articleEpicTests,
         liveblogEpicTests,
-        ampEpicTests,
         choiceCardAmounts,
         tickerData,
         productPrices,
@@ -85,7 +82,6 @@ const buildApp = async (): Promise<Express> => {
         buildSuperModeArticlesReloader(),
         buildEpicTestsReloader(),
         buildEpicLiveblogTestsReloader(),
-        buildAmpEpicTestsReloader(),
         buildChoiceCardAmountsReloader(),
         buildTickerDataReloader(stage),
         buildProductPricesReloader(),
@@ -132,8 +128,6 @@ const buildApp = async (): Promise<Express> => {
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
 
-    app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData, ampEpicTests));
-
     app.use(buildAuxiaProxyRouter(auxiaConfig));
 
     app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests));
@@ -152,7 +146,7 @@ const buildApp = async (): Promise<Express> => {
 
 buildApp()
     .then((app) => {
-        const PORT = process.env.PORT || 3030;
+        const PORT = process.env.PORT ?? 3030;
 
         const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
         // keep-alive timeout should match LB idle timeout value, see https://repost.aws/knowledge-center/elb-alb-troubleshoot-502-errors
