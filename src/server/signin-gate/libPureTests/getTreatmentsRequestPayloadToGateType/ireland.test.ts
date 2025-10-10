@@ -149,19 +149,4 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuMandatory');
     });
-
-    // TODO: write the tests for
-    // [06] (copy from logic.md)
-    //
-    // prerequisites:
-    // - Ireland
-    // - Is Guardian share of the audience
-    // - user has NOT consented
-    //
-    // effects:
-    // - Notify Auxia for analytics
-    // - Guardian drives the gate:
-    //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
-    //   - No gate display the first 3 page views
-    //   - 3x dismissal, then mandatory
 });
