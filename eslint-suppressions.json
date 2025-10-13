@@ -1,21 +1,4 @@
 {
-  "src/server/api/ampEpicRouter.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 3
-    },
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 2
-    },
-    "@typescript-eslint/no-base-to-string": {
-      "count": 4
-    },
-    "@typescript-eslint/restrict-template-expressions": {
-      "count": 4
-    },
-    "@typescript-eslint/no-floating-promises": {
-      "count": 1
-    }
-  },
   "src/server/api/bannerRouter.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 1
@@ -74,11 +57,6 @@
       "count": 1
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 1
-    }
-  },
-  "src/server/lib/ampVariantAssignments.ts": {
-    "@typescript-eslint/no-base-to-string": {
       "count": 1
     }
   },
@@ -142,29 +120,6 @@
   "src/server/selection/selectVariant.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 1
-    }
-  },
-  "src/server/server.ts": {
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 1
-    }
-  },
-  "src/server/tests/amp/ampEpic.ts": {
-    "@typescript-eslint/require-await": {
-      "count": 1
-    },
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 1
-    }
-  },
-  "src/server/tests/amp/ampEpicSelection.test.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    }
-  },
-  "src/server/tests/amp/ampEpicSelection.ts": {
-    "@typescript-eslint/require-await": {
-      "count": 2
     }
   },
   "src/server/tests/banners/bannerDeployTimes.ts": {
