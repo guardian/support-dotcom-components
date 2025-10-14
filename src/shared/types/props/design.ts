@@ -33,6 +33,9 @@ const choiceCardsSchema = z.object({
     buttonSelectColour: hexColourSchema.nullish(),
     buttonSelectTextColour: hexColourSchema.nullish(),
     buttonSelectBorderColour: hexColourSchema.nullish(),
+    buttonSelectMarkerColour: hexColourSchema.nullish(),
+    pillTextColour: hexColourSchema.nullish(),
+    pillBackgroundColour: hexColourSchema.nullish(),
     kind: z.literal('ChoiceCards'),
 });
 
@@ -88,10 +91,8 @@ export interface CtaDesign {
 }
 
 interface TickerDesign {
-    text: HexColour; //deprecated
     filledProgress: HexColour;
     progressBarBackground: HexColour;
-    goalMarker: HexColour; //deprecated
     headlineColour: HexColour; //new
     totalColour: HexColour; //new
     goalColour: HexColour; //new
@@ -116,6 +117,9 @@ interface ChoiceCardsDesign {
     buttonSelectColour?: HexColour;
     buttonSelectTextColour?: HexColour;
     buttonSelectBorderColour?: HexColour;
+    buttonSelectMarkerColour?: HexColour;
+    pillTextColour?: HexColour;
+    pillBackgroundColour?: HexColour;
 }
 type Visual = BannerDesignImage | ChoiceCardsDesign;
 
