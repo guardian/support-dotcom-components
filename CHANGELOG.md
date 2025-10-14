@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.10.0
+
+### Minor Changes
+
+-   4659f62: add new colour properties to the banner design
+
 ## 7.9.0
 
 ### Minor Changes
