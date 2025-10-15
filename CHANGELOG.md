@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.10.1
+
+### Patch Changes
+
+-   09461be: Add reminder types back in
+
 ## 7.10.0
 
 ### Minor Changes
