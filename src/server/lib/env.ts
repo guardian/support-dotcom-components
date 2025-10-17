@@ -6,6 +6,8 @@ export const isProd = process.env.stage === 'PROD';
 
 export const isDev = process.env.stage === 'DEV';
 
+export const isCode = process.env.stage === 'CODE';
+
 export const baseUrl = (req: express.Request): string => {
     if (process.env.base_url) {
         return process.env.base_url;
