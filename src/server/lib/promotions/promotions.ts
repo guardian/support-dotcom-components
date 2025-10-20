@@ -5,9 +5,7 @@ import { dynamoDbClient } from '../../utils/dynamodb';
 import { logError, logInfo } from '../../utils/logging';
 import type { ValueReloader } from '../../utils/valueReloader';
 import { buildReloader } from '../../utils/valueReloader';
-import { isProd } from '../env';
-
-const stage = isProd ? 'PROD' : 'CODE';
+import { stage } from '../env';
 
 type PromoCode = string;
 export interface Promotion {

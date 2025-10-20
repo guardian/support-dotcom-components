@@ -8,6 +8,9 @@ export const isDev = process.env.stage === 'DEV';
 
 export const isCode = process.env.stage === 'CODE';
 
+// Defaults stage to PROD to avoid displaying non-PROD data in production.
+export const stage = isDev ? 'DEV' : isCode ? 'CODE' : 'PROD';
+
 export const baseUrl = (req: express.Request): string => {
     if (process.env.base_url) {
         return process.env.base_url;

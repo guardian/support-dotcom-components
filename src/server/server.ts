@@ -10,6 +10,7 @@ import { buildGutterRouter } from './api/gutterRouter';
 import { buildHeaderRouter } from './api/headerRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
+import { stage } from './lib/env';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { buildPromotionsReloader } from './lib/promotions/promotions';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
@@ -41,7 +42,7 @@ const buildApp = async (): Promise<Express> => {
         'http://localhost:9000',
     ];
     const corsOrigin = () => {
-        switch (process.env.stage) {
+        switch (stage) {
             case 'PROD':
                 return ['https://www.theguardian.com', ...dotcomDevOrigins];
             case 'CODE':
@@ -57,9 +58,6 @@ const buildApp = async (): Promise<Express> => {
     app.use(cors(corsOptions));
     app.use(loggingMiddleware);
     app.use(bodyParser.urlencoded({ extended: true }));
-
-    const stage =
-        process.env.stage === 'CODE' ? 'CODE' : process.env.stage === 'DEV' ? 'DEV' : 'PROD';
 
     // Initialise dependencies
     const [

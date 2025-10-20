@@ -2,13 +2,11 @@ import { QueryCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { isNonNullable } from '@guardian/libs';
 import type { ZodSchema } from 'zod';
 import type { BannerDesignFromTool, Channel } from '../../shared/types';
-import { isDev, isProd } from '../lib/env';
+import { stage } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
 import { dynamoDbClient } from '../utils/dynamodb';
 import { logError } from '../utils/logging';
 import { removeNullValues } from '../utils/removeNullValues';
-
-const stage = isDev ? 'DEV' : isProd ? 'PROD' : 'CODE';
 
 export const getTests = <T extends { priority: number }>(
     channel: Channel,

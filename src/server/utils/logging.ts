@@ -1,7 +1,7 @@
 import path from 'path';
 import type { Configuration, LoggingEvent } from 'log4js';
 import { addLayout, configure, getLogger } from 'log4js';
-import { isDev, isProd } from '../lib/env';
+import { isDev, stage } from '../lib/env';
 
 const logLocation = !isDev
     ? '/var/log/dotcom-components/dotcom-components.log'
@@ -11,7 +11,7 @@ const logFields = (logEvent: LoggingEvent) => {
     const fields = {
         stack: 'support',
         app: 'dotcom-components',
-        stage: isProd ? 'PROD' : 'CODE',
+        stage,
         '@timestamp': logEvent.startTime,
         level: logEvent.level.levelStr,
         level_value: logEvent.level.level,
