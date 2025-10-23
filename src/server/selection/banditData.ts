@@ -8,7 +8,7 @@ import type {
     Test,
     Variant,
 } from '../../shared/types';
-import { isProd } from '../lib/env';
+import { stage } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
 import { dynamoDbClient } from '../utils/dynamodb';
 import { logError } from '../utils/logging';
@@ -49,7 +49,7 @@ interface BanditTestConfig {
 function queryForTestSamples(testName: string, channel: Channel, sampleCount?: number) {
     return dynamoDbClient.send(
         new QueryCommand({
-            TableName: `support-bandit-${isProd ? 'PROD' : 'CODE'}`,
+            TableName: `support-bandit-${stage}`,
             KeyConditionExpression: 'testName = :testName',
             ExpressionAttributeValues: {
                 // In the bandit data table we prefix the testName with the channel

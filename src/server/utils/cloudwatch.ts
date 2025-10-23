@@ -1,13 +1,12 @@
 import { CloudWatchClient, PutMetricDataCommand } from '@aws-sdk/client-cloudwatch';
 import { StandardUnit } from '@aws-sdk/client-cloudwatch';
 import throttle from 'lodash.throttle';
-import { isProd } from '../lib/env';
+import { stage } from '../lib/env';
 import { credentials, region } from './aws';
 import { logError } from './logging';
 
 const cloudwatch = new CloudWatchClient({ region, credentials: credentials() });
 
-const stage = isProd ? 'PROD' : 'CODE';
 const namespace = `support-dotcom-components-${stage}`;
 
 const ALL_METRICS = [
