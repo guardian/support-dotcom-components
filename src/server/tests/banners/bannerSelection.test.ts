@@ -641,6 +641,111 @@ describe('selectBannerTest', () => {
         });
     });
 
+    describe('frontsOnly targeting', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+
+        const targeting: BannerTargeting = {
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'GB',
+            hasOptedOutOfArticleCount: false,
+            contentType: 'Network Front',
+            isSignedIn: false,
+            hasConsented: true,
+        };
+
+        const test: BannerTest = {
+            channel: 'Banner1',
+            name: 'test',
+            priority: 1,
+            status: 'Live',
+            bannerChannel: 'contributions',
+            isHardcoded: false,
+            userCohort: 'Everyone',
+            frontsOnly: true,
+            variants: [
+                {
+                    name: 'variant',
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
+                    bannerContent: {
+                        messageText: 'body',
+                        highlightedText: 'highlighted text',
+                        cta: {
+                            text: 'cta',
+                            baseUrl: 'https://support.theguardian.com',
+                        },
+                    },
+                    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                },
+            ],
+            locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
+        };
+
+        it('returns test when frontsOnly is true and contentType is Network Front', () => {
+            const result = selectBannerTest(
+                { ...targeting, contentType: 'Network Front' },
+                userDeviceType,
+                '',
+                [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result?.test.name).toBe('test');
+        });
+
+        it('returns null when frontsOnly is true and contentType is Article', () => {
+            const result = selectBannerTest(
+                { ...targeting, contentType: 'Article' },
+                userDeviceType,
+                '',
+                [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result).toBe(null);
+        });
+
+        it('returns test when frontsOnly is undefined and contentType is Article', () => {
+            const testWithoutFrontsOnly = { ...test, frontsOnly: undefined };
+            const result = selectBannerTest(
+                { ...targeting, contentType: 'Article' },
+                userDeviceType,
+                '',
+                [testWithoutFrontsOnly],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                banditData,
+                undefined,
+                now,
+            );
+            expect(result?.test.name).toBe('test');
+        });
+    });
+
     describe('canShowBannerAgain', () => {
         const buildTargeting = (engagementBannerLastClosedAt: string): BannerTargeting => ({
             shouldHideReaderRevenue: false,

@@ -190,6 +190,13 @@ const isTaylorReportPage = (targeting: BannerTargeting): boolean => {
     return Boolean(targeting.tagIds?.includes(TAYLOR_REPORT_TAG_ID));
 };
 
+const matchesFrontsOnlyRequirement = (test: BannerTest, targeting: BannerTargeting): boolean => {
+    if (test.frontsOnly) {
+        return targeting.contentType === 'Network Front';
+    }
+    return true;
+};
+
 export const selectBannerTest = (
     targeting: BannerTargeting,
     userDeviceType: UserDeviceType,
@@ -248,7 +255,8 @@ export const selectBannerTest = (
                 },
             ) &&
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
-            abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket)
+            abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket) &&
+            matchesFrontsOnlyRequirement(test, targeting)
         ) {
             const result = selectVariant<BannerVariant, BannerTest>(
                 test,

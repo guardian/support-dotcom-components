@@ -90,6 +90,7 @@ export const bannerTestFromToolSchema = testSchema.extend({
             daysBetween: z.number(),
         })
         .optional(),
+    frontsOnly: z.boolean().optional(),
 });
 
 export type BannerTestFromTool = z.infer<typeof bannerTestFromToolSchema>;
