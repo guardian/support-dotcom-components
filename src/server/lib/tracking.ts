@@ -10,7 +10,7 @@ import type {
 const campaignPrefix = 'gdnwb_copts_memco';
 
 export const buildEpicCampaignCode = (test: EpicTest, variant: EpicVariant): string =>
-    `${campaignPrefix}_${test.campaignId || test.name}_${variant.name}`;
+    `${campaignPrefix}_${test.campaignId ?? test.name}_${variant.name}`;
 
 export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>
     `${test.name}_${variant.name}`;

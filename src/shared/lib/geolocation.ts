@@ -576,7 +576,7 @@ export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupI
     const foundCountryGroupId = availableCountryGroupIds.find((countryGroupId) =>
         countryGroups[countryGroupId].countries.includes(countryCode ?? ''),
     );
-    return foundCountryGroupId || 'International';
+    return foundCountryGroupId ?? 'International';
 };
 
 export const inTargetedCountry = (
