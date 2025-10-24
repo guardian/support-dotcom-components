@@ -17,9 +17,6 @@
     "@typescript-eslint/restrict-template-expressions": {
       "count": 1
     },
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 2
-    },
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 3
     },
@@ -74,16 +71,6 @@
       "count": 1
     }
   },
-  "src/server/lib/targeting.ts": {
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 1
-    }
-  },
-  "src/server/lib/tracking.ts": {
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 1
-    }
-  },
   "src/server/middleware/errorHandling.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
@@ -101,9 +88,6 @@
   },
   "src/server/selection/ab.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1
-    },
-    "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 1
     }
   },
@@ -144,23 +128,12 @@
     }
   },
   "src/server/tests/epics/epicSelection.ts": {
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 4
-    },
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 1
     }
   },
-  "src/server/tests/gutters/gutterSelection.ts": {
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 2
-    }
-  },
   "src/server/tests/headers/headerSelection.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 2
-    },
-    "@typescript-eslint/prefer-nullish-coalescing": {
       "count": 2
     }
   },
@@ -197,9 +170,6 @@
     }
   },
   "src/shared/lib/geolocation.ts": {
-    "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 1
-    },
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 1
     }
