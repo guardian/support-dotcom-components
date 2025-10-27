@@ -74,7 +74,13 @@ export const buildEpicRouter = (
 
             return [...hardcodedTests, ...articleEpicTests.get()];
         } catch (err) {
-            logWarn(`Error getting article epic tests: ${err}`);
+            if (typeof err === 'string') {
+                logWarn(`Error getting article epic tests: ${err}`);
+            } else if (err instanceof Error) {
+                logWarn(`Error getting article epic tests: ${err.message}`);
+            } else {
+                logWarn(`Error getting article epic tests: ${JSON.stringify(err)}`);
+            }
 
             return [];
         }
@@ -198,7 +204,11 @@ export const buildEpicRouter = (
 
     router.post(
         '/epic',
-        (req: express.Request, res: express.Response, next: express.NextFunction): void => {
+        (
+            req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ): void => {
             try {
                 const epicType: EpicType = 'ARTICLE';
 
@@ -228,7 +238,11 @@ export const buildEpicRouter = (
 
     router.post(
         '/liveblog-epic',
-        (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        (
+            req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ) => {
             try {
                 const epicType: EpicType = 'LIVEBLOG';
 
