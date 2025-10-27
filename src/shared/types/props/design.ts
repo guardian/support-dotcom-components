@@ -7,7 +7,7 @@ const hexValueSchema = z.string().refine(
         return hexValueRegex.test(val);
     },
     {
-        error: (issue) => `"${issue.input}" is not a valid hex value`,
+        error: (issue) => `"${JSON.stringify(issue.input)}" is not a valid hex value`,
     },
 );
 
