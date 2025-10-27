@@ -1,0 +1,48 @@
+name: Beta release for support-dotcom-components
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  beta-release:
+    name: Beta Release
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'beta release'
+    permissions:
+      contents: write # in order to write labels to main branch?
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: latest
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Build
+        run: |
+          pnpm install
+          pnpm build-dotcom
+          pnpm build-dotcom-types
+
+      - name: Version
+        run: pnpm changeset version --snapshot beta
+
+      - name: Release
+        uses: changesets/action@v1
+        with:
+          publish: pnpm changeset publish --tag beta
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
