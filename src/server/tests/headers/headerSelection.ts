@@ -379,7 +379,7 @@ export const selectBestTest = (
     return {
         test: selectedTest,
         variant: selectedVariant,
-        moduleName: selectedVariant.moduleName || moduleName,
+        moduleName: selectedVariant.moduleName ?? moduleName,
     };
 };
 
@@ -398,7 +398,7 @@ const getForcedVariant = (
         return {
             test,
             variant,
-            moduleName: variant.moduleName || moduleName,
+            moduleName: variant.moduleName ?? moduleName,
         };
     }
     return null;

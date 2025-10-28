@@ -84,7 +84,11 @@ export const buildGutterRouter = (
     router.post(
         '/gutter-liveblog',
         bodyContainsAllFields(['targeting']),
-        (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        (
+            req: express.Request<Record<string, never>, unknown, { targeting: GutterTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ) => {
             try {
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);

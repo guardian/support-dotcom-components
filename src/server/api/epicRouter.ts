@@ -74,8 +74,7 @@ export const buildEpicRouter = (
 
             return [...hardcodedTests, ...articleEpicTests.get()];
         } catch (err) {
-            logWarn(`Error getting article epic tests: ${err}`);
-
+            logWarn(`Error getting article epic tests: ${String(err)}`);
             return [];
         }
     };
@@ -96,7 +95,7 @@ export const buildEpicRouter = (
             return {};
         }
 
-        const targetingMvtId = targeting.mvtId || 1;
+        const targetingMvtId = targeting.mvtId ?? 1;
 
         const tests =
             type === 'ARTICLE'
@@ -166,7 +165,7 @@ export const buildEpicRouter = (
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildEpicCampaignCode(test, variant),
-            campaignId: `epic_${test.campaignId || test.name}`,
+            campaignId: `epic_${test.campaignId ?? test.name}`,
             componentType: 'ACQUISITIONS_EPIC',
             products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
             labels: test.isSuperMode ? ['SUPER_MODE'] : undefined,
@@ -198,7 +197,11 @@ export const buildEpicRouter = (
 
     router.post(
         '/epic',
-        (req: express.Request, res: express.Response, next: express.NextFunction): void => {
+        (
+            req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ): void => {
             try {
                 const epicType: EpicType = 'ARTICLE';
 
@@ -228,7 +231,11 @@ export const buildEpicRouter = (
 
     router.post(
         '/liveblog-epic',
-        (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        (
+            req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ) => {
             try {
                 const epicType: EpicType = 'LIVEBLOG';
 

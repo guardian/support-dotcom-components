@@ -112,7 +112,7 @@ export const selectAmountsTestVariant = (
 
     // Test is running and user has been successfully assigned to a control/variant
     return {
-        testName: liveTestName || `${testName}_AB_TEST`,
+        testName: liveTestName ?? `${testName}_AB_TEST`,
         ...variant,
     };
 };
