@@ -63,9 +63,7 @@ export class TickerDataProvider {
 
     getTickerData(name: TickerName): TickerData | undefined {
         const provider = this.providers[name];
-        if ('get' in provider) {
-            return provider.get();
-        }
+        return provider.get();
     }
 
     addTickerDataToSettings(tickerSettings: TickerSettings): TickerSettings | undefined {
