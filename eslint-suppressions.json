@@ -15,20 +15,6 @@
       "count": 1
     }
   },
-  "src/server/lib/fetchTickerData.ts": {
-    "@typescript-eslint/prefer-promise-reject-errors": {
-      "count": 3
-    },
-    "@typescript-eslint/no-unsafe-argument": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unnecessary-condition": {
-      "count": 1
-    }
-  },
   "src/server/middleware/errorHandling.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
@@ -111,14 +97,6 @@
       "count": 1
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    }
-  },
-  "src/server/utils/supportFrontend.ts": {
-    "@typescript-eslint/prefer-promise-reject-errors": {
-      "count": 3
-    },
-    "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
     }
   },

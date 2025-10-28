@@ -3,7 +3,7 @@ import { isProd } from '../lib/env';
 export const fetchSupportFrontendData = (endpoint: string): Promise<string> => {
     return new Promise((resolve, reject) => {
         if (!endpoint) {
-            reject('{"error": "No endpoint value supplied"}');
+            reject(new Error('No endpoint value supplied'));
         }
 
         const supportUrl = isProd
@@ -15,11 +15,11 @@ export const fetchSupportFrontendData = (endpoint: string): Promise<string> => {
         fetch(apiUrl)
             .then((packet) => {
                 if (!packet.ok) {
-                    reject(`{"error": "HTTP error! Status: ${packet.status}"}`);
+                    reject(new Error(`HTTP error! Status: ${packet.status}`));
                 }
                 return packet.text();
             })
             .then((res) => resolve(res))
-            .catch((err) => reject(`{"error": "Data fetch error: ${err.message}"}`));
+            .catch((err) => reject(new Error(`Data fetch error: ${String(err)}`)));
     });
 };

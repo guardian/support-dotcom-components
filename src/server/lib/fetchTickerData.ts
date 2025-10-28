@@ -15,15 +15,15 @@ const tickerUrl = (stage: Stage, name: TickerName): string => {
 
 const checkForErrors = (response: Response): Promise<Response> => {
     if (!response.ok) {
-        return Promise.reject(
+        const error = new Error(
             response.statusText || `Ticker api call returned HTTP status ${response.status}`,
         );
+        return Promise.reject(error);
     }
     return Promise.resolve(response);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- JSON not yet parsed to a type.
-const parse = (json: any): Promise<TickerData> => {
+const parse = (json: { total: string; goal: string }): Promise<TickerData> => {
     const total = parseInt(json.total);
     const goal = parseInt(json.goal);
 
@@ -33,7 +33,8 @@ const parse = (json: any): Promise<TickerData> => {
             goal,
         });
     } else {
-        return Promise.reject(`Failed to parse ticker data: ${json}`);
+        const error = new Error(`Failed to parse ticker data: ${JSON.stringify(json)}`);
+        return Promise.reject(error);
     }
 };
 
@@ -44,8 +45,9 @@ const getTickerDataForTickerTypeFetcher =
             .then((response) => response.json())
             .then(parse)
             .catch((error) => {
-                logError(`Error fetching ${name} ticker data: ${error}`);
-                return Promise.reject(error);
+                const errorObj = error instanceof Error ? error : new Error(String(error));
+                logError(`Error fetching ${name} ticker data: ${errorObj.message}`);
+                return Promise.reject(errorObj);
             });
     };
 
@@ -61,7 +63,7 @@ export class TickerDataProvider {
 
     getTickerData(name: TickerName): TickerData | undefined {
         const provider = this.providers[name];
-        if (provider) {
+        if ('get' in provider) {
             return provider.get();
         }
     }
