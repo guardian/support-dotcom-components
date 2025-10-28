@@ -74,14 +74,7 @@ export const buildEpicRouter = (
 
             return [...hardcodedTests, ...articleEpicTests.get()];
         } catch (err) {
-            if (typeof err === 'string') {
-                logWarn(`Error getting article epic tests: ${err}`);
-            } else if (err instanceof Error) {
-                logWarn(`Error getting article epic tests: ${err.message}`);
-            } else {
-                logWarn(`Error getting article epic tests: ${JSON.stringify(err)}`);
-            }
-
+            logWarn(`Error getting article epic tests: ${String(err)}`);
             return [];
         }
     };
