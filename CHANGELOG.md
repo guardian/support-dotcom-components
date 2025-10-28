@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 7.10.2
+
+### Patch Changes
+
+-   f2c997a: prefer-nullish-coalescing lint rule violations fix
+
 ## 7.10.1
 
 ### Patch Changes
