@@ -57,8 +57,8 @@ dependencies:
     specifier: ^3.0.5
     version: 3.0.5
   zod:
-    specifier: 3.22.4
-    version: 3.22.4
+    specifier: 4.1.12
+    version: 4.1.12
 
 devDependencies:
   '@babel/core':
@@ -9949,6 +9949,6 @@ packages:
       readable-stream: 3.6.2
     dev: true
 
-  /zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+  /zod@4.1.12:
+    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
     dev: false
