@@ -110,7 +110,7 @@ describe('selectBannerTest', () => {
                 undefined,
                 now,
             );
-            expect(result && result.test.name).toBe('test');
+            expect(result?.test.name).toBe('test');
         });
 
         it('returns test if regionTargeting (country code) matches country code from payload (targeting)', () => {
@@ -134,7 +134,7 @@ describe('selectBannerTest', () => {
                 undefined,
                 now,
             );
-            expect(result && result.test.name).toBe('test');
+            expect(result?.test.name).toBe('test');
         });
 
         it('returns test if regionTargeting (country group) matches country code from payload (targeting)', () => {
@@ -158,7 +158,7 @@ describe('selectBannerTest', () => {
                 undefined,
                 now,
             );
-            expect(result && result.test.name).toBe('test');
+            expect(result?.test.name).toBe('test');
         });
 
         it('returns null if regionTargeting does not match country code from payload (targeting)', () => {
@@ -200,7 +200,7 @@ describe('selectBannerTest', () => {
                 undefined,
                 now,
             );
-            expect(result && result.test.name).toBe(null);
+            expect(result?.test.name).toBeUndefined();
         });
 
         it('returns null if not enough article views', () => {
@@ -241,7 +241,7 @@ describe('selectBannerTest', () => {
                 undefined,
                 now,
             );
-            expect(result && result.test.name).toBe('test');
+            expect(result?.test.name).toBe('test');
         });
 
         it('returns null if opted out', () => {
@@ -359,7 +359,7 @@ describe('selectBannerTest', () => {
                 undefined,
                 now,
             );
-            expect(result && result.test.name).toBe('test');
+            expect(result?.test.name).toBe('test');
         });
 
         it('returns null if not enough article views', () => {
@@ -400,7 +400,7 @@ describe('selectBannerTest', () => {
                 undefined,
                 now,
             );
-            expect(result && result.test.name).toBe('test');
+            expect(result?.test.name).toBe('test');
         });
     });
 
@@ -480,8 +480,8 @@ describe('selectBannerTest', () => {
             );
         };
 
-        it('It should return a test matching a contribution from a new user', async () => {
-            const result = await runSelection({
+        it('It should return a test matching a contribution from a new user', () => {
+            const result = runSelection({
                 ...baseTargeting,
                 purchaseInfo: { product: 'Contribution', userType: 'new' },
             });
@@ -489,8 +489,8 @@ describe('selectBannerTest', () => {
             expect(result?.test.name).toEqual('banner-new-contribution');
         });
 
-        it('It should return a test matching a subscription from an existing user', async () => {
-            const result = await runSelection({
+        it('It should return a test matching a subscription from an existing user', () => {
+            const result = runSelection({
                 ...baseTargeting,
                 purchaseInfo: { product: 'SupporterPlus', userType: 'current' },
             });
@@ -498,8 +498,8 @@ describe('selectBannerTest', () => {
             expect(result?.test.name).toEqual('banner-existing-subscriber');
         });
 
-        it('It should ignore purchase information if user is signed in', async () => {
-            const result = await runSelection({
+        it('It should ignore purchase information if user is signed in', () => {
+            const result = runSelection({
                 ...baseTargeting,
                 purchaseInfo: { product: 'Contribution', userType: 'new' },
                 isSignedIn: true,
@@ -508,8 +508,8 @@ describe('selectBannerTest', () => {
             expect(result).toBeNull();
         });
 
-        it('It should ignore purchase information if sign in banner has previously been closed', async () => {
-            const result = await runSelection({
+        it('It should ignore purchase information if sign in banner has previously been closed', () => {
+            const result = runSelection({
                 ...baseTargeting,
                 purchaseInfo: { product: 'Contribution', userType: 'new' },
                 signInBannerLastClosedAt: new Date().toISOString(),
@@ -596,7 +596,7 @@ describe('selectBannerTest', () => {
                 undefined,
                 now,
             );
-            expect(result && result.test.name).toBe('abandonedBasket');
+            expect(result?.test.name).toBe('abandonedBasket');
         });
 
         it('returns null when abandoned basket property present and recently closed', () => {

@@ -58,14 +58,6 @@
       "count": 5
     }
   },
-  "src/server/tests/banners/bannerSelection.test.ts": {
-    "@typescript-eslint/prefer-optional-chain": {
-      "count": 8
-    },
-    "@typescript-eslint/await-thenable": {
-      "count": 4
-    }
-  },
   "src/server/tests/banners/bannerSelection.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 3
