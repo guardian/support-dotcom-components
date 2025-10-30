@@ -498,11 +498,7 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     // World without Ireland
 
-    if (
-        !isMandatoryRollout &&
-        isAuxiaAudienceShare(payload) &&
-        userHasConsented(payload)
-    ) {
+    if (!isMandatoryRollout && isAuxiaAudienceShare(payload) && userHasConsented(payload)) {
         // [03] (copy from logic.md)
         //
         // prerequisites:
@@ -515,11 +511,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         return 'AuxiaAPI';
     }
 
-    if (
-        !isMandatoryRollout &&
-        isAuxiaAudienceShare(payload) &&
-        !userHasConsented(payload)
-    ) {
+    if (!isMandatoryRollout && isAuxiaAudienceShare(payload) && !userHasConsented(payload)) {
         // [01] (copy from logic.md)
         //
         // prerequisites:
@@ -546,11 +538,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         }
     }
 
-    if (
-        !isMandatoryRollout &&
-        isGuardianAudienceShare(payload) &&
-        userHasConsented(payload)
-    ) {
+    if (!isMandatoryRollout && isGuardianAudienceShare(payload) && userHasConsented(payload)) {
         // [02] (copy from logic.md)
         //
         // prerequisites:
@@ -577,11 +565,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         }
     }
 
-    if (
-        !isMandatoryRollout &&
-        isGuardianAudienceShare(payload) &&
-        !userHasConsented(payload)
-    ) {
+    if (!isMandatoryRollout && isGuardianAudienceShare(payload) && !userHasConsented(payload)) {
         // [04] (copy from logic.md)
         //
         // prerequisites:
