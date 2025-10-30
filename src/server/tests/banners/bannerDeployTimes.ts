@@ -1,5 +1,5 @@
 import type { BannerChannel } from '../../../shared/types';
-import { isProd } from '../../lib/env';
+import { stage } from '../../lib/env';
 import { logInfo } from '../../utils/logging';
 import { fetchS3Data } from '../../utils/S3';
 import type { ValueProvider } from '../../utils/valueReloader';
@@ -23,7 +23,7 @@ const AdminConsoleBucket = 'support-admin-console';
 const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<BannerDeployTimes> => {
     const channel = bannerChannel === 'contributions' ? 'channel1' : 'channel2';
     return (
-        fetchS3Data(AdminConsoleBucket, `${isProd ? 'PROD' : 'CODE'}/banner-deploy/${channel}.json`)
+        fetchS3Data(AdminConsoleBucket, `${stage}/banner-deploy/${channel}.json`)
             .then(JSON.parse)
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- not fully parsed at this point to know the type
             .then((data: any) => {

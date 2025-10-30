@@ -1,6 +1,6 @@
 import type express from 'express';
 import { Router } from 'express';
-import { isProd } from '../lib/env';
+import { stage } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
 import {
     callAuxiaLogTreatmentInteration,
@@ -19,8 +19,6 @@ export interface AuxiaRouterConfig {
 }
 
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
-    const stage = isProd ? 'PROD' : 'CODE';
-
     const apiKey = await getSsmValue(stage, 'auxia-api-key');
     if (apiKey === undefined) {
         throw new Error('auxia-api-key is undefined');
