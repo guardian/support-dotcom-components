@@ -1,7 +1,11 @@
 import { Factory } from 'fishery';
-import type { EpicTest } from '../../shared/types';
+import type { EpicTest, EpicVariant } from '../../shared/types';
 
-export default Factory.define<EpicTest>(({ factories }) => ({
+type EpicTestFactoryParams = {
+    factories: { epicVariant: Factory<EpicVariant> };
+};
+
+export default Factory.define<EpicTest>(({ factories }: EpicTestFactoryParams) => ({
     channel: 'Epic',
     name: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
     priority: 1,

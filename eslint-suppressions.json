@@ -4,17 +4,6 @@
       "count": 1
     }
   },
-  "src/server/factories/test.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-call": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 1
-    }
-  },
   "src/server/middleware/errorHandling.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 1
@@ -23,11 +12,6 @@
   "src/server/middleware/logging.ts": {
     "@typescript-eslint/no-unsafe-assignment": {
       "count": 8
-    }
-  },
-  "src/server/productPrices.ts": {
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 1
     }
   },
   "src/server/selection/ab.ts": {
@@ -50,14 +34,6 @@
       "count": 1
     }
   },
-  "src/server/tests/banners/bannerDeployTimes.ts": {
-    "@typescript-eslint/no-unsafe-argument": {
-      "count": 5
-    },
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 5
-    }
-  },
   "src/server/tests/banners/bannerSelection.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 3
@@ -73,25 +49,6 @@
       "count": 2
     }
   },
-  "src/server/utils/logging.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-return": {
-      "count": 1
-    }
-  },
-  "src/server/utils/removeNullValues.ts": {
-    "@typescript-eslint/no-unsafe-argument": {
-      "count": 2
-    },
-    "@typescript-eslint/no-unsafe-return": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    }
-  },
   "src/server/utils/valueReloader.ts": {
     "@typescript-eslint/no-floating-promises": {
       "count": 1
@@ -102,31 +59,9 @@
       "count": 1
     }
   },
-  "src/shared/lib/history.ts": {
-    "@typescript-eslint/no-unsafe-return": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 3
-    },
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 8
-    },
-    "@typescript-eslint/no-unsafe-argument": {
-      "count": 1
-    },
-    "@typescript-eslint/no-unsafe-call": {
-      "count": 2
-    }
-  },
   "src/shared/lib/placeholders.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 2
-    }
-  },
-  "src/shared/lib/viewLog.ts": {
-    "@typescript-eslint/no-unsafe-member-access": {
-      "count": 1
     }
   },
   "src/shared/types/abTests/banner.ts": {

@@ -8,7 +8,11 @@ const getProductPrices = (): Promise<Prices | undefined> =>
     fetchSupportFrontendData('prices')
         .then(JSON.parse)
         .catch((error) => {
-            logError(`Failed to fetch prices data: ${error.message}`);
+            if (error instanceof Error) {
+                logError(`Failed to fetch prices data: ${error.message}`);
+            } else {
+                logError(`Failed to fetch prices data: ${String(error)}`);
+            }
             return undefined;
         });
 

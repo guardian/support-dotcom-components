@@ -22,22 +22,22 @@ const AdminConsoleBucket = 'support-admin-console';
 
 const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<BannerDeployTimes> => {
     const channel = bannerChannel === 'contributions' ? 'channel1' : 'channel2';
-    return (
-        fetchS3Data(AdminConsoleBucket, `${isProd ? 'PROD' : 'CODE'}/banner-deploy/${channel}.json`)
-            .then(JSON.parse)
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- not fully parsed at this point to know the type
-            .then((data: any) => {
-                const times: BannerDeployTimes = {
-                    UnitedKingdom: new Date(data.UnitedKingdom.timestamp),
-                    UnitedStates: new Date(data.UnitedStates.timestamp),
-                    Australia: new Date(data.Australia.timestamp),
-                    RestOfWorld: new Date(data.RestOfWorld.timestamp),
-                    EuropeanUnion: new Date(data.EuropeanUnion.timestamp),
-                };
-                logInfo(`Got banner deploy times for ${channel}, times: ${JSON.stringify(times)}`);
-                return times;
-            })
-    );
+    return fetchS3Data(
+        AdminConsoleBucket,
+        `${isProd ? 'PROD' : 'CODE'}/banner-deploy/${channel}.json`,
+    )
+        .then(JSON.parse)
+        .then((data: Record<ReaderRevenueRegion, { timestamp: number }>) => {
+            const times: BannerDeployTimes = {
+                UnitedKingdom: new Date(data.UnitedKingdom.timestamp),
+                UnitedStates: new Date(data.UnitedStates.timestamp),
+                Australia: new Date(data.Australia.timestamp),
+                RestOfWorld: new Date(data.RestOfWorld.timestamp),
+                EuropeanUnion: new Date(data.EuropeanUnion.timestamp),
+            };
+            logInfo(`Got banner deploy times for ${channel}, times: ${JSON.stringify(times)}`);
+            return times;
+        });
 };
 
 const fiveMinutes = 60 * 5;

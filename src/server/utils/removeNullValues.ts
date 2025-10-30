@@ -13,21 +13,21 @@ export function removeNullValues(obj: object): object {
                         .filter((item) => item !== null)
                         .map((item) => {
                             if (item === Object(item)) {
-                                return removeNullValues(item);
+                                return removeNullValues(item as object);
                             } else {
-                                return item;
+                                return item as unknown;
                             }
                         }),
                 };
             } else if (v === Object(v)) {
                 return {
                     ...acc,
-                    [k]: removeNullValues(v),
+                    [k]: removeNullValues(v as object),
                 };
             }
             return {
                 ...acc,
-                [k]: v,
+                [k]: v as unknown,
             };
         }, {});
 }
