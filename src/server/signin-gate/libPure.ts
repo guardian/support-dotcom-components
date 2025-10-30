@@ -443,6 +443,8 @@ export const getTreatmentsRequestPayloadToGateType = (
         return staffTestConditionToDefaultGate(payload);
     }
 
+    const isMandatoryRollout = payload.countryCode === 'IE' || payload.countryCode === 'NZ';
+
     // --------------------------------------------------------------
     // We now move to the normal behavior of the gate
 
@@ -456,7 +458,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     //    of the space. Therefore one and only one condition of the below conditions
     //    should correspond to a given payload.
 
-    if (payload.countryCode === 'IE' && userHasConsented(payload)) {
+    if (isMandatoryRollout && userHasConsented(payload)) {
         // [07] (copy from logic.md)
         //
         // prerequisites:
@@ -468,7 +470,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         return 'AuxiaAPI';
     }
 
-    if (payload.countryCode === 'IE' && !userHasConsented(payload)) {
+    if (isMandatoryRollout && !userHasConsented(payload)) {
         // [05] (copy from logic.md)
         //
         // prerequisites:
@@ -497,7 +499,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     // World without Ireland
 
     if (
-        payload.countryCode !== 'IE' &&
+        !isMandatoryRollout &&
         isAuxiaAudienceShare(payload) &&
         userHasConsented(payload)
     ) {
@@ -514,7 +516,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     if (
-        payload.countryCode !== 'IE' &&
+        !isMandatoryRollout &&
         isAuxiaAudienceShare(payload) &&
         !userHasConsented(payload)
     ) {
@@ -545,7 +547,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     if (
-        payload.countryCode !== 'IE' &&
+        !isMandatoryRollout &&
         isGuardianAudienceShare(payload) &&
         userHasConsented(payload)
     ) {
@@ -576,7 +578,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     if (
-        payload.countryCode !== 'IE' &&
+        !isMandatoryRollout &&
         isGuardianAudienceShare(payload) &&
         !userHasConsented(payload)
     ) {
