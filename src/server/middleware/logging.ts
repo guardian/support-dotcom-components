@@ -1,9 +1,20 @@
 import type express from 'express';
 import { logger } from '../utils/logging';
 
+type LoggingLocals = {
+    didRenderEpic?: boolean;
+    didRenderBanner?: boolean;
+    bannerTargeting?: Record<string, unknown>;
+    epicTargeting?: Record<string, unknown>;
+    epicSuperMode?: boolean;
+    auxiaTreatmentId?: string;
+    auxiaTreatmentTrackingId?: string;
+    auxiaInteractionType?: string;
+};
+
 export const logging = (
     req: express.Request,
-    res: express.Response,
+    res: express.Response<unknown, LoggingLocals>,
     next: express.NextFunction,
 ): void => {
     const startTime = process.hrtime();

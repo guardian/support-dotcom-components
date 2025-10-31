@@ -3,7 +3,7 @@ import { logger } from '../utils/logging';
 
 export const errorHandling = (
     error: Error,
-    req: express.Request,
+    req: express.Request<unknown, unknown, unknown>,
     res: express.Response,
     // Error handling middleware in Express needs to take 4 arguments in the handler
     // for it to run when `next()` function is called in the route handler
