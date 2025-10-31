@@ -15,16 +15,6 @@
       "count": 1
     }
   },
-  "src/server/middleware/errorHandling.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    }
-  },
-  "src/server/middleware/logging.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 8
-    }
-  },
   "src/server/productPrices.ts": {
     "@typescript-eslint/no-unsafe-member-access": {
       "count": 1
@@ -89,11 +79,6 @@
       "count": 1
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    }
-  },
-  "src/server/utils/valueReloader.ts": {
-    "@typescript-eslint/no-floating-promises": {
       "count": 1
     }
   },

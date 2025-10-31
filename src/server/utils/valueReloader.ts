@@ -1,3 +1,5 @@
+import { logError } from './logging';
+
 export interface ValueProvider<T> {
     get(): T;
 }
@@ -27,6 +29,9 @@ export class ValueReloader<T> implements ValueProvider<T> {
     refresh(): void {
         this.load()
             .then((result) => (this.value = result))
+            .catch((err: unknown) => {
+                logError(`ValueReloader: failed to reload value: ${String(err)}`);
+            })
             .finally(() => {
                 setTimeout(() => {
                     this.refresh();
