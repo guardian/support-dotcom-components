@@ -170,7 +170,7 @@ export const deviceTypeMatchesFilter = (userDeviceType: UserDeviceType): Filter 
 
 type FilterResults = Record<string, boolean>;
 
-export type Debug = Record<string, FilterResults>;
+export type Debug = Record<string, FilterResults | undefined>;
 
 export interface Result {
     result?: {
@@ -216,9 +216,9 @@ export const findTestAndVariant = (
         const test = tests.find((test) =>
             filters.every((filter) => {
                 const got = filter.test(test, targeting);
-
-                if (debug[test.name]) {
-                    debug[test.name][filter.id] = got;
+                const debugResults = debug[test.name];
+                if (debugResults) {
+                    debugResults[filter.id] = got;
                 } else {
                     debug[test.name] = { [filter.id]: got };
                 }

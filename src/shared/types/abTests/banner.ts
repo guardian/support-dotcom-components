@@ -36,7 +36,7 @@ export interface BannerDesignName {
 type BannerUi = BannerTemplate | BannerDesignName;
 
 export function uiIsDesign(ui: BannerUi): ui is BannerDesignName {
-    return (ui as BannerDesignName).designName !== undefined;
+    return typeof ui === 'object' && 'designName' in ui;
 }
 
 export const bannerVariantFromToolSchema = z.object({

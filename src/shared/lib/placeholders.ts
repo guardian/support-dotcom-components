@@ -3,7 +3,7 @@ import { countryCodeToCountryGroupId, getCountryName, getLocalCurrencySymbol } f
 
 // Map each placeholder to a rule defining how to substitute it, if possible
 type PlaceholderRule = (params: { countryCode?: string; prices?: Prices }) => string | undefined;
-type PlaceholderRules = Record<string, PlaceholderRule>;
+type PlaceholderRules = Record<string, PlaceholderRule | undefined>;
 
 const priceSubstitution = (
     product: GuardianProduct,
@@ -14,10 +14,8 @@ const priceSubstitution = (
     if (prices) {
         const countryGroupId = countryCodeToCountryGroupId(countryCode);
         const localPrices = prices[countryGroupId];
-        if (localPrices) {
-            const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
-            return `${localCurrencySymbol}${localPrices[product][ratePlan].price}`;
-        }
+        const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
+        return `${localCurrencySymbol}${localPrices[product][ratePlan].price}`;
     }
     return undefined;
 };
