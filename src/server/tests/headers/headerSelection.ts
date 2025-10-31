@@ -325,8 +325,8 @@ const purchaseMatches = (
     }
 
     const { product, userType } = purchaseInfo;
-    const productValid = product && testPurchaseInfo?.product.includes(product);
-    const userValid = userType && testPurchaseInfo?.userType.includes(userType);
+    const productValid = testPurchaseInfo?.product.includes(product);
+    const userValid = testPurchaseInfo?.userType.includes(userType);
 
     return productValid && userValid;
 };

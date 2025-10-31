@@ -104,7 +104,7 @@ export const buildBannerRouter = (
             const design = getDesignForVariant(variant, bannerDesigns.get());
 
             const contributionAmounts = choiceCardAmounts.get();
-            const requiredCountry = targeting.countryCode ?? 'GB';
+            const requiredCountry = targeting.countryCode || 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
             const targetingMvtId = targeting.mvtId || 1;
             const variantAmounts = selectAmountsTestVariant(

@@ -179,8 +179,8 @@ const purchaseMatches = (
     }
 
     const { product, userType } = purchaseInfo;
-    const productValid = product && testPurchaseInfo?.product.includes(product);
-    const userValid = userType && testPurchaseInfo?.userType.includes(userType);
+    const productValid = testPurchaseInfo?.product.includes(product);
+    const userValid = testPurchaseInfo?.userType.includes(userType);
 
     return productValid && userValid;
 };
@@ -245,15 +245,7 @@ export const selectBannerTest = (
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
             canShowBannerAgain(targeting, test, bannerDeployTimes, now, deploySchedule) &&
             correctSignedInStatus(targeting.isSignedIn, test.signedInStatus) &&
-            pageContextMatches(
-                targeting,
-                test.contextTargeting ?? {
-                    tagIds: [],
-                    sectionIds: [],
-                    excludedTagIds: [],
-                    excludedSectionIds: [],
-                },
-            ) &&
+            pageContextMatches(targeting, test.contextTargeting) &&
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
             abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket) &&
             matchesFrontsOnlyRequirement(test, targeting)

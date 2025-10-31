@@ -6,7 +6,7 @@ import type { BanditVariantData } from './banditData';
 
 export function selectRandomVariant<V extends Variant, T extends Test<V>>(test: T): V | undefined {
     const randomVariantIndex = Math.floor(Math.random() * test.variants.length);
-    const randomVariantData = test.variants[randomVariantIndex];
+    const randomVariantData = test.variants.length && test.variants[randomVariantIndex];
 
     if (!randomVariantData) {
         logError(`Failed to select random variant for bandit test: ${test.name}`);
