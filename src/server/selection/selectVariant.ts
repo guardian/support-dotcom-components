@@ -67,12 +67,10 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(
     } else {
         // No configured methodology, default to AB test
         const variant = selectVariantUsingMVT<V, T>(test, mvtId);
-        if (variant) {
-            return {
-                test,
-                variant,
-            };
-        }
+        return {
+            test,
+            variant,
+        };
     }
     return;
 };

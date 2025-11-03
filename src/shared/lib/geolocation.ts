@@ -634,7 +634,7 @@ export const isGWCheckoutUrl = (baseUrl: string): boolean =>
 export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: string): string => {
     if (countryCode) {
         const supportRegionId = countryCodeToSupportRegionId(countryCode);
-        if (supportRegionId && !isGWCheckoutUrl(originalUrl)) {
+        if (!isGWCheckoutUrl(originalUrl)) {
             return originalUrl.replace(
                 /(support\.theguardian\.com)\/(contribute-in-epic|contribute|subscribe|checkout)/,
                 (_, domain, path) => `${domain}/${supportRegionId.toLowerCase()}/${path}`,

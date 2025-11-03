@@ -29,10 +29,6 @@ export function selectVariantWithHighestMean<V extends Variant, T extends Test<V
             ? sortedVariants[0]
             : sortedVariants[Math.floor(Math.random() * bestVariants)]; // more than 1
 
-    if (!variant) {
-        return undefined;
-    }
-
     return test.variants.find((v) => v.name === variant.variantName);
 }
 
