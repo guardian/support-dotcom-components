@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.0.2
+
+### Patch Changes
+
+-   41d3703: remove publish script - test for duplicated publishing issue
+
 ## 8.0.1
 
 ### Patch Changes
