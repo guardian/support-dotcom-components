@@ -2,7 +2,9 @@
     "name": "@guardian/support-dotcom-components",
     "version": "8.0.0",
     "description": "Service to serve Reader Revenue components to dotcom",
-    "repository": "github:guardian/support-dotcom-components",
+    "repository": {
+        "url": "https://github.com/guardian/support-dotcom-components"
+    },
     "author": "The Guardian",
     "license": "MIT",
     "main": "dist/index.js",
