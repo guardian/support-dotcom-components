@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.0.1
+
+### Patch Changes
+
+-   d20146c: Migrate to trusted publishing
+
 ## 8.0.0
 
 ### Major Changes
