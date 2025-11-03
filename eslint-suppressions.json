@@ -4,16 +4,6 @@
       "count": 1
     }
   },
-  "src/server/middleware/errorHandling.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 1
-    }
-  },
-  "src/server/middleware/logging.ts": {
-    "@typescript-eslint/no-unsafe-assignment": {
-      "count": 8
-    }
-  },
   "src/server/selection/ab.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 1
@@ -47,11 +37,6 @@
   "src/server/tests/headers/headerSelection.ts": {
     "@typescript-eslint/no-unnecessary-condition": {
       "count": 2
-    }
-  },
-  "src/server/utils/valueReloader.ts": {
-    "@typescript-eslint/no-floating-promises": {
-      "count": 1
     }
   },
   "src/shared/lib/geolocation.ts": {
