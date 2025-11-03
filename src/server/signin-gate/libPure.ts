@@ -126,66 +126,6 @@ export const guMandatoryUserTreatment = (): UserTreatment => {
     };
 };
 
-export const buildGuUserTreatmentsEnvelop = (
-    gateDismissCount: number,
-    gateDisplayCount: number,
-    countryCode: string,
-): UserTreatmentsEnvelop => {
-    const responseId = ''; // This value is not important, it is not used by the client.
-
-    // First we enforce the GU policy of not showing the gate if the user has dismissed it more than 5 times.
-    // (We do not want users to have to dismiss the gate 6 times)
-
-    if (gateDismissCount > 5) {
-        return {
-            responseId,
-            userTreatments: [],
-        };
-    }
-
-    // We are now clear to show the default gu gate.
-
-    // (comment group: 04f093f0)
-
-    // gateDisplayCount was introduced to enrich the behavior of the default gate.
-    // That number represents the number of times the gate has been displayed, excluding the
-    // current rendering. Therefore the first time the number is 0.
-
-    // At the time these lines are written we want the experience for non consented users
-    // in Ireland to be that the gates, as they display are (first line) corresponding
-    // to values of gateDisplayCount (second line)
-    //  -------------------------------------------------------------------------
-    // | dismissible | dismissible | dismissible | mandatory (remains mandatory) |
-    // |     0       |      1      |      2      |      3           etc          |
-    //  -------------------------------------------------------------------------
-
-    // For non consenting users outside ireland, the behavior remains the same
-
-    if (countryCode !== 'IE') {
-        const data: UserTreatmentsEnvelop = {
-            responseId,
-            userTreatments: [guDismissibleUserTreatment()],
-        };
-        return data;
-    }
-
-    let data: UserTreatmentsEnvelop;
-
-    if (gateDisplayCount >= 3) {
-        data = {
-            responseId,
-            userTreatments: [guMandatoryUserTreatment()],
-        };
-    } else {
-        data = {
-            responseId,
-            userTreatments: [guDismissibleUserTreatment()],
-        };
-    }
-
-    return data;
-};
-
 export const isValidContentType = (contentType: string): boolean => {
     const validTypes = ['Article'];
     return validTypes.includes(contentType);
@@ -443,6 +383,8 @@ export const getTreatmentsRequestPayloadToGateType = (
         return staffTestConditionToDefaultGate(payload);
     }
 
+    const isMandatoryRollout = payload.countryCode === 'IE' || payload.countryCode === 'NZ';
+
     // --------------------------------------------------------------
     // We now move to the normal behavior of the gate
 
@@ -456,11 +398,11 @@ export const getTreatmentsRequestPayloadToGateType = (
     //    of the space. Therefore one and only one condition of the below conditions
     //    should correspond to a given payload.
 
-    if (payload.countryCode === 'IE' && userHasConsented(payload)) {
+    if (isMandatoryRollout && userHasConsented(payload)) {
         // [07] (copy from logic.md)
         //
         // prerequisites:
-        // - Ireland
+        // - Ireland/NZ
         // - user has consented
         //
         // effects:
@@ -468,11 +410,11 @@ export const getTreatmentsRequestPayloadToGateType = (
         return 'AuxiaAPI';
     }
 
-    if (payload.countryCode === 'IE' && !userHasConsented(payload)) {
+    if (isMandatoryRollout && !userHasConsented(payload)) {
         // [05] (copy from logic.md)
         //
         // prerequisites:
-        // - Ireland
+        // - Ireland/NZ
         // - user has NOT consented
         //
         // effects:
@@ -494,17 +436,13 @@ export const getTreatmentsRequestPayloadToGateType = (
         }
     }
 
-    // World without Ireland
+    // World excluding Ireland/NZ
 
-    if (
-        payload.countryCode !== 'IE' &&
-        isAuxiaAudienceShare(payload) &&
-        userHasConsented(payload)
-    ) {
+    if (!isMandatoryRollout && isAuxiaAudienceShare(payload) && userHasConsented(payload)) {
         // [03] (copy from logic.md)
         //
         // prerequisites:
-        // - World without Ireland
+        // - World excluding Ireland/NZ
         // - Is Auxia share of the audience
         // - user has consented
         //
@@ -513,15 +451,11 @@ export const getTreatmentsRequestPayloadToGateType = (
         return 'AuxiaAPI';
     }
 
-    if (
-        payload.countryCode !== 'IE' &&
-        isAuxiaAudienceShare(payload) &&
-        !userHasConsented(payload)
-    ) {
+    if (!isMandatoryRollout && isAuxiaAudienceShare(payload) && !userHasConsented(payload)) {
         // [01] (copy from logic.md)
         //
         // prerequisites:
-        // - World without Ireland
+        // - World excluding Ireland/NZ
         // - Is Auxia share of the audience
         // - user has NOT consented
         //
@@ -544,15 +478,11 @@ export const getTreatmentsRequestPayloadToGateType = (
         }
     }
 
-    if (
-        payload.countryCode !== 'IE' &&
-        isGuardianAudienceShare(payload) &&
-        userHasConsented(payload)
-    ) {
+    if (!isMandatoryRollout && isGuardianAudienceShare(payload) && userHasConsented(payload)) {
         // [02] (copy from logic.md)
         //
         // prerequisites:
-        // - World without Ireland
+        // - World excluding Ireland/NZ
         // - Is Guardian share of the audience
         // - user has consented
         //
@@ -575,15 +505,11 @@ export const getTreatmentsRequestPayloadToGateType = (
         }
     }
 
-    if (
-        payload.countryCode !== 'IE' &&
-        isGuardianAudienceShare(payload) &&
-        !userHasConsented(payload)
-    ) {
+    if (!isMandatoryRollout && isGuardianAudienceShare(payload) && !userHasConsented(payload)) {
         // [04] (copy from logic.md)
         //
         // prerequisites:
-        // - World without Ireland
+        // - World excluding Ireland/NZ
         // - Is Guardian share of the audience
         // - user has NOT consented
         //

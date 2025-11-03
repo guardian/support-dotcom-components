@@ -109,7 +109,7 @@ export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter
 
         const testId = test.useLocalViewLog ? test.name : undefined;
 
-        return !shouldThrottle(log, test.maxViews || defaultMaxViews, testId, now);
+        return !shouldThrottle(log, test.maxViews ?? defaultMaxViews, testId, now);
     },
 });
 
@@ -203,9 +203,9 @@ export const findTestAndVariant = (
             hasCountryCode,
             isCountryTargetedForEpic,
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
-            ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
+            ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog ?? [])]),
             respectArticleCountOptOut,
-            withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
+            withinArticleViewedSettings(targeting.weeklyArticleHistory ?? []),
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
             momentumMatches,
@@ -278,7 +278,7 @@ function selectEpicVariant(
     banditData: BanditData[],
     targeting: EpicTargeting,
 ): Result {
-    const result = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId || 1, banditData);
+    const result = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId ?? 1, banditData);
     return {
         result,
     };

@@ -71,7 +71,7 @@ async function getBanditSamplesForTest(
     const parsedResults = queryResultSchema.safeParse(queryResult.Items);
 
     if (!parsedResults.success) {
-        throw new Error(`Error parsing bandit samples: ${parsedResults.error.toString()}`);
+        throw new Error(`Error parsing bandit samples: ${z.prettifyError(parsedResults.error)}`);
     }
 
     return parsedResults.data;
