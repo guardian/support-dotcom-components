@@ -16,7 +16,7 @@ const logFields = (logEvent: LoggingEvent) => {
         level: logEvent.level.levelStr,
         level_value: logEvent.level.level,
     };
-    const data = logEvent.data[0];
+    const data = logEvent.data[0] as Record<string, unknown>;
 
     return {
         ...fields,
