@@ -91,6 +91,10 @@ jobs:
                   node-version-file: '.nvmrc'
                   cache: 'pnpm'
 
+            # Ensure npm 11.5.1 or later is installed
+            - name: Update npm
+              run: npm install -g npm@latest
+
             - name: Build
               run: |
                   pnpm install
@@ -103,4 +107,3 @@ jobs:
                   publish: pnpm changeset publish
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
