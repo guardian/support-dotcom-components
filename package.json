@@ -21,8 +21,6 @@
         "start": "concurrently --kill-others \"pnpm start-watch\" \"pnpm start-server\"",
         "build-dotcom": "rollup --config rollup.config.js",
         "build-dotcom-types": "tsc --project tsconfig.types.json",
-        "publish-dry-run": "pnpm publish --dry-run",
-        "publish": "pnpm publish",
         "lint": "eslint .",
         "prune-lint-suppressions": "pnpm lint --prune-suppressions",
         "prettier:check": "prettier --check ./src",
