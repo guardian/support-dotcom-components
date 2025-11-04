@@ -302,6 +302,9 @@ export const userHasConsented = (payload: GetTreatmentsRequestPayload): boolean 
     return payload.hasConsented;
 };
 
+const inAuxiaControlGroup = (payload: GetTreatmentsRequestPayload): boolean =>
+    payload.isInAuxiaControlGroup;
+
 export const hideSupportMessagingHasOverride = (
     payload: GetTreatmentsRequestPayload,
     now: number,
@@ -398,46 +401,51 @@ export const getTreatmentsRequestPayloadToGateType = (
     //    of the space. Therefore one and only one condition of the below conditions
     //    should correspond to a given payload.
 
-    if (isMandatoryRollout && userHasConsented(payload)) {
-        // [04] (copy from logic.md)
-        //
-        // prerequisites:
-        // - Ireland/NZ
-        // - user has consented
-        //
-        // effects:
-        // - Auxia drives the gate
-        return 'AuxiaAPI';
-    }
-
-    if (isMandatoryRollout && !userHasConsented(payload)) {
-        // [05] (copy from logic.md)
-        //
-        // prerequisites:
-        // - Ireland/NZ
-        // - user has NOT consented
-        //
-        // effects:
-        // - Notify Auxia for analytics
-        // - Guardian drives the gate:
-        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
-        //   - No gate display the first 3 page views
-        //   - 3x dismissal, then mandatory
-        if (hideSupportMessagingHasOverride(payload, now)) {
-            return 'AuxiaAnalyticsThenNone';
-        }
-        if (payload.dailyArticleCount < 3) {
-            return 'AuxiaAnalyticsThenNone';
-        }
-        if (payload.gateDismissCount < 3) {
-            return 'AuxiaAnalyticsThenGuDismissible';
+    if (isMandatoryRollout) {
+        if (userHasConsented(payload) && !inAuxiaControlGroup(payload)) {
+            // [04] (copy from logic.md)
+            //
+            // prerequisites:
+            // - Ireland/NZ
+            // - user has consented
+            // - user not in auxia control group
+            //
+            // effects:
+            // - Auxia drives the gate
+            return 'AuxiaAPI';
         } else {
-            return 'AuxiaAnalyticsThenGuMandatory';
+            // [05] (copy from logic.md)
+            //
+            // prerequisites:
+            // - Ireland/NZ
+            // - user has NOT consented or is in auxia control group
+            //
+            // effects:
+            // - Notify Auxia for analytics
+            // - Guardian drives the gate:
+            //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
+            //   - No gate display the first 3 page views
+            //   - 3x dismissal, then mandatory
+            if (hideSupportMessagingHasOverride(payload, now)) {
+                return 'AuxiaAnalyticsThenNone';
+            }
+            if (payload.dailyArticleCount < 3) {
+                return 'AuxiaAnalyticsThenNone';
+            }
+            if (payload.gateDismissCount < 3) {
+                return 'AuxiaAnalyticsThenGuDismissible';
+            } else {
+                return 'AuxiaAnalyticsThenGuMandatory';
+            }
         }
     }
 
     // World excluding Ireland/NZ
-    if (userHasConsented(payload) && isAuxiaAudienceShare(payload)) {
+    if (
+        userHasConsented(payload) &&
+        isAuxiaAudienceShare(payload) &&
+        !inAuxiaControlGroup(payload)
+    ) {
         // We have consent for Auxia and user is in the Auxia share of the audience
         return 'AuxiaAPI';
     } else {

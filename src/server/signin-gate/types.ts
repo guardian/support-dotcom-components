@@ -103,6 +103,7 @@ export interface GetTreatmentsRequestPayload {
     showDefaultGate: ShowGateValues; // [4]
     gateDisplayCount: number; // [5]
     hideSupportMessagingTimestamp: number | undefined; // [6]
+    isInAuxiaControlGroup: boolean;
 }
 
 // [1] articleIdentifier examples:
