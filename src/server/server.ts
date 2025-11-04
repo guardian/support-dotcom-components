@@ -114,6 +114,7 @@ const buildApp = async (): Promise<Express> => {
             banditData,
             productCatalog,
             promotions,
+            mParticle,
         ),
     );
     app.use(

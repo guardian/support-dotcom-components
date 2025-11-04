@@ -21,12 +21,12 @@ export interface AuxiaRouterConfig {
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
     const stage = isProd ? 'PROD' : 'CODE';
 
-    const apiKey = await getSsmValue(stage, 'auxia-api-key');
+    const apiKey = await getSsmValue(stage, 'auxia-api-key', false);
     if (apiKey === undefined) {
         throw new Error('auxia-api-key is undefined');
     }
 
-    const projectId = await getSsmValue(stage, 'auxia-projectId');
+    const projectId = await getSsmValue(stage, 'auxia-projectId', false);
     if (projectId === undefined) {
         throw new Error('auxia-projectId is undefined');
     }

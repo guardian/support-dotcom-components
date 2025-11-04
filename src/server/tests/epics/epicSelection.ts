@@ -26,6 +26,7 @@ import {
 import type { BanditData } from '../../selection/banditData';
 import { selectVariant } from '../../selection/selectVariant';
 import { momentumMatches } from './momentumTest';
+import type { MParticleProfile } from '../../lib/mParticle';
 
 export interface Filter {
     id: string;
@@ -186,6 +187,7 @@ export const findTestAndVariant = (
     userDeviceType: UserDeviceType,
     superModeArticles: SuperModeArticle[],
     banditData: BanditData[],
+    mParticleProfile: MParticleProfile | undefined,
     includeDebug = false,
 ): Result => {
     const debug: Debug = {};
