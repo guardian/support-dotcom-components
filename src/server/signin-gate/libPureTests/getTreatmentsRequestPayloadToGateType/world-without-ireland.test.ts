@@ -2,7 +2,7 @@ import { getTreatmentsRequestPayloadToGateType } from '../../libPure';
 import type { GetTreatmentsRequestPayload } from '../../types';
 
 describe('getTreatmentsRequestPayloadToGateType', () => {
-    it('logic.md [02], low article count', () => {
+    it('logic.md [03], low article count', () => {
         // [02] (copy from logic.md)
         //
         // prerequisites:
@@ -40,7 +40,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('None');
     });
-    it('logic.md [02], first dismissible gates', () => {
+    it('logic.md [03], first dismissible gates', () => {
         // [02] (copy from logic.md)
         //
         // prerequisites:
@@ -78,7 +78,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
         expect(gateType).toStrictEqual('GuDismissible');
     });
-    it('logic.md [02], high gate dismiss count', () => {
+    it('logic.md [03], high gate dismiss count', () => {
         // [02] (copy from logic.md)
         //
         // prerequisites:
