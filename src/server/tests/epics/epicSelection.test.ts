@@ -18,6 +18,9 @@ import {
     inCorrectCohort,
     isCountryTargetedForEpic,
     isNotExpired,
+    MPARTICLE_CONTRIBUTOR_AUDIENCE_ID,
+    MPARTICLE_CONTRIBUTOR_TEST_NAME,
+    mParticleAudienceMatchesFilter,
     withinArticleViewedSettings,
     withinMaxViews,
 } from './epicSelection';
@@ -899,5 +902,82 @@ describe('correctSignedInStatusFilter filter', () => {
         const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(true);
+    });
+});
+
+describe('mParticleAudienceMatchesFilter', () => {
+    it('should pass if test name matches and user is in the target audience', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: MPARTICLE_CONTRIBUTOR_TEST_NAME,
+        };
+        const mParticleProfile = {
+            audience_memberships: [
+                { audience_id: MPARTICLE_CONTRIBUTOR_AUDIENCE_ID, audience_name: 'audience' },
+            ],
+        };
+        const filter = mParticleAudienceMatchesFilter(mParticleProfile);
+
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if test name matches but user is not in the target audience', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: MPARTICLE_CONTRIBUTOR_TEST_NAME,
+        };
+        const mParticleProfile = {
+            audience_memberships: [{ audience_id: 12345, audience_name: 'audience' }],
+        };
+        const filter = mParticleAudienceMatchesFilter(mParticleProfile);
+
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if test name does not match', () => {
+        const test: EpicTest = {
+            ...testDefault,
+        };
+        const mParticleProfile = {
+            audience_memberships: [
+                { audience_id: MPARTICLE_CONTRIBUTOR_AUDIENCE_ID, audience_name: 'audience' },
+            ],
+        };
+        const filter = mParticleAudienceMatchesFilter(mParticleProfile);
+
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if test name matches but mParticleProfile is undefined', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: MPARTICLE_CONTRIBUTOR_TEST_NAME,
+        };
+        const filter = mParticleAudienceMatchesFilter(undefined);
+
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+
+    it('should fail if test name matches but audience_memberships is empty', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: MPARTICLE_CONTRIBUTOR_TEST_NAME,
+        };
+        const mParticleProfile = {
+            audience_memberships: [],
+        };
+        const filter = mParticleAudienceMatchesFilter(mParticleProfile);
+
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
     });
 });

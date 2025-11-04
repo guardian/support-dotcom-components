@@ -25,10 +25,12 @@ type MParticleConfig = z.infer<typeof MParticleConfigSchema>;
 
 const MParticleProfileSchema = z.object({
     // user_attributes: z.record(z.any(),z.any()), // not using attributes yet
-    audience_memberships: z.array(z.object({
-        audience_id: z.number(),
-        audience_name: z.string(),
-    })),
+    audience_memberships: z.array(
+        z.object({
+            audience_id: z.number(),
+            audience_name: z.string(),
+        }),
+    ),
 });
 export type MParticleProfile = z.infer<typeof MParticleProfileSchema>;
 
@@ -49,7 +51,7 @@ export const getMParticleConfig = async (): Promise<MParticleConfig> => {
     } else {
         throw new Error(`Failed to get config for mParticle: ${parsed.error.message}`);
     }
-}
+};
 
 export class MParticle {
     private config: MParticleConfig;
@@ -58,7 +60,7 @@ export class MParticle {
     private refreshTimer: NodeJS.Timeout | null = null;
 
     constructor(config: MParticleConfig) {
-        this.config = config
+        this.config = config;
         void this.getBearerToken();
     }
 
@@ -67,9 +69,9 @@ export class MParticle {
             const response = await fetch('https://sso.auth.mparticle.com/oauth/token', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(this.config.oauthTokenEndpoint)
+                body: JSON.stringify(this.config.oauthTokenEndpoint),
             });
-            const data = await response.json() as unknown;
+            const data = (await response.json()) as unknown;
             const parsed = MParticleOAuthTokenSchema.safeParse(data);
             if (parsed.success) {
                 this.bearerToken = parsed.data.access_token;
@@ -88,7 +90,7 @@ export class MParticle {
         if (this.refreshTimer) {
             clearTimeout(this.refreshTimer);
         }
-        const refreshTime = Math.max((expiresInSeconds) * 1000, 0);
+        const refreshTime = Math.max(expiresInSeconds * 1000, 0);
         this.refreshTimer = setTimeout(() => {
             void this.getBearerToken();
         }, refreshTime);
@@ -106,23 +108,23 @@ export class MParticle {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.bearerToken}`,
+                    Authorization: `Bearer ${this.bearerToken}`,
                 },
                 body: JSON.stringify({
                     environment_type,
                     identity: {
                         type: 'customer_id',
                         value: identityId,
-                    }
-                })
+                    },
+                }),
             });
             if (response.status === 200) {
-                const data = await response.json() as unknown;
+                const data = (await response.json()) as unknown;
                 const parsed = MParticleProfileSchema.safeParse(data);
                 if (parsed.success) {
                     return parsed.data;
                 } else {
-                    throw new Error(`Failed to parse mParticle profile: ${parsed.error.message}`)
+                    throw new Error(`Failed to parse mParticle profile: ${parsed.error.message}`);
                 }
             } else if (response.status === 429) {
                 console.log('mParticle returned a 429: we are being rate-limited');
@@ -132,11 +134,11 @@ export class MParticle {
                 console.log('mParticle returned a 404: user does not exist');
                 return undefined;
             } else {
-                const data = await response.json() as unknown;
+                const data = (await response.json()) as unknown;
                 throw new Error(`mParticle returned ${response.status}: ${String(data)}`);
             }
         } catch (error) {
-            logError(`Error fetching profile from mParticle. ${String(error)}`)
+            logError(`Error fetching profile from mParticle. ${String(error)}`);
             return undefined;
         }
     }

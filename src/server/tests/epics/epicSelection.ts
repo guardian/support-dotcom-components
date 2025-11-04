@@ -13,6 +13,7 @@ import type {
     WeeklyArticleHistory,
 } from '../../../shared/types';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import type { MParticleProfile } from '../../lib/mParticle';
 import type { TestVariant } from '../../lib/params';
 import type { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
@@ -26,7 +27,6 @@ import {
 import type { BanditData } from '../../selection/banditData';
 import { selectVariant } from '../../selection/selectVariant';
 import { momentumMatches } from './momentumTest';
-import type { MParticleProfile } from '../../lib/mParticle';
 
 export interface Filter {
     id: string;
@@ -169,6 +169,30 @@ export const deviceTypeMatchesFilter = (userDeviceType: UserDeviceType): Filter 
     test: (test): boolean => deviceTypeMatches(test, userDeviceType),
 });
 
+// Temporary logic for targeting by mParticle audience. If the epic test has this name then only apply to users with the matching audience ID
+export const MPARTICLE_CONTRIBUTOR_TEST_NAME = '2025-11-10_MPARTICLE_CONTRIBUTOR_TEST';
+export const MPARTICLE_CONTRIBUTOR_AUDIENCE_ID = 22973; // The ID of the "Lapsed Single Contributors" audience segment in mParticle
+export const mParticleAudienceMatchesFilter = (
+    mParticleProfile: MParticleProfile | undefined,
+): Filter => ({
+    id: 'mParticleAudienceMatches',
+    test: (test): boolean => {
+        if (test.name === MPARTICLE_CONTRIBUTOR_TEST_NAME) {
+            // User must be in the mParticle audience segment
+            if (mParticleProfile) {
+                const audience = mParticleProfile.audience_memberships.find(
+                    ({ audience_id }) => audience_id === MPARTICLE_CONTRIBUTOR_AUDIENCE_ID,
+                );
+                return !!audience;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    },
+});
+
 type FilterResults = Record<string, boolean>;
 
 export type Debug = Record<string, FilterResults | undefined>;
@@ -187,7 +211,7 @@ export const findTestAndVariant = (
     userDeviceType: UserDeviceType,
     superModeArticles: SuperModeArticle[],
     banditData: BanditData[],
-    mParticleProfile: MParticleProfile | undefined,
+    mParticleProfile?: MParticleProfile,
     includeDebug = false,
 ): Result => {
     const debug: Debug = {};
@@ -211,6 +235,7 @@ export const findTestAndVariant = (
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
             momentumMatches,
+            mParticleAudienceMatchesFilter(mParticleProfile),
         ];
     };
 

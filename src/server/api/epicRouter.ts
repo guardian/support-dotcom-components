@@ -87,7 +87,7 @@ export const buildEpicRouter = (
         params: Params,
         baseUrl: string,
         req: express.Request,
-        mParticleProfile: MParticleProfile | undefined,
+        mParticleProfile?: MParticleProfile,
     ): EpicDataResponse => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
@@ -206,7 +206,7 @@ export const buildEpicRouter = (
             return mParticle.getUserProfile(identityId);
         }
         return Promise.resolve(undefined);
-    }
+    };
 
     router.post(
         '/epic',
@@ -222,7 +222,14 @@ export const buildEpicRouter = (
                 const params = getQueryParams(req.query);
                 const mParticleProfile = await getMParticleProfile();
                 console.log('mParticleProfile:', JSON.stringify(mParticleProfile));
-                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req, mParticleProfile);
+                const response = buildEpicData(
+                    targeting,
+                    epicType,
+                    params,
+                    baseUrl(req),
+                    req,
+                    mParticleProfile,
+                );
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
@@ -246,7 +253,7 @@ export const buildEpicRouter = (
 
     router.post(
         '/liveblog-epic',
-        async (
+        (
             req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
             res: express.Response,
             next: express.NextFunction,
@@ -256,8 +263,7 @@ export const buildEpicRouter = (
 
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const mParticleProfile = await getMParticleProfile();
-                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req, mParticleProfile);
+                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;

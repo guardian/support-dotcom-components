@@ -6,7 +6,11 @@ const client = new SSMClient({
     region,
 });
 
-export async function getSsmValue(stage: string, id: string, withDecryption: boolean): Promise<string | undefined> {
+export async function getSsmValue(
+    stage: string,
+    id: string,
+    withDecryption: boolean,
+): Promise<string | undefined> {
     const name = `/membership/support-dotcom-components/${stage}/${id}`;
 
     const response = await client.send(
