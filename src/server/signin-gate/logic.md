@@ -16,34 +16,41 @@ No gate display the first 3 page views
 nb: the numbers, for instance, [01], uniquely identify the experience for the code and the tests
 
 ```
-                                                              |
-                   Auxia share of the Audience                |     Guardian share of the Audience
-                               35%                            |                65%
-                ---------------------------------------------------------------------------------------------
-               | [01]                                         | [02]                                         |
-               |                                              |                                              |
-               |  - No Auxia notification                     | - No Auxia notification                      |
- un-consented  |  - Guardian drives the gate:                 | - Guardian drives the gate:                  |
-               |    - No gate for 30 days after a single      |   - No gate for 30 days after a single       |
-               |      contribution event [01]                 |     contribution event [01]                  |
-               |    - No gate the first 3 page views          |   - No gate display the first 3 page views   |
-               |    - Dismissible gates,                      |   - Dismissible gates                        |
-               |      then no gate after 5 dismisses          |     then no gate after 5 dismisses           |
-               |                                              |                                              |
-    -----------|-----------------------------------------------------------------------------------------------------
-               | [03]                                         | [04]                                         |
-               |                                              |                                              |
-               |  - Auxia drives the gate                     | - No Auxia notification                      |
-    consented  |                                              | - Guardian drivess the gate:                 |
-               |                                              |   - No gate for 30 days after a single       |
-               |                                              |     contribution event [01]                  |
-               |                                              |   - No gate display the first 3 page views   |
-               |                                              |   - Dismissible gates                        |
-               |                                              |     then no gate after 5 dismisses           |
-               |                                              |                                              |
-                ---------------------------------------------------------------------------------------------
-                                                              |
-                                                              |
+                ----------------------------------------------
+               | [01]                                         |
+               |                                              |
+               |  - No Auxia notification                     |
+ un-consented  |  - Guardian drives the gate:                 |
+               |    - No gate for 30 days after a single      |
+               |      contribution event [01]                 |
+               |    - No gate the first 3 page views          |
+               |    - Dismissible gates,                      |
+               |      then no gate after 5 dismisses          |
+               |                                              |
+    -----------|-----------------------------------------------
+               | [02]                                         |
+               |                                              |
+               |  - Auxia drives the gate                     |
+  consented +  |                                              |
+  auxia 35%    |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+    -----------|-----------------------------------------------
+               | [03]                                         |
+               |                                              |
+               |  - No Auxia notification                     |
+  consented +  |  - Guardian drives the gate:                 |
+ non-auxia 65% |    - No gate for 30 days after a single      |
+               |      contribution event [01]                 |
+               |    - No gate the first 3 page views          |
+               |    - Dismissible gates,                      |
+               |      then no gate after 5 dismisses          |
+               |                                              |
+                ----------------------------------------------
+
 
 [01] use gu_hide_support_messaging cookie
 ```
@@ -51,11 +58,8 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
 ### Ireland + New Zealand
 
 ```
-
-                   Auxia share of the Audience
-                               100%
                 ----------------------------------------------
-               | [05]                                         |
+               | [04]                                         |
                |                                              |
                |  - Notify Auxia for analytics                |
  un-consented  |  - Guardian drives the gate:                 |
@@ -65,7 +69,7 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |    - 3x dismissal, then mandatory            |
                |                                              |
     -----------|-----------------------------------------------
-               | [07]                                         |
+               | [05]                                         |
                |                                              |
                |  - Auxia drives the gate                     |
     consented  |                                              |

@@ -2,7 +2,7 @@ import { getTreatmentsRequestPayloadToGateType, hideSupportMessagingHasOverride 
 import type { GetTreatmentsRequestPayload } from '../types';
 
 it('hideSupportMessagingHasOverride, undefined', () => {
-    // [02] (copy from logic.md)
+    // [03] (copy from logic.md)
     //
     // prerequisites:
     // - World without Ireland
@@ -41,7 +41,7 @@ it('hideSupportMessagingHasOverride, undefined', () => {
 });
 
 it('hideSupportMessagingHasOverride, defined, more than 30 days ago', () => {
-    // [02] (copy from logic.md)
+    // [03] (copy from logic.md)
     //
     // prerequisites:
     // - World without Ireland
@@ -80,7 +80,7 @@ it('hideSupportMessagingHasOverride, defined, more than 30 days ago', () => {
 });
 
 it('hideSupportMessagingHasOverride, defined, less than 30 days ago', () => {
-    // [02] (copy from logic.md)
+    // [03] (copy from logic.md)
     //
     // prerequisites:
     // - World without Ireland
@@ -146,7 +146,7 @@ it('hideSupportMessagingHasOverride, defined, value in the future', () => {
 // We also test getTreatmentsRequestPayloadToGateType
 
 it('getTreatmentsRequestPayloadToGateType, without override', () => {
-    // [02] (copy from logic.md)
+    // [03] (copy from logic.md)
     //
     // prerequisites:
     // - World without Ireland
@@ -185,7 +185,7 @@ it('getTreatmentsRequestPayloadToGateType, without override', () => {
 });
 
 it('getTreatmentsRequestPayloadToGateType, with override', () => {
-    // [02] (copy from logic.md)
+    // [03] (copy from logic.md)
     //
     // prerequisites:
     // - World without Ireland
@@ -224,11 +224,10 @@ it('getTreatmentsRequestPayloadToGateType, with override', () => {
 });
 
 it('getTreatmentsRequestPayloadToGateType, with override, ireland with Auxia Analytics', () => {
-    // [05] (copy from logic.md)
+    // [04] (copy from logic.md)
     //
     // prerequisites:
     // - Ireland
-    // - Is Auxia share of the audience
     // - user has NOT consented
     //
     // effects:

@@ -399,7 +399,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     //    should correspond to a given payload.
 
     if (isMandatoryRollout && userHasConsented(payload)) {
-        // [07] (copy from logic.md)
+        // [04] (copy from logic.md)
         //
         // prerequisites:
         // - Ireland/NZ
@@ -437,88 +437,12 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     // World excluding Ireland/NZ
-
-    if (!isMandatoryRollout && isAuxiaAudienceShare(payload) && userHasConsented(payload)) {
-        // [03] (copy from logic.md)
-        //
-        // prerequisites:
-        // - World excluding Ireland/NZ
-        // - Is Auxia share of the audience
-        // - user has consented
-        //
-        // effects:
-        // Auxia drives the gate
+    if (userHasConsented(payload) && isAuxiaAudienceShare(payload)) {
+        // We have consent for Auxia and user is in the Auxia share of the audience
         return 'AuxiaAPI';
-    }
-
-    if (!isMandatoryRollout && isAuxiaAudienceShare(payload) && !userHasConsented(payload)) {
-        // [01] (copy from logic.md)
-        //
-        // prerequisites:
-        // - World excluding Ireland/NZ
-        // - Is Auxia share of the audience
-        // - user has NOT consented
-        //
-        // effects:
-        // - No Auxia notification
-        // - Guardian drives the gate:
-        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
-        //   - No gate display the first 3 page views
-        //   - Dismissible gates then no gate after 5 dismisses
-        if (hideSupportMessagingHasOverride(payload, now)) {
-            return 'None';
-        }
-        if (payload.dailyArticleCount < 3) {
-            return 'None';
-        }
-        if (payload.gateDismissCount < 5) {
-            return 'GuDismissible';
-        } else {
-            return 'None';
-        }
-    }
-
-    if (!isMandatoryRollout && isGuardianAudienceShare(payload) && userHasConsented(payload)) {
-        // [02] (copy from logic.md)
-        //
-        // prerequisites:
-        // - World excluding Ireland/NZ
-        // - Is Guardian share of the audience
-        // - user has consented
-        //
-        // effects:
-        // - No Auxia notification
-        // - Guardian drives the gate:
-        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
-        //   - No gate display the first 3 page views
-        //   - Dismissible gates then no gate after 5 dismisses
-        if (hideSupportMessagingHasOverride(payload, now)) {
-            return 'None';
-        }
-        if (payload.dailyArticleCount < 3) {
-            return 'None';
-        }
-        if (payload.gateDisplayCount < 5) {
-            return 'GuDismissible';
-        } else {
-            return 'None';
-        }
-    }
-
-    if (!isMandatoryRollout && isGuardianAudienceShare(payload) && !userHasConsented(payload)) {
-        // [04] (copy from logic.md)
-        //
-        // prerequisites:
-        // - World excluding Ireland/NZ
-        // - Is Guardian share of the audience
-        // - user has NOT consented
-        //
-        // effects:
-        // - No Auxia notification
-        // - Guardian drives the gate:
-        //   - No gate for 30 days after a single contribution event (gu_hide_support_messaging; hideSupportMessagingTimestamp)
-        //   - No gate display the first 3 page views
-        //   - Dismissible gates then no gate after 5 dismisses
+    } else {
+        // [01, 03] (copy from logic.md)
+        // Do not use Auxia
         if (hideSupportMessagingHasOverride(payload, now)) {
             return 'None';
         }
