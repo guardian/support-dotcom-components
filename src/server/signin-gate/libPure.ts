@@ -71,8 +71,8 @@ export const guDismissibleUserTreatment = (): UserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
-    const title = "Sign in: it's quick and easy";
-    const subtitle = 'It’s still free to read – this is not a paywall';
+    const title = 'This is not a paywall';
+    const subtitle = 'Enter your email to keep reading - for free. It takes just 30 seconds';
     const body =
         'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all.';
     const secondCtaName = 'I’ll do it later';
@@ -101,8 +101,8 @@ export const guMandatoryUserTreatment = (): UserTreatment => {
     // The contract we have with the client is that a gate is dismissible if the second_cta_name
     // is not empty. Otherwise the gate is Mandatory
 
-    const title = "Sign in: it's quick and easy";
-    const subtitle = 'It’s still free to read – this is not a paywall';
+    const title = 'Sorry for the interruption';
+    const subtitle = "Once you are signed in, we'll bring you back here shortly";
     const body =
         'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all.';
     const treatmentContent = {
