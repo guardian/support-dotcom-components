@@ -201,7 +201,8 @@ export const buildEpicRouter = (
 
     const getMParticleProfile = (): Promise<MParticleProfile | undefined> => {
         // TODO - get identityId from Auth header
-        const identityId: string | undefined = process.env['IDENTITY_ID']; // TODO do this properly
+        const identityId = undefined;
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- not yet implemented
         if (identityId) {
             return mParticle.getUserProfile(identityId);
         }
@@ -221,7 +222,6 @@ export const buildEpicRouter = (
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
                 const mParticleProfile = await getMParticleProfile();
-                console.log('mParticleProfile:', JSON.stringify(mParticleProfile));
                 const response = buildEpicData(
                     targeting,
                     epicType,
