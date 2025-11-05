@@ -1,4 +1,4 @@
-import { isProd } from './lib/env';
+import { stage } from './lib/env';
 import { fetchS3Data } from './utils/S3';
 import type { ValueReloader } from './utils/valueReloader';
 import { buildReloader } from './utils/valueReloader';
@@ -15,9 +15,7 @@ export interface ChannelSwitches {
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>
-    fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/channel-switches.json`).then(
-        JSON.parse,
-    );
+    fetchS3Data('support-admin-console', `${stage}/channel-switches.json`).then(JSON.parse);
 
 const buildChannelSwitchesReloader = (): Promise<ValueReloader<ChannelSwitches>> =>
     buildReloader(getSwitches, 60);
