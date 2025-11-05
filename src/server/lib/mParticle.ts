@@ -55,9 +55,15 @@ export const getMParticleConfig = async (): Promise<MParticleConfig> => {
 
 export class MParticle {
     private config: MParticleConfig;
+
     // The bearerToken must be refreshed periodically - https://docs.mparticle.com/developers/apis/profile-api/#using-your-bearer-token
     private bearerToken: string | null = null;
-    private refreshTimer: NodeJS.Timeout | null = null;
+    private bearerTokenRefreshTimer: NodeJS.Timeout | null = null;
+
+    // mParticle's API has rate limiting, so we use exponential back off if a 429 is returned - https://docs.mparticle.com/developers/apis/profile-api/#error-handling
+    private rateLimitedUntil: number = 0; // timestamp when rate limit expires
+    private backoffSeconds: number = 5; // initial backoff duration
+    private maxBackoffSeconds: number = 60; // max backoff duration
 
     constructor(config: MParticleConfig) {
         this.config = config;
@@ -74,7 +80,7 @@ export class MParticle {
             const data = (await response.json()) as unknown;
             const parsed = MParticleOAuthTokenSchema.safeParse(data);
             if (parsed.success) {
-                this.bearerToken = parsed.data.access_token;
+                this.setBearerToken(parsed.data.access_token);
                 this.scheduleRefresh(parsed.data.expires_in - 60);
             } else {
                 throw new Error(`Response body from mParticle: ${parsed.error.message}`);
@@ -86,17 +92,26 @@ export class MParticle {
         }
     }
 
+    setBearerToken(token: string): void {
+        this.bearerToken = token;
+    }
+
     private scheduleRefresh(expiresInSeconds: number): void {
-        if (this.refreshTimer) {
-            clearTimeout(this.refreshTimer);
+        if (this.bearerTokenRefreshTimer) {
+            clearTimeout(this.bearerTokenRefreshTimer);
         }
         const refreshTime = Math.max(expiresInSeconds * 1000, 0);
-        this.refreshTimer = setTimeout(() => {
+        this.bearerTokenRefreshTimer = setTimeout(() => {
             void this.getBearerToken();
         }, refreshTime);
     }
 
     async getUserProfile(identityId: string): Promise<MParticleProfile | undefined> {
+        // Check if we're currently rate-limited
+        if (Date.now() < this.rateLimitedUntil) {
+            return undefined;
+        }
+
         if (!this.bearerToken) {
             return undefined;
         }
@@ -119,6 +134,9 @@ export class MParticle {
                 }),
             });
             if (response.status === 200) {
+                // Reset backoff on successful request
+                this.backoffSeconds = 5;
+
                 const data = (await response.json()) as unknown;
                 const parsed = MParticleProfileSchema.safeParse(data);
                 if (parsed.success) {
@@ -127,8 +145,13 @@ export class MParticle {
                     throw new Error(`Failed to parse mParticle profile: ${parsed.error.message}`);
                 }
             } else if (response.status === 429) {
-                console.log('mParticle returned a 429: we are being rate-limited');
-                // TODO - back off
+                // Set rate limit backoff period
+                this.rateLimitedUntil = Date.now() + this.backoffSeconds * 1000;
+                this.backoffSeconds = Math.min(this.backoffSeconds * 2, this.maxBackoffSeconds);
+
+                console.log(
+                    `mParticle returned a 429: backing off for ${this.backoffSeconds} seconds`,
+                );
                 return undefined;
             } else if (response.status === 404) {
                 console.log('mParticle returned a 404: user does not exist');
