@@ -154,7 +154,7 @@ export class MParticle {
                 );
                 return undefined;
             } else if (response.status === 404) {
-                console.log('mParticle returned a 404: user does not exist');
+                // User doesn't exist in mParticle
                 return undefined;
             } else {
                 const data = (await response.json()) as unknown;
