@@ -20,6 +20,7 @@ it('isGuardianAudienceShare', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined,
+        isInAuxiaControlGroup: false,
     };
     const payload2: GetTreatmentsRequestPayload = {
         browserId: 'sample',
@@ -39,6 +40,7 @@ it('isGuardianAudienceShare', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined,
+        isInAuxiaControlGroup: false,
     };
 
     expect(isGuardianAudienceShare(payload1)).toBe(false);

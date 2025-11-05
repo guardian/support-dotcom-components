@@ -21,6 +21,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             showDefaultGate: 'mandatory',
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
+            isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
@@ -46,6 +47,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             showDefaultGate: 'mandatory',
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
+            isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
@@ -71,6 +73,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             showDefaultGate: 'mandatory',
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
+            isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
@@ -96,6 +99,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             showDefaultGate: 'mandatory',
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
+            isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
@@ -121,6 +125,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             showDefaultGate: 'mandatory', // <- [tested]
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
+            isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
@@ -146,6 +151,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             showDefaultGate: 'dismissible', // <- [tested]
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
+            isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
@@ -171,6 +177,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             showDefaultGate: 'mandatory', // <- [tested]
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
+            isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
@@ -196,6 +203,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             showDefaultGate: 'dismissible', // <- [tested]
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
+            isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
