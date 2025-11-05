@@ -12,6 +12,7 @@ import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { getMParticleConfig, MParticle } from './lib/mParticle';
+import { getOktaConfig, Okta } from './lib/okta';
 import { buildPromotionsReloader } from './lib/promotions/promotions';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
 import {
@@ -102,6 +103,9 @@ const buildApp = async (): Promise<Express> => {
     const mParticleConfig = await getMParticleConfig();
     const mParticle = new MParticle(mParticleConfig);
 
+    const oktaConfig = await getOktaConfig();
+    const okta = new Okta(oktaConfig);
+
     // Build the routers
     app.use(
         buildEpicRouter(
@@ -115,6 +119,7 @@ const buildApp = async (): Promise<Express> => {
             productCatalog,
             promotions,
             mParticle,
+            okta,
         ),
     );
     app.use(
