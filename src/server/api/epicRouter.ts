@@ -200,11 +200,14 @@ export const buildEpicRouter = (
     };
 
     const getMParticleProfile = (): Promise<MParticleProfile | undefined> => {
-        // TODO - get identityId from Auth header
-        const identityId = undefined;
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- not yet implemented
-        if (identityId) {
-            return mParticle.getUserProfile(identityId);
+        const { enableMParticle } = channelSwitches.get();
+        if (enableMParticle) {
+            // TODO - verify Auth header and get identityId
+            const identityId = undefined;
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- not yet implemented
+            if (identityId) {
+                return mParticle.getUserProfile(identityId);
+            }
         }
         return Promise.resolve(undefined);
     };
