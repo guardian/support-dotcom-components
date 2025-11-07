@@ -133,18 +133,8 @@ export class MParticle {
                     },
                 }),
             });
-            if (response.status === 200) {
-                // Reset backoff on successful request
-                this.backoffSeconds = 5;
 
-                const data = (await response.json()) as unknown;
-                const parsed = MParticleProfileSchema.safeParse(data);
-                if (parsed.success) {
-                    return parsed.data;
-                } else {
-                    throw new Error(`Failed to parse mParticle profile: ${parsed.error.message}`);
-                }
-            } else if (response.status === 429) {
+            if (response.status === 429) {
                 // Set rate limit backoff period
                 this.rateLimitedUntil = Date.now() + this.backoffSeconds * 1000;
                 this.backoffSeconds = Math.min(this.backoffSeconds * 2, this.maxBackoffSeconds);
@@ -153,13 +143,30 @@ export class MParticle {
                     `mParticle returned a 429: backing off for ${this.backoffSeconds} seconds`,
                 );
                 return undefined;
-            } else if (response.status === 404) {
+            }
+
+            if (response.status === 404) {
                 // User doesn't exist in mParticle
                 return undefined;
-            } else {
-                const data = (await response.json()) as unknown;
-                throw new Error(`mParticle returned ${response.status}: ${String(data)}`);
             }
+
+            if (response.status !== 200) {
+                const data = (await response.json()) as unknown;
+                logError(`mParticle returned ${response.status}: ${String(data)}`);
+                return undefined;
+            }
+
+            // Reset backoff on successful request
+            this.backoffSeconds = 5;
+
+            const data = (await response.json()) as unknown;
+            const parsed = MParticleProfileSchema.safeParse(data);
+            if (!parsed.success) {
+                logError(`Failed to parse mParticle profile: ${parsed.error.message}`);
+                return undefined;
+            }
+
+            return parsed.data;
         } catch (error) {
             logError(`Error fetching profile from mParticle. ${String(error)}`);
             return undefined;
