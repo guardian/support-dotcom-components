@@ -86,7 +86,7 @@ export class MParticle {
                 throw new Error(`Response body from mParticle: ${parsed.error.message}`);
             }
         } catch (error) {
-            console.log(`Error fetching bearer token from mParticle: ${String(error)}`);
+            logError(`Error fetching bearer token from mParticle: ${String(error)}`);
             // try again in a minute
             this.scheduleRefresh(60);
         }
@@ -149,7 +149,7 @@ export class MParticle {
                 this.rateLimitedUntil = Date.now() + this.backoffSeconds * 1000;
                 this.backoffSeconds = Math.min(this.backoffSeconds * 2, this.maxBackoffSeconds);
 
-                console.log(
+                logError(
                     `mParticle returned a 429: backing off for ${this.backoffSeconds} seconds`,
                 );
                 return undefined;
