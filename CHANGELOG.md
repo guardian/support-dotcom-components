@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.1.0
+
+### Minor Changes
+
+-   d0ebb63: Allow headers in epic requests
+
 ## 8.0.2
 
 ### Patch Changes
