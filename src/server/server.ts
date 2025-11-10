@@ -11,6 +11,7 @@ import { buildHeaderRouter } from './api/headerRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
+import { getMParticleConfig, MParticle } from './lib/mParticle';
 import { buildPromotionsReloader } from './lib/promotions/promotions';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
 import {
@@ -98,6 +99,9 @@ const buildApp = async (): Promise<Express> => {
 
     const auxiaConfig = await getAuxiaRouterConfig();
 
+    const mParticleConfig = await getMParticleConfig();
+    const mParticle = new MParticle(mParticleConfig);
+
     // Build the routers
     app.use(
         buildEpicRouter(
@@ -110,6 +114,7 @@ const buildApp = async (): Promise<Express> => {
             banditData,
             productCatalog,
             promotions,
+            mParticle,
         ),
     );
     app.use(

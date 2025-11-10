@@ -18,6 +18,7 @@ import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
+import type { MParticle, MParticleProfile } from '../lib/mParticle';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
@@ -57,6 +58,7 @@ export const buildEpicRouter = (
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
     promotions: ValueProvider<PromotionsCache>,
+    mParticle: MParticle,
 ): Router => {
     const router = Router();
 
@@ -85,6 +87,7 @@ export const buildEpicRouter = (
         params: Params,
         baseUrl: string,
         req: express.Request,
+        mParticleProfile?: MParticleProfile,
     ): EpicDataResponse => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
@@ -110,6 +113,7 @@ export const buildEpicRouter = (
                   getDeviceType(req),
                   enableSuperMode ? superModeArticles.get() : [],
                   banditData.get(),
+                  mParticleProfile,
                   params.debug,
               );
 
@@ -195,19 +199,40 @@ export const buildEpicRouter = (
         };
     };
 
+    const getMParticleProfile = (): Promise<MParticleProfile | undefined> => {
+        const { enableMParticle } = channelSwitches.get();
+        if (enableMParticle) {
+            // TODO - verify Auth header and get identityId
+            const identityId = undefined;
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- not yet implemented
+            if (identityId) {
+                return mParticle.getUserProfile(identityId);
+            }
+        }
+        return Promise.resolve(undefined);
+    };
+
     router.post(
         '/epic',
-        (
+        async (
             req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
             res: express.Response,
             next: express.NextFunction,
-        ): void => {
+        ): Promise<void> => {
             try {
                 const epicType: EpicType = 'ARTICLE';
 
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
+                const mParticleProfile = await getMParticleProfile();
+                const response = buildEpicData(
+                    targeting,
+                    epicType,
+                    params,
+                    baseUrl(req),
+                    req,
+                    mParticleProfile,
+                );
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
