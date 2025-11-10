@@ -1,6 +1,7 @@
 import type { JwtClaims } from '@okta/jwt-verifier';
 import OktaJwtVerifier from '@okta/jwt-verifier';
 import { z } from 'zod';
+import { putMetric } from '../utils/cloudwatch';
 import { logInfo } from '../utils/logging';
 import { getSsmValue } from '../utils/ssm';
 import { isProd } from './env';
@@ -73,6 +74,7 @@ export class Okta {
             })
             .catch((err) => {
                 logInfo(`Failed to verify access token: ${String(err)}`);
+                putMetric('access-token-verification-failure');
                 // Do not use identityId if we cannot verify the session
                 return undefined;
             });

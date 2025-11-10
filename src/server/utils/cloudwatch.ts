@@ -17,6 +17,7 @@ const ALL_METRICS = [
     'bandit-data-load-error',
     'bandit-selection-error',
     'promotions-fetch-error',
+    'access-token-verification-failure',
 ] as const;
 type Metric = (typeof ALL_METRICS)[number];
 type MetricCache = Record<Metric, number>;

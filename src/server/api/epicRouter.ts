@@ -31,7 +31,7 @@ import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
-import { logInfo, logWarn } from '../utils/logging';
+import { logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
