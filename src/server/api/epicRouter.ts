@@ -201,7 +201,7 @@ export const buildEpicRouter = (
         };
     };
 
-    // If an Authorisation header was supplied then attempt to verify it and extract the identityId
+    // If an Authorization header was supplied then attempt to verify it and extract the identityId
     const getMParticleProfile = async (
         authHeader?: string,
     ): Promise<MParticleProfile | undefined> => {

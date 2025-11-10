@@ -56,13 +56,13 @@ export class Okta {
     }
 
     /**
-     * Verifies an Authorisation header containing an Okta access token.
+     * Verifies an Authorization header containing an Okta access token.
      * If verification is successful then the identityId is extracted and returned.
      * If verification fails then return undefined.
      * Note - we use local verification here, which means no request is made to Okta.
      */
-    getIdentityIdFromOktaToken(authorisationHeader: string): Promise<string | undefined> {
-        return this.verifyAccessToken(authorisationHeader)
+    getIdentityIdFromOktaToken(authorizationHeader: string): Promise<string | undefined> {
+        return this.verifyAccessToken(authorizationHeader)
             .then((jwt) => {
                 const claims = jwt.claims as JwtClaimsWithUserID;
                 if (!claims.legacy_identity_id) {
