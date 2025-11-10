@@ -205,12 +205,9 @@ export const buildEpicRouter = (
     const getMParticleProfile = async (
         authHeader?: string,
     ): Promise<MParticleProfile | undefined> => {
-        // if (!!authHeader && channelSwitches.get().enableMParticle) {
-        if (authHeader) {
-            logInfo('Using Authorization header');
+        if (!!authHeader && channelSwitches.get().enableMParticle) {
             const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
             if (identityId) {
-                logInfo('Using identityId');
                 return mParticle.getUserProfile(identityId);
             }
         }
