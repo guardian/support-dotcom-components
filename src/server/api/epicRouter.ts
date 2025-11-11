@@ -203,9 +203,14 @@ export const buildEpicRouter = (
 
     // If an Authorization header was supplied then attempt to verify it and extract the identityId
     const getMParticleProfile = async (
+        targeting: EpicTargeting,
         authHeader?: string,
     ): Promise<MParticleProfile | undefined> => {
-        if (!!authHeader && channelSwitches.get().enableMParticle) {
+        if (
+            !!authHeader &&
+            channelSwitches.get().enableMParticle &&
+            targeting.showSupportMessaging // optimisation to avoid lookups for existing supporters
+        ) {
             const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
             if (identityId) {
                 return mParticle.getUserProfile(identityId);
@@ -227,7 +232,7 @@ export const buildEpicRouter = (
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
                 const authHeader = req.headers.authorization;
-                const mParticleProfile = await getMParticleProfile(authHeader);
+                const mParticleProfile = await getMParticleProfile(targeting, authHeader);
                 const response = buildEpicData(
                     targeting,
                     epicType,
