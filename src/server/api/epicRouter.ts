@@ -254,6 +254,8 @@ export const buildEpicRouter = (
                         'SUPER_MODE',
                     );
                 }
+                res.locals.hasAuthorization = !!authHeader;
+                res.locals.gotMParticleProfile = !!mParticleProfile;
 
                 res.send(response);
             } catch (error) {
