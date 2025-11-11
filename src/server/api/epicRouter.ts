@@ -19,6 +19,7 @@ import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
@@ -59,6 +60,7 @@ export const buildEpicRouter = (
     productCatalog: ValueProvider<ProductCatalog>,
     promotions: ValueProvider<PromotionsCache>,
     mParticle: MParticle,
+    okta: Okta,
 ): Router => {
     const router = Router();
 
@@ -199,12 +201,12 @@ export const buildEpicRouter = (
         };
     };
 
-    const getMParticleProfile = (): Promise<MParticleProfile | undefined> => {
-        const { enableMParticle } = channelSwitches.get();
-        if (enableMParticle) {
-            // TODO - verify Auth header and get identityId
-            const identityId = undefined;
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- not yet implemented
+    // If an Authorization header was supplied then attempt to verify it and extract the identityId
+    const getMParticleProfile = async (
+        authHeader?: string,
+    ): Promise<MParticleProfile | undefined> => {
+        if (!!authHeader && channelSwitches.get().enableMParticle) {
+            const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
             if (identityId) {
                 return mParticle.getUserProfile(identityId);
             }
@@ -224,7 +226,8 @@ export const buildEpicRouter = (
 
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const mParticleProfile = await getMParticleProfile();
+                const authHeader = req.headers.authorization;
+                const mParticleProfile = await getMParticleProfile(authHeader);
                 const response = buildEpicData(
                     targeting,
                     epicType,
