@@ -10,6 +10,8 @@ type LoggingLocals = {
     auxiaTreatmentId?: string;
     auxiaTreatmentTrackingId?: string;
     auxiaInteractionType?: string;
+    hasAuthorization?: boolean;
+    gotMParticleProfile?: boolean;
 };
 
 export const logging = (
@@ -37,6 +39,8 @@ export const logging = (
             auxiaTreatmentId: res.locals.auxiaTreatmentId,
             auxiaTreatmentTrackingId: res.locals.auxiaTreatmentTrackingId,
             auxiaInteractionType: res.locals.auxiaInteractionType,
+            hasAuthorization: res.locals.hasAuthorization,
+            gotMParticleProfile: res.locals.gotMParticleProfile,
         });
     });
     next();
