@@ -15,6 +15,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
       "GuDistributionBucketParameter",
       "GuGetS3ObjectsPolicy",
       "GuGetS3ObjectsPolicy",
+      "GuGetS3ObjectsPolicy",
       "GuDynamoDBReadPolicy",
       "GuDynamoDBReadPolicy",
       "GuPutCloudwatchMetricsPolicy",
@@ -1333,6 +1334,27 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "TreatMissingData": "notBreaching",
       },
       "Type": "AWS::CloudWatch::Alarm",
+    },
+    "S3ReadPolicyContributionsTicker451E0B8F": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Resource": "arn:aws:s3:::contributions-ticker/TEST/*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "S3ReadPolicyContributionsTicker451E0B8F",
+        "Roles": [
+          {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "S3ReadPolicyGuContributionsPublic821CE426": {
       "Properties": {

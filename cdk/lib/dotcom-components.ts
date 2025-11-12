@@ -242,6 +242,10 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 					],
 				},
 			),
+			new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyContributionsTicker', {
+				bucketName: 'contributions-ticker',
+				paths: [`${this.stage}/*`],
+			}),
 			new GuDynamoDBReadPolicy(this, 'DynamoReadPolicy', {
 				tableName: `super-mode-calculator-${this.stage}`,
 			}),

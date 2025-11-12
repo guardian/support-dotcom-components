@@ -8,6 +8,7 @@ import { buildBannerRouter } from './api/bannerRouter';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildGutterRouter } from './api/gutterRouter';
 import { buildHeaderRouter } from './api/headerRouter';
+import { buildTickerRouter } from './api/tickerRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
@@ -141,6 +142,8 @@ const buildApp = async (): Promise<Express> => {
     app.use(buildAuxiaProxyRouter(auxiaConfig));
 
     app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests));
+
+    app.use(buildTickerRouter(tickerData));
 
     // The error handling middleware must be the last middleware in the chain
     // https://stackoverflow.com/questions/72227296/does-the-position-of-error-handling-middleware-matter-in-express
