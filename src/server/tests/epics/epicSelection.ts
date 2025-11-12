@@ -171,7 +171,7 @@ export const deviceTypeMatchesFilter = (userDeviceType: UserDeviceType): Filter 
 
 // Temporary logic for targeting by mParticle audience. If the epic test has this name then only apply to users with the matching audience ID
 export const MPARTICLE_CONTRIBUTOR_TEST_NAME = '2025-11-10_MPARTICLE_CONTRIBUTOR_TEST';
-export const MPARTICLE_CONTRIBUTOR_AUDIENCE_ID = 22973; // The ID of the "Lapsed Single Contributors" audience segment in mParticle
+export const MPARTICLE_CONTRIBUTOR_AUDIENCE_ID = 22994; // The ID of the "Lapsed Single Contributors" audience segment in mParticle
 export const mParticleAudienceMatchesFilter = (
     mParticleProfile: MParticleProfile | undefined,
 ): Filter => ({
