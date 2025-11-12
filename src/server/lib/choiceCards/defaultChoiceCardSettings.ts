@@ -48,12 +48,12 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         benefitsLabel: 'Unlock <strong>All-access digital</strong> benefits:',
         benefits: [
             { copy: 'Far fewer asks for support' },
-            { copy: 'Ad-free reading on all your devices' },
-            { copy: 'Unlimited access to the premium Guardian app' },
+            { copy: 'Ad-free reading' },
+            { copy: 'Unlimited access to the Guardian app' },
             {
-                copy: 'Exclusive newsletter for supporters, sent every week from the Guardian newsroom',
+                copy: 'Exclusive newsletter for supporters',
             },
-            { copy: 'Unlimited access to our new Guardian Feast App' },
+            { copy: 'Unlimited access to the Feast App' },
         ],
         pill: {
             copy: 'Recommended',
