@@ -1,26 +1,14 @@
 import type { Stage, TickerData, TickerName, TickerSettings } from '../../shared/types';
 import { logError } from '../utils/logging';
+import { fetchS3Data } from '../utils/S3';
 import type { ValueProvider } from '../utils/valueReloader';
 import { buildReloader } from '../utils/valueReloader';
 
-const tickerUrl = (stage: Stage, name: TickerName): string => {
-    switch (stage) {
-        case 'PROD':
-            return `https://support.theguardian.com/ticker/${name}.json`;
-        case 'CODE':
-        case 'DEV':
-            return `https://support.code.dev-theguardian.com/ticker/${name}.json`;
-    }
-};
+const TickerBucket = 'contributions-ticker';
 
-const checkForErrors = (response: Response): Promise<Response> => {
-    if (!response.ok) {
-        const error = new Error(
-            response.statusText || `Ticker api call returned HTTP status ${response.status}`,
-        );
-        return Promise.reject(error);
-    }
-    return Promise.resolve(response);
+const tickerS3Key = (stage: Stage, name: TickerName): string => {
+    const stagePrefix = stage === 'DEV' ? 'CODE' : stage;
+    return `${stagePrefix}/${name}.json`;
 };
 
 const parse = (json: { total: string; goal: string }): Promise<TickerData> => {
@@ -40,9 +28,8 @@ const parse = (json: { total: string; goal: string }): Promise<TickerData> => {
 
 const getTickerDataForTickerTypeFetcher =
     (stage: Stage, name: TickerName) => (): Promise<TickerData> => {
-        return fetch(tickerUrl(stage, name))
-            .then((response) => checkForErrors(response))
-            .then((response) => response.json())
+        return fetchS3Data(TickerBucket, tickerS3Key(stage, name))
+            .then((data) => JSON.parse(data) as { total: string; goal: string })
             .then(parse)
             .catch((error) => {
                 const errorObj = error instanceof Error ? error : new Error(String(error));
