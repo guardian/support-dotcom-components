@@ -23,6 +23,22 @@ const oneOffCard = (countryGroupId: CountryGroupId): ChoiceCard => ({
     destination: 'LandingPage',
 });
 
+const usSupporterPlusBenefits = [
+    { copy: 'Far fewer asks for support' },
+    { copy: 'Ad-free reading on all your devices' },
+    { copy: 'Unlimited access to the Guardian app' },
+];
+
+const supporterPlusBenefits = [
+    { copy: 'Far fewer asks for support' },
+    { copy: 'Ad-free reading' },
+    { copy: 'Unlimited access to the Guardian app' },
+    {
+        copy: 'Exclusive newsletter for supporters',
+    },
+    { copy: 'Unlimited access to the Feast App' },
+];
+
 const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
     {
         product: {
@@ -46,15 +62,8 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         label: '', // label is generated for recurring products
         isDefault: true,
         benefitsLabel: 'Unlock <strong>All-access digital</strong> benefits:',
-        benefits: [
-            { copy: 'Far fewer asks for support' },
-            { copy: 'Ad-free reading' },
-            { copy: 'Unlimited access to the Guardian app' },
-            {
-                copy: 'Exclusive newsletter for supporters',
-            },
-            { copy: 'Unlimited access to the Feast App' },
-        ],
+        benefits:
+            countryGroupId === 'UnitedStates' ? usSupporterPlusBenefits : supporterPlusBenefits,
         pill: {
             copy: 'Recommended',
         },
