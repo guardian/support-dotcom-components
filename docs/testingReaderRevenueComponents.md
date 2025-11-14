@@ -21,6 +21,7 @@ The components which drive the most traffic are:
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 
 ![Example Epic](./images/Epic_2025-11-14.png)
+<img src="./images/Epic_2025-11-14.png" width="500" alt ="Example Epic" />
 
 ### The engagement banner
 - Is a fixed position banner at the bottom of the screen (like the breaking news banner, cookie consent banner, etc)
