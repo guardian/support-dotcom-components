@@ -25,7 +25,7 @@ The components which drive the most traffic are:
 ### The engagement banner
 - Is a fixed position banner at the bottom of the screen (like the breaking news banner, cookie consent banner, etc)
 - Only displays after a certain number of pageviews ***STILL RELEVANT?***
-- Will not re-display after it's closed, until we "redeploy" (globally force a re-display) via this tool: https://frontend.gutools.co.uk/reader-revenue/contributions-banner
+- Will not re-display after it's closed, until we "redeploy" (globally force a re-display) via RRCP
 - Won't display if the user is a signed in Recurring Contributor or Digipack Subscriber (important note: whether or not you are signed in has **no bearing** on the epic being showed if you have made a one-off contribution) ***STILL RELEVANT?***
 - Won't display if the browser has a **recurring contribution cookie**
 - Won't display if the browser has a **one-off contribution cookie** from within the **last 6 months**
