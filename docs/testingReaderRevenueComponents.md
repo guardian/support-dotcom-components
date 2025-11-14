@@ -20,7 +20,7 @@ The components which drive the most traffic are:
 - Won't display if the broswer has a **one-off contribution cookie** from within the **last 6 months**
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 
-![picture 416](https://user-images.githubusercontent.com/5122968/49798164-891ad380-fd39-11e8-9835-cbd4c2050bc0.png)
+![Example Epic](./images/Epic_2025-11-14.png)
 
 ### The engagement banner
 - Is a fixed position banner at the bottom of the screen (like the breaking news banner, cookie consent banner, etc)
@@ -28,16 +28,17 @@ The components which drive the most traffic are:
 - Will not re-display after it's closed, until we "redeploy" (globally force a re-display) via this tool: https://frontend.gutools.co.uk/reader-revenue/contributions-banner
 - Won't display if the user is a signed in Recurring Contributor or Digipack Subscriber (important note: whether or not you are signed in has **no bearing** on the epic being showed if you have made a one-off contribution) ***STILL RELEVANT?***
 - Won't display if the browser has a **recurring contribution cookie**
-- Won't display if the broswer has a **one-off contribution cookie** from within the **last 6 months**
+- Won't display if the browser has a **one-off contribution cookie** from within the **last 6 months**
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 
-![picture 417](https://user-images.githubusercontent.com/5122968/49798163-891ad380-fd39-11e8-8645-5f07c389e4f1.png)
+![Example Banner](./images/Banner_2025-11-14.png)
 
 ## Why can't I see the epic or banner?
 - The rules which determine whether these display on a given pageview are complex enough that getting them to display can be a pain
 - On top of this, we are almost always running tests on these components which means there are different variants in production
 - And on top of that, we often have region-specific copy, either as a test or simply as a region-specific control
 - Typically when making changes to these components, you will want to double-check all variants in our main regions (US, UK, Australia)
+- Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 - Finally, the sign-in gate might be blocking the banner from loading or covering the epic
 
 ## Helper functions
