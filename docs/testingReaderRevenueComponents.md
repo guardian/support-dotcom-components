@@ -20,7 +20,6 @@ The components which drive the most traffic are:
 - Won't display if the broswer has a **one-off contribution cookie** from within the **last 6 months**
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 
-![Example Epic](./images/Epic_2025-11-14.png)
 <img src="./images/Epic_2025-11-14.png" width="500" alt ="Example Epic" />
 
 ### The engagement banner
@@ -32,7 +31,7 @@ The components which drive the most traffic are:
 - Won't display if the browser has a **one-off contribution cookie** from within the **last 6 months**
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 
-![Example Banner](./images/Banner_2025-11-14.png)
+<img src="./images/Banner_2025-11-14.png" width="1000" alt ="Example Banner" />
 
 ## Why can't I see the epic or banner?
 - The rules which determine whether these display on a given pageview are complex enough that getting them to display can be a pain
