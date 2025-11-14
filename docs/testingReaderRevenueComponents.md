@@ -25,8 +25,8 @@ The components which drive the most traffic are:
 ### The engagement banner
 - Is a fixed position banner at the bottom of the screen (like the breaking news banner, cookie consent banner, etc)
 - Only displays after a certain number of pageviews ***STILL RELEVANT?***
-- Will not re-display after it's closed, until we "redeploy" (globally force a re-display) via RRCP
-- Won't display if the user is a signed in Recurring Contributor or Digipack Subscriber (important note: whether or not you are signed in has **no bearing** on the epic being showed if you have made a one-off contribution) ***STILL RELEVANT?***
+- Will not re-display after it's closed, until we "redeploy" (globally force a re-display) via RRCP ***STILL RELEVANT?***
+- Won't display if the user is a signed in Recurring Contributor or a Subscriber (important note: whether or not you are signed in has **no bearing** on the banner being showed if you have made a one-off contribution) ***STILL RELEVANT?***
 - Won't display if the browser has a **recurring contribution cookie**
 - Won't display if the browser has a **one-off contribution cookie** from within the **last 6 months**
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
@@ -62,4 +62,4 @@ They will ensure that all cookies and localStorage items are set up correctly, a
 See here for code and additional comments: https://github.com/guardian/dotcom-rendering/blob/main/dotcom-rendering/src/lib/readerRevenueDevUtils.ts
 
 ## Bookmarklets
-You can call those functions from the console if you like but if you want to use them as handy bookmarklets, you can find them under Bookmarklets in RRCP.
+You can call those functions from the console if you like but if you want to use them as handy bookmarklets, you can find them under Bookmarklets in RRCP which you can drag onto your browser's bookmark bar or import them all in one hit with a bookmarks file.
