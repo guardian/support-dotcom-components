@@ -14,7 +14,7 @@ The components which drive the most traffic are:
 
 ### The epic
 - Sits in the document flow, at the bottom of article copy in articles and within the document flow of liveblogs
-- Typically only displays for a certain number of views in a given time window (normally 4 in 30 days) ***STILL RELEVANT?***
+- Typically only displays for a certain number of views in a given time window (normally 4 in 30 days)
 - Will not display if the user is signed in and has the hideSupportMessaging benefit, or the browser has the one-off contribution cookie from the last 90 days
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 
