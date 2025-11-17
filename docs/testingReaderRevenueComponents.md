@@ -15,20 +15,15 @@ The components which drive the most traffic are:
 ### The epic
 - Sits in the document flow, at the bottom of article copy in articles and within the document flow of liveblogs
 - Typically only displays for a certain number of views in a given time window (normally 4 in 30 days) ***STILL RELEVANT?***
-- Won't display if the user is a signed in Recurring Contributor or is a Subscriber (important note: whether or not you are signed in has **no bearing** on the epic being shown if you have made a **one-off contribution**) ***STILL RELEVANT?***
-- Won't display if the browser has a **recurring contribution cookie**
-- Won't display if the broswer has a **one-off contribution cookie** from within the **last 6 months**
+- Will not display if the user is signed in and has the hideSupportMessaging benefit, or the browser has the one-off contribution cookie from the last 90 days
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 
 <img src="./images/Epic_2025-11-14.png" width="500" alt ="Example Epic" />
 
 ### The engagement banner
-- Is a fixed position banner at the bottom of the screen (like the breaking news banner, cookie consent banner, etc)
-- Only displays after a certain number of pageviews ***STILL RELEVANT?***
-- Will not re-display after it's closed, until we "redeploy" (globally force a re-display) via RRCP ***STILL RELEVANT?***
-- Won't display if the user is a signed in Recurring Contributor or a Subscriber (important note: whether or not you are signed in has **no bearing** on the banner being showed if you have made a one-off contribution) ***STILL RELEVANT?***
-- Won't display if the browser has a **recurring contribution cookie**
-- Won't display if the browser has a **one-off contribution cookie** from within the **last 6 months**
+- Is a fixed position banner at the bottom of the screen (like the cookie consent banner, etc)
+- Will not re-display after it's closed, until we "redeploy" (force a re-display) via RRCP 
+- Will not display if the user is signed in and has the hideSupportMessaging benefit, or the browser has the one-off contribution cookie from the last 90 days
 - Won't display on pages which have the `window.guardian.config.page.shouldHideReaderRevenue` flag set (this is set by editorial in Composer)
 
 <img src="./images/Banner_2025-11-14.png" width="1000" alt ="Example Banner" />
