@@ -1,5 +1,6 @@
 import type express from 'express';
 import { Router } from 'express';
+import type { ChannelSwitches } from '../channelSwitches';
 import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
 import {
@@ -12,6 +13,7 @@ import {
 } from '../signin-gate/libPure';
 import type { GetTreatmentsRequestPayload } from '../signin-gate/types';
 import { getSsmValue } from '../utils/ssm';
+import type { ValueProvider } from '../utils/valueReloader';
 
 export interface AuxiaRouterConfig {
     apiKey: string;
@@ -41,7 +43,10 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
 // Router
 // --------------------------------
 
-export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
+export const buildAuxiaProxyRouter = (
+    channelSwitches: ValueProvider<ChannelSwitches>,
+    config: AuxiaRouterConfig,
+): Router => {
     const router = Router();
 
     router.post(
@@ -74,7 +79,8 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             try {
                 const now = Date.now(); // current time in milliseconds since epoch
                 const payload = req.body as GetTreatmentsRequestPayload;
-                const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+                const { enableAuxia } = channelSwitches.get();
+                const gateType = getTreatmentsRequestPayloadToGateType(payload, now, enableAuxia);
                 const envelop = await gateTypeToUserTreatmentsEnvelop(config, gateType, payload);
                 if (envelop !== undefined) {
                     const data = userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(envelop);

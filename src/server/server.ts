@@ -139,7 +139,7 @@ const buildApp = async (): Promise<Express> => {
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
 
-    app.use(buildAuxiaProxyRouter(auxiaConfig));
+    app.use(buildAuxiaProxyRouter(channelSwitches, auxiaConfig));
 
     app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests));
 
