@@ -342,8 +342,10 @@ export const hideSupportMessagingHasOverride = (
 export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
     now: number,
+    enableAuxia: boolean,
 ): GateType => {
     // now: current time in milliseconds since epoch
+    // enableAuxia: channel switch to enable/disable Auxia integration
 
     // This function is a pure function (without any side effects) which gets the body
     // of a '/auxia/get-treatments' request and returns the correct GateType
@@ -401,7 +403,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     //    of the space. Therefore one and only one condition of the below conditions
     //    should correspond to a given payload.
 
-    if (isMandatoryRollout) {
+    if (isMandatoryRollout && enableAuxia) {
         if (userHasConsented(payload) && !inAuxiaControlGroup(payload)) {
             // [04] (copy from logic.md)
             //
@@ -442,6 +444,7 @@ export const getTreatmentsRequestPayloadToGateType = (
 
     // World excluding Ireland/NZ
     if (
+        enableAuxia &&
         userHasConsented(payload) &&
         isAuxiaAudienceShare(payload) &&
         !inAuxiaControlGroup(payload)
@@ -463,6 +466,4 @@ export const getTreatmentsRequestPayloadToGateType = (
             return 'None';
         }
     }
-
-    return 'None'; // default option which corresponds to an error condition since the payload fell through all the checks
 };

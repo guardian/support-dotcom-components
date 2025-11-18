@@ -33,7 +33,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('AuxiaAPI');
     });
 
@@ -72,7 +72,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
     });
 
@@ -111,7 +111,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuDismissible');
     });
 
@@ -150,7 +150,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuMandatory');
     });
 
@@ -189,7 +189,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             isInAuxiaControlGroup: true, // <- [control group]
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuMandatory');
     });
 });

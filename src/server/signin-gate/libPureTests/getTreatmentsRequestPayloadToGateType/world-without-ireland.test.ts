@@ -38,7 +38,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('None');
     });
     it('logic.md [03], first dismissible gates', () => {
@@ -77,7 +77,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('GuDismissible');
     });
     it('logic.md [03], high gate dismiss count', () => {
@@ -116,7 +116,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             isInAuxiaControlGroup: false,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -156,7 +156,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             isInAuxiaControlGroup: true, // <- [control group]
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('None');
     });
 });
