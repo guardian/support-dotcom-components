@@ -151,8 +151,8 @@ export class MParticle {
             }
 
             if (response.status !== 200) {
-                const data = (await response.json()) as unknown;
-                logError(`mParticle returned ${response.status}: ${String(data)}`);
+                const data = await response.text();
+                logError(`mParticle returned ${response.status}: ${data}`);
                 return undefined;
             }
 
