@@ -18,8 +18,6 @@ import {
     inCorrectCohort,
     isCountryTargetedForEpic,
     isNotExpired,
-    MPARTICLE_CONTRIBUTOR_AUDIENCE_ID,
-    MPARTICLE_CONTRIBUTOR_TEST_NAME,
     mParticleAudienceMatchesFilter,
     withinArticleViewedSettings,
     withinMaxViews,
@@ -906,15 +904,13 @@ describe('correctSignedInStatusFilter filter', () => {
 });
 
 describe('mParticleAudienceMatchesFilter', () => {
-    it('should pass if test name matches and user is in the target audience', () => {
+    it('should pass if test has mParticleAudience and user is in the target audience', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: MPARTICLE_CONTRIBUTOR_TEST_NAME,
+            mParticleAudience: 99999,
         };
         const mParticleProfile = {
-            audience_memberships: [
-                { audience_id: MPARTICLE_CONTRIBUTOR_AUDIENCE_ID, audience_name: 'audience' },
-            ],
+            audience_memberships: [{ audience_id: 99999, audience_name: 'test audience' }],
         };
         const filter = mParticleAudienceMatchesFilter(mParticleProfile);
 
@@ -923,13 +919,13 @@ describe('mParticleAudienceMatchesFilter', () => {
         expect(got).toBe(true);
     });
 
-    it('should fail if test name matches but user is not in the target audience', () => {
+    it('should fail if test has mParticleAudience but user is not in the target audience', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: MPARTICLE_CONTRIBUTOR_TEST_NAME,
+            mParticleAudience: 99999,
         };
         const mParticleProfile = {
-            audience_memberships: [{ audience_id: 12345, audience_name: 'audience' }],
+            audience_memberships: [{ audience_id: 12345, audience_name: 'different audience' }],
         };
         const filter = mParticleAudienceMatchesFilter(mParticleProfile);
 
@@ -938,26 +934,10 @@ describe('mParticleAudienceMatchesFilter', () => {
         expect(got).toBe(false);
     });
 
-    it('should pass if test name does not match', () => {
+    it('should fail if test has mParticleAudience but mParticleProfile is undefined', () => {
         const test: EpicTest = {
             ...testDefault,
-        };
-        const mParticleProfile = {
-            audience_memberships: [
-                { audience_id: MPARTICLE_CONTRIBUTOR_AUDIENCE_ID, audience_name: 'audience' },
-            ],
-        };
-        const filter = mParticleAudienceMatchesFilter(mParticleProfile);
-
-        const got = filter.test(test, targetingDefault);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail if test name matches but mParticleProfile is undefined', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            name: MPARTICLE_CONTRIBUTOR_TEST_NAME,
+            mParticleAudience: 99999,
         };
         const filter = mParticleAudienceMatchesFilter(undefined);
 
@@ -966,10 +946,10 @@ describe('mParticleAudienceMatchesFilter', () => {
         expect(got).toBe(false);
     });
 
-    it('should fail if test name matches but audience_memberships is empty', () => {
+    it('should fail if test has mParticleAudience but audience_memberships is empty', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: MPARTICLE_CONTRIBUTOR_TEST_NAME,
+            mParticleAudience: 99999,
         };
         const mParticleProfile = {
             audience_memberships: [],

@@ -169,19 +169,16 @@ export const deviceTypeMatchesFilter = (userDeviceType: UserDeviceType): Filter 
     test: (test): boolean => deviceTypeMatches(test, userDeviceType),
 });
 
-// Temporary logic for targeting by mParticle audience. If the epic test has this name then only apply to users with the matching audience ID
-export const MPARTICLE_CONTRIBUTOR_TEST_NAME = '2025-11-10_MPARTICLE_CONTRIBUTOR_TEST';
-export const MPARTICLE_CONTRIBUTOR_AUDIENCE_ID = 22994; // The ID of the "Lapsed Single Contributors" audience segment in mParticle
 export const mParticleAudienceMatchesFilter = (
     mParticleProfile: MParticleProfile | undefined,
 ): Filter => ({
     id: 'mParticleAudienceMatches',
     test: (test): boolean => {
-        if (test.name === MPARTICLE_CONTRIBUTOR_TEST_NAME) {
+        if (test.mParticleAudience) {
             // User must be in the mParticle audience segment
             if (mParticleProfile) {
                 const audience = mParticleProfile.audience_memberships.find(
-                    ({ audience_id }) => audience_id === MPARTICLE_CONTRIBUTOR_AUDIENCE_ID,
+                    ({ audience_id }) => audience_id === test.mParticleAudience,
                 );
                 return !!audience;
             } else {
