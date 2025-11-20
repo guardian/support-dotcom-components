@@ -325,23 +325,23 @@ describe('MParticle token refresh', () => {
         await mp.getUserProfile('test-user');
         await jest.advanceTimersByTimeAsync(0);
 
-        let oathCalls = (global.fetch as jest.Mock).mock.calls.filter((c: unknown[]) =>
+        let oauthCalls = (global.fetch as jest.Mock).mock.calls.filter((c: unknown[]) =>
             (c[0] as string).includes('oauth/token'),
         ).length;
-        expect(oathCalls).toBe(2);
+        expect(oauthCalls).toBe(2);
 
         // refresh should have changed and now not happen in the next minute
         await jest.advanceTimersByTimeAsync(70);
-        oathCalls = (global.fetch as jest.Mock).mock.calls.filter((c: unknown[]) =>
+        oauthCalls = (global.fetch as jest.Mock).mock.calls.filter((c: unknown[]) =>
             (c[0] as string).includes('oauth/token'),
         ).length;
-        expect(oathCalls).toBe(2);
+        expect(oauthCalls).toBe(2);
 
         // refresh should happen later
         await jest.advanceTimersByTimeAsync(expiresInSeconds * 1000);
-        oathCalls = (global.fetch as jest.Mock).mock.calls.filter((c: unknown[]) =>
+        oauthCalls = (global.fetch as jest.Mock).mock.calls.filter((c: unknown[]) =>
             (c[0] as string).includes('oauth/token'),
         ).length;
-        expect(oathCalls).toBe(3);
+        expect(oauthCalls).toBe(3);
     });
 });
