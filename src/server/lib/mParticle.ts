@@ -109,7 +109,7 @@ export class MParticle {
             }
             logInfo('Successfully refreshed mParticle bearer token');
 
-            this.bearerToken = parsed.data.access_token;
+            this.setBearerToken(parsed.data.access_token);
 
             // Schedule next refresh 60 seconds before expiry
             const refreshInMs = Math.max((parsed.data.expires_in - 60) * 1000, 0);
@@ -118,7 +118,7 @@ export class MParticle {
             }, refreshInMs);
         } catch (error) {
             logError(`Error fetching bearer token: ${String(error)}`);
-            this.bearerToken = null;
+            this.setBearerToken(null);
 
             // Retry in 60 seconds on error
             this.bearerTokenRefreshTimer = setTimeout(() => {
