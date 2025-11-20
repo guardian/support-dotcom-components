@@ -117,8 +117,7 @@ export class MParticle {
                 void this.refreshBearerToken();
             }, refreshInMs);
         } catch (error) {
-            logError(`Error fetching bearer token: ${String(error)}`);
-            this.setBearerToken(null);
+            logError(`Error fetching bearer token from mParticle: ${String(error)}`);
 
             // Retry in 60 seconds on error
             this.bearerTokenRefreshTimer = setTimeout(() => {
