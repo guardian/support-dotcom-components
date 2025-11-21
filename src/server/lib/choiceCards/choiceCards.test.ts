@@ -35,7 +35,7 @@ describe('getChoiceCardsSettings', () => {
         SupporterPlus: {
             ratePlans: {
                 Monthly: {
-                    id: 'SupporterPlus-Annual',
+                    id: 'SupporterPlus-Monthly',
                     pricing: {
                         USD: 15,
                         NZD: 20,
@@ -58,6 +58,32 @@ describe('getChoiceCardsSettings', () => {
                 },
             },
         },
+        DigitalSubscription: {
+            ratePlans: {
+                Monthly: {
+                    id: 'DigitalSubscription-Monthly',
+                    pricing: {
+                        AUD: 30,
+                        CAD: 30,
+                        EUR: 20,
+                        GBP: 18,
+                        NZD: 30,
+                        USD: 28,
+                    },
+                },
+                Annual: {
+                    id: 'DigitalSubscription-Annual',
+                    pricing: {
+                        AUD: 300,
+                        CAD: 300,
+                        EUR: 200,
+                        GBP: 180,
+                        NZD: 300,
+                        USD: 280,
+                    },
+                },
+            },
+        },
     };
 
     const mockPromotionsCache: PromotionsCache = {
@@ -71,6 +97,36 @@ describe('getChoiceCardsSettings', () => {
             productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
             discountPercent: 40,
         },
+    };
+
+    const digitalSubscriptionMonthlyCard = {
+        product: {
+            supportTier: 'DigitalSubscription' as const,
+            ratePlan: 'Monthly' as const,
+        },
+        label: '',
+        isDefault: true,
+        benefitsLabel: '',
+        benefits: [{ copy: '' }],
+        pill: {
+            copy: 'Recommended',
+        },
+        destination: 'LandingPage' as const,
+    };
+
+    const digitalSubscriptionAnnualCard = {
+        product: {
+            supportTier: 'DigitalSubscription' as const,
+            ratePlan: 'Annual' as const,
+        },
+        label: '',
+        isDefault: true,
+        benefitsLabel: '',
+        benefits: [{ copy: '' }],
+        pill: {
+            copy: 'Recommended',
+        },
+        destination: 'LandingPage' as const,
     };
 
     it('returns default settings without promotion applied', () => {
@@ -175,6 +231,67 @@ describe('getChoiceCardsSettings', () => {
         expect(result?.choiceCards[1].pill?.copy).toBe('30% off');
         expect(result?.choiceCards[1].product).toEqual({
             supportTier: 'SupporterPlus',
+            ratePlan: 'Annual',
+        });
+    });
+
+    it('returns DigitalSubscription choice card with correct label and product (monthly)', () => {
+        const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
+        variantChoiceCardSettings.choiceCards.push(digitalSubscriptionMonthlyCard);
+        const promoCodes: string[] = [];
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            {},
+            promoCodes,
+            variantChoiceCardSettings,
+        );
+
+        // Find DigitalSubscription Monthly card
+        const dsCard = result?.choiceCards.find(
+            (card) =>
+                card.product.supportTier === 'DigitalSubscription' &&
+                card.product.ratePlan === 'Monthly',
+        );
+
+        expect(dsCard).toBeDefined();
+        expect(dsCard?.label).toContain('Support $28/monthly');
+        expect(dsCard?.product).toEqual({
+            supportTier: 'DigitalSubscription',
+            ratePlan: 'Monthly',
+        });
+    });
+
+    it('returns DigitalSubscription choice card with annual rate plan', () => {
+        const variantChoiceCardSettings: ChoiceCardsSettings = {
+            choiceCards: [
+                ...defaultEpicChoiceCardsSettings('UnitedStates').choiceCards,
+                digitalSubscriptionAnnualCard,
+            ],
+        };
+        const promoCodes: string[] = [];
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            {},
+            promoCodes,
+            variantChoiceCardSettings,
+        );
+
+        const dsCard = result?.choiceCards.find(
+            (card) =>
+                card.product.supportTier === 'DigitalSubscription' &&
+                card.product.ratePlan === 'Annual',
+        );
+
+        expect(dsCard).toBeDefined();
+        expect(dsCard?.label).toContain('Support $280/year');
+        expect(dsCard?.product).toEqual({
+            supportTier: 'DigitalSubscription',
             ratePlan: 'Annual',
         });
     });

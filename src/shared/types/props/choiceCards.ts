@@ -18,6 +18,10 @@ const productSchema = z.discriminatedUnion('supportTier', [
         ratePlan: ratePlanSchema,
     }),
     z.object({
+        supportTier: z.literal('DigitalSubscription'),
+        ratePlan: ratePlanSchema,
+    }),
+    z.object({
         supportTier: z.literal('OneOff'),
     }),
 ]);

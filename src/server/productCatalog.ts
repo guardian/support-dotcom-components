@@ -15,7 +15,7 @@ interface Product {
     ratePlans: Record<RatePlan, ProductRatePlan>;
 }
 
-type ProductName = 'Contribution' | 'SupporterPlus';
+type ProductName = 'Contribution' | 'SupporterPlus' | 'DigitalSubscription';
 
 export type ProductCatalog = Record<ProductName, Product>;
 
