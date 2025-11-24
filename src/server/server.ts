@@ -49,6 +49,7 @@ const buildApp = async (): Promise<Express> => {
                 return [
                     'https://www.theguardian.com',
                     'https://support.gutools.co.uk',
+                    'https://support.code.dev-gutools.co.uk',
                     ...dotcomDevOrigins,
                 ];
             case 'CODE':
