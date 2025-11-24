@@ -1,6 +1,6 @@
 {
     "name": "@guardian/support-dotcom-components",
-    "version": "8.1.0",
+    "version": "8.2.0",
     "description": "Service to serve Reader Revenue components to dotcom",
     "repository": {
         "url": "https://github.com/guardian/support-dotcom-components"

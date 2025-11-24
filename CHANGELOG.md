@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.2.0
+
+### Minor Changes
+
+-   6aa7353: DigitalSubscription added to productSchema
+
 ## 8.1.0
 
 ### Minor Changes
