@@ -46,9 +46,18 @@ const buildApp = async (): Promise<Express> => {
     const corsOrigin = () => {
         switch (process.env.stage) {
             case 'PROD':
-                return ['https://www.theguardian.com', ...dotcomDevOrigins];
+                return [
+                    'https://www.theguardian.com',
+                    'https://support.gutools.co.uk',
+                    ...dotcomDevOrigins,
+                ];
             case 'CODE':
-                return ['https://m.code.dev-theguardian.com', ...dotcomDevOrigins];
+                return [
+                    'https://m.code.dev-theguardian.com',
+                    'https://support.gutools.co.uk',
+                    'https://support.code.dev-gutools.co.uk',
+                    ...dotcomDevOrigins,
+                ];
             default:
                 return '*';
         }
