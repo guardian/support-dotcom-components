@@ -36,7 +36,7 @@ const enrichChoiceCard = (
 
     const buildLabelForRecurringProduct = (
         ratePlan: RatePlan,
-        tier: 'Contribution' | 'SupporterPlus',
+        tier: 'Contribution' | 'SupporterPlus' | 'DigitalSubscription',
     ) => {
         const price = productCatalog[tier].ratePlans[ratePlan].pricing[isoCurrency];
         if (promotion) {
