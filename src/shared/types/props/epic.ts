@@ -95,7 +95,6 @@ export const variantSchema = z.object({
     choiceCardAmounts: selectedAmountsVariantSchema.optional(), // deprecated, use choiceCardsSettings
     defaultChoiceCardFrequency: contributionFrequencySchema.optional(), // deprecated, use choiceCardsSettings
     isCollapsible: z.boolean().optional(),
-    collapsibleVariant: z.string().optional(),
 });
 
 export const epicPropsSchema = z.object({
