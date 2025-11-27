@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.3.0
+
+### Minor Changes
+
+-   97b19b5: optional field added to banner to make collapsible banner configurable
+
 ## 8.2.0
 
 ### Minor Changes
