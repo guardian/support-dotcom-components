@@ -147,7 +147,7 @@ export const buildBannerRouter = (
                 choiceCardAmounts: variantAmounts, // deprecated, to be removed soon
                 design,
                 abandonedBasket: targeting.abandonedBasket,
-                isCollapsible: variant.isCollapsible,
+                isCollapsible: variant.isCollapsible ?? undefined,
             };
 
             return {
