@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.3.1
+
+### Patch Changes
+
+-   4ee85a2: Optional isCollapsible property added to bannerVariant
+
 ## 8.3.0
 
 ### Minor Changes
