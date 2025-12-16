@@ -83,8 +83,8 @@ devDependencies:
     specifier: ^8.0.1
     version: 8.0.1(prettier@3.3.3)(tslib@2.8.0)
   '@rollup/plugin-alias':
-    specifier: ^3.1.1
-    version: 3.1.9(rollup@2.79.2)
+    specifier: ^5.1.1
+    version: 5.1.1(rollup@2.79.2)
   '@rollup/plugin-babel':
     specifier: ^5.1.0
     version: 5.3.1(@babel/core@7.25.9)(rollup@2.79.2)
@@ -2352,14 +2352,16 @@ packages:
     dev: true
     optional: true
 
-  /@rollup/plugin-alias@3.1.9(rollup@2.79.2):
-    resolution: {integrity: sha512-QI5fsEvm9bDzt32k39wpOwZhVzRcL5ydcffUHMyLVaVaLeC70I8TJZ17F1z1eMoLu4E/UOcH9BWVkKpIKdrfiw==}
-    engines: {node: '>=8.0.0'}
+  /@rollup/plugin-alias@5.1.1(rollup@2.79.2):
+    resolution: {integrity: sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0||^2.0.0
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
     dependencies:
       rollup: 2.79.2
-      slash: 3.0.0
     dev: true
 
   /@rollup/plugin-babel@5.3.1(@babel/core@7.25.9)(rollup@2.79.2):
