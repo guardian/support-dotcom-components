@@ -4,10 +4,10 @@ This file contains the source of truth of the signin gate behavior. These are th
 
 ### Special Cases
 
--   We do not show the gate on some specific article urls (see code for details)
--   Not all pages are eligible for gate display (see code for details)
--   payload.shouldServeDismissible overrides everything else
--   Staff testing gate feature
+- We do not show the gate on some specific article urls (see code for details)
+- Not all pages are eligible for gate display (see code for details)
+- payload.shouldServeDismissible overrides everything else
+- Staff testing gate feature
 
 ### Global, excluding Ireland + New Zealand
 
