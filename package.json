@@ -38,7 +38,7 @@
         "@rollup/plugin-alias": "^5.1.1",
         "@rollup/plugin-babel": "^5.1.0",
         "@rollup/plugin-commonjs": "^14.0.0",
-        "@rollup/plugin-node-resolve": "^8.4.0",
+        "@rollup/plugin-node-resolve": "^16.0.3",
         "@rollup/plugin-replace": "^6.0.3",
         "@types/body-parser": "^1.19.5",
         "@types/compression": "^1.7.0",
