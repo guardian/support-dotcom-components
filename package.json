@@ -83,7 +83,7 @@
         "@aws-sdk/client-ssm": "^3.835.0",
         "@aws-sdk/credential-providers": "^3.835.0",
         "@aws-sdk/lib-dynamodb": "^3.835.0",
-        "@guardian/libs": "22.0.1",
+        "@guardian/libs": "26.1.0",
         "@guardian/ophan-tracker-js": "2.6.1",
         "@okta/jwt-verifier": "^4.0.2",
         "compression": "1.7.4",
