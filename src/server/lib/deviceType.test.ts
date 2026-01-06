@@ -1,5 +1,6 @@
 import type express from 'express';
 import { getDeviceType } from './deviceType';
+import type { Params } from './params';
 
 const createMockRequest = (userAgent?: string, cookies?: string): express.Request => {
     return {
@@ -16,46 +17,38 @@ const createMockRequest = (userAgent?: string, cookies?: string): express.Reques
 };
 
 describe('getDeviceType', () => {
-    describe('cookie-based detection (iPadOS 13+)', () => {
-        it('should return iOS when device_class=tablet cookie is present', () => {
+    describe('deviceClass query parameter detection (iPadOS 13+)', () => {
+        it('should return iOS when deviceClass=tablet is in params', () => {
             const req = createMockRequest(
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
-                'device_class=tablet',
             );
-            expect(getDeviceType(req)).toBe('iOS');
+            const params: Params = { deviceClass: 'tablet' };
+            expect(getDeviceType(req, params)).toBe('iOS');
         });
 
-        it('should return iOS when device_class=tablet cookie is present among other cookies', () => {
-            const req = createMockRequest(
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
-                'other_cookie=value; device_class=tablet; another=test',
-            );
-            expect(getDeviceType(req)).toBe('iOS');
-        });
-
-        it('should prioritize cookie over User-Agent when both indicate different devices', () => {
-            // Cookie says tablet (iPad), but UA says desktop Mac
-            const req = createMockRequest(
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
-                'device_class=tablet',
-            );
-            expect(getDeviceType(req)).toBe('iOS');
-        });
-
-        it('should fall back to User-Agent when device_class cookie has different value', () => {
+        it('should prioritize deviceClass query parameter over cookie', () => {
             const req = createMockRequest(
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
                 'device_class=desktop',
             );
-            expect(getDeviceType(req)).toBe('Desktop');
+            const params: Params = { deviceClass: 'tablet' };
+            expect(getDeviceType(req, params)).toBe('iOS');
         });
 
-        it('should fall back to User-Agent when device_class cookie is not present', () => {
+        it('should prioritize deviceClass query parameter over User-Agent', () => {
+            const req = createMockRequest(
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            );
+            const params: Params = { deviceClass: 'tablet' };
+            expect(getDeviceType(req, params)).toBe('iOS');
+        });
+
+        it('should fall back to User-Agent when deviceClass is not provided', () => {
             const req = createMockRequest(
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
-                'other_cookie=value',
             );
-            expect(getDeviceType(req)).toBe('Desktop');
+            const params: Params = {};
+            expect(getDeviceType(req, params)).toBe('Desktop');
         });
     });
 

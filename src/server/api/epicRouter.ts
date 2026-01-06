@@ -112,7 +112,7 @@ export const buildEpicRouter = (
             : findTestAndVariant(
                   tests,
                   targeting,
-                  getDeviceType(req),
+                  getDeviceType(req, params),
                   enableSuperMode ? superModeArticles.get() : [],
                   banditData.get(),
                   mParticleProfile,

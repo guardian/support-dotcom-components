@@ -6,10 +6,11 @@ export interface TestVariant {
 export interface Params {
     debug?: boolean;
     force?: TestVariant;
+    deviceClass?: 'tablet';
 }
 
 export const getQueryParams = (query: qs.ParsedQs): Params => {
-    const { debug, force } = query;
+    const { debug, force, deviceClass } = query;
     const debugNonEmpty = debug !== undefined;
     let parsedForce: TestVariant | undefined;
 
@@ -20,8 +21,12 @@ export const getQueryParams = (query: qs.ParsedQs): Params => {
         }
     }
 
+    // Parse deviceClass parameter - only accept 'tablet' as valid value
+    const parsedDeviceClass = deviceClass === 'tablet' ? 'tablet' : undefined;
+
     return {
         force: parsedForce,
         debug: debugNonEmpty,
+        deviceClass: parsedDeviceClass,
     };
 };
