@@ -75,7 +75,7 @@ export const buildBannerRouter = (
 
         const selectedTest = selectBannerTest(
             targeting,
-            getDeviceType(req),
+            getDeviceType(req, params),
             baseUrl(req),
             bannerTests.get(),
             bannerDeployTimes,
