@@ -42,9 +42,8 @@ const enrichChoiceCard = (
         if (promotion) {
             const discount = price * (promotion.discountPercent / 100);
             const discountedPrice = price - discount;
-            const formattedPrice = discountedPrice % 1 === 0
-                ? discountedPrice.toString()
-                : discountedPrice.toFixed(2);
+            const formattedPrice =
+                discountedPrice % 1 === 0 ? discountedPrice.toString() : discountedPrice.toFixed(2);
             return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${formattedPrice}/${ratePlanCopy(ratePlan)}`;
         } else {
             return `Support ${currencySymbol}${price}/${ratePlanCopy(ratePlan)}`;
