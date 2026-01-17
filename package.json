@@ -46,7 +46,7 @@
         "@types/jest": "^29.5.14",
         "@types/lodash.debounce": "^4.0.6",
         "@types/lodash.throttle": "^4.1.7",
-        "@types/node": "^22.10.7",
+        "@types/node": "^25.0.5",
         "@types/seedrandom": "^3.0.1",
         "babel-loader": "^10.0.0",
         "concurrently": "^6.2.0",
