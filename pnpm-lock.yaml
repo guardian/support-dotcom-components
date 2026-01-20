@@ -63,8 +63,8 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5
       zod:
-        specifier: 4.1.12
-        version: 4.1.12
+        specifier: 4.3.5
+        version: 4.3.5
     devDependencies:
       '@babel/core':
         specifier: ^7.23.2
@@ -4922,8 +4922,8 @@ packages:
     resolution: {integrity: sha512-EkXc2JGcKhO5N5aZ7TmuNo45budRaFGHOmz24wtJR7znbNqDPmdZtUauKX6et8KAVseAMBOyWJqEpXcHTBsh7Q==}
     engines: {node: '>= 6'}
 
-  zod@4.1.12:
-    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
+  zod@4.3.5:
+    resolution: {integrity: sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g==}
 
 snapshots:
 
@@ -11387,4 +11387,4 @@ snapshots:
       compress-commons: 2.1.1
       readable-stream: 3.6.2
 
-  zod@4.1.12: {}
+  zod@4.3.5: {}
