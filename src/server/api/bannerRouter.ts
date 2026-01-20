@@ -175,11 +175,13 @@ export const buildBannerRouter = (
             try {
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
+                const authHeader = req.headers.authorization;
 
                 const response = buildBannerData(targeting, params, req);
 
                 // for response logging
                 res.locals.didRenderBanner = !!response.data;
+                res.locals.hasAuthorization = !!authHeader;
                 // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
                 res.locals.bannerTargeting = {
                     shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
