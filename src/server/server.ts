@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import type { Express } from 'express';
@@ -69,7 +68,7 @@ const buildApp = async (): Promise<Express> => {
     };
     app.use(cors(corsOptions));
     app.use(loggingMiddleware);
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(express.urlencoded({ extended: true }));
 
     const stage =
         process.env.stage === 'CODE' ? 'CODE' : process.env.stage === 'DEV' ? 'DEV' : 'PROD';

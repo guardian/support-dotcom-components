@@ -90,7 +90,7 @@ describe('getChoiceCardsSettings', () => {
         PROMO_A: {
             promoCode: 'PROMO_A',
             productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Annual.id],
-            discountPercent: 30,
+            discountPercent: 35,
         },
         PROMO_B: {
             promoCode: 'PROMO_B',
@@ -227,8 +227,8 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$150</s> $105/year');
-        expect(result?.choiceCards[1].pill?.copy).toBe('30% off');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$150</s> $97.50/year');
+        expect(result?.choiceCards[1].pill?.copy).toBe('35% off');
         expect(result?.choiceCards[1].product).toEqual({
             supportTier: 'SupporterPlus',
             ratePlan: 'Annual',

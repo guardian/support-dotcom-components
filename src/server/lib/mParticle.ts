@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { putMetric } from '../utils/cloudwatch';
 import { logError, logInfo } from '../utils/logging';
 import { getSsmValue } from '../utils/ssm';
 import { isProd } from './env';
@@ -166,6 +167,7 @@ export class MParticle {
                 logError(
                     `mParticle returned a 429: backing off for ${this.backoffSeconds} seconds`,
                 );
+                putMetric('mparticle-rate-limiting');
                 return undefined;
             }
 

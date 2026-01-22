@@ -41,7 +41,10 @@ const enrichChoiceCard = (
         const price = productCatalog[tier].ratePlans[ratePlan].pricing[isoCurrency];
         if (promotion) {
             const discount = price * (promotion.discountPercent / 100);
-            return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${price - discount}/${ratePlanCopy(ratePlan)}`;
+            const discountedPrice = price - discount;
+            const formattedPrice =
+                discountedPrice % 1 === 0 ? discountedPrice.toString() : discountedPrice.toFixed(2);
+            return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${formattedPrice}/${ratePlanCopy(ratePlan)}`;
         } else {
             return `Support ${currencySymbol}${price}/${ratePlanCopy(ratePlan)}`;
         }
@@ -66,12 +69,21 @@ const enrichChoiceCard = (
         if (promotion) {
             return {
                 copy: `${promotion.discountPercent}% off`,
-                backgroundColour: { r: 'C7', g: '00', b: '00', kind: 'hex' }, // error[400]
-                textColour: { r: 'FF', g: 'FF', b: 'FF', kind: 'hex' }, // neutral[100]
+                backgroundColour: choiceCard.pill?.backgroundColour ?? {
+                    r: 'C7',
+                    g: '00',
+                    b: '00',
+                    kind: 'hex',
+                }, // error[400]
+                textColour: choiceCard.pill?.textColour ?? {
+                    r: 'FF',
+                    g: 'FF',
+                    b: 'FF',
+                    kind: 'hex',
+                }, // neutral[100]
             };
-        } else {
-            return choiceCard.pill;
         }
+        return choiceCard.pill;
     };
 
     const pill = buildPill();
