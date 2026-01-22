@@ -69,12 +69,21 @@ const enrichChoiceCard = (
         if (promotion) {
             return {
                 copy: `${promotion.discountPercent}% off`,
-                backgroundColour: { r: 'C7', g: '00', b: '00', kind: 'hex' }, // error[400]
-                textColour: { r: 'FF', g: 'FF', b: 'FF', kind: 'hex' }, // neutral[100]
+                backgroundColour: choiceCard.pill?.backgroundColour ?? {
+                    r: 'C7',
+                    g: '00',
+                    b: '00',
+                    kind: 'hex',
+                }, // error[400]
+                textColour: choiceCard.pill?.textColour ?? {
+                    r: 'FF',
+                    g: 'FF',
+                    b: 'FF',
+                    kind: 'hex',
+                }, // neutral[100]
             };
-        } else {
-            return choiceCard.pill;
         }
+        return choiceCard.pill;
     };
 
     const pill = buildPill();
