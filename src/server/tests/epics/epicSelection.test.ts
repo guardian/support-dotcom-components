@@ -915,9 +915,10 @@ describe('mParticleAudienceMatchesFilter', () => {
             ...testDefault,
             mParticleAudience: 99999,
         };
-        const getMParticleProfile = () => Promise.resolve({
-            audience_memberships: [{ audience_id: 99999, audience_name: 'test audience' }],
-        });
+        const getMParticleProfile = () =>
+            Promise.resolve({
+                audience_memberships: [{ audience_id: 99999, audience_name: 'test audience' }],
+            });
         const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
 
         const got = await filter.test(test, targetingDefault);
@@ -930,9 +931,10 @@ describe('mParticleAudienceMatchesFilter', () => {
             ...testDefault,
             mParticleAudience: 99999,
         };
-        const getMParticleProfile = () => Promise.resolve({
-            audience_memberships: [{ audience_id: 12345, audience_name: 'different audience' }],
-        });
+        const getMParticleProfile = () =>
+            Promise.resolve({
+                audience_memberships: [{ audience_id: 12345, audience_name: 'different audience' }],
+            });
         const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
 
         const got = await filter.test(test, targetingDefault);
@@ -958,9 +960,10 @@ describe('mParticleAudienceMatchesFilter', () => {
             ...testDefault,
             mParticleAudience: 99999,
         };
-        const getMParticleProfile = () => Promise.resolve({
-            audience_memberships: [],
-        });
+        const getMParticleProfile = () =>
+            Promise.resolve({
+                audience_memberships: [],
+            });
         const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
 
         const got = await filter.test(test, targetingDefault);

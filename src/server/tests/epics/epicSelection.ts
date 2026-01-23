@@ -238,7 +238,10 @@ export const findTestAndVariant = async (
         ];
     };
 
-    const filterTests = async (tests: EpicTest[], filters: Filter[]): Promise<EpicTest | undefined> => {
+    const filterTests = async (
+        tests: EpicTest[],
+        filters: Filter[],
+    ): Promise<EpicTest | undefined> => {
         for (const test of tests) {
             let allFiltersPassed = true;
 
@@ -268,7 +271,9 @@ export const findTestAndVariant = async (
         return undefined;
     };
 
-    const filterTestsWithSuperModePass = async (tests: EpicTest[]): Promise<EpicTest | undefined> => {
+    const filterTestsWithSuperModePass = async (
+        tests: EpicTest[],
+    ): Promise<EpicTest | undefined> => {
         // first try a standard pass
         const test = await filterTests(tests, getFilters(false));
         if (test) {

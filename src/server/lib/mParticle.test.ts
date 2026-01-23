@@ -383,11 +383,7 @@ describe('MParticle.getProfileFetcher', () => {
 
         const initialCallCount = (global.fetch as jest.Mock).mock.calls.length;
 
-        const { fetchProfile } = mp.getProfileFetcher(
-            channelSwitches,
-            mockOkta,
-            'Bearer token',
-        );
+        const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
 
         expect((global.fetch as jest.Mock).mock.calls.length).toBe(initialCallCount);
 
@@ -400,11 +396,7 @@ describe('MParticle.getProfileFetcher', () => {
         const mp = new MParticle(mockConfig);
         await jest.runAllTimersAsync();
 
-        const { fetchProfile } = mp.getProfileFetcher(
-            channelSwitches,
-            mockOkta,
-            'Bearer token',
-        );
+        const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
 
         const callCountBefore = (global.fetch as jest.Mock).mock.calls.length;
 
@@ -425,11 +417,7 @@ describe('MParticle.getProfileFetcher', () => {
         const mp = new MParticle(mockConfig);
         await jest.runAllTimersAsync();
 
-        const { forLogging } = mp.getProfileFetcher(
-            channelSwitches,
-            mockOkta,
-            'Bearer token',
-        );
+        const { forLogging } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
 
         const callCountBefore = (global.fetch as jest.Mock).mock.calls.length;
 
