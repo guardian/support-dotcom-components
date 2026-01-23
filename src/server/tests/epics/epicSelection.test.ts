@@ -92,8 +92,10 @@ const banditData: BanditData[] = [];
 
 const userDeviceType = 'Desktop';
 
+const getMParticleProfile = () => Promise.resolve(undefined);
+
 describe('findTestAndVariant', () => {
-    it('should find the correct variant for test and targeting data', () => {
+    it('should find the correct variant for test and targeting data', async () => {
         const testWithoutArticlesViewedSettings = {
             ...testDefault,
             articlesViewedSettings: undefined,
@@ -104,19 +106,20 @@ describe('findTestAndVariant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
 
-        const got = findTestAndVariant(
+        const got = await findTestAndVariant(
             tests,
             targeting,
             userDeviceType,
             superModeArticles,
             banditData,
+            getMParticleProfile,
         );
 
         expect(got.result?.test.name).toBe('example-1');
         expect(got.result?.variant.name).toBe('control-example-1');
     });
 
-    it('should return undefined if test has hasArticleCountInCopy and user has opted out of article count', () => {
+    it('should return undefined if test has hasArticleCountInCopy and user has opted out of article count', async () => {
         const tests = [testDefault];
         const targeting: EpicTargeting = {
             ...targetingDefault,
@@ -124,34 +127,36 @@ describe('findTestAndVariant', () => {
             hasOptedOutOfArticleCount: true,
         };
 
-        const got = findTestAndVariant(
+        const got = await findTestAndVariant(
             tests,
             targeting,
             userDeviceType,
             superModeArticles,
             banditData,
+            getMParticleProfile,
         );
 
         expect(got.result).toBe(undefined);
     });
 
-    it('should return undefined when no matching test variant', () => {
+    it('should return undefined when no matching test variant', async () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = [test];
         const targeting = { ...targetingDefault, sectionId: 'news' };
 
-        const got = findTestAndVariant(
+        const got = await findTestAndVariant(
             tests,
             targeting,
             userDeviceType,
             superModeArticles,
             banditData,
+            getMParticleProfile,
         );
 
         expect(got.result).toBe(undefined);
     });
 
-    it('should not return showReminderFields if user is a supporter', () => {
+    it('should not return showReminderFields if user is a supporter', async () => {
         const testWithoutArticlesViewedSettings: EpicTest = {
             ...testDefault,
             articlesViewedSettings: undefined,
@@ -163,12 +168,13 @@ describe('findTestAndVariant', () => {
             showSupportMessaging: false,
         };
 
-        const got = findTestAndVariant(
+        const got = await findTestAndVariant(
             tests,
             targeting,
             userDeviceType,
             superModeArticles,
             banditData,
+            getMParticleProfile,
         );
 
         expect(got.result?.variant.showReminderFields).toBe(undefined);
@@ -904,59 +910,60 @@ describe('correctSignedInStatusFilter filter', () => {
 });
 
 describe('mParticleAudienceMatchesFilter', () => {
-    it('should pass if test has mParticleAudience and user is in the target audience', () => {
+    it('should pass if test has mParticleAudience and user is in the target audience', async () => {
         const test: EpicTest = {
             ...testDefault,
             mParticleAudience: 99999,
         };
-        const mParticleProfile = {
+        const getMParticleProfile = () => Promise.resolve({
             audience_memberships: [{ audience_id: 99999, audience_name: 'test audience' }],
-        };
-        const filter = mParticleAudienceMatchesFilter(mParticleProfile);
+        });
+        const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
 
-        const got = filter.test(test, targetingDefault);
+        const got = await filter.test(test, targetingDefault);
 
         expect(got).toBe(true);
     });
 
-    it('should fail if test has mParticleAudience but user is not in the target audience', () => {
+    it('should fail if test has mParticleAudience but user is not in the target audience', async () => {
         const test: EpicTest = {
             ...testDefault,
             mParticleAudience: 99999,
         };
-        const mParticleProfile = {
+        const getMParticleProfile = () => Promise.resolve({
             audience_memberships: [{ audience_id: 12345, audience_name: 'different audience' }],
-        };
-        const filter = mParticleAudienceMatchesFilter(mParticleProfile);
+        });
+        const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
 
-        const got = filter.test(test, targetingDefault);
-
-        expect(got).toBe(false);
-    });
-
-    it('should fail if test has mParticleAudience but mParticleProfile is undefined', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            mParticleAudience: 99999,
-        };
-        const filter = mParticleAudienceMatchesFilter(undefined);
-
-        const got = filter.test(test, targetingDefault);
+        const got = await filter.test(test, targetingDefault);
 
         expect(got).toBe(false);
     });
 
-    it('should fail if test has mParticleAudience but audience_memberships is empty', () => {
+    it('should fail if test has mParticleAudience but mParticleProfile is undefined', async () => {
         const test: EpicTest = {
             ...testDefault,
             mParticleAudience: 99999,
         };
-        const mParticleProfile = {
+        const getMParticleProfile = () => Promise.resolve(undefined);
+        const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
+
+        const got = await filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+
+    it('should fail if test has mParticleAudience but audience_memberships is empty', async () => {
+        const test: EpicTest = {
+            ...testDefault,
+            mParticleAudience: 99999,
+        };
+        const getMParticleProfile = () => Promise.resolve({
             audience_memberships: [],
-        };
-        const filter = mParticleAudienceMatchesFilter(mParticleProfile);
+        });
+        const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
 
-        const got = filter.test(test, targetingDefault);
+        const got = await filter.test(test, targetingDefault);
 
         expect(got).toBe(false);
     });

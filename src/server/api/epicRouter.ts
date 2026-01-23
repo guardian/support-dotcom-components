@@ -83,14 +83,14 @@ export const buildEpicRouter = (
         }
     };
 
-    const buildEpicData = (
+    const buildEpicData = async (
         targeting: EpicTargeting,
         type: EpicType,
         params: Params,
         baseUrl: string,
         req: express.Request,
-        mParticleProfile?: MParticleProfile,
-    ): EpicDataResponse => {
+        getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    ): Promise<EpicDataResponse> => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
             return {};
@@ -109,13 +109,13 @@ export const buildEpicRouter = (
 
         const result = params.force
             ? findForcedTestAndVariant(tests, params.force)
-            : findTestAndVariant(
+            : await findTestAndVariant(
                   tests,
                   targeting,
                   getDeviceType(req, params),
                   enableSuperMode ? superModeArticles.get() : [],
                   banditData.get(),
-                  mParticleProfile,
+                  getMParticleProfile,
                   params.debug,
               );
 
@@ -201,24 +201,6 @@ export const buildEpicRouter = (
         };
     };
 
-    // If an Authorization header was supplied then attempt to verify it and extract the identityId
-    const getMParticleProfile = async (
-        targeting: EpicTargeting,
-        authHeader?: string,
-    ): Promise<MParticleProfile | undefined> => {
-        if (
-            !!authHeader &&
-            channelSwitches.get().enableMParticle &&
-            targeting.showSupportMessaging // optimisation to avoid lookups for existing supporters
-        ) {
-            const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
-            if (identityId) {
-                return mParticle.getUserProfile(identityId);
-            }
-        }
-        return Promise.resolve(undefined);
-    };
-
     router.post(
         '/epic',
         async (
@@ -232,14 +214,19 @@ export const buildEpicRouter = (
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
                 const authHeader = req.headers.authorization;
-                const mParticleProfile = await getMParticleProfile(targeting, authHeader);
-                const response = buildEpicData(
+                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                    channelSwitches.get(),
+                    okta,
+                    authHeader,
+                );
+
+                const response = await buildEpicData(
                     targeting,
                     epicType,
                     params,
                     baseUrl(req),
                     req,
-                    mParticleProfile,
+                    fetchProfile,
                 );
 
                 // for response logging
@@ -255,7 +242,7 @@ export const buildEpicRouter = (
                     );
                 }
                 res.locals.hasAuthorization = !!authHeader;
-                res.locals.gotMParticleProfile = !!mParticleProfile;
+                res.locals.gotMParticleProfile = !!(await forLogging());
 
                 res.send(response);
             } catch (error) {
@@ -266,7 +253,7 @@ export const buildEpicRouter = (
 
     router.post(
         '/liveblog-epic',
-        (
+        async (
             req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
             res: express.Response,
             next: express.NextFunction,
@@ -276,7 +263,20 @@ export const buildEpicRouter = (
 
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
+                const authHeader = req.headers.authorization;
+                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                    channelSwitches.get(),
+                    okta,
+                    authHeader,
+                );
+                const response = await buildEpicData(
+                    targeting,
+                    epicType,
+                    params,
+                    baseUrl(req),
+                    req,
+                    fetchProfile,
+                );
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
@@ -285,6 +285,8 @@ export const buildEpicRouter = (
                         'SUPER_MODE',
                     );
                 }
+                res.locals.hasAuthorization = !!authHeader;
+                res.locals.gotMParticleProfile = !!(await forLogging());
 
                 res.send(response);
             } catch (error) {

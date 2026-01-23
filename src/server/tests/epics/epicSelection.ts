@@ -30,7 +30,8 @@ import { momentumMatches } from './momentumTest';
 
 export interface Filter {
     id: string;
-    test: (test: EpicTest, targeting: EpicTargeting) => boolean;
+    // this function can be asynchronous or not
+    test: (test: EpicTest, targeting: EpicTargeting) => boolean | Promise<boolean>;
 }
 
 export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
@@ -170,12 +171,13 @@ export const deviceTypeMatchesFilter = (userDeviceType: UserDeviceType): Filter 
 });
 
 export const mParticleAudienceMatchesFilter = (
-    mParticleProfile: MParticleProfile | undefined,
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
 ): Filter => ({
     id: 'mParticleAudienceMatches',
-    test: (test): boolean => {
+    test: async (test): Promise<boolean> => {
         if (test.mParticleAudience) {
             // User must be in the mParticle audience segment
+            const mParticleProfile = await getMParticleProfile();
             if (mParticleProfile) {
                 const audience = mParticleProfile.audience_memberships.find(
                     ({ audience_id }) => audience_id === test.mParticleAudience,
@@ -202,15 +204,15 @@ export interface Result {
     debug?: Debug;
 }
 
-export const findTestAndVariant = (
+export const findTestAndVariant = async (
     tests: EpicTest[],
     targeting: EpicTargeting,
     userDeviceType: UserDeviceType,
     superModeArticles: SuperModeArticle[],
     banditData: BanditData[],
-    mParticleProfile?: MParticleProfile,
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     includeDebug = false,
-): Result => {
+): Promise<Result> => {
     const debug: Debug = {};
 
     const userCohorts = getUserCohorts(targeting);
@@ -232,40 +234,51 @@ export const findTestAndVariant = (
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
             momentumMatches,
-            mParticleAudienceMatchesFilter(mParticleProfile),
+            mParticleAudienceMatchesFilter(getMParticleProfile),
         ];
     };
 
-    const filterTests = (tests: EpicTest[], filters: Filter[]): EpicTest | undefined => {
-        const test = tests.find((test) =>
-            filters.every((filter) => {
-                const got = filter.test(test, targeting);
+    const filterTests = async (tests: EpicTest[], filters: Filter[]): Promise<EpicTest | undefined> => {
+        for (const test of tests) {
+            let allFiltersPassed = true;
+
+            for (const filter of filters) {
+                const filterPassed = await filter.test(test, targeting);
                 const debugResults = debug[test.name];
                 if (debugResults) {
-                    debugResults[filter.id] = got;
+                    debugResults[filter.id] = filterPassed;
                 } else {
-                    debug[test.name] = { [filter.id]: got };
+                    debug[test.name] = { [filter.id]: filterPassed };
                 }
 
-                if (!got && process.env.LOG_FAILED_TEST_FILTER === 'true') {
+                if (!filterPassed && process.env.LOG_FAILED_TEST_FILTER === 'true') {
                     console.log(`filter failed: ${test.name}; ${filter.id}`);
                 }
 
-                return got;
-            }),
-        );
+                if (!filterPassed) {
+                    allFiltersPassed = false;
+                    break;
+                }
+            }
 
-        return test;
+            if (allFiltersPassed) {
+                return test;
+            }
+        }
+        return undefined;
     };
 
-    const filterTestsWithSuperModePass = (tests: EpicTest[]): EpicTest | undefined => {
-        return (
-            filterTests(tests, getFilters(false)) ??
-            superModeify(filterTests(tests, getFilters(true)))
-        );
+    const filterTestsWithSuperModePass = async (tests: EpicTest[]): Promise<EpicTest | undefined> => {
+        // first try a standard pass
+        const test = await filterTests(tests, getFilters(false));
+        if (test) {
+            return test;
+        }
+        // now try the super mode pass
+        return superModeify(await filterTests(tests, getFilters(true)));
     };
 
-    const filterTestsWithoutSuperModePass = (tests: EpicTest[]): EpicTest | undefined => {
+    const filterTestsWithoutSuperModePass = (tests: EpicTest[]): Promise<EpicTest | undefined> => {
         return filterTests(tests, getFilters(false));
     };
 
@@ -283,9 +296,9 @@ export const findTestAndVariant = (
             superModeArticles,
         );
 
-    const test = isSuperMode
+    const test = await (isSuperMode
         ? filterTestsWithSuperModePass(priorityOrdered)
-        : filterTestsWithoutSuperModePass(priorityOrdered);
+        : filterTestsWithoutSuperModePass(priorityOrdered));
 
     if (test) {
         return {
