@@ -455,7 +455,6 @@ describe('MParticle.getProfileFetcher', () => {
         const result = await fetchProfile();
 
         expect(result).toBeUndefined();
-        // expect(mockOkta.getIdentityIdFromOktaToken).toHaveBeenCalledTimes(0);
         expect(mockOkta.getIdentityIdFromOktaToken.mock.calls).toHaveLength(0);
     });
 
