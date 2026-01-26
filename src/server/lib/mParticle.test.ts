@@ -381,15 +381,15 @@ describe('MParticle.getProfileFetcher', () => {
         const mp = new MParticle(mockConfig);
         await jest.runAllTimersAsync();
 
-        const initialCallCount = (global.fetch as jest.Mock).mock.calls.length;
+        const callCountBefore = (global.fetch as jest.Mock).mock.calls.length;
 
         const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
 
-        expect((global.fetch as jest.Mock).mock.calls.length).toBe(initialCallCount);
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountBefore);
 
         await fetchProfile();
 
-        expect((global.fetch as jest.Mock).mock.calls.length).toBeGreaterThan(initialCallCount);
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountBefore + 1);
     });
 
     it('should memoize and only fetch once for multiple calls', async () => {
