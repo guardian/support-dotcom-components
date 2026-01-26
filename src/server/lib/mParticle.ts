@@ -222,9 +222,10 @@ export class MParticle {
         authHeader?: string,
     ): {
         fetchProfile: () => Promise<MParticleProfile | undefined>;
-        forLogging: () => Promise<MParticleProfileStatus>;
+        forLogging: () => MParticleProfileStatus;
     } {
         let cachedPromise: Promise<MParticleProfile | undefined> | undefined;
+        let cachedStatus: MParticleProfileStatus = 'not-fetched';
 
         const fetchProfile = async (): Promise<MParticleProfile | undefined> => {
             if (!cachedPromise) {
@@ -237,18 +238,16 @@ export class MParticle {
                     if (!identityId) {
                         return undefined;
                     }
-                    return this.getUserProfile(identityId);
+                    const profile = await this.getUserProfile(identityId);
+                    cachedStatus = profile ? 'found' : 'not-found';
+                    return profile;
                 })();
             }
             return cachedPromise;
         };
 
-        const forLogging = async (): Promise<MParticleProfileStatus> => {
-            if (!cachedPromise) {
-                return 'not-fetched';
-            }
-            const profile = await cachedPromise;
-            return profile ? 'found' : 'not-found';
+        const forLogging = (): MParticleProfileStatus => {
+            return cachedStatus;
         };
 
         return { fetchProfile, forLogging };

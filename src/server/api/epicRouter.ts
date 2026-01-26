@@ -242,7 +242,7 @@ export const buildEpicRouter = (
                     );
                 }
                 res.locals.hasAuthorization = !!authHeader;
-                res.locals.gotMParticleProfile = await forLogging();
+                res.locals.gotMParticleProfile = forLogging();
 
                 res.send(response);
             } catch (error) {
@@ -286,7 +286,7 @@ export const buildEpicRouter = (
                     );
                 }
                 res.locals.hasAuthorization = !!authHeader;
-                res.locals.gotMParticleProfile = await forLogging();
+                res.locals.gotMParticleProfile = forLogging();
 
                 res.send(response);
             } catch (error) {

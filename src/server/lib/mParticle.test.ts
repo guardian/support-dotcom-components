@@ -421,7 +421,7 @@ describe('MParticle.getProfileFetcher', () => {
 
         const callCountBefore = (global.fetch as jest.Mock).mock.calls.length;
 
-        const result = await forLogging();
+        const result = forLogging();
 
         expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountBefore);
         expect(result).toBe('not-fetched');
@@ -440,7 +440,7 @@ describe('MParticle.getProfileFetcher', () => {
         await fetchProfile();
         const callCountAfterFetch = (global.fetch as jest.Mock).mock.calls.length;
 
-        const loggingResult = await forLogging();
+        const loggingResult = forLogging();
 
         expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountAfterFetch);
         expect(loggingResult).toEqual('found');
@@ -463,7 +463,7 @@ describe('MParticle.getProfileFetcher', () => {
         const profile = await fetchProfile();
         expect(profile).toBeUndefined();
 
-        const loggingResult = await forLogging();
+        const loggingResult = forLogging();
         expect(loggingResult).toBe('not-found');
     });
 
