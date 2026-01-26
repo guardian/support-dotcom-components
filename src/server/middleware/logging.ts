@@ -1,5 +1,4 @@
 import type express from 'express';
-import type { MParticleProfileStatus } from '../lib/mParticle';
 import { logger } from '../utils/logging';
 
 type LoggingLocals = {
@@ -12,7 +11,7 @@ type LoggingLocals = {
     auxiaTreatmentTrackingId?: string;
     auxiaInteractionType?: string;
     hasAuthorization?: boolean;
-    gotMParticleProfile?: MParticleProfileStatus;
+    gotMParticleProfile?: string;
 };
 
 export const logging = (
