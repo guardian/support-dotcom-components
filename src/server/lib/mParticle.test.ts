@@ -424,7 +424,7 @@ describe('MParticle.getProfileFetcher', () => {
         const result = await forLogging();
 
         expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountBefore);
-        expect(result).toBeUndefined();
+        expect(result).toBe('not-fetched');
     });
 
     it('should return cached value when forLogging is called after fetchProfile', async () => {
@@ -437,13 +437,34 @@ describe('MParticle.getProfileFetcher', () => {
             'Bearer token',
         );
 
-        const fetchResult = await fetchProfile();
+        await fetchProfile();
         const callCountAfterFetch = (global.fetch as jest.Mock).mock.calls.length;
 
         const loggingResult = await forLogging();
 
         expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountAfterFetch);
-        expect(loggingResult).toEqual(fetchResult);
+        expect(loggingResult).toEqual('found');
+    });
+
+    it('should return "not-found" when profile fetch returns undefined', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        (global.fetch as jest.Mock).mockResolvedValueOnce({
+            status: 404,
+        });
+
+        const { fetchProfile, forLogging } = mp.getProfileFetcher(
+            channelSwitches,
+            mockOkta,
+            'Bearer token',
+        );
+
+        const profile = await fetchProfile();
+        expect(profile).toBeUndefined();
+
+        const loggingResult = await forLogging();
+        expect(loggingResult).toBe('not-found');
     });
 
     it('should return undefined when authHeader is missing', async () => {

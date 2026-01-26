@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import type { ChannelSwitches } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
-import { logError, logger, logInfo } from '../utils/logging';
+import { logError, logInfo } from '../utils/logging';
 import { getSsmValue } from '../utils/ssm';
 import { isProd } from './env';
 import type { Okta } from './okta';
@@ -41,6 +41,8 @@ const MParticleOAuthTokenSchema = z.object({
     access_token: z.string(),
     expires_in: z.number(),
 });
+
+export type MParticleProfileStatus = 'found' | 'not-found' | 'not-fetched';
 
 export const getMParticleConfig = async (): Promise<MParticleConfig> => {
     const stage = isProd ? 'PROD' : 'CODE';
@@ -220,34 +222,35 @@ export class MParticle {
         authHeader?: string,
     ): {
         fetchProfile: () => Promise<MParticleProfile | undefined>;
-        forLogging: () => Promise<MParticleProfile | undefined>;
+        forLogging: () => Promise<MParticleProfileStatus>;
     } {
-        logger.info({ message: 'Called getProfileFetcher' });
         let cachedPromise: Promise<MParticleProfile | undefined> | undefined;
 
-        const fetchProfile = async (logging: boolean) => {
-            logger.info({ message: `called fetchProfile with logging: ${logging}` });
-            if (!cachedPromise && !logging) {
+        const fetchProfile = async (): Promise<MParticleProfile | undefined> => {
+            if (!cachedPromise) {
                 cachedPromise = (async () => {
                     if (!authHeader || !channelSwitches.enableMParticle) {
                         return undefined;
                     }
 
-                    logger.info({ message: 'Getting identityId...' });
                     const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
                     if (!identityId) {
                         return undefined;
                     }
-                    logger.info({ message: 'Making mParticle request' });
                     return this.getUserProfile(identityId);
                 })();
             }
             return cachedPromise;
         };
 
-        return {
-            fetchProfile: () => fetchProfile(false),
-            forLogging: () => fetchProfile(true),
+        const forLogging = async (): Promise<MParticleProfileStatus> => {
+            if (!cachedPromise) {
+                return 'not-fetched';
+            }
+            const profile = await cachedPromise;
+            return profile ? 'found' : 'not-found';
         };
+
+        return { fetchProfile, forLogging };
     }
 }
