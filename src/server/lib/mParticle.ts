@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import type { ChannelSwitches } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
-import { logError, logInfo } from '../utils/logging';
+import { logError, logger, logInfo } from '../utils/logging';
 import { getSsmValue } from '../utils/ssm';
 import { isProd } from './env';
 import type { Okta } from './okta';
@@ -224,22 +224,27 @@ export class MParticle {
         fetchProfile: () => Promise<MParticleProfile | undefined>;
         forLogging: () => MParticleProfileStatus;
     } {
+        logger.info({ message: 'Calling getProfileFetcher' });
         let cachedPromise: Promise<MParticleProfile | undefined> | undefined;
         let cachedStatus: MParticleProfileStatus = 'not-fetched';
 
         const fetchProfile = async (): Promise<MParticleProfile | undefined> => {
+            logger.info({ message: 'Calling fetchProfile' });
             if (!cachedPromise) {
                 cachedPromise = (async () => {
                     if (!authHeader || !channelSwitches.enableMParticle) {
                         return undefined;
                     }
 
+                    logger.info({ message: 'getting identityId...' });
                     const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
                     if (!identityId) {
                         return undefined;
                     }
+                    logger.info({ message: 'Calling getUserProfile...' });
                     const profile = await this.getUserProfile(identityId);
                     cachedStatus = profile ? 'found' : 'not-found';
+                    logger.info({ message: `Set cachedStatus to ${cachedStatus}` });
                     return profile;
                 })();
             }
@@ -247,6 +252,7 @@ export class MParticle {
         };
 
         const forLogging = (): MParticleProfileStatus => {
+            logger.info({ message: `Calling forLogging: ${cachedStatus}` });
             return cachedStatus;
         };
 
