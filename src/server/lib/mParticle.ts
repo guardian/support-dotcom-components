@@ -222,23 +222,23 @@ export class MParticle {
         fetchProfile: () => Promise<MParticleProfile | undefined>;
         forLogging: () => Promise<MParticleProfile | undefined>;
     } {
-        logger.info('Called getProfileFetcher');
+        logger.info({ message: 'Called getProfileFetcher' });
         let cachedPromise: Promise<MParticleProfile | undefined> | undefined;
 
         const fetchProfile = async (logging: boolean) => {
-            logger.info('called fetchProfile with logging:', logging);
+            logger.info({ message: `called fetchProfile with logging: ${logging}` });
             if (!cachedPromise && !logging) {
                 cachedPromise = (async () => {
                     if (!authHeader || !channelSwitches.enableMParticle) {
                         return undefined;
                     }
 
-                    console.log('Getting identityId...');
+                    logger.info({ message: 'Getting identityId...' });
                     const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
                     if (!identityId) {
                         return undefined;
                     }
-                    logger.info('Making mParticle request');
+                    logger.info({ message: 'Making mParticle request' });
                     return this.getUserProfile(identityId);
                 })();
             }
