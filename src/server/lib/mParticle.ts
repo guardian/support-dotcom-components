@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import type { ChannelSwitches } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
-import { logError, logInfo } from '../utils/logging';
+import { logError, logger, logInfo } from '../utils/logging';
 import { getSsmValue } from '../utils/ssm';
 import { isProd } from './env';
 import type { Okta } from './okta';
@@ -235,6 +235,7 @@ export class MParticle {
                     if (!identityId) {
                         return undefined;
                     }
+                    logger.info('Making mParticle request');
                     return this.getUserProfile(identityId);
                 })();
             }
