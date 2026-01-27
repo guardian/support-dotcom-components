@@ -10,6 +10,7 @@ import type {
 import { uiIsDesign } from '../../../shared/types';
 import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import type { MParticleProfile } from '../../lib/mParticle';
 import type { TestVariant } from '../../lib/params';
 import {
     abandonedBasketMatches,
@@ -17,6 +18,7 @@ import {
     consentStatusMatches,
     correctSignedInStatus,
     deviceTypeMatches,
+    matchesMParticleAudience,
     pageContextMatches,
 } from '../../lib/targeting';
 import { selectTargetingTest } from '../../lib/targetingTesting';
@@ -197,18 +199,31 @@ const matchesFrontsOnlyRequirement = (test: BannerTest, targeting: BannerTargeti
     return true;
 };
 
-export const selectBannerTest = (
-    targeting: BannerTargeting,
-    userDeviceType: UserDeviceType,
-    baseUrl: string,
-    tests: BannerTest[],
-    bannerDeployTimes: BannerDeployTimesProvider,
-    enableHardcodedBannerTests: boolean,
-    enableScheduledDeploys: boolean,
-    banditData: BanditData[],
-    forcedTestVariant?: TestVariant,
-    now: Date = new Date(),
-): BannerTestSelection | null => {
+interface SelectBannerTestData {
+    targeting: BannerTargeting;
+    userDeviceType: UserDeviceType;
+    tests: BannerTest[];
+    bannerDeployTimes: BannerDeployTimesProvider;
+    enableHardcodedBannerTests: boolean;
+    enableScheduledDeploys: boolean;
+    banditData: BanditData[];
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>;
+    now: Date;
+    forcedTestVariant?: TestVariant;
+}
+
+export const selectBannerTest = async ({
+    targeting,
+    userDeviceType,
+    tests,
+    bannerDeployTimes,
+    enableHardcodedBannerTests,
+    enableScheduledDeploys,
+    banditData,
+    getMParticleProfile,
+    now,
+    forcedTestVariant,
+}: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
     }
@@ -248,7 +263,11 @@ export const selectBannerTest = (
             pageContextMatches(targeting, test.contextTargeting) &&
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
             abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket) &&
-            matchesFrontsOnlyRequirement(test, targeting)
+            matchesFrontsOnlyRequirement(test, targeting) &&
+            (await matchesMParticleAudience(
+                getMParticleProfile,
+                test.mParticleAudience ?? undefined,
+            ))
         ) {
             const result = selectVariant<BannerVariant, BannerTest>(
                 test,

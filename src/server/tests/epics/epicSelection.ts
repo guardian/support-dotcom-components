@@ -20,6 +20,7 @@ import { isInSuperMode, superModeify } from '../../lib/superMode';
 import {
     correctSignedInStatus,
     deviceTypeMatches,
+    matchesMParticleAudience,
     pageContextMatches,
     shouldNotRenderEpic,
     shouldThrottle,
@@ -175,20 +176,7 @@ export const mParticleAudienceMatchesFilter = (
 ): Filter => ({
     id: 'mParticleAudienceMatches',
     test: async (test): Promise<boolean> => {
-        if (test.mParticleAudience) {
-            // User must be in the mParticle audience segment
-            const mParticleProfile = await getMParticleProfile();
-            if (mParticleProfile) {
-                const audience = mParticleProfile.audience_memberships.find(
-                    ({ audience_id }) => audience_id === test.mParticleAudience,
-                );
-                return !!audience;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
+        return matchesMParticleAudience(getMParticleProfile, test.mParticleAudience ?? undefined);
     },
 });
 
