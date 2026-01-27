@@ -389,7 +389,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     const isMandatoryRollout = payload.countryCode === 'IE' || payload.countryCode === 'NZ';
-    const isDismissableRollout = payload.countryCode === 'AU';
+    const isDismissibleRollout = payload.countryCode === 'AU';
 
     // --------------------------------------------------------------
     // We now move to the normal behavior of the gate
@@ -447,7 +447,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     if (
         enableAuxia &&
         userHasConsented(payload) &&
-        (isDismissableRollout || isAuxiaAudienceShare(payload)) &&
+        (isDismissibleRollout || isAuxiaAudienceShare(payload)) &&
         !inAuxiaControlGroup(payload)
     ) {
         // We have consent for Auxia anduser is either:
