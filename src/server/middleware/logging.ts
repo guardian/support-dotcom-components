@@ -22,6 +22,7 @@ export const logging = (
     const startTime = process.hrtime();
 
     res.on('finish', () => {
+        logger.info({ message: `finish for ${req.path}` });
         try {
             const [seconds, nanoseconds] = process.hrtime(startTime);
             const responseTimeMs = seconds * 1000 + nanoseconds / 1e6;
@@ -53,6 +54,7 @@ export const logging = (
                 gotMParticleProfile: String(res.locals.gotMParticleProfile),
             });
         }
+        logger.info({ message: `logged finish for ${req.path}` });
     });
     next();
 };

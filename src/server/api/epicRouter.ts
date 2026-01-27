@@ -250,6 +250,7 @@ export const buildEpicRouter = (
                 }
                 res.locals.gotMParticleProfile = mparticleLog;
 
+                logger.info({ message: 'sending response for epic' });
                 res.send(response);
             } catch (error) {
                 next(error);
