@@ -2,6 +2,7 @@ import { factories } from '../factories';
 import {
     audienceMatches,
     consentStatusMatches,
+    matchesMParticleAudience,
     pageContextMatches,
     shouldNotRenderEpic,
     shouldThrottle,
@@ -289,5 +290,46 @@ describe('consentStatusMatches', () => {
     it('checks user consent when a test does not target by consent status', () => {
         expect(consentStatusMatches(true, undefined)).toBe(true);
         expect(consentStatusMatches(false, undefined)).toBe(true);
+    });
+});
+
+describe('matchesMParticleAudience', () => {
+    it('should return true if test does not have mParticleAudience', async () => {
+        const getMParticleProfile = () => Promise.resolve(undefined);
+        const result = await matchesMParticleAudience(getMParticleProfile, undefined);
+        expect(result).toBe(true);
+    });
+
+    it('should return true if test has mParticleAudience and user is in the target audience', async () => {
+        const getMParticleProfile = () =>
+            Promise.resolve({
+                audience_memberships: [{ audience_id: 99999, audience_name: 'test audience' }],
+            });
+        const result = await matchesMParticleAudience(getMParticleProfile, 99999);
+        expect(result).toBe(true);
+    });
+
+    it('should return false if test has mParticleAudience but user is not in the target audience', async () => {
+        const getMParticleProfile = () =>
+            Promise.resolve({
+                audience_memberships: [{ audience_id: 12345, audience_name: 'different audience' }],
+            });
+        const result = await matchesMParticleAudience(getMParticleProfile, 99999);
+        expect(result).toBe(false);
+    });
+
+    it('should return false if test has mParticleAudience but mParticleProfile is undefined', async () => {
+        const getMParticleProfile = () => Promise.resolve(undefined);
+        const result = await matchesMParticleAudience(getMParticleProfile, 99999);
+        expect(result).toBe(false);
+    });
+
+    it('should return false if test has mParticleAudience but audience_memberships is empty', async () => {
+        const getMParticleProfile = () =>
+            Promise.resolve({
+                audience_memberships: [],
+            });
+        const result = await matchesMParticleAudience(getMParticleProfile, 99999);
+        expect(result).toBe(false);
     });
 });
