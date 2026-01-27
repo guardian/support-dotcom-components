@@ -214,7 +214,7 @@ export class MParticle {
      * If an Authorization header was supplied then attempt to verify it and extract the identityId. Then fetch the profile from mParticle.
      * Returns 2 functions:
      * - fetchProfile, which is memoized and lazy. We do not want to make the request to mparticle unless we need to, and should only do it once.
-     * - forLogging, which returns the memoized value but will not make a request to mparticle. This is used for request logging.
+     * - forLogging, which returns the cached status but will not make a request to mparticle. This is used for request logging.
      */
     getProfileFetcher(
         channelSwitches: ChannelSwitches,
