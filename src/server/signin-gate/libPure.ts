@@ -389,6 +389,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     const isMandatoryRollout = payload.countryCode === 'IE' || payload.countryCode === 'NZ';
+    const isDismissibleRollout = payload.countryCode === 'AU';
 
     // --------------------------------------------------------------
     // We now move to the normal behavior of the gate
@@ -446,10 +447,13 @@ export const getTreatmentsRequestPayloadToGateType = (
     if (
         enableAuxia &&
         userHasConsented(payload) &&
-        isAuxiaAudienceShare(payload) &&
+        (isDismissibleRollout || isAuxiaAudienceShare(payload)) &&
         !inAuxiaControlGroup(payload)
     ) {
-        // We have consent for Auxia and user is in the Auxia share of the audience
+        // We have consent for Auxia anduser is either:
+        // - in a country where Auxia is rolled out to all eligible users (Australia)
+        // or
+        // - in the Auxia share of the audience
         return 'AuxiaAPI';
     } else {
         // [01, 03] (copy from logic.md)

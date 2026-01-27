@@ -9,7 +9,7 @@ This file contains the source of truth of the signin gate behavior. These are th
 - payload.shouldServeDismissible overrides everything else
 - Staff testing gate feature
 
-### Global, excluding Ireland + New Zealand
+### Global, excluding Ireland + New Zealand and Australia
 
 No gate display the first 3 page views
 
@@ -83,4 +83,35 @@ not in control |                                              |
 
 
 [02] use gu_hide_support_messaging cookie
+```
+
+### Australia
+
+```
+                ----------------------------------------------
+               | [01]                                         |
+               |                                              |
+               |  - No Auxia notification                     |
+ un-consented  |  - Guardian drives the gate:                 |
+ or in control |    - No gate for 30 days after a single      |
+               |      contribution event [01]                 |
+               |    - No gate the first 3 page views          |
+               |    - Dismissible gates,                      |
+               |      then no gate after 5 dismisses          |
+               |                                              |
+    -----------|-----------------------------------------------
+               | [02]                                         |
+               |                                              |
+               |  - Auxia drives the gate                     |
+  consented +  |                                              |
+not in control |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+               |                                              |
+    -----------|-----------------------------------------------
+
+
+[01] use gu_hide_support_messaging cookie
 ```
