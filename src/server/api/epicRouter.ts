@@ -31,7 +31,7 @@ import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
-import { logger, logWarn } from '../utils/logging';
+import { logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
@@ -245,7 +245,6 @@ export const buildEpicRouter = (
                 res.locals.gotMParticleProfile = forLogging() === 'found';
                 res.locals.mParticleProfileStatus = forLogging();
 
-                logger.info({ message: 'sending response for epic' });
                 res.send(response);
             } catch (error) {
                 next(error);
@@ -288,7 +287,8 @@ export const buildEpicRouter = (
                     );
                 }
                 res.locals.hasAuthorization = !!authHeader;
-                res.locals.gotMParticleProfile = forLogging();
+                res.locals.gotMParticleProfile = forLogging() === 'found';
+                res.locals.mParticleProfileStatus = forLogging();
 
                 res.send(response);
             } catch (error) {
