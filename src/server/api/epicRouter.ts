@@ -31,7 +31,7 @@ import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
-import { logWarn } from '../utils/logging';
+import { logger, logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
@@ -242,7 +242,13 @@ export const buildEpicRouter = (
                     );
                 }
                 res.locals.hasAuthorization = !!authHeader;
-                res.locals.gotMParticleProfile = forLogging();
+                let mparticleLog = undefined;
+                try {
+                    mparticleLog = forLogging();
+                } catch (error) {
+                    logger.error({ message: `Error getting mparticle log: ${String(error)}` });
+                }
+                res.locals.gotMParticleProfile = mparticleLog;
 
                 res.send(response);
             } catch (error) {
