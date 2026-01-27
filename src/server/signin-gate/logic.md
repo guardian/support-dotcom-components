@@ -111,4 +111,7 @@ not in control |                                              |
                |                                              |
                |                                              |
     -----------|-----------------------------------------------
+
+
+[01] use gu_hide_support_messaging cookie
 ```
