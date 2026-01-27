@@ -18,7 +18,6 @@ import {
     inCorrectCohort,
     isCountryTargetedForEpic,
     isNotExpired,
-    mParticleAudienceMatchesFilter,
     withinArticleViewedSettings,
     withinMaxViews,
 } from './epicSelection';
@@ -906,68 +905,5 @@ describe('correctSignedInStatusFilter filter', () => {
         const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(true);
-    });
-});
-
-describe('mParticleAudienceMatchesFilter', () => {
-    it('should pass if test has mParticleAudience and user is in the target audience', async () => {
-        const test: EpicTest = {
-            ...testDefault,
-            mParticleAudience: 99999,
-        };
-        const getMParticleProfile = () =>
-            Promise.resolve({
-                audience_memberships: [{ audience_id: 99999, audience_name: 'test audience' }],
-            });
-        const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
-
-        const got = await filter.test(test, targetingDefault);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail if test has mParticleAudience but user is not in the target audience', async () => {
-        const test: EpicTest = {
-            ...testDefault,
-            mParticleAudience: 99999,
-        };
-        const getMParticleProfile = () =>
-            Promise.resolve({
-                audience_memberships: [{ audience_id: 12345, audience_name: 'different audience' }],
-            });
-        const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
-
-        const got = await filter.test(test, targetingDefault);
-
-        expect(got).toBe(false);
-    });
-
-    it('should fail if test has mParticleAudience but mParticleProfile is undefined', async () => {
-        const test: EpicTest = {
-            ...testDefault,
-            mParticleAudience: 99999,
-        };
-        const getMParticleProfile = () => Promise.resolve(undefined);
-        const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
-
-        const got = await filter.test(test, targetingDefault);
-
-        expect(got).toBe(false);
-    });
-
-    it('should fail if test has mParticleAudience but audience_memberships is empty', async () => {
-        const test: EpicTest = {
-            ...testDefault,
-            mParticleAudience: 99999,
-        };
-        const getMParticleProfile = () =>
-            Promise.resolve({
-                audience_memberships: [],
-            });
-        const filter = mParticleAudienceMatchesFilter(getMParticleProfile);
-
-        const got = await filter.test(test, targetingDefault);
-
-        expect(got).toBe(false);
     });
 });
