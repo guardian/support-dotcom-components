@@ -1,4 +1,6 @@
+import type { ChannelSwitches } from '../channelSwitches';
 import { MParticle } from './mParticle';
+import type { Okta } from './okta';
 
 /**
  * Tests for the exponential backoff logic in getUserProfile.
@@ -8,22 +10,22 @@ import { MParticle } from './mParticle';
 
 global.fetch = jest.fn();
 
-describe('MParticle.getUserProfile backoff logic', () => {
-    const mockConfig = {
-        oauthTokenEndpoint: {
-            client_id: 'test-client-id',
-            client_secret: 'test-client-secret',
-            audience: 'test-audience',
-            grant_type: 'client_credentials',
-        },
-        userProfileEndpoint: {
-            orgId: 'test-org',
-            accountId: 'test-account',
-            workspaceId: 'test-workspace',
-            environment_type: 'production',
-        },
-    };
+const mockConfig = {
+    oauthTokenEndpoint: {
+        client_id: 'test-client-id',
+        client_secret: 'test-client-secret',
+        audience: 'test-audience',
+        grant_type: 'client_credentials',
+    },
+    userProfileEndpoint: {
+        orgId: 'test-org',
+        accountId: 'test-account',
+        workspaceId: 'test-workspace',
+        environment_type: 'production',
+    },
+};
 
+describe('MParticle.getUserProfile backoff logic', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         jest.useFakeTimers();
@@ -164,21 +166,6 @@ describe('MParticle.getUserProfile backoff logic', () => {
 });
 
 describe('MParticle token refresh', () => {
-    const mockConfig = {
-        oauthTokenEndpoint: {
-            client_id: 'test-client-id',
-            client_secret: 'test-client-secret',
-            audience: 'test-audience',
-            grant_type: 'client_credentials',
-        },
-        userProfileEndpoint: {
-            orgId: 'test-org',
-            accountId: 'test-account',
-            workspaceId: 'test-workspace',
-            environment_type: 'production',
-        },
-    };
-
     const expiresInSeconds = 3600;
 
     beforeEach(() => {
@@ -343,5 +330,185 @@ describe('MParticle token refresh', () => {
             (c[0] as string).includes('oauth/token'),
         ).length;
         expect(oauthCalls).toBe(3);
+    });
+});
+
+describe('MParticle.getProfileFetcher', () => {
+    const channelSwitches: ChannelSwitches = {
+        enableAuxia: false,
+        enableBanners: false,
+        enableEpics: false,
+        enableGutterLiveblogs: false,
+        enableHardcodedBannerTests: false,
+        enableHardcodedEpicTests: false,
+        enableHeaders: false,
+        enableScheduledBannerDeploys: false,
+        enableSuperMode: false,
+        enableMParticle: true,
+    };
+    let mockOkta: jest.Mocked<Okta>;
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        jest.useFakeTimers();
+
+        // @ts-expect-error -- no need to implement private members
+        mockOkta = {
+            getIdentityIdFromOktaToken: jest.fn().mockResolvedValue('identity-123'),
+        } as jest.Mocked<Okta>;
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- mocking
+        jest.spyOn(MParticle.prototype as any, 'fetchAndScheduleToken').mockImplementation(
+            function (this: MParticle) {
+                this.setBearerToken('test-token');
+            },
+        );
+
+        (global.fetch as jest.Mock).mockResolvedValue({
+            status: 200,
+            json: () => ({
+                audience_memberships: [{ audience_id: 123, audience_name: 'test' }],
+            }),
+        });
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+        jest.restoreAllMocks();
+    });
+
+    it('should not fetch until fetchProfile is called (laziness)', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        const callCountBefore = (global.fetch as jest.Mock).mock.calls.length;
+
+        const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
+
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountBefore);
+
+        await fetchProfile();
+
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountBefore + 1);
+    });
+
+    it('should memoize and only fetch once for multiple calls', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
+
+        const callCountBefore = (global.fetch as jest.Mock).mock.calls.length;
+
+        const [result1, result2, result3] = await Promise.all([
+            fetchProfile(),
+            fetchProfile(),
+            fetchProfile(),
+        ]);
+
+        const callCountAfter = (global.fetch as jest.Mock).mock.calls.length;
+
+        expect(callCountAfter).toBe(callCountBefore + 1);
+        expect(result1).toEqual(result2);
+        expect(result2).toEqual(result3);
+    });
+
+    it('should not fetch when forLogging is called without prior fetchProfile call', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        const { forLogging } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
+
+        const callCountBefore = (global.fetch as jest.Mock).mock.calls.length;
+
+        const result = forLogging();
+
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountBefore);
+        expect(result).toBe('not-fetched');
+    });
+
+    it('should return cached value when forLogging is called after fetchProfile', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        const { fetchProfile, forLogging } = mp.getProfileFetcher(
+            channelSwitches,
+            mockOkta,
+            'Bearer token',
+        );
+
+        await fetchProfile();
+        const callCountAfterFetch = (global.fetch as jest.Mock).mock.calls.length;
+
+        const loggingResult = forLogging();
+
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountAfterFetch);
+        expect(loggingResult).toEqual('found');
+    });
+
+    it('should return "not-found" when profile fetch returns undefined', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        (global.fetch as jest.Mock).mockResolvedValueOnce({
+            status: 404,
+        });
+
+        const { fetchProfile, forLogging } = mp.getProfileFetcher(
+            channelSwitches,
+            mockOkta,
+            'Bearer token',
+        );
+
+        const profile = await fetchProfile();
+        expect(profile).toBeUndefined();
+
+        const loggingResult = forLogging();
+        expect(loggingResult).toBe('not-found');
+    });
+
+    it('should return undefined when authHeader is missing', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, undefined);
+
+        const result = await fetchProfile();
+
+        expect(result).toBeUndefined();
+        expect(mockOkta.getIdentityIdFromOktaToken.mock.calls).toHaveLength(0);
+    });
+
+    it('should return undefined when enableMParticle is false', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        const { fetchProfile } = mp.getProfileFetcher(
+            { ...channelSwitches, enableMParticle: false },
+            mockOkta,
+            'Bearer token',
+        );
+
+        const result = await fetchProfile();
+
+        expect(result).toBeUndefined();
+        expect(mockOkta.getIdentityIdFromOktaToken.mock.calls).toHaveLength(0);
+    });
+
+    it('should return undefined when identityId cannot be retrieved', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        // @ts-expect-error -- no need to implement private members
+        mockOkta = {
+            getIdentityIdFromOktaToken: jest.fn().mockResolvedValue(undefined),
+        } as jest.Mocked<Okta>;
+
+        const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
+
+        const result = await fetchProfile();
+
+        expect(result).toBeUndefined();
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(0);
     });
 });

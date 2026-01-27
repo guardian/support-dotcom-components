@@ -1,8 +1,10 @@
 import { z } from 'zod';
+import type { ChannelSwitches } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
 import { logError, logInfo } from '../utils/logging';
 import { getSsmValue } from '../utils/ssm';
 import { isProd } from './env';
+import type { Okta } from './okta';
 
 // mParticle API docs: https://docs.mparticle.com/developers/apis/profile-api/
 
@@ -39,6 +41,8 @@ const MParticleOAuthTokenSchema = z.object({
     access_token: z.string(),
     expires_in: z.number(),
 });
+
+export type MParticleProfileStatus = 'found' | 'not-found' | 'not-fetched';
 
 export const getMParticleConfig = async (): Promise<MParticleConfig> => {
     const stage = isProd ? 'PROD' : 'CODE';
@@ -204,5 +208,48 @@ export class MParticle {
             logError(`Error fetching profile from mParticle. ${String(error)}`);
             return undefined;
         }
+    }
+
+    /**
+     * If an Authorization header was supplied then attempt to verify it and extract the identityId. Then fetch the profile from mParticle.
+     * Returns 2 functions:
+     * - fetchProfile, which is memoized and lazy. We do not want to make the request to mparticle unless we need to, and should only do it once.
+     * - forLogging, which returns the cached status but will not make a request to mparticle. This is used for request logging.
+     */
+    getProfileFetcher(
+        channelSwitches: ChannelSwitches,
+        okta: Okta,
+        authHeader?: string,
+    ): {
+        fetchProfile: () => Promise<MParticleProfile | undefined>;
+        forLogging: () => MParticleProfileStatus;
+    } {
+        let cachedPromise: Promise<MParticleProfile | undefined> | undefined;
+        let cachedStatus: MParticleProfileStatus = 'not-fetched';
+
+        const fetchProfile = async (): Promise<MParticleProfile | undefined> => {
+            if (!cachedPromise) {
+                cachedPromise = (async () => {
+                    if (!authHeader || !channelSwitches.enableMParticle) {
+                        return undefined;
+                    }
+
+                    const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
+                    if (!identityId) {
+                        return undefined;
+                    }
+                    const profile = await this.getUserProfile(identityId);
+                    cachedStatus = profile ? 'found' : 'not-found';
+                    return profile;
+                })();
+            }
+            return cachedPromise;
+        };
+
+        const forLogging = (): MParticleProfileStatus => {
+            return cachedStatus;
+        };
+
+        return { fetchProfile, forLogging };
     }
 }
