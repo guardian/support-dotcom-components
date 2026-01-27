@@ -242,13 +242,8 @@ export const buildEpicRouter = (
                     );
                 }
                 res.locals.hasAuthorization = !!authHeader;
-                let mparticleLog = undefined;
-                try {
-                    mparticleLog = forLogging();
-                } catch (error) {
-                    logger.error({ message: `Error getting mparticle log: ${String(error)}` });
-                }
-                res.locals.gotMParticleProfile = mparticleLog;
+                res.locals.gotMParticleProfile = forLogging() === 'found';
+                res.locals.mParticleProfileStatus = forLogging();
 
                 logger.info({ message: 'sending response for epic' });
                 res.send(response);
