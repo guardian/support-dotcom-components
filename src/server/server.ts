@@ -144,6 +144,8 @@ const buildApp = async (): Promise<Express> => {
             banditData,
             productCatalog,
             promotions,
+            mParticle,
+            okta,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));

@@ -14,6 +14,7 @@ import type {
     Variant,
 } from '../../shared/types';
 import { daysSince } from './dates';
+import type { MParticleProfile } from './mParticle';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
@@ -181,4 +182,24 @@ export const pageIdIsExcluded = (
     targeting: BannerTargeting | EpicTargeting | GutterTargeting,
 ): boolean => {
     return targeting.pageId ? excludedPageIds.has(targeting.pageId) : false;
+};
+
+export const matchesMParticleAudience = async (
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    mParticleAudience?: number,
+): Promise<boolean> => {
+    if (mParticleAudience) {
+        // User must be in the mParticle audience segment
+        const mParticleProfile = await getMParticleProfile();
+        if (mParticleProfile) {
+            const audience = mParticleProfile.audience_memberships.find(
+                ({ audience_id }) => audience_id === mParticleAudience,
+            );
+            return !!audience;
+        } else {
+            return false;
+        }
+    } else {
+        return true;
+    }
 };

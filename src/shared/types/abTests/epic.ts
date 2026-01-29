@@ -122,7 +122,6 @@ export const epicTestFromToolSchema = testSchema.extend({
     highPriority: z.boolean(),
     useLocalViewLog: z.boolean(),
     articlesViewedSettings: articlesViewedSettingsSchema.optional(),
-    mParticleAudience: z.number().nullish(),
     priority: z.number(),
     variants: variantSchema.array(),
 });
