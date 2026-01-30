@@ -20,7 +20,24 @@ const oneOffCard = (countryGroupId: CountryGroupId): ChoiceCard => ({
                     : 'We welcome support of any size, any time',
         },
     ],
+    destination: 'LandingPage',
 });
+
+const usSupporterPlusBenefits = [
+    { copy: 'Far fewer asks for support' },
+    { copy: 'Ad-free reading on all your devices' },
+    { copy: 'Unlimited access to the Guardian app' },
+];
+
+const supporterPlusBenefits = [
+    { copy: 'Far fewer asks for support' },
+    { copy: 'Ad-free reading' },
+    { copy: 'Unlimited access to the Guardian app' },
+    {
+        copy: 'Exclusive newsletter for supporters',
+    },
+    { copy: 'Unlimited access to the Feast App' },
+];
 
 const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
     {
@@ -35,6 +52,7 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
                 copy: 'Give to the Guardian every month with Support',
             },
         ],
+        destination: 'LandingPage',
     },
     {
         product: {
@@ -44,18 +62,12 @@ const fullChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         label: '', // label is generated for recurring products
         isDefault: true,
         benefitsLabel: 'Unlock <strong>All-access digital</strong> benefits:',
-        benefits: [
-            { copy: 'Unlimited access to the Guardian app' },
-            { copy: 'Unlimited access to our new Feast App' },
-            { copy: 'Ad-free reading on all your devices' },
-            {
-                copy: 'Exclusive newsletter for supporters, sent every week from the Guardian newsroom',
-            },
-            { copy: 'Far fewer asks for support' },
-        ],
+        benefits:
+            countryGroupId === 'UnitedStates' ? usSupporterPlusBenefits : supporterPlusBenefits,
         pill: {
             copy: 'Recommended',
         },
+        destination: 'LandingPage',
     },
     oneOffCard(countryGroupId),
 ];
@@ -82,12 +94,13 @@ const shorterChoiceCards = (countryGroupId: CountryGroupId): ChoiceCard[] => [
         label: '', // label is generated for recurring products
         isDefault: true,
         benefits: [
-            { copy: 'Unlimited access to the Guardian app and Feast app' },
+            { copy: 'Far fewer asks for support' },
             { copy: 'Ad-free reading on all your devices' },
         ],
         pill: {
             copy: 'Recommended',
         },
+        destination: 'LandingPage',
     },
     oneOffCard(countryGroupId),
 ];

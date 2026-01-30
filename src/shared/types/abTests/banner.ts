@@ -36,7 +36,7 @@ export interface BannerDesignName {
 type BannerUi = BannerTemplate | BannerDesignName;
 
 export function uiIsDesign(ui: BannerUi): ui is BannerDesignName {
-    return (ui as BannerDesignName).designName !== undefined;
+    return typeof ui === 'object' && 'designName' in ui;
 }
 
 export const bannerVariantFromToolSchema = z.object({
@@ -49,6 +49,7 @@ export const bannerVariantFromToolSchema = z.object({
     separateArticleCountSettings: separateArticleCountSchema.optional(),
     choiceCardsSettings: choiceCardsSettings.nullish(),
     promoCodes: z.array(z.string()).nullish(),
+    isCollapsible: z.boolean().nullish(),
 });
 
 export type BannerVariantFromTool = z.infer<typeof bannerVariantFromToolSchema>;
@@ -90,6 +91,7 @@ export const bannerTestFromToolSchema = testSchema.extend({
             daysBetween: z.number(),
         })
         .optional(),
+    frontsOnly: z.boolean().optional(),
 });
 
 export type BannerTestFromTool = z.infer<typeof bannerTestFromToolSchema>;

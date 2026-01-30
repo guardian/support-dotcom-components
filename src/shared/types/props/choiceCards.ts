@@ -18,6 +18,10 @@ const productSchema = z.discriminatedUnion('supportTier', [
         ratePlan: ratePlanSchema,
     }),
     z.object({
+        supportTier: z.literal('DigitalSubscription'),
+        ratePlan: ratePlanSchema,
+    }),
+    z.object({
         supportTier: z.literal('OneOff'),
     }),
 ]);
@@ -29,6 +33,8 @@ const pillSchema = z.object({
     backgroundColour: hexColourSchema.nullish(),
 });
 
+const destinationSchema = z.union([z.literal('LandingPage'), z.literal('Checkout')]);
+
 const choiceCardSchema = z.object({
     product: productSchema,
     label: z.string(), // e.g. "Support $15/month"
@@ -36,6 +42,7 @@ const choiceCardSchema = z.object({
     benefitsLabel: z.string().nullish(), // e.g. "Unlock All-access digital benefits:"
     benefits: z.array(productBenefitSchema),
     pill: pillSchema.nullish(),
+    destination: destinationSchema.nullish(),
 });
 
 export type ChoiceCard = z.infer<typeof choiceCardSchema>;

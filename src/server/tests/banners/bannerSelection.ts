@@ -10,6 +10,7 @@ import type {
 import { uiIsDesign } from '../../../shared/types';
 import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import type { MParticleProfile } from '../../lib/mParticle';
 import type { TestVariant } from '../../lib/params';
 import {
     abandonedBasketMatches,
@@ -17,6 +18,7 @@ import {
     consentStatusMatches,
     correctSignedInStatus,
     deviceTypeMatches,
+    matchesMParticleAudience,
     pageContextMatches,
 } from '../../lib/targeting';
 import { selectTargetingTest } from '../../lib/targetingTesting';
@@ -135,11 +137,11 @@ export const canShowBannerAgain = (
     );
 };
 
-const DESIGNABLE_BANNER_V2_TEMPLATE_NAME = 'DesignableBannerV2';
+const DESIGNABLE_BANNER_TEMPLATE_NAME = 'DesignableBanner';
 
 const getModuleNameForVariant = (variant: BannerVariant): string => {
     if (uiIsDesign(variant.template)) {
-        return DESIGNABLE_BANNER_V2_TEMPLATE_NAME;
+        return DESIGNABLE_BANNER_TEMPLATE_NAME;
     } else {
         return variant.template;
     }
@@ -179,8 +181,8 @@ const purchaseMatches = (
     }
 
     const { product, userType } = purchaseInfo;
-    const productValid = product && testPurchaseInfo?.product.includes(product);
-    const userValid = userType && testPurchaseInfo?.userType.includes(userType);
+    const productValid = testPurchaseInfo?.product.includes(product);
+    const userValid = testPurchaseInfo?.userType.includes(userType);
 
     return productValid && userValid;
 };
@@ -190,18 +192,38 @@ const isTaylorReportPage = (targeting: BannerTargeting): boolean => {
     return Boolean(targeting.tagIds?.includes(TAYLOR_REPORT_TAG_ID));
 };
 
-export const selectBannerTest = (
-    targeting: BannerTargeting,
-    userDeviceType: UserDeviceType,
-    baseUrl: string,
-    tests: BannerTest[],
-    bannerDeployTimes: BannerDeployTimesProvider,
-    enableHardcodedBannerTests: boolean,
-    enableScheduledDeploys: boolean,
-    banditData: BanditData[],
-    forcedTestVariant?: TestVariant,
-    now: Date = new Date(),
-): BannerTestSelection | null => {
+const matchesFrontsOnlyRequirement = (test: BannerTest, targeting: BannerTargeting): boolean => {
+    if (test.frontsOnly) {
+        return targeting.contentType === 'Network Front';
+    }
+    return true;
+};
+
+interface SelectBannerTestData {
+    targeting: BannerTargeting;
+    userDeviceType: UserDeviceType;
+    tests: BannerTest[];
+    bannerDeployTimes: BannerDeployTimesProvider;
+    enableHardcodedBannerTests: boolean;
+    enableScheduledDeploys: boolean;
+    banditData: BanditData[];
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>;
+    now: Date;
+    forcedTestVariant?: TestVariant;
+}
+
+export const selectBannerTest = async ({
+    targeting,
+    userDeviceType,
+    tests,
+    bannerDeployTimes,
+    enableHardcodedBannerTests,
+    enableScheduledDeploys,
+    banditData,
+    getMParticleProfile,
+    now,
+    forcedTestVariant,
+}: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
     }
@@ -238,17 +260,14 @@ export const selectBannerTest = (
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
             canShowBannerAgain(targeting, test, bannerDeployTimes, now, deploySchedule) &&
             correctSignedInStatus(targeting.isSignedIn, test.signedInStatus) &&
-            pageContextMatches(
-                targeting,
-                test.contextTargeting ?? {
-                    tagIds: [],
-                    sectionIds: [],
-                    excludedTagIds: [],
-                    excludedSectionIds: [],
-                },
-            ) &&
+            pageContextMatches(targeting, test.contextTargeting) &&
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
-            abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket)
+            abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket) &&
+            matchesFrontsOnlyRequirement(test, targeting) &&
+            (await matchesMParticleAudience(
+                getMParticleProfile,
+                test.mParticleAudience ?? undefined,
+            ))
         ) {
             const result = selectVariant<BannerVariant, BannerTest>(
                 test,

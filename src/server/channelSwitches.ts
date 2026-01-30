@@ -12,15 +12,14 @@ export interface ChannelSwitches {
     enableHardcodedBannerTests: boolean;
     enableScheduledBannerDeploys: boolean;
     enableGutterLiveblogs: boolean;
+    enableMParticle: boolean;
+    enableAuxia: boolean;
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>
-    fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/channel-switches.json`)
-        .then(JSON.parse)
-        .then((switches) => ({
-            enableScheduledBannerDeploys: false,
-            ...switches,
-        }));
+    fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/channel-switches.json`).then(
+        JSON.parse,
+    );
 
 const buildChannelSwitchesReloader = (): Promise<ValueReloader<ChannelSwitches>> =>
     buildReloader(getSwitches, 60);

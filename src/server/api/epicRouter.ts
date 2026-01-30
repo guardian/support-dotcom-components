@@ -12,17 +12,19 @@ import type {
     Tracking,
     WeeklyArticleLog,
 } from '../../shared/types';
-import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
+import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
 import type { SuperModeArticle } from '../lib/superMode';
+import { pageIdIsExcluded } from '../lib/targeting';
 import { buildEpicCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
@@ -57,6 +59,8 @@ export const buildEpicRouter = (
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
     promotions: ValueProvider<PromotionsCache>,
+    mParticle: MParticle,
+    okta: Okta,
 ): Router => {
     const router = Router();
 
@@ -74,29 +78,29 @@ export const buildEpicRouter = (
 
             return [...hardcodedTests, ...articleEpicTests.get()];
         } catch (err) {
-            logWarn(`Error getting article epic tests: ${err}`);
-
+            logWarn(`Error getting article epic tests: ${String(err)}`);
             return [];
         }
     };
 
-    const buildEpicData = (
+    const buildEpicData = async (
         targeting: EpicTargeting,
         type: EpicType,
         params: Params,
         baseUrl: string,
         req: express.Request,
-    ): EpicDataResponse => {
+        getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    ): Promise<EpicDataResponse> => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
             return {};
         }
 
-        if (hideSRMessagingForInfoPageIds(targeting)) {
+        if (pageIdIsExcluded(targeting)) {
             return {};
         }
 
-        const targetingMvtId = targeting.mvtId || 1;
+        const targetingMvtId = targeting.mvtId ?? 1;
 
         const tests =
             type === 'ARTICLE'
@@ -105,12 +109,13 @@ export const buildEpicRouter = (
 
         const result = params.force
             ? findForcedTestAndVariant(tests, params.force)
-            : findTestAndVariant(
+            : await findTestAndVariant(
                   tests,
                   targeting,
-                  getDeviceType(req),
+                  getDeviceType(req, params),
                   enableSuperMode ? superModeArticles.get() : [],
                   banditData.get(),
+                  getMParticleProfile,
                   params.debug,
               );
 
@@ -166,7 +171,7 @@ export const buildEpicRouter = (
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildEpicCampaignCode(test, variant),
-            campaignId: `epic_${test.campaignId || test.name}`,
+            campaignId: `epic_${test.campaignId ?? test.name}`,
             componentType: 'ACQUISITIONS_EPIC',
             products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
             labels: test.isSuperMode ? ['SUPER_MODE'] : undefined,
@@ -198,13 +203,31 @@ export const buildEpicRouter = (
 
     router.post(
         '/epic',
-        (req: express.Request, res: express.Response, next: express.NextFunction): void => {
+        async (
+            req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ): Promise<void> => {
             try {
                 const epicType: EpicType = 'ARTICLE';
 
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
+                const authHeader = req.headers.authorization;
+                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                    channelSwitches.get(),
+                    okta,
+                    authHeader,
+                );
+
+                const response = await buildEpicData(
+                    targeting,
+                    epicType,
+                    params,
+                    baseUrl(req),
+                    req,
+                    fetchProfile,
+                );
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
@@ -218,6 +241,9 @@ export const buildEpicRouter = (
                         'SUPER_MODE',
                     );
                 }
+                res.locals.hasAuthorization = !!authHeader;
+                res.locals.gotMParticleProfile = forLogging() === 'found';
+                res.locals.mParticleProfileStatus = forLogging();
 
                 res.send(response);
             } catch (error) {
@@ -228,13 +254,30 @@ export const buildEpicRouter = (
 
     router.post(
         '/liveblog-epic',
-        (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        async (
+            req: express.Request<Record<string, never>, unknown, { targeting: EpicTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ) => {
             try {
                 const epicType: EpicType = 'LIVEBLOG';
 
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildEpicData(targeting, epicType, params, baseUrl(req), req);
+                const authHeader = req.headers.authorization;
+                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                    channelSwitches.get(),
+                    okta,
+                    authHeader,
+                );
+                const response = await buildEpicData(
+                    targeting,
+                    epicType,
+                    params,
+                    baseUrl(req),
+                    req,
+                    fetchProfile,
+                );
 
                 // for response logging
                 res.locals.didRenderEpic = !!response.data;
@@ -243,6 +286,9 @@ export const buildEpicRouter = (
                         'SUPER_MODE',
                     );
                 }
+                res.locals.hasAuthorization = !!authHeader;
+                res.locals.gotMParticleProfile = forLogging() === 'found';
+                res.locals.mParticleProfileStatus = forLogging();
 
                 res.send(response);
             } catch (error) {

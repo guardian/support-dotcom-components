@@ -50,21 +50,12 @@ export default Factory.define<BannerDesignFromTool>(() => ({
                 text: stringToHexColour('FFFFFF'),
                 background: stringToHexColour('0077B6'),
             },
-            hover: {
-                text: stringToHexColour('FFFFFF'),
-                background: stringToHexColour('004E7C'),
-            },
         },
         secondaryCta: {
             default: {
                 text: stringToHexColour('004E7C'),
                 background: stringToHexColour('F1F8FC'),
                 border: stringToHexColour('FFFFFF'),
-            },
-            hover: {
-                text: stringToHexColour('004E7C'),
-                background: stringToHexColour('E5E5E5'),
-                border: stringToHexColour('222527'),
             },
         },
         closeButton: {
@@ -73,16 +64,10 @@ export default Factory.define<BannerDesignFromTool>(() => ({
                 background: stringToHexColour('F1F8FC'),
                 border: stringToHexColour('052962'),
             },
-            hover: {
-                text: stringToHexColour('052962'),
-                background: stringToHexColour('E5E5E5'),
-            },
         },
         ticker: {
-            text: stringToHexColour('052962'),
             filledProgress: stringToHexColour('052962'),
             progressBarBackground: stringToHexColour('ffffff'),
-            goalMarker: stringToHexColour('000000'),
             headlineColour: stringToHexColour('000000'),
             totalColour: stringToHexColour('000000'),
             goalColour: stringToHexColour('000000'),

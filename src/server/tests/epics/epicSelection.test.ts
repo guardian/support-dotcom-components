@@ -91,8 +91,10 @@ const banditData: BanditData[] = [];
 
 const userDeviceType = 'Desktop';
 
+const getMParticleProfile = () => Promise.resolve(undefined);
+
 describe('findTestAndVariant', () => {
-    it('should find the correct variant for test and targeting data', () => {
+    it('should find the correct variant for test and targeting data', async () => {
         const testWithoutArticlesViewedSettings = {
             ...testDefault,
             articlesViewedSettings: undefined,
@@ -103,19 +105,20 @@ describe('findTestAndVariant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
 
-        const got = findTestAndVariant(
+        const got = await findTestAndVariant(
             tests,
             targeting,
             userDeviceType,
             superModeArticles,
             banditData,
+            getMParticleProfile,
         );
 
         expect(got.result?.test.name).toBe('example-1');
         expect(got.result?.variant.name).toBe('control-example-1');
     });
 
-    it('should return undefined if test has hasArticleCountInCopy and user has opted out of article count', () => {
+    it('should return undefined if test has hasArticleCountInCopy and user has opted out of article count', async () => {
         const tests = [testDefault];
         const targeting: EpicTargeting = {
             ...targetingDefault,
@@ -123,34 +126,36 @@ describe('findTestAndVariant', () => {
             hasOptedOutOfArticleCount: true,
         };
 
-        const got = findTestAndVariant(
+        const got = await findTestAndVariant(
             tests,
             targeting,
             userDeviceType,
             superModeArticles,
             banditData,
+            getMParticleProfile,
         );
 
         expect(got.result).toBe(undefined);
     });
 
-    it('should return undefined when no matching test variant', () => {
+    it('should return undefined when no matching test variant', async () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = [test];
         const targeting = { ...targetingDefault, sectionId: 'news' };
 
-        const got = findTestAndVariant(
+        const got = await findTestAndVariant(
             tests,
             targeting,
             userDeviceType,
             superModeArticles,
             banditData,
+            getMParticleProfile,
         );
 
         expect(got.result).toBe(undefined);
     });
 
-    it('should not return showReminderFields if user is a supporter', () => {
+    it('should not return showReminderFields if user is a supporter', async () => {
         const testWithoutArticlesViewedSettings: EpicTest = {
             ...testDefault,
             articlesViewedSettings: undefined,
@@ -162,12 +167,13 @@ describe('findTestAndVariant', () => {
             showSupportMessaging: false,
         };
 
-        const got = findTestAndVariant(
+        const got = await findTestAndVariant(
             tests,
             targeting,
             userDeviceType,
             superModeArticles,
             banditData,
+            getMParticleProfile,
         );
 
         expect(got.result?.variant.showReminderFields).toBe(undefined);

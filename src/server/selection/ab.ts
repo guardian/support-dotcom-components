@@ -106,13 +106,9 @@ export const selectAmountsTestVariant = (
     const assignmentIndex = getRandomNumber(`${seed + mvtId}`) % variants.length;
     const variant = variants[assignmentIndex];
 
-    if (!variant) {
-        return undefined;
-    }
-
     // Test is running and user has been successfully assigned to a control/variant
     return {
-        testName: liveTestName || `${testName}_AB_TEST`,
+        testName: liveTestName ?? `${testName}_AB_TEST`,
         ...variant,
     };
 };

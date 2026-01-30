@@ -13,12 +13,14 @@ import type {
     WeeklyArticleHistory,
 } from '../../../shared/types';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import type { MParticleProfile } from '../../lib/mParticle';
 import type { TestVariant } from '../../lib/params';
 import type { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
 import {
     correctSignedInStatus,
     deviceTypeMatches,
+    matchesMParticleAudience,
     pageContextMatches,
     shouldNotRenderEpic,
     shouldThrottle,
@@ -29,7 +31,8 @@ import { momentumMatches } from './momentumTest';
 
 export interface Filter {
     id: string;
-    test: (test: EpicTest, targeting: EpicTargeting) => boolean;
+    // this function can be asynchronous or not
+    test: (test: EpicTest, targeting: EpicTargeting) => boolean | Promise<boolean>;
 }
 
 export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
@@ -109,7 +112,7 @@ export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter
 
         const testId = test.useLocalViewLog ? test.name : undefined;
 
-        return !shouldThrottle(log, test.maxViews || defaultMaxViews, testId, now);
+        return !shouldThrottle(log, test.maxViews ?? defaultMaxViews, testId, now);
     },
 });
 
@@ -168,9 +171,18 @@ export const deviceTypeMatchesFilter = (userDeviceType: UserDeviceType): Filter 
     test: (test): boolean => deviceTypeMatches(test, userDeviceType),
 });
 
+export const mParticleAudienceMatchesFilter = (
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+): Filter => ({
+    id: 'mParticleAudienceMatches',
+    test: async (test): Promise<boolean> => {
+        return matchesMParticleAudience(getMParticleProfile, test.mParticleAudience ?? undefined);
+    },
+});
+
 type FilterResults = Record<string, boolean>;
 
-export type Debug = Record<string, FilterResults>;
+export type Debug = Record<string, FilterResults | undefined>;
 
 export interface Result {
     result?: {
@@ -180,14 +192,15 @@ export interface Result {
     debug?: Debug;
 }
 
-export const findTestAndVariant = (
+export const findTestAndVariant = async (
     tests: EpicTest[],
     targeting: EpicTargeting,
     userDeviceType: UserDeviceType,
     superModeArticles: SuperModeArticle[],
     banditData: BanditData[],
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     includeDebug = false,
-): Result => {
+): Promise<Result> => {
     const debug: Debug = {};
 
     const userCohorts = getUserCohorts(targeting);
@@ -203,45 +216,62 @@ export const findTestAndVariant = (
             hasCountryCode,
             isCountryTargetedForEpic,
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
-            ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
+            ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog ?? [])]),
             respectArticleCountOptOut,
-            withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
+            withinArticleViewedSettings(targeting.weeklyArticleHistory ?? []),
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
             momentumMatches,
+            mParticleAudienceMatchesFilter(getMParticleProfile),
         ];
     };
 
-    const filterTests = (tests: EpicTest[], filters: Filter[]): EpicTest | undefined => {
-        const test = tests.find((test) =>
-            filters.every((filter) => {
-                const got = filter.test(test, targeting);
+    const filterTests = async (
+        tests: EpicTest[],
+        filters: Filter[],
+    ): Promise<EpicTest | undefined> => {
+        for (const test of tests) {
+            let allFiltersPassed = true;
 
-                if (debug[test.name]) {
-                    debug[test.name][filter.id] = got;
+            for (const filter of filters) {
+                const filterPassed = await filter.test(test, targeting);
+                const debugResults = debug[test.name];
+                if (debugResults) {
+                    debugResults[filter.id] = filterPassed;
                 } else {
-                    debug[test.name] = { [filter.id]: got };
+                    debug[test.name] = { [filter.id]: filterPassed };
                 }
 
-                if (!got && process.env.LOG_FAILED_TEST_FILTER === 'true') {
+                if (!filterPassed && process.env.LOG_FAILED_TEST_FILTER === 'true') {
                     console.log(`filter failed: ${test.name}; ${filter.id}`);
                 }
 
-                return got;
-            }),
-        );
+                if (!filterPassed) {
+                    allFiltersPassed = false;
+                    break;
+                }
+            }
 
-        return test;
+            if (allFiltersPassed) {
+                return test;
+            }
+        }
+        return undefined;
     };
 
-    const filterTestsWithSuperModePass = (tests: EpicTest[]): EpicTest | undefined => {
-        return (
-            filterTests(tests, getFilters(false)) ??
-            superModeify(filterTests(tests, getFilters(true)))
-        );
+    const filterTestsWithSuperModePass = async (
+        tests: EpicTest[],
+    ): Promise<EpicTest | undefined> => {
+        // first try a standard pass
+        const test = await filterTests(tests, getFilters(false));
+        if (test) {
+            return test;
+        }
+        // now try the super mode pass
+        return superModeify(await filterTests(tests, getFilters(true)));
     };
 
-    const filterTestsWithoutSuperModePass = (tests: EpicTest[]): EpicTest | undefined => {
+    const filterTestsWithoutSuperModePass = (tests: EpicTest[]): Promise<EpicTest | undefined> => {
         return filterTests(tests, getFilters(false));
     };
 
@@ -259,9 +289,9 @@ export const findTestAndVariant = (
             superModeArticles,
         );
 
-    const test = isSuperMode
+    const test = await (isSuperMode
         ? filterTestsWithSuperModePass(priorityOrdered)
-        : filterTestsWithoutSuperModePass(priorityOrdered);
+        : filterTestsWithoutSuperModePass(priorityOrdered));
 
     if (test) {
         return {
@@ -278,7 +308,7 @@ function selectEpicVariant(
     banditData: BanditData[],
     targeting: EpicTargeting,
 ): Result {
-    const result = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId || 1, banditData);
+    const result = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId ?? 1, banditData);
     return {
         result,
     };

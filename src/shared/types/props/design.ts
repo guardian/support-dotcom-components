@@ -6,8 +6,8 @@ const hexValueSchema = z.string().refine(
     (val) => {
         return hexValueRegex.test(val);
     },
-    (val) => {
-        return { message: `"${val}" is not a valid hex value` };
+    {
+        error: (issue) => `"${JSON.stringify(issue.input)}" is not a valid hex value`,
     },
 );
 
@@ -33,6 +33,9 @@ const choiceCardsSchema = z.object({
     buttonSelectColour: hexColourSchema.nullish(),
     buttonSelectTextColour: hexColourSchema.nullish(),
     buttonSelectBorderColour: hexColourSchema.nullish(),
+    buttonSelectMarkerColour: hexColourSchema.nullish(),
+    pillTextColour: hexColourSchema.nullish(),
+    pillBackgroundColour: hexColourSchema.nullish(),
     kind: z.literal('ChoiceCards'),
 });
 
@@ -85,14 +88,11 @@ interface CtaStateDesign {
 }
 export interface CtaDesign {
     default: CtaStateDesign;
-    hover: CtaStateDesign;
 }
 
 interface TickerDesign {
-    text: HexColour; //deprecated
     filledProgress: HexColour;
     progressBarBackground: HexColour;
-    goalMarker: HexColour; //deprecated
     headlineColour: HexColour; //new
     totalColour: HexColour; //new
     goalColour: HexColour; //new
@@ -117,6 +117,9 @@ interface ChoiceCardsDesign {
     buttonSelectColour?: HexColour;
     buttonSelectTextColour?: HexColour;
     buttonSelectBorderColour?: HexColour;
+    buttonSelectMarkerColour?: HexColour;
+    pillTextColour?: HexColour;
+    pillBackgroundColour?: HexColour;
 }
 type Visual = BannerDesignImage | ChoiceCardsDesign;
 

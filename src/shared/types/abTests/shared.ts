@@ -5,7 +5,6 @@ import { purchaseInfoProductSchema, purchaseInfoUserSchema } from '../purchaseIn
 
 const Channel = [
     'Epic',
-    'EpicAMP',
     'EpicAppleNews',
     'EpicLiveblog',
     'Banner1',
@@ -89,6 +88,7 @@ export const testSchema = z.object({
     signedInStatus: signedInStatusSchema.optional(),
     consentStatus: ConsentStatusSchema.optional(),
     methodologies: methodologySchema.array().optional(),
+    mParticleAudience: z.number().nullish(),
 });
 
 export interface ControlProportionSettings {

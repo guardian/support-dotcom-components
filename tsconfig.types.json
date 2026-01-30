@@ -10,6 +10,6 @@
         "allowJs": false,
         "emitDeclarationOnly": true
     },
-    "exclude": ["**/*.test.ts", "dist/**/*"],
+    "exclude": ["**/*.test.ts", "dist/**/*", "src/server/**/*"],
     "files": ["./src/dotcom/index.ts","./src/dotcom/types.ts"]
 }

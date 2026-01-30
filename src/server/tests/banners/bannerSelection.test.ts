@@ -33,7 +33,9 @@ describe('selectBannerTest', () => {
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
 
     const enableHardcodedBannerTests = true;
-    const enableScheduledBannerDeploys = true;
+    const enableScheduledDeploys = true;
+
+    const getMParticleProfile = () => Promise.resolve(undefined);
 
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
@@ -95,25 +97,25 @@ describe('selectBannerTest', () => {
             },
         };
 
-        it('returns test if enough article views', () => {
-            const result = selectBannerTest(
-                Object.assign(targeting, {
+        it('returns test if enough article views', async () => {
+            const result = await selectBannerTest({
+                targeting: Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
-            expect(result && result.test.name).toBe('test');
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('test');
         });
 
-        it('returns test if regionTargeting (country code) matches country code from payload (targeting)', () => {
+        it('returns test if regionTargeting (country code) matches country code from payload (targeting)', async () => {
             const testWithRegionTargeting: BannerTest = {
                 ...test,
                 regionTargeting: {
@@ -122,22 +124,22 @@ describe('selectBannerTest', () => {
                 },
             };
 
-            const result = selectBannerTest(
+            const result = await selectBannerTest({
                 targeting,
                 userDeviceType,
-                '',
-                [testWithRegionTargeting],
+                tests: [testWithRegionTargeting],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
-            expect(result && result.test.name).toBe('test');
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('test');
         });
 
-        it('returns test if regionTargeting (country group) matches country code from payload (targeting)', () => {
+        it('returns test if regionTargeting (country group) matches country code from payload (targeting)', async () => {
             const testWithRegionTargeting: BannerTest = {
                 ...test,
                 regionTargeting: {
@@ -146,22 +148,22 @@ describe('selectBannerTest', () => {
                 },
             };
 
-            const result = selectBannerTest(
+            const result = await selectBannerTest({
                 targeting,
                 userDeviceType,
-                '',
-                [testWithRegionTargeting],
+                tests: [testWithRegionTargeting],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
-            expect(result && result.test.name).toBe('test');
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('test');
         });
 
-        it('returns null if regionTargeting does not match country code from payload (targeting)', () => {
+        it('returns null if regionTargeting does not match country code from payload (targeting)', async () => {
             const testWithRegionTargeting: BannerTest = {
                 ...test,
                 regionTargeting: {
@@ -170,65 +172,64 @@ describe('selectBannerTest', () => {
                 },
             };
 
-            const result = selectBannerTest(
+            const result = await selectBannerTest({
                 targeting,
                 userDeviceType,
-                '',
-                [testWithRegionTargeting],
+                tests: [testWithRegionTargeting],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
+                forcedTestVariant: undefined,
+            });
             expect(result).toBe(null);
         });
 
-        it('returns null if hardcoded tests disabled', () => {
-            const result = selectBannerTest(
-                Object.assign(targeting, {
+        it('returns null if hardcoded tests disabled', async () => {
+            const result = await selectBannerTest({
+                targeting: Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 userDeviceType,
-                '',
-                [{ ...test, isHardcoded: true }],
+                tests: [{ ...test, isHardcoded: true }],
                 bannerDeployTimes,
-                false,
-                enableScheduledBannerDeploys,
+                enableHardcodedBannerTests: false,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
-            expect(result && result.test.name).toBe(null);
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBeUndefined();
         });
 
-        it('returns null if not enough article views', () => {
-            const result = selectBannerTest(
-                Object.assign(targeting, {
+        it('returns null if not enough article views', async () => {
+            const result = await selectBannerTest({
+                targeting: Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
+                forcedTestVariant: undefined,
+            });
             expect(result).toBe(null);
         });
 
-        it('returns test if no articlesViewedSettings', () => {
-            const result = selectBannerTest(
-                Object.assign(targeting, {
+        it('returns test if no articlesViewedSettings', async () => {
+            const result = await selectBannerTest({
+                targeting: Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 userDeviceType,
-                '',
-                [
+                tests: [
                     {
                         ...test,
                         articlesViewedSettings: undefined,
@@ -236,50 +237,51 @@ describe('selectBannerTest', () => {
                 ],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
-            expect(result && result.test.name).toBe('test');
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('test');
         });
 
-        it('returns null if opted out', () => {
-            const result = selectBannerTest(
-                Object.assign(targeting, {
+        it('returns null if opted out', async () => {
+            const result = await selectBannerTest({
+                targeting: Object.assign(targeting, {
                     hasOptedOutOfArticleCount: true,
                 }),
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
+                forcedTestVariant: undefined,
+            });
             expect(result).toBe(null);
         });
 
-        it('returns null if page has Taylor Report tag', () => {
+        it('returns null if page has Taylor Report tag', async () => {
             const targetingWithTaylorReportTag = {
                 tagIds: ['news/series/cotton-capital'],
                 ...targeting,
             };
 
-            const result = selectBannerTest(
-                targetingWithTaylorReportTag,
+            const result = await selectBannerTest({
+                targeting: targetingWithTaylorReportTag,
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
+                forcedTestVariant: undefined,
+            });
 
             expect(result).toBe(null);
         });
@@ -344,50 +346,49 @@ describe('selectBannerTest', () => {
             },
         };
 
-        it('returns test if enough article views', () => {
-            const result = selectBannerTest(
-                Object.assign(targeting, {
+        it('returns test if enough article views', async () => {
+            const result = await selectBannerTest({
+                targeting: Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
-            expect(result && result.test.name).toBe('test');
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('test');
         });
 
-        it('returns null if not enough article views', () => {
-            const result = selectBannerTest(
-                Object.assign(targeting, {
+        it('returns null if not enough article views', async () => {
+            const result = await selectBannerTest({
+                targeting: Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
+                forcedTestVariant: undefined,
+            });
             expect(result).toBe(null);
         });
 
-        it('returns test if no articlesViewedSettings', () => {
-            const result = selectBannerTest(
-                Object.assign(targeting, {
+        it('returns test if no articlesViewedSettings', async () => {
+            const result = await selectBannerTest({
+                targeting: Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 userDeviceType,
-                '',
-                [
+                tests: [
                     {
                         ...test,
                         articlesViewedSettings: undefined,
@@ -395,12 +396,13 @@ describe('selectBannerTest', () => {
                 ],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
-            expect(result && result.test.name).toBe('test');
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('test');
         });
     });
 
@@ -464,20 +466,20 @@ describe('selectBannerTest', () => {
         ];
 
         const runSelection = (targeting: BannerTargeting) => {
-            return selectBannerTest(
-                Object.assign(targeting, {
+            return selectBannerTest({
+                targeting: Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 userDeviceType,
-                '',
                 tests,
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
+                forcedTestVariant: undefined,
+            });
         };
 
         it('It should return a test matching a contribution from a new user', async () => {
@@ -575,9 +577,9 @@ describe('selectBannerTest', () => {
             },
         };
 
-        it('returns abandoned basket banner when abandoned basket property present and not recently closed', () => {
-            const result = selectBannerTest(
-                {
+        it('returns abandoned basket banner when abandoned basket property present and not recently closed', async () => {
+            const result = await selectBannerTest({
+                targeting: {
                     ...targeting,
                     abandonedBasket: {
                         amount: 5,
@@ -587,21 +589,21 @@ describe('selectBannerTest', () => {
                     },
                 },
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
-            expect(result && result.test.name).toBe('abandonedBasket');
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('abandonedBasket');
         });
 
-        it('returns null when abandoned basket property present and recently closed', () => {
-            const result = selectBannerTest(
-                {
+        it('returns null when abandoned basket property present and recently closed', async () => {
+            const result = await selectBannerTest({
+                targeting: {
                     ...targeting,
                     abandonedBasket: {
                         amount: 5,
@@ -612,32 +614,137 @@ describe('selectBannerTest', () => {
                     abandonedBasketBannerLastClosedAt: now.toISOString(),
                 },
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
+                forcedTestVariant: undefined,
+            });
             expect(result).toBe(null);
         });
 
-        it('returns null when abandoned basket property not present', () => {
-            const result = selectBannerTest(
+        it('returns null when abandoned basket property not present', async () => {
+            const result = await selectBannerTest({
                 targeting,
                 userDeviceType,
-                '',
-                [test],
+                tests: [test],
                 bannerDeployTimes,
                 enableHardcodedBannerTests,
-                enableScheduledBannerDeploys,
+                enableScheduledDeploys,
                 banditData,
-                undefined,
+                getMParticleProfile,
                 now,
-            );
+                forcedTestVariant: undefined,
+            });
             expect(result).toBe(null);
+        });
+    });
+
+    describe('frontsOnly targeting', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+
+        const targeting: BannerTargeting = {
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'GB',
+            hasOptedOutOfArticleCount: false,
+            contentType: 'Network Front',
+            isSignedIn: false,
+            hasConsented: true,
+        };
+
+        const test: BannerTest = {
+            channel: 'Banner1',
+            name: 'test',
+            priority: 1,
+            status: 'Live',
+            bannerChannel: 'contributions',
+            isHardcoded: false,
+            userCohort: 'Everyone',
+            frontsOnly: true,
+            variants: [
+                {
+                    name: 'variant',
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
+                    bannerContent: {
+                        messageText: 'body',
+                        highlightedText: 'highlighted text',
+                        cta: {
+                            text: 'cta',
+                            baseUrl: 'https://support.theguardian.com',
+                        },
+                    },
+                    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                },
+            ],
+            locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
+        };
+
+        it('returns test when frontsOnly is true and contentType is Network Front', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...targeting, contentType: 'Network Front' },
+                userDeviceType,
+                tests: [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('test');
+        });
+
+        it('returns null when frontsOnly is true and contentType is Article', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...targeting, contentType: 'Article' },
+                userDeviceType,
+                tests: [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+            expect(result).toBe(null);
+        });
+
+        it('returns test when frontsOnly is undefined and contentType is Article', async () => {
+            const testWithoutFrontsOnly = { ...test, frontsOnly: undefined };
+            const result = await selectBannerTest({
+                targeting: { ...targeting, contentType: 'Article' },
+                userDeviceType,
+                tests: [testWithoutFrontsOnly],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+            expect(result?.test.name).toBe('test');
         });
     });
 

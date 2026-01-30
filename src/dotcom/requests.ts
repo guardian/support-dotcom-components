@@ -25,15 +25,8 @@ export interface ModuleDataResponse<PROPS> {
 type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'header' | 'gutter-liveblog';
 
 const getForcedVariant = (type: ModuleType): string | null => {
-    if (URLSearchParams) {
-        const params = new URLSearchParams(window.location.search);
-        const value = params.get(`force-${type}`);
-        if (value) {
-            return value;
-        }
-    }
-
-    return null;
+    const params = new URLSearchParams(window.location.search);
+    return params.get(`force-${type}`);
 };
 
 type Payload = EpicPayload | BannerPayload | HeaderPayload | GutterPayload;
@@ -42,6 +35,7 @@ const getModuleData = <PROPS>(
     type: ModuleType,
     baseUrl: string,
     payload: Payload,
+    headers?: HeadersInit,
 ): Promise<ModuleDataResponse<PROPS>> => {
     const forcedVariant = getForcedVariant(type);
     const queryString = forcedVariant ? `?force=${forcedVariant}` : '';
@@ -49,7 +43,10 @@ const getModuleData = <PROPS>(
 
     return fetch(url, {
         method: 'post',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            ...headers,
+        },
         body: JSON.stringify(payload),
     })
         .then((response: Response) => {
@@ -67,7 +64,8 @@ const getModuleData = <PROPS>(
 export const getEpic = (
     baseUrl: string,
     payload: EpicPayload,
-): Promise<ModuleDataResponse<EpicProps>> => getModuleData('epic', baseUrl, payload);
+    headers?: HeadersInit,
+): Promise<ModuleDataResponse<EpicProps>> => getModuleData('epic', baseUrl, payload, headers);
 
 export const getLiveblogEpic = (
     baseUrl: string,

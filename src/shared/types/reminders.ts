@@ -1,4 +1,4 @@
-export type ReminderPlatform = 'WEB' | 'AMP';
+export type ReminderPlatform = 'WEB';
 
 export type ReminderComponent = 'EPIC' | 'BANNER';
 

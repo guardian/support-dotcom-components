@@ -162,6 +162,25 @@ export class DotcomComponents extends GuStack {
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 		});
 
+		new GuAlarm(this, 'MParticleRateLimiting', {
+			app: appName,
+			alarmName: `support-${appName}: mParticle rate-limiting - ${this.stage}`,
+			alarmDescription:
+				'Received 429 (Too Many Requests) response from mParticle API - backing off',
+			snsTopicName,
+			metric: new Metric({
+				metricName: 'promotions-fetch-error',
+				namespace,
+				period: Duration.minutes(60),
+				statistic: 'sum',
+			}),
+			threshold: 1,
+			evaluationPeriods: 1,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			treatMissingData: TreatMissingData.NOT_BREACHING,
+		});
+
 		const userData = UserData.custom(`#!/bin/bash
 
 groupadd support
@@ -242,6 +261,10 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 					],
 				},
 			),
+			new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyContributionsTicker', {
+				bucketName: 'contributions-ticker',
+				paths: [`${this.stage}/*`],
+			}),
 			new GuDynamoDBReadPolicy(this, 'DynamoReadPolicy', {
 				tableName: `super-mode-calculator-${this.stage}`,
 			}),
@@ -260,7 +283,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 				tableName: `support-bandit-${this.stage}`,
 			}),
 			new GuDynamoDBReadPolicy(this, 'DynamoPromosReadPolicy', {
-				tableName: `MembershipSub-Promotions-${this.stage}`,
+				tableName: `support-admin-console-promos-${this.stage}`,
 			}),
 			new GuAllowPolicy(this, 'SSMGet', {
 				actions: ['ssm:GetParameter'],

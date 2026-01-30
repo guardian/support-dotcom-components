@@ -1,29 +1,17 @@
 import type { Stage, TickerData, TickerName, TickerSettings } from '../../shared/types';
 import { logError } from '../utils/logging';
+import { fetchS3Data } from '../utils/S3';
 import type { ValueProvider } from '../utils/valueReloader';
 import { buildReloader } from '../utils/valueReloader';
 
-const tickerUrl = (stage: Stage, name: TickerName): string => {
-    switch (stage) {
-        case 'PROD':
-            return `https://support.theguardian.com/ticker/${name}.json`;
-        case 'CODE':
-        case 'DEV':
-            return `https://support.code.dev-theguardian.com/ticker/${name}.json`;
-    }
+const TickerBucket = 'contributions-ticker';
+
+const tickerS3Key = (stage: Stage, name: TickerName): string => {
+    const stagePrefix = stage === 'DEV' ? 'CODE' : stage;
+    return `${stagePrefix}/${name}.json`;
 };
 
-const checkForErrors = (response: Response): Promise<Response> => {
-    if (!response.ok) {
-        return Promise.reject(
-            response.statusText || `Ticker api call returned HTTP status ${response.status}`,
-        );
-    }
-    return Promise.resolve(response);
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- JSON not yet parsed to a type.
-const parse = (json: any): Promise<TickerData> => {
+const parse = (json: { total: string; goal: string }): Promise<TickerData> => {
     const total = parseInt(json.total);
     const goal = parseInt(json.goal);
 
@@ -33,19 +21,20 @@ const parse = (json: any): Promise<TickerData> => {
             goal,
         });
     } else {
-        return Promise.reject(`Failed to parse ticker data: ${json}`);
+        const error = new Error(`Failed to parse ticker data: ${JSON.stringify(json)}`);
+        return Promise.reject(error);
     }
 };
 
 const getTickerDataForTickerTypeFetcher =
     (stage: Stage, name: TickerName) => (): Promise<TickerData> => {
-        return fetch(tickerUrl(stage, name))
-            .then((response) => checkForErrors(response))
-            .then((response) => response.json())
+        return fetchS3Data(TickerBucket, tickerS3Key(stage, name))
+            .then((data) => JSON.parse(data) as { total: string; goal: string })
             .then(parse)
             .catch((error) => {
-                logError(`Error fetching ${name} ticker data: ${error}`);
-                return Promise.reject(error);
+                const errorObj = error instanceof Error ? error : new Error(String(error));
+                logError(`Error fetching ${name} ticker data: ${errorObj.message}`);
+                return Promise.reject(errorObj);
             });
     };
 
@@ -61,9 +50,7 @@ export class TickerDataProvider {
 
     getTickerData(name: TickerName): TickerData | undefined {
         const provider = this.providers[name];
-        if (provider) {
-            return provider.get();
-        }
+        return provider.get();
     }
 
     addTickerDataToSettings(tickerSettings: TickerSettings): TickerSettings | undefined {

@@ -1,7 +1,7 @@
 import type { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 import { ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { putMetric } from '../../utils/cloudwatch';
-import { getDynamoDbClient } from '../../utils/dynamodb';
+import { dynamoDbClient } from '../../utils/dynamodb';
 import { logError, logInfo } from '../../utils/logging';
 import type { ValueReloader } from '../../utils/valueReloader';
 import { buildReloader } from '../../utils/valueReloader';
@@ -22,28 +22,23 @@ interface PromotionTableItem {
     appliesTo: {
         productRatePlanIds: string[];
     };
-    codes: Record<string, string[]>;
-    promotionType: {
+    promoCode: string;
+    discount?: {
         amount: number;
-        name: string;
     };
 }
 
-const mapTableItemToPromotion = (item: PromotionTableItem): Promotion[] => {
-    // It's possible to have more than one promo code per promo - flatten them all into an array
-    const allCodes: string[] = Object.values(item.codes).flat();
-
-    return allCodes.map((promoCode) => ({
-        promoCode,
-        discountPercent: item.promotionType.amount,
+const mapTableItemToPromotion = (item: PromotionTableItem): Promotion => {
+    return {
+        promoCode: item.promoCode,
+        discountPercent: item.discount?.amount ?? 0,
         productRatePlanIds: item.appliesTo.productRatePlanIds,
-    }));
+    };
 };
 
 // Does a full scan of the Promotions table - there isn't a smarter way to do this with the existing schema.
 const fetchPromotions = async (): Promise<PromotionsCache> => {
-    const docClient = getDynamoDbClient();
-    const tableName = `MembershipSub-Promotions-${stage}`;
+    const tableName = `support-admin-console-promos-${stage}`;
     const promotionsCache: PromotionsCache = {};
     let lastEvaluatedKey: ScanCommandInput['ExclusiveStartKey']; // for paginating through the dynamodb results
 
@@ -59,15 +54,13 @@ const fetchPromotions = async (): Promise<PromotionsCache> => {
                 params.ExclusiveStartKey = lastEvaluatedKey;
             }
 
-            const result = await docClient.send(new ScanCommand(params));
+            const result = await dynamoDbClient.send(new ScanCommand(params));
             const items = result.Items as PromotionTableItem[];
 
             items.forEach((item) => {
-                if (item.promotionType.name === 'percent_discount' && item.promotionType.amount) {
-                    const promotions = mapTableItemToPromotion(item);
-                    promotions.forEach((promotion) => {
-                        promotionsCache[promotion.promoCode] = promotion;
-                    });
+                if (item.discount?.amount) {
+                    const promotion = mapTableItemToPromotion(item);
+                    promotionsCache[promotion.promoCode] = promotion;
                 }
             });
 

@@ -1,20 +1,19 @@
 import type express from 'express';
 import { Router } from 'express';
+import type { ChannelSwitches } from '../channelSwitches';
 import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
-import type { AuxiaAPIGetTreatmentsResponseData, AuxiaAPIUserTreatment } from '../signin-gate/lib';
 import {
-    articleIdentifierIsAllowed,
-    buildAuxiaProxyGetTreatmentsResponseData,
-    buildGetTreatmentsRequestPayload,
-    buildLogTreatmentInteractionRequestPayload,
-    guDefaultGateGetTreatmentsResponseData,
-    isValidContentType,
-    isValidSection,
-    isValidTagIdCollection,
-    mvtIdIsAuxiaAudienceShare,
-} from '../signin-gate/lib';
+    callAuxiaLogTreatmentInteration,
+    gateTypeToUserTreatmentsEnvelop,
+} from '../signin-gate/libEffect';
+import {
+    getTreatmentsRequestPayloadToGateType,
+    userTreatmentsEnvelopToProxyGetTreatmentsAnswerData,
+} from '../signin-gate/libPure';
+import type { GetTreatmentsRequestPayload } from '../signin-gate/types';
 import { getSsmValue } from '../utils/ssm';
+import type { ValueProvider } from '../utils/valueReloader';
 
 export interface AuxiaRouterConfig {
     apiKey: string;
@@ -24,12 +23,12 @@ export interface AuxiaRouterConfig {
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
     const stage = isProd ? 'PROD' : 'CODE';
 
-    const apiKey = await getSsmValue(stage, 'auxia-api-key');
+    const apiKey = await getSsmValue(stage, 'auxia-api-key', false);
     if (apiKey === undefined) {
         throw new Error('auxia-api-key is undefined');
     }
 
-    const projectId = await getSsmValue(stage, 'auxia-projectId');
+    const projectId = await getSsmValue(stage, 'auxia-projectId', false);
     if (projectId === undefined) {
         throw new Error('auxia-projectId is undefined');
     }
@@ -40,258 +39,14 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
     });
 };
 
-const callGetTreatments = async (
-    apiKey: string,
-    projectId: string,
-    browserId: string | undefined,
-    isSupporter: boolean,
-    dailyArticleCount: number,
-    articleIdentifier: string,
-    editionId: string,
-    countryCode: string,
-    hasConsented: boolean,
-): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
-    // We now have clearance to call the Auxia API.
-
-    // If the browser id could not be recovered client side, then we do not call auxia
-    if (browserId === undefined) {
-        return;
-    }
-
-    const url = 'https://apis.auxia.io/v1/GetTreatments';
-
-    const headers = {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-    };
-
-    const payload = buildGetTreatmentsRequestPayload(
-        projectId,
-        browserId,
-        isSupporter,
-        dailyArticleCount,
-        articleIdentifier,
-        editionId,
-        countryCode,
-        hasConsented,
-    );
-
-    const params = {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(payload),
-    };
-
-    try {
-        const response = await fetch(url, params);
-        const responseBody = (await response.json()) as {
-            userTreatments: AuxiaAPIUserTreatment[] | undefined;
-        };
-
-        // nb: In some circumstances, for instance if the payload although having the right
-        // schema, is going to fail Auxia's validation then the response body may not contain
-        // the userTreatments field. In this case we return undefined.
-        if (responseBody['userTreatments'] === undefined) {
-            return Promise.resolve(undefined);
-        }
-        const data = responseBody as AuxiaAPIGetTreatmentsResponseData;
-        return Promise.resolve(data);
-    } catch (error) {
-        return Promise.resolve(undefined);
-    }
-};
-
-const callLogTreatmentInteration = async (
-    apiKey: string,
-    projectId: string,
-    browserId: string | undefined,
-    treatmentTrackingId: string,
-    treatmentId: string,
-    surface: string,
-    interactionType: string,
-    interactionTimeMicros: number,
-    actionName: string,
-): Promise<void> => {
-    // If the browser id could not be recovered client side, then we do not call auxia
-    if (browserId === undefined) {
-        return;
-    }
-
-    const url = 'https://apis.auxia.io/v1/LogTreatmentInteraction';
-
-    const headers = {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-    };
-
-    const payload = buildLogTreatmentInteractionRequestPayload(
-        projectId,
-        browserId,
-        treatmentTrackingId,
-        treatmentId,
-        surface,
-        interactionType,
-        interactionTimeMicros,
-        actionName,
-    );
-
-    const params = {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(payload),
-    };
-
-    await fetch(url, params);
-
-    // We are not consuming an answer from the server, so we are not returning anything.
-};
-
-interface GetTreatmentRequestBody {
-    browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
-    isSupporter: boolean;
-    dailyArticleCount: number; // [1]
-    articleIdentifier: string;
-    editionId: string;
-    contentType: string;
-    sectionId: string;
-    tagIds: string[];
-    gateDismissCount: number;
-    countryCode: string;
-    mvtId: number;
-    should_show_legacy_gate_tmp: boolean; // [2]
-    hasConsented: boolean;
-}
-
-// [1] articleIdentifier examples:
-//  - 'www.theguardian.com/money/2017/mar/10/ministers-to-criminalise-use-of-ticket-tout-harvesting-software'
-//  - 'www.theguardian.com/tips'
-
-// [2] temporary attribute to help imminent rerouting of non Auxia audience share
-// to SDC, but without requiring a
-// full duplication of the client side logic into SDC.
-// See https://github.com/guardian/dotcom-rendering/pull/13944
-// for details.
-
-const getTreatments = async (
-    config: AuxiaRouterConfig,
-    body: GetTreatmentRequestBody,
-): Promise<AuxiaAPIGetTreatmentsResponseData | undefined> => {
-    // This function gets the body of a '/auxia/get-treatments' request and return the data to post to the client
-    // or undefined.
-
-    // As a first step we need to check whether we are in Ireland ot not. If we are in Ireland
-    // as a consequence of the great Ireland opening of May 2025 (tm), we send the entire
-    // traffic (consented or not consented) to Auxia. (For privacy vigilantes reading this,
-    // Auxia is not going to process non consented traffic for targetting.)
-
-    if (body.countryCode === 'IE') {
-        const answerFromAuxia = await callGetTreatments(
-            config.apiKey,
-            config.projectId,
-            body.browserId,
-            body.isSupporter,
-            body.dailyArticleCount,
-            body.articleIdentifier,
-            body.editionId,
-            body.countryCode,
-            body.hasConsented,
-        );
-
-        if (body.hasConsented) {
-            // If the user had consented we return the answer from Auxia
-            return answerFromAuxia;
-        } else {
-            // Otherwise we still make the call, but we return the default gate
-
-            // We have made the call to Auxia and synchronously waited for the answer
-            // (We will improve this in a future change).
-            // We now decide whether to send back the default gate
-            if (body.should_show_legacy_gate_tmp) {
-                const auxiaData = guDefaultGateGetTreatmentsResponseData(
-                    body.dailyArticleCount,
-                    body.gateDismissCount,
-                );
-                return Promise.resolve(auxiaData);
-            } else {
-                return Promise.resolve(undefined);
-            }
-        }
-    }
-
-    // Then, we check whether the call is from the Auxia audience or the non Auxia audience.
-    // If it is from the non Auxia audience, then we follow the value of
-    // should_show_legacy_gate_tmp to decide whether to return a default gate or not.
-
-    // If it is from the Auxia audience, then  move to the next section
-
-    // Note that "Auxia audience" and "non Auxia audience" are concepts from the way the audience
-    // was split between 35% expose to the Auxia gate and 65% being shown the default GU gate
-    // That split used to be done client side, but it's now been moved to SDC and is driven by
-    // `mvtIdIsAuxiaAudienceShare`.
-
-    if (!mvtIdIsAuxiaAudienceShare(body.mvtId)) {
-        if (body.should_show_legacy_gate_tmp) {
-            const auxiaData = guDefaultGateGetTreatmentsResponseData(
-                body.dailyArticleCount,
-                body.gateDismissCount,
-            );
-            return Promise.resolve(auxiaData);
-        } else {
-            return Promise.resolve(undefined);
-        }
-    }
-
-    // ---------------------------------------------------------------------
-    // If we reached this point, then we are the Auxia share of the audience
-    // ---------------------------------------------------------------------
-
-    // First we check page metada to comply with Guardian policies.
-    // If the policies are not met, then we do not display a gate
-
-    if (
-        !isValidContentType(body.contentType) ||
-        !isValidSection(body.sectionId) ||
-        !isValidTagIdCollection(body.tagIds) ||
-        !articleIdentifierIsAllowed(body.articleIdentifier)
-    ) {
-        return Promise.resolve(undefined);
-    }
-
-    // Then we check whether or not the user has consented for the use of third parties
-    // If they have not, we attempt to return the default gate.
-    // Note that `guDefaultGateGetTreatmentsResponseData` performs some checks
-    // using `dailyArticleCount` and `dailyArticleCount`
-    // Note: we could, one day, move the check outside the function itself (not very important right now)
-
-    if (!body.hasConsented) {
-        const data = guDefaultGateGetTreatmentsResponseData(
-            body.dailyArticleCount,
-            body.gateDismissCount,
-        );
-        return Promise.resolve(data);
-    }
-
-    return callGetTreatments(
-        config.apiKey,
-        config.projectId,
-        body.browserId,
-        body.isSupporter,
-        body.dailyArticleCount,
-        body.articleIdentifier,
-        body.editionId,
-        body.countryCode,
-        body.hasConsented, // [1]
-    );
-
-    // [1] here the value should be true, because it's only in Ireland that we send non consented
-    // requests to Auxia, and this should have happened earlier.
-};
-
 // --------------------------------
 // Router
 // --------------------------------
 
-export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
+export const buildAuxiaProxyRouter = (
+    channelSwitches: ValueProvider<ChannelSwitches>,
+    config: AuxiaRouterConfig,
+): Router => {
     const router = Router();
 
     router.post(
@@ -309,13 +64,26 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
             'mvtId',
             'should_show_legacy_gate_tmp',
             'hasConsented',
+            'shouldServeDismissible',
+            'gateDisplayCount',
         ]),
+
+        // The following attributes are used but are nullable,
+        // so are not in the mandatory set of payload fields (as defined above).
+        // Nullable attributes:
+        //     'browserId'
+        //     'showDefaultGate'
+        //     'hideSupportMessagingTimestamp'
+
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const getTreatmentRequestBody = req.body as GetTreatmentRequestBody;
-                const auxiaData = await getTreatments(config, getTreatmentRequestBody);
-                if (auxiaData !== undefined) {
-                    const data = buildAuxiaProxyGetTreatmentsResponseData(auxiaData);
+                const now = Date.now(); // current time in milliseconds since epoch
+                const payload = req.body as GetTreatmentsRequestPayload;
+                const { enableAuxia } = channelSwitches.get();
+                const gateType = getTreatmentsRequestPayloadToGateType(payload, now, enableAuxia);
+                const envelop = await gateTypeToUserTreatmentsEnvelop(config, gateType, payload);
+                if (envelop !== undefined) {
+                    const data = userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(envelop);
                     res.locals.auxiaTreatmentId = data?.userTreatment?.treatmentId;
                     res.locals.auxiaTreatmentTrackingId = data?.userTreatment?.treatmentTrackingId;
                     res.send({ status: true, data: data });
@@ -349,7 +117,7 @@ export const buildAuxiaProxyRouter = (config: AuxiaRouterConfig): Router => {
                     interactionTimeMicros: number;
                     actionName: string;
                 };
-                await callLogTreatmentInteration(
+                await callAuxiaLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
                     body.browserId,

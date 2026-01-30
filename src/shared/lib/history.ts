@@ -26,7 +26,7 @@ export const getMondayFromDate = (date: Date): number => {
 export const getWeeklyArticleHistory = (
     localStorage: LocalStorage,
 ): WeeklyArticleHistory | undefined => {
-    return localStorage.get(weeklyArticleCountKey) || undefined;
+    return (localStorage.get(weeklyArticleCountKey) as WeeklyArticleHistory | null) ?? undefined;
 };
 
 const articleHasBeenViewedThisWeek = (localStorage: LocalStorage, pageId: string): boolean => {
@@ -113,8 +113,9 @@ export const incrementWeeklyArticleCount = (
 
     if (!hasBeenViewedThisWeek) {
         const mondayThisWeek = getMondayFromDate(new Date());
-        const weeklyArticleHistory = localStorage.get(weeklyArticleCountKey) || [];
-        const currentWeek = weeklyArticleHistory[0];
+        const weeklyArticleHistory =
+            (localStorage.get(weeklyArticleCountKey) as WeeklyArticleHistory | null) ?? [];
+        const currentWeek = weeklyArticleHistory.length > 0 ? weeklyArticleHistory[0] : null;
 
         if (currentWeek?.week && currentWeek.week === mondayThisWeek) {
             // Increment this week's counter & save updated array

@@ -1,5 +1,115 @@
 # @guardian/support-dotcom-components
 
+## 8.3.1
+
+### Patch Changes
+
+-   4ee85a2: Optional isCollapsible property added to bannerVariant
+
+## 8.3.0
+
+### Minor Changes
+
+-   97b19b5: optional field added to banner to make collapsible banner configurable
+
+## 8.2.0
+
+### Minor Changes
+
+-   6aa7353: DigitalSubscription added to productSchema
+
+## 8.1.0
+
+### Minor Changes
+
+-   d0ebb63: Allow headers in epic requests
+
+## 8.0.2
+
+### Patch Changes
+
+-   41d3703: remove publish script - test for duplicated publishing issue
+
+## 8.0.1
+
+### Patch Changes
+
+-   d20146c: Migrate to trusted publishing
+
+## 8.0.0
+
+### Major Changes
+
+-   a04e347: Upgrade Zod to v4 from v3
+
+    The changes are mostly internal, but Zod is a peer dependency. This means that consumers will have to update their version of Zod when updating to this version of support-dotcom-components. The migration guide can be found here: https://zod.dev/v4/changelog
+
+## 7.10.2
+
+### Patch Changes
+
+-   f2c997a: prefer-nullish-coalescing lint rule violations fix
+
+## 7.10.1
+
+### Patch Changes
+
+-   09461be: Add reminder types back in
+
+## 7.10.0
+
+### Minor Changes
+
+-   4659f62: add new colour properties to the banner design
+
+## 7.9.0
+
+### Minor Changes
+
+-   1a8b474: Replace ChoiceCard destinationUrl with destination
+
+## 7.8.1
+
+### Patch Changes
+
+-   f5c0882: bump ophan-tracker-js to be compatible with dotcom-rendering
+
+## 7.8.0
+
+### Minor Changes
+
+-   9659d5e: Bump version of `@guardian/ophan-tracker-js` and set as peer dependency
+
+## 7.7.0
+
+### Minor Changes
+
+-   27ed0b4: Remove hover from CtaDesign type as now automated
+
+## 7.6.2
+
+### Patch Changes
+
+-   0d8301c: use global URLSearchParams
+
+## 7.6.1
+
+### Patch Changes
+
+-   f4d9508: lint fixes
+
+## 7.6.0
+
+### Minor Changes
+
+-   aaf3a5a: adds destination url parameter to choice card
+
+## 7.5.0
+
+### Minor Changes
+
+-   58771fd: Bump "@guardian/ophan-tracker-js" to "2.3.1"
+
 ## 7.4.0
 
 ### Minor Changes

@@ -1,9 +1,23 @@
 import type express from 'express';
 import { logger } from '../utils/logging';
 
+type LoggingLocals = {
+    didRenderEpic?: boolean;
+    didRenderBanner?: boolean;
+    bannerTargeting?: Record<string, unknown>;
+    epicTargeting?: Record<string, unknown>;
+    epicSuperMode?: boolean;
+    auxiaTreatmentId?: string;
+    auxiaTreatmentTrackingId?: string;
+    auxiaInteractionType?: string;
+    hasAuthorization?: boolean;
+    gotMParticleProfile?: boolean;
+    mParticleProfileStatus?: string;
+};
+
 export const logging = (
     req: express.Request,
-    res: express.Response,
+    res: express.Response<unknown, LoggingLocals>,
     next: express.NextFunction,
 ): void => {
     const startTime = process.hrtime();
@@ -26,6 +40,9 @@ export const logging = (
             auxiaTreatmentId: res.locals.auxiaTreatmentId,
             auxiaTreatmentTrackingId: res.locals.auxiaTreatmentTrackingId,
             auxiaInteractionType: res.locals.auxiaInteractionType,
+            hasAuthorization: res.locals.hasAuthorization,
+            gotMParticleProfile: res.locals.gotMParticleProfile,
+            mParticleProfileStatus: res.locals.mParticleProfileStatus,
         });
     });
     next();

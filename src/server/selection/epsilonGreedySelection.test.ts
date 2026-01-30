@@ -126,4 +126,18 @@ describe('selectVariantWithHighestMean', () => {
         jest.spyOn(global.Math, 'random').mockReturnValue(0.8);
         expect(selectVariantWithHighestMean(banditData, epicTest)?.name).toEqual('v3');
     });
+
+    it('should ignore variants in bandit data that are not in the test configuration', () => {
+        const banditData = {
+            testName: 'example-1',
+            sortedVariants: [
+                { variantName: 'ghost', mean: 2 }, // not in test.variants
+                { variantName: 'v1', mean: 1 },
+                { variantName: 'v2', mean: 0.5 },
+                { variantName: 'v3', mean: 0.3 },
+            ],
+        };
+        const result = selectVariantWithHighestMean(banditData, epicTest);
+        expect(result?.name).toEqual('v1');
+    });
 });

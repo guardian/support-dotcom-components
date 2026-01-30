@@ -2,7 +2,7 @@ import type { Test, Variant } from '../../shared/types';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 import type { BanditData } from './banditData';
-import { selectRandomVariant } from './helpers';
+import { filterValidVariants, selectRandomVariant } from './helpers';
 
 /**
  * In general we select the best known variant, except with probability 'epsilon' when we select at random.
@@ -13,7 +13,8 @@ export function selectVariantWithHighestMean<V extends Variant, T extends Test<V
     testBanditData: BanditData,
     test: T,
 ): V | undefined {
-    const { sortedVariants } = testBanditData;
+    const sortedVariants = filterValidVariants(testBanditData.sortedVariants, test);
+
     // variants array is sorted by mean, use just the best variants
     const bestMean = sortedVariants[0].mean;
     const bestVariants = sortedVariants.findIndex((variant) => variant.mean < bestMean);
@@ -27,10 +28,6 @@ export function selectVariantWithHighestMean<V extends Variant, T extends Test<V
         bestVariants < 2
             ? sortedVariants[0]
             : sortedVariants[Math.floor(Math.random() * bestVariants)]; // more than 1
-
-    if (!variant) {
-        return undefined;
-    }
 
     return test.variants.find((v) => v.name === variant.variantName);
 }

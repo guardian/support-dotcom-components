@@ -12,16 +12,17 @@ import type {
     Tracking,
 } from '../../shared/types';
 import { channelFromBannerChannel } from '../../shared/types';
-import { hideSRMessagingForInfoPageIds } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
-import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
+import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
+import { pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
@@ -54,14 +55,17 @@ export const buildBannerRouter = (
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
     promotions: ValueProvider<PromotionsCache>,
+    mParticle: MParticle,
+    okta: Okta,
 ): Router => {
     const router = Router();
 
-    const buildBannerData = (
+    const buildBannerData = async (
         targeting: BannerTargeting,
         params: Params,
         req: express.Request,
-    ): BannerDataResponse => {
+        getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    ): Promise<BannerDataResponse> => {
         const { enableBanners, enableHardcodedBannerTests, enableScheduledBannerDeploys } =
             channelSwitches.get();
 
@@ -69,25 +73,25 @@ export const buildBannerRouter = (
             return {};
         }
 
-        if (hideSRMessagingForInfoPageIds(targeting)) {
+        if (pageIdIsExcluded(targeting)) {
             return {};
         }
 
-        const selectedTest = selectBannerTest(
+        const selectedTest = await selectBannerTest({
             targeting,
-            getDeviceType(req),
-            baseUrl(req),
-            bannerTests.get(),
+            userDeviceType: getDeviceType(req, params),
+            tests: bannerTests.get(),
             bannerDeployTimes,
             enableHardcodedBannerTests,
-            enableScheduledBannerDeploys,
-            banditData.get(),
-            params.force,
-        );
+            enableScheduledDeploys: enableScheduledBannerDeploys,
+            banditData: banditData.get(),
+            getMParticleProfile,
+            now: new Date(),
+            forcedTestVariant: params.force,
+        });
 
         if (selectedTest) {
             const { test, variant, moduleName, targetingAbTest } = selectedTest;
-
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,
@@ -104,7 +108,7 @@ export const buildBannerRouter = (
             const design = getDesignForVariant(variant, bannerDesigns.get());
 
             const contributionAmounts = choiceCardAmounts.get();
-            const requiredCountry = targeting.countryCode ?? 'GB';
+            const requiredCountry = targeting.countryCode || 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
             const targetingMvtId = targeting.mvtId || 1;
             const variantAmounts = selectAmountsTestVariant(
@@ -148,6 +152,7 @@ export const buildBannerRouter = (
                 choiceCardAmounts: variantAmounts, // deprecated, to be removed soon
                 design,
                 abandonedBasket: targeting.abandonedBasket,
+                isCollapsible: variant.isCollapsible ?? undefined,
             };
 
             return {
@@ -167,15 +172,28 @@ export const buildBannerRouter = (
 
     router.post(
         '/banner',
-        (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        async (
+            req: express.Request<Record<string, never>, unknown, { targeting: BannerTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ) => {
             try {
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
+                const authHeader = req.headers.authorization;
+                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                    channelSwitches.get(),
+                    okta,
+                    authHeader,
+                );
 
-                const response = buildBannerData(targeting, params, req);
+                const response = await buildBannerData(targeting, params, req, fetchProfile);
 
                 // for response logging
                 res.locals.didRenderBanner = !!response.data;
+                res.locals.hasAuthorization = !!authHeader;
+                res.locals.gotMParticleProfile = forLogging() === 'found';
+                res.locals.mParticleProfileStatus = forLogging();
                 // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
                 res.locals.bannerTargeting = {
                     shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,

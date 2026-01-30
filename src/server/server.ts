@@ -1,17 +1,18 @@
-import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import type { Express } from 'express';
 import express from 'express';
-import { buildAmpEpicRouter } from './api/ampEpicRouter';
 import { buildAuxiaProxyRouter, getAuxiaRouterConfig } from './api/auxiaProxyRouter';
 import { buildBannerRouter } from './api/bannerRouter';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildGutterRouter } from './api/gutterRouter';
 import { buildHeaderRouter } from './api/headerRouter';
+import { buildTickerRouter } from './api/tickerRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
+import { getMParticleConfig, MParticle } from './lib/mParticle';
+import { getOktaConfig, Okta } from './lib/okta';
 import { buildPromotionsReloader } from './lib/promotions/promotions';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
 import {
@@ -21,7 +22,6 @@ import {
 import { buildProductCatalogReloader } from './productCatalog';
 import { buildProductPricesReloader } from './productPrices';
 import { buildBanditDataReloader } from './selection/banditData';
-import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
 import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
 import { buildBannerDesignsReloader } from './tests/banners/bannerDesigns';
 import { buildBannerTestsReloader } from './tests/banners/bannerTests';
@@ -45,9 +45,19 @@ const buildApp = async (): Promise<Express> => {
     const corsOrigin = () => {
         switch (process.env.stage) {
             case 'PROD':
-                return ['https://www.theguardian.com', ...dotcomDevOrigins];
+                return [
+                    'https://www.theguardian.com',
+                    'https://support.gutools.co.uk',
+                    'https://support.code.dev-gutools.co.uk',
+                    ...dotcomDevOrigins,
+                ];
             case 'CODE':
-                return ['https://m.code.dev-theguardian.com', ...dotcomDevOrigins];
+                return [
+                    'https://m.code.dev-theguardian.com',
+                    'https://support.gutools.co.uk',
+                    'https://support.code.dev-gutools.co.uk',
+                    ...dotcomDevOrigins,
+                ];
             default:
                 return '*';
         }
@@ -58,7 +68,7 @@ const buildApp = async (): Promise<Express> => {
     };
     app.use(cors(corsOptions));
     app.use(loggingMiddleware);
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(express.urlencoded({ extended: true }));
 
     const stage =
         process.env.stage === 'CODE' ? 'CODE' : process.env.stage === 'DEV' ? 'DEV' : 'PROD';
@@ -69,7 +79,6 @@ const buildApp = async (): Promise<Express> => {
         superModeArticles,
         articleEpicTests,
         liveblogEpicTests,
-        ampEpicTests,
         choiceCardAmounts,
         tickerData,
         productPrices,
@@ -85,7 +94,6 @@ const buildApp = async (): Promise<Express> => {
         buildSuperModeArticlesReloader(),
         buildEpicTestsReloader(),
         buildEpicLiveblogTestsReloader(),
-        buildAmpEpicTestsReloader(),
         buildChoiceCardAmountsReloader(),
         buildTickerDataReloader(stage),
         buildProductPricesReloader(),
@@ -102,6 +110,12 @@ const buildApp = async (): Promise<Express> => {
 
     const auxiaConfig = await getAuxiaRouterConfig();
 
+    const mParticleConfig = await getMParticleConfig();
+    const mParticle = new MParticle(mParticleConfig);
+
+    const oktaConfig = await getOktaConfig();
+    const okta = new Okta(oktaConfig);
+
     // Build the routers
     app.use(
         buildEpicRouter(
@@ -114,6 +128,8 @@ const buildApp = async (): Promise<Express> => {
             banditData,
             productCatalog,
             promotions,
+            mParticle,
+            okta,
         ),
     );
     app.use(
@@ -128,15 +144,17 @@ const buildApp = async (): Promise<Express> => {
             banditData,
             productCatalog,
             promotions,
+            mParticle,
+            okta,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
 
-    app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData, ampEpicTests));
-
-    app.use(buildAuxiaProxyRouter(auxiaConfig));
+    app.use(buildAuxiaProxyRouter(channelSwitches, auxiaConfig));
 
     app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests));
+
+    app.use(buildTickerRouter(tickerData));
 
     // The error handling middleware must be the last middleware in the chain
     // https://stackoverflow.com/questions/72227296/does-the-position-of-error-handling-middleware-matter-in-express
@@ -152,7 +170,7 @@ const buildApp = async (): Promise<Express> => {
 
 buildApp()
     .then((app) => {
-        const PORT = process.env.PORT || 3030;
+        const PORT = process.env.PORT ?? 3030;
 
         const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
         // keep-alive timeout should match LB idle timeout value, see https://repost.aws/knowledge-center/elb-alb-troubleshoot-502-errors

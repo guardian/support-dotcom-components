@@ -1,9 +1,11 @@
 import type {
     AbandonedBasket,
     BannerChannel,
+    BannerTargeting,
     ConsentStatus,
     EpicTargeting,
     EpicViewLog,
+    GutterTargeting,
     PageContextTargeting,
     SignedInStatus,
     Test,
@@ -12,6 +14,7 @@ import type {
     Variant,
 } from '../../shared/types';
 import { daysSince } from './dates';
+import type { MParticleProfile } from './mParticle';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
@@ -55,7 +58,7 @@ export const shouldThrottle = (
 };
 
 export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
-    const section = meta.sectionId || meta.sectionName;
+    const section = meta.sectionId ?? meta.sectionName;
     const isLowValueSection = !!section && lowValueSections.includes(section);
     const isLowValueTag = lowValueTags.some((id) => meta.tags.some((pageTag) => pageTag.id === id));
 
@@ -165,4 +168,38 @@ export const pageContextMatches = (
             pageHasASection(excludedSectionIds, pageContext.sectionId));
 
     return inclusionsMatch && !exclusionsMatch;
+};
+
+// Hide all messages on these pages
+const excludedPageIds = new Set<string>([
+    'info/privacy',
+    'info/complaints-and-corrections',
+    'about',
+    'the-whole-picture',
+]);
+
+export const pageIdIsExcluded = (
+    targeting: BannerTargeting | EpicTargeting | GutterTargeting,
+): boolean => {
+    return targeting.pageId ? excludedPageIds.has(targeting.pageId) : false;
+};
+
+export const matchesMParticleAudience = async (
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    mParticleAudience?: number,
+): Promise<boolean> => {
+    if (mParticleAudience) {
+        // User must be in the mParticle audience segment
+        const mParticleProfile = await getMParticleProfile();
+        if (mParticleProfile) {
+            const audience = mParticleProfile.audience_memberships.find(
+                ({ audience_id }) => audience_id === mParticleAudience,
+            );
+            return !!audience;
+        } else {
+            return false;
+        }
+    } else {
+        return true;
+    }
 };

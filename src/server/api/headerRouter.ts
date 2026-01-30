@@ -79,7 +79,11 @@ export const buildHeaderRouter = (
     router.post(
         '/header',
         bodyContainsAllFields(['targeting']),
-        (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        (
+            req: express.Request<Record<string, never>, unknown, { targeting: HeaderTargeting }>,
+            res: express.Response,
+            next: express.NextFunction,
+        ) => {
             try {
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
