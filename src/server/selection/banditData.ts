@@ -25,7 +25,7 @@ const variantSampleSchema = z.object({
     views: z.number(),
 });
 
-type VariantSample = z.infer<typeof variantSampleSchema>;
+export type VariantSample = z.infer<typeof variantSampleSchema>;
 
 const testSampleSchema = z.object({
     testName: z.string(),
@@ -36,7 +36,7 @@ const testSampleSchema = z.object({
 
 const queryResultSchema = z.array(testSampleSchema);
 
-type TestSample = z.infer<typeof testSampleSchema>;
+export type TestSample = z.infer<typeof testSampleSchema>;
 
 interface BanditTestConfig {
     testName: string; // this may be specific to the methodology, e.g. MY_TEST_EpsilonGreedyBandit-0.5
@@ -61,7 +61,7 @@ function queryForTestSamples(testName: string, channel: Channel, sampleCount?: n
     );
 }
 
-async function getBanditSamplesForTest(
+export async function getBanditSamplesForTest(
     testName: string,
     channel: Channel,
     sampleCount?: number,
@@ -118,7 +118,7 @@ function calculateMeanPerVariant(
     });
 }
 
-function calculateOverallMeanForVariant(samples: VariantSample[]): number {
+export function calculateOverallMeanForVariant(samples: VariantSample[]): number {
     const population = samples.reduce((acc, sample) => acc + sample.views, 0);
     return samples.reduce(
         (acc, sample) => acc + (sample.views / population) * sample.annualisedValueInGBPPerView,
