@@ -36,7 +36,7 @@ const testSampleSchema = z.object({
 
 const queryResultSchema = z.array(testSampleSchema);
 
-type TestSample = z.infer<typeof testSampleSchema>;
+export type TestSample = z.infer<typeof testSampleSchema>;
 
 interface BanditTestConfig {
     testName: string; // this may be specific to the methodology, e.g. MY_TEST_EpsilonGreedyBandit-0.5
@@ -61,7 +61,7 @@ function queryForTestSamples(testName: string, channel: Channel, sampleCount?: n
     );
 }
 
-async function getBanditSamplesForTest(
+export async function getBanditSamplesForTest(
     testName: string,
     channel: Channel,
     sampleCount?: number,

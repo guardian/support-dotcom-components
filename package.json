@@ -27,7 +27,8 @@
         "prettier:fix": "prettier --write ./src",
         "test": "export stage=DEV; jest",
         "riffraff": "node-riffraff-artifact",
-        "simulate": "stage=DEV ts-node src/simulation/simulation.ts"
+        "simulate": "stage=DEV ts-node src/simulation/simulation.ts",
+        "with-real-data": "stage=PROD ts-node src/simulation/withRealData.ts"
     },
     "devDependencies": {
         "@babel/core": "^7.23.2",
