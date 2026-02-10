@@ -12,6 +12,11 @@
 		"synth": "cdk synth --path-metadata false --version-reporting false",
 		"diff": "cdk diff --path-metadata false --version-reporting false"
 	},
+	"pnpm": {
+		"overrides": {
+			"@modelcontextprotocol/sdk": ">=1.26.0"
+		}
+	},
 	"devDependencies": {
 		"@guardian/cdk": "61.3.2",
 		"@guardian/eslint-config-typescript": "8.0.0",
