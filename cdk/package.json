@@ -14,7 +14,7 @@
 	},
 	"devDependencies": {
 		"@guardian/cdk": "61.3.2",
-		"@guardian/eslint-config": "^11.0.0",
+		"@guardian/eslint-config": "^12.0.1",
 		"@guardian/prettier": "10.0.0",
 		"@types/jest": "^30.0.0",
 		"@types/node": "25.2.1",
