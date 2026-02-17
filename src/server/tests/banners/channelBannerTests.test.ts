@@ -1,4 +1,4 @@
-import type { BannerDesignFromTool } from '../../../shared/types';
+import type { BannerDesignFromTool, BannerDesignImage } from '../../../shared/types';
 import { BannerTemplate } from '../../../shared/types';
 import { factories } from '../../factories/';
 import { getDesignForVariant } from './channelBannerTests';
@@ -19,24 +19,19 @@ describe('getDesignForVariant', () => {
         const variantWithDesign = factories.bannerVariant({
             template: { designName: 'BAR' },
         });
+        const defaultVisual = factories.bannerDesign().visual as BannerDesignImage;
         const fooDesign = factories.bannerDesign({
             name: 'FOO',
             visual: {
-                kind: 'Image',
+                ...defaultVisual,
                 altText: 'Foo Alt',
-                mobileUrl: 'https://example.com/mobile.png',
-                tabletUrl: 'https://example.com/tablet.png',
-                desktopUrl: 'https://example.com/desktop.png',
             },
         });
         const barDesign = factories.bannerDesign({
             name: 'BAR',
             visual: {
-                kind: 'Image',
+                ...defaultVisual,
                 altText: 'Bar Alt',
-                mobileUrl: 'https://example.com/mobile.png',
-                tabletUrl: 'https://example.com/tablet.png',
-                desktopUrl: 'https://example.com/desktop.png',
             },
         });
         const designs: BannerDesignFromTool[] = [fooDesign, barDesign];
@@ -54,24 +49,19 @@ describe('getDesignForVariant', () => {
         const variantWithDesign = factories.bannerVariant({
             template: { designName: 'BAZ' },
         });
+        const defaultVisual = factories.bannerDesign().visual as BannerDesignImage;
         const fooDesign = factories.bannerDesign({
             name: 'FOO',
             visual: {
-                kind: 'Image',
+                ...defaultVisual,
                 altText: 'Foo Alt',
-                mobileUrl: 'https://example.com/mobile.png',
-                tabletUrl: 'https://example.com/tablet.png',
-                desktopUrl: 'https://example.com/desktop.png',
             },
         });
         const barDesign = factories.bannerDesign({
             name: 'BAR',
             visual: {
-                kind: 'Image',
+                ...defaultVisual,
                 altText: 'Bar Alt',
-                mobileUrl: 'https://example.com/mobile.png',
-                tabletUrl: 'https://example.com/tablet.png',
-                desktopUrl: 'https://example.com/desktop.png',
             },
         });
         const designs: BannerDesignFromTool[] = [fooDesign, barDesign];
