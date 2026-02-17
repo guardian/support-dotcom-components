@@ -135,9 +135,6 @@ importers:
       eslint-plugin-react:
         specifier: ^7.33.2
         version: 7.37.5(eslint@9.39.2)
-      fishery:
-        specifier: ^0.3.0
-        version: 0.3.0
       globals:
         specifier: 17.0.0
         version: 17.0.0
@@ -2599,9 +2596,6 @@ packages:
   find-up@5.0.0:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
     engines: {node: '>=10'}
-
-  fishery@0.3.0:
-    resolution: {integrity: sha512-hY2LTDq213KquLftAVgvQOcZmtx5Kr0JadWvNJgnT0NkjH0MB+Xvg6XIxbMFwkDed0CyYpcAUThgj0qWVigmbw==}
 
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
@@ -8370,10 +8364,6 @@ snapshots:
     dependencies:
       locate-path: 6.0.0
       path-exists: 4.0.0
-
-  fishery@0.3.0:
-    dependencies:
-      lodash.merge: 4.6.2
 
   flat-cache@4.0.1:
     dependencies:

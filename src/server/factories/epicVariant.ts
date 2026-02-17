@@ -1,7 +1,6 @@
-import { Factory } from 'fishery';
 import type { EpicVariant } from '../../shared/types';
 
-export default Factory.define<EpicVariant>(() => ({
+export default (overrides?: Partial<EpicVariant>): EpicVariant => ({
     name: 'Example Variant',
     heading: 'Since you’re here...',
     paragraphs: [
@@ -21,4 +20,5 @@ export default Factory.define<EpicVariant>(() => ({
         text: 'Contribute to The Guardian!',
         baseUrl: 'https://support.theguardian.com/support',
     },
-}));
+    ...overrides,
+});

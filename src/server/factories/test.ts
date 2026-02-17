@@ -1,11 +1,10 @@
-import { Factory } from 'fishery';
 import type { EpicTest, EpicVariant } from '../../shared/types';
 
 type EpicTestFactoryParams = {
-    factories: { epicVariant: Factory<EpicVariant> };
+    variants?: EpicVariant[];
 };
 
-export default Factory.define<EpicTest>(({ factories }: EpicTestFactoryParams) => ({
+export default (overrides?: Partial<EpicTest> & EpicTestFactoryParams): EpicTest => ({
     channel: 'Epic',
     name: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
     priority: 1,
@@ -25,6 +24,7 @@ export default Factory.define<EpicTest>(({ factories }: EpicTestFactoryParams) =
     hasCountryName: false,
     highPriority: false,
     useLocalViewLog: false,
-    variants: factories.epicVariant.buildList(1),
+    variants: [],
     hasArticleCountInCopy: false,
-}));
+    ...overrides,
+});

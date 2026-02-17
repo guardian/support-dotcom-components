@@ -10,13 +10,13 @@ import {
 
 describe('shouldNotRenderEpic', () => {
     it('returns true for blacklisted section', () => {
-        const data = factories.targeting.build({ sectionId: 'careers' });
+        const data = factories.targeting({ sectionId: 'careers' });
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(true);
     });
 
     it('returns false for valid data', () => {
-        const data = factories.targeting.build();
+        const data = factories.targeting();
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(false);
     });

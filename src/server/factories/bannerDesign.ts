@@ -1,4 +1,3 @@
-import { Factory } from 'fishery';
 import type { BannerDesignFromTool, HexColour } from '../../shared/types';
 
 const hexColourStringRegex = /^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$/i;
@@ -16,7 +15,7 @@ const stringToHexColour = (colourString: string): HexColour => {
     }
 };
 
-export default Factory.define<BannerDesignFromTool>(() => ({
+export default (overrides?: Partial<BannerDesignFromTool>): BannerDesignFromTool => ({
     name: 'EXAMPLE_DESIGN',
     visual: {
         kind: 'Image',
@@ -73,4 +72,5 @@ export default Factory.define<BannerDesignFromTool>(() => ({
             goalColour: stringToHexColour('000000'),
         },
     },
-}));
+    ...overrides,
+});

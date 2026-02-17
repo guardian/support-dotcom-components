@@ -1,7 +1,6 @@
-import { Factory } from 'fishery';
 import type { EpicTargeting } from '../../shared/types';
 
-export default Factory.define<EpicTargeting>(() => ({
+export default (overrides?: Partial<EpicTargeting>): EpicTargeting => ({
     contentType: 'Article',
     sectionId: 'culture',
     shouldHideReaderRevenue: false,
@@ -10,4 +9,5 @@ export default Factory.define<EpicTargeting>(() => ({
     tags: [],
     showSupportMessaging: true,
     hasOptedOutOfArticleCount: false,
-}));
+    ...overrides,
+});
