@@ -136,8 +136,8 @@ importers:
         specifier: ^7.33.2
         version: 7.37.5(eslint@9.39.2)
       fishery:
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^2.4.0
+        version: 2.4.0
       globals:
         specifier: 17.0.0
         version: 17.0.0
@@ -2600,8 +2600,8 @@ packages:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
     engines: {node: '>=10'}
 
-  fishery@0.3.0:
-    resolution: {integrity: sha512-hY2LTDq213KquLftAVgvQOcZmtx5Kr0JadWvNJgnT0NkjH0MB+Xvg6XIxbMFwkDed0CyYpcAUThgj0qWVigmbw==}
+  fishery@2.4.0:
+    resolution: {integrity: sha512-QgeTlvgNhVGuMztrfAhlSIBs3rD3l9RMjl9I15yb/lnrx3njrOhvegr2L3LWdqvXwYfQjdQGpglyAfHH2J8DRA==}
 
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
@@ -3344,6 +3344,9 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+
+  lodash.mergewith@4.6.2:
+    resolution: {integrity: sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==}
 
   lodash.startcase@4.4.0:
     resolution: {integrity: sha512-+WKqsK294HMSc2jEbNgpHpd0JfIBhp7rEV4aqXWqFr6AlXov+SlcgB1Fv01y2kGe3Gc8nMW7VA0SrGuSkRfIEg==}
@@ -8371,9 +8374,9 @@ snapshots:
       locate-path: 6.0.0
       path-exists: 4.0.0
 
-  fishery@0.3.0:
+  fishery@2.4.0:
     dependencies:
-      lodash.merge: 4.6.2
+      lodash.mergewith: 4.6.2
 
   flat-cache@4.0.1:
     dependencies:
@@ -9288,6 +9291,8 @@ snapshots:
   lodash.memoize@4.1.2: {}
 
   lodash.merge@4.6.2: {}
+
+  lodash.mergewith@4.6.2: {}
 
   lodash.startcase@4.4.0: {}
 
