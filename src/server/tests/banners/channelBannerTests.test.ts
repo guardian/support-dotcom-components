@@ -1,14 +1,14 @@
-import type { BannerDesignFromTool } from '../../../shared/types';
+import type { BannerDesignFromTool, BannerDesignImage } from '../../../shared/types';
 import { BannerTemplate } from '../../../shared/types';
 import { factories } from '../../factories/';
 import { getDesignForVariant } from './channelBannerTests';
 
 describe('getDesignForVariant', () => {
     it('returns undefined if the variant specifies a template', () => {
-        const variantWithTemplate = factories.bannerVariant.build({
+        const variantWithTemplate = factories.bannerVariant({
             template: BannerTemplate.SignInPromptBanner,
         });
-        const designs: BannerDesignFromTool[] = [factories.bannerDesign.build()];
+        const designs: BannerDesignFromTool[] = [factories.bannerDesign()];
 
         const design = getDesignForVariant(variantWithTemplate, designs);
 
@@ -16,16 +16,23 @@ describe('getDesignForVariant', () => {
     });
 
     it('returns a matching design if the variant specifies a design', () => {
-        const variantWithDesign = factories.bannerVariant.build({
+        const variantWithDesign = factories.bannerVariant({
             template: { designName: 'BAR' },
         });
-        const fooDesign = factories.bannerDesign.build({
+        const defaultVisual = factories.bannerDesign().visual as BannerDesignImage;
+        const fooDesign = factories.bannerDesign({
             name: 'FOO',
-            visual: { kind: 'Image', altText: 'Foo Alt' },
+            visual: {
+                ...defaultVisual,
+                altText: 'Foo Alt',
+            },
         });
-        const barDesign = factories.bannerDesign.build({
+        const barDesign = factories.bannerDesign({
             name: 'BAR',
-            visual: { kind: 'Image', altText: 'Bar Alt' },
+            visual: {
+                ...defaultVisual,
+                altText: 'Bar Alt',
+            },
         });
         const designs: BannerDesignFromTool[] = [fooDesign, barDesign];
 
@@ -39,16 +46,23 @@ describe('getDesignForVariant', () => {
     });
 
     it('returns undefined if the variant specifies a design that does not exist', () => {
-        const variantWithDesign = factories.bannerVariant.build({
+        const variantWithDesign = factories.bannerVariant({
             template: { designName: 'BAZ' },
         });
-        const fooDesign = factories.bannerDesign.build({
+        const defaultVisual = factories.bannerDesign().visual as BannerDesignImage;
+        const fooDesign = factories.bannerDesign({
             name: 'FOO',
-            visual: { kind: 'Image', altText: 'Foo Alt' },
+            visual: {
+                ...defaultVisual,
+                altText: 'Foo Alt',
+            },
         });
-        const barDesign = factories.bannerDesign.build({
+        const barDesign = factories.bannerDesign({
             name: 'BAR',
-            visual: { kind: 'Image', altText: 'Bar Alt' },
+            visual: {
+                ...defaultVisual,
+                altText: 'Bar Alt',
+            },
         });
         const designs: BannerDesignFromTool[] = [fooDesign, barDesign];
 
