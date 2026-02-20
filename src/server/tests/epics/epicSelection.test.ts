@@ -907,3 +907,161 @@ describe('correctSignedInStatusFilter filter', () => {
         expect(got).toBe(true);
     });
 });
+
+describe('holdback group targeting', () => {
+    const superModeArticles: SuperModeArticle[] = [];
+    const banditData: BanditData[] = [];
+    const getMParticleProfile = () => Promise.resolve(undefined);
+
+    const baseTargeting: EpicTargeting = {
+        contentType: 'Article',
+        sectionId: 'environment',
+        shouldHideReaderRevenue: false,
+        isMinuteArticle: false,
+        isPaidContent: false,
+        tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
+        showSupportMessaging: true,
+        mvtId: 2,
+        hasOptedOutOfArticleCount: false,
+        countryCode: 'GB',
+    };
+
+    const baseTest: EpicTest = {
+        channel: 'Epic',
+        name: 'test',
+        priority: 1,
+        status: 'Live',
+        locations: [],
+        tagIds: [],
+        sections: [],
+        excludedTagIds: [],
+        excludedSections: [],
+        alwaysAsk: true,
+        maxViews: {
+            maxViewsCount: 4,
+            maxViewsDays: 30,
+            minDaysBetweenViews: 0,
+        },
+        userCohort: 'AllNonSupporters',
+        hasCountryName: false,
+        highPriority: false,
+        useLocalViewLog: false,
+        variants: [
+            {
+                name: 'control',
+                heading: '',
+                paragraphs: [''],
+                highlightedText: '',
+            },
+        ],
+        hasArticleCountInCopy: false,
+    };
+
+    it('returns null if user is not in holdback group and test is a HOLDBACK test', async () => {
+        const holdbackTest: EpicTest = {
+            ...baseTest,
+            name: 'epic-HOLDBACK-v1',
+        };
+
+        const result = await findTestAndVariant(
+            [holdbackTest],
+            { ...baseTargeting, inHoldbackGroup: false },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+        );
+
+        expect(result.result).toBeUndefined();
+    });
+
+    it('returns test if user is in holdback group and test is a HOLDBACK test', async () => {
+        const holdbackTest: EpicTest = {
+            ...baseTest,
+            name: 'epic-HOLDBACK-v1',
+        };
+
+        const result = await findTestAndVariant(
+            [holdbackTest],
+            { ...baseTargeting, inHoldbackGroup: true },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+        );
+
+        expect(result.result?.test.name).toBe('epic-HOLDBACK-v1');
+    });
+
+    it('returns null if user is in holdback group and test is NOT a HOLDBACK test', async () => {
+        const normalTest: EpicTest = {
+            ...baseTest,
+            name: 'normal-epic-test',
+        };
+
+        const result = await findTestAndVariant(
+            [normalTest],
+            { ...baseTargeting, inHoldbackGroup: true },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+        );
+
+        expect(result.result).toBeUndefined();
+    });
+
+    it('returns test if user is not in holdback group and test is NOT a HOLDBACK test', async () => {
+        const normalTest: EpicTest = {
+            ...baseTest,
+            name: 'normal-epic-test',
+        };
+
+        const result = await findTestAndVariant(
+            [normalTest],
+            { ...baseTargeting, inHoldbackGroup: false },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+        );
+
+        expect(result.result?.test.name).toBe('normal-epic-test');
+    });
+
+    it('returns test if user has undefined inHoldbackGroup and test is NOT a HOLDBACK test', async () => {
+        const normalTest: EpicTest = {
+            ...baseTest,
+            name: 'normal-epic-test',
+        };
+
+        const result = await findTestAndVariant(
+            [normalTest],
+            { ...baseTargeting, inHoldbackGroup: undefined },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+        );
+
+        expect(result.result?.test.name).toBe('normal-epic-test');
+    });
+
+    it('returns null if user has undefined inHoldbackGroup and test is a HOLDBACK test', async () => {
+        const holdbackTest: EpicTest = {
+            ...baseTest,
+            name: 'epic-HOLDBACK-v1',
+        };
+
+        const result = await findTestAndVariant(
+            [holdbackTest],
+            { ...baseTargeting, inHoldbackGroup: undefined },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+        );
+
+        expect(result.result).toBeUndefined();
+    });
+});

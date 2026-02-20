@@ -6,6 +6,7 @@ import type {
     HeaderVariant,
     UserDeviceType,
 } from '../../../shared/types';
+import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { TestVariant } from '../../lib/params';
 import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../../lib/targeting';
 import { selectVariantUsingMVT } from '../../selection/ab';
@@ -365,7 +366,8 @@ export const selectBestTest = (
             isCountryTargetedForHeader(test, targeting) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
-            correctSignedInStatus(isSignedIn, signedInStatus)
+            correctSignedInStatus(isSignedIn, signedInStatus) &&
+            matchesHoldbackRequirement(test, targeting.inHoldbackGroup)
         );
     });
 

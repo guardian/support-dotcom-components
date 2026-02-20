@@ -26,6 +26,7 @@ export type EpicTargeting = {
     browserId?: string; // Only present if the user has consented to browserId-based targeting
     isSignedIn?: boolean;
     pageId?: string;
+    inHoldbackGroup?: boolean;
 };
 
 export type EpicPayload = {

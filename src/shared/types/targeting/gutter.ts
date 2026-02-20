@@ -6,6 +6,7 @@ export interface GutterTargeting {
     tagIds?: string[];
     sectionId?: string;
     pageId?: string;
+    inHoldbackGroup?: boolean;
 }
 
 export type GutterPayload = {

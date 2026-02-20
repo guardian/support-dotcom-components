@@ -13,6 +13,7 @@ import type {
     WeeklyArticleHistory,
 } from '../../../shared/types';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { MParticleProfile } from '../../lib/mParticle';
 import type { TestVariant } from '../../lib/params';
 import type { SuperModeArticle } from '../../lib/superMode';
@@ -34,6 +35,15 @@ export interface Filter {
     // this function can be asynchronous or not
     test: (test: EpicTest, targeting: EpicTargeting) => boolean | Promise<boolean>;
 }
+
+export const isHoldbackTest = (test: EpicTest): boolean => {
+    return test.name.includes('HOLDBACK');
+};
+
+export const holdbackRequirementFilter: Filter = {
+    id: 'holdbackRequirement',
+    test: (test, targeting): boolean => matchesHoldbackRequirement(test, targeting.inHoldbackGroup),
+};
 
 export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
     if (!targeting.showSupportMessaging) {
@@ -222,6 +232,7 @@ export const findTestAndVariant = async (
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
             momentumMatches,
+            holdbackRequirementFilter,
             mParticleAudienceMatchesFilter(getMParticleProfile),
         ];
     };

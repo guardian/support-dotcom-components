@@ -10,6 +10,7 @@ import type {
 import { uiIsDesign } from '../../../shared/types';
 import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { MParticleProfile } from '../../lib/mParticle';
 import type { TestVariant } from '../../lib/params';
 import {
@@ -264,6 +265,7 @@ export const selectBannerTest = async ({
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
             abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket) &&
             matchesFrontsOnlyRequirement(test, targeting) &&
+            matchesHoldbackRequirement(test, targeting.inHoldbackGroup) &&
             (await matchesMParticleAudience(
                 getMParticleProfile,
                 test.mParticleAudience ?? undefined,

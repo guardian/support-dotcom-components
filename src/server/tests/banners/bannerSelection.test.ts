@@ -829,4 +829,207 @@ describe('selectBannerTest', () => {
             ).toBe(false);
         });
     });
+
+    describe('holdback group targeting', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+
+        const baseTargeting: BannerTargeting = {
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'GB',
+            engagementBannerLastClosedAt: firstDate,
+            hasOptedOutOfArticleCount: false,
+            contentType: 'Article',
+            isSignedIn: false,
+            hasConsented: true,
+        };
+
+        const baseTest: Omit<BannerTest, 'name'> = {
+            channel: 'Banner1',
+            bannerChannel: 'contributions',
+            priority: 1,
+            isHardcoded: true,
+            userCohort: 'Everyone',
+            status: 'Live',
+            variants: [
+                {
+                    name: 'control',
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
+                    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                },
+            ],
+            locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
+        };
+
+        it('returns null if user is not in holdback group and test is a HOLDBACK test', async () => {
+            const holdbackTest: BannerTest = {
+                ...baseTest,
+                name: 'contribution-HOLDBACK-v1',
+            };
+
+            const result = await selectBannerTest({
+                targeting: {
+                    ...baseTargeting,
+                    inHoldbackGroup: false,
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [holdbackTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+
+            expect(result).toBeNull();
+        });
+
+        it('returns test if user is in holdback group and test is a HOLDBACK test', async () => {
+            const holdbackTest: BannerTest = {
+                ...baseTest,
+                name: 'contribution-HOLDBACK-v1',
+            };
+
+            const result = await selectBannerTest({
+                targeting: {
+                    ...baseTargeting,
+                    inHoldbackGroup: true,
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [holdbackTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+
+            expect(result?.test.name).toBe('contribution-HOLDBACK-v1');
+        });
+
+        it('returns null if user is in holdback group and test is NOT a HOLDBACK test', async () => {
+            const normalTest: BannerTest = {
+                ...baseTest,
+                name: 'normal-contribution-test',
+            };
+
+            const result = await selectBannerTest({
+                targeting: {
+                    ...baseTargeting,
+                    inHoldbackGroup: true,
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [normalTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+
+            expect(result).toBeNull();
+        });
+
+        it('returns test if user is not in holdback group and test is NOT a HOLDBACK test', async () => {
+            const normalTest: BannerTest = {
+                ...baseTest,
+                name: 'normal-contribution-test',
+            };
+
+            const result = await selectBannerTest({
+                targeting: {
+                    ...baseTargeting,
+                    inHoldbackGroup: false,
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [normalTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+
+            expect(result?.test.name).toBe('normal-contribution-test');
+        });
+
+        it('returns test if user has undefined inHoldbackGroup and test is NOT a HOLDBACK test', async () => {
+            const normalTest: BannerTest = {
+                ...baseTest,
+                name: 'normal-contribution-test',
+            };
+
+            const result = await selectBannerTest({
+                targeting: {
+                    ...baseTargeting,
+                    inHoldbackGroup: undefined,
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [normalTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+
+            expect(result?.test.name).toBe('normal-contribution-test');
+        });
+
+        it('returns null if user has undefined inHoldbackGroup and test is a HOLDBACK test', async () => {
+            const holdbackTest: BannerTest = {
+                ...baseTest,
+                name: 'contribution-HOLDBACK-v1',
+            };
+
+            const result = await selectBannerTest({
+                targeting: {
+                    ...baseTargeting,
+                    inHoldbackGroup: undefined,
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [holdbackTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+            });
+
+            expect(result).toBeNull();
+        });
+    });
 });
