@@ -22,6 +22,7 @@ export type BannerTargeting = {
     hasConsented: boolean;
     abandonedBasket?: AbandonedBasket;
     pageId?: string;
+    inHoldbackGroup?: boolean;
 };
 
 export type BannerPayload = {

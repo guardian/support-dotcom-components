@@ -659,3 +659,127 @@ describe('selectBestTest', () => {
         expect(result_8_variant.name).toBe('evergreen_variant');
     });
 });
+
+describe('holdback group targeting', () => {
+    const baseTargeting: GutterTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'GB',
+        mvtId: 123456,
+        isSignedIn: false,
+        tagIds: [],
+    };
+
+    const baseTest: GutterTest = {
+        channel: 'GutterLiveblog',
+        name: 'test',
+        priority: 1,
+        userCohort: 'Everyone',
+        status: 'Live',
+        locations: [],
+        regionTargeting: {
+            targetedCountryGroups: [],
+            targetedCountryCodes: [],
+        },
+        contextTargeting: {
+            tagIds: [],
+            sectionIds: [],
+            excludedTagIds: [],
+            excludedSectionIds: [],
+        },
+        variants: [
+            {
+                name: 'control',
+                moduleName: 'Gutter',
+                content: {
+                    image: {
+                        mainUrl: 'https://uploads.guim.co.uk/2025/01/22/not_for_sale.svg',
+                        altText: 'Not for Sale',
+                    },
+                    bodyCopy: ['Support us'],
+                    cta: {
+                        baseUrl: 'https://support.theguardian.com/contribute',
+                        text: 'Support us',
+                    },
+                },
+            },
+        ],
+    };
+
+    it('returns null if user is not in holdback group and test is a HOLDBACK test', () => {
+        const holdbackTest: GutterTest = {
+            ...baseTest,
+            name: 'gutter-HOLDBACK-v1',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: false }, userDeviceType, [
+            holdbackTest,
+        ]);
+
+        expect(result).toBeNull();
+    });
+
+    it('returns test if user is in holdback group and test is a HOLDBACK test', () => {
+        const holdbackTest: GutterTest = {
+            ...baseTest,
+            name: 'gutter-HOLDBACK-v1',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: true }, userDeviceType, [
+            holdbackTest,
+        ]);
+
+        expect(result?.test.name).toBe('gutter-HOLDBACK-v1');
+    });
+
+    it('returns null if user is in holdback group and test is NOT a HOLDBACK test', () => {
+        const normalTest: GutterTest = {
+            ...baseTest,
+            name: 'normal-gutter-test',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: true }, userDeviceType, [
+            normalTest,
+        ]);
+
+        expect(result).toBeNull();
+    });
+
+    it('returns test if user is not in holdback group and test is NOT a HOLDBACK test', () => {
+        const normalTest: GutterTest = {
+            ...baseTest,
+            name: 'normal-gutter-test',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: false }, userDeviceType, [
+            normalTest,
+        ]);
+
+        expect(result?.test.name).toBe('normal-gutter-test');
+    });
+
+    it('returns test if user has undefined inHoldbackGroup and test is NOT a HOLDBACK test', () => {
+        const normalTest: GutterTest = {
+            ...baseTest,
+            name: 'normal-gutter-test',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: undefined }, userDeviceType, [
+            normalTest,
+        ]);
+
+        expect(result?.test.name).toBe('normal-gutter-test');
+    });
+
+    it('returns null if user has undefined inHoldbackGroup and test is a HOLDBACK test', () => {
+        const holdbackTest: GutterTest = {
+            ...baseTest,
+            name: 'gutter-HOLDBACK-v1',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: undefined }, userDeviceType, [
+            holdbackTest,
+        ]);
+
+        expect(result).toBeNull();
+    });
+});

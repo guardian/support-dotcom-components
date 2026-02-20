@@ -485,3 +485,117 @@ it('It should select a header test based on isCountryTargetedForHeader logic', (
     expect(result_variant).toHaveProperty('name');
     expect(result_variant.name).toBe('remote');
 });
+
+describe('holdback group targeting', () => {
+    const baseTargeting: HeaderTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'GB',
+        mvtId: 123456,
+        isSignedIn: false,
+    };
+
+    const baseTest: HeaderTest = {
+        channel: 'Header',
+        name: 'test',
+        priority: 1,
+        userCohort: 'Everyone',
+        status: 'Live',
+        locations: [],
+        regionTargeting: {
+            targetedCountryGroups: [],
+            targetedCountryCodes: [],
+        },
+        variants: [
+            {
+                name: 'control',
+                moduleName: 'Header',
+                content: {
+                    heading: 'Support the Guardian',
+                    subheading: 'Available for everyone, funded by readers',
+                    primaryCta: {
+                        baseUrl: 'https://support.theguardian.com/contribute',
+                        text: 'Contribute',
+                    },
+                },
+            },
+        ],
+    };
+
+    it('returns null if user is not in holdback group and test is a HOLDBACK test', () => {
+        const holdbackTest: HeaderTest = {
+            ...baseTest,
+            name: 'header-HOLDBACK-v1',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: false }, userDeviceType, [
+            holdbackTest,
+        ]);
+
+        expect(result).toBeNull();
+    });
+
+    it('returns test if user is in holdback group and test is a HOLDBACK test', () => {
+        const holdbackTest: HeaderTest = {
+            ...baseTest,
+            name: 'header-HOLDBACK-v1',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: true }, userDeviceType, [
+            holdbackTest,
+        ]);
+
+        expect(result?.test.name).toBe('header-HOLDBACK-v1');
+    });
+
+    it('returns null if user is in holdback group and test is NOT a HOLDBACK test', () => {
+        const normalTest: HeaderTest = {
+            ...baseTest,
+            name: 'normal-header-test',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: true }, userDeviceType, [
+            normalTest,
+        ]);
+
+        expect(result).toBeNull();
+    });
+
+    it('returns test if user is not in holdback group and test is NOT a HOLDBACK test', () => {
+        const normalTest: HeaderTest = {
+            ...baseTest,
+            name: 'normal-header-test',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: false }, userDeviceType, [
+            normalTest,
+        ]);
+
+        expect(result?.test.name).toBe('normal-header-test');
+    });
+
+    it('returns test if user has undefined inHoldbackGroup and test is NOT a HOLDBACK test', () => {
+        const normalTest: HeaderTest = {
+            ...baseTest,
+            name: 'normal-header-test',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: undefined }, userDeviceType, [
+            normalTest,
+        ]);
+
+        expect(result?.test.name).toBe('normal-header-test');
+    });
+
+    it('returns null if user has undefined inHoldbackGroup and test is a HOLDBACK test', () => {
+        const holdbackTest: HeaderTest = {
+            ...baseTest,
+            name: 'header-HOLDBACK-v1',
+        };
+
+        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: undefined }, userDeviceType, [
+            holdbackTest,
+        ]);
+
+        expect(result).toBeNull();
+    });
+});

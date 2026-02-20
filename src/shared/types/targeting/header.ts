@@ -7,6 +7,7 @@ export interface HeaderTargeting {
     numArticles?: number;
     purchaseInfo?: PurchaseInfo;
     isSignedIn: boolean;
+    inHoldbackGroup?: boolean;
 }
 
 export type HeaderPayload = {
