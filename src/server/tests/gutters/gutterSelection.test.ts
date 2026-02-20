@@ -711,9 +711,11 @@ describe('holdback group targeting', () => {
             name: 'gutter-HOLDBACK-v1',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: false }, userDeviceType, [
-            holdbackTest,
-        ]);
+        const result = selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: false },
+            userDeviceType,
+            [holdbackTest],
+        );
 
         expect(result).toBeNull();
     });
@@ -750,9 +752,11 @@ describe('holdback group targeting', () => {
             name: 'normal-gutter-test',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: false }, userDeviceType, [
-            normalTest,
-        ]);
+        const result = selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: false },
+            userDeviceType,
+            [normalTest],
+        );
 
         expect(result?.test.name).toBe('normal-gutter-test');
     });
@@ -763,9 +767,11 @@ describe('holdback group targeting', () => {
             name: 'normal-gutter-test',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: undefined }, userDeviceType, [
-            normalTest,
-        ]);
+        const result = selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: undefined },
+            userDeviceType,
+            [normalTest],
+        );
 
         expect(result?.test.name).toBe('normal-gutter-test');
     });
@@ -776,9 +782,11 @@ describe('holdback group targeting', () => {
             name: 'gutter-HOLDBACK-v1',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: undefined }, userDeviceType, [
-            holdbackTest,
-        ]);
+        const result = selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: undefined },
+            userDeviceType,
+            [holdbackTest],
+        );
 
         expect(result).toBeNull();
     });

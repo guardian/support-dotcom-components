@@ -527,9 +527,11 @@ describe('holdback group targeting', () => {
             name: 'header-HOLDBACK-v1',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: false }, userDeviceType, [
-            holdbackTest,
-        ]);
+        const result = selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: false },
+            userDeviceType,
+            [holdbackTest],
+        );
 
         expect(result).toBeNull();
     });
@@ -566,9 +568,11 @@ describe('holdback group targeting', () => {
             name: 'normal-header-test',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: false }, userDeviceType, [
-            normalTest,
-        ]);
+        const result = selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: false },
+            userDeviceType,
+            [normalTest],
+        );
 
         expect(result?.test.name).toBe('normal-header-test');
     });
@@ -579,9 +583,11 @@ describe('holdback group targeting', () => {
             name: 'normal-header-test',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: undefined }, userDeviceType, [
-            normalTest,
-        ]);
+        const result = selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: undefined },
+            userDeviceType,
+            [normalTest],
+        );
 
         expect(result?.test.name).toBe('normal-header-test');
     });
@@ -592,9 +598,11 @@ describe('holdback group targeting', () => {
             name: 'header-HOLDBACK-v1',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: undefined }, userDeviceType, [
-            holdbackTest,
-        ]);
+        const result = selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: undefined },
+            userDeviceType,
+            [holdbackTest],
+        );
 
         expect(result).toBeNull();
     });
