@@ -36,10 +36,6 @@ export interface Filter {
     test: (test: EpicTest, targeting: EpicTargeting) => boolean | Promise<boolean>;
 }
 
-export const isHoldbackTest = (test: EpicTest): boolean => {
-    return test.name.includes('HOLDBACK');
-};
-
 export const holdbackRequirementFilter: Filter = {
     id: 'holdbackRequirement',
     test: (test, targeting): boolean => matchesHoldbackRequirement(test, targeting.inHoldbackGroup),
