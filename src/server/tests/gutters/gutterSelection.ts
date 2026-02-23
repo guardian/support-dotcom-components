@@ -6,6 +6,7 @@ import type {
     GutterVariant,
     UserDeviceType,
 } from '../../../shared/types';
+import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { TestVariant } from '../../lib/params';
 import { audienceMatches, correctSignedInStatus, pageContextMatches } from '../../lib/targeting';
 import { selectVariantUsingMVT } from '../../selection/ab';
@@ -51,7 +52,8 @@ export const selectBestTest = (
             audienceMatches(showSupportMessaging, userCohort) &&
             isCountryTargetedForGutterAsks(test, targeting) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
-            pageContextMatches(pageContext, contextTargeting)
+            pageContextMatches(pageContext, contextTargeting) &&
+            matchesHoldbackRequirement(test, targeting.inHoldbackGroup)
         );
     });
 
