@@ -32,7 +32,7 @@
         "@babel/core": "^7.23.2",
         "@babel/preset-typescript": "^7.23.2",
         "@changesets/cli": "^2.26.2",
-        "@guardian/eslint-config": "^11.0.0",
+        "@guardian/eslint-config": "^13.0.5",
         "@guardian/node-riffraff-artifact": "^0.3.2",
         "@guardian/prettier": "^10.0.0",
         "@rollup/plugin-alias": "^5.1.1",
