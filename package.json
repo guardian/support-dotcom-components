@@ -82,7 +82,7 @@
         "@guardian/libs": "26.1.0",
         "@guardian/ophan-tracker-js": "2.8.0",
         "@okta/jwt-verifier": "^4.0.2",
-        "compression": "1.7.4",
+        "compression": "1.8.1",
         "cors": "^2.8.5",
         "date-fns": "^2.25.0",
         "express": "^4.21.2",
