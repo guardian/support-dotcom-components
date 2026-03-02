@@ -148,7 +148,7 @@ const buildApp = async (): Promise<Express> => {
             okta,
         ),
     );
-    app.use(buildHeaderRouter(channelSwitches, headerTests));
+    app.use(buildHeaderRouter(channelSwitches, headerTests, mParticle, okta));
 
     app.use(buildAuxiaProxyRouter(channelSwitches, auxiaConfig));
 
