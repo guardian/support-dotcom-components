@@ -10,6 +10,8 @@ import type {
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
+import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import type { Okta } from '../lib/okta';
 import { getQueryParams } from '../lib/params';
 import type { Params } from '../lib/params';
 import { bodyContainsAllFields } from '../middleware';
@@ -29,23 +31,27 @@ interface HeaderDataResponse {
 export const buildHeaderRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
     tests: ValueProvider<HeaderTest[]>,
+    mParticle: MParticle,
+    okta: Okta,
 ): Router => {
     const router = Router();
 
-    const buildHeaderData = (
+    const buildHeaderData = async (
         targeting: HeaderTargeting,
         baseUrl: string,
         params: Params,
         req: express.Request,
-    ): HeaderDataResponse => {
+        getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    ): Promise<HeaderDataResponse> => {
         const { enableHeaders } = channelSwitches.get();
         if (!enableHeaders) {
             return {};
         }
-        const testSelection = selectHeaderTest(
+        const testSelection = await selectHeaderTest(
             targeting,
             tests.get(),
             getDeviceType(req),
+            getMParticleProfile,
             params.force,
         );
         if (testSelection) {
@@ -79,7 +85,7 @@ export const buildHeaderRouter = (
     router.post(
         '/header',
         bodyContainsAllFields(['targeting']),
-        (
+        async (
             req: express.Request<Record<string, never>, unknown, { targeting: HeaderTargeting }>,
             res: express.Response,
             next: express.NextFunction,
@@ -87,7 +93,28 @@ export const buildHeaderRouter = (
             try {
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = buildHeaderData(targeting, baseUrl(req), params, req);
+
+                const authHeader = req.headers.authorization;
+                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                    channelSwitches.get(),
+                    okta,
+                    authHeader,
+                );
+
+                const response = await buildHeaderData(
+                    targeting,
+                    baseUrl(req),
+                    params,
+                    req,
+                    fetchProfile,
+                );
+
+                // for response logging
+                res.locals.didRenderHeader = !!response.data;
+                res.locals.hasAuthorization = !!authHeader;
+                res.locals.gotMParticleProfile = forLogging() === 'found';
+                res.locals.mParticleProfileStatus = forLogging();
+
                 res.send(response);
             } catch (error) {
                 next(error);

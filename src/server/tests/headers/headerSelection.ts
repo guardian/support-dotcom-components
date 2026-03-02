@@ -7,8 +7,14 @@ import type {
     UserDeviceType,
 } from '../../../shared/types';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
+import type { MParticleProfile } from '../../lib/mParticle';
 import type { TestVariant } from '../../lib/params';
-import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../../lib/targeting';
+import {
+    audienceMatches,
+    correctSignedInStatus,
+    deviceTypeMatches,
+    matchesMParticleAudience,
+} from '../../lib/targeting';
 import { selectVariantUsingMVT } from '../../selection/ab';
 
 const moduleName = 'Header';
@@ -350,39 +356,41 @@ export const isCountryTargetedForHeader = (
 };
 
 // Exported for Jest testing
-export const selectBestTest = (
+export const selectBestTest = async (
     targeting: HeaderTargeting,
     userDeviceType: UserDeviceType,
     allTests: HeaderTest[],
-): HeaderTestSelection | null => {
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+): Promise<HeaderTestSelection | null> => {
     const { showSupportMessaging, purchaseInfo, isSignedIn } = targeting;
 
-    const selectedTest = allTests.find((test) => {
+    for (const test of allTests) {
         const { status, userCohort, signedInStatus } = test;
 
-        return (
+        if (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
             isCountryTargetedForHeader(test, targeting) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
-            matchesHoldbackRequirement(test, targeting.inHoldbackGroup)
-        );
-    });
+            matchesHoldbackRequirement(test, targeting.inHoldbackGroup) &&
+            (await matchesMParticleAudience(
+                getMParticleProfile,
+                test.mParticleAudience ?? undefined,
+            ))
+        ) {
+            const selectedVariant: HeaderVariant = selectVariantUsingMVT(test, targeting.mvtId);
 
-    // Failed to find a matching test, or the matching test has an empty variants Array
-    if (!selectedTest?.variants.length) {
-        return null;
+            return {
+                test,
+                variant: selectedVariant,
+                moduleName: selectedVariant.moduleName ?? moduleName,
+            };
+        }
     }
 
-    const selectedVariant: HeaderVariant = selectVariantUsingMVT(selectedTest, targeting.mvtId);
-
-    return {
-        test: selectedTest,
-        variant: selectedVariant,
-        moduleName: selectedVariant.moduleName ?? moduleName,
-    };
+    return null;
 };
 
 const getForcedVariant = (
@@ -406,16 +414,17 @@ const getForcedVariant = (
     return null;
 };
 
-export const selectHeaderTest = (
+export const selectHeaderTest = async (
     targeting: HeaderTargeting,
     configuredTests: HeaderTest[],
     userDeviceType: UserDeviceType,
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     forcedTestVariant?: TestVariant,
-): HeaderTestSelection | null => {
+): Promise<HeaderTestSelection | null> => {
     const allTests = [...configuredTests, ...hardcodedTests];
 
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, allTests);
     }
-    return selectBestTest(targeting, userDeviceType, allTests);
+    return selectBestTest(targeting, userDeviceType, allTests, getMParticleProfile);
 };
