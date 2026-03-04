@@ -32,6 +32,7 @@ import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
 import { shouldSuppressBannerForSectionDate } from '../utils/bannerSectionSuppression';
 import type { ValueProvider } from '../utils/valueReloader';
+import { AuxiaRouterConfig } from './auxiaProxyRouter';
 
 interface BannerDataResponse {
     data?: {
@@ -56,6 +57,7 @@ export const buildBannerRouter = (
     promotions: ValueProvider<PromotionsCache>,
     mParticle: MParticle,
     okta: Okta,
+    auxiaConfig: AuxiaRouterConfig,
 ): Router => {
     const router = Router();
 
@@ -92,6 +94,7 @@ export const buildBannerRouter = (
             getMParticleProfile,
             now,
             forcedTestVariant: params.force,
+            auxiaConfig,
         });
 
         if (selectedTest) {
