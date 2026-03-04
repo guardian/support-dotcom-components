@@ -12,6 +12,7 @@ import type {
 } from '../../shared/types';
 import { channelFromBannerChannel } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
+import type { Auxia } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -32,7 +33,6 @@ import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
 import { shouldSuppressBannerForSectionDate } from '../utils/bannerSectionSuppression';
 import type { ValueProvider } from '../utils/valueReloader';
-import type { AuxiaRouterConfig } from './auxiaProxyRouter';
 
 interface BannerDataResponse {
     data?: {
@@ -57,7 +57,7 @@ export const buildBannerRouter = (
     promotions: ValueProvider<PromotionsCache>,
     mParticle: MParticle,
     okta: Okta,
-    auxiaConfig: AuxiaRouterConfig,
+    auxia: Auxia,
 ): Router => {
     const router = Router();
 
@@ -94,7 +94,7 @@ export const buildBannerRouter = (
             getMParticleProfile,
             now,
             forcedTestVariant: params.force,
-            auxiaConfig,
+            auxia,
         });
 
         if (selectedTest) {
