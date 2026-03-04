@@ -18,10 +18,6 @@ const GetTreatmentsResponseSchema = z.object({
 
 type GetTreatmentsResponse = z.infer<typeof GetTreatmentsResponseSchema>;
 
-const TreatmentContentSchema = z.object({
-    show_banner: z.string(),
-});
-
 type ContextualAttribute =
     | { key: string; stringValue: string }
     | { key: string; boolValue: boolean }
@@ -102,15 +98,6 @@ export class Auxia {
         };
     }
 
-    private parseTreatmentContent(raw: string): z.infer<typeof TreatmentContentSchema> | undefined {
-        try {
-            const parsed = TreatmentContentSchema.safeParse(JSON.parse(raw));
-            return parsed.success ? parsed.data : undefined;
-        } catch {
-            return undefined;
-        }
-    }
-
     private async getTreatments(
         browserId: string,
         surface: string,
@@ -149,6 +136,8 @@ export class Auxia {
         browserId: string,
         attributes: GetTreatmentsAttributes,
     ): Promise<boolean> {
+        const BannerSuppressionContentSchema = z.object({ show_banner: z.string() });
+
         const response = await this.getTreatments(
             browserId,
             'SUPPORTER_REVENUE_BANNER',
@@ -159,7 +148,13 @@ export class Auxia {
             return false;
         }
 
-        const content = this.parseTreatmentContent(response.userTreatments[0].treatmentContent);
-        return content?.show_banner !== 'true';
+        try {
+            const parsed = BannerSuppressionContentSchema.safeParse(
+                JSON.parse(response.userTreatments[0].treatmentContent) as unknown,
+            );
+            return parsed.success && parsed.data.show_banner !== 'true';
+        } catch {
+            return false;
+        }
     }
 }
