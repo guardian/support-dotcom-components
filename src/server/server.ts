@@ -146,6 +146,7 @@ const buildApp = async (): Promise<Express> => {
             promotions,
             mParticle,
             okta,
+            auxiaConfig,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));
