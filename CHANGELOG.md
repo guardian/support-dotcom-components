@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.4.1
+
+### Patch Changes
+
+- ea0ccf7: Remove the deprecated `prices` field from `BannerProps`.
+
 ## 8.4.0
 
 ### Minor Changes
