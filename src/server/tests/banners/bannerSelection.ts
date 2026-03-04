@@ -9,6 +9,7 @@ import type {
 } from '../../../shared/types';
 import { uiIsDesign } from '../../../shared/types';
 import type { AuxiaRouterConfig } from '../../api/auxiaProxyRouter';
+import { isBannerSuppressedByAuxia } from '../../lib/auxia';
 import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
@@ -26,7 +27,6 @@ import {
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import type { BanditData } from '../../selection/banditData';
 import { selectVariant } from '../../selection/selectVariant';
-import { callAuxiaGetTreatments } from '../../lib/auxia';
 import type { ScheduledBannerDeploys } from './bannerDeploySchedule';
 import { defaultDeploySchedule, getLastScheduledDeploy } from './bannerDeploySchedule';
 import type { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
@@ -202,36 +202,6 @@ const matchesFrontsOnlyRequirement = (test: BannerTest, targeting: BannerTargeti
     return true;
 };
 
-const auxiaAllowsBanner = async (
-    browserId: string,
-    auxiaConfig: AuxiaRouterConfig,
-    targeting: BannerTargeting,
-): Promise<boolean> => {
-    const response = await callAuxiaGetTreatments({
-        apiKey: auxiaConfig.apiKey,
-        projectId: auxiaConfig.projectId,
-        surface: 'SUPPORTER_REVENUE_BANNER',
-        browserId,
-        isSupporter: !targeting.showSupportMessaging,
-        hasConsented: targeting.hasConsented,
-        countryCode: targeting.countryCode,
-        dailyArticleCount: targeting.articleCountToday ?? 0,
-        articleIdentifier: targeting.pageId ?? '',
-    });
-
-    if (!response || response.userTreatments.length === 0) {
-        return true;
-    }
-
-    const firstTreatment = response.userTreatments[0];
-    try {
-        const content = JSON.parse(firstTreatment.treatmentContent) as Record<string, unknown>;
-        return content['show_banner'] === 'true';
-    } catch {
-        return false;
-    }
-};
-
 interface SelectBannerTestData {
     targeting: BannerTargeting;
     userDeviceType: UserDeviceType;
@@ -272,10 +242,18 @@ export const selectBannerTest = async ({
         return null;
     }
 
-    const useAuxia = !!targeting.browserId;
-
-    if (useAuxia && targeting.browserId && !(await auxiaAllowsBanner(targeting.browserId, auxiaConfig, targeting))) {
-        return null;
+    // If we have a browserId then check if auxia wants us to suppress the banner
+    if (targeting.browserId) {
+        const isSuppressed = await isBannerSuppressedByAuxia(auxiaConfig, targeting.browserId, {
+            isSupporter: !targeting.showSupportMessaging,
+            hasConsented: targeting.hasConsented,
+            countryCode: targeting.countryCode,
+            dailyArticleCount: targeting.articleCountToday ?? 0,
+            articleIdentifier: targeting.pageId ?? '',
+        });
+        if (isSuppressed) {
+            return null;
+        }
     }
 
     for (const test of tests) {
@@ -299,8 +277,6 @@ export const selectBannerTest = async ({
             ) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
-            // don't call canShowBannerAgain if using auxia to decide (for channel 1 only)
-            !useAuxia &&
             canShowBannerAgain(targeting, test, bannerDeployTimes, now, deploySchedule) &&
             correctSignedInStatus(targeting.isSignedIn, test.signedInStatus) &&
             pageContextMatches(targeting, test.contextTargeting) &&

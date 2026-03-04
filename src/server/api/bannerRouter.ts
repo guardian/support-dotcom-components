@@ -31,7 +31,7 @@ import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
 import type { ValueProvider } from '../utils/valueReloader';
-import { AuxiaRouterConfig } from './auxiaProxyRouter';
+import type { AuxiaRouterConfig } from './auxiaProxyRouter';
 
 interface BannerDataResponse {
     data?: {
