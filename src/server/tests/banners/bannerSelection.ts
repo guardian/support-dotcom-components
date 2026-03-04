@@ -8,8 +8,7 @@ import type {
     UserDeviceType,
 } from '../../../shared/types';
 import { uiIsDesign } from '../../../shared/types';
-import type { AuxiaRouterConfig } from '../../api/auxiaProxyRouter';
-import { isBannerSuppressedByAuxia } from '../../lib/auxia';
+import type { Auxia } from '../../lib/auxia';
 import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
@@ -213,7 +212,7 @@ interface SelectBannerTestData {
     getMParticleProfile: () => Promise<MParticleProfile | undefined>;
     now: Date;
     forcedTestVariant?: TestVariant;
-    auxiaConfig: AuxiaRouterConfig;
+    auxia: Auxia;
 }
 
 export const selectBannerTest = async ({
@@ -227,7 +226,7 @@ export const selectBannerTest = async ({
     getMParticleProfile,
     now,
     forcedTestVariant,
-    auxiaConfig,
+    auxia,
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
@@ -244,7 +243,7 @@ export const selectBannerTest = async ({
 
     // If we have a browserId then check if auxia wants us to suppress the banner
     if (targeting.browserId) {
-        const isSuppressed = await isBannerSuppressedByAuxia(auxiaConfig, targeting.browserId, {
+        const isSuppressed = await auxia.isBannerSuppressed(targeting.browserId, {
             isSupporter: !targeting.showSupportMessaging,
             hasConsented: targeting.hasConsented,
             countryCode: targeting.countryCode,
