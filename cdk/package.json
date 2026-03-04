@@ -17,7 +17,7 @@
 		"@guardian/eslint-config": "^12.0.1",
 		"@guardian/prettier": "10.0.0",
 		"@types/jest": "^30.0.0",
-		"@types/node": "25.2.1",
+		"@types/node": "25.2.3",
 		"aws-cdk": "2.1005.0",
 		"aws-cdk-lib": "2.189.1",
 		"constructs": "10.4.5",
@@ -41,5 +41,11 @@
 		"setupFilesAfterEnv": [
 			"./jest.setup.js"
 		]
+	},
+	"pnpm": {
+		"overrides": {
+			"minimatch@>=9.0.0 <9.0.7": ">=9.0.7 <10",
+			"minimatch@<3.1.4": ">=3.1.4 <4"
+		}
 	}
 }

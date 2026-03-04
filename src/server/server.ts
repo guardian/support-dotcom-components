@@ -20,7 +20,6 @@ import {
     logging as loggingMiddleware,
 } from './middleware';
 import { buildProductCatalogReloader } from './productCatalog';
-import { buildProductPricesReloader } from './productPrices';
 import { buildBanditDataReloader } from './selection/banditData';
 import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
 import { buildBannerDesignsReloader } from './tests/banners/bannerDesigns';
@@ -81,7 +80,6 @@ const buildApp = async (): Promise<Express> => {
         liveblogEpicTests,
         choiceCardAmounts,
         tickerData,
-        productPrices,
         bannerTests,
         bannerDeployTimes,
         headerTests,
@@ -96,7 +94,6 @@ const buildApp = async (): Promise<Express> => {
         buildEpicLiveblogTestsReloader(),
         buildChoiceCardAmountsReloader(),
         buildTickerDataReloader(stage),
-        buildProductPricesReloader(),
         buildBannerTestsReloader(),
         buildBannerDeployTimesReloader(),
         buildHeaderTestsReloader(),
@@ -136,7 +133,6 @@ const buildApp = async (): Promise<Express> => {
         buildBannerRouter(
             channelSwitches,
             tickerData,
-            productPrices,
             bannerTests,
             bannerDeployTimes,
             choiceCardAmounts,
@@ -149,7 +145,7 @@ const buildApp = async (): Promise<Express> => {
             auxiaConfig,
         ),
     );
-    app.use(buildHeaderRouter(channelSwitches, headerTests));
+    app.use(buildHeaderRouter(channelSwitches, headerTests, mParticle, okta));
 
     app.use(buildAuxiaProxyRouter(channelSwitches, auxiaConfig));
 

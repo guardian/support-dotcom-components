@@ -227,8 +227,10 @@ const mockTestEmptyLocations: HeaderTest[] = [
 
 const userDeviceType = 'Desktop';
 
+const getMParticleProfile = () => Promise.resolve(undefined);
+
 describe('selectBestTest', () => {
-    it('It should return a non-UK non-supporter header test', () => {
+    it('It should return a non-UK non-supporter header test', async () => {
         // Mock targeting data: not a supporter, not in UK
         const mockTargetingObject_1: HeaderTargeting = {
             showSupportMessaging: true,
@@ -237,10 +239,11 @@ describe('selectBestTest', () => {
             isSignedIn: true,
         };
 
-        const result_1: HeaderTestSelection | null = selectBestTest(
+        const result_1: HeaderTestSelection | null = await selectBestTest(
             mockTargetingObject_1,
             userDeviceType,
             mockTests,
+            getMParticleProfile,
         );
         const result_1_test: HeaderTest | NullReturn = result_1
             ? result_1.test
@@ -256,7 +259,7 @@ describe('selectBestTest', () => {
         expect(result_1_variant).toHaveProperty('name');
         expect(result_1_variant.name).toBe('remote');
     });
-    it('It should return a non-UK supporter header test', () => {
+    it('It should return a non-UK supporter header test', async () => {
         // Mock targeting data: is a supporter, not in UK
         const mockTargetingObject_2: HeaderTargeting = {
             showSupportMessaging: false,
@@ -265,10 +268,11 @@ describe('selectBestTest', () => {
             isSignedIn: true,
         };
 
-        const result_2: HeaderTestSelection | null = selectBestTest(
+        const result_2: HeaderTestSelection | null = await selectBestTest(
             mockTargetingObject_2,
             userDeviceType,
             mockTests,
+            getMParticleProfile,
         );
         const result_2_test: HeaderTest | NullReturn = result_2
             ? result_2.test
@@ -284,7 +288,7 @@ describe('selectBestTest', () => {
         expect(result_2_variant).toHaveProperty('name');
         expect(result_2_variant.name).toBe('control');
     });
-    it('It should return a UK-based non-supporter header test', () => {
+    it('It should return a UK-based non-supporter header test', async () => {
         // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_3: HeaderTargeting = {
             showSupportMessaging: true,
@@ -293,10 +297,11 @@ describe('selectBestTest', () => {
             isSignedIn: true,
         };
 
-        const result_3: HeaderTestSelection | null = selectBestTest(
+        const result_3: HeaderTestSelection | null = await selectBestTest(
             mockTargetingObject_3,
             userDeviceType,
             mockTests,
+            getMParticleProfile,
         );
         const result_3_test: HeaderTest | NullReturn = result_3
             ? result_3.test
@@ -312,7 +317,7 @@ describe('selectBestTest', () => {
         expect(result_3_variant).toHaveProperty('name');
         expect(result_3_variant.name).toBe('remote');
     });
-    it('It should return a UK-based supporter header test', () => {
+    it('It should return a UK-based supporter header test', async () => {
         // Mock targeting data: is a supporter, is in UK
         const mockTargetingObject_4: HeaderTargeting = {
             showSupportMessaging: false,
@@ -321,10 +326,11 @@ describe('selectBestTest', () => {
             isSignedIn: true,
         };
 
-        const result_4: HeaderTestSelection | null = selectBestTest(
+        const result_4: HeaderTestSelection | null = await selectBestTest(
             mockTargetingObject_4,
             userDeviceType,
             mockTests,
+            getMParticleProfile,
         );
         const result_4_test: HeaderTest | NullReturn = result_4
             ? result_4.test
@@ -341,7 +347,7 @@ describe('selectBestTest', () => {
         expect(result_4_variant.name).toBe('control');
     });
 
-    it('All non-supporters should return a global locations test if encountered before a test that includes their region', () => {
+    it('All non-supporters should return a global locations test if encountered before a test that includes their region', async () => {
         // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_5: HeaderTargeting = {
             showSupportMessaging: true,
@@ -350,10 +356,11 @@ describe('selectBestTest', () => {
             isSignedIn: true,
         };
 
-        const result_5: HeaderTestSelection | null = selectBestTest(
+        const result_5: HeaderTestSelection | null = await selectBestTest(
             mockTargetingObject_5,
             userDeviceType,
             mockTestEmptyLocations,
+            getMParticleProfile,
         );
         const result_5_test: HeaderTest | NullReturn = result_5
             ? result_5.test
@@ -370,7 +377,7 @@ describe('selectBestTest', () => {
         expect(result_5_variant.name).toBe('remote');
     });
 
-    it('It should return a test matching a contribution from a new user', () => {
+    it('It should return a test matching a contribution from a new user', async () => {
         // Mock targeting data: recent supporter, new user
         const mockTargetingObject_6: HeaderTargeting = {
             showSupportMessaging: false,
@@ -383,7 +390,12 @@ describe('selectBestTest', () => {
             isSignedIn: false,
         };
 
-        const result_6 = selectBestTest(mockTargetingObject_6, userDeviceType, mockTests);
+        const result_6 = await selectBestTest(
+            mockTargetingObject_6,
+            userDeviceType,
+            mockTests,
+            getMParticleProfile,
+        );
         const result_6_test: HeaderTest | NullReturn = result_6
             ? result_6.test
             : testHasReturnedNull;
@@ -399,7 +411,7 @@ describe('selectBestTest', () => {
         expect(result_6_variant.name).toBe('control');
     });
 
-    it('It should return a test matching a subscription from an existing user', () => {
+    it('It should return a test matching a subscription from an existing user', async () => {
         // Mock targeting data: recent supporter, existing user
         const mockTargetingObject_7: HeaderTargeting = {
             showSupportMessaging: false,
@@ -412,7 +424,12 @@ describe('selectBestTest', () => {
             isSignedIn: false,
         };
 
-        const result_7 = selectBestTest(mockTargetingObject_7, userDeviceType, mockTests);
+        const result_7 = await selectBestTest(
+            mockTargetingObject_7,
+            userDeviceType,
+            mockTests,
+            getMParticleProfile,
+        );
         const result_7_test: HeaderTest | NullReturn = result_7
             ? result_7.test
             : testHasReturnedNull;
@@ -428,7 +445,7 @@ describe('selectBestTest', () => {
         expect(result_7_variant.name).toBe('control');
     });
 
-    it('It should ignore purchase information if user is signed in', () => {
+    it('It should ignore purchase information if user is signed in', async () => {
         // Mock targeting data: recent supporter, new user, now signed in
         const mockTargetingObject_8: HeaderTargeting = {
             showSupportMessaging: false,
@@ -441,7 +458,12 @@ describe('selectBestTest', () => {
             isSignedIn: true,
         };
 
-        const result_8 = selectBestTest(mockTargetingObject_8, userDeviceType, mockTests);
+        const result_8 = await selectBestTest(
+            mockTargetingObject_8,
+            userDeviceType,
+            mockTests,
+            getMParticleProfile,
+        );
         const result_8_test: HeaderTest | NullReturn = result_8
             ? result_8.test
             : testHasReturnedNull;
@@ -458,7 +480,7 @@ describe('selectBestTest', () => {
     });
 });
 
-it('It should select a header test based on isCountryTargetedForHeader logic', () => {
+it('It should select a header test based on isCountryTargetedForHeader logic', async () => {
     // Mock targeting data: not a supporter, in a non UK country
     const mockTargetingObject: HeaderTargeting = {
         showSupportMessaging: true,
@@ -467,10 +489,11 @@ it('It should select a header test based on isCountryTargetedForHeader logic', (
         isSignedIn: false,
     };
 
-    const result: HeaderTestSelection | null = selectBestTest(
+    const result: HeaderTestSelection | null = await selectBestTest(
         mockTargetingObject,
         userDeviceType,
         mockTests,
+        getMParticleProfile,
     );
     const result_test: HeaderTest | NullReturn = result ? result.test : testHasReturnedNull;
     const result_variant: HeaderVariant | NullReturn = result
@@ -521,87 +544,193 @@ describe('holdback group targeting', () => {
         ],
     };
 
-    it('returns null if user is not in holdback group and test is a HOLDBACK test', () => {
+    it('returns null if user is not in holdback group and test is a HOLDBACK test', async () => {
         const holdbackTest: HeaderTest = {
             ...baseTest,
             name: 'header-HOLDBACK-v1',
         };
 
-        const result = selectBestTest(
+        const result = await selectBestTest(
             { ...baseTargeting, inHoldbackGroup: false },
             userDeviceType,
             [holdbackTest],
+            getMParticleProfile,
         );
 
         expect(result).toBeNull();
     });
 
-    it('returns test if user is in holdback group and test is a HOLDBACK test', () => {
+    it('returns test if user is in holdback group and test is a HOLDBACK test', async () => {
         const holdbackTest: HeaderTest = {
             ...baseTest,
             name: 'header-HOLDBACK-v1',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: true }, userDeviceType, [
-            holdbackTest,
-        ]);
+        const result = await selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: true },
+            userDeviceType,
+            [holdbackTest],
+            getMParticleProfile,
+        );
 
         expect(result?.test.name).toBe('header-HOLDBACK-v1');
     });
 
-    it('returns null if user is in holdback group and test is NOT a HOLDBACK test', () => {
+    it('returns null if user is in holdback group and test is NOT a HOLDBACK test', async () => {
         const normalTest: HeaderTest = {
             ...baseTest,
             name: 'normal-header-test',
         };
 
-        const result = selectBestTest({ ...baseTargeting, inHoldbackGroup: true }, userDeviceType, [
-            normalTest,
-        ]);
+        const result = await selectBestTest(
+            { ...baseTargeting, inHoldbackGroup: true },
+            userDeviceType,
+            [normalTest],
+            getMParticleProfile,
+        );
 
         expect(result).toBeNull();
     });
 
-    it('returns test if user is not in holdback group and test is NOT a HOLDBACK test', () => {
+    it('returns test if user is not in holdback group and test is NOT a HOLDBACK test', async () => {
         const normalTest: HeaderTest = {
             ...baseTest,
             name: 'normal-header-test',
         };
 
-        const result = selectBestTest(
+        const result = await selectBestTest(
             { ...baseTargeting, inHoldbackGroup: false },
             userDeviceType,
             [normalTest],
+            getMParticleProfile,
         );
 
         expect(result?.test.name).toBe('normal-header-test');
     });
 
-    it('returns test if user has undefined inHoldbackGroup and test is NOT a HOLDBACK test', () => {
+    it('returns test if user has undefined inHoldbackGroup and test is NOT a HOLDBACK test', async () => {
         const normalTest: HeaderTest = {
             ...baseTest,
             name: 'normal-header-test',
         };
 
-        const result = selectBestTest(
+        const result = await selectBestTest(
             { ...baseTargeting, inHoldbackGroup: undefined },
             userDeviceType,
             [normalTest],
+            getMParticleProfile,
         );
 
         expect(result?.test.name).toBe('normal-header-test');
     });
 
-    it('returns null if user has undefined inHoldbackGroup and test is a HOLDBACK test', () => {
+    it('returns null if user has undefined inHoldbackGroup and test is a HOLDBACK test', async () => {
         const holdbackTest: HeaderTest = {
             ...baseTest,
             name: 'header-HOLDBACK-v1',
         };
 
-        const result = selectBestTest(
+        const result = await selectBestTest(
             { ...baseTargeting, inHoldbackGroup: undefined },
             userDeviceType,
             [holdbackTest],
+            getMParticleProfile,
+        );
+
+        expect(result).toBeNull();
+    });
+});
+
+describe('mParticleAudience targeting', () => {
+    const baseTargeting: HeaderTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'GB',
+        mvtId: 123456,
+        isSignedIn: false,
+    };
+
+    const baseTest: HeaderTest = {
+        channel: 'Header',
+        name: 'test',
+        priority: 1,
+        userCohort: 'Everyone',
+        status: 'Live',
+        locations: [],
+        regionTargeting: {
+            targetedCountryGroups: [],
+            targetedCountryCodes: [],
+        },
+        variants: [
+            {
+                name: 'control',
+                moduleName: 'Header',
+                content: {
+                    heading: 'Support the Guardian',
+                    subheading: 'Available for everyone, funded by readers',
+                    primaryCta: {
+                        baseUrl: 'https://support.theguardian.com/contribute',
+                        text: 'Contribute',
+                    },
+                },
+            },
+        ],
+    };
+
+    it('returns test if test has no mParticle audience', async () => {
+        const testWithoutAudience = { ...baseTest };
+
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [testWithoutAudience],
+            getMParticleProfile,
+        );
+
+        expect(result?.test.name).toBe('test');
+    });
+
+    it('returns null if test has mParticle audience but user profile is missing', async () => {
+        const testWithAudience = { ...baseTest, mParticleAudience: 123 };
+
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [testWithAudience],
+            getMParticleProfile,
+        );
+
+        expect(result).toBeNull();
+    });
+
+    it('returns test if test has mParticle audience and user profile matches', async () => {
+        const testWithAudience = { ...baseTest, mParticleAudience: 123 };
+        const matchingProfile = () =>
+            Promise.resolve({
+                audience_memberships: [{ audience_id: 123, audience_name: 'test' }],
+            });
+
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [testWithAudience],
+            matchingProfile,
+        );
+
+        expect(result?.test.name).toBe('test');
+    });
+
+    it('returns null if test has mParticle audience but user profile does not match', async () => {
+        const testWithAudience = { ...baseTest, mParticleAudience: 123 };
+        const nonMatchingProfile = () =>
+            Promise.resolve({
+                audience_memberships: [{ audience_id: 456, audience_name: 'test2' }],
+            });
+
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [testWithAudience],
+            nonMatchingProfile,
         );
 
         expect(result).toBeNull();

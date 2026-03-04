@@ -7,7 +7,6 @@ import type {
     BannerProps,
     BannerTargeting,
     BannerTest,
-    Prices,
     TestTracking,
     Tracking,
 } from '../../shared/types';
@@ -48,7 +47,6 @@ interface BannerDataResponse {
 export const buildBannerRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
     tickerData: TickerDataProvider,
-    productPrices: ValueProvider<Prices | undefined>,
     bannerTests: ValueProvider<BannerTest[]>,
     bannerDeployTimes: BannerDeployTimesProvider,
     choiceCardAmounts: ValueProvider<AmountsTests>,
@@ -150,7 +148,6 @@ export const buildBannerRouter = (
                 tickerSettings,
                 separateArticleCount: variant.separateArticleCount,
                 separateArticleCountSettings: variant.separateArticleCountSettings,
-                prices: productPrices.get(),
                 choiceCardsSettings,
                 choiceCardAmounts: variantAmounts, // deprecated, to be removed soon
                 design,

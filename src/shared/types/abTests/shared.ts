@@ -71,6 +71,7 @@ export interface Test<V extends Variant> {
     signedInStatus?: SignedInStatus;
     consentStatus?: ConsentStatus;
     methodologies?: Methodology[];
+    mParticleAudience?: number | null;
 }
 
 export const testSchema = z.object({
