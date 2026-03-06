@@ -27,7 +27,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             sectionId: 'uk-news',
             tagIds: ['type/article'],
             gateDismissCount: 0,
-            countryCode: 'FR', // <- [outside ireland]
+            countryCode: 'US', // <- [outside Auxia roll out]
             mvtId: 450_000, // <- [Guardian]
             should_show_legacy_gate_tmp: true,
             hasConsented: true, // <- [consented]
@@ -66,7 +66,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             sectionId: 'uk-news',
             tagIds: ['type/article'],
             gateDismissCount: 0,
-            countryCode: 'FR', // <- [outside ireland]
+            countryCode: 'US', // <- [outside Auxia roll out]
             mvtId: 450_000, // <- [Guardian]
             should_show_legacy_gate_tmp: true,
             hasConsented: true, // <- [consented]
@@ -105,7 +105,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             sectionId: 'uk-news',
             tagIds: ['type/article'],
             gateDismissCount: 6,
-            countryCode: 'FR', // <- [outside ireland]
+            countryCode: 'US', // <- [outside Auxia roll out]
             mvtId: 450_000, // <- [Guardian]
             should_show_legacy_gate_tmp: true,
             hasConsented: true, // <- [consented]
@@ -145,7 +145,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             sectionId: 'uk-news',
             tagIds: ['type/article'],
             gateDismissCount: 6,
-            countryCode: 'FR', // <- [outside ireland]
+            countryCode: 'US', // <- [outside Auxia roll out]
             mvtId: 150_000, // <- [Auxia]
             should_show_legacy_gate_tmp: true,
             hasConsented: true, // <- [consented]
