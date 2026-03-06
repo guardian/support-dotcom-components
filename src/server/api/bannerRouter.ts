@@ -12,6 +12,7 @@ import type {
 } from '../../shared/types';
 import { channelFromBannerChannel } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
+import type { Auxia } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -55,6 +56,7 @@ export const buildBannerRouter = (
     promotions: ValueProvider<PromotionsCache>,
     mParticle: MParticle,
     okta: Okta,
+    auxia: Auxia,
 ): Router => {
     const router = Router();
 
@@ -86,6 +88,7 @@ export const buildBannerRouter = (
             getMParticleProfile,
             now: new Date(),
             forcedTestVariant: params.force,
+            auxia,
         });
 
         if (selectedTest) {

@@ -8,6 +8,7 @@ import type {
     UserDeviceType,
 } from '../../../shared/types';
 import { uiIsDesign } from '../../../shared/types';
+import type { Auxia } from '../../lib/auxia';
 import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
@@ -211,6 +212,7 @@ interface SelectBannerTestData {
     getMParticleProfile: () => Promise<MParticleProfile | undefined>;
     now: Date;
     forcedTestVariant?: TestVariant;
+    auxia: Auxia;
 }
 
 export const selectBannerTest = async ({
@@ -224,6 +226,7 @@ export const selectBannerTest = async ({
     getMParticleProfile,
     now,
     forcedTestVariant,
+    auxia,
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
@@ -236,6 +239,20 @@ export const selectBannerTest = async ({
     const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);
     if (targetingTest && !targetingTest.canShow) {
         return null;
+    }
+
+    // If we have a browserId then check if auxia wants us to suppress the banner
+    if (targeting.browserId) {
+        const isSuppressed = await auxia.isBannerSuppressed(targeting.browserId, {
+            isSupporter: !targeting.showSupportMessaging,
+            hasConsented: targeting.hasConsented,
+            countryCode: targeting.countryCode,
+            dailyArticleCount: targeting.articleCountToday ?? 0,
+            articleIdentifier: targeting.pageId ?? '',
+        });
+        if (isSuppressed) {
+            return null;
+        }
     }
 
     for (const test of tests) {

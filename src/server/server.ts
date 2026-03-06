@@ -10,6 +10,7 @@ import { buildHeaderRouter } from './api/headerRouter';
 import { buildTickerRouter } from './api/tickerRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
+import { Auxia } from './lib/auxia';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { getMParticleConfig, MParticle } from './lib/mParticle';
 import { getOktaConfig, Okta } from './lib/okta';
@@ -106,6 +107,7 @@ const buildApp = async (): Promise<Express> => {
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
 
     const auxiaConfig = await getAuxiaRouterConfig();
+    const auxia = new Auxia(auxiaConfig);
 
     const mParticleConfig = await getMParticleConfig();
     const mParticle = new MParticle(mParticleConfig);
@@ -142,6 +144,7 @@ const buildApp = async (): Promise<Express> => {
             promotions,
             mParticle,
             okta,
+            auxia,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests, mParticle, okta));
