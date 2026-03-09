@@ -199,12 +199,12 @@ export const buildBannerRouter = (
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
                 const authHeader = req.headers.authorization;
-                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                const { fetchProfile, forLogging: mParticleStatus } = mParticle.getProfileFetcher(
                     channelSwitches.get(),
                     okta,
                     authHeader,
                 );
-                const { checkAuxiaSuppression, forLogging: auxiaForLogging } =
+                const { checkAuxiaSuppression, forLogging: auxiaStatus } =
                     auxia.getBannerSuppressedChecker();
 
                 const response = await buildBannerData(
@@ -218,9 +218,9 @@ export const buildBannerRouter = (
                 // for response logging
                 res.locals.didRenderBanner = !!response.data;
                 res.locals.hasAuthorization = !!authHeader;
-                res.locals.gotMParticleProfile = forLogging() === 'found';
-                res.locals.mParticleProfileStatus = forLogging();
-                res.locals.auxiaBannerStatus = auxiaForLogging();
+                res.locals.gotMParticleProfile = mParticleStatus() === 'found';
+                res.locals.mParticleProfileStatus = mParticleStatus();
+                res.locals.auxiaBannerStatus = auxiaStatus();
                 // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
                 res.locals.bannerTargeting = {
                     shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
