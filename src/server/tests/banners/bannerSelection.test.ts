@@ -1,13 +1,10 @@
 import type { BannerTargeting, BannerTest } from '../../../shared/types';
-import type { Auxia } from '../../lib/auxia';
 import type { BanditData } from '../../selection/banditData';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 
-const buildAuxiaMock = (isBannerSuppressed = false): Auxia =>
-    ({
-        isBannerSuppressed: jest.fn().mockResolvedValue(isBannerSuppressed),
-    }) as unknown as Auxia;
+const buildCheckAuxiaSuppressionMock = (isSuppressed = false) =>
+    jest.fn().mockResolvedValue(isSuppressed);
 
 const getBannerDeployTimesReloader = (date: string) =>
     new BannerDeployTimesProvider({
@@ -42,7 +39,7 @@ describe('selectBannerTest', () => {
     const enableScheduledDeploys = true;
 
     const getMParticleProfile = () => Promise.resolve(undefined);
-    const auxia = buildAuxiaMock();
+    const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
@@ -118,7 +115,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -143,7 +140,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -168,7 +165,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -193,7 +190,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -212,7 +209,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBeUndefined();
         });
@@ -231,7 +228,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -255,7 +252,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -274,7 +271,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -296,7 +293,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
             expect(result).toBe(null);
@@ -307,7 +304,7 @@ describe('selectBannerTest', () => {
         const now = new Date('2020-03-31T12:30:00');
 
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
-        const auxia = buildAuxiaMock();
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const targeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -377,7 +374,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -396,7 +393,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -420,7 +417,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -430,7 +427,7 @@ describe('selectBannerTest', () => {
         const now = new Date('2020-03-31T12:30:00');
 
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
-        const auxia = buildAuxiaMock();
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const baseTargeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -500,7 +497,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
         };
 
@@ -547,7 +544,7 @@ describe('selectBannerTest', () => {
         const now = new Date('2020-03-31T12:30:00');
 
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
-        const auxia = buildAuxiaMock();
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const targeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -620,7 +617,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('abandonedBasket');
         });
@@ -646,7 +643,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -663,7 +660,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -672,7 +669,7 @@ describe('selectBannerTest', () => {
     describe('frontsOnly targeting', () => {
         const now = new Date('2020-03-31T12:30:00');
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
-        const auxia = buildAuxiaMock();
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const targeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -737,7 +734,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -754,7 +751,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -772,7 +769,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -863,7 +860,7 @@ describe('selectBannerTest', () => {
     describe('holdback group targeting', () => {
         const now = new Date('2020-03-31T12:30:00');
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
-        const auxia = buildAuxiaMock();
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const baseTargeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -928,7 +925,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
             expect(result).toBeNull();
@@ -955,7 +952,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
             expect(result?.test.name).toBe('contribution-HOLDBACK-v1');
@@ -982,7 +979,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
             expect(result).toBeNull();
@@ -1009,7 +1006,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
             expect(result?.test.name).toBe('normal-contribution-test');
@@ -1036,7 +1033,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
             expect(result?.test.name).toBe('normal-contribution-test');
@@ -1063,7 +1060,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
             expect(result).toBeNull();
@@ -1134,7 +1131,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia: buildAuxiaMock(true),
+                checkAuxiaSuppression: buildCheckAuxiaSuppressionMock(true),
             });
 
             expect(result).toBeNull();
@@ -1152,15 +1149,14 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia: buildAuxiaMock(false),
+                checkAuxiaSuppression: buildCheckAuxiaSuppressionMock(false),
             });
 
             expect(result?.test.name).toBe('test');
         });
 
         it('does not call auxia when browserId is not present', async () => {
-            const isBannerSuppressed = jest.fn().mockResolvedValue(true);
-            const auxia = { isBannerSuppressed } as unknown as Auxia;
+            const checkAuxiaSuppression = jest.fn().mockResolvedValue(true);
 
             const result = await selectBannerTest({
                 targeting: { ...baseTargeting, browserId: undefined },
@@ -1173,16 +1169,15 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
-            expect(isBannerSuppressed).not.toHaveBeenCalled();
+            expect(checkAuxiaSuppression).not.toHaveBeenCalled();
             expect(result?.test.name).toBe('test');
         });
 
         it('calls auxia with the correct attributes', async () => {
-            const isBannerSuppressed = jest.fn().mockResolvedValue(false);
-            const auxia = { isBannerSuppressed } as unknown as Auxia;
+            const checkAuxiaSuppression = jest.fn().mockResolvedValue(false);
             const targeting: BannerTargeting = {
                 ...baseTargeting,
                 browserId: 'browser-id-abc',
@@ -1204,10 +1199,10 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
-                auxia,
+                checkAuxiaSuppression,
             });
 
-            expect(isBannerSuppressed).toHaveBeenCalledWith('browser-id-abc', {
+            expect(checkAuxiaSuppression).toHaveBeenCalledWith('browser-id-abc', {
                 isSupporter: true,
                 hasConsented: true,
                 countryCode: 'US',

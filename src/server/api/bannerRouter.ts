@@ -12,7 +12,7 @@ import type {
 } from '../../shared/types';
 import { channelFromBannerChannel } from '../../shared/types';
 import type { ChannelSwitches } from '../channelSwitches';
-import type { Auxia } from '../lib/auxia';
+import type { Auxia, GetTreatmentsAttributes } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -66,6 +66,10 @@ export const buildBannerRouter = (
         params: Params,
         req: express.Request,
         getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+        checkAuxiaSuppression: (
+            browserId: string,
+            attributes: GetTreatmentsAttributes,
+        ) => Promise<boolean>,
     ): Promise<BannerDataResponse> => {
         const { enableBanners, enableHardcodedBannerTests, enableScheduledBannerDeploys } =
             channelSwitches.get();
@@ -94,7 +98,7 @@ export const buildBannerRouter = (
             getMParticleProfile,
             now,
             forcedTestVariant: params.force,
-            auxia,
+            checkAuxiaSuppression,
         });
 
         if (selectedTest) {
@@ -197,14 +201,23 @@ export const buildBannerRouter = (
                     okta,
                     authHeader,
                 );
+                const { checkAuxiaSuppression, forLogging: auxiaForLogging } =
+                    auxia.getBannerSuppressedChecker();
 
-                const response = await buildBannerData(targeting, params, req, fetchProfile);
+                const response = await buildBannerData(
+                    targeting,
+                    params,
+                    req,
+                    fetchProfile,
+                    checkAuxiaSuppression,
+                );
 
                 // for response logging
                 res.locals.didRenderBanner = !!response.data;
                 res.locals.hasAuthorization = !!authHeader;
                 res.locals.gotMParticleProfile = forLogging() === 'found';
                 res.locals.mParticleProfileStatus = forLogging();
+                res.locals.auxiaBannerStatus = auxiaForLogging();
                 // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
                 res.locals.bannerTargeting = {
                     shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
