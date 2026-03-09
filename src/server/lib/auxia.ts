@@ -150,7 +150,7 @@ export class Auxia {
      * Returns whether Auxia decides the banner should be suppressed.
      * Defaults to false (i.e. allow banner) if the request fails or returns no treatments.
      */
-    async isBannerSuppressed(
+    private async isBannerSuppressed(
         browserId: string,
         attributes: GetTreatmentsAttributes,
     ): Promise<boolean> {
