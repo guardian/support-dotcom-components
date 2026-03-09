@@ -43,6 +43,8 @@ export interface GetTreatmentsAttributes {
     shouldServeDismissible?: boolean;
 }
 
+export type AuxiaBannerStatus = 'suppressed' | 'not-suppressed' | 'not-consulted';
+
 export class Auxia {
     private config: AuxiaRouterConfig;
 
@@ -145,7 +147,7 @@ export class Auxia {
     }
 
     /**
-     * Returns true if Auxia decides the banner should be suppressed, false otherwise.
+     * Returns whether Auxia decides the banner should be suppressed.
      * Defaults to false (i.e. allow banner) if the request fails or returns no treatments.
      */
     async isBannerSuppressed(
@@ -174,5 +176,33 @@ export class Auxia {
             putMetric('auxia-error');
             return false;
         }
+    }
+
+    /**
+     * Returns a checker function and a forLogging function, mirroring mParticle.getProfileFetcher.
+     * - checkSuppressed: calls isBannerSuppressed and captures the result for logging
+     * - forLogging: returns the cached status without making a request
+     */
+    getBannerSuppressedChecker(): {
+        checkAuxiaSuppression: (
+            browserId: string,
+            attributes: GetTreatmentsAttributes,
+        ) => Promise<boolean>;
+        forLogging: () => AuxiaBannerStatus;
+    } {
+        let cachedStatus: AuxiaBannerStatus = 'not-consulted';
+
+        const checkAuxiaSuppression = async (
+            browserId: string,
+            attributes: GetTreatmentsAttributes,
+        ): Promise<boolean> => {
+            const isSuppressed = await this.isBannerSuppressed(browserId, attributes);
+            cachedStatus = isSuppressed ? 'suppressed' : 'not-suppressed';
+            return isSuppressed;
+        };
+
+        const forLogging = (): AuxiaBannerStatus => cachedStatus;
+
+        return { checkAuxiaSuppression, forLogging };
     }
 }
