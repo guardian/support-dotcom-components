@@ -217,7 +217,7 @@ export const buildBannerRouter = (
                 res.locals.hasAuthorization = !!authHeader;
                 res.locals.gotMParticleProfile = mParticleStatus() === 'found';
                 res.locals.mParticleProfileStatus = mParticleStatus();
-                res.locals.auxiaBannerStatus = auxiaStatus();
+                res.locals.auxiaBannerSuppressionStatus = auxiaStatus();
                 // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
                 res.locals.bannerTargeting = {
                     shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
