@@ -117,10 +117,22 @@ export class Auxia {
                 body: JSON.stringify(payload),
             });
 
+            if (!response.ok) {
+                logError(`Auxia returned ${response.status}`);
+                putMetric('auxia-error');
+                return undefined;
+            }
+
             const body = (await response.json()) as unknown;
             const parsed = GetTreatmentsResponseSchema.safeParse(body);
 
-            if (!parsed.success || parsed.data.userTreatments.length === 0) {
+            if (!parsed.success) {
+                logError(`Failed to parse Auxia GetTreatments response: ${parsed.error.message}`);
+                putMetric('auxia-error');
+                return undefined;
+            }
+
+            if (parsed.data.userTreatments.length === 0) {
                 return undefined;
             }
 
