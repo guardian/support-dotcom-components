@@ -179,8 +179,8 @@ export class Auxia {
     }
 
     /**
-     * Returns a checker function and a forLogging function, mirroring mParticle.getProfileFetcher.
-     * - checkSuppressed: calls isBannerSuppressed and captures the result for logging
+     * Returns 2 functions:
+     * - checkAuxiaSuppression: calls isBannerSuppressed and captures the result for logging
      * - forLogging: returns the cached status without making a request
      */
     getBannerSuppressedChecker(): {
