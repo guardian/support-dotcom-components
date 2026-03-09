@@ -241,19 +241,7 @@ export const selectBannerTest = async ({
         return null;
     }
 
-    // If we have a browserId then check if auxia wants us to suppress the banner
-    if (targeting.browserId) {
-        const isSuppressed = await auxia.isBannerSuppressed(targeting.browserId, {
-            isSupporter: !targeting.showSupportMessaging,
-            hasConsented: targeting.hasConsented,
-            countryCode: targeting.countryCode,
-            dailyArticleCount: targeting.articleCountToday ?? 0,
-            articleIdentifier: targeting.pageId ?? '',
-        });
-        if (isSuppressed) {
-            return null;
-        }
-    }
+    let selection: BannerTestSelection | null = null;
 
     for (const test of tests) {
         const deploySchedule = enableScheduledDeploys
@@ -295,15 +283,34 @@ export const selectBannerTest = async ({
             );
 
             if (result) {
-                return {
+                selection = {
                     test: result.test,
                     variant: result.variant,
                     moduleName: getModuleNameForVariant(result.variant),
                     targetingAbTest: targetingTest ? targetingTest.test : undefined,
                 };
+                break;
             }
         }
     }
 
-    return null;
+    if (!selection) {
+        return null;
+    }
+
+    // If we have a browserId then check if auxia wants us to suppress the banner
+    if (targeting.browserId) {
+        const isSuppressed = await auxia.isBannerSuppressed(targeting.browserId, {
+            isSupporter: !targeting.showSupportMessaging,
+            hasConsented: targeting.hasConsented,
+            countryCode: targeting.countryCode,
+            dailyArticleCount: targeting.articleCountToday ?? 0,
+            articleIdentifier: targeting.pageId ?? '',
+        });
+        if (isSuppressed) {
+            return null;
+        }
+    }
+
+    return selection;
 };
