@@ -24,15 +24,20 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v6
 
-            - uses: pnpm/action-setup@v4
-              with:
-                version: latest
-
             - name: Use Node.js
               uses: actions/setup-node@v6
               with:
                   node-version-file: '.nvmrc'
                   cache: 'pnpm'
+
+            - name: Enable Corepack
+              run: corepack enable
+
+            - name: Debug package manager
+              run: |
+                node -v
+                corepack --version
+                pnpm --version
 
             - name: Test + build
               run: |
@@ -81,15 +86,20 @@ jobs:
                   fetch-depth: 0
                   persist-credentials: false
 
-            - uses: pnpm/action-setup@v4
-              with:
-                version: latest
-
             - name: Setup Node
               uses: actions/setup-node@v6
               with:
                   node-version-file: '.nvmrc'
                   cache: 'pnpm'
+
+            - name: Enable Corepack
+              run: corepack enable
+
+            - name: Debug package manager
+              run: |
+                node -v
+                corepack --version
+                pnpm --version
 
             # Ensure npm 11.5.1 or later is installed
             - name: Update npm
