@@ -30,6 +30,7 @@ import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTim
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
+import { shouldSuppressBannerForSectionDate } from '../utils/bannerSectionSuppression';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface BannerDataResponse {
@@ -66,12 +67,17 @@ export const buildBannerRouter = (
     ): Promise<BannerDataResponse> => {
         const { enableBanners, enableHardcodedBannerTests, enableScheduledBannerDeploys } =
             channelSwitches.get();
+        const now = new Date();
 
         if (!enableBanners) {
             return {};
         }
 
         if (pageIdIsExcluded(targeting)) {
+            return {};
+        }
+
+        if (shouldSuppressBannerForSectionDate(targeting.sectionId, now)) {
             return {};
         }
 
@@ -84,7 +90,7 @@ export const buildBannerRouter = (
             enableScheduledDeploys: enableScheduledBannerDeploys,
             banditData: banditData.get(),
             getMParticleProfile,
-            now: new Date(),
+            now,
             forcedTestVariant: params.force,
         });
 
