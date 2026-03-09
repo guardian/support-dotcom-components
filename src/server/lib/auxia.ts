@@ -1,5 +1,7 @@
 import { z } from 'zod';
 import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
+import { putMetric } from '../utils/cloudwatch';
+import { logError } from '../utils/logging';
 
 const UserTreatmentSchema = z.object({
     treatmentId: z.string(),
@@ -123,7 +125,9 @@ export class Auxia {
             }
 
             return parsed.data;
-        } catch {
+        } catch (error) {
+            logError(`Error fetching treatments from Auxia: ${String(error)}`);
+            putMetric('auxia-error');
             return undefined;
         }
     }
@@ -153,7 +157,9 @@ export class Auxia {
                 JSON.parse(response.userTreatments[0].treatmentContent) as unknown,
             );
             return parsed.success && parsed.data.show_banner !== 'true';
-        } catch {
+        } catch (error) {
+            logError(`Error parsing Auxia treatment content: ${String(error)}`);
+            putMetric('auxia-error');
             return false;
         }
     }
