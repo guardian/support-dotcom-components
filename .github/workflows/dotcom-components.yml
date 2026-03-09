@@ -36,11 +36,6 @@ jobs:
                   node-version-file: '.nvmrc'
                   cache: 'pnpm'
 
-            - name: Debug package manager
-              run: |
-                node -v
-                corepack --version
-                pnpm --version
 
             - name: Test + build
               run: |
@@ -101,11 +96,6 @@ jobs:
                   node-version-file: '.nvmrc'
                   cache: 'pnpm'
 
-            - name: Debug package manager
-              run: |
-                node -v
-                corepack --version
-                pnpm --version
 
             # Ensure npm 11.5.1 or later is installed
             - name: Update npm
