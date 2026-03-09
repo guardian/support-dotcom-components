@@ -13,9 +13,11 @@ const UserTreatmentSchema = z.object({
     surface: z.string(),
 });
 
+export type UserTreatment = z.infer<typeof UserTreatmentSchema>;
+
 const GetTreatmentsResponseSchema = z.object({
     responseId: z.string(),
-    userTreatments: z.array(UserTreatmentSchema),
+    userTreatments: z.array(UserTreatmentSchema).nullish(),
 });
 
 type GetTreatmentsResponse = z.infer<typeof GetTreatmentsResponseSchema>;
@@ -134,10 +136,6 @@ export class Auxia {
                 return undefined;
             }
 
-            if (parsed.data.userTreatments.length === 0) {
-                return undefined;
-            }
-
             return parsed.data;
         } catch (error) {
             logError(`Error fetching treatments from Auxia: ${String(error)}`);
@@ -167,10 +165,15 @@ export class Auxia {
         }
 
         try {
-            const parsed = BannerSuppressionContentSchema.safeParse(
-                JSON.parse(response.userTreatments[0].treatmentContent) as unknown,
-            );
-            return parsed.success && parsed.data.show_banner !== 'true';
+            if (response.userTreatments && response.userTreatments.length > 0) {
+                const parsed = BannerSuppressionContentSchema.safeParse(
+                    JSON.parse(response.userTreatments[0].treatmentContent) as unknown,
+                );
+                // Auxia gives us a field containing a boolean value in a string...
+                return parsed.success && parsed.data.show_banner !== 'true';
+            }
+            // No treatment - do not suppress
+            return false;
         } catch (error) {
             logError(`Error parsing Auxia treatment content: ${String(error)}`);
             putMetric('auxia-error');
