@@ -35,6 +35,11 @@ const pillSchema = z.object({
 
 const destinationSchema = z.union([z.literal('LandingPage'), z.literal('Checkout')]);
 
+const destinationTestSchema = z.object({
+    testName: z.string(),
+    variantName: z.string(),
+});
+
 const choiceCardSchema = z.object({
     product: productSchema,
     label: z.string(), // e.g. "Support $15/month"
@@ -43,6 +48,7 @@ const choiceCardSchema = z.object({
     benefits: z.array(productBenefitSchema),
     pill: pillSchema.nullish(),
     destination: destinationSchema.nullish(),
+    destinationTest: destinationTestSchema.nullish(),
 });
 
 export type ChoiceCard = z.infer<typeof choiceCardSchema>;
