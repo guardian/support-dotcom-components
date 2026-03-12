@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.4.2
+
+### Patch Changes
+
+- 01c57f8: destinationTest optional field added to choiceCard model
+
 ## 8.4.1
 
 ### Patch Changes
