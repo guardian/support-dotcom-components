@@ -178,6 +178,37 @@ describe('getChoiceCardsSettings', () => {
         expect(result?.choiceCards[0].destination).toEqual('Checkout');
     });
 
+    it('preserves destination test when provided', () => {
+        const variantChoiceCardSettings: ChoiceCardsSettings = {
+            choiceCards: [
+                {
+                    ...defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[0],
+                    destinationTest: {
+                        testName: 'dest_test',
+                        variantName: 'checkout_variant',
+                    },
+                },
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[1],
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
+            ],
+        };
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            [],
+            variantChoiceCardSettings,
+        );
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[0].destinationTest).toEqual({
+            testName: 'dest_test',
+            variantName: 'checkout_variant',
+        });
+    });
+
     it('returns choice cards with monthly discount (PROMO_B) applied', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
         const promoCodes: string[] = ['PROMO_B'];
