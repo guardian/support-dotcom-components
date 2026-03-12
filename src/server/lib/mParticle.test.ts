@@ -346,6 +346,7 @@ describe('MParticle.getProfileFetcher', () => {
         enableScheduledBannerDeploys: false,
         enableSuperMode: false,
         enableMParticle: true,
+        enableAuxiaForBanners: true,
     };
     let mockOkta: jest.Mocked<Okta>;
 

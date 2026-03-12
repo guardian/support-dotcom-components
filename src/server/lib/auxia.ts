@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
+import type { ChannelSwitches } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 
@@ -186,7 +187,7 @@ export class Auxia {
      * - checkAuxiaSuppression: calls isBannerSuppressed and captures the result for logging
      * - forLogging: returns the cached status without making a request
      */
-    getBannerSuppressedChecker(): {
+    getBannerSuppressedChecker(channelSwitches: ChannelSwitches): {
         checkAuxiaSuppression: (
             browserId: string,
             attributes: GetTreatmentsAttributes,
@@ -199,6 +200,9 @@ export class Auxia {
             browserId: string,
             attributes: GetTreatmentsAttributes,
         ): Promise<boolean> => {
+            if (!channelSwitches.enableAuxiaForBanners) {
+                return false;
+            }
             const isSuppressed = await this.isBannerSuppressed(browserId, attributes);
             cachedStatus = isSuppressed ? 'suppressed' : 'not-suppressed';
             return isSuppressed;
