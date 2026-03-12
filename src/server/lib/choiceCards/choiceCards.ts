@@ -96,6 +96,7 @@ const enrichChoiceCard = (
         benefits,
         pill,
         destination: choiceCard.destination,
+        destinationTest: choiceCard.destinationTest,
     };
 };
 
