@@ -13,7 +13,8 @@ export interface ChannelSwitches {
     enableScheduledBannerDeploys: boolean;
     enableGutterLiveblogs: boolean;
     enableMParticle: boolean;
-    enableAuxia: boolean;
+    enableAuxia: boolean; // for sign-in gates
+    enableAuxiaForBanners: boolean;
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>
