@@ -6,6 +6,7 @@ import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
 } from './channelBannerTests';
+import { noDefaultChoiceCardBannerTests } from './noDefaultChoiceCardBannerTest';
 import { signInPromptTests } from './signInPromptTests';
 
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
@@ -15,6 +16,7 @@ const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
     signInPromptTests,
+    noDefaultChoiceCardBannerTests,
 ];
 
 const getTests = (): Promise<BannerTest[]> =>

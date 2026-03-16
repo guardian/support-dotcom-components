@@ -85,13 +85,13 @@ const enrichChoiceCard = (
         }
         return choiceCard.pill;
     };
-
     const pill = buildPill();
 
     return {
         product: choiceCard.product,
         label,
         isDefault: choiceCard.isDefault,
+        defaultExpanded: choiceCard.defaultExpanded,
         benefitsLabel: choiceCard.benefitsLabel,
         benefits,
         pill,
