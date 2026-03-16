@@ -9,9 +9,7 @@ const choiceCardsSettings = {
             },
             label: '',
             isDefault: false,
-            benefits: [
-                { copy: 'Give to the Guardian every month with Support' },
-            ],
+            benefits: [{ copy: 'Give to the Guardian every month with Support' }],
             destination: 'LandingPage' as const,
         },
         {
@@ -40,9 +38,7 @@ const choiceCardsSettings = {
             },
             label: 'Support with another amount',
             isDefault: false,
-            benefits: [
-                { copy: 'We welcome support of any size, any time' },
-            ],
+            benefits: [{ copy: 'We welcome support of any size, any time' }],
             destination: 'LandingPage' as const,
         },
     ],
@@ -63,7 +59,7 @@ const baseNoDefaultChoiceCardVariant: Omit<BannerVariant, 'bannerContent'> = {
     name: 'Variant',
     template: { designName: 'ChoiceCardsBannerDesign' }, // We must provide a valid design configured in the tool that supports choice cards.
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-	choiceCardsSettings,
+    choiceCardsSettings,
 };
 
 const noDefaultChoiceCardBannerTest: BannerTest = {
@@ -75,7 +71,7 @@ const noDefaultChoiceCardBannerTest: BannerTest = {
             bannerContent: {
                 heading: 'Fund our independent journalism',
                 paragraphs: [
-                    'The Guardian\'s open, independent journalism has never been more important. We need the help of readers like you to keep it free and available for everyone. Please support us today.',
+                    "The Guardian's open, independent journalism has never been more important. We need the help of readers like you to keep it free and available for everyone. Please support us today.",
                 ],
                 cta: {
                     baseUrl: 'https://support.theguardian.com/contribute',

@@ -78,7 +78,7 @@ const hardcodedEpicTests: EpicTest[] = [
                 name: 'Control',
                 heading: 'Fund our independent journalism',
                 paragraphs: [
-                    'The Guardian\'s open, independent journalism has never been more important. We need the help of readers like you to keep it free and available for everyone. Please support us today.',
+                    "The Guardian's open, independent journalism has never been more important. We need the help of readers like you to keep it free and available for everyone. Please support us today.",
                 ],
                 showChoiceCards: true,
                 cta: {
@@ -90,7 +90,7 @@ const hardcodedEpicTests: EpicTest[] = [
                 name: 'Variant',
                 heading: 'Fund our independent journalism',
                 paragraphs: [
-                    'The Guardian\'s open, independent journalism has never been more important. We need the help of readers like you to keep it free and available for everyone. Please support us today.',
+                    "The Guardian's open, independent journalism has never been more important. We need the help of readers like you to keep it free and available for everyone. Please support us today.",
                 ],
                 showChoiceCards: true,
                 choiceCardsSettings: {
@@ -102,9 +102,7 @@ const hardcodedEpicTests: EpicTest[] = [
                             },
                             label: '',
                             isDefault: false,
-                            benefits: [
-                                { copy: 'Give to the Guardian every month with Support' },
-                            ],
+                            benefits: [{ copy: 'Give to the Guardian every month with Support' }],
                             destination: 'LandingPage',
                         },
                         {
@@ -133,12 +131,10 @@ const hardcodedEpicTests: EpicTest[] = [
                             },
                             label: 'Support with another amount',
                             isDefault: false,
-                            benefits: [
-                                { copy: 'We welcome support of any size, any time' },
-                            ],
+                            benefits: [{ copy: 'We welcome support of any size, any time' }],
                             destination: 'LandingPage',
                         },
-                    ]
+                    ],
                 },
                 cta: {
                     text: 'Continue',
