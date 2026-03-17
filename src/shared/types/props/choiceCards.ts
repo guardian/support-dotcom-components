@@ -44,6 +44,7 @@ const choiceCardSchema = z.object({
     product: productSchema,
     label: z.string(), // e.g. "Support $15/month"
     isDefault: z.boolean(), // default selected choice card
+    defaultExpanded: z.boolean().optional(), // whether this card should start expanded
     benefitsLabel: z.string().nullish(), // e.g. "Unlock All-access digital benefits:"
     benefits: z.array(productBenefitSchema),
     pill: pillSchema.nullish(),

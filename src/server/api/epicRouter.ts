@@ -147,6 +147,10 @@ export const buildEpicRouter = (
         );
         const isVatCompliantCountry = variantAmounts?.testName !== 'VAT_COMPLIANCE';
 
+        const forceNoDefault =
+            test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
+            variant.name.includes('_NO_DEFAULT_CHOICE_CARD_');
+
         const choiceCardsSettings =
             variant.showChoiceCards && isVatCompliantCountry
                 ? getChoiceCardsSettings(
@@ -156,6 +160,7 @@ export const buildEpicRouter = (
                       promotions.get(),
                       variant.promoCodes ?? [],
                       variant.choiceCardsSettings ?? undefined,
+                      forceNoDefault,
                   )
                 : undefined;
 
