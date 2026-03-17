@@ -119,6 +119,10 @@ export const buildBannerRouter = (
             );
             const isVatCompliantCountry = variantAmounts?.testName !== 'VAT_COMPLIANCE';
 
+            const forceNoDefault =
+                test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
+                variant.name.includes('_NO_DEFAULT_CHOICE_CARD_');
+
             const choiceCardsSettings =
                 design?.visual?.kind === 'ChoiceCards' && isVatCompliantCountry
                     ? getChoiceCardsSettings(
@@ -128,6 +132,7 @@ export const buildBannerRouter = (
                           promotions.get(),
                           variant.promoCodes ?? [],
                           variant.choiceCardsSettings ?? undefined,
+                          forceNoDefault,
                       )
                     : undefined;
 

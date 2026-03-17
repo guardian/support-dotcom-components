@@ -47,103 +47,7 @@ interface EpicDataResponse {
 }
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [
-    {
-        name: 'NoDefaultChoiceCardTest',
-        status: 'Live',
-        channel: 'Epic',
-        priority: 1,
-        alwaysAsk: false,
-        userCohort: 'Everyone',
-        hasCountryName: true,
-        highPriority: false,
-        useLocalViewLog: false,
-        hasArticleCountInCopy: false,
-        tagIds: [],
-        sections: [],
-        excludedTagIds: [],
-        excludedSections: [],
-        isSuperMode: false,
-        articlesViewedSettings: {
-            minViews: 0,
-            periodInWeeks: 52,
-        },
-        maxViews: {
-            maxViewsCount: 4,
-            maxViewsDays: 30,
-            minDaysBetweenViews: 0,
-        },
-        variants: [
-            {
-                name: 'Control',
-                heading: 'Fund our independent journalism',
-                paragraphs: [
-                    "The Guardian's open, independent journalism has never been more important. We need the help of readers like you to keep it free and available for everyone. Please support us today.",
-                ],
-                showChoiceCards: true,
-                cta: {
-                    text: 'Continue',
-                    baseUrl: 'https://support.theguardian.com/contribute',
-                },
-            },
-            {
-                name: 'Variant',
-                heading: 'Fund our independent journalism',
-                paragraphs: [
-                    "The Guardian's open, independent journalism has never been more important. We need the help of readers like you to keep it free and available for everyone. Please support us today.",
-                ],
-                showChoiceCards: true,
-                choiceCardsSettings: {
-                    choiceCards: [
-                        {
-                            product: {
-                                supportTier: 'Contribution',
-                                ratePlan: 'Monthly',
-                            },
-                            label: '',
-                            isDefault: false,
-                            benefits: [{ copy: 'Give to the Guardian every month with Support' }],
-                            destination: 'LandingPage',
-                        },
-                        {
-                            product: {
-                                supportTier: 'SupporterPlus',
-                                ratePlan: 'Monthly',
-                            },
-                            label: '',
-                            isDefault: false,
-                            benefitsLabel: 'Unlock <strong>All-access digital</strong> benefits:',
-                            benefits: [
-                                { copy: 'Far fewer asks for support' },
-                                { copy: 'Ad-free reading' },
-                                { copy: 'Unlimited access to the Guardian app' },
-                                { copy: 'Exclusive newsletter for supporters' },
-                                { copy: 'Unlimited access to the Feast App' },
-                            ],
-                            pill: {
-                                copy: 'Recommended',
-                            },
-                            destination: 'LandingPage',
-                        },
-                        {
-                            product: {
-                                supportTier: 'OneOff',
-                            },
-                            label: 'Support with another amount',
-                            isDefault: false,
-                            benefits: [{ copy: 'We welcome support of any size, any time' }],
-                            destination: 'LandingPage',
-                        },
-                    ],
-                },
-                cta: {
-                    text: 'Continue',
-                    baseUrl: 'https://support.theguardian.com/contribute',
-                },
-            },
-        ],
-    },
-];
+const hardcodedEpicTests: EpicTest[] = [];
 
 export const buildEpicRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
@@ -243,6 +147,10 @@ export const buildEpicRouter = (
         );
         const isVatCompliantCountry = variantAmounts?.testName !== 'VAT_COMPLIANCE';
 
+        const forceNoDefault =
+            test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
+            variant.name.includes('_NO_DEFAULT_CHOICE_CARD_');
+
         const choiceCardsSettings =
             variant.showChoiceCards && isVatCompliantCountry
                 ? getChoiceCardsSettings(
@@ -252,6 +160,7 @@ export const buildEpicRouter = (
                       promotions.get(),
                       variant.promoCodes ?? [],
                       variant.choiceCardsSettings ?? undefined,
+                      forceNoDefault,
                   )
                 : undefined;
 
