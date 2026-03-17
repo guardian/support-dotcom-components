@@ -77,11 +77,9 @@ export const selectAmountsTestVariant = (
         targetTestArray.sort((a, b) => a.order - b.order);
         targetTest = targetTestArray[0];
     }
-    if (!targetTest) {
-        targetTest = tests.find(
-            (t) => t.targeting.targetingType === 'Region' && t.targeting.region === countryGroupId,
-        );
-    }
+    targetTest ??= tests.find(
+        (t) => t.targeting.targetingType === 'Region' && t.targeting.region === countryGroupId,
+    );
 
     if (!targetTest) {
         return undefined;

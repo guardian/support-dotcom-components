@@ -36,7 +36,7 @@ const articleHasBeenViewedThisWeek = (localStorage: LocalStorage, pageId: string
         articleCountsThisWeekKey,
     ) as ArticleCountsThisWeek | null;
 
-    if (articleCounts && articleCounts.week === mondayThisWeek) {
+    if (articleCounts?.week === mondayThisWeek) {
         const currentCount = articleCounts.articles[pageId] || 0;
 
         localStorage.set(articleCountsThisWeekKey, {
