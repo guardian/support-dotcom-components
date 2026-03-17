@@ -228,21 +228,19 @@ export class MParticle {
         let cachedStatus: MParticleProfileStatus = 'not-fetched';
 
         const fetchProfile = async (): Promise<MParticleProfile | undefined> => {
-            if (!cachedPromise) {
-                cachedPromise = (async () => {
-                    if (!authHeader || !channelSwitches.enableMParticle) {
-                        return undefined;
-                    }
+            cachedPromise ??= (async () => {
+                if (!authHeader || !channelSwitches.enableMParticle) {
+                    return undefined;
+                }
 
-                    const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
-                    if (!identityId) {
-                        return undefined;
-                    }
-                    const profile = await this.getUserProfile(identityId);
-                    cachedStatus = profile ? 'found' : 'not-found';
-                    return profile;
-                })();
-            }
+                const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
+                if (!identityId) {
+                    return undefined;
+                }
+                const profile = await this.getUserProfile(identityId);
+                cachedStatus = profile ? 'found' : 'not-found';
+                return profile;
+            })();
             return cachedPromise;
         };
 

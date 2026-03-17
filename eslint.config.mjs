@@ -1,5 +1,9 @@
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import guardian from '@guardian/eslint-config';
 import globals from 'globals';
+
+const tsconfigRootDir = dirname(fileURLToPath(import.meta.url));
 
 export default [
     {
@@ -18,8 +22,7 @@ export default [
             ecmaVersion: 5,
             sourceType: 'commonjs',
             parserOptions: {
-                project: ['./tsconfig.json'],
-                tsconfigRootDir: './',
+                tsconfigRootDir,
             },
         },
         rules: {
@@ -32,7 +35,7 @@ export default [
             // We are using bulk suppressions so we can apply the rules now and fix existing failures later
             // https://eslint.org/blog/2025/04/introducing-bulk-suppressions/
 
-            // These are the rules that we may need to fix later see https://trello.com/c/lc8lG7Zj and https://typescript-eslint.io/rules/ 
+            // These are the rules that we may need to fix later see https://trello.com/c/lc8lG7Zj and https://typescript-eslint.io/rules/
             // '@typescript-eslint/await-thenable': 'off',
             // '@typescript-eslint/no-base-to-string': 'off',
             // '@typescript-eslint/no-floating-promise': 'off',
