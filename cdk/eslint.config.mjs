@@ -1,5 +1,9 @@
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import guardian from '@guardian/eslint-config';
 import globals from 'globals';
+
+const tsconfigRootDir = dirname(fileURLToPath(import.meta.url));
 
 export default [
 	{
@@ -15,8 +19,7 @@ export default [
 				...globals.node,
 			},
 			parserOptions: {
-				project: ['./tsconfig.json'],
-				tsconfigRootDir: './',
+				tsconfigRootDir,
 			},
 		},
 		rules: {
