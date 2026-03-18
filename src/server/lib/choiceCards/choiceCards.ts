@@ -65,6 +65,10 @@ const enrichChoiceCard = (
         copy: replaceCurrencyTemplate(benefit.copy, currencySymbol),
     }));
 
+    const benefitsLabel =
+        choiceCard.benefitsLabel &&
+        replaceCurrencyTemplate(choiceCard.benefitsLabel, currencySymbol);
+
     const buildPill = (): ChoiceCard['pill'] => {
         if (promotion) {
             return {
@@ -92,7 +96,7 @@ const enrichChoiceCard = (
         label,
         isDefault: choiceCard.isDefault,
         defaultExpanded: choiceCard.defaultExpanded,
-        benefitsLabel: choiceCard.benefitsLabel,
+        benefitsLabel,
         benefits,
         pill,
         destination: choiceCard.destination,
