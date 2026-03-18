@@ -43,6 +43,12 @@ const MParticleOAuthTokenSchema = z.object({
 });
 
 export type MParticleProfileStatus = 'found' | 'not-found' | 'not-fetched';
+const CACHE_TTL_SECONDS = 3600; // 1 hour
+
+type CacheEntry = {
+    profile: MParticleProfile | undefined;
+    expiry: number;
+};
 
 export const getMParticleConfig = async (): Promise<MParticleConfig> => {
     const stage = isProd ? 'PROD' : 'CODE';
@@ -70,6 +76,8 @@ export class MParticle {
     private rateLimitedUntil: number = 0; // timestamp when rate limit expires
     private backoffSeconds: number = 5; // initial backoff duration
     private maxBackoffSeconds: number = 60; // max backoff duration
+
+    private cache = new Map<string, CacheEntry>();
 
     constructor(config: MParticleConfig) {
         this.config = config;
@@ -136,8 +144,16 @@ export class MParticle {
     }
 
     async getUserProfile(identityId: string): Promise<MParticleProfile | undefined> {
+        const now = Date.now();
+
+        // Check cache
+        const cached = this.cache.get(identityId);
+        if (cached && now < cached.expiry) {
+            return cached.profile;
+        }
+
         // Check if we're currently rate-limited
-        if (Date.now() < this.rateLimitedUntil) {
+        if (now < this.rateLimitedUntil) {
             return undefined;
         }
 
@@ -183,7 +199,11 @@ export class MParticle {
             }
 
             if (response.status === 404) {
-                // User doesn't exist in mParticle
+                // User doesn't exist in mParticle - cache this result to avoid redundant requests
+                this.cache.set(identityId, {
+                    profile: undefined,
+                    expiry: now + CACHE_TTL_SECONDS * 1000,
+                });
                 return undefined;
             }
 
@@ -202,6 +222,12 @@ export class MParticle {
                 logError(`Failed to parse mParticle profile: ${parsed.error.message}`);
                 return undefined;
             }
+
+            // Store in cache
+            this.cache.set(identityId, {
+                profile: parsed.data,
+                expiry: now + CACHE_TTL_SECONDS * 1000,
+            });
 
             return parsed.data;
         } catch (error) {

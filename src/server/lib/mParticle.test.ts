@@ -146,10 +146,11 @@ describe('MParticle.getUserProfile backoff logic', () => {
         });
         await mParticle.getUserProfile('test-user-id');
 
+        // Use a different user ID to bypass the cache and test backoff reset
         (global.fetch as jest.Mock).mockResolvedValueOnce({
             status: 429,
         });
-        await mParticle.getUserProfile('test-user-id');
+        await mParticle.getUserProfile('test-user-id-2');
         const callCountAfter429 = (global.fetch as jest.Mock).mock.calls.length;
 
         await jest.advanceTimersByTimeAsync(6000);
@@ -159,7 +160,7 @@ describe('MParticle.getUserProfile backoff logic', () => {
                 audience_memberships: [],
             }),
         });
-        const result = await mParticle.getUserProfile('test-user-id');
+        const result = await mParticle.getUserProfile('test-user-id-2');
         expect((global.fetch as jest.Mock).mock.calls.length).toBeGreaterThan(callCountAfter429);
         expect(result).toBeDefined();
     });
@@ -510,5 +511,86 @@ describe('MParticle.getProfileFetcher', () => {
 
         expect(result).toBeUndefined();
         expect((global.fetch as jest.Mock).mock.calls.length).toBe(0);
+    });
+});
+
+describe('MParticle caching logic', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        jest.useFakeTimers();
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- mocking
+        jest.spyOn(MParticle.prototype as any, 'fetchAndScheduleToken').mockImplementation(
+            function (this: MParticle) {
+                this.setBearerToken('test-token');
+            },
+        );
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+        jest.restoreAllMocks();
+    });
+
+    it('should cache successful responses', async () => {
+        const mParticle = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        (global.fetch as jest.Mock).mockResolvedValue({
+            status: 200,
+            json: () => ({
+                audience_memberships: [{ audience_id: 123, audience_name: 'test-audience' }],
+            }),
+        });
+
+        const result1 = await mParticle.getUserProfile('test-user-id');
+        const result2 = await mParticle.getUserProfile('test-user-id');
+
+        expect(result1).toEqual(result2);
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    it('should cache 404 responses', async () => {
+        const mParticle = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        (global.fetch as jest.Mock).mockResolvedValue({
+            status: 404,
+        });
+
+        const result1 = await mParticle.getUserProfile('test-user-id');
+        const result2 = await mParticle.getUserProfile('test-user-id');
+
+        expect(result1).toBeUndefined();
+        expect(result2).toBeUndefined();
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    it('should expire cache after TTL', async () => {
+        const mParticle = new MParticle(mockConfig);
+        await jest.runAllTimersAsync();
+
+        (global.fetch as jest.Mock).mockResolvedValue({
+            status: 200,
+            json: () => ({
+                audience_memberships: [],
+            }),
+        });
+
+        await mParticle.getUserProfile('test-user-id');
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+
+        // Advance time by slightly more than 1 hour (3600 seconds)
+        await jest.advanceTimersByTimeAsync(3601 * 1000);
+
+        (global.fetch as jest.Mock).mockResolvedValue({
+            status: 200,
+            json: () => ({
+                audience_memberships: [],
+            }),
+        });
+
+        await mParticle.getUserProfile('test-user-id');
+        expect(global.fetch).toHaveBeenCalledTimes(2);
     });
 });
