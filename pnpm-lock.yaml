@@ -66,6 +66,9 @@ importers:
       log4js:
         specifier: ^6.3.0
         version: 6.9.1
+      node-cache:
+        specifier: ^5.1.2
+        version: 5.1.2
       seedrandom:
         specifier: ^3.0.5
         version: 3.0.5
@@ -127,6 +130,9 @@ importers:
       '@types/node':
         specifier: ^25.0.5
         version: 25.3.3
+      '@types/node-cache':
+        specifier: ^4.2.5
+        version: 4.2.5
       '@types/seedrandom':
         specifier: ^3.0.1
         version: 3.0.8
@@ -1717,6 +1723,10 @@ packages:
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
+  '@types/node-cache@4.2.5':
+    resolution: {integrity: sha512-faK2Owokboz53g8ooq2dw3iDJ6/HMTCIa2RvMte5WMTiABy+wA558K+iuyRtlR67Un5q9gEKysSDtqZYbSa0Pg==}
+    deprecated: This is a stub types definition. node-cache provides its own type definitions, so you do not need this installed.
+
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
@@ -2369,6 +2379,10 @@ packages:
 
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
+    engines: {node: '>=0.8'}
+
+  clone@2.1.2:
+    resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
     engines: {node: '>=0.8'}
 
   co@4.6.0:
@@ -3834,6 +3848,10 @@ packages:
   njwt@2.0.1:
     resolution: {integrity: sha512-HwFeZsPJ1aOhIjMjqT9Qv7BOsQbkxjRVPPSdFXNOTEkfKpr9+O6OX+dSN6TxxIErSYSqrmlDR4H2zOGOpEbZLA==}
     engines: {node: '>=12.0'}
+
+  node-cache@5.1.2:
+    resolution: {integrity: sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==}
+    engines: {node: '>= 8.0.0'}
 
   node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
@@ -7547,6 +7565,10 @@ snapshots:
 
   '@types/ms@2.1.0': {}
 
+  '@types/node-cache@4.2.5':
+    dependencies:
+      node-cache: 5.1.2
+
   '@types/node@12.20.55': {}
 
   '@types/node@15.14.9': {}
@@ -8285,6 +8307,8 @@ snapshots:
       shallow-clone: 3.0.1
 
   clone@1.0.4: {}
+
+  clone@2.1.2: {}
 
   co@4.6.0: {}
 
@@ -10030,6 +10054,10 @@ snapshots:
       '@types/node': 15.14.9
       ecdsa-sig-formatter: 1.0.11
       uuid: 8.3.2
+
+  node-cache@5.1.2:
+    dependencies:
+      clone: 2.1.2
 
   node-int64@0.4.0: {}
 

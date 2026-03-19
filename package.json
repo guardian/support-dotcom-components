@@ -48,6 +48,7 @@
         "@types/lodash.debounce": "^4.0.6",
         "@types/lodash.throttle": "^4.1.7",
         "@types/node": "^25.0.5",
+        "@types/node-cache": "^4.2.5",
         "@types/seedrandom": "^3.0.1",
         "babel-loader": "^10.0.0",
         "concurrently": "^9.2.1",
@@ -91,6 +92,7 @@
         "lodash.debounce": "^4.0.8",
         "lodash.throttle": "^4.1.1",
         "log4js": "^6.3.0",
+        "node-cache": "^5.1.2",
         "seedrandom": "^3.0.5",
         "zod": "4.3.6"
     },

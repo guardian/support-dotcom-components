@@ -45,7 +45,7 @@ describe('MParticle.getUserProfile backoff logic', () => {
 
     it('should return undefined and set backoff when receiving 429', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValueOnce({
             status: 429,
@@ -57,7 +57,7 @@ describe('MParticle.getUserProfile backoff logic', () => {
 
     it('should skip requests during backoff period', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValueOnce({
             status: 429,
@@ -75,7 +75,7 @@ describe('MParticle.getUserProfile backoff logic', () => {
 
     it('should allow requests after backoff period expires', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValueOnce({
             status: 429,
@@ -99,7 +99,7 @@ describe('MParticle.getUserProfile backoff logic', () => {
 
     it('should use exponential backoff', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         // Backoff is capped at 60 seconds
         const backoffPeriods = [5, 10, 20, 40, 60, 60];
@@ -123,7 +123,7 @@ describe('MParticle.getUserProfile backoff logic', () => {
 
     it('should reset backoff to 5 seconds after successful request', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValueOnce({
             status: 429,
@@ -380,7 +380,7 @@ describe('MParticle.getProfileFetcher', () => {
 
     it('should not fetch until fetchProfile is called (laziness)', async () => {
         const mp = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         const callCountBefore = (global.fetch as jest.Mock).mock.calls.length;
 
@@ -395,7 +395,7 @@ describe('MParticle.getProfileFetcher', () => {
 
     it('should memoize and only fetch once for multiple calls', async () => {
         const mp = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
 
@@ -416,7 +416,7 @@ describe('MParticle.getProfileFetcher', () => {
 
     it('should not fetch when forLogging is called without prior fetchProfile call', async () => {
         const mp = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         const { forLogging } = mp.getProfileFetcher(channelSwitches, mockOkta, 'Bearer token');
 
@@ -430,7 +430,7 @@ describe('MParticle.getProfileFetcher', () => {
 
     it('should return cached value when forLogging is called after fetchProfile', async () => {
         const mp = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         const { fetchProfile, forLogging } = mp.getProfileFetcher(
             channelSwitches,
@@ -449,7 +449,7 @@ describe('MParticle.getProfileFetcher', () => {
 
     it('should return "not-found" when profile fetch returns undefined', async () => {
         const mp = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValueOnce({
             status: 404,
@@ -470,7 +470,7 @@ describe('MParticle.getProfileFetcher', () => {
 
     it('should return undefined when authHeader is missing', async () => {
         const mp = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         const { fetchProfile } = mp.getProfileFetcher(channelSwitches, mockOkta, undefined);
 
@@ -482,7 +482,7 @@ describe('MParticle.getProfileFetcher', () => {
 
     it('should return undefined when enableMParticle is false', async () => {
         const mp = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         const { fetchProfile } = mp.getProfileFetcher(
             { ...channelSwitches, enableMParticle: false },
@@ -498,7 +498,7 @@ describe('MParticle.getProfileFetcher', () => {
 
     it('should return undefined when identityId cannot be retrieved', async () => {
         const mp = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         // @ts-expect-error -- no need to implement private members
         mockOkta = {
@@ -534,7 +534,7 @@ describe('MParticle caching logic', () => {
 
     it('should cache successful responses', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValue({
             status: 200,
@@ -552,7 +552,7 @@ describe('MParticle caching logic', () => {
 
     it('should cache 404 responses', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValue({
             status: 404,
@@ -568,7 +568,7 @@ describe('MParticle caching logic', () => {
 
     it('should expire cache after TTL', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.runAllTimersAsync();
+        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValue({
             status: 200,
