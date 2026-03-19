@@ -1,3 +1,4 @@
+import NodeCache from 'node-cache';
 import { z } from 'zod';
 import type { ChannelSwitches } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
@@ -47,7 +48,6 @@ const CACHE_TTL_SECONDS = 3600; // 1 hour
 
 type CacheEntry = {
     profile: MParticleProfile | undefined;
-    expiry: number;
 };
 
 export const getMParticleConfig = async (): Promise<MParticleConfig> => {
@@ -77,7 +77,11 @@ export class MParticle {
     private backoffSeconds: number = 5; // initial backoff duration
     private maxBackoffSeconds: number = 60; // max backoff duration
 
-    private cache = new Map<string, CacheEntry>();
+    private cache = new NodeCache({
+        stdTTL: CACHE_TTL_SECONDS,
+        deleteOnExpire: true,
+        maxKeys: 1000,
+    });
 
     constructor(config: MParticleConfig) {
         this.config = config;
@@ -144,16 +148,13 @@ export class MParticle {
     }
 
     async getUserProfile(identityId: string): Promise<MParticleProfile | undefined> {
-        const now = Date.now();
-
-        // Check cache
-        const cached = this.cache.get(identityId);
-        if (cached && now < cached.expiry) {
+        const cached = this.cache.get<CacheEntry>(identityId);
+        if (cached) {
             return cached.profile;
         }
 
         // Check if we're currently rate-limited
-        if (now < this.rateLimitedUntil) {
+        if (Date.now() < this.rateLimitedUntil) {
             return undefined;
         }
 
@@ -200,10 +201,7 @@ export class MParticle {
 
             if (response.status === 404) {
                 // User doesn't exist in mParticle - cache this result to avoid redundant requests
-                this.cache.set(identityId, {
-                    profile: undefined,
-                    expiry: now + CACHE_TTL_SECONDS * 1000,
-                });
+                this.cache.set(identityId, { profile: undefined });
                 return undefined;
             }
 
@@ -223,11 +221,7 @@ export class MParticle {
                 return undefined;
             }
 
-            // Store in cache
-            this.cache.set(identityId, {
-                profile: parsed.data,
-                expiry: now + CACHE_TTL_SECONDS * 1000,
-            });
+            this.cache.set(identityId, { profile: parsed.data });
 
             return parsed.data;
         } catch (error) {
