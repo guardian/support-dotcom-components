@@ -200,8 +200,7 @@ export class MParticle {
             }
 
             if (response.status === 404) {
-                // User doesn't exist in mParticle - cache this result to avoid redundant requests
-                this.cache.set(identityId, { profile: undefined });
+                // User doesn't exist in mParticle
                 return undefined;
             }
 
