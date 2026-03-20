@@ -43,7 +43,12 @@ const MParticleOAuthTokenSchema = z.object({
     expires_in: z.number(),
 });
 
-export type MParticleProfileStatus = 'found' | 'not-found' | 'not-fetched';
+export type MParticleProfileStatus =
+    | 'found'
+    | 'found-cached'
+    | 'not-found'
+    | 'not-found-cached'
+    | 'not-fetched';
 const CACHE_TTL_SECONDS = 3600; // 1 hour
 
 type CacheEntry = {
@@ -146,20 +151,25 @@ export class MParticle {
         this.bearerToken = token;
     }
 
-    async getUserProfile(identityId: string): Promise<MParticleProfile | undefined> {
+    async getUserProfile(
+        identityId: string,
+    ): Promise<{ profile: MParticleProfile | undefined; fromCache: boolean }> {
+        const miss = (profile?: MParticleProfile) => ({ profile, fromCache: false });
+        const hit = (profile?: MParticleProfile) => ({ profile, fromCache: true });
+
         // Check cache
         const cached = this.cache.get(identityId);
         if (cached) {
-            return cached.profile;
+            return hit(cached.profile);
         }
 
         // Check if we're currently rate-limited
         if (Date.now() < this.rateLimitedUntil) {
-            return undefined;
+            return miss();
         }
 
         if (!this.bearerToken) {
-            return undefined;
+            return miss();
         }
         const { orgId, accountId, workspaceId, environment_type } = this.config.userProfileEndpoint;
         const url = `https://api.mparticle.com/userprofile/v1/resolve/${orgId}/${accountId}/${workspaceId}?fields=user_attributes,audience_memberships`;
@@ -189,26 +199,26 @@ export class MParticle {
                     `mParticle returned a 429: backing off for ${this.backoffSeconds} seconds`,
                 );
                 putMetric('mparticle-rate-limiting');
-                return undefined;
+                return miss();
             }
 
             if (response.status === 401) {
                 // Unauthorized - refresh the bearer token now instead of waiting for next refresh
                 logError('mParticle returned a 401, refreshing bearer token now');
                 void this.refreshBearerToken();
-                return undefined;
+                return miss();
             }
 
             if (response.status === 404) {
                 // User doesn't exist in mParticle - cache this result to avoid redundant requests
                 this.cache.set(identityId, { profile: undefined });
-                return undefined;
+                return miss();
             }
 
             if (response.status !== 200) {
                 const data = await response.text();
                 logError(`mParticle returned ${response.status}: ${data}`);
-                return undefined;
+                return miss();
             }
 
             // Reset backoff on successful request
@@ -218,15 +228,15 @@ export class MParticle {
             const parsed = MParticleProfileSchema.safeParse(data);
             if (!parsed.success) {
                 logError(`Failed to parse mParticle profile: ${parsed.error.message}`);
-                return undefined;
+                return miss();
             }
 
             this.cache.set(identityId, { profile: parsed.data });
 
-            return parsed.data;
+            return miss(parsed.data);
         } catch (error) {
             logError(`Error fetching profile from mParticle. ${String(error)}`);
-            return undefined;
+            return miss();
         }
     }
 
@@ -257,8 +267,12 @@ export class MParticle {
                 if (!identityId) {
                     return undefined;
                 }
-                const profile = await this.getUserProfile(identityId);
-                cachedStatus = profile ? 'found' : 'not-found';
+                const { profile, fromCache } = await this.getUserProfile(identityId);
+                if (profile) {
+                    cachedStatus = fromCache ? 'found-cached' : 'found';
+                } else {
+                    cachedStatus = fromCache ? 'not-found-cached' : 'not-found';
+                }
                 return profile;
             })();
             return cachedPromise;
