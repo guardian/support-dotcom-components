@@ -593,8 +593,10 @@ describe('MParticle caching logic', () => {
             }),
         });
 
-        const { profile: profile1, fromCache: fromCache1 } = await mParticle.getUserProfile('test-user-id');
-        const { profile: profile2, fromCache: fromCache2 } = await mParticle.getUserProfile('test-user-id');
+        const { profile: profile1, fromCache: fromCache1 } =
+            await mParticle.getUserProfile('test-user-id');
+        const { profile: profile2, fromCache: fromCache2 } =
+            await mParticle.getUserProfile('test-user-id');
 
         expect(profile1).toEqual(profile2);
         expect(fromCache1).toBe(false);
@@ -610,8 +612,10 @@ describe('MParticle caching logic', () => {
             json: () => ({}),
         });
 
-        const { profile: profile1, fromCache: fromCache1 } = await mParticle.getUserProfile('test-user-id');
-        const { profile: profile2, fromCache: fromCache2 } = await mParticle.getUserProfile('test-user-id');
+        const { profile: profile1, fromCache: fromCache1 } =
+            await mParticle.getUserProfile('test-user-id');
+        const { profile: profile2, fromCache: fromCache2 } =
+            await mParticle.getUserProfile('test-user-id');
 
         expect(profile1).toBeUndefined();
         expect(profile2).toBeUndefined();
