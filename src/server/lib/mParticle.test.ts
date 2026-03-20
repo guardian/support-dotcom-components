@@ -51,8 +51,8 @@ describe('MParticle.getUserProfile backoff logic', () => {
             status: 429,
         });
 
-        const result = await mParticle.getUserProfile('test-user-id');
-        expect(result).toBeUndefined();
+        const { profile } = await mParticle.getUserProfile('test-user-id');
+        expect(profile).toBeUndefined();
     });
 
     it('should skip requests during backoff period', async () => {
@@ -68,8 +68,8 @@ describe('MParticle.getUserProfile backoff logic', () => {
 
         await jest.advanceTimersByTimeAsync(2000);
 
-        const result = await mParticle.getUserProfile('test-user-id');
-        expect(result).toBeUndefined();
+        const { profile } = await mParticle.getUserProfile('test-user-id');
+        expect(profile).toBeUndefined();
         expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountAfterFirst);
     });
 
@@ -92,9 +92,9 @@ describe('MParticle.getUserProfile backoff logic', () => {
             }),
         });
 
-        const result = await mParticle.getUserProfile('test-user-id');
-        expect(result).toBeDefined();
-        expect(result?.audience_memberships).toHaveLength(1);
+        const { profile } = await mParticle.getUserProfile('test-user-id');
+        expect(profile).toBeDefined();
+        expect(profile?.audience_memberships).toHaveLength(1);
     });
 
     it('should use exponential backoff', async () => {
@@ -113,7 +113,7 @@ describe('MParticle.getUserProfile backoff logic', () => {
             const callCountAfter429 = (global.fetch as jest.Mock).mock.calls.length;
 
             await jest.advanceTimersByTimeAsync((backoffPeriods[i] - 1) * 1000);
-            const resultDuringBackoff = await mParticle.getUserProfile('test-user-id');
+            const { profile: resultDuringBackoff } = await mParticle.getUserProfile('test-user-id');
             expect(resultDuringBackoff).toBeUndefined();
             expect((global.fetch as jest.Mock).mock.calls.length).toBe(callCountAfter429);
 
@@ -162,7 +162,7 @@ describe('MParticle.getUserProfile backoff logic', () => {
         });
         const result = await mParticle.getUserProfile('test-user-id-2');
         expect((global.fetch as jest.Mock).mock.calls.length).toBeGreaterThan(callCountAfter429);
-        expect(result).toBeDefined();
+        expect(result.profile).toBeDefined();
     });
 });
 
@@ -428,7 +428,7 @@ describe('MParticle.getProfileFetcher', () => {
         expect(result).toBe('not-fetched');
     });
 
-    it('should return cached value when forLogging is called after fetchProfile', async () => {
+    it('should return "found" when profile is fetched from API', async () => {
         const mp = new MParticle(mockConfig);
         await jest.advanceTimersByTimeAsync(0);
 
@@ -447,7 +447,30 @@ describe('MParticle.getProfileFetcher', () => {
         expect(loggingResult).toEqual('found');
     });
 
-    it('should return "not-found" when profile fetch returns undefined', async () => {
+    it('should return "found-cached" when profile is served from cache', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.advanceTimersByTimeAsync(0);
+
+        // Prime the cache with a first fetcher
+        const { fetchProfile: prime } = mp.getProfileFetcher(
+            channelSwitches,
+            mockOkta,
+            'Bearer token',
+        );
+        await prime();
+
+        // Second fetcher for the same identity will hit the cache
+        const { fetchProfile, forLogging } = mp.getProfileFetcher(
+            channelSwitches,
+            mockOkta,
+            'Bearer token',
+        );
+        await fetchProfile();
+
+        expect(forLogging()).toBe('found-cached');
+    });
+
+    it('should return "not-found" when profile fetch returns 404', async () => {
         const mp = new MParticle(mockConfig);
         await jest.advanceTimersByTimeAsync(0);
 
@@ -466,6 +489,33 @@ describe('MParticle.getProfileFetcher', () => {
 
         const loggingResult = forLogging();
         expect(loggingResult).toBe('not-found');
+    });
+
+    it('should return "not-found-cached" when a cached 404 is served', async () => {
+        const mp = new MParticle(mockConfig);
+        await jest.advanceTimersByTimeAsync(0);
+
+        (global.fetch as jest.Mock).mockResolvedValueOnce({
+            status: 404,
+        });
+
+        // Prime the cache with the 404
+        const { fetchProfile: prime } = mp.getProfileFetcher(
+            channelSwitches,
+            mockOkta,
+            'Bearer token',
+        );
+        await prime();
+
+        // Second fetcher for the same identity hits the cached 404
+        const { fetchProfile, forLogging } = mp.getProfileFetcher(
+            channelSwitches,
+            mockOkta,
+            'Bearer token',
+        );
+        const profile = await fetchProfile();
+        expect(profile).toBeUndefined();
+        expect(forLogging()).toBe('not-found-cached');
     });
 
     it('should return undefined when authHeader is missing', async () => {
@@ -543,10 +593,12 @@ describe('MParticle caching logic', () => {
             }),
         });
 
-        const result1 = await mParticle.getUserProfile('test-user-id');
-        const result2 = await mParticle.getUserProfile('test-user-id');
+        const { profile: profile1, fromCache: fromCache1 } = await mParticle.getUserProfile('test-user-id');
+        const { profile: profile2, fromCache: fromCache2 } = await mParticle.getUserProfile('test-user-id');
 
-        expect(result1).toEqual(result2);
+        expect(profile1).toEqual(profile2);
+        expect(fromCache1).toBe(false);
+        expect(fromCache2).toBe(true);
         expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
@@ -558,11 +610,13 @@ describe('MParticle caching logic', () => {
             json: () => ({}),
         });
 
-        const result1 = await mParticle.getUserProfile('test-user-id');
-        const result2 = await mParticle.getUserProfile('test-user-id');
+        const { profile: profile1, fromCache: fromCache1 } = await mParticle.getUserProfile('test-user-id');
+        const { profile: profile2, fromCache: fromCache2 } = await mParticle.getUserProfile('test-user-id');
 
-        expect(result1).toBeUndefined();
-        expect(result2).toBeUndefined();
+        expect(profile1).toBeUndefined();
+        expect(profile2).toBeUndefined();
+        expect(fromCache1).toBe(false);
+        expect(fromCache2).toBe(true);
         expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
@@ -597,7 +651,8 @@ describe('MParticle caching logic', () => {
             }),
         });
 
-        await mParticle.getUserProfile('test-user-id');
+        const { fromCache } = await mParticle.getUserProfile('test-user-id');
+        expect(fromCache).toBe(false);
         expect(global.fetch).toHaveBeenCalledTimes(2);
     });
 });
