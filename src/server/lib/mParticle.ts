@@ -1,4 +1,4 @@
-import NodeCache from 'node-cache';
+import { LRUCache } from 'lru-cache';
 import { z } from 'zod';
 import type { ChannelSwitches } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
@@ -77,10 +77,9 @@ export class MParticle {
     private backoffSeconds: number = 5; // initial backoff duration
     private maxBackoffSeconds: number = 60; // max backoff duration
 
-    private cache = new NodeCache({
-        stdTTL: CACHE_TTL_SECONDS,
-        deleteOnExpire: true,
-        maxKeys: 1000,
+    private cache = new LRUCache<string, CacheEntry>({
+        max: 1000,
+        ttl: CACHE_TTL_SECONDS * 1000,
     });
 
     constructor(config: MParticleConfig) {
@@ -148,7 +147,8 @@ export class MParticle {
     }
 
     async getUserProfile(identityId: string): Promise<MParticleProfile | undefined> {
-        const cached = this.cache.get<CacheEntry>(identityId);
+        // Check cache
+        const cached = this.cache.get(identityId);
         if (cached) {
             return cached.profile;
         }
@@ -200,7 +200,8 @@ export class MParticle {
             }
 
             if (response.status === 404) {
-                // User doesn't exist in mParticle
+                // User doesn't exist in mParticle - cache this result to avoid redundant requests
+                this.cache.set(identityId, { profile: undefined });
                 return undefined;
             }
 
