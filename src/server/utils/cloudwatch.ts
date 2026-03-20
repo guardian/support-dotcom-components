@@ -19,6 +19,7 @@ const ALL_METRICS = [
     'promotions-fetch-error',
     'access-token-verification-failure',
     'mparticle-rate-limiting',
+    'auxia-error',
 ] as const;
 type Metric = (typeof ALL_METRICS)[number];
 type MetricCache = Record<Metric, number>;

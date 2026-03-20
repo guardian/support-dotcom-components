@@ -169,7 +169,25 @@ export class DotcomComponents extends GuStack {
 				'Received 429 (Too Many Requests) response from mParticle API - backing off',
 			snsTopicName,
 			metric: new Metric({
-				metricName: 'promotions-fetch-error',
+				metricName: 'mparticle-rate-limiting',
+				namespace,
+				period: Duration.minutes(60),
+				statistic: 'sum',
+			}),
+			threshold: 1,
+			evaluationPeriods: 1,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			treatMissingData: TreatMissingData.NOT_BREACHING,
+		});
+
+		new GuAlarm(this, 'AuxiaError', {
+			app: appName,
+			alarmName: `support-${appName}: Auxia error - ${this.stage}`,
+			alarmDescription: 'Error fetching or parsing treatments from Auxia',
+			snsTopicName,
+			metric: new Metric({
+				metricName: 'auxia-error',
 				namespace,
 				period: Duration.minutes(60),
 				statistic: 'sum',

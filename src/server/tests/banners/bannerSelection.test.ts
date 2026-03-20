@@ -3,6 +3,9 @@ import type { BanditData } from '../../selection/banditData';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 
+const buildCheckAuxiaSuppressionMock = (isSuppressed = false) =>
+    jest.fn().mockResolvedValue(isSuppressed);
+
 const getBannerDeployTimesReloader = (date: string) =>
     new BannerDeployTimesProvider({
         contributions: {
@@ -36,6 +39,7 @@ describe('selectBannerTest', () => {
     const enableScheduledDeploys = true;
 
     const getMParticleProfile = () => Promise.resolve(undefined);
+    const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
@@ -111,6 +115,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -135,6 +140,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -159,6 +165,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -183,6 +190,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -201,6 +209,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBeUndefined();
         });
@@ -219,6 +228,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -242,6 +252,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -260,6 +271,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -281,6 +293,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
 
             expect(result).toBe(null);
@@ -291,6 +304,7 @@ describe('selectBannerTest', () => {
         const now = new Date('2020-03-31T12:30:00');
 
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const targeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -360,6 +374,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -378,6 +393,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -401,6 +417,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -410,6 +427,7 @@ describe('selectBannerTest', () => {
         const now = new Date('2020-03-31T12:30:00');
 
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const baseTargeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -479,6 +497,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
         };
 
@@ -525,6 +544,7 @@ describe('selectBannerTest', () => {
         const now = new Date('2020-03-31T12:30:00');
 
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const targeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -597,6 +617,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('abandonedBasket');
         });
@@ -622,6 +643,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -638,6 +660,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -646,6 +669,7 @@ describe('selectBannerTest', () => {
     describe('frontsOnly targeting', () => {
         const now = new Date('2020-03-31T12:30:00');
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const targeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -710,6 +734,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -726,6 +751,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result).toBe(null);
         });
@@ -743,6 +769,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
         });
@@ -833,6 +860,7 @@ describe('selectBannerTest', () => {
     describe('holdback group targeting', () => {
         const now = new Date('2020-03-31T12:30:00');
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
 
         const baseTargeting: BannerTargeting = {
             shouldHideReaderRevenue: false,
@@ -897,6 +925,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
 
             expect(result).toBeNull();
@@ -923,6 +952,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
 
             expect(result?.test.name).toBe('contribution-HOLDBACK-v1');
@@ -949,6 +979,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
 
             expect(result).toBeNull();
@@ -975,6 +1006,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
 
             expect(result?.test.name).toBe('normal-contribution-test');
@@ -1001,6 +1033,7 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
 
             expect(result?.test.name).toBe('normal-contribution-test');
@@ -1027,9 +1060,155 @@ describe('selectBannerTest', () => {
                 getMParticleProfile,
                 now,
                 forcedTestVariant: undefined,
+                checkAuxiaSuppression,
             });
 
             expect(result).toBeNull();
+        });
+    });
+
+    describe('Auxia banner suppression', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const bannerDeployTimes = getBannerDeployTimesReloader('Mon Jul 06 2020 19:20:10 GMT+0100');
+
+        const baseTargeting: BannerTargeting = {
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'GB',
+            hasOptedOutOfArticleCount: false,
+            contentType: 'Article',
+            isSignedIn: false,
+            hasConsented: true,
+            weeklyArticleHistory: [{ week: 18330, count: 6 }],
+        };
+
+        const test: BannerTest = {
+            channel: 'Banner1',
+            name: 'test',
+            priority: 1,
+            status: 'Live',
+            bannerChannel: 'contributions',
+            isHardcoded: false,
+            userCohort: 'Everyone',
+            variants: [
+                {
+                    name: 'variant',
+                    template: { designName: 'TEST_DESIGN' },
+                    bannerContent: {
+                        messageText: 'body',
+                        cta: {
+                            text: 'cta',
+                            baseUrl: 'https://support.theguardian.com',
+                        },
+                    },
+                    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                },
+            ],
+            locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
+        };
+
+        it('returns null when auxia suppresses the banner and browserId is present', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, browserId: 'browser-id-123' },
+                userDeviceType,
+                tests: [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests: true,
+                enableScheduledDeploys: true,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression: buildCheckAuxiaSuppressionMock(true),
+            });
+
+            expect(result).toBeNull();
+        });
+
+        it('returns test when auxia does not suppress the banner and browserId is present', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, browserId: 'browser-id-123' },
+                userDeviceType,
+                tests: [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests: true,
+                enableScheduledDeploys: true,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression: buildCheckAuxiaSuppressionMock(false),
+            });
+
+            expect(result?.test.name).toBe('test');
+        });
+
+        it('does not call auxia when browserId is not present', async () => {
+            const checkAuxiaSuppression = jest.fn().mockResolvedValue(true);
+
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, browserId: undefined },
+                userDeviceType,
+                tests: [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests: true,
+                enableScheduledDeploys: true,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+
+            expect(checkAuxiaSuppression).not.toHaveBeenCalled();
+            expect(result?.test.name).toBe('test');
+        });
+
+        it('calls auxia with the correct attributes', async () => {
+            const checkAuxiaSuppression = jest.fn().mockResolvedValue(false);
+            const targeting: BannerTargeting = {
+                ...baseTargeting,
+                browserId: 'browser-id-abc',
+                showSupportMessaging: false, // isSupporter = true
+                hasConsented: true,
+                countryCode: 'US',
+                articleCountToday: 3,
+                pageId: 'article/page-id',
+            };
+
+            await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests: [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests: true,
+                enableScheduledDeploys: true,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+
+            expect(checkAuxiaSuppression).toHaveBeenCalledWith('browser-id-abc', {
+                isSupporter: true,
+                hasConsented: true,
+                countryCode: 'US',
+                dailyArticleCount: 3,
+                articleIdentifier: 'article/page-id',
+            });
         });
     });
 });
