@@ -517,7 +517,8 @@ describe('MParticle.getProfileFetcher', () => {
 describe('MParticle caching logic', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        jest.useFakeTimers();
+        // Use real timers since lru-cache doesn't work well with fake timers
+        jest.useRealTimers();
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- mocking
         jest.spyOn(MParticle.prototype as any, 'fetchAndScheduleToken').mockImplementation(
@@ -534,7 +535,6 @@ describe('MParticle caching logic', () => {
 
     it('should cache successful responses', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.advanceTimersByTimeAsync(0);
 
         (global.fetch as jest.Mock).mockResolvedValue({
             status: 200,
@@ -550,9 +550,32 @@ describe('MParticle caching logic', () => {
         expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
-    it('should expire cache after TTL', async () => {
+    it('should cache 404 responses', async () => {
         const mParticle = new MParticle(mockConfig);
-        await jest.advanceTimersByTimeAsync(0);
+
+        (global.fetch as jest.Mock).mockResolvedValue({
+            status: 404,
+            json: () => ({}),
+        });
+
+        const result1 = await mParticle.getUserProfile('test-user-id');
+        const result2 = await mParticle.getUserProfile('test-user-id');
+
+        expect(result1).toBeUndefined();
+        expect(result2).toBeUndefined();
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    it('should expire cache after TTL', async () => {
+        // Create MParticle with a custom cache that has a short TTL
+        const mParticle = new MParticle(mockConfig);
+
+        // Replace the cache with one that has a short TTL for testing
+        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any -- Testing internal cache behavior with short TTL
+        (mParticle as any).cache = new (require('lru-cache').LRUCache)({
+            max: 1000,
+            ttl: 100, // 100ms TTL
+        });
 
         (global.fetch as jest.Mock).mockResolvedValue({
             status: 200,
@@ -564,8 +587,8 @@ describe('MParticle caching logic', () => {
         await mParticle.getUserProfile('test-user-id');
         expect(global.fetch).toHaveBeenCalledTimes(1);
 
-        // Advance time by slightly more than 1 hour (3600 seconds)
-        await jest.advanceTimersByTimeAsync(3601 * 1000);
+        // Wait for the cache to expire (100ms + a bit more)
+        await new Promise((resolve) => setTimeout(resolve, 150));
 
         (global.fetch as jest.Mock).mockResolvedValue({
             status: 200,
