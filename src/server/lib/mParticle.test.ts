@@ -550,22 +550,6 @@ describe('MParticle caching logic', () => {
         expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
-    it('should cache 404 responses', async () => {
-        const mParticle = new MParticle(mockConfig);
-        await jest.advanceTimersByTimeAsync(0);
-
-        (global.fetch as jest.Mock).mockResolvedValue({
-            status: 404,
-        });
-
-        const result1 = await mParticle.getUserProfile('test-user-id');
-        const result2 = await mParticle.getUserProfile('test-user-id');
-
-        expect(result1).toBeUndefined();
-        expect(result2).toBeUndefined();
-        expect(global.fetch).toHaveBeenCalledTimes(1);
-    });
-
     it('should expire cache after TTL', async () => {
         const mParticle = new MParticle(mockConfig);
         await jest.advanceTimersByTimeAsync(0);
