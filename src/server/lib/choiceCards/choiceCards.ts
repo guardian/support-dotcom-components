@@ -112,6 +112,7 @@ export const getChoiceCardsSettings = (
     promoCodes: string[],
     variantChoiceCardSettings?: ChoiceCardsSettings, // defined only if the test variant overrides the default settings
     forceNoDefault?: boolean,
+    forceExpanded?: boolean,
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
@@ -142,12 +143,12 @@ export const getChoiceCardsSettings = (
         return undefined;
     };
 
-    const maybeForceNoDefault = (card: ChoiceCard): ChoiceCard => {
-        if (forceNoDefault) {
+    const maybeForceCardSettings = (card: ChoiceCard): ChoiceCard => {
+        if (forceNoDefault || forceExpanded) {
             return {
                 ...card,
-                isDefault: false,
-                defaultExpanded: false,
+                isDefault: forceNoDefault ? false : card.isDefault,
+                defaultExpanded: forceExpanded ? true : card.defaultExpanded,
             };
         }
         return card;
@@ -157,12 +158,12 @@ export const getChoiceCardsSettings = (
         // Prepare the choice cards settings for rendering
         return {
             choiceCards: choiceCardsSettings.choiceCards.map((card) =>
-                maybeForceNoDefault(
+                maybeForceCardSettings(
                     enrichChoiceCard(card, isoCurrency, productCatalog, getPromotion(card)),
                 ),
             ),
             mobileChoiceCards: choiceCardsSettings.mobileChoiceCards?.map((card) =>
-                maybeForceNoDefault(
+                maybeForceCardSettings(
                     enrichChoiceCard(card, isoCurrency, productCatalog, getPromotion(card)),
                 ),
             ),

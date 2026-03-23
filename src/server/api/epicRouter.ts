@@ -151,6 +151,8 @@ export const buildEpicRouter = (
             test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
             variant.name.includes('_NO_DEFAULT_CHOICE_CARD_');
 
+        const forceExpanded = variant.name.includes('_NO_DEFAULT_CHOICE_CARD_');
+
         const choiceCardsSettings =
             variant.showChoiceCards && isVatCompliantCountry
                 ? getChoiceCardsSettings(
@@ -161,6 +163,7 @@ export const buildEpicRouter = (
                       variant.promoCodes ?? [],
                       variant.choiceCardsSettings ?? undefined,
                       forceNoDefault,
+                      forceExpanded,
                   )
                 : undefined;
 
