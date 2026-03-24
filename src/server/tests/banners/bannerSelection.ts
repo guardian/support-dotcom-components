@@ -307,8 +307,8 @@ export const selectBannerTest = async ({
             isSupporter: !targeting.showSupportMessaging,
             hasConsented: targeting.hasConsented,
             countryCode: targeting.countryCode,
-            dailyArticleCount: targeting.articleCountToday ?? 0,
-            articleIdentifier: targeting.pageId ?? '',
+            dailyArticleCount: targeting.articleCountToday ,
+            articleIdentifier: targeting.pageId,
         });
         if (isSuppressed) {
             return null;
