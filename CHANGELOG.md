@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 8.5.0
+
+### Minor Changes
+
+- cf0814e: Add isSensitive to EpicTargeting and BannerTargeting types
+
 ## 8.4.2
 
 ### Patch Changes
