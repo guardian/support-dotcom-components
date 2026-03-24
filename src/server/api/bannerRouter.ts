@@ -205,7 +205,7 @@ export const buildBannerRouter = (
                     authHeader,
                 );
                 const { checkAuxiaSuppression, forLogging: auxiaStatus } =
-                    auxia.getBannerSuppressedChecker(channelSwitches.get());
+                    auxia.getBannerSuppressedChecker(channelSwitches.get(), targeting.mvtId);
 
                 const response = await buildBannerData(
                     targeting,

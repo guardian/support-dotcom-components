@@ -48,6 +48,10 @@ export interface GetTreatmentsAttributes {
 
 export type AuxiaBannerStatus = 'suppressed' | 'not-suppressed' | 'not-consulted';
 
+// Use the mvtId (which has range 0 - 1,000,000) to rollout gradually
+const AUXIA_ROLLOUT_SHARE = 0.01 * 1_000_000;
+const inAuxiaAudience = (mvtId: number): boolean => mvtId < AUXIA_ROLLOUT_SHARE;
+
 export class Auxia {
     private config: AuxiaRouterConfig;
 
@@ -187,7 +191,10 @@ export class Auxia {
      * - checkAuxiaSuppression: calls isBannerSuppressed and captures the result for logging
      * - forLogging: returns the cached status without making a request
      */
-    getBannerSuppressedChecker(channelSwitches: ChannelSwitches): {
+    getBannerSuppressedChecker(
+        channelSwitches: ChannelSwitches,
+        mvtId: number,
+    ): {
         checkAuxiaSuppression: (
             browserId: string,
             attributes: GetTreatmentsAttributes,
@@ -201,6 +208,9 @@ export class Auxia {
             attributes: GetTreatmentsAttributes,
         ): Promise<boolean> => {
             if (!channelSwitches.enableAuxiaForBanners) {
+                return false;
+            }
+            if (!inAuxiaAudience(mvtId)) {
                 return false;
             }
             const isSuppressed = await this.isBannerSuppressed(browserId, attributes);
