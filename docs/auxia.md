@@ -2,7 +2,7 @@
 Auxia is a service that uses ML models to optimise messaging.
 
 We use it in support-dotcom-components. Currently there are two uses:
-- [Sign-in gate](auxia.md)
+- [Sign-in gate](signinGate.md)
 - Banners
 
 Audience data from our data lake is ingested into Auxia.
@@ -12,7 +12,7 @@ support-dotcom-components uses the API to find out if a message should be displa
 ## Uses
 
 ### Sign-in gate
-[See separate doc.](auxia.md)
+[See separate doc.](signinGate.md)
 
 ### Banners
 We are trialling using Auxia for banner decision making.
