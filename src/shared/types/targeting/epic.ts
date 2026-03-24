@@ -27,6 +27,7 @@ export type EpicTargeting = {
     isSignedIn?: boolean;
     pageId?: string;
     inHoldbackGroup?: boolean;
+    isSensitive?: boolean;
 };
 
 export type EpicPayload = {

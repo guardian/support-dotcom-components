@@ -23,6 +23,7 @@ export type BannerTargeting = {
     abandonedBasket?: AbandonedBasket;
     pageId?: string;
     inHoldbackGroup?: boolean;
+    isSensitive?: boolean;
 };
 
 export type BannerPayload = {

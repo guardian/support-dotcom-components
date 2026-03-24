@@ -9,5 +9,6 @@ export default (overrides?: Partial<EpicTargeting>): EpicTargeting => ({
     tags: [],
     showSupportMessaging: true,
     hasOptedOutOfArticleCount: false,
+    isSensitive: false,
     ...overrides,
 });
