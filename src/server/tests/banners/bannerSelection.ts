@@ -8,6 +8,7 @@ import type {
     UserDeviceType,
 } from '../../../shared/types';
 import { uiIsDesign } from '../../../shared/types';
+import type { GetTreatmentsAttributes } from '../../lib/auxia';
 import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
@@ -211,6 +212,10 @@ interface SelectBannerTestData {
     getMParticleProfile: () => Promise<MParticleProfile | undefined>;
     now: Date;
     forcedTestVariant?: TestVariant;
+    checkAuxiaSuppression: (
+        browserId: string,
+        attributes: GetTreatmentsAttributes,
+    ) => Promise<boolean>;
 }
 
 export const selectBannerTest = async ({
@@ -224,6 +229,7 @@ export const selectBannerTest = async ({
     getMParticleProfile,
     now,
     forcedTestVariant,
+    checkAuxiaSuppression,
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
@@ -237,6 +243,8 @@ export const selectBannerTest = async ({
     if (targetingTest && !targetingTest.canShow) {
         return null;
     }
+
+    let selection: BannerTestSelection | null = null;
 
     for (const test of tests) {
         const deploySchedule = enableScheduledDeploys
@@ -278,15 +286,34 @@ export const selectBannerTest = async ({
             );
 
             if (result) {
-                return {
+                selection = {
                     test: result.test,
                     variant: result.variant,
                     moduleName: getModuleNameForVariant(result.variant),
                     targetingAbTest: targetingTest ? targetingTest.test : undefined,
                 };
+                break;
             }
         }
     }
 
-    return null;
+    if (!selection) {
+        return null;
+    }
+
+    // If we have a browserId then check if auxia wants us to suppress the banner
+    if (targeting.browserId) {
+        const isSuppressed = await checkAuxiaSuppression(targeting.browserId, {
+            isSupporter: !targeting.showSupportMessaging,
+            hasConsented: targeting.hasConsented,
+            countryCode: targeting.countryCode,
+            dailyArticleCount: targeting.articleCountToday,
+            articleIdentifier: targeting.pageId,
+        });
+        if (isSuppressed) {
+            return null;
+        }
+    }
+
+    return selection;
 };

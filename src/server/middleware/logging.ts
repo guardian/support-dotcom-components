@@ -13,6 +13,7 @@ type LoggingLocals = {
     hasAuthorization?: boolean;
     gotMParticleProfile?: boolean;
     mParticleProfileStatus?: string;
+    auxiaBannerSuppressionStatus?: string;
 };
 
 export const logging = (
@@ -43,6 +44,7 @@ export const logging = (
             hasAuthorization: res.locals.hasAuthorization,
             gotMParticleProfile: res.locals.gotMParticleProfile,
             mParticleProfileStatus: res.locals.mParticleProfileStatus,
+            auxiaBannerSuppressionStatus: res.locals.auxiaBannerSuppressionStatus,
         });
     });
     next();
