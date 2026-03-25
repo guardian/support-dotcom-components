@@ -2,6 +2,7 @@ import { factories } from '../factories';
 import {
     audienceMatches,
     consentStatusMatches,
+    filterTestsForSensitiveContent,
     matchesMParticleAudience,
     pageContextMatches,
     shouldNotRenderEpic,
@@ -331,5 +332,46 @@ describe('matchesMParticleAudience', () => {
             });
         const result = await matchesMParticleAudience(getMParticleProfile, 99999);
         expect(result).toBe(false);
+    });
+});
+
+describe('filterTestsForSensitiveContent', () => {
+    interface TestItem {
+        name: string;
+        id: number;
+    }
+
+    const tests: TestItem[] = [
+        { name: 'FALLBACK_test', id: 1 },
+        { name: 'regular_test', id: 2 },
+        { name: 'another_FALLBACK', id: 3 },
+        { name: 'normal_test', id: 4 },
+    ];
+
+    it('should return all tests when isSensitive is undefined', () => {
+        const result = filterTestsForSensitiveContent(tests, undefined);
+        expect(result).toEqual(tests);
+    });
+
+    it('should return all tests when isSensitive is false', () => {
+        const result = filterTestsForSensitiveContent(tests, false);
+        expect(result).toEqual(tests);
+    });
+
+    it('should return only FALLBACK tests when isSensitive is true', () => {
+        const result = filterTestsForSensitiveContent(tests, true);
+        expect(result).toEqual([
+            { name: 'FALLBACK_test', id: 1 },
+            { name: 'another_FALLBACK', id: 3 },
+        ]);
+    });
+
+    it('should return empty array when no FALLBACK tests and isSensitive is true', () => {
+        const noFallbackTests: TestItem[] = [
+            { name: 'regular_test', id: 1 },
+            { name: 'another_test', id: 2 },
+        ];
+        const result = filterTestsForSensitiveContent(noFallbackTests, true);
+        expect(result).toEqual([]);
     });
 });
