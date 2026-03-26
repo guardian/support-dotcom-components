@@ -188,10 +188,12 @@ export const filterTestsForSensitiveContent = <T extends { name: string }>(
     tests: T[],
     isSensitive?: boolean,
 ): T[] => {
-    if (!isSensitive) {
-        return tests;
+    if (isSensitive === true) {
+        // When sensitive, only show FALLBACK tests
+        return tests.filter((t) => t.name.includes('FALLBACK'));
     }
-    return tests.filter((t) => t.name.includes('FALLBACK'));
+    // When not sensitive (false or undefined), exclude FALLBACK tests
+    return tests.filter((t) => !t.name.includes('FALLBACK'));
 };
 
 export const matchesMParticleAudience = async (
