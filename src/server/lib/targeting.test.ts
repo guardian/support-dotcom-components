@@ -348,20 +348,14 @@ describe('filterTestsForSensitiveContent', () => {
         { name: 'normal_test', id: 4 },
     ];
 
-    it('should exclude FALLBACK tests when isSensitive is undefined', () => {
+    it('should return all tests when isSensitive is undefined', () => {
         const result = filterTestsForSensitiveContent(tests, undefined);
-        expect(result).toEqual([
-            { name: 'regular_test', id: 2 },
-            { name: 'normal_test', id: 4 },
-        ]);
+        expect(result).toEqual(tests);
     });
 
-    it('should exclude FALLBACK tests when isSensitive is false', () => {
+    it('should return all tests when isSensitive is false', () => {
         const result = filterTestsForSensitiveContent(tests, false);
-        expect(result).toEqual([
-            { name: 'regular_test', id: 2 },
-            { name: 'normal_test', id: 4 },
-        ]);
+        expect(result).toEqual(tests);
     });
 
     it('should return only FALLBACK tests when isSensitive is true', () => {
@@ -372,12 +366,12 @@ describe('filterTestsForSensitiveContent', () => {
         ]);
     });
 
-    it('should return empty array when no non-FALLBACK tests and isSensitive is false', () => {
-        const onlyFallbackTests: TestItem[] = [
-            { name: 'FALLBACK_test', id: 1 },
-            { name: 'another_FALLBACK', id: 2 },
+    it('should return empty array when no FALLBACK tests and isSensitive is true', () => {
+        const noFallbackTests: TestItem[] = [
+            { name: 'regular_test', id: 1 },
+            { name: 'another_test', id: 2 },
         ];
-        const result = filterTestsForSensitiveContent(onlyFallbackTests, false);
+        const result = filterTestsForSensitiveContent(noFallbackTests, true);
         expect(result).toEqual([]);
     });
 });
