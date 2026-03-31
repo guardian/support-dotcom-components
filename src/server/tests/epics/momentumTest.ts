@@ -1,4 +1,4 @@
-import { subWeeks } from 'date-fns';
+import { subWeeks } from 'date-fns/subWeeks';
 import type { WeeklyArticleHistory, WeeklyArticleLog } from '../../../shared/types';
 import { getWeeksInWindow } from '../../lib/history';
 import { logger } from '../../utils/logging';

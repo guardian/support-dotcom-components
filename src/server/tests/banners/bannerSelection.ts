@@ -1,4 +1,5 @@
-import { isAfter, subDays } from 'date-fns';
+import { isAfter } from 'date-fns/isAfter';
+import { subDays } from 'date-fns/subDays';
 import { countryCodeToCountryGroupId, inTargetedCountry } from '../../../shared/lib';
 import type {
     BannerTargeting,

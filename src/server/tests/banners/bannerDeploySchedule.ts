@@ -1,4 +1,6 @@
-import { compareDesc, set, subDays } from 'date-fns';
+import { compareDesc } from 'date-fns/compareDesc';
+import { set } from 'date-fns/set';
+import { subDays } from 'date-fns/subDays';
 
 /**
  * Banner deploy schedule -
