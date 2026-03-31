@@ -1,6 +1,7 @@
 import type { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
-import { addDays, format } from 'date-fns';
+import { addDays } from 'date-fns/addDays';
+import { format } from 'date-fns/format';
 import type { CountryGroupId } from '../../shared/lib';
 import type { EpicTest } from '../../shared/types';
 import { putMetric } from '../utils/cloudwatch';
