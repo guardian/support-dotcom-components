@@ -9,7 +9,7 @@ This file contains the source of truth of the signin gate behavior. These are th
 - payload.shouldServeDismissible overrides everything else
 - Staff testing gate feature
 
-### Global, excluding Ireland + New Zealand and Australia
+### Global, excluding Ireland + New Zealand and Australia + Europe
 
 No gate display the first 3 page views
 
@@ -85,7 +85,7 @@ not in control |                                              |
 [02] use gu_hide_support_messaging cookie
 ```
 
-### Australia
+### Australia + Europe
 
 ```
                 ----------------------------------------------

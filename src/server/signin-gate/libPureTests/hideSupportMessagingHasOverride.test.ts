@@ -26,7 +26,7 @@ it('hideSupportMessagingHasOverride, undefined', () => {
         sectionId: 'uk-news',
         tagIds: ['type/article'],
         gateDismissCount: 0,
-        countryCode: 'FR', // <- [outside ireland]
+        countryCode: 'US', // <- [outside Auxia roll out]
         mvtId: 450_000, // <- [Guardian]
         should_show_legacy_gate_tmp: true,
         hasConsented: true, // <- [consented]
@@ -66,7 +66,7 @@ it('hideSupportMessagingHasOverride, defined, more than 30 days ago', () => {
         sectionId: 'uk-news',
         tagIds: ['type/article'],
         gateDismissCount: 0,
-        countryCode: 'FR', // <- [outside ireland]
+        countryCode: 'US', // <- [outside Auxia roll out]
         mvtId: 450_000, // <- [Guardian]
         should_show_legacy_gate_tmp: true,
         hasConsented: true, // <- [consented]
@@ -106,7 +106,7 @@ it('hideSupportMessagingHasOverride, defined, less than 30 days ago', () => {
         sectionId: 'uk-news',
         tagIds: ['type/article'],
         gateDismissCount: 0,
-        countryCode: 'FR', // <- [outside ireland]
+        countryCode: 'US', // <- [outside Auxia roll out]
         mvtId: 450_000, // <- [Guardian]
         should_show_legacy_gate_tmp: true,
         hasConsented: true, // <- [consented]
@@ -132,7 +132,7 @@ it('hideSupportMessagingHasOverride, defined, value in the future', () => {
         sectionId: 'uk-news',
         tagIds: ['type/article'],
         gateDismissCount: 0,
-        countryCode: 'FR', // <- [outside ireland]
+        countryCode: 'US', // <- [outside Auxia roll out]
         mvtId: 450_000, // <- [Guardian]
         should_show_legacy_gate_tmp: true,
         hasConsented: true, // <- [consented]
@@ -174,7 +174,7 @@ it('getTreatmentsRequestPayloadToGateType, without override', () => {
         sectionId: 'uk-news',
         tagIds: ['type/article'],
         gateDismissCount: 0,
-        countryCode: 'FR', // <- [outside ireland]
+        countryCode: 'US', // <- [outside Auxia roll out]
         mvtId: 450_000, // <- [Guardian]
         should_show_legacy_gate_tmp: true,
         hasConsented: true, // <- [consented]
@@ -214,7 +214,7 @@ it('getTreatmentsRequestPayloadToGateType, with override', () => {
         sectionId: 'uk-news',
         tagIds: ['type/article'],
         gateDismissCount: 0,
-        countryCode: 'FR', // <- [outside ireland]
+        countryCode: 'US', // <- [outside Auxia roll out]
         mvtId: 450_000, // <- [Guardian]
         should_show_legacy_gate_tmp: true,
         hasConsented: true, // <- [consented]
