@@ -21,6 +21,7 @@ import {
     consentStatusMatches,
     correctSignedInStatus,
     deviceTypeMatches,
+    filterTestsForSensitiveContent,
     matchesMParticleAudience,
     pageContextMatches,
 } from '../../lib/targeting';
@@ -217,6 +218,7 @@ interface SelectBannerTestData {
         browserId: string,
         attributes: GetTreatmentsAttributes,
     ) => Promise<boolean>;
+    isSensitive?: boolean;
 }
 
 export const selectBannerTest = async ({
@@ -231,6 +233,7 @@ export const selectBannerTest = async ({
     now,
     forcedTestVariant,
     checkAuxiaSuppression,
+    isSensitive,
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
@@ -247,7 +250,9 @@ export const selectBannerTest = async ({
 
     let selection: BannerTestSelection | null = null;
 
-    for (const test of tests) {
+    const filteredTests = filterTestsForSensitiveContent(tests, isSensitive);
+
+    for (const test of filteredTests) {
         const deploySchedule = enableScheduledDeploys
             ? (targetingTest?.deploySchedule ?? defaultDeploySchedule)
             : undefined;
