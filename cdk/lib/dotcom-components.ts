@@ -192,7 +192,7 @@ export class DotcomComponents extends GuStack {
 				period: Duration.minutes(60),
 				statistic: 'sum',
 			}),
-			threshold: 1,
+			threshold: 3,
 			evaluationPeriods: 1,
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,

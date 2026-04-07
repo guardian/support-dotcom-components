@@ -286,7 +286,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
             "Value": "TEST",
           },
         ],
-        "Threshold": 1,
+        "Threshold": 3,
         "TreatMissingData": "notBreaching",
       },
       "Type": "AWS::CloudWatch::Alarm",
