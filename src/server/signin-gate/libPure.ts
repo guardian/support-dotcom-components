@@ -389,7 +389,37 @@ export const getTreatmentsRequestPayloadToGateType = (
     }
 
     const isMandatoryRollout = payload.countryCode === 'IE' || payload.countryCode === 'NZ';
-    const isDismissibleRollout = payload.countryCode === 'AU';
+    const euCountries = [
+        'AT',
+        'BE',
+        'BG',
+        'CY',
+        'CZ',
+        'DE',
+        'DK',
+        'EE',
+        'ES',
+        'FI',
+        'FR',
+        'GR',
+        'HR',
+        'HU',
+        'IE',
+        'IT',
+        'LT',
+        'LU',
+        'LV',
+        'MT',
+        'NL',
+        'PL',
+        'PT',
+        'RO',
+        'SE',
+        'SI',
+        'SK',
+    ];
+    const isDismissibleRollout =
+        payload.countryCode === 'AU' || euCountries.includes(payload.countryCode);
 
     // --------------------------------------------------------------
     // We now move to the normal behavior of the gate
