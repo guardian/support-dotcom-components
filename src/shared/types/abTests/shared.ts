@@ -134,6 +134,11 @@ export interface TargetingAbTest {
     variantName: string;
 }
 
+export interface AuxiaTracking {
+    treatmentId: string;
+    treatmentTrackingId: string;
+}
+
 export type TestTracking = {
     abTestName: string;
     abTestVariant: string;
@@ -143,6 +148,7 @@ export type TestTracking = {
     products?: OphanProduct[];
     labels?: string[];
     targetingAbTest?: TargetingAbTest;
+    auxia?: AuxiaTracking;
 };
 
 export interface PurchaseInfoTest {

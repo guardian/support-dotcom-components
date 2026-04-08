@@ -21,4 +21,6 @@ In the first experiment we ask Auxia whether or not to suppress the banner. If A
 
 The decision is made based on the browserId and other contextual information.
 
+If Auxia is consulted and a banner is returned then we also track events on the client using Auxia's `LogTreatmentInteraction` endpoint. We proxy these requests via `/banner/interaction`.
+
 See [auxia.ts](../src/server/lib/auxia.ts) for implementation.
