@@ -99,7 +99,6 @@ export const buildBannerRouter = (
             now,
             forcedTestVariant: params.force,
             checkAuxiaSuppression,
-            isSensitive: targeting.isSensitive,
         });
 
         if (selectedTest) {

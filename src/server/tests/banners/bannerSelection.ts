@@ -217,7 +217,6 @@ interface SelectBannerTestData {
         browserId: string,
         attributes: GetTreatmentsAttributes,
     ) => Promise<boolean>;
-    isSensitive?: boolean;
 }
 
 export const selectBannerTest = async ({
@@ -232,7 +231,6 @@ export const selectBannerTest = async ({
     now,
     forcedTestVariant,
     checkAuxiaSuppression,
-    isSensitive,
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
@@ -249,7 +247,7 @@ export const selectBannerTest = async ({
 
     let selection: BannerTestSelection | null = null;
 
-    const filteredTests = filterTestsForSensitiveContent(tests, isSensitive);
+    const filteredTests = filterTestsForSensitiveContent(tests, targeting.isSensitive);
 
     for (const test of filteredTests) {
         const deploySchedule = enableScheduledDeploys
