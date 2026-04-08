@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { AuxiaTracking } from '../../shared/types';
 import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
 import type { ChannelSwitches } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
@@ -45,6 +46,8 @@ export interface GetTreatmentsAttributes {
     articleIdentifier?: string;
     shouldServeDismissible?: boolean;
 }
+
+export type AuxiaInteractionType = 'VIEWED' | 'CLICKED' | 'SNOOZED' | 'DISMISSED';
 
 export type AuxiaBannerStatus = 'suppressed' | 'not-suppressed' | 'not-consulted';
 
@@ -150,13 +153,17 @@ export class Auxia {
     }
 
     /**
-     * Returns whether Auxia decides the banner should be suppressed.
-     * Defaults to false (i.e. allow banner) if the request fails or returns no treatments.
+     * Checks whether Auxia wants the banner to be suppressed.
+     * Returns:
+     * - `suppressed`, a boolean indicating whether the banner should be suppressed.
+     * - `treatment`, an object with Auxia ids for tracking *if* Auxia does not suppress the banner.
+     *
+     * Defaults to not suppressed if the request fails or returns no treatments.
      */
-    private async isBannerSuppressed(
+    private async checkBannerSuppression(
         browserId: string,
         attributes: GetTreatmentsAttributes,
-    ): Promise<boolean> {
+    ): Promise<{ suppressed: boolean; treatment?: AuxiaTracking }> {
         const BannerSuppressionContentSchema = z.object({ show_banner: z.string() });
 
         const response = await this.getTreatments(
@@ -166,30 +173,80 @@ export class Auxia {
         );
 
         if (!response) {
-            return false;
+            return { suppressed: false };
         }
 
         try {
             if (response.userTreatments && response.userTreatments.length > 0) {
+                const userTreatment = response.userTreatments[0];
                 const parsed = BannerSuppressionContentSchema.safeParse(
-                    JSON.parse(response.userTreatments[0].treatmentContent) as unknown,
+                    JSON.parse(userTreatment.treatmentContent) as unknown,
                 );
-                // Auxia gives us a field containing a boolean value in a string...
-                return parsed.success && parsed.data.show_banner !== 'true';
+                const suppressed = parsed.success && parsed.data.show_banner !== 'true';
+                if (suppressed) {
+                    return { suppressed: true };
+                }
+                return {
+                    suppressed: false,
+                    treatment: {
+                        treatmentId: userTreatment.treatmentId,
+                        treatmentTrackingId: userTreatment.treatmentTrackingId,
+                    },
+                };
             }
             // No treatment - do not suppress
-            return false;
+            return { suppressed: false };
         } catch (error) {
             logError(`Error parsing Auxia treatment content: ${String(error)}`);
             putMetric('auxia-error');
-            return false;
+            return { suppressed: false };
         }
     }
 
     /**
-     * Returns 2 functions:
-     * - checkAuxiaSuppression: calls isBannerSuppressed and captures the result for logging
+     * Proxies a LogTreatmentInteraction request to Auxia.
+     */
+    async logTreatmentInteraction(params: {
+        browserId: string;
+        treatmentTrackingId: string;
+        treatmentId: string;
+        surface: string;
+        interactionType: AuxiaInteractionType;
+        interactionTimeMicros: number;
+    }): Promise<void> {
+        try {
+            const response = await fetch('https://apis.auxia.io/v1/LogTreatmentInteraction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': this.config.apiKey,
+                },
+                body: JSON.stringify({
+                    projectId: this.config.projectId,
+                    userId: params.browserId,
+                    treatmentTrackingId: params.treatmentTrackingId,
+                    treatmentId: params.treatmentId,
+                    surface: params.surface,
+                    interactionType: params.interactionType,
+                    interactionTimeMicros: params.interactionTimeMicros,
+                }),
+            });
+
+            if (!response.ok) {
+                logError(`Auxia LogTreatmentInteraction returned ${response.status}`);
+                putMetric('auxia-error');
+            }
+        } catch (error) {
+            logError(`Error calling Auxia LogTreatmentInteraction: ${String(error)}`);
+            putMetric('auxia-error');
+        }
+    }
+
+    /**
+     * Returns 3 functions:
+     * - checkAuxiaSuppression: calls checkBannerSuppression and captures the result for logging
      * - forLogging: returns the cached status without making a request
+     * - getTreatment: returns the cached auxia treatment data (if banner was not suppressed)
      */
     getBannerSuppressedChecker(
         channelSwitches: ChannelSwitches,
@@ -200,8 +257,10 @@ export class Auxia {
             attributes: GetTreatmentsAttributes,
         ) => Promise<boolean>;
         forLogging: () => AuxiaBannerStatus;
+        getTreatment: () => AuxiaTracking | undefined;
     } {
         let cachedStatus: AuxiaBannerStatus = 'not-consulted';
+        let cachedTreatment: AuxiaTracking | undefined = undefined;
 
         const checkAuxiaSuppression = async (
             browserId: string,
@@ -213,13 +272,15 @@ export class Auxia {
             if (!inAuxiaAudience(mvtId)) {
                 return false;
             }
-            const isSuppressed = await this.isBannerSuppressed(browserId, attributes);
-            cachedStatus = isSuppressed ? 'suppressed' : 'not-suppressed';
-            return isSuppressed;
+            const result = await this.checkBannerSuppression(browserId, attributes);
+            cachedStatus = result.suppressed ? 'suppressed' : 'not-suppressed';
+            cachedTreatment = result.treatment;
+            return result.suppressed;
         };
 
         const forLogging = (): AuxiaBannerStatus => cachedStatus;
+        const getTreatment = (): AuxiaTracking | undefined => cachedTreatment;
 
-        return { checkAuxiaSuppression, forLogging };
+        return { checkAuxiaSuppression, forLogging, getTreatment };
     }
 }
