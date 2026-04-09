@@ -32,11 +32,16 @@ const emptyExclusions: ExclusionSettings = {};
 
 const getExclusions = async (): Promise<ExclusionSettings> => {
     try {
-        const data = await fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/exclusions.json`);
+        const data = await fetchS3Data(
+            'support-admin-console',
+            `${isProd ? 'PROD' : 'CODE'}/exclusions.json`,
+        );
         const parsed = JSON.parse(data) as ExclusionSettings;
         return parsed;
     } catch (error) {
-        logWarn(`Failed to load exclusions config from S3: ${String(error)}. Proceeding with no exclusions.`);
+        logWarn(
+            `Failed to load exclusions config from S3: ${String(error)}. Proceeding with no exclusions.`,
+        );
         return emptyExclusions;
     }
 };
