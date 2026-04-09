@@ -20,7 +20,6 @@ import {
     consentStatusMatches,
     correctSignedInStatus,
     deviceTypeMatches,
-    filterTestsForSensitiveContent,
     matchesMParticleAudience,
     pageContextMatches,
 } from '../../lib/targeting';
@@ -247,9 +246,7 @@ export const selectBannerTest = async ({
 
     let selection: BannerTestSelection | null = null;
 
-    const filteredTests = filterTestsForSensitiveContent(tests, targeting.isSensitive);
-
-    for (const test of filteredTests) {
+    for (const test of tests) {
         const deploySchedule = enableScheduledDeploys
             ? (targetingTest?.deploySchedule ?? defaultDeploySchedule)
             : undefined;
