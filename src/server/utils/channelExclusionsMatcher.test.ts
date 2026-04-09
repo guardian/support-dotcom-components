@@ -100,16 +100,12 @@ describe('inExclusions', () => {
 
         expect(
             inExclusions(frontTargeting, {
-                rules: [
-                    { name: 'both-content-types', contentTypes: ['Fronts', 'Articles'] },
-                ],
+                rules: [{ name: 'both-content-types', contentTypes: ['Fronts', 'Articles'] }],
             }),
         ).toBe(true);
         expect(
             inExclusions(articleTargeting, {
-                rules: [
-                    { name: 'both-content-types', contentTypes: ['Fronts', 'Articles'] },
-                ],
+                rules: [{ name: 'both-content-types', contentTypes: ['Fronts', 'Articles'] }],
             }),
         ).toBe(true);
     });
