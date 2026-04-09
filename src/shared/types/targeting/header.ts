@@ -8,6 +8,9 @@ export interface HeaderTargeting {
     purchaseInfo?: PurchaseInfo;
     isSignedIn: boolean;
     inHoldbackGroup?: boolean;
+    tagIds?: string[];
+    sectionId?: string;
+    isFront?: boolean;
 }
 
 export type HeaderPayload = {
