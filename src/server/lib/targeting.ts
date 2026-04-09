@@ -184,6 +184,16 @@ export const pageIdIsExcluded = (
     return targeting.pageId ? excludedPageIds.has(targeting.pageId) : false;
 };
 
+export const filterTestsForSensitiveContent = <T extends { name: string }>(
+    tests: T[],
+    isSensitive?: boolean,
+): T[] => {
+    if (!isSensitive) {
+        return tests;
+    }
+    return tests.filter((t) => t.name.includes('FALLBACK'));
+};
+
 export const matchesMParticleAudience = async (
     getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     mParticleAudience?: number,

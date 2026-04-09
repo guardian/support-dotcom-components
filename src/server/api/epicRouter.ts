@@ -24,7 +24,7 @@ import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
 import type { SuperModeArticle } from '../lib/superMode';
-import { pageIdIsExcluded } from '../lib/targeting';
+import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildEpicCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
@@ -110,7 +110,7 @@ export const buildEpicRouter = (
         const result = params.force
             ? findForcedTestAndVariant(tests, params.force)
             : await findTestAndVariant(
-                  tests,
+                  filterTestsForSensitiveContent(tests, targeting.isSensitive),
                   targeting,
                   getDeviceType(req, params),
                   enableSuperMode ? superModeArticles.get() : [],

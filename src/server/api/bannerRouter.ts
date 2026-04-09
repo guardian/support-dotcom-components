@@ -22,7 +22,7 @@ import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
-import { pageIdIsExcluded } from '../lib/targeting';
+import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
@@ -87,10 +87,15 @@ export const buildBannerRouter = (
             return {};
         }
 
+        const filteredTests = filterTestsForSensitiveContent(
+            bannerTests.get(),
+            targeting.isSensitive,
+        );
+
         const selectedTest = await selectBannerTest({
             targeting,
             userDeviceType: getDeviceType(req, params),
-            tests: bannerTests.get(),
+            tests: filteredTests,
             bannerDeployTimes,
             enableHardcodedBannerTests,
             enableScheduledDeploys: enableScheduledBannerDeploys,
