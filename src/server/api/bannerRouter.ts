@@ -11,6 +11,7 @@ import type {
     Tracking,
 } from '../../shared/types';
 import { channelFromBannerChannel } from '../../shared/types';
+import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
 import type { Auxia, GetTreatmentsAttributes } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
@@ -31,7 +32,7 @@ import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTim
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
-import { shouldSuppressBannerForSectionDate } from '../utils/bannerSectionSuppression';
+import { inExclusions } from '../utils/channelExclusionsMatcher';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface BannerDataResponse {
@@ -58,6 +59,7 @@ export const buildBannerRouter = (
     mParticle: MParticle,
     okta: Okta,
     auxia: Auxia,
+    channelExclusions: ValueProvider<ExclusionSettings>,
 ): Router => {
     const router = Router();
 
@@ -73,7 +75,7 @@ export const buildBannerRouter = (
     ): Promise<BannerDataResponse> => {
         const { enableBanners, enableHardcodedBannerTests, enableScheduledBannerDeploys } =
             channelSwitches.get();
-        const now = new Date();
+        const channelExclusionsData = channelExclusions.get();
 
         if (!enableBanners) {
             return {};
@@ -83,7 +85,7 @@ export const buildBannerRouter = (
             return {};
         }
 
-        if (shouldSuppressBannerForSectionDate(targeting.sectionId, now)) {
+        if (inExclusions(targeting, channelExclusionsData.banner)) {
             return {};
         }
 
@@ -96,7 +98,7 @@ export const buildBannerRouter = (
             enableScheduledDeploys: enableScheduledBannerDeploys,
             banditData: banditData.get(),
             getMParticleProfile,
-            now,
+            now: new Date(),
             forcedTestVariant: params.force,
             checkAuxiaSuppression,
         });
