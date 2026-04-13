@@ -1,18 +1,9 @@
-import type {
-    BannerTargeting,
-    EpicTargeting,
-    GutterTargeting,
-    HeaderTargeting,
-} from '../../shared/types';
-import type { DateRange, ExclusionRule, ExclusionSettings } from '../channelExclusions';
+import type { ChannelExclusions, DateRange, ExclusionRule } from '../channelExclusions';
 
-type ExclusionChannel = keyof ExclusionSettings;
-
-interface TargetingByChannel {
-    banner: BannerTargeting;
-    epic: EpicTargeting;
-    gutterAsk: GutterTargeting;
-    header: HeaderTargeting;
+interface Targeting {
+    tagIds?: string[];
+    sectionId?: string;
+    contentType?: string;
 }
 
 const toIsoDate = (date: Date): string => date.toISOString().slice(0, 10);
@@ -20,31 +11,28 @@ const toIsoDate = (date: Date): string => date.toISOString().slice(0, 10);
 const inDateRange = (date: string, range: DateRange): boolean =>
     date >= range.start && date <= range.end;
 
-const getSectionId = (targeting: TargetingByChannel[ExclusionChannel]): string | undefined => {
+const getSectionId = (targeting: Targeting): string | undefined => {
     if ('sectionId' in targeting) {
         return targeting.sectionId;
     }
 };
 
-const getTagIds = (targeting: TargetingByChannel[ExclusionChannel]): string[] => {
+const getTagIds = (targeting: Targeting): string[] => {
     if ('tagIds' in targeting) {
         return targeting.tagIds ?? [];
-    }
-    if ('tags' in targeting) {
-        return targeting.tags.map(({ id }) => id);
     }
     return [];
 };
 
 const FRONT_CONTENT_TYPES = ['Network Front', 'Section'];
 
-const getContentType = (targeting: TargetingByChannel[ExclusionChannel]): 'Fronts' | 'Articles' => {
+const getContentType = (targeting: Targeting): 'Fronts' | 'Articles' => {
     const contentType = 'contentType' in targeting ? targeting.contentType : undefined;
     return contentType && FRONT_CONTENT_TYPES.includes(contentType) ? 'Fronts' : 'Articles';
 };
 
 const matchesRule = (
-    targeting: TargetingByChannel[ExclusionChannel],
+    targeting: Targeting,
     rule: ExclusionRule,
 ): boolean => {
     const now = new Date();
@@ -83,9 +71,9 @@ const matchesRule = (
     return true;
 };
 
-export const inExclusions = <T extends ExclusionChannel>(
-    targeting: TargetingByChannel[T],
-    exclusionSettings?: ExclusionSettings[T],
+export const inExclusions = (
+    targeting: Targeting,
+    exclusionSettings?: ChannelExclusions,
 ): boolean => {
     const rules = exclusionSettings?.rules;
     if (!rules?.length) {

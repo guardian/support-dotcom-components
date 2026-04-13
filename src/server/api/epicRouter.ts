@@ -104,7 +104,12 @@ export const buildEpicRouter = (
             return {};
         }
 
-        if (inExclusions(targeting, channelExclusionsData.epic)) {
+        if (
+            inExclusions(
+                { ...targeting, tagIds: targeting.tags.map(({ id }) => id) },
+                channelExclusionsData.epic,
+            )
+        ) {
             return {};
         }
 
