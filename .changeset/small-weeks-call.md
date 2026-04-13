@@ -2,4 +2,4 @@
 '@guardian/support-dotcom-components': patch
 ---
 
-optional isFront boolean property added to Epic, Banner, Gutter and Header models
+optional sectionId and tagsId properties added to HeaderTargeting model
