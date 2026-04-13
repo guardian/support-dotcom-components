@@ -7,7 +7,6 @@ export interface GutterTargeting {
     sectionId?: string;
     pageId?: string;
     inHoldbackGroup?: boolean;
-    isFront?: boolean;
 }
 
 export type GutterPayload = {

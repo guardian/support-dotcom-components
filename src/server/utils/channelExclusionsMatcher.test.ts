@@ -66,14 +66,14 @@ describe('inExclusions', () => {
         ).toBe(false);
     });
 
-    it('uses isFront to evaluate content type', () => {
+    it('uses contentType to evaluate content type', () => {
         const frontTargeting: BannerTargeting = {
             ...baseBannerTargeting,
-            isFront: true,
+            contentType: 'Network Front',
         };
         const articleTargeting: BannerTargeting = {
             ...baseBannerTargeting,
-            isFront: false,
+            contentType: 'Article',
         };
 
         expect(

@@ -28,7 +28,6 @@ export type EpicTargeting = {
     pageId?: string;
     inHoldbackGroup?: boolean;
     isSensitive?: boolean;
-    isFront?: boolean;
 };
 
 export type EpicPayload = {

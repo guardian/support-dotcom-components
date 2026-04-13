@@ -24,7 +24,6 @@ export type BannerTargeting = {
     pageId?: string;
     inHoldbackGroup?: boolean;
     isSensitive?: boolean;
-    isFront?: boolean;
 };
 
 export type BannerPayload = {

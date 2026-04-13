@@ -36,8 +36,12 @@ const getTagIds = (targeting: TargetingByChannel[ExclusionChannel]): string[] =>
     return [];
 };
 
-const getContentType = (targeting: TargetingByChannel[ExclusionChannel]): 'Fronts' | 'Articles' =>
-    'isFront' in targeting && targeting.isFront ? 'Fronts' : 'Articles';
+const FRONT_CONTENT_TYPES = ['Network Front', 'Section'];
+
+const getContentType = (targeting: TargetingByChannel[ExclusionChannel]): 'Fronts' | 'Articles' => {
+    const contentType = 'contentType' in targeting ? targeting.contentType : undefined;
+    return contentType && FRONT_CONTENT_TYPES.includes(contentType) ? 'Fronts' : 'Articles';
+};
 
 const matchesRule = (
     targeting: TargetingByChannel[ExclusionChannel],

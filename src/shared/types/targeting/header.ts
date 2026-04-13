@@ -10,7 +10,6 @@ export interface HeaderTargeting {
     inHoldbackGroup?: boolean;
     tagIds?: string[];
     sectionId?: string;
-    isFront?: boolean;
 }
 
 export type HeaderPayload = {
