@@ -31,10 +31,7 @@ const getContentType = (targeting: Targeting): 'Fronts' | 'Articles' => {
     return contentType && FRONT_CONTENT_TYPES.includes(contentType) ? 'Fronts' : 'Articles';
 };
 
-const matchesRule = (
-    targeting: Targeting,
-    rule: ExclusionRule,
-): boolean => {
+const matchesRule = (targeting: Targeting, rule: ExclusionRule): boolean => {
     const now = new Date();
     const currentDate = toIsoDate(now);
     const sectionId = getSectionId(targeting)?.toLowerCase();
