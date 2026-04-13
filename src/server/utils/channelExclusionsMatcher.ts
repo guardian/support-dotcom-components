@@ -1,6 +1,6 @@
 import type { ChannelExclusions, DateRange, ExclusionRule } from '../channelExclusions';
 
-interface Targeting {
+export interface Targeting {
     tagIds?: string[];
     sectionId?: string;
     contentType?: string;

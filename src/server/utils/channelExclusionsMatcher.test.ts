@@ -1,24 +1,16 @@
-import type { BannerTargeting, EpicTargeting } from '../../shared/types';
+import type { Targeting } from './channelExclusionsMatcher';
 import { inExclusions } from './channelExclusionsMatcher';
 
-const baseBannerTargeting: BannerTargeting = {
-    showSupportMessaging: true,
-    mvtId: 1,
-    countryCode: 'GB',
-    hasOptedOutOfArticleCount: false,
-    isSignedIn: false,
-    hasConsented: true,
-};
+const baseTargeting: Targeting = {};
 
 describe('inExclusions', () => {
     it('returns false when no rules are provided', () => {
-        expect(inExclusions(baseBannerTargeting, undefined)).toBe(false);
-        expect(inExclusions(baseBannerTargeting, { rules: [] })).toBe(false);
+        expect(inExclusions(baseTargeting, undefined)).toBe(false);
+        expect(inExclusions(baseTargeting, { rules: [] })).toBe(false);
     });
 
     it('matches section ids case-insensitively', () => {
-        const targeting: BannerTargeting = {
-            ...baseBannerTargeting,
+        const targeting: Targeting = {
             sectionId: 'Sport',
         };
 
@@ -30,8 +22,7 @@ describe('inExclusions', () => {
     });
 
     it('matches tag ids case-insensitively', () => {
-        const targeting: BannerTargeting = {
-            ...baseBannerTargeting,
+        const targeting: Targeting = {
             tagIds: ['tone/news'],
         };
 
@@ -44,7 +35,7 @@ describe('inExclusions', () => {
 
     it('applies date range checks', () => {
         expect(
-            inExclusions(baseBannerTargeting, {
+            inExclusions(baseTargeting, {
                 rules: [
                     {
                         name: 'active-range',
@@ -55,7 +46,7 @@ describe('inExclusions', () => {
         ).toBe(true);
 
         expect(
-            inExclusions(baseBannerTargeting, {
+            inExclusions(baseTargeting, {
                 rules: [
                     {
                         name: 'inactive-range',
@@ -67,12 +58,10 @@ describe('inExclusions', () => {
     });
 
     it('uses contentType to evaluate content type', () => {
-        const frontTargeting: BannerTargeting = {
-            ...baseBannerTargeting,
+        const frontTargeting: Targeting = {
             contentType: 'Network Front',
         };
-        const articleTargeting: BannerTargeting = {
-            ...baseBannerTargeting,
+        const articleTargeting: Targeting = {
             contentType: 'Article',
         };
 
@@ -110,19 +99,13 @@ describe('inExclusions', () => {
         ).toBe(true);
     });
 
-    it('handles epic tags via tags[].id', () => {
-        const epicTargeting: EpicTargeting = {
-            contentType: 'Article',
-            shouldHideReaderRevenue: false,
-            isMinuteArticle: false,
-            isPaidContent: false,
-            tags: [{ id: 'politics/politics', type: 'Keyword' }],
-            hasOptedOutOfArticleCount: false,
-            showSupportMessaging: true,
+    it('matches tag ids case-insensitively (politics)', () => {
+        const targeting: Targeting = {
+            tagIds: ['politics/politics'],
         };
 
         expect(
-            inExclusions(epicTargeting, {
+            inExclusions(targeting, {
                 rules: [{ name: 'epic-tag-rule', tagIds: ['POLITICS/POLITICS'] }],
             }),
         ).toBe(true);
