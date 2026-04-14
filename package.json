@@ -26,15 +26,13 @@
         "prune-lint-suppressions": "pnpm lint --prune-suppressions",
         "prettier:check": "prettier --check ./src",
         "prettier:fix": "prettier --write ./src",
-        "test": "export stage=DEV; jest",
-        "riffraff": "node-riffraff-artifact"
+        "test": "export stage=DEV; jest"
     },
     "devDependencies": {
         "@babel/core": "^7.23.2",
         "@babel/preset-typescript": "^7.23.2",
         "@changesets/cli": "^2.26.2",
         "@guardian/eslint-config": "^14.0.0",
-        "@guardian/node-riffraff-artifact": "^0.3.2",
         "@guardian/prettier": "^10.0.0",
         "@rollup/plugin-alias": "^5.1.1",
         "@rollup/plugin-babel": "^6.1.0",

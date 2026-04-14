@@ -17,6 +17,7 @@ jobs:
         permissions:
             id-token: write
             contents: read
+            pull-requests: write # Required for riff-raff action
 
         name: dotcom-components
         runs-on: ubuntu-latest
@@ -54,19 +55,20 @@ jobs:
                   pnpm test
                   pnpm synth
 
-            - name: Configure AWS credentials
-              uses: aws-actions/configure-aws-credentials@v6.0.0
-              with:
-                  role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
-                  aws-region: eu-west-1
-
             - name: riffraff
-              run: |
-                  export LAST_TEAMCITY_BUILD=4000
-                  export GITHUB_RUN_NUMBER=$(( $GITHUB_RUN_NUMBER + $LAST_TEAMCITY_BUILD ))
-
-                  pnpm install
-                  pnpm run riffraff
+              uses: guardian/actions-riff-raff@v4
+              with:
+                projectName: support::dotcom-components
+                roleArn: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
+                githubToken: ${{ secrets.GITHUB_TOKEN }}
+                configPath: riff-raff.yaml
+                buildNumberOffset: 4000
+                contentDirectories: |
+                  dotcom-components-cloudformation:
+                    - cdk/cdk.out/sdc-CODE.template.json
+                    - cdk/cdk.out/sdc-PROD.template.json
+                  dotcom-components:
+                    - server-dist/server.js
 
     release:
         name: Release
