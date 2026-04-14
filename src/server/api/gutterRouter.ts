@@ -7,6 +7,7 @@ import type {
     TestTracking,
     Tracking,
 } from '../../shared/types';
+import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
@@ -16,6 +17,7 @@ import { pageIdIsExcluded } from '../lib/targeting';
 import { buildGutterCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
 import { selectGutterTest } from '../tests/gutters/gutterSelection';
+import { inExclusions } from '../utils/channelExclusionsMatcher';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface GutterDataResponse {
@@ -31,6 +33,7 @@ interface GutterDataResponse {
 export const buildGutterRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
     tests: ValueProvider<GutterTest[]>,
+    channelExclusions: ValueProvider<ExclusionSettings>,
 ): Router => {
     const router = Router();
 
@@ -41,11 +44,16 @@ export const buildGutterRouter = (
         req: express.Request,
     ): GutterDataResponse => {
         const { enableGutterLiveblogs } = channelSwitches.get();
+        const channelExclusionsData = channelExclusions.get();
         if (!enableGutterLiveblogs) {
             return {};
         }
 
         if (pageIdIsExcluded(targeting)) {
+            return {};
+        }
+
+        if (inExclusions(targeting, channelExclusionsData.gutterAsk)) {
             return {};
         }
 

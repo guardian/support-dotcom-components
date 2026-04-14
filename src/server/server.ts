@@ -8,6 +8,7 @@ import { buildEpicRouter } from './api/epicRouter';
 import { buildGutterRouter } from './api/gutterRouter';
 import { buildHeaderRouter } from './api/headerRouter';
 import { buildTickerRouter } from './api/tickerRouter';
+import { buildChannelExclusionsReloader } from './channelExclusions';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { Auxia } from './lib/auxia';
@@ -88,6 +89,7 @@ const buildApp = async (): Promise<Express> => {
         gutterLiveblogTests,
         productCatalog,
         promotions,
+        channelExclusions,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -102,6 +104,7 @@ const buildApp = async (): Promise<Express> => {
         buildGutterLiveblogTestsReloader(),
         buildProductCatalogReloader(),
         buildPromotionsReloader(),
+        buildChannelExclusionsReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -129,6 +132,7 @@ const buildApp = async (): Promise<Express> => {
             promotions,
             mParticle,
             okta,
+            channelExclusions,
         ),
     );
     app.use(
@@ -145,13 +149,14 @@ const buildApp = async (): Promise<Express> => {
             mParticle,
             okta,
             auxia,
+            channelExclusions,
         ),
     );
-    app.use(buildHeaderRouter(channelSwitches, headerTests, mParticle, okta));
+    app.use(buildHeaderRouter(channelSwitches, headerTests, mParticle, okta, channelExclusions));
 
     app.use(buildAuxiaProxyRouter(channelSwitches, auxiaConfig));
 
-    app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests));
+    app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests, channelExclusions));
 
     app.use(buildTickerRouter(tickerData));
 
