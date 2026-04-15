@@ -1,4 +1,5 @@
 import type { ChannelExclusions, DateRange, ExclusionRule } from '../channelExclusions';
+import { pageContextMatches } from '../lib/targeting';
 
 export interface Targeting {
     tagIds?: string[];
@@ -35,24 +36,24 @@ const matchesRule = (targeting: Targeting, rule: ExclusionRule): boolean => {
     const now = new Date();
     const currentDate = toIsoDate(now);
     const sectionId = getSectionId(targeting)?.toLowerCase();
-    const tagIds = new Set(getTagIds(targeting).map((tagId) => tagId.toLowerCase()));
+    const tagIds = getTagIds(targeting).map((tagId) => tagId.toLowerCase());
     const contentType = getContentType(targeting);
 
-    if (rule.sectionIds?.length) {
-        if (!sectionId) {
-            return false;
-        }
-        const hasSection = rule.sectionIds.some((id) => id.toLowerCase() === sectionId);
-        if (!hasSection) {
-            return false;
-        }
-    }
+    const hasMatchingSectionOrTag = pageContextMatches(
+        {
+            sectionId,
+            tagIds,
+        },
+        {
+            sectionIds: (rule.sectionIds ?? []).map((id) => id.toLowerCase()),
+            tagIds: (rule.tagIds ?? []).map((id) => id.toLowerCase()),
+            excludedTagIds: [],
+            excludedSectionIds: [],
+        },
+    );
 
-    if (rule.tagIds?.length) {
-        const hasTag = rule.tagIds.some((id) => tagIds.has(id.toLowerCase()));
-        if (!hasTag) {
-            return false;
-        }
+    if (!hasMatchingSectionOrTag) {
+        return false;
     }
 
     if (rule.dateRange && !inDateRange(currentDate, rule.dateRange)) {
