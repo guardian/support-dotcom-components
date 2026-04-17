@@ -268,6 +268,10 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 					`PROD/auxia-credentials.json`,
 				],
 			}),
+			new GuAllowPolicy(this, 'S3ListBucketSupportAdminConsole', {
+				actions: ['s3:ListBucket'],
+				resources: ['arn:aws:s3:::support-admin-console'],
+			}),
 			new GuGetS3ObjectsPolicy(
 				this,
 				'S3ReadPolicyGuContributionsPublic',

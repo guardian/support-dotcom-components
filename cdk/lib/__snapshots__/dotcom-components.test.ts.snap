@@ -16,6 +16,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
       "GuAlarm",
       "GuDistributionBucketParameter",
       "GuGetS3ObjectsPolicy",
+      "GuAllowPolicy",
       "GuGetS3ObjectsPolicy",
       "GuGetS3ObjectsPolicy",
       "GuDynamoDBReadPolicy",
@@ -1440,6 +1441,27 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "TreatMissingData": "notBreaching",
       },
       "Type": "AWS::CloudWatch::Alarm",
+    },
+    "S3ListBucketSupportAdminConsole09DA14FD": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:ListBucket",
+              "Effect": "Allow",
+              "Resource": "arn:aws:s3:::support-admin-console",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "S3ListBucketSupportAdminConsole09DA14FD",
+        "Roles": [
+          {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "S3ReadPolicyContributionsTicker451E0B8F": {
       "Properties": {
