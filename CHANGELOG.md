@@ -1,5 +1,17 @@
 # @guardian/support-dotcom-components
 
+## 8.5.2
+
+### Patch Changes
+
+- de464df: Optional contentType property is added to headerTargeting
+
+## 8.5.1
+
+### Patch Changes
+
+- 901a55f: optional sectionId and tagsId properties added to HeaderTargeting model
+
 ## 8.5.0
 
 ### Minor Changes

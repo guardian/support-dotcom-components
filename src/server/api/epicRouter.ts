@@ -12,6 +12,7 @@ import type {
     Tracking,
     WeeklyArticleLog,
 } from '../../shared/types';
+import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
@@ -24,13 +25,14 @@ import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
 import type { SuperModeArticle } from '../lib/superMode';
-import { pageIdIsExcluded } from '../lib/targeting';
+import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildEpicCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
+import { inExclusions } from '../utils/channelExclusionsMatcher';
 import { logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
 
@@ -61,6 +63,7 @@ export const buildEpicRouter = (
     promotions: ValueProvider<PromotionsCache>,
     mParticle: MParticle,
     okta: Okta,
+    channelExclusions: ValueProvider<ExclusionSettings>,
 ): Router => {
     const router = Router();
 
@@ -92,11 +95,21 @@ export const buildEpicRouter = (
         getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     ): Promise<EpicDataResponse> => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
+        const channelExclusionsData = channelExclusions.get();
         if (!enableEpics) {
             return {};
         }
 
         if (pageIdIsExcluded(targeting)) {
+            return {};
+        }
+
+        if (
+            inExclusions(
+                { ...targeting, tagIds: targeting.tags.map(({ id }) => id) },
+                channelExclusionsData.epic,
+            )
+        ) {
             return {};
         }
 
@@ -110,7 +123,7 @@ export const buildEpicRouter = (
         const result = params.force
             ? findForcedTestAndVariant(tests, params.force)
             : await findTestAndVariant(
-                  tests,
+                  filterTestsForSensitiveContent(tests, targeting.isSensitive),
                   targeting,
                   getDeviceType(req, params),
                   enableSuperMode ? superModeArticles.get() : [],

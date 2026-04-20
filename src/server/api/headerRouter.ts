@@ -7,6 +7,7 @@ import type {
     TestTracking,
     Tracking,
 } from '../../shared/types';
+import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
@@ -16,6 +17,7 @@ import { getQueryParams } from '../lib/params';
 import type { Params } from '../lib/params';
 import { bodyContainsAllFields } from '../middleware';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
+import { inExclusions } from '../utils/channelExclusionsMatcher';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface HeaderDataResponse {
@@ -33,6 +35,7 @@ export const buildHeaderRouter = (
     tests: ValueProvider<HeaderTest[]>,
     mParticle: MParticle,
     okta: Okta,
+    channelExclusions: ValueProvider<ExclusionSettings>,
 ): Router => {
     const router = Router();
 
@@ -44,9 +47,15 @@ export const buildHeaderRouter = (
         getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     ): Promise<HeaderDataResponse> => {
         const { enableHeaders } = channelSwitches.get();
+        const channelExclusionsData = channelExclusions.get();
         if (!enableHeaders) {
             return {};
         }
+
+        if (inExclusions(targeting, channelExclusionsData.header)) {
+            return {};
+        }
+
         const testSelection = await selectHeaderTest(
             targeting,
             tests.get(),

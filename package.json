@@ -1,6 +1,6 @@
 {
     "name": "@guardian/support-dotcom-components",
-    "version": "8.5.0",
+    "version": "8.5.2",
     "description": "Service to serve Reader Revenue components to dotcom",
     "repository": {
         "url": "https://github.com/guardian/support-dotcom-components"
@@ -26,15 +26,13 @@
         "prune-lint-suppressions": "pnpm lint --prune-suppressions",
         "prettier:check": "prettier --check ./src",
         "prettier:fix": "prettier --write ./src",
-        "test": "export stage=DEV; jest",
-        "riffraff": "node-riffraff-artifact"
+        "test": "export stage=DEV; jest"
     },
     "devDependencies": {
         "@babel/core": "^7.23.2",
         "@babel/preset-typescript": "^7.23.2",
         "@changesets/cli": "^2.26.2",
         "@guardian/eslint-config": "^14.0.0",
-        "@guardian/node-riffraff-artifact": "^0.3.2",
         "@guardian/prettier": "^10.0.0",
         "@rollup/plugin-alias": "^5.1.1",
         "@rollup/plugin-babel": "^6.1.0",
@@ -109,7 +107,8 @@
             "flatted": "^3.4.2",
             "handlebars@<4.7.9": ">=4.7.9",
             "picomatch@<2.3.2": "2.3.2",
-            "picomatch@>=4.0.0 <4.0.4": "4.0.4"
+            "picomatch@>=4.0.0 <4.0.4": "4.0.4",
+            "path-to-regexp@<0.1.13": "0.1.13"
         }
     }
 }

@@ -1,7 +1,6 @@
 import type express from 'express';
 import { Router } from 'express';
 import { countryCodeToCountryGroupId } from '../../shared/lib';
-import { channelFromBannerChannel } from '../../shared/types';
 import type {
     AmountsTests,
     BannerDesignFromTool,
@@ -11,6 +10,8 @@ import type {
     TestTracking,
     Tracking,
 } from '../../shared/types';
+import { channelFromBannerChannel } from '../../shared/types';
+import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
 import type { Auxia, AuxiaInteractionType, GetTreatmentsAttributes } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
@@ -22,7 +23,7 @@ import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
-import { pageIdIsExcluded } from '../lib/targeting';
+import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
 import type { ProductCatalog } from '../productCatalog';
@@ -32,7 +33,7 @@ import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTim
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
-import { shouldSuppressBannerForSectionDate } from '../utils/bannerSectionSuppression';
+import { inExclusions } from '../utils/channelExclusionsMatcher';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface BannerDataResponse {
@@ -58,6 +59,7 @@ export const buildBannerRouter = (
     mParticle: MParticle,
     okta: Okta,
     auxia: Auxia,
+    channelExclusions: ValueProvider<ExclusionSettings>,
 ): Router => {
     const router = Router();
 
@@ -73,7 +75,7 @@ export const buildBannerRouter = (
     ): Promise<BannerDataResponse> => {
         const { enableBanners, enableHardcodedBannerTests, enableScheduledBannerDeploys } =
             channelSwitches.get();
-        const now = new Date();
+        const channelExclusionsData = channelExclusions.get();
 
         if (!enableBanners) {
             return {};
@@ -83,20 +85,25 @@ export const buildBannerRouter = (
             return {};
         }
 
-        if (shouldSuppressBannerForSectionDate(targeting.sectionId, now)) {
+        if (inExclusions(targeting, channelExclusionsData.banner)) {
             return {};
         }
+
+        const filteredTests = filterTestsForSensitiveContent(
+            bannerTests.get(),
+            targeting.isSensitive,
+        );
 
         const selectedTest = await selectBannerTest({
             targeting,
             userDeviceType: getDeviceType(req, params),
-            tests: bannerTests.get(),
+            tests: filteredTests,
             bannerDeployTimes,
             enableHardcodedBannerTests,
             enableScheduledDeploys: enableScheduledBannerDeploys,
             banditData: banditData.get(),
             getMParticleProfile,
-            now,
+            now: new Date(),
             forcedTestVariant: params.force,
             checkAuxiaSuppression,
         });
