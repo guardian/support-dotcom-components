@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 9.0.0
+
+### Major Changes
+
+- 9d1bcce: Add auxia tracking fields to TestTracking model, remove unused meta field from banner response
+
 ## 8.5.2
 
 ### Patch Changes
