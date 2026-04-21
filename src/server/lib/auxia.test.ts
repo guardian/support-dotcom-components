@@ -317,6 +317,148 @@ describe('Auxia.getBannerSuppressedChecker – enableAuxiaForBanners switch', ()
     });
 });
 
+describe('Auxia.getBannerSuppressedChecker – getTreatment', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('should return undefined before any call is made', () => {
+        const auxia = new Auxia(mockConfig);
+        const { getTreatment } = auxia.getBannerSuppressedChecker(
+            mockChannelSwitches,
+            inRolloutMvtId,
+        );
+
+        expect(getTreatment()).toBeUndefined();
+    });
+
+    it('should return treatment data when banner is not suppressed (show_banner is "true")', async () => {
+        (global.fetch as jest.Mock).mockResolvedValueOnce(
+            successResponse([makeUserTreatment(JSON.stringify({ show_banner: 'true' }))]),
+        );
+
+        const auxia = new Auxia(mockConfig);
+        const { checkAuxiaSuppression, getTreatment } = auxia.getBannerSuppressedChecker(
+            mockChannelSwitches,
+            inRolloutMvtId,
+        );
+
+        await checkAuxiaSuppression('browser-id', mockAttributes);
+
+        expect(getTreatment()).toEqual({
+            treatmentId: 'tid-1',
+            treatmentTrackingId: 'ttid-1',
+        });
+    });
+
+    it('should return undefined when banner is suppressed (show_banner is "false")', async () => {
+        (global.fetch as jest.Mock).mockResolvedValueOnce(
+            successResponse([makeUserTreatment(JSON.stringify({ show_banner: 'false' }))]),
+        );
+
+        const auxia = new Auxia(mockConfig);
+        const { checkAuxiaSuppression, getTreatment } = auxia.getBannerSuppressedChecker(
+            mockChannelSwitches,
+            inRolloutMvtId,
+        );
+
+        await checkAuxiaSuppression('browser-id', mockAttributes);
+
+        expect(getTreatment()).toBeUndefined();
+    });
+
+    it('should return undefined when Auxia returns no treatments', async () => {
+        (global.fetch as jest.Mock).mockResolvedValueOnce(successResponse([]));
+
+        const auxia = new Auxia(mockConfig);
+        const { checkAuxiaSuppression, getTreatment } = auxia.getBannerSuppressedChecker(
+            mockChannelSwitches,
+            inRolloutMvtId,
+        );
+
+        await checkAuxiaSuppression('browser-id', mockAttributes);
+
+        expect(getTreatment()).toBeUndefined();
+    });
+
+    it('should return undefined when enableAuxiaForBanners is false', async () => {
+        const auxia = new Auxia(mockConfig);
+        const { checkAuxiaSuppression, getTreatment } = auxia.getBannerSuppressedChecker(
+            { ...mockChannelSwitches, enableAuxiaForBanners: false } as ChannelSwitches,
+            inRolloutMvtId,
+        );
+
+        await checkAuxiaSuppression('browser-id', mockAttributes);
+
+        expect(getTreatment()).toBeUndefined();
+    });
+});
+
+describe('Auxia.logTreatmentInteraction', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('should call the Auxia LogTreatmentInteraction API with correct payload', async () => {
+        (global.fetch as jest.Mock).mockResolvedValueOnce({ ok: true, status: 200 });
+
+        const auxia = new Auxia(mockConfig);
+        await auxia.logTreatmentInteraction({
+            browserId: 'browser-123',
+            treatmentTrackingId: 'ttid-1',
+            treatmentId: 'tid-1',
+            surface: 'SUPPORTER_REVENUE_BANNER',
+            interactionType: 'VIEWED',
+            interactionTimeMicros: 1700000000000000,
+        });
+
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        const [url, options] = (global.fetch as jest.Mock).mock.calls[0] as [string, RequestInit];
+        expect(url).toBe('https://apis.auxia.io/v1/LogTreatmentInteraction');
+        expect(JSON.parse(options.body as string)).toEqual({
+            projectId: 'test-project-id',
+            userId: 'browser-123',
+            treatmentTrackingId: 'ttid-1',
+            treatmentId: 'tid-1',
+            surface: 'SUPPORTER_REVENUE_BANNER',
+            interactionType: 'VIEWED',
+            interactionTimeMicros: 1700000000000000,
+        });
+    });
+
+    it('should not throw when fetch fails', async () => {
+        (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('network error'));
+
+        const auxia = new Auxia(mockConfig);
+        await expect(
+            auxia.logTreatmentInteraction({
+                browserId: 'browser-123',
+                treatmentTrackingId: 'ttid-1',
+                treatmentId: 'tid-1',
+                surface: 'SUPPORTER_REVENUE_BANNER',
+                interactionType: 'VIEWED',
+                interactionTimeMicros: 1700000000000000,
+            }),
+        ).resolves.toBeUndefined();
+    });
+
+    it('should not throw when Auxia returns a non-ok status', async () => {
+        (global.fetch as jest.Mock).mockResolvedValueOnce({ ok: false, status: 500 });
+
+        const auxia = new Auxia(mockConfig);
+        await expect(
+            auxia.logTreatmentInteraction({
+                browserId: 'browser-123',
+                treatmentTrackingId: 'ttid-1',
+                treatmentId: 'tid-1',
+                surface: 'SUPPORTER_REVENUE_BANNER',
+                interactionType: 'VIEWED',
+                interactionTimeMicros: 1700000000000000,
+            }),
+        ).resolves.toBeUndefined();
+    });
+});
+
 describe('Auxia.getBannerSuppressedChecker – mvtId rollout', () => {
     beforeEach(() => {
         jest.clearAllMocks();

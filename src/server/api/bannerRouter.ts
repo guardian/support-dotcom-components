@@ -13,7 +13,7 @@ import type {
 import { channelFromBannerChannel } from '../../shared/types';
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
-import type { Auxia, GetTreatmentsAttributes } from '../lib/auxia';
+import type { Auxia, AuxiaInteractionType, GetTreatmentsAttributes } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -25,6 +25,7 @@ import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
+import { bodyContainsAllFields } from '../middleware';
 import type { ProductCatalog } from '../productCatalog';
 import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
@@ -41,7 +42,6 @@ interface BannerDataResponse {
             name: string;
             props: BannerProps;
         };
-        meta: TestTracking;
     };
     debug?: Debug;
 }
@@ -186,7 +186,6 @@ export const buildBannerRouter = (
                         name: moduleName,
                         props: props,
                     },
-                    meta: testTracking,
                 },
             };
         } else {
@@ -211,8 +210,11 @@ export const buildBannerRouter = (
                     okta,
                     authHeader,
                 );
-                const { checkAuxiaSuppression, forLogging: auxiaStatus } =
-                    auxia.getBannerSuppressedChecker(channelSwitches.get(), targeting.mvtId);
+                const {
+                    checkAuxiaSuppression,
+                    forLogging: auxiaStatus,
+                    getTreatment,
+                } = auxia.getBannerSuppressedChecker(channelSwitches.get(), targeting.mvtId);
 
                 const response = await buildBannerData(
                     targeting,
@@ -221,6 +223,15 @@ export const buildBannerRouter = (
                     fetchProfile,
                     checkAuxiaSuppression,
                 );
+
+                // Enrich the response with auxia treatment data if available
+                const auxiaTreatment = getTreatment();
+                if (response.data && auxiaTreatment) {
+                    response.data.module.props.tracking = {
+                        ...response.data.module.props.tracking,
+                        auxia: auxiaTreatment,
+                    };
+                }
 
                 // for response logging
                 res.locals.didRenderBanner = !!response.data;
@@ -239,6 +250,47 @@ export const buildBannerRouter = (
                 };
 
                 res.send(response);
+            } catch (error) {
+                next(error);
+            }
+        },
+    );
+
+    router.post(
+        '/banner/interaction',
+        bodyContainsAllFields([
+            'browserId',
+            'treatmentTrackingId',
+            'treatmentId',
+            'interactionType',
+        ]),
+        async (
+            req: express.Request<
+                Record<string, never>,
+                unknown,
+                {
+                    browserId: string;
+                    treatmentTrackingId: string;
+                    treatmentId: string;
+                    interactionType: AuxiaInteractionType;
+                }
+            >,
+            res: express.Response,
+            next: express.NextFunction,
+        ) => {
+            try {
+                const { browserId, treatmentTrackingId, treatmentId, interactionType } = req.body;
+
+                await auxia.logTreatmentInteraction({
+                    browserId,
+                    treatmentTrackingId,
+                    treatmentId,
+                    surface: 'SUPPORTER_REVENUE_BANNER',
+                    interactionType,
+                    interactionTimeMicros: Date.now() * 1000,
+                });
+
+                res.send({ status: true });
             } catch (error) {
                 next(error);
             }
