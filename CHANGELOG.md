@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 9.0.1
+
+### Patch Changes
+
+- 335ce1d: Add contributionsServiceUrl field to BannerProps
+
 ## 9.0.0
 
 ### Major Changes
