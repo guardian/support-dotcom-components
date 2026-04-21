@@ -63,10 +63,8 @@ export interface BannerProps {
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
-    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     articleCounts: ArticleCounts;
     hasOptedOutOfArticleCount?: boolean;
-    fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
     separateArticleCountSettings?: SeparateArticleCount;
     choiceCardAmounts?: SelectedAmountsVariant;
@@ -75,6 +73,10 @@ export interface BannerProps {
     abandonedBasket?: AbandonedBasket;
     promoCodes?: string[];
     isCollapsible?: boolean;
+    // provided by the client
+    submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
+    fetchEmail?: () => Promise<string | null>;
+    contributionsServiceUrl?: string;
 }
 
 export const bannerSchema = z.object({
@@ -94,4 +96,5 @@ export const bannerSchema = z.object({
     choiceCardsSettings: choiceCardsSettings.nullish(),
     promoCodes: z.array(z.string()).nullish(),
     isCollapsible: z.boolean().nullish(),
+    contributionsServiceUrl: z.string().nullish(),
 });
