@@ -205,11 +205,10 @@ groupadd support
 useradd -r -m -s /usr/bin/nologin -g support dotcom-components
 cd /home/dotcom-components
 
+mkdir ${appName}
 aws --region eu-west-1 s3 cp s3://${
 			GuDistributionBucketParameter.getInstance(this).valueAsString
-		}/support/${this.stage}/${appName}/${appName}.tar ./
-mkdir ${appName}
-tar -xvf ${appName}.tar --directory ${appName}
+		}/support/${this.stage}/${appName}/server.js ./${appName}/
 
 chown -R dotcom-components:support ${appName}
 

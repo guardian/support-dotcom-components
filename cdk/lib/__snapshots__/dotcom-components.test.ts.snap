@@ -1844,13 +1844,12 @@ groupadd support
 useradd -r -m -s /usr/bin/nologin -g support dotcom-components
 cd /home/dotcom-components
 
+mkdir dotcom-components
 aws --region eu-west-1 s3 cp s3://",
                   {
                     "Ref": "DistributionBucketName",
                   },
-                  "/support/TEST/dotcom-components/dotcom-components.tar ./
-mkdir dotcom-components
-tar -xvf dotcom-components.tar --directory dotcom-components
+                  "/support/TEST/dotcom-components/server.js ./dotcom-components/
 
 chown -R dotcom-components:support dotcom-components
 
