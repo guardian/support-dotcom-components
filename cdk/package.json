@@ -15,21 +15,21 @@
 	},
 	"devDependencies": {
 		"@guardian/cdk": "61.3.2",
-		"@guardian/eslint-config": "^14.0.1",
+		"@guardian/eslint-config": "14.0.1",
 		"@guardian/prettier": "10.0.0",
-		"@types/jest": "^30.0.0",
+		"@types/jest": "30.0.0",
 		"@types/node": "25.6.0",
 		"aws-cdk": "2.1005.0",
-		"aws-cdk-lib": "2.189.1",
-		"constructs": "10.6.0",
-		"eslint": "^9.39.4",
-		"globals": "^17.4.0",
-		"jest": "^30.3.0",
-		"prettier": "^3.8.2",
-		"source-map-support": "^0.5.20",
-		"ts-jest": "^29.4.9",
-		"ts-node": "^10.8.2",
-		"typescript": "~5.9.3"
+		"aws-cdk-lib": "2.185.0",
+		"constructs": "10.4.2",
+		"eslint": "9.39.4",
+		"globals": "17.4.0",
+		"jest": "30.3.0",
+		"prettier": "3.8.2",
+		"source-map-support": "0.5.21",
+		"ts-jest": "29.4.9",
+		"ts-node": "10.9.2",
+		"typescript": "5.9.3"
 	},
 	"prettier": "@guardian/prettier",
 	"jest": {
@@ -45,10 +45,10 @@
 	},
 	"pnpm": {
 		"overrides": {
-			"minimatch@>=9.0.0 <9.0.7": ">=9.0.7 <10",
-			"minimatch@<3.1.4": ">=3.1.4 <4",
-			"flatted": "^3.4.2",
-			"handlebars@<4.7.9": ">=4.7.9",
+			"minimatch@>=9.0.0 <9.0.7": "9.0.9",
+			"minimatch@<3.1.4": "3.1.5",
+			"flatted": "3.4.2",
+			"handlebars@<4.7.9": "4.7.9",
 			"picomatch@<2.3.2": "2.3.2",
 			"picomatch@>=4.0.0 <4.0.4": "4.0.4"
 		}
