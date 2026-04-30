@@ -10,7 +10,6 @@ import { buildHeaderRouter } from './api/headerRouter';
 import { buildTickerRouter } from './api/tickerRouter';
 import { buildChannelExclusionsReloader } from './channelExclusions';
 import { buildChannelSwitchesReloader } from './channelSwitches';
-import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { Auxia } from './lib/auxia';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { getMParticleConfig, MParticle } from './lib/mParticle';
@@ -30,6 +29,7 @@ import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
+import { buildVatComplianceReloader } from './vatCompliance';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -80,7 +80,6 @@ const buildApp = async (): Promise<Express> => {
         superModeArticles,
         articleEpicTests,
         liveblogEpicTests,
-        choiceCardAmounts,
         tickerData,
         bannerTests,
         bannerDeployTimes,
@@ -90,12 +89,12 @@ const buildApp = async (): Promise<Express> => {
         productCatalog,
         promotions,
         channelExclusions,
+        vatComplianceConfig,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
         buildEpicTestsReloader(),
         buildEpicLiveblogTestsReloader(),
-        buildChoiceCardAmountsReloader(),
         buildTickerDataReloader(stage),
         buildBannerTestsReloader(),
         buildBannerDeployTimesReloader(),
@@ -105,6 +104,7 @@ const buildApp = async (): Promise<Express> => {
         buildProductCatalogReloader(),
         buildPromotionsReloader(),
         buildChannelExclusionsReloader(),
+        buildVatComplianceReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -125,7 +125,6 @@ const buildApp = async (): Promise<Express> => {
             superModeArticles,
             articleEpicTests,
             liveblogEpicTests,
-            choiceCardAmounts,
             tickerData,
             banditData,
             productCatalog,
@@ -133,6 +132,7 @@ const buildApp = async (): Promise<Express> => {
             mParticle,
             okta,
             channelExclusions,
+            vatComplianceConfig,
         ),
     );
     app.use(
@@ -141,7 +141,6 @@ const buildApp = async (): Promise<Express> => {
             tickerData,
             bannerTests,
             bannerDeployTimes,
-            choiceCardAmounts,
             bannerDesigns,
             banditData,
             productCatalog,
@@ -150,6 +149,7 @@ const buildApp = async (): Promise<Express> => {
             okta,
             auxia,
             channelExclusions,
+            vatComplianceConfig,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests, mParticle, okta, channelExclusions));
