@@ -1,5 +1,4 @@
-import type { CountryGroupId } from '../../shared/lib';
-import type { AmountsTests, SelectedAmountsVariant, Test, Variant } from '../../shared/types';
+import type { Test, Variant } from '../../shared/types';
 import { getRandomNumber } from './helpers';
 
 const maxMvt = 1000000;
@@ -57,56 +56,4 @@ export const selectVariantUsingMVT = <V extends Variant, T extends Test<V>>(
         }
     }
     return selectWithSeed(mvtId, seed, test.variants);
-};
-
-export const selectAmountsTestVariant = (
-    tests: AmountsTests,
-    countryCode: string,
-    countryGroupId: CountryGroupId,
-    mvtId: number,
-): SelectedAmountsVariant | undefined => {
-    // Two-tier amounts - check for live country test, else get a region test
-    const targetTestArray = tests.filter(
-        (t) =>
-            t.isLive &&
-            t.targeting.targetingType === 'Country' &&
-            t.targeting.countries.includes(countryCode),
-    );
-    let targetTest;
-    if (targetTestArray.length) {
-        targetTestArray.sort((a, b) => a.order - b.order);
-        targetTest = targetTestArray[0];
-    }
-    targetTest ??= tests.find(
-        (t) => t.targeting.targetingType === 'Region' && t.targeting.region === countryGroupId,
-    );
-
-    if (!targetTest) {
-        return undefined;
-    }
-
-    const { testName, liveTestName, isLive, seed, variants } = targetTest;
-
-    // No control or variants in data
-    if (!variants.length) {
-        return undefined;
-    }
-
-    // Return the control variant if there's no test or just a single variant
-    if (!isLive || variants.length === 1) {
-        return {
-            testName,
-            ...variants[0],
-        };
-    }
-
-    // Assign user to a variant - support-frontend repo adds mvtId and test seed (both are numbers) and stringifies the result to create a seed for the pseudorandom number generator. This is different from the way message test variants are selected, which concatenates mvtId with the test name to create the pseudorandom seed
-    const assignmentIndex = getRandomNumber(`${seed + mvtId}`) % variants.length;
-    const variant = variants[assignmentIndex];
-
-    // Test is running and user has been successfully assigned to a control/variant
-    return {
-        testName: liveTestName ?? `${testName}_AB_TEST`,
-        ...variant,
-    };
 };
