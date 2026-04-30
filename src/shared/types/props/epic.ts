@@ -45,30 +45,6 @@ const reminderFieldsSchema = z.object({
 
 export const contributionFrequencySchema = z.enum(['ONE_OFF', 'MONTHLY', 'ANNUAL']);
 
-const selectedAmountsVariantSchema = z.object({
-    testName: z.string(),
-    variantName: z.string(),
-    defaultContributionType: contributionFrequencySchema,
-    displayContributionType: contributionFrequencySchema.array(),
-    amountsCardData: z.object({
-        ONE_OFF: z.object({
-            amounts: z.array(z.number()),
-            defaultAmount: z.number(),
-            hideChooseYourAmount: z.boolean().optional(),
-        }),
-        MONTHLY: z.object({
-            amounts: z.array(z.number()),
-            defaultAmount: z.number(),
-            hideChooseYourAmount: z.boolean().optional(),
-        }),
-        ANNUAL: z.object({
-            amounts: z.array(z.number()),
-            defaultAmount: z.number(),
-            hideChooseYourAmount: z.boolean().optional(),
-        }),
-    }),
-});
-
 const newsletterSignupSchema = z.object({
     newsletterId: z.string(),
     successDescription: z.string(),
@@ -92,7 +68,6 @@ export const variantSchema = z.object({
     bylineWithImage: bylineWithImageSchema.optional(),
     showChoiceCards: z.boolean().optional(),
     choiceCardsSettings: choiceCardsSettings.nullish(),
-    choiceCardAmounts: selectedAmountsVariantSchema.optional(), // deprecated, use choiceCardsSettings
     defaultChoiceCardFrequency: contributionFrequencySchema.optional(), // deprecated, use choiceCardsSettings
 });
 
