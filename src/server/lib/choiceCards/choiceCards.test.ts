@@ -4,6 +4,10 @@ import type { PromotionsCache } from '../promotions/promotions';
 import { getChoiceCardsSettings } from './choiceCards';
 import { defaultEpicChoiceCardsSettings } from './defaultChoiceCardSettings';
 
+const now = new Date();
+const futureDate = new Date(now.getTime() + 24 * 60 * 60 * 1000 * 30).toISOString(); // 30 days from now
+const pastDate = new Date(now.getTime() - 24 * 60 * 60 * 1000 * 30).toISOString(); // 30 days ago
+
 describe('getChoiceCardsSettings', () => {
     const mockProductCatalog: ProductCatalog = {
         Contribution: {
@@ -325,5 +329,87 @@ describe('getChoiceCardsSettings', () => {
             supportTier: 'DigitalSubscription',
             ratePlan: 'Annual',
         });
+    });
+
+    it('does not apply discount for promo with future start date', () => {
+        const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
+        const promoCodes: string[] = ['PROMO_FUTURE'];
+        const mockPromotionsCacheWithFuturePromo: PromotionsCache = {
+            PROMO_FUTURE: {
+                promoCode: 'PROMO_FUTURE',
+                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+                discountPercent: 40,
+                startTimestamp: futureDate,
+            },
+        };
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCacheWithFuturePromo,
+            promoCodes,
+            variantChoiceCardSettings,
+        );
+
+        expect(result).toBeDefined();
+        // Should show full price without discount since promo hasn't started yet
+        expect(result?.choiceCards[1].label).toEqual('Support $15/monthly');
+        // Should not show the discount pill (e.g., "40% off")
+        expect(result?.choiceCards[1].pill?.copy).not.toBe('40% off');
+    });
+
+    it('does not apply discount for promo with past end date', () => {
+        const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
+        const promoCodes: string[] = ['PROMO_EXPIRED'];
+        const mockPromotionsCacheWithExpiredPromo: PromotionsCache = {
+            PROMO_EXPIRED: {
+                promoCode: 'PROMO_EXPIRED',
+                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+                discountPercent: 40,
+                endTimestamp: pastDate,
+            },
+        };
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCacheWithExpiredPromo,
+            promoCodes,
+            variantChoiceCardSettings,
+        );
+
+        expect(result).toBeDefined();
+        // Should show full price without discount since promo has expired
+        expect(result?.choiceCards[1].label).toEqual('Support $15/monthly');
+        // Should not show the discount pill (e.g., "40% off")
+        expect(result?.choiceCards[1].pill?.copy).not.toBe('40% off');
+    });
+
+    it('applies discount for promo with no dates (always live)', () => {
+        const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
+        const promoCodes: string[] = ['PROMO_NO_DATES'];
+        const mockPromotionsCacheNoDates: PromotionsCache = {
+            PROMO_NO_DATES: {
+                promoCode: 'PROMO_NO_DATES',
+                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+                discountPercent: 40,
+            },
+        };
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCacheNoDates,
+            promoCodes,
+            variantChoiceCardSettings,
+        );
+
+        expect(result).toBeDefined();
+        // Should show discounted price since promo has no date restrictions
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/monthly');
+        expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
     });
 });

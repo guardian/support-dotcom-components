@@ -14,6 +14,8 @@ export interface Promotion {
     promoCode: PromoCode;
     productRatePlanIds: string[]; // the product rate plans that this promo applies to
     discountPercent: number;
+    startTimestamp?: string;
+    endTimestamp?: string;
 }
 export type PromotionsCache = Record<PromoCode, Promotion>;
 
@@ -26,6 +28,8 @@ interface PromotionTableItem {
     discount?: {
         amount: number;
     };
+    startTimestamp?: string;
+    endTimestamp?: string;
 }
 
 const mapTableItemToPromotion = (item: PromotionTableItem): Promotion => {
@@ -33,7 +37,29 @@ const mapTableItemToPromotion = (item: PromotionTableItem): Promotion => {
         promoCode: item.promoCode,
         discountPercent: item.discount?.amount ?? 0,
         productRatePlanIds: item.appliesTo.productRatePlanIds,
+        startTimestamp: item.startTimestamp,
+        endTimestamp: item.endTimestamp,
     };
+};
+
+export const isPromotionLive = (promotion: Promotion): boolean => {
+    const now = new Date();
+
+    if (promotion.startTimestamp) {
+        const startDate = new Date(promotion.startTimestamp);
+        if (now < startDate) {
+            return false;
+        }
+    }
+
+    if (promotion.endTimestamp) {
+        const endDate = new Date(promotion.endTimestamp);
+        if (now > endDate) {
+            return false;
+        }
+    }
+
+    return true;
 };
 
 // Does a full scan of the Promotions table - there isn't a smarter way to do this with the existing schema.
