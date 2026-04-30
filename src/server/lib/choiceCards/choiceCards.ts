@@ -7,7 +7,7 @@ import type {
     RatePlan,
 } from '../../../shared/types/props/choiceCards';
 import type { ProductCatalog } from '../../productCatalog';
-import type { Promotion, PromotionsCache } from '../promotions/promotions';
+import { isPromotionLive, type Promotion, type PromotionsCache } from '../promotions/promotions';
 import {
     currencySymbolTemplate,
     defaultBannerChoiceCardsSettings,
@@ -116,7 +116,9 @@ export const getChoiceCardsSettings = (
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
-    const promotions = promoCodes.map((code) => promotionsCache[code]).filter(Boolean);
+    const promotions = promoCodes
+        .map((code) => promotionsCache[code])
+        .filter((promo): promo is Promotion => Boolean(promo) && isPromotionLive(promo));
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant
