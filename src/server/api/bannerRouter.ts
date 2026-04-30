@@ -127,7 +127,8 @@ export const buildBannerRouter = (
             const requiredCountry = targeting.countryCode || 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
             const vatComplianceCountryConfig = vatComplianceConfig.get();
-            const isVatCompliantCountry = !vatComplianceCountryConfig.countries.includes(requiredCountry);
+            const isVatCompliantCountry =
+                !vatComplianceCountryConfig.countries.includes(requiredCountry);
 
             const forceNoDefault =
                 test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
