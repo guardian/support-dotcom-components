@@ -235,10 +235,11 @@ export const buildEpicRouter = (
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
                 const authHeader = req.headers.authorization;
-                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                const { fetchProfile, forLogging: mParticleLogging } = mParticle.getProfileFetcher(
                     channelSwitches.get(),
                     okta,
                     authHeader,
+                    targeting.isSignedIn ? undefined : targeting.browserId,
                 );
 
                 const response = await buildEpicData(
@@ -262,9 +263,11 @@ export const buildEpicRouter = (
                         'SUPER_MODE',
                     );
                 }
+                const { mParticleProfileStatus, mParticleProfileSource } = mParticleLogging();
                 res.locals.hasAuthorization = !!authHeader;
-                res.locals.gotMParticleProfile = forLogging() === 'found';
-                res.locals.mParticleProfileStatus = forLogging();
+                res.locals.gotMParticleProfile = mParticleProfileStatus === 'found';
+                res.locals.mParticleProfileStatus = mParticleProfileStatus;
+                res.locals.mParticleProfileSource = mParticleProfileSource;
 
                 res.send(response);
             } catch (error) {
@@ -286,10 +289,11 @@ export const buildEpicRouter = (
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
                 const authHeader = req.headers.authorization;
-                const { fetchProfile, forLogging } = mParticle.getProfileFetcher(
+                const { fetchProfile, forLogging: mParticleLogging } = mParticle.getProfileFetcher(
                     channelSwitches.get(),
                     okta,
                     authHeader,
+                    targeting.isSignedIn ? undefined : targeting.browserId,
                 );
                 const response = await buildEpicData(
                     targeting,
@@ -307,9 +311,11 @@ export const buildEpicRouter = (
                         'SUPER_MODE',
                     );
                 }
+                const { mParticleProfileStatus, mParticleProfileSource } = mParticleLogging();
                 res.locals.hasAuthorization = !!authHeader;
-                res.locals.gotMParticleProfile = forLogging() === 'found';
-                res.locals.mParticleProfileStatus = forLogging();
+                res.locals.gotMParticleProfile = mParticleProfileStatus === 'found';
+                res.locals.mParticleProfileStatus = mParticleProfileStatus;
+                res.locals.mParticleProfileSource = mParticleProfileSource;
 
                 res.send(response);
             } catch (error) {

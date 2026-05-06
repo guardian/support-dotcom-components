@@ -49,6 +49,12 @@ export type MParticleProfileStatus =
     | 'not-found'
     | 'not-found-cached'
     | 'not-fetched';
+
+export type MParticleProfileSource = 'identityId' | 'browserId' | 'none';
+export type MParticleProfileLogState = {
+    mParticleProfileStatus: MParticleProfileStatus;
+    mParticleProfileSource: MParticleProfileSource;
+};
 const CACHE_TTL_SECONDS = 3600; // 1 hour
 
 type CacheEntry = {
@@ -242,6 +248,7 @@ export class MParticle {
 
     /**
      * If an Authorization header was supplied then attempt to verify it and extract the identityId. Then fetch the profile from mParticle.
+     * If no Authorization header was supplied, try to lookup the profile with browserId, if presented
      * Returns 2 functions:
      * - fetchProfile, which is memoized and lazy. We do not want to make the request to mparticle unless we need to, and should only do it once.
      * - forLogging, which returns the cached status but will not make a request to mparticle. This is used for request logging.
@@ -250,24 +257,35 @@ export class MParticle {
         channelSwitches: ChannelSwitches,
         okta: Okta,
         authHeader?: string,
+        browserId?: string,
     ): {
         fetchProfile: () => Promise<MParticleProfile | undefined>;
-        forLogging: () => MParticleProfileStatus;
+        forLogging: () => MParticleProfileLogState;
     } {
         let cachedPromise: Promise<MParticleProfile | undefined> | undefined;
         let cachedStatus: MParticleProfileStatus = 'not-fetched';
+        let cachedSource: MParticleProfileSource = 'none';
 
         const fetchProfile = async (): Promise<MParticleProfile | undefined> => {
+            let customerId: string | undefined;
             cachedPromise ??= (async () => {
-                if (!authHeader || !channelSwitches.enableMParticle) {
+                if ((!authHeader && !browserId) || !channelSwitches.enableMParticle) {
                     return undefined;
                 }
-
-                const identityId = await okta.getIdentityIdFromOktaToken(authHeader);
-                if (!identityId) {
-                    return undefined;
+                if (!authHeader && browserId) {
+                    cachedSource = 'browserId';
+                    customerId = browserId;
+                } else {
+                    if (!authHeader) {
+                        return undefined;
+                    }
+                    cachedSource = 'identityId';
+                    customerId = await okta.getIdentityIdFromOktaToken(authHeader);
+                    if (!customerId) {
+                        return undefined;
+                    }
                 }
-                const { profile, fromCache } = await this.getUserProfile(identityId);
+                const { profile, fromCache } = await this.getUserProfile(customerId);
                 if (profile) {
                     cachedStatus = fromCache ? 'found-cached' : 'found';
                 } else {
@@ -278,8 +296,11 @@ export class MParticle {
             return cachedPromise;
         };
 
-        const forLogging = (): MParticleProfileStatus => {
-            return cachedStatus;
+        const forLogging = (): MParticleProfileLogState => {
+            return {
+                mParticleProfileStatus: cachedStatus,
+                mParticleProfileSource: cachedSource,
+            };
         };
 
         return { fetchProfile, forLogging };
