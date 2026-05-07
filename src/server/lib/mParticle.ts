@@ -275,9 +275,6 @@ export class MParticle {
                 if (authHeader) {
                     cachedSource = 'identityId';
                     customerId = await okta.getIdentityIdFromOktaToken(authHeader);
-                    if (!customerId) {
-                        return undefined;
-                    }
                 } else if (browserId) {
                     cachedSource = 'browserId';
                     customerId = browserId;
