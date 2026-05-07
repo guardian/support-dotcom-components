@@ -272,18 +272,18 @@ export class MParticle {
                 if ((!authHeader && !browserId) || !channelSwitches.enableMParticle) {
                     return undefined;
                 }
-                if (!authHeader && browserId) {
-                    cachedSource = 'browserId';
-                    customerId = browserId;
-                } else {
-                    if (!authHeader) {
-                        return undefined;
-                    }
+                if (authHeader) {
                     cachedSource = 'identityId';
                     customerId = await okta.getIdentityIdFromOktaToken(authHeader);
                     if (!customerId) {
                         return undefined;
                     }
+                } else if (browserId) {
+                    cachedSource = 'browserId';
+                    customerId = browserId;
+                }
+                if (!customerId) {
+                    return undefined;
                 }
                 const { profile, fromCache } = await this.getUserProfile(customerId);
                 if (profile) {
