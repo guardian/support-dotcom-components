@@ -51,6 +51,7 @@ export class DotcomComponents extends GuStack {
 		// Cloudwatch alarms
 		const snsTopicName = 'alarms-handler-topic-PROD';
 		const namespace = `support-${appName}-${this.stage}`;
+		const alarmsEnabled = this.stage === 'PROD';
 
 		new GuAlarm(this, 'SuperModeAlarm', {
 			app: appName,
@@ -69,6 +70,7 @@ export class DotcomComponents extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
+			actionsEnabled: alarmsEnabled,
 		});
 
 		new GuAlarm(this, 'ChannelTestsAlarm', {
@@ -87,6 +89,7 @@ export class DotcomComponents extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
+			actionsEnabled: alarmsEnabled,
 		});
 
 		new GuAlarm(this, 'LoadBannerDesignsAlarm', {
@@ -105,6 +108,7 @@ export class DotcomComponents extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
+			actionsEnabled: alarmsEnabled,
 		});
 
 		new GuAlarm(this, 'BanditDataLoadError', {
@@ -124,6 +128,7 @@ export class DotcomComponents extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
+			actionsEnabled: alarmsEnabled,
 		});
 
 		new GuAlarm(this, 'BanditDataSelectionError', {
@@ -142,6 +147,7 @@ export class DotcomComponents extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
+			actionsEnabled: alarmsEnabled,
 		});
 
 		new GuAlarm(this, 'PromotionsFetchError', {
@@ -160,6 +166,7 @@ export class DotcomComponents extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
+			actionsEnabled: alarmsEnabled,
 		});
 
 		new GuAlarm(this, 'MParticleRateLimiting', {
@@ -179,6 +186,7 @@ export class DotcomComponents extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
+			actionsEnabled: alarmsEnabled,
 		});
 
 		new GuAlarm(this, 'AuxiaError', {
@@ -197,6 +205,7 @@ export class DotcomComponents extends GuStack {
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
+			actionsEnabled: alarmsEnabled,
 		});
 
 		const userData = UserData.custom(`#!/bin/bash
@@ -314,18 +323,17 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 			maximumInstances: this.stage === 'CODE' ? 2 : 18,
 		};
 
-		const monitoringConfiguration: Alarms | NoMonitoring =
-			this.stage === 'PROD'
-				? {
-						http5xxAlarm: {
-							tolerated5xxPercentage: 0.5,
-							numberOfMinutesAboveThresholdBeforeAlarm: 1,
-							alarmName: `URGENT 9-5 - high 5XX error rate on ${this.stage} support-dotcom-components`,
-						},
-						unhealthyInstancesAlarm: true,
-						snsTopicName,
-					}
-				: { noMonitoring: true };
+		const monitoringConfiguration: Alarms | NoMonitoring = alarmsEnabled
+			? {
+					http5xxAlarm: {
+						tolerated5xxPercentage: 0.5,
+						numberOfMinutesAboveThresholdBeforeAlarm: 1,
+						alarmName: `URGENT 9-5 - high 5XX error rate on ${this.stage} support-dotcom-components`,
+					},
+					unhealthyInstancesAlarm: true,
+					snsTopicName,
+				}
+			: { noMonitoring: true };
 
 		const ec2App = new GuEc2App(this, {
 			instanceType: InstanceType.of(

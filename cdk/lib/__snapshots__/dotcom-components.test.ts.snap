@@ -241,7 +241,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
     },
     "AuxiaError6DD9C24C": {
       "Properties": {
-        "ActionsEnabled": true,
+        "ActionsEnabled": false,
         "AlarmActions": [
           {
             "Fn::Join": [
@@ -293,7 +293,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
     },
     "BanditDataLoadError6659BF65": {
       "Properties": {
-        "ActionsEnabled": true,
+        "ActionsEnabled": false,
         "AlarmActions": [
           {
             "Fn::Join": [
@@ -345,7 +345,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
     },
     "BanditDataSelectionError8734AF1A": {
       "Properties": {
-        "ActionsEnabled": true,
+        "ActionsEnabled": false,
         "AlarmActions": [
           {
             "Fn::Join": [
@@ -432,7 +432,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
     },
     "ChannelTestsAlarmCFFD6DDE": {
       "Properties": {
-        "ActionsEnabled": true,
+        "ActionsEnabled": false,
         "AlarmActions": [
           {
             "Fn::Join": [
@@ -1228,7 +1228,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
     },
     "LoadBannerDesignsAlarmE829BAEA": {
       "Properties": {
-        "ActionsEnabled": true,
+        "ActionsEnabled": false,
         "AlarmActions": [
           {
             "Fn::Join": [
@@ -1280,7 +1280,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
     },
     "MParticleRateLimiting8CF51901": {
       "Properties": {
-        "ActionsEnabled": true,
+        "ActionsEnabled": false,
         "AlarmActions": [
           {
             "Fn::Join": [
@@ -1391,7 +1391,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
     },
     "PromotionsFetchError893BFB99": {
       "Properties": {
-        "ActionsEnabled": true,
+        "ActionsEnabled": false,
         "AlarmActions": [
           {
             "Fn::Join": [
@@ -1574,7 +1574,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
     },
     "SuperModeAlarmDBFE793D": {
       "Properties": {
-        "ActionsEnabled": true,
+        "ActionsEnabled": false,
         "AlarmActions": [
           {
             "Fn::Join": [
