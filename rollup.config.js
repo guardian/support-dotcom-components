@@ -14,11 +14,11 @@ export default [
         input: 'src/dotcom/index.ts',
         output: [
             {
-                file: pkg.main,
+                file: `src/dotcom/${pkg.main}`,
                 format: 'cjs',
             },
             {
-                file: pkg.module,
+                file: `src/dotcom/${pkg.module}`,
                 format: 'esm',
                 sourcemap: false,
             },

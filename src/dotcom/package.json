@@ -7,9 +7,9 @@
     },
     "author": "The Guardian",
     "license": "MIT",
-    "main": "../../dist/index.js",
-    "module": "../../dist/index.esm.js",
-    "types": "../../dist/dotcom/index.d.ts",
+    "main": "./dist/index.js",
+    "module": "./dist/index.esm.js",
+    "types": "./dist/dotcom/index.d.ts",
     "files": [
         "dist/**/*"
     ],
