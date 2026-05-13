@@ -1,5 +1,5 @@
 {
-    "name": "@guardian/support-dotcom-components",
+    "name": "@guardian/support-dotcom-components-workspace",
     "version": "9.0.1",
     "description": "Service to serve Reader Revenue components to dotcom",
     "repository": {
@@ -7,12 +7,7 @@
     },
     "author": "The Guardian",
     "license": "MIT",
-    "main": "dist/index.js",
-    "module": "dist/index.esm.js",
-    "types": "dist/dotcom/index.d.ts",
-    "files": [
-        "dist/**/*"
-    ],
+    "private": true,
     "scripts": {
         "build-server": "webpack --config webpack.prod.js",
         "prestart": "webpack --config webpack.dev.js",
@@ -27,6 +22,15 @@
         "prettier:fix": "prettier --write ./src",
         "test": "export stage=DEV; jest"
     },
+    "dependencies": {
+        "@guardian/libs": "26.1.0",
+        "@guardian/ophan-tracker-js": "2.8.0",
+        "date-fns": "4.1.0",
+        "lodash.debounce": "4.0.8",
+        "lodash.throttle": "4.1.1",
+        "seedrandom": "3.0.5",
+        "zod": "4.3.6"
+    },
     "devDependencies": {
         "@babel/core": "7.29.0",
         "@babel/preset-typescript": "7.28.5",
@@ -38,9 +42,6 @@
         "@rollup/plugin-commonjs": "29.0.0",
         "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-replace": "6.0.3",
-        "@types/compression": "1.8.1",
-        "@types/cors": "2.8.19",
-        "@types/express": "5.0.6",
         "@types/jest": "30.0.0",
         "@types/lodash.debounce": "4.0.9",
         "@types/lodash.throttle": "4.1.9",
@@ -67,35 +68,7 @@
         "typescript-json-schema": "0.42.0",
         "webpack": "5.105.2",
         "webpack-cli": "6.0.1",
-        "webpack-merge": "6.0.1",
-        "zod": "4.3.6"
-    },
-    "dependencies": {
-        "@aws-sdk/client-cloudwatch": "3.995.0",
-        "@aws-sdk/client-dynamodb": "3.995.0",
-        "@aws-sdk/client-s3": "3.995.0",
-        "@aws-sdk/client-ssm": "3.995.0",
-        "@aws-sdk/credential-providers": "3.1000.0",
-        "@aws-sdk/lib-dynamodb": "3.995.0",
-        "@guardian/libs": "26.1.0",
-        "@guardian/ophan-tracker-js": "2.8.0",
-        "@okta/jwt-verifier": "4.0.2",
-        "compression": "1.8.1",
-        "cors": "2.8.6",
-        "date-fns": "4.1.0",
-        "express": "4.22.1",
-        "jsonschema": "1.5.0",
-        "lodash.debounce": "4.0.8",
-        "lodash.throttle": "4.1.1",
-        "log4js": "6.9.1",
-        "lru-cache": "11.2.7",
-        "seedrandom": "3.0.5",
-        "zod": "4.3.6"
-    },
-    "peerDependencies": {
-        "@guardian/libs": "^22.0.0",
-        "@guardian/ophan-tracker-js": "2.8.0",
-        "zod": "^4.1.12"
+        "webpack-merge": "6.0.1"
     },
     "pnpm": {
         "overrides": {
