@@ -5,7 +5,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import { terser } from 'rollup-plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import pkg from './src/dotcom/package.json';
+import pkg from './package.json';
 
 const extensions = [...DEFAULT_EXTENSIONS, '.ts', '.tsx'];
 
@@ -14,11 +14,11 @@ export default [
         input: 'src/dotcom/index.ts',
         output: [
             {
-                file: `src/dotcom/${pkg.main}`,
+                file: pkg.main,
                 format: 'cjs',
             },
             {
-                file: `src/dotcom/${pkg.module}`,
+                file: pkg.module,
                 format: 'esm',
                 sourcemap: false,
             },
@@ -27,12 +27,12 @@ export default [
             peerDepsExternal(),
             resolve({ extensions: extensions }),
             commonjs(),
-            replace({ 'process.env.NODE_ENV': '"production"', preventAssignment: true }),
+            replace({ 'process.env.NODE_ENV': '"production"' }),
             babel({
                 babelHelpers: 'bundled',
                 extensions: extensions,
             }),
             terser(),
         ],
-    },
-];
+    }
+]
