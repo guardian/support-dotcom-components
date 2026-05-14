@@ -331,6 +331,107 @@ describe('getChoiceCardsSettings', () => {
         });
     });
 
+    it('returns weekly price for monthly rate plan when weekly variant is enabled', () => {
+        const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            [],
+            variantChoiceCardSettings,
+            undefined,
+            undefined,
+            true,
+        );
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[1].label).toEqual('Support $3.45/weekly');
+    });
+
+    it('returns weekly price for annual rate plan when weekly variant is enabled', () => {
+        const variantChoiceCardSettings: ChoiceCardsSettings = {
+            choiceCards: [
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[0],
+                {
+                    ...defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[1],
+                    product: {
+                        ratePlan: 'Annual',
+                        supportTier: 'SupporterPlus',
+                    },
+                },
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
+            ],
+        };
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            [],
+            variantChoiceCardSettings,
+            undefined,
+            undefined,
+            true,
+        );
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[1].label).toEqual('Support $2.88/weekly');
+    });
+
+    it('returns weekly price with monthly discount (PROMO_B) applied when weekly variant is enabled', () => {
+        const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            ['PROMO_B'],
+            variantChoiceCardSettings,
+            undefined,
+            undefined,
+            true,
+        );
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$3.45</s> $2.07/weekly');
+        expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
+    });
+
+    it('returns weekly price and discount for annual rate plan when weekly variant is enabled', () => {
+        const variantChoiceCardSettings: ChoiceCardsSettings = {
+            choiceCards: [
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[0],
+                {
+                    ...defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[1],
+                    product: {
+                        ratePlan: 'Annual',
+                        supportTier: 'SupporterPlus',
+                    },
+                },
+                defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
+            ],
+        };
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            ['PROMO_A'],
+            variantChoiceCardSettings,
+            undefined,
+            undefined,
+            true,
+        );
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$2.88</s> $1.87/weekly');
+    });
+
     it('does not apply discount for promo with future start date', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
         const promoCodes: string[] = ['PROMO_FUTURE'];

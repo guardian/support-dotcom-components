@@ -143,6 +143,8 @@ export const buildBannerRouter = (
 
             const forceExpanded = variant.name.includes('_NO_DEFAULT_CHOICE_CARD_');
 
+            const isWeeklyPriceVariant = variant.name.includes('WEEKLY_PRICE');
+
             const choiceCardsSettings =
                 design?.visual?.kind === 'ChoiceCards' && isVatCompliantCountry
                     ? getChoiceCardsSettings(
@@ -154,6 +156,7 @@ export const buildBannerRouter = (
                           variant.choiceCardsSettings ?? undefined,
                           forceNoDefault,
                           forceExpanded,
+                          isWeeklyPriceVariant,
                       )
                     : undefined;
 

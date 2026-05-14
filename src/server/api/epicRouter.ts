@@ -166,6 +166,8 @@ export const buildEpicRouter = (
 
         const forceExpanded = variant.name.includes('_NO_DEFAULT_CHOICE_CARD_');
 
+        const isWeeklyPriceVariant = variant.name.includes('WEEKLY_PRICE');
+
         const choiceCardsSettings =
             variant.showChoiceCards && isVatCompliantCountry
                 ? getChoiceCardsSettings(
@@ -177,6 +179,7 @@ export const buildEpicRouter = (
                       variant.choiceCardsSettings ?? undefined,
                       forceNoDefault,
                       forceExpanded,
+                      isWeeklyPriceVariant,
                   )
                 : undefined;
 
