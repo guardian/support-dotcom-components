@@ -182,12 +182,24 @@ export const getChoiceCardsSettings = (
         return {
             choiceCards: choiceCardsSettings.choiceCards.map((card) =>
                 maybeForceCardSettings(
-                    enrichChoiceCard(card, isoCurrency, productCatalog, getPromotion(card), isWeeklyVariant),
+                    enrichChoiceCard(
+                        card,
+                        isoCurrency,
+                        productCatalog,
+                        getPromotion(card),
+                        isWeeklyVariant,
+                    ),
                 ),
             ),
             mobileChoiceCards: choiceCardsSettings.mobileChoiceCards?.map((card) =>
                 maybeForceCardSettings(
-                    enrichChoiceCard(card, isoCurrency, productCatalog, getPromotion(card), isWeeklyVariant),
+                    enrichChoiceCard(
+                        card,
+                        isoCurrency,
+                        productCatalog,
+                        getPromotion(card),
+                        isWeeklyVariant,
+                    ),
                 ),
             ),
         };
