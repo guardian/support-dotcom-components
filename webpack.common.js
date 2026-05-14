@@ -6,14 +6,28 @@ module.exports = {
     output: {
         filename: 'server.js',
         path: path.resolve(__dirname, 'server-dist'),
-        chunkFormat: false
+        chunkFormat: false,
     },
     resolve: {
         extensions: ['.ts', '.js'],
+        modules: [
+            path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, 'src/server/node_modules'),
+            'node_modules',
+        ],
     },
     module: {
         rules: [
-            { test: /\.ts$/, use: { loader: 'ts-loader', options: { projectReferences: true } } },
+            {
+                test: /\.ts$/,
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        projectReferences: true,
+                        configFile: path.resolve(__dirname, 'tsconfig.json'),
+                    },
+                },
+            },
         ],
     },
     ignoreWarnings: [
