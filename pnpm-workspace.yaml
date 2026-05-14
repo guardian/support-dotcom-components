@@ -1,4 +1,0 @@
-packages:
-    - 'src/server'
-    - 'src/dotcom'
-    - 'cdk'
