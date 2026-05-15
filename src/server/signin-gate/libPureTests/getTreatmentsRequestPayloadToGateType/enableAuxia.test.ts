@@ -23,7 +23,6 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
-            isInAuxiaControlGroup: false,
         };
 
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
@@ -51,7 +50,6 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
-            isInAuxiaControlGroup: false,
         };
 
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
@@ -79,7 +77,6 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
-            isInAuxiaControlGroup: false,
         };
 
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
@@ -105,7 +102,6 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 5, // >= 5
             hideSupportMessagingTimestamp: undefined,
-            isInAuxiaControlGroup: false,
         };
 
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
@@ -131,7 +127,6 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: now - 1000, // Less than 30 days
-            isInAuxiaControlGroup: false,
         };
 
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
@@ -157,7 +152,6 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
-            isInAuxiaControlGroup: false,
         };
 
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
@@ -183,7 +177,6 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             showDefaultGate: undefined,
             gateDisplayCount: 0,
             hideSupportMessagingTimestamp: undefined,
-            isInAuxiaControlGroup: false,
         };
 
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);

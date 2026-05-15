@@ -20,7 +20,6 @@ it('staffTestConditionToDefaultGate', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined,
-        isInAuxiaControlGroup: false,
     };
     expect(staffTestConditionToDefaultGate(payload1)).toBe('None');
 
@@ -42,7 +41,6 @@ it('staffTestConditionToDefaultGate', () => {
         showDefaultGate: 'true',
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined,
-        isInAuxiaControlGroup: false,
     };
     expect(staffTestConditionToDefaultGate(payload2)).toBe('GuDismissible');
 
@@ -64,7 +62,6 @@ it('staffTestConditionToDefaultGate', () => {
         showDefaultGate: 'dismissible',
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined,
-        isInAuxiaControlGroup: false,
     };
     expect(staffTestConditionToDefaultGate(payload3)).toBe('GuDismissible');
 
@@ -86,7 +83,6 @@ it('staffTestConditionToDefaultGate', () => {
         showDefaultGate: 'mandatory',
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined,
-        isInAuxiaControlGroup: false,
     };
     expect(staffTestConditionToDefaultGate(payload4)).toBe('GuMandatory');
 });

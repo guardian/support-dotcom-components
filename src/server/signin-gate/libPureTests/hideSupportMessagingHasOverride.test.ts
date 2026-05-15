@@ -34,7 +34,6 @@ it('hideSupportMessagingHasOverride, undefined', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined, // <- tested: no information provided
-        isInAuxiaControlGroup: false,
     };
 
     const now = 1756568890120; // 2025-08-30 16:48:10 +0100
@@ -74,7 +73,6 @@ it('hideSupportMessagingHasOverride, defined, more than 30 days ago', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: 1674172805000, // <- tested: 2023-01-20T00:00:05Z
-        isInAuxiaControlGroup: false,
     };
 
     const now = 1756568890120; // 2025-08-30 16:48:10 +0100 (more than 30 days)
@@ -114,7 +112,6 @@ it('hideSupportMessagingHasOverride, defined, less than 30 days ago', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: 1755644400000, // <- tested: 2025-08-20 00:00:00 +0100
-        isInAuxiaControlGroup: false,
     };
 
     const now = 1756568890120; // 2025-08-30 16:48:10 +0100 (less than 30 days)
@@ -140,7 +137,6 @@ it('hideSupportMessagingHasOverride, defined, value in the future', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: 1756722953000, // <- tested: 2025-09-01 11:35:53 +0100 (future value relatively to now)
-        isInAuxiaControlGroup: false,
     };
 
     const now = 1756568890120; // 2025-08-30 16:48:10 +0100 (less than 30 days)
@@ -182,7 +178,6 @@ it('getTreatmentsRequestPayloadToGateType, without override', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 1,
         hideSupportMessagingTimestamp: undefined, // <- no override
-        isInAuxiaControlGroup: false,
     };
     const now = 1756568322187; // current time in milliseconds since epoch
     const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
@@ -222,7 +217,6 @@ it('getTreatmentsRequestPayloadToGateType, with override', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 1,
         hideSupportMessagingTimestamp: 1755644400000, // <- tested: 2025-08-20 00:00:00 +0100
-        isInAuxiaControlGroup: false,
     };
     const now = 1756568890120; // 2025-08-30 16:48:10 +0100 (less than 30 days)
     const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
@@ -261,7 +255,6 @@ it('getTreatmentsRequestPayloadToGateType, with override, ireland with Auxia Ana
         showDefaultGate: undefined,
         gateDisplayCount: 1,
         hideSupportMessagingTimestamp: 1755644400000, // <- tested: 2025-08-20 00:00:00 +0100
-        isInAuxiaControlGroup: false,
     };
     const now = 1756568890120; // 2025-08-30 16:48:10 +0100 (less than 30 days)
     const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);

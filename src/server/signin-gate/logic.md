@@ -21,7 +21,7 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |
                |  - No Auxia notification                     |
  un-consented  |  - Guardian drives the gate:                 |
- or in control |    - No gate for 30 days after a single      |
+               |    - No gate for 30 days after a single      |
                |      contribution event [01]                 |
                |    - No gate the first 3 page views          |
                |    - Dismissible gates,                      |
@@ -33,7 +33,7 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |  - Auxia drives the gate                     |
   consented +  |                                              |
   auxia 35% +  |                                              |
-not in control |                                              |
+               |                                              |
                |                                              |
                |                                              |
                |                                              |
@@ -63,7 +63,7 @@ not in control |                                              |
                |                                              |
                |  - Notify Auxia for analytics                |
  un-consented  |  - Guardian drives the gate:                 |
- or in control |    - No gate for 30 days after a single      |
+               |    - No gate for 30 days after a single      |
                |      contribution event [02]                 |
                |    - No gate the first 3 page views          |
                |    - 3x dismissal, then mandatory            |
@@ -73,7 +73,7 @@ not in control |                                              |
                |                                              |
                |  - Auxia drives the gate                     |
   consented +  |                                              |
-not in control |                                              |
+               |                                              |
                |                                              |
                |                                              |
                |                                              |
@@ -93,7 +93,7 @@ not in control |                                              |
                |                                              |
                |  - No Auxia notification                     |
  un-consented  |  - Guardian drives the gate:                 |
- or in control |    - No gate for 30 days after a single      |
+               |    - No gate for 30 days after a single      |
                |      contribution event [01]                 |
                |    - No gate the first 3 page views          |
                |    - Dismissible gates,                      |
@@ -104,7 +104,7 @@ not in control |                                              |
                |                                              |
                |  - Auxia drives the gate                     |
   consented +  |                                              |
-not in control |                                              |
+               |                                              |
                |                                              |
                |                                              |
                |                                              |
