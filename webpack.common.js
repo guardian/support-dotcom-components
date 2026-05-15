@@ -1,10 +1,25 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const { readFileSync } = require('fs');
+
+// Read dependencies from package.json to allowlist them
+const rootPackageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
+const serverPackageJson = JSON.parse(readFileSync('./src/server/package.json', 'utf8'));
+
+const allDependencies = [
+    ...Object.keys(rootPackageJson.dependencies || {}),
+    ...Object.keys(rootPackageJson.peerDependencies || {}),
+    ...Object.keys(serverPackageJson.dependencies || {}),
+];
 
 module.exports = {
     entry: './src/server/server.ts',
     target: 'node',
-    externals: [nodeExternals()],
+    externals: [
+        nodeExternals({
+            allowlist: allDependencies,
+        }),
+    ],
     output: {
         filename: 'server.js',
         path: path.resolve(__dirname, 'server-dist'),
