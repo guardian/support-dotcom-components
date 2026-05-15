@@ -17,7 +17,12 @@ module.exports = {
     target: 'node',
     externals: [
         nodeExternals({
-            allowlist: allDependencies,
+            allowlist: (module) => {
+                // Allowlist if it matches any of our dependencies (including submodules)
+                return allDependencies.some(
+                    (dep) => module === dep || module.startsWith(dep + '/'),
+                );
+            },
         }),
     ],
     output: {
