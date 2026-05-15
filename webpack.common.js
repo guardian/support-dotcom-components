@@ -9,7 +9,9 @@ const serverPackageJson = JSON.parse(readFileSync('./src/server/package.json', '
 const allDependencies = [
     ...Object.keys(rootPackageJson.dependencies || {}),
     ...Object.keys(rootPackageJson.peerDependencies || {}),
+    ...Object.keys(rootPackageJson.devDependencies || {}),
     ...Object.keys(serverPackageJson.dependencies || {}),
+    ...Object.keys(serverPackageJson.devDependencies || {}),
 ];
 
 module.exports = {
