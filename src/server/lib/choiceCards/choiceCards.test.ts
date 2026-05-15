@@ -347,7 +347,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support $3.45/weekly');
+        expect(result?.choiceCards[1].label).toEqual('Support $3.45/week');
     });
 
     it('returns weekly price for annual rate plan when weekly variant is enabled', () => {
@@ -378,7 +378,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support $2.88/weekly');
+        expect(result?.choiceCards[1].label).toEqual('Support $2.88/week');
     });
 
     it('returns weekly price with monthly discount (PROMO_B) applied when weekly variant is enabled', () => {
@@ -397,7 +397,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$3.45</s> $2.07/weekly');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$3.45</s> $2.07/week');
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
     });
 
@@ -429,7 +429,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$2.88</s> $1.87/weekly');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$2.88</s> $1.87/week');
     });
 
     it('does not apply discount for promo with future start date', () => {
