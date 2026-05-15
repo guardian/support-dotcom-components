@@ -57,7 +57,7 @@ const enrichChoiceCard = (
     ) => {
         const basePrice = productCatalog[tier].ratePlans[ratePlan].pricing[isoCurrency];
         const price = isWeeklyVariant ? getDayPriceForRatePlan(basePrice, ratePlan) * 7 : basePrice;
-        const ratePlanCopyText = isWeeklyVariant ? 'weekly' : ratePlanCopy(ratePlan);
+        const ratePlanCopyText = isWeeklyVariant ? 'week' : ratePlanCopy(ratePlan);
         const formattedPrice = formatPrice(price);
 
         if (promotion) {
