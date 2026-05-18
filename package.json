@@ -52,7 +52,7 @@
         "eslint-plugin-react": "7.37.5",
         "globals": "17.0.0",
         "inquirer": "13.3.0",
-        "jest": "30.3.0",
+        "jest": "30.4.2",
         "nodemon": "3.1.11",
         "prettier": "3.8.1",
         "rollup": "2.80.0",
