@@ -302,7 +302,6 @@ export const userHasConsented = (payload: GetTreatmentsRequestPayload): boolean 
     return payload.hasConsented;
 };
 
-
 export const hideSupportMessagingHasOverride = (
     payload: GetTreatmentsRequestPayload,
     now: number,

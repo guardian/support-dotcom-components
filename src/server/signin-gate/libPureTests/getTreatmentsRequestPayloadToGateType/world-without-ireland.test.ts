@@ -116,5 +116,4 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('None');
     });
-
 });

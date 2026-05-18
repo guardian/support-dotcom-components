@@ -149,5 +149,4 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuMandatory');
     });
-
 });
