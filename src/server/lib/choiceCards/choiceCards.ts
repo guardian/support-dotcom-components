@@ -25,12 +25,29 @@ const ratePlanCopy = (ratePlan: RatePlan): string => {
     }
 };
 
+const getDayPriceForRatePlan = (price: number, ratePlan: string): number => {
+    if (ratePlan === 'Annual') {
+        return price / 365;
+    }
+    if (ratePlan === 'Quarterly') {
+        return (price * 4) / 365;
+    }
+    if (ratePlan === 'Monthly') {
+        return (price * 12) / 365;
+    }
+    return price / 7;
+};
+
+const formatPrice = (price: number): string =>
+    price % 1 === 0 ? price.toString() : price.toFixed(2);
+
 // Add pricing, currency etc
 const enrichChoiceCard = (
     choiceCard: ChoiceCard,
     isoCurrency: IsoCurrency,
     productCatalog: ProductCatalog,
     promotion?: Promotion,
+    isWeeklyVariant?: boolean,
 ): ChoiceCard => {
     const currencySymbol = isoCurrencyToCurrencySymbol[isoCurrency];
 
@@ -38,15 +55,18 @@ const enrichChoiceCard = (
         ratePlan: RatePlan,
         tier: 'Contribution' | 'SupporterPlus' | 'DigitalSubscription',
     ) => {
-        const price = productCatalog[tier].ratePlans[ratePlan].pricing[isoCurrency];
+        const basePrice = productCatalog[tier].ratePlans[ratePlan].pricing[isoCurrency];
+        const price = isWeeklyVariant ? getDayPriceForRatePlan(basePrice, ratePlan) * 7 : basePrice;
+        const ratePlanCopyText = isWeeklyVariant ? 'week' : ratePlanCopy(ratePlan);
+        const formattedPrice = formatPrice(price);
+
         if (promotion) {
             const discount = price * (promotion.discountPercent / 100);
             const discountedPrice = price - discount;
-            const formattedPrice =
-                discountedPrice % 1 === 0 ? discountedPrice.toString() : discountedPrice.toFixed(2);
-            return `Support <s>${currencySymbol}${price}</s> ${currencySymbol}${formattedPrice}/${ratePlanCopy(ratePlan)}`;
+            const formattedDiscountedPrice = formatPrice(discountedPrice);
+            return `Support <s>${currencySymbol}${formattedPrice}</s> ${currencySymbol}${formattedDiscountedPrice}/${ratePlanCopyText}`;
         } else {
-            return `Support ${currencySymbol}${price}/${ratePlanCopy(ratePlan)}`;
+            return `Support ${currencySymbol}${formattedPrice}/${ratePlanCopyText}`;
         }
     };
     const buildLabelForOneOffContribution = (label: string) =>
@@ -113,6 +133,7 @@ export const getChoiceCardsSettings = (
     variantChoiceCardSettings?: ChoiceCardsSettings, // defined only if the test variant overrides the default settings
     forceNoDefault?: boolean,
     forceExpanded?: boolean,
+    isWeeklyVariant?: boolean,
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
@@ -161,12 +182,24 @@ export const getChoiceCardsSettings = (
         return {
             choiceCards: choiceCardsSettings.choiceCards.map((card) =>
                 maybeForceCardSettings(
-                    enrichChoiceCard(card, isoCurrency, productCatalog, getPromotion(card)),
+                    enrichChoiceCard(
+                        card,
+                        isoCurrency,
+                        productCatalog,
+                        getPromotion(card),
+                        isWeeklyVariant,
+                    ),
                 ),
             ),
             mobileChoiceCards: choiceCardsSettings.mobileChoiceCards?.map((card) =>
                 maybeForceCardSettings(
-                    enrichChoiceCard(card, isoCurrency, productCatalog, getPromotion(card)),
+                    enrichChoiceCard(
+                        card,
+                        isoCurrency,
+                        productCatalog,
+                        getPromotion(card),
+                        isWeeklyVariant,
+                    ),
                 ),
             ),
         };
