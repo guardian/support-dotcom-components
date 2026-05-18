@@ -20,7 +20,6 @@ it('userHasConsented', () => {
         showDefaultGate: undefined,
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined,
-        isInAuxiaControlGroup: false,
     };
     expect(userHasConsented(payload1)).toBe(true);
 
@@ -42,7 +41,6 @@ it('userHasConsented', () => {
         showDefaultGate: 'true',
         gateDisplayCount: 0,
         hideSupportMessagingTimestamp: undefined,
-        isInAuxiaControlGroup: false,
     };
     expect(userHasConsented(payload2)).toBe(false);
 });

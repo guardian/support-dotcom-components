@@ -302,9 +302,6 @@ export const userHasConsented = (payload: GetTreatmentsRequestPayload): boolean 
     return payload.hasConsented;
 };
 
-const inAuxiaControlGroup = (payload: GetTreatmentsRequestPayload): boolean =>
-    payload.isInAuxiaControlGroup;
-
 export const hideSupportMessagingHasOverride = (
     payload: GetTreatmentsRequestPayload,
     now: number,
@@ -435,7 +432,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     //    should correspond to a given payload.
 
     if (isMandatoryRollout && enableAuxia) {
-        if (userHasConsented(payload) && !inAuxiaControlGroup(payload)) {
+        if (userHasConsented(payload)) {
             // [04] (copy from logic.md)
             //
             // prerequisites:
@@ -477,8 +474,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     if (
         enableAuxia &&
         userHasConsented(payload) &&
-        (isDismissibleRollout || isAuxiaAudienceShare(payload)) &&
-        !inAuxiaControlGroup(payload)
+        (isDismissibleRollout || isAuxiaAudienceShare(payload))
     ) {
         // We have consent for Auxia anduser is either:
         // - in a country where Auxia is rolled out to all eligible users (Australia)
