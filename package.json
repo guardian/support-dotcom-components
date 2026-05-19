@@ -1,5 +1,5 @@
 {
-    "name": "@guardian/support-dotcom-components",
+    "name": "@guardian/support-dotcom-components-workspace",
     "version": "9.0.1",
     "description": "Service to serve Reader Revenue components to dotcom",
     "repository": {
@@ -7,16 +7,11 @@
     },
     "author": "The Guardian",
     "license": "MIT",
-    "main": "dist/index.js",
-    "module": "dist/index.esm.js",
-    "types": "dist/dotcom/index.d.ts",
-    "files": [
-        "dist/**/*"
-    ],
+    "private": true,
     "scripts": {
-        "build-server": "webpack --config webpack.prod.js",
-        "prestart": "webpack --config webpack.dev.js",
-        "start-watch": "webpack --config webpack.dev.js --watch",
+        "build-server": "esbuild src/server/server.ts --bundle --platform=node --outfile=server-dist/server.js --minify",
+        "prestart": "esbuild src/server/server.ts --bundle --platform=node --outfile=server-dist/server.js --sourcemap=inline",
+        "start-watch": "esbuild src/server/server.ts --bundle --platform=node --outfile=server-dist/server.js --sourcemap=inline --watch",
         "start-server": "stage=DEV PORT=8082 nodemon server-dist/server.js",
         "start": "concurrently --kill-others \"pnpm start-watch\" \"pnpm start-server\"",
         "build-dotcom": "rollup --config rollup.config.js",
@@ -26,6 +21,15 @@
         "prettier:check": "prettier --check ./src",
         "prettier:fix": "prettier --write ./src",
         "test": "export stage=DEV; jest"
+    },
+    "dependencies": {
+        "@guardian/libs": "26.1.0",
+        "@guardian/ophan-tracker-js": "2.8.0",
+        "date-fns": "4.1.0",
+        "lodash.debounce": "4.0.8",
+        "lodash.throttle": "4.1.1",
+        "seedrandom": "3.0.5",
+        "zod": "4.3.6"
     },
     "devDependencies": {
         "@babel/core": "7.29.0",
@@ -38,13 +42,10 @@
         "@rollup/plugin-commonjs": "29.0.0",
         "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-replace": "6.0.3",
-        "@types/compression": "1.8.1",
-        "@types/cors": "2.8.19",
-        "@types/express": "5.0.6",
         "@types/jest": "30.0.0",
         "@types/lodash.debounce": "4.0.9",
         "@types/lodash.throttle": "4.1.9",
-        "@types/node": "25.6.2",
+        "@types/node": "25.3.3",
         "@types/seedrandom": "3.0.8",
         "babel-loader": "10.1.1",
         "concurrently": "9.2.1",
@@ -52,50 +53,19 @@
         "eslint-plugin-react": "7.37.5",
         "globals": "17.0.0",
         "inquirer": "13.3.0",
-        "jest": "30.4.2",
-        "nodemon": "3.1.14",
+        "jest": "30.3.0",
+        "nodemon": "3.1.11",
         "prettier": "3.8.1",
         "rollup": "2.80.0",
         "rollup-plugin-external-globals": "0.13.0",
         "rollup-plugin-peer-deps-external": "2.2.4",
         "rollup-plugin-terser": "7.0.2",
         "ts-jest": "29.4.6",
-        "ts-loader": "9.5.4",
         "ts-node-dev": "2.0.0",
         "tslib": "2.8.1",
         "typescript": "5.5.4",
-        "typescript-json-schema": "0.67.2",
-        "webpack": "5.105.2",
-        "webpack-cli": "7.0.2",
-        "webpack-merge": "6.0.1",
-        "zod": "4.3.6"
-    },
-    "dependencies": {
-        "@aws-sdk/client-cloudwatch": "3.1045.0",
-        "@aws-sdk/client-dynamodb": "3.1045.0",
-        "@aws-sdk/client-s3": "3.1045.0",
-        "@aws-sdk/client-ssm": "3.1045.0",
-        "@aws-sdk/credential-providers": "3.1045.0",
-        "@aws-sdk/lib-dynamodb": "3.1045.0",
-        "@guardian/libs": "26.1.0",
-        "@guardian/ophan-tracker-js": "2.8.0",
-        "@okta/jwt-verifier": "4.0.2",
-        "compression": "1.8.1",
-        "cors": "2.8.6",
-        "date-fns": "4.1.0",
-        "express": "4.22.1",
-        "jsonschema": "1.5.0",
-        "lodash.debounce": "4.0.8",
-        "lodash.throttle": "4.1.1",
-        "log4js": "6.9.1",
-        "lru-cache": "11.2.7",
-        "seedrandom": "3.0.5",
-        "zod": "4.3.6"
-    },
-    "peerDependencies": {
-        "@guardian/libs": "^22.0.0",
-        "@guardian/ophan-tracker-js": "2.8.0",
-        "zod": "^4.1.12"
+        "typescript-json-schema": "0.42.0",
+        "esbuild": "0.28.0"
     },
     "pnpm": {
         "overrides": {
