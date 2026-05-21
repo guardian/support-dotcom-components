@@ -1,6 +1,6 @@
 import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
-import type { Channel, SelectedAmountsVariant } from '../abTests';
+import type { Channel } from '../abTests';
 import type { AbandonedBasket } from '../targeting';
 import type { ChoiceCardsSettings } from './choiceCards';
 import { choiceCardsSettings } from './choiceCards';
@@ -67,7 +67,6 @@ export interface BannerProps {
     hasOptedOutOfArticleCount?: boolean;
     separateArticleCount?: boolean;
     separateArticleCountSettings?: SeparateArticleCount;
-    choiceCardAmounts?: SelectedAmountsVariant;
     choiceCardsSettings?: ChoiceCardsSettings;
     design?: ConfigurableDesign;
     abandonedBasket?: AbandonedBasket;

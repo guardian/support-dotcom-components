@@ -2,7 +2,6 @@ import type express from 'express';
 import { Router } from 'express';
 import { countryCodeToCountryGroupId } from '../../shared/lib';
 import type {
-    AmountsTests,
     BannerDesignFromTool,
     BannerProps,
     BannerTargeting,
@@ -13,6 +12,7 @@ import type {
 import { channelFromBannerChannel } from '../../shared/types';
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
+import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import type { Auxia, AuxiaInteractionType, GetTreatmentsAttributes } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
@@ -27,7 +27,6 @@ import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeti
 import { buildBannerCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
 import type { ProductCatalog } from '../productCatalog';
-import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
@@ -51,7 +50,6 @@ export const buildBannerRouter = (
     tickerData: TickerDataProvider,
     bannerTests: ValueProvider<BannerTest[]>,
     bannerDeployTimes: BannerDeployTimesProvider,
-    choiceCardAmounts: ValueProvider<AmountsTests>,
     bannerDesigns: ValueProvider<BannerDesignFromTool[]>,
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
@@ -60,6 +58,7 @@ export const buildBannerRouter = (
     okta: Okta,
     auxia: Auxia,
     channelExclusions: ValueProvider<ExclusionSettings>,
+    contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
 ): Router => {
     const router = Router();
 
@@ -125,17 +124,11 @@ export const buildBannerRouter = (
 
             const design = getDesignForVariant(variant, bannerDesigns.get());
 
-            const contributionAmounts = choiceCardAmounts.get();
             const requiredCountry = targeting.countryCode || 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
-            const targetingMvtId = targeting.mvtId || 1;
-            const variantAmounts = selectAmountsTestVariant(
-                contributionAmounts,
-                requiredCountry,
-                requiredRegion,
-                targetingMvtId,
-            );
-            const isVatCompliantCountry = variantAmounts?.testName !== 'VAT_COMPLIANCE';
+            const contributionsOnlyConfig = contributionsOnlyCountriesConfig.get();
+            const isVatCompliantCountry =
+                !contributionsOnlyConfig.contributionsOnlyCountries.includes(requiredCountry);
 
             const forceNoDefault =
                 test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
@@ -177,7 +170,6 @@ export const buildBannerRouter = (
                 separateArticleCount: variant.separateArticleCount,
                 separateArticleCountSettings: variant.separateArticleCountSettings,
                 choiceCardsSettings,
-                choiceCardAmounts: variantAmounts, // deprecated, to be removed soon
                 design,
                 abandonedBasket: targeting.abandonedBasket,
                 isCollapsible: variant.isCollapsible ?? undefined,

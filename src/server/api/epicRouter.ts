@@ -2,7 +2,6 @@ import type express from 'express';
 import { Router } from 'express';
 import { countryCodeToCountryGroupId, getReminderFields } from '../../shared/lib';
 import type {
-    AmountsTests,
     EpicProps,
     EpicTargeting,
     EpicTest,
@@ -14,6 +13,7 @@ import type {
 } from '../../shared/types';
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
+import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
@@ -28,7 +28,6 @@ import type { SuperModeArticle } from '../lib/superMode';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildEpicCampaignCode } from '../lib/tracking';
 import type { ProductCatalog } from '../productCatalog';
-import { selectAmountsTestVariant } from '../selection/ab';
 import type { BanditData } from '../selection/banditData';
 import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
@@ -56,7 +55,6 @@ export const buildEpicRouter = (
     superModeArticles: ValueProvider<SuperModeArticle[]>,
     articleEpicTests: ValueProvider<EpicTest[]>,
     liveblogEpicTests: ValueProvider<EpicTest[]>,
-    choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     banditData: ValueProvider<BanditData[]>,
     productCatalog: ValueProvider<ProductCatalog>,
@@ -64,6 +62,7 @@ export const buildEpicRouter = (
     mParticle: MParticle,
     okta: Okta,
     channelExclusions: ValueProvider<ExclusionSettings>,
+    contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
 ): Router => {
     const router = Router();
 
@@ -143,22 +142,11 @@ export const buildEpicRouter = (
         const showReminderFields =
             variant.showReminderFields ?? getReminderFields(targeting.countryCode);
 
-        /**
-         * We assign the user to an amounts test even though this is not used for the newer choice cards.
-         * This is because we also use the special VAT_COMPLIANCE amounts test to disable choice cards
-         * if a user is in a non-VAT compliant country.
-         * In future we should migrate to a better way of configuring this.
-         */
-        const contributionAmounts = choiceCardAmounts.get();
         const requiredCountry = targeting.countryCode ?? 'GB';
         const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
-        const variantAmounts = selectAmountsTestVariant(
-            contributionAmounts,
-            requiredCountry,
-            requiredRegion,
-            targetingMvtId,
-        );
-        const isVatCompliantCountry = variantAmounts?.testName !== 'VAT_COMPLIANCE';
+        const contributionsOnlyConfig = contributionsOnlyCountriesConfig.get();
+        const isVatCompliantCountry =
+            !contributionsOnlyConfig.contributionsOnlyCountries.includes(requiredCountry);
 
         const forceNoDefault =
             test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
@@ -187,7 +175,6 @@ export const buildEpicRouter = (
             ...variant,
             tickerSettings,
             showReminderFields,
-            choiceCardAmounts: variantAmounts, // deprecated, to be removed soon
             choiceCardsSettings,
         };
 
