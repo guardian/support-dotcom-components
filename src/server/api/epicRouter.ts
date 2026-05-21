@@ -13,6 +13,7 @@ import type {
 } from '../../shared/types';
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
+import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
@@ -33,7 +34,6 @@ import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epi
 import { inExclusions } from '../utils/channelExclusionsMatcher';
 import { logWarn } from '../utils/logging';
 import type { ValueProvider } from '../utils/valueReloader';
-import type { VatComplianceConfig } from '../vatCompliance';
 
 interface EpicDataResponse {
     data?: {
@@ -62,7 +62,7 @@ export const buildEpicRouter = (
     mParticle: MParticle,
     okta: Okta,
     channelExclusions: ValueProvider<ExclusionSettings>,
-    vatComplianceConfig: ValueProvider<VatComplianceConfig>,
+    contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
 ): Router => {
     const router = Router();
 
@@ -144,9 +144,9 @@ export const buildEpicRouter = (
 
         const requiredCountry = targeting.countryCode ?? 'GB';
         const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
-        const vatComplianceCountryConfig = vatComplianceConfig.get();
+        const contributionsOnlyConfig = contributionsOnlyCountriesConfig.get();
         const isVatCompliantCountry =
-            !vatComplianceCountryConfig.countries.includes(requiredCountry);
+            !contributionsOnlyConfig.contributionsOnlyCountries.includes(requiredCountry);
 
         const forceNoDefault =
             test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||

@@ -10,6 +10,7 @@ import { buildHeaderRouter } from './api/headerRouter';
 import { buildTickerRouter } from './api/tickerRouter';
 import { buildChannelExclusionsReloader } from './channelExclusions';
 import { buildChannelSwitchesReloader } from './channelSwitches';
+import { buildContributionsOnlyCountriesReloader } from './contributionsOnly';
 import { Auxia } from './lib/auxia';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { getMParticleConfig, MParticle } from './lib/mParticle';
@@ -29,7 +30,6 @@ import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { logError } from './utils/logging';
-import { buildVatComplianceReloader } from './vatCompliance';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -89,7 +89,7 @@ const buildApp = async (): Promise<Express> => {
         productCatalog,
         promotions,
         channelExclusions,
-        vatComplianceConfig,
+        contributionsOnlyCountriesConfig,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -104,7 +104,7 @@ const buildApp = async (): Promise<Express> => {
         buildProductCatalogReloader(),
         buildPromotionsReloader(),
         buildChannelExclusionsReloader(),
-        buildVatComplianceReloader(),
+        buildContributionsOnlyCountriesReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -132,7 +132,7 @@ const buildApp = async (): Promise<Express> => {
             mParticle,
             okta,
             channelExclusions,
-            vatComplianceConfig,
+            contributionsOnlyCountriesConfig,
         ),
     );
     app.use(
@@ -149,7 +149,7 @@ const buildApp = async (): Promise<Express> => {
             okta,
             auxia,
             channelExclusions,
-            vatComplianceConfig,
+            contributionsOnlyCountriesConfig,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests, mParticle, okta, channelExclusions));

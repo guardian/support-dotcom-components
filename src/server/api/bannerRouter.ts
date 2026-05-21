@@ -12,6 +12,7 @@ import type {
 import { channelFromBannerChannel } from '../../shared/types';
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
+import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import type { Auxia, AuxiaInteractionType, GetTreatmentsAttributes } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
@@ -33,7 +34,6 @@ import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
 import { inExclusions } from '../utils/channelExclusionsMatcher';
 import type { ValueProvider } from '../utils/valueReloader';
-import type { VatComplianceConfig } from '../vatCompliance';
 
 interface BannerDataResponse {
     data?: {
@@ -58,7 +58,7 @@ export const buildBannerRouter = (
     okta: Okta,
     auxia: Auxia,
     channelExclusions: ValueProvider<ExclusionSettings>,
-    vatComplianceConfig: ValueProvider<VatComplianceConfig>,
+    contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
 ): Router => {
     const router = Router();
 
@@ -126,9 +126,9 @@ export const buildBannerRouter = (
 
             const requiredCountry = targeting.countryCode || 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
-            const vatComplianceCountryConfig = vatComplianceConfig.get();
+            const contributionsOnlyConfig = contributionsOnlyCountriesConfig.get();
             const isVatCompliantCountry =
-                !vatComplianceCountryConfig.countries.includes(requiredCountry);
+                !contributionsOnlyConfig.contributionsOnlyCountries.includes(requiredCountry);
 
             const forceNoDefault =
                 test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
