@@ -24,6 +24,6 @@ const getContributionsOnlyCountriesConfig = (): Promise<ContributionsOnlyCountri
 
 const buildContributionsOnlyCountriesReloader = (): Promise<
     ValueReloader<ContributionsOnlyCountriesConfig>
-> => buildReloader(getContributionsOnlyCountriesConfig, 60);
+> => buildReloader(getContributionsOnlyCountriesConfig, 60 * 60); // Refresh every hour
 
 export { buildContributionsOnlyCountriesReloader };
