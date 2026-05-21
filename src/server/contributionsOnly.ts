@@ -22,7 +22,8 @@ const getContributionsOnlyCountriesConfig = (): Promise<ContributionsOnlyCountri
         });
 };
 
-const buildContributionsOnlyCountriesReloader = (): Promise<ValueReloader<ContributionsOnlyCountriesConfig>> =>
-    buildReloader(getContributionsOnlyCountriesConfig, 60);
+const buildContributionsOnlyCountriesReloader = (): Promise<
+    ValueReloader<ContributionsOnlyCountriesConfig>
+> => buildReloader(getContributionsOnlyCountriesConfig, 60);
 
 export { buildContributionsOnlyCountriesReloader };
