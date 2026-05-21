@@ -3,6 +3,12 @@
     "version": "9.0.1",
     "description": "Server for Reader Revenue components",
     "private": true,
+    "scripts": {
+        "build": "pnpm -w exec esbuild src/server/server.ts --bundle --platform=node --outfile=server-dist/server.js --minify",
+        "build:dev": "pnpm -w exec esbuild src/server/server.ts --bundle --platform=node --outfile=server-dist/server.js --sourcemap=inline",
+        "start-watch": "pnpm -w exec esbuild src/server/server.ts --bundle --platform=node --outfile=server-dist/server.js --sourcemap=inline --watch",
+        "start-server": "stage=DEV PORT=8082 pnpm -w exec nodemon server-dist/server.js"
+    },
     "dependencies": {
         "@aws-sdk/client-cloudwatch": "3.1045.0",
         "@aws-sdk/client-dynamodb": "3.1045.0",
@@ -13,14 +19,23 @@
         "@okta/jwt-verifier": "4.0.2",
         "compression": "1.8.1",
         "cors": "2.8.6",
+        "date-fns": "4.1.0",
         "express": "4.22.1",
         "jsonschema": "1.5.0",
+        "lodash.debounce": "4.0.8",
+        "lodash.throttle": "4.1.1",
         "log4js": "6.9.1",
-        "lru-cache": "11.2.7"
+        "lru-cache": "11.2.7",
+        "seedrandom": "3.0.5"
     },
     "devDependencies": {
         "@types/compression": "1.8.1",
         "@types/cors": "2.8.19",
-        "@types/express": "5.0.6"
+        "@types/express": "5.0.6",
+        "@types/lodash.debounce": "4.0.9",
+        "@types/lodash.throttle": "4.1.9",
+        "@types/seedrandom": "3.0.8",
+        "esbuild": "0.28.0",
+        "nodemon": "3.1.11"
     }
 }
