@@ -204,6 +204,7 @@ export const buildBannerRouter = (
                     channelSwitches.get(),
                     okta,
                     authHeader,
+                    targeting.isSignedIn ? undefined : targeting.browserId,
                 );
                 const {
                     checkAuxiaSuppression,
