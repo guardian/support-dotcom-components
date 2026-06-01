@@ -13,10 +13,10 @@ const mockChannelSwitches = {
     enableAuxiaForBanners: true,
 } as ChannelSwitches;
 
-// mvtId within the 1% rollout (0–9,999)
+// mvtId within the 10% rollout (0–99,999)
 const inRolloutMvtId = 0;
-// mvtId outside the 1% rollout (10,000+)
-const outOfRolloutMvtId = 10_000;
+// mvtId outside the 10% rollout (100,000+)
+const outOfRolloutMvtId = 100_000;
 
 const mockAttributes: GetTreatmentsAttributes = {
     isSupporter: false,
@@ -464,7 +464,7 @@ describe('Auxia.getBannerSuppressedChecker – mvtId rollout', () => {
         jest.clearAllMocks();
     });
 
-    it('should return false, not call fetch, and leave forLogging as "not-consulted" when mvtId is outside the 1% rollout', async () => {
+    it('should return false, not call fetch, and leave forLogging as "not-consulted" when mvtId is outside the 10% rollout', async () => {
         const auxia = new Auxia(mockConfig);
         const { checkAuxiaSuppression, forLogging } = auxia.getBannerSuppressedChecker(
             mockChannelSwitches,
@@ -478,7 +478,7 @@ describe('Auxia.getBannerSuppressedChecker – mvtId rollout', () => {
         expect(forLogging()).toBe('not-consulted');
     });
 
-    it('should call fetch and apply suppression logic when mvtId is within the 1% rollout', async () => {
+    it('should call fetch and apply suppression logic when mvtId is within the 10% rollout', async () => {
         (global.fetch as jest.Mock).mockResolvedValueOnce(
             successResponse([makeUserTreatment(JSON.stringify({ show_banner: 'false' }))]),
         );
