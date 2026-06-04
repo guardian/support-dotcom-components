@@ -92,7 +92,7 @@ const enrichChoiceCard = (
     const buildPill = (): ChoiceCard['pill'] => {
         if (promotion) {
             return {
-                copy: `${promotion.discountPercent}% off`,
+                copy: `${Math.floor(promotion.discountPercent)}% off`,
                 backgroundColour: choiceCard.pill?.backgroundColour ?? {
                     r: 'C7',
                     g: '00',
