@@ -154,10 +154,14 @@ export const getChoiceCardsSettings = (
     }
 
     const getPromotion = (choiceCard: ChoiceCard): Promotion | undefined => {
-        // We only support promos for SupporterPlus for now
-        if (promotions.length > 0 && choiceCard.product.supportTier === 'SupporterPlus') {
+        if (
+            promotions.length > 0 &&
+            (choiceCard.product.supportTier === 'SupporterPlus' ||
+                choiceCard.product.supportTier === 'DigitalSubscription')
+        ) {
             const { ratePlan } = choiceCard.product;
-            const choiceCardProduct = productCatalog['SupporterPlus'].ratePlans[ratePlan];
+            const choiceCardProduct =
+                productCatalog[choiceCard.product.supportTier].ratePlans[ratePlan];
             // Find a promo with a matching productRatePlanId
             return promotions.find((promo) =>
                 promo.productRatePlanIds.includes(choiceCardProduct.id),
