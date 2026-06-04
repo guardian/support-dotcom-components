@@ -173,6 +173,7 @@ export const buildBannerRouter = (
                 design,
                 abandonedBasket: targeting.abandonedBasket,
                 isCollapsible: variant.isCollapsible ?? undefined,
+                promoCodes: variant.promoCodes ?? [],
             };
 
             return {
