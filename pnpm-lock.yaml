@@ -20,10 +20,10 @@ importers:
     dependencies:
       '@guardian/libs':
         specifier: 26.1.0
-        version: 26.1.0(@guardian/ophan-tracker-js@2.8.0)(tslib@2.8.1)(typescript@5.5.4)
+        version: 26.1.0(@guardian/ophan-tracker-js@2.8.3)(tslib@2.8.1)(typescript@5.5.4)
       '@guardian/ophan-tracker-js':
-        specifier: 2.8.0
-        version: 2.8.0
+        specifier: 2.8.3
+        version: 2.8.3
       zod:
         specifier: 4.3.6
         version: 4.3.6
@@ -1020,6 +1020,10 @@ packages:
 
   '@guardian/ophan-tracker-js@2.8.0':
     resolution: {integrity: sha512-RPoyxPPKaT1em1LZiD1LKsTYzoXBG8Zjs4OzyP5dhEmfoXD99qK48JI4oGUPlq3wOOB0ZT8UrbtbWDKzeMSBHA==}
+    engines: {node: '>=16'}
+
+  '@guardian/ophan-tracker-js@2.8.3':
+    resolution: {integrity: sha512-pTnAPt4i1O439f3B0G6aD59GGBK6MhEqvvLpoZVvs7rhcn086dwyi0Amg3cNhznvG+YlRkD8zw5m62DAxt2I0g==}
     engines: {node: '>=16'}
 
   '@guardian/prettier@10.0.0':
@@ -4008,8 +4012,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-is@19.2.6:
-    resolution: {integrity: sha512-XjBR15BhXuylgWGuslhDKqlSayuqvqBX91BP8pauG8kd1zY8kotkNWbXksTCNRarse4kuGbe2kIY05ARtwNIvw==}
+  react-is@19.2.7:
+    resolution: {integrity: sha512-kZFnouyVv7eP/Phmrlo9FK+zcAdriZJvzxXHF1Sl1P377WSGe2G/JxVolhTrB/jeV47lKImhNUsijjHAAbcl/A==}
 
   read-package-up@12.0.0:
     resolution: {integrity: sha512-Q5hMVBYur/eQNWDdbF4/Wqqr9Bjvtrw2kjGxxBbKLbx8bVCL8gcArjTy8zDUuLGQicftpMuU0riQNcAsbtOVsw==}
@@ -6104,14 +6108,18 @@ snapshots:
     optionalDependencies:
       typescript: 5.5.4
 
-  '@guardian/libs@26.1.0(@guardian/ophan-tracker-js@2.8.0)(tslib@2.8.1)(typescript@5.5.4)':
+  '@guardian/libs@26.1.0(@guardian/ophan-tracker-js@2.8.3)(tslib@2.8.1)(typescript@5.5.4)':
     dependencies:
-      '@guardian/ophan-tracker-js': 2.8.0
+      '@guardian/ophan-tracker-js': 2.8.3
       tslib: 2.8.1
     optionalDependencies:
       typescript: 5.5.4
 
   '@guardian/ophan-tracker-js@2.8.0':
+    dependencies:
+      '@guardian/tsconfig': 1.0.1
+
+  '@guardian/ophan-tracker-js@2.8.3':
     dependencies:
       '@guardian/tsconfig': 1.0.1
 
@@ -10120,7 +10128,7 @@ snapshots:
       '@jest/schemas': 30.4.1
       ansi-styles: 5.2.0
       react-is-18: react-is@18.3.1
-      react-is-19: react-is@19.2.6
+      react-is-19: react-is@19.2.7
 
   prop-types@15.8.1:
     dependencies:
@@ -10170,7 +10178,7 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-is@19.2.6: {}
+  react-is@19.2.7: {}
 
   read-package-up@12.0.0:
     dependencies:
