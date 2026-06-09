@@ -288,7 +288,7 @@ describe('Auxia.getBannerSuppressedChecker – enableAuxiaForBanners switch', ()
             {
                 ...mockChannelSwitches,
                 enableAuxiaForBanners: false,
-            } as ChannelSwitches,
+            },
             inRolloutMvtId,
         );
 
@@ -384,7 +384,7 @@ describe('Auxia.getBannerSuppressedChecker – getTreatment', () => {
     it('should return undefined when enableAuxiaForBanners is false', async () => {
         const auxia = new Auxia(mockConfig);
         const { checkAuxiaSuppression, getTreatment } = auxia.getBannerSuppressedChecker(
-            { ...mockChannelSwitches, enableAuxiaForBanners: false } as ChannelSwitches,
+            { ...mockChannelSwitches, enableAuxiaForBanners: false },
             inRolloutMvtId,
         );
 

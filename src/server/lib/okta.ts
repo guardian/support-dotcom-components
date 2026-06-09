@@ -42,7 +42,7 @@ export class Okta {
         this.oktaJwtVerifier = new OktaJwtVerifier({
             issuer: config.issuer,
             cacheMaxAge: 24 * 60 * 60 * 1000, // 24 hours
-        } as OktaJwtVerifier.VerifierOptions);
+        });
     }
 
     // The returned Promise will fail if verification fails for any reason
