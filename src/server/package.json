@@ -35,7 +35,7 @@
         "@types/lodash.debounce": "4.0.9",
         "@types/lodash.throttle": "4.1.9",
         "@types/seedrandom": "3.0.8",
-        "esbuild": "0.28.0",
+        "esbuild": "0.28.1",
         "nodemon": "3.1.14"
     }
 }
