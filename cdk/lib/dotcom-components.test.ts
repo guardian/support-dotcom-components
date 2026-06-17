@@ -9,6 +9,7 @@ describe('The DotcomComponents stack', () => {
 			stack: 'support',
 			stage: 'TEST',
 			domainName: 'dotcom-components-test.support.guardianapis.com',
+			env: { region: 'eu-west-1' },
 		});
 		const template = Template.fromStack(stack);
 		expect(template.toJSON()).toMatchSnapshot();
