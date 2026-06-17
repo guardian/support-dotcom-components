@@ -27,7 +27,6 @@ import {
 	InstanceClass,
 	InstanceSize,
 	InstanceType,
-	SecurityGroup,
 	UserData,
 } from 'aws-cdk-lib/aws-ec2';
 import type { Policy } from 'aws-cdk-lib/aws-iam';
@@ -363,25 +362,5 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 				targetRequestsPerMinute: 20000,
 			},
 		);
-
-		const { vpc } = ec2App;
-
-		// Temporary security group to preserve WazuhSecurityGroup during @guardian/cdk upgrade.
-		// Prevents CloudFormation from trying to delete it while dependent objects exist.
-		// Remove in a follow-up PR after cleaning up dependencies in AWS.
-		// See: https://github.com/guardian/support-admin-console/pull/975
-		const wazuhSecurityGroup = new SecurityGroup(
-			this,
-			'WazuhSecurityGroup',
-			{
-				vpc,
-				description:
-					'Allow outbound traffic from wazuh agent to manager',
-			},
-		);
-		this.overrideLogicalId(wazuhSecurityGroup, {
-			logicalId: 'WazuhSecurityGroup',
-			reason: 'Preserve WazuhSecurityGroup during GuCDK upgrade to avoid DELETE_FAILED',
-		});
 	}
 }
