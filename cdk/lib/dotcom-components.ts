@@ -197,11 +197,11 @@ export class DotcomComponents extends GuStack {
 			metric: new Metric({
 				metricName: 'auxia-error',
 				namespace,
-				period: Duration.minutes(60),
+				period: Duration.minutes(5),
 				statistic: 'sum',
 			}),
-			threshold: 3,
-			evaluationPeriods: 1,
+			threshold: 5,
+			evaluationPeriods: 2,
 			comparisonOperator:
 				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,

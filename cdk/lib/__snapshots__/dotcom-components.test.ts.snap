@@ -258,10 +258,10 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
         "AlarmDescription": "Error fetching or parsing treatments from Auxia",
         "AlarmName": "support-dotcom-components: Auxia error - TEST",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "EvaluationPeriods": 1,
+        "EvaluationPeriods": 2,
         "MetricName": "auxia-error",
         "Namespace": "support-dotcom-components-TEST",
-        "Period": 3600,
+        "Period": 300,
         "Statistic": "Sum",
         "Tags": [
           {
@@ -281,7 +281,7 @@ exports[`The DotcomComponents stack matches the snapshot 1`] = `
             "Value": "TEST",
           },
         ],
-        "Threshold": 3,
+        "Threshold": 5,
         "TreatMissingData": "notBreaching",
       },
       "Type": "AWS::CloudWatch::Alarm",
