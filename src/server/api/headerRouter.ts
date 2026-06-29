@@ -18,6 +18,7 @@ import type { Params } from '../lib/params';
 import { bodyContainsAllFields } from '../middleware';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
 import { inExclusions } from '../utils/channelExclusionsMatcher';
+import { isWithinScheduler } from '../utils/schedulerCheck';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface HeaderDataResponse {
@@ -65,6 +66,11 @@ export const buildHeaderRouter = (
         );
         if (testSelection) {
             const { test, variant, moduleName } = testSelection;
+
+            if (test.scheduler && !isWithinScheduler(test.scheduler)) {
+                return {};
+            }
+
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,
