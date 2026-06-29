@@ -33,6 +33,7 @@ import type { Debug } from '../tests/epics/epicSelection';
 import { findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { inExclusions } from '../utils/channelExclusionsMatcher';
 import { logWarn } from '../utils/logging';
+import { isWithinScheduler } from '../utils/schedulerCheck';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
@@ -136,6 +137,10 @@ export const buildEpicRouter = (
         }
 
         const { test, variant } = result.result;
+
+        if (test.scheduler && !isWithinScheduler(test.scheduler)) {
+            return {};
+        }
 
         const tickerSettings =
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);

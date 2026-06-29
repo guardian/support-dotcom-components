@@ -33,6 +33,7 @@ import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
 import { inExclusions } from '../utils/channelExclusionsMatcher';
+import { isWithinScheduler } from '../utils/schedulerCheck';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface BannerDataResponse {
@@ -109,6 +110,11 @@ export const buildBannerRouter = (
 
         if (selectedTest) {
             const { test, variant, moduleName, targetingAbTest } = selectedTest;
+
+            if (test.scheduler && !isWithinScheduler(test.scheduler)) {
+                return {};
+            }
+
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,
