@@ -109,6 +109,7 @@ export const buildBannerRouter = (
 
         if (selectedTest) {
             const { test, variant, moduleName, targetingAbTest } = selectedTest;
+
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,

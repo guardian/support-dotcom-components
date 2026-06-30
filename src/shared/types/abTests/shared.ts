@@ -60,6 +60,11 @@ export type BanditMethodology = Exclude<Methodology, { name: 'ABTest' }>;
 export interface Variant {
     name: string;
 }
+export interface Scheduler {
+    start?: string; // ISO date "YYYY-MM-DD", inclusive
+    end?: string; // ISO date "YYYY-MM-DD", inclusive
+}
+
 export interface Test<V extends Variant> {
     channel: Channel;
     name: string;
@@ -72,6 +77,7 @@ export interface Test<V extends Variant> {
     consentStatus?: ConsentStatus;
     methodologies?: Methodology[];
     mParticleAudience?: number | null;
+    scheduler?: Scheduler;
 }
 
 export const testSchema = z.object({
@@ -90,6 +96,12 @@ export const testSchema = z.object({
     consentStatus: ConsentStatusSchema.optional(),
     methodologies: methodologySchema.array().optional(),
     mParticleAudience: z.number().nullish(),
+    scheduler: z
+        .object({
+            start: z.string().optional(),
+            end: z.string().optional(),
+        })
+        .optional(),
 });
 
 export interface ControlProportionSettings {

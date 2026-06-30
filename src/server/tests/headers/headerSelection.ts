@@ -16,6 +16,7 @@ import {
     matchesMParticleAudience,
 } from '../../lib/targeting';
 import { selectVariantUsingMVT } from '../../selection/ab';
+import { isWithinScheduler } from '../../utils/schedulerCheck';
 
 const moduleName = 'Header';
 
@@ -375,6 +376,7 @@ export const selectBestTest = async (
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
             matchesHoldbackRequirement(test, targeting.inHoldbackGroup) &&
+            (!test.scheduler || isWithinScheduler(test.scheduler)) &&
             (await matchesMParticleAudience(
                 getMParticleProfile,
                 test.mParticleAudience ?? undefined,
