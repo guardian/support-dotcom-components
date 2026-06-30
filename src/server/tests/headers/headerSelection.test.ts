@@ -736,3 +736,99 @@ describe('mParticleAudience targeting', () => {
         expect(result).toBeNull();
     });
 });
+
+describe('scheduler filtering', () => {
+    const baseTargeting: HeaderTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'GB',
+        mvtId: 123456,
+        isSignedIn: false,
+    };
+
+    const baseTest: HeaderTest = {
+        channel: 'Header',
+        name: 'test',
+        priority: 1,
+        userCohort: 'Everyone',
+        status: 'Live',
+        locations: [],
+        regionTargeting: { targetedCountryGroups: [], targetedCountryCodes: [] },
+        variants: [
+            {
+                name: 'control',
+                moduleName: 'Header',
+                content: {
+                    heading: 'Support the Guardian',
+                    subheading: 'Available for everyone, funded by readers',
+                    primaryCta: {
+                        baseUrl: 'https://support.theguardian.com/contribute',
+                        text: 'Contribute',
+                    },
+                },
+            },
+        ],
+    };
+
+    it('selects a test with no scheduler set', async () => {
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [baseTest],
+            getMParticleProfile,
+        );
+        expect(result?.test.name).toBe('test');
+    });
+
+    it('selects a test when today is within the scheduled range', async () => {
+        const test: HeaderTest = {
+            ...baseTest,
+            scheduler: { start: '2000-01-01', end: '2999-12-31' },
+        };
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [test],
+            getMParticleProfile,
+        );
+        expect(result?.test.name).toBe('test');
+    });
+
+    it('skips a test that has not started yet', async () => {
+        const notStarted: HeaderTest = {
+            ...baseTest,
+            name: 'not-started',
+            scheduler: { start: '2999-01-01' },
+        };
+        const fallback: HeaderTest = { ...baseTest, name: 'fallback', priority: 2 };
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [notStarted, fallback],
+            getMParticleProfile,
+        );
+        expect(result?.test.name).toBe('fallback');
+    });
+
+    it('skips a test that has already ended', async () => {
+        const ended: HeaderTest = { ...baseTest, name: 'ended', scheduler: { end: '2000-01-01' } };
+        const fallback: HeaderTest = { ...baseTest, name: 'fallback', priority: 2 };
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [ended, fallback],
+            getMParticleProfile,
+        );
+        expect(result?.test.name).toBe('fallback');
+    });
+
+    it('returns null when the only test is out of schedule', async () => {
+        const ended: HeaderTest = { ...baseTest, scheduler: { end: '2000-01-01' } };
+        const result = await selectBestTest(
+            baseTargeting,
+            userDeviceType,
+            [ended],
+            getMParticleProfile,
+        );
+        expect(result).toBeNull();
+    });
+});

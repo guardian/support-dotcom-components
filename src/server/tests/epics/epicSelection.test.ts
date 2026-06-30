@@ -20,6 +20,7 @@ import {
     isNotExpired,
     withinArticleViewedSettings,
     withinMaxViews,
+    withinSchedulerFilter,
 } from './epicSelection';
 
 const variantDefault: EpicVariant = {
@@ -1063,5 +1064,67 @@ describe('holdback group targeting', () => {
         );
 
         expect(result.result).toBeUndefined();
+    });
+});
+
+describe('withinSchedulerFilter', () => {
+    it('returns true when no scheduler is set', () => {
+        const filter = withinSchedulerFilter(new Date('2026-06-15'));
+        const got = filter.test(testDefault, targetingDefault);
+        expect(got).toBe(true);
+    });
+
+    it('returns true when today is within the scheduled range', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            scheduler: { start: '2026-06-01', end: '2026-06-30' },
+        };
+        const filter = withinSchedulerFilter(new Date('2026-06-15'));
+        expect(filter.test(test, targetingDefault)).toBe(true);
+    });
+
+    it('returns false when today is before start', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            scheduler: { start: '2026-06-20' },
+        };
+        const filter = withinSchedulerFilter(new Date('2026-06-15'));
+        expect(filter.test(test, targetingDefault)).toBe(false);
+    });
+
+    it('returns false when today is after end', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            scheduler: { end: '2026-06-10' },
+        };
+        const filter = withinSchedulerFilter(new Date('2026-06-15'));
+        expect(filter.test(test, targetingDefault)).toBe(false);
+    });
+
+    it('skips out-of-schedule test and selects the next eligible one', async () => {
+        const outOfSchedule: EpicTest = {
+            ...testDefault,
+            name: 'out-of-schedule',
+            priority: 1,
+            articlesViewedSettings: undefined,
+            scheduler: { end: '2020-01-01' },
+        };
+        const inSchedule: EpicTest = {
+            ...testDefault,
+            name: 'in-schedule',
+            priority: 2,
+            articlesViewedSettings: undefined,
+        };
+
+        const result = await findTestAndVariant(
+            [outOfSchedule, inSchedule],
+            { ...targetingDefault, weeklyArticleHistory: [] },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+        );
+
+        expect(result.result?.test.name).toBe('in-schedule');
     });
 });
