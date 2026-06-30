@@ -27,6 +27,7 @@ import {
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import type { BanditData } from '../../selection/banditData';
 import { selectVariant } from '../../selection/selectVariant';
+import { isWithinScheduler } from '../../utils/schedulerCheck';
 import type { ScheduledBannerDeploys } from './bannerDeploySchedule';
 import { defaultDeploySchedule, getLastScheduledDeploy } from './bannerDeploySchedule';
 import type { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
@@ -307,6 +308,7 @@ export const selectBannerTest = async ({
             abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket) &&
             matchesFrontsOnlyRequirement(test, targeting) &&
             matchesHoldbackRequirement(test, targeting.inHoldbackGroup) &&
+            (!test.scheduler || isWithinScheduler(test.scheduler, now)) &&
             (await matchesMParticleAudience(
                 getMParticleProfile,
                 test.mParticleAudience ?? undefined,

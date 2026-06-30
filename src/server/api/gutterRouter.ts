@@ -18,7 +18,6 @@ import { buildGutterCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
 import { selectGutterTest } from '../tests/gutters/gutterSelection';
 import { inExclusions } from '../utils/channelExclusionsMatcher';
-import { isWithinScheduler } from '../utils/schedulerCheck';
 import type { ValueProvider } from '../utils/valueReloader';
 
 interface GutterDataResponse {
@@ -66,10 +65,6 @@ export const buildGutterRouter = (
         );
         if (testSelection) {
             const { test, variant, moduleName } = testSelection;
-
-            if (test.scheduler && !isWithinScheduler(test.scheduler)) {
-                return {};
-            }
 
             const testTracking: TestTracking = {
                 abTestName: test.name,
