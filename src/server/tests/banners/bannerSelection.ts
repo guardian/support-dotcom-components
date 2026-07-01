@@ -278,15 +278,12 @@ export const selectBannerTest = async ({
     let selection: BannerTestSelection | null = null;
 
     for (const test of tests) {
-        if (shouldSkipTwoStepBannerTest(test, targeting, userDeviceType)) {
-            continue;
-        }
-
         const deploySchedule = enableScheduledDeploys
             ? (targetingTest?.deploySchedule ?? defaultDeploySchedule)
             : undefined;
 
         if (
+            !shouldSkipTwoStepBannerTest(test, targeting, userDeviceType) &&
             test.status === 'Live' &&
             (!test.canRun || test.canRun(targeting)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
