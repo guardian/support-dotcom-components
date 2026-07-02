@@ -1211,4 +1211,259 @@ describe('selectBannerTest', () => {
             });
         });
     });
+
+    describe('2-step banner hardcoded exclusion', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+
+        const twoStepTest: BannerTest = {
+            channel: 'Banner1',
+            name: '2-step-test',
+            priority: 1,
+            status: 'Live',
+            bannerChannel: 'contributions',
+            isHardcoded: false,
+            userCohort: 'Everyone',
+            variants: [
+                {
+                    name: 'variant',
+                    template: {
+                        designName: 'TEST_DESIGN',
+                    },
+                    bannerContent: {
+                        messageText: 'body',
+                        highlightedText: 'highlighted text',
+                        cta: {
+                            text: 'cta',
+                            baseUrl: 'https://support.theguardian.com',
+                        },
+                    },
+                    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                    isCollapsible: true,
+                },
+            ],
+            articlesViewedSettings: {
+                minViews: 5,
+                periodInWeeks: 52,
+            },
+            locations: [],
+            regionTargeting: {
+                targetedCountryGroups: [],
+                targetedCountryCodes: [],
+            },
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
+        };
+
+        const baseTargeting: BannerTargeting = {
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'US',
+            engagementBannerLastClosedAt: firstDate,
+            hasOptedOutOfArticleCount: false,
+            isSignedIn: false,
+            hasConsented: true,
+            weeklyArticleHistory: [{ week: 18330, count: 6 }],
+        };
+
+        it('skips 2-step test for US mobile on articles', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [twoStepTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result).toBeNull();
+        });
+
+        it('skips 2-step test for US Android on articles', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
+                userDeviceType: 'Android',
+                tests: [twoStepTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result).toBeNull();
+        });
+
+        it('does not skip 2-step test for US desktop on articles', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
+                userDeviceType: 'Desktop',
+                tests: [twoStepTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('2-step-test');
+        });
+
+        it('does not skip 2-step test for UK mobile on articles', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'GB', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [twoStepTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('2-step-test');
+        });
+
+        it('does not skip 2-step test for US mobile on fronts', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Network Front' },
+                userDeviceType: 'iOS',
+                tests: [twoStepTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('2-step-test');
+        });
+
+        it('does not skip non-2-step tests for US mobile on articles', async () => {
+            const nonTwoStepTest: BannerTest = {
+                ...twoStepTest,
+                name: 'regular-test',
+                variants: [
+                    {
+                        name: 'CONTROL',
+                        template: { designName: 'TEST_DESIGN' },
+                        bannerContent: {
+                            messageText: 'body',
+                            highlightedText: 'highlighted text',
+                            cta: {
+                                text: 'cta',
+                                baseUrl: 'https://support.theguardian.com',
+                            },
+                        },
+                        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                    },
+                ],
+            };
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [nonTwoStepTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('regular-test');
+        });
+
+        it('skips test when any variant has isCollapsible = true', async () => {
+            const testWithCollapsibleVariant: BannerTest = {
+                ...twoStepTest,
+                variants: [
+                    {
+                        name: 'CONTROL',
+                        template: { designName: 'TEST_DESIGN' },
+                        bannerContent: {
+                            messageText: 'body',
+                            highlightedText: 'highlighted text',
+                            cta: {
+                                text: 'cta',
+                                baseUrl: 'https://support.theguardian.com',
+                            },
+                        },
+                        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                        isCollapsible: true,
+                    },
+                ],
+            };
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [testWithCollapsibleVariant],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result).toBeNull();
+        });
+
+        it('falls back to next test when 2-step test is skipped', async () => {
+            const fallbackTest: BannerTest = {
+                ...twoStepTest,
+                name: 'fallback-test',
+                priority: 2,
+                variants: [
+                    {
+                        name: 'CONTROL',
+                        template: { designName: 'TEST_DESIGN' },
+                        bannerContent: {
+                            messageText: 'body',
+                            highlightedText: 'highlighted text',
+                            cta: {
+                                text: 'cta',
+                                baseUrl: 'https://support.theguardian.com',
+                            },
+                        },
+                        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                    },
+                ],
+            };
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [twoStepTest, fallbackTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('fallback-test');
+        });
+    });
 });

@@ -202,6 +202,36 @@ const matchesFrontsOnlyRequirement = (test: BannerTest, targeting: BannerTargeti
     return true;
 };
 
+/**
+ * Hardcoded exclusion: if a banner test contains a variant with the 2-step
+ * banner (isCollapsible = true), users in the US on mobile devices viewing
+ * articles should never be put in that test.
+ *
+ * This is required due to advertising restrictions in the US that prevent the
+ * 2-step banner from being shown on mobile. CRM can do this manually per test
+ * in the banner tool, but this makes it automatic.
+ */
+const isMobileDevice = (deviceType: UserDeviceType): boolean =>
+    deviceType === 'iOS' || deviceType === 'Android';
+
+const shouldSkipTwoStepBannerTest = (
+    test: BannerTest,
+    targeting: BannerTargeting,
+    userDeviceType: UserDeviceType,
+): boolean => {
+    const hasTwoStepVariant = test.variants.some((variant) => variant.isCollapsible);
+
+    if (!hasTwoStepVariant) {
+        return false;
+    }
+
+    return (
+        targeting.countryCode === 'US' &&
+        isMobileDevice(userDeviceType) &&
+        targeting.contentType === 'Article'
+    );
+};
+
 interface SelectBannerTestData {
     targeting: BannerTargeting;
     userDeviceType: UserDeviceType;
@@ -254,6 +284,7 @@ export const selectBannerTest = async ({
 
         if (
             test.status === 'Live' &&
+            !shouldSkipTwoStepBannerTest(test, targeting, userDeviceType) &&
             (!test.canRun || test.canRun(targeting)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
