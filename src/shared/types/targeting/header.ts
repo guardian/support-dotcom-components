@@ -11,6 +11,7 @@ export interface HeaderTargeting {
     tagIds?: string[];
     sectionId?: string;
     contentType?: string;
+    pageId?: string;
 }
 
 export type HeaderPayload = {
