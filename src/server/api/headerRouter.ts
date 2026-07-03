@@ -65,7 +65,6 @@ export const buildHeaderRouter = (
         );
         if (testSelection) {
             const { test, variant, moduleName } = testSelection;
-
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,
