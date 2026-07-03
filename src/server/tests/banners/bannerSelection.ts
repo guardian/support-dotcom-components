@@ -204,12 +204,13 @@ const matchesFrontsOnlyRequirement = (test: BannerTest, targeting: BannerTargeti
 
 /**
  * Hardcoded exclusion: if a banner test contains a variant with the 2-step
- * banner (isCollapsible = true), users in the US on mobile devices viewing
- * articles should never be put in that test.
+ * banner (isCollapsible = true), users outside the UK on mobile devices viewing
+ * articles should never be put in that test. The 2-step banner should only
+ * appear for GB users.
  *
- * This is required due to advertising restrictions in the US that prevent the
- * 2-step banner from being shown on mobile. CRM can do this manually per test
- * in the banner tool, but this makes it automatic.
+ * This is required due to advertising restrictions outside the UK that prevent
+ * the 2-step banner from being shown on mobile. CRM can do this manually per
+ * test in the banner tool, but this makes it automatic.
  */
 const isMobileDevice = (deviceType: UserDeviceType): boolean =>
     deviceType === 'iOS' || deviceType === 'Android';
@@ -226,7 +227,7 @@ const shouldSkipTwoStepBannerTest = (
     }
 
     return (
-        targeting.countryCode === 'US' &&
+        targeting.countryCode !== 'GB' &&
         isMobileDevice(userDeviceType) &&
         targeting.contentType === 'Article'
     );
