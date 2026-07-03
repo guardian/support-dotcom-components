@@ -1306,7 +1306,41 @@ describe('selectBannerTest', () => {
             expect(result).toBeNull();
         });
 
-        it('does not skip 2-step test for US desktop on articles', async () => {
+        it('skips 2-step test for AU mobile on articles', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'AU', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [twoStepTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result).toBeNull();
+        });
+
+        it('skips 2-step test for ROW mobile on articles', async () => {
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'BR', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [twoStepTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result).toBeNull();
+        });
+
+        it('does not skip 2-step test for non-GB desktop on articles', async () => {
             const result = await selectBannerTest({
                 targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
                 userDeviceType: 'Desktop',
@@ -1323,7 +1357,7 @@ describe('selectBannerTest', () => {
             expect(result?.test.name).toBe('2-step-test');
         });
 
-        it('does not skip 2-step test for UK mobile on articles', async () => {
+        it('does not skip 2-step test for GB mobile on articles', async () => {
             const result = await selectBannerTest({
                 targeting: { ...baseTargeting, countryCode: 'GB', contentType: 'Article' },
                 userDeviceType: 'iOS',
@@ -1340,7 +1374,7 @@ describe('selectBannerTest', () => {
             expect(result?.test.name).toBe('2-step-test');
         });
 
-        it('does not skip 2-step test for US mobile on fronts', async () => {
+        it('does not skip 2-step test for non-GB mobile on fronts', async () => {
             const result = await selectBannerTest({
                 targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Network Front' },
                 userDeviceType: 'iOS',
@@ -1357,7 +1391,7 @@ describe('selectBannerTest', () => {
             expect(result?.test.name).toBe('2-step-test');
         });
 
-        it('does not skip non-2-step tests for US mobile on articles', async () => {
+        it('does not skip non-2-step tests for non-GB mobile on articles', async () => {
             const nonTwoStepTest: BannerTest = {
                 ...twoStepTest,
                 name: 'regular-test',
