@@ -791,3 +791,81 @@ describe('holdback group targeting', () => {
         expect(result).toBeNull();
     });
 });
+
+describe('scheduler filtering', () => {
+    const baseTargeting: GutterTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'GB',
+        mvtId: 123456,
+        isSignedIn: false,
+        tagIds: [],
+    };
+
+    const baseTest: GutterTest = {
+        channel: 'GutterLiveblog',
+        name: 'test',
+        priority: 1,
+        userCohort: 'Everyone',
+        status: 'Live',
+        locations: [],
+        regionTargeting: { targetedCountryGroups: [], targetedCountryCodes: [] },
+        contextTargeting: {
+            tagIds: [],
+            sectionIds: [],
+            excludedTagIds: [],
+            excludedSectionIds: [],
+        },
+        variants: [
+            {
+                name: 'control',
+                moduleName: 'Gutter',
+                content: {
+                    image: { mainUrl: 'https://uploads.guim.co.uk/img.svg', altText: 'alt' },
+                    bodyCopy: ['Support us'],
+                    cta: {
+                        baseUrl: 'https://support.theguardian.com/contribute',
+                        text: 'Support us',
+                    },
+                },
+            },
+        ],
+    };
+
+    it('selects a test with no scheduler set', () => {
+        const result = selectBestTest(baseTargeting, userDeviceType, [baseTest]);
+        expect(result?.test.name).toBe('test');
+    });
+
+    it('selects a test when today is within the scheduled range', () => {
+        const test: GutterTest = {
+            ...baseTest,
+            scheduler: { start: '2000-01-01', end: '2999-12-31' },
+        };
+        const result = selectBestTest(baseTargeting, userDeviceType, [test]);
+        expect(result?.test.name).toBe('test');
+    });
+
+    it('skips a test that has not started yet', () => {
+        const notStarted: GutterTest = {
+            ...baseTest,
+            name: 'not-started',
+            scheduler: { start: '2999-01-01' },
+        };
+        const fallback: GutterTest = { ...baseTest, name: 'fallback', priority: 2 };
+        const result = selectBestTest(baseTargeting, userDeviceType, [notStarted, fallback]);
+        expect(result?.test.name).toBe('fallback');
+    });
+
+    it('skips a test that has already ended', () => {
+        const ended: GutterTest = { ...baseTest, name: 'ended', scheduler: { end: '2000-01-01' } };
+        const fallback: GutterTest = { ...baseTest, name: 'fallback', priority: 2 };
+        const result = selectBestTest(baseTargeting, userDeviceType, [ended, fallback]);
+        expect(result?.test.name).toBe('fallback');
+    });
+
+    it('returns null when the only test is out of schedule', () => {
+        const ended: GutterTest = { ...baseTest, scheduler: { end: '2000-01-01' } };
+        const result = selectBestTest(baseTargeting, userDeviceType, [ended]);
+        expect(result).toBeNull();
+    });
+});
