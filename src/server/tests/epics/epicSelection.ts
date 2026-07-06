@@ -28,6 +28,7 @@ import {
 } from '../../lib/targeting';
 import type { BanditData } from '../../selection/banditData';
 import { selectVariant } from '../../selection/selectVariant';
+import { isWithinScheduler } from '../../utils/schedulerCheck';
 import { momentumMatches } from './momentumTest';
 
 export interface Filter {
@@ -161,6 +162,11 @@ export const isNotExpired = (now: Date = new Date()): Filter => ({
     },
 });
 
+export const withinSchedulerFilter = (now: Date = new Date()): Filter => ({
+    id: 'withinScheduler',
+    test: (test): boolean => (test.scheduler ? isWithinScheduler(test.scheduler, now) : true),
+});
+
 export const respectArticleCountOptOut: Filter = {
     id: 'respectArticleCountOptOut',
     test: (test, targeting) => {
@@ -217,6 +223,7 @@ export const findTestAndVariant = async (
             isLive,
             canShow(targeting),
             isNotExpired(),
+            withinSchedulerFilter(),
             pageContextFilter,
             inCorrectCohort(userCohorts, isSuperModePass),
             hasCountryCode,

@@ -10,6 +10,7 @@ import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { TestVariant } from '../../lib/params';
 import { audienceMatches, correctSignedInStatus, pageContextMatches } from '../../lib/targeting';
 import { selectVariantUsingMVT } from '../../selection/ab';
+import { isWithinScheduler } from '../../utils/schedulerCheck';
 
 const moduleName = 'Gutter';
 
@@ -53,7 +54,8 @@ export const selectBestTest = (
             isCountryTargetedForGutterAsks(test, targeting) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
             pageContextMatches(pageContext, contextTargeting) &&
-            matchesHoldbackRequirement(test, targeting.inHoldbackGroup)
+            matchesHoldbackRequirement(test, targeting.inHoldbackGroup) &&
+            (!test.scheduler || isWithinScheduler(test.scheduler))
         );
     });
 
