@@ -26,12 +26,6 @@ const getTagIds = (targeting: Targeting): string[] => {
     return [];
 };
 
-const getPageId = (targeting: Targeting): string | undefined => {
-    if ('pageId' in targeting) {
-        return targeting.pageId;
-    }
-};
-
 const FRONT_CONTENT_TYPES = ['Network Front', 'Section', 'Tag'];
 
 const getContentType = (targeting: Targeting): 'Fronts' | 'Articles' => {
@@ -44,7 +38,7 @@ const matchesRule = (targeting: Targeting, rule: ExclusionRule): boolean => {
     const currentDate = toIsoDate(now);
     const sectionId = getSectionId(targeting)?.toLowerCase();
     const tagIds = getTagIds(targeting).map((tagId) => tagId.toLowerCase());
-    const pageId = getPageId(targeting)?.toLowerCase();
+    const pageId = targeting.pageId?.toLowerCase();
     const contentType = getContentType(targeting);
 
     const ruleHasSectionsOrTags =
@@ -71,9 +65,9 @@ const matchesRule = (targeting: Targeting, rule: ExclusionRule): boolean => {
         !!pageId &&
         (rule.frontIds ?? []).some((id) => id.toLowerCase() === pageId);
 
-    const hasNoTargetingCriteria = !ruleHasSectionsOrTags && !ruleHasFronts;
+    const hasTargetingCriteria = ruleHasSectionsOrTags || ruleHasFronts;
 
-    if (!hasNoTargetingCriteria && !hasMatchingSectionOrTag && !hasMatchingFront) {
+    if (hasTargetingCriteria && !hasMatchingSectionOrTag && !hasMatchingFront) {
         return false;
     }
 
