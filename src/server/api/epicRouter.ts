@@ -116,20 +116,26 @@ export const buildEpicRouter = (
 
         const tests =
             type === 'ARTICLE'
-                ? getArticleEpicTests(targetingMvtId, !!params.force, enableHardcodedEpicTests)
+                ? getArticleEpicTests(
+                      targetingMvtId,
+                      !!params.force || !!params.preview,
+                      enableHardcodedEpicTests,
+                  )
                 : liveblogEpicTests.get();
 
         const result = params.force
             ? findForcedTestAndVariant(tests, params.force)
-            : await findTestAndVariant(
-                  filterTestsForSensitiveContent(tests, targeting.isSensitive),
-                  targeting,
-                  getDeviceType(req, params),
-                  enableSuperMode ? superModeArticles.get() : [],
-                  banditData.get(),
-                  getMParticleProfile,
-                  params.debug,
-              );
+            : params.preview
+              ? findForcedTestAndVariant(tests, params.preview, false)
+              : await findTestAndVariant(
+                    filterTestsForSensitiveContent(tests, targeting.isSensitive),
+                    targeting,
+                    getDeviceType(req, params),
+                    enableSuperMode ? superModeArticles.get() : [],
+                    banditData.get(),
+                    getMParticleProfile,
+                    params.debug,
+                );
 
         if (!result.result) {
             return { data: undefined, debug: result.debug };

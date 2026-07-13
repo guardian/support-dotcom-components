@@ -154,8 +154,10 @@ const getModuleNameForVariant = (variant: BannerVariant): string => {
 const getForcedVariant = (
     forcedTestVariant: TestVariant,
     tests: BannerTest[],
+    liveOnly = true,
 ): BannerTestSelection | null => {
-    const test = tests.find(
+    const filteredTests = liveOnly ? tests.filter((test) => test.status === 'Live') : tests;
+    const test = filteredTests.find(
         (test) => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
     );
     const variant = test?.variants.find(
@@ -245,6 +247,7 @@ interface SelectBannerTestData {
     getMParticleProfile: () => Promise<MParticleProfile | undefined>;
     now: Date;
     forcedTestVariant?: TestVariant;
+    previewTestVariant?: TestVariant;
     checkAuxiaSuppression: (
         browserId: string,
         attributes: GetTreatmentsAttributes,
@@ -262,6 +265,7 @@ export const selectBannerTest = async ({
     getMParticleProfile,
     now,
     forcedTestVariant,
+    previewTestVariant,
     checkAuxiaSuppression,
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
@@ -270,6 +274,10 @@ export const selectBannerTest = async ({
 
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, tests);
+    }
+
+    if (previewTestVariant) {
+        return getForcedVariant(previewTestVariant, tests, false);
     }
 
     const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);

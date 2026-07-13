@@ -62,6 +62,7 @@ export const buildHeaderRouter = (
             getDeviceType(req),
             getMParticleProfile,
             params.force,
+            params.preview,
         );
         if (testSelection) {
             const { test, variant, moduleName } = testSelection;

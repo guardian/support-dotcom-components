@@ -12,6 +12,7 @@ import type { BanditData } from '../../selection/banditData';
 import {
     correctSignedInStatusFilter,
     deviceTypeMatchesFilter,
+    findForcedTestAndVariant,
     findTestAndVariant,
     getUserCohorts,
     hasCountryCode,
@@ -1126,5 +1127,90 @@ describe('withinSchedulerFilter', () => {
         );
 
         expect(result.result?.test.name).toBe('in-schedule');
+    });
+});
+
+describe('findForcedTestAndVariant', () => {
+    const liveTest: EpicTest = {
+        ...testDefault,
+        name: 'live-test',
+        status: 'Live',
+        variants: [{ ...variantDefault, name: 'control' }],
+    };
+
+    const draftTest: EpicTest = {
+        ...testDefault,
+        name: 'draft-test',
+        status: 'Draft',
+        variants: [{ ...variantDefault, name: 'control' }],
+    };
+
+    const archivedTest: EpicTest = {
+        ...testDefault,
+        name: 'archived-test',
+        status: 'Archived',
+        variants: [{ ...variantDefault, name: 'control' }],
+    };
+
+    const tests = [liveTest, draftTest, archivedTest];
+
+    it('finds a Live test with default liveOnly=true', () => {
+        const result = findForcedTestAndVariant(tests, {
+            testName: 'live-test',
+            variantName: 'control',
+        });
+        expect(result.result?.test.name).toBe('live-test');
+        expect(result.result?.variant.name).toBe('control');
+    });
+
+    it('does not find a Draft test with liveOnly=true (default)', () => {
+        const result = findForcedTestAndVariant(tests, {
+            testName: 'draft-test',
+            variantName: 'control',
+        });
+        expect(result.result).toBeUndefined();
+    });
+
+    it('finds a Draft test with liveOnly=false (preview path)', () => {
+        const result = findForcedTestAndVariant(
+            tests,
+            { testName: 'draft-test', variantName: 'control' },
+            false,
+        );
+        expect(result.result?.test.name).toBe('draft-test');
+        expect(result.result?.variant.name).toBe('control');
+    });
+
+    it('does not find an Archived test with liveOnly=true', () => {
+        const result = findForcedTestAndVariant(tests, {
+            testName: 'archived-test',
+            variantName: 'control',
+        });
+        expect(result.result).toBeUndefined();
+    });
+
+    it('finds an Archived test with liveOnly=false (preview path)', () => {
+        const result = findForcedTestAndVariant(
+            tests,
+            { testName: 'archived-test', variantName: 'control' },
+            false,
+        );
+        expect(result.result?.test.name).toBe('archived-test');
+    });
+
+    it('returns empty result for non-existent test', () => {
+        const result = findForcedTestAndVariant(tests, {
+            testName: 'non-existent',
+            variantName: 'control',
+        });
+        expect(result.result).toBeUndefined();
+    });
+
+    it('returns empty result for non-existent variant', () => {
+        const result = findForcedTestAndVariant(tests, {
+            testName: 'live-test',
+            variantName: 'non-existent',
+        });
+        expect(result.result).toBeUndefined();
     });
 });

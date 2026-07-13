@@ -4,7 +4,7 @@ import type {
     HeaderTestSelection,
     HeaderVariant,
 } from '../../../shared/types';
-import { selectBestTest } from './headerSelection';
+import { selectBestTest, selectHeaderTest } from './headerSelection';
 
 const remote_nonUK: HeaderTest = {
     channel: 'Header',
@@ -830,5 +830,98 @@ describe('scheduler filtering', () => {
             getMParticleProfile,
         );
         expect(result).toBeNull();
+    });
+});
+
+describe('selectHeaderTest with forcedTestVariant and previewTestVariant', () => {
+    const baseTargeting: HeaderTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'GB',
+        mvtId: 123456,
+        isSignedIn: false,
+    };
+
+    const baseTest: HeaderTest = {
+        channel: 'Header',
+        name: 'test',
+        priority: 1,
+        userCohort: 'Everyone',
+        status: 'Live',
+        locations: [],
+        regionTargeting: { targetedCountryGroups: [], targetedCountryCodes: [] },
+        variants: [
+            {
+                name: 'control',
+                moduleName: 'Header',
+                content: {
+                    heading: 'Support the Guardian',
+                    subheading: 'Available for everyone, funded by readers',
+                    primaryCta: {
+                        baseUrl: 'https://support.theguardian.com/contribute',
+                        text: 'Contribute',
+                    },
+                },
+            },
+        ],
+    };
+
+    const liveTest: HeaderTest = {
+        ...baseTest,
+        name: 'live-test',
+        status: 'Live',
+    };
+
+    const draftTest: HeaderTest = {
+        ...baseTest,
+        name: 'draft-test',
+        status: 'Draft',
+    };
+
+    const tests = [liveTest, draftTest];
+
+    it('forcedTestVariant finds a Live test', async () => {
+        const result = await selectHeaderTest(
+            baseTargeting,
+            tests,
+            userDeviceType,
+            getMParticleProfile,
+            { testName: 'live-test', variantName: 'control' },
+        );
+        expect(result?.test.name).toBe('live-test');
+    });
+
+    it('forcedTestVariant does not find a Draft test', async () => {
+        const result = await selectHeaderTest(
+            baseTargeting,
+            tests,
+            userDeviceType,
+            getMParticleProfile,
+            { testName: 'draft-test', variantName: 'control' },
+        );
+        expect(result).toBeNull();
+    });
+
+    it('previewTestVariant finds a Draft test (bypasses status filter)', async () => {
+        const result = await selectHeaderTest(
+            baseTargeting,
+            tests,
+            userDeviceType,
+            getMParticleProfile,
+            undefined,
+            { testName: 'draft-test', variantName: 'control' },
+        );
+        expect(result?.test.name).toBe('draft-test');
+    });
+
+    it('forcedTestVariant takes priority over previewTestVariant', async () => {
+        const result = await selectHeaderTest(
+            baseTargeting,
+            tests,
+            userDeviceType,
+            getMParticleProfile,
+            { testName: 'live-test', variantName: 'control' },
+            { testName: 'draft-test', variantName: 'control' },
+        );
+        expect(result?.test.name).toBe('live-test');
     });
 });

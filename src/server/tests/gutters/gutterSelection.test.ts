@@ -4,7 +4,7 @@ import type {
     GutterTestSelection,
     GutterVariant,
 } from '../../../shared/types';
-import { selectBestTest } from './gutterSelection';
+import { selectBestTest, selectGutterTest } from './gutterSelection';
 
 const non_supporter_non_gbp: GutterTest = {
     channel: 'GutterLiveblog',
@@ -867,5 +867,94 @@ describe('scheduler filtering', () => {
         const ended: GutterTest = { ...baseTest, scheduler: { end: '2000-01-01' } };
         const result = selectBestTest(baseTargeting, userDeviceType, [ended]);
         expect(result).toBeNull();
+    });
+});
+
+describe('selectGutterTest with forcedTestVariant and previewTestVariant', () => {
+    const baseTargeting: GutterTargeting = {
+        showSupportMessaging: true,
+        countryCode: 'GB',
+        mvtId: 123456,
+        isSignedIn: false,
+        tagIds: [],
+    };
+
+    const baseTest: GutterTest = {
+        channel: 'GutterLiveblog',
+        name: 'test',
+        priority: 1,
+        userCohort: 'Everyone',
+        status: 'Live',
+        locations: [],
+        regionTargeting: { targetedCountryGroups: [], targetedCountryCodes: [] },
+        contextTargeting: {
+            tagIds: [],
+            sectionIds: [],
+            excludedTagIds: [],
+            excludedSectionIds: [],
+        },
+        variants: [
+            {
+                name: 'control',
+                moduleName: 'Gutter',
+                content: {
+                    image: { mainUrl: 'https://uploads.guim.co.uk/img.svg', altText: 'alt' },
+                    bodyCopy: ['Support us'],
+                    cta: {
+                        baseUrl: 'https://support.theguardian.com/contribute',
+                        text: 'Support us',
+                    },
+                },
+            },
+        ],
+    };
+
+    const liveTest: GutterTest = {
+        ...baseTest,
+        name: 'live-test',
+        status: 'Live',
+    };
+
+    const draftTest: GutterTest = {
+        ...baseTest,
+        name: 'draft-test',
+        status: 'Draft',
+    };
+
+    const tests = [liveTest, draftTest];
+
+    it('forcedTestVariant finds a Live test', () => {
+        const result = selectGutterTest(baseTargeting, tests, userDeviceType, {
+            testName: 'live-test',
+            variantName: 'control',
+        });
+        expect(result?.test.name).toBe('live-test');
+    });
+
+    it('forcedTestVariant does not find a Draft test', () => {
+        const result = selectGutterTest(baseTargeting, tests, userDeviceType, {
+            testName: 'draft-test',
+            variantName: 'control',
+        });
+        expect(result).toBeNull();
+    });
+
+    it('previewTestVariant finds a Draft test (bypasses status filter)', () => {
+        const result = selectGutterTest(baseTargeting, tests, userDeviceType, undefined, {
+            testName: 'draft-test',
+            variantName: 'control',
+        });
+        expect(result?.test.name).toBe('draft-test');
+    });
+
+    it('forcedTestVariant takes priority over previewTestVariant', () => {
+        const result = selectGutterTest(
+            baseTargeting,
+            tests,
+            userDeviceType,
+            { testName: 'live-test', variantName: 'control' },
+            { testName: 'draft-test', variantName: 'control' },
+        );
+        expect(result?.test.name).toBe('live-test');
     });
 });

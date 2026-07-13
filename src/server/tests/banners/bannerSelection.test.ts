@@ -1500,4 +1500,186 @@ describe('selectBannerTest', () => {
             expect(result?.test.name).toBe('fallback-test');
         });
     });
+
+    describe('forcedTestVariant and previewTestVariant', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+        const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
+
+        const liveTest: BannerTest = {
+            channel: 'Banner1',
+            name: 'live-test',
+            priority: 1,
+            status: 'Live',
+            bannerChannel: 'contributions',
+            isHardcoded: false,
+            userCohort: 'Everyone',
+            variants: [
+                {
+                    name: 'variant',
+                    template: { designName: 'TEST_DESIGN' },
+                    bannerContent: {
+                        messageText: 'body',
+                        highlightedText: 'highlighted text',
+                        cta: { text: 'cta', baseUrl: 'https://support.theguardian.com' },
+                    },
+                    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                },
+            ],
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedSectionIds: [],
+                excludedTagIds: [],
+            },
+        };
+
+        const draftTest: BannerTest = {
+            ...liveTest,
+            name: 'draft-test',
+            status: 'Draft',
+        };
+
+        const archivedTest: BannerTest = {
+            ...liveTest,
+            name: 'archived-test',
+            status: 'Archived',
+        };
+
+        const tests = [liveTest, draftTest, archivedTest];
+
+        const targeting: BannerTargeting = {
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'AU',
+            engagementBannerLastClosedAt: firstDate,
+            hasOptedOutOfArticleCount: false,
+            contentType: 'Article',
+            isSignedIn: false,
+            hasConsented: true,
+        };
+
+        it('forcedTestVariant finds a Live test', async () => {
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests,
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: { testName: 'live-test', variantName: 'variant' },
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('live-test');
+        });
+
+        it('forcedTestVariant does not find a Draft test', async () => {
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests,
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: { testName: 'draft-test', variantName: 'variant' },
+                checkAuxiaSuppression,
+            });
+            expect(result).toBeNull();
+        });
+
+        it('previewTestVariant finds a Live test', async () => {
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests,
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                previewTestVariant: { testName: 'live-test', variantName: 'variant' },
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('live-test');
+        });
+
+        it('previewTestVariant finds a Draft test (bypasses status filter)', async () => {
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests,
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                previewTestVariant: { testName: 'draft-test', variantName: 'variant' },
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('draft-test');
+        });
+
+        it('previewTestVariant finds an Archived test (bypasses status filter)', async () => {
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests,
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                previewTestVariant: { testName: 'archived-test', variantName: 'variant' },
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('archived-test');
+        });
+
+        it('forcedTestVariant takes priority over previewTestVariant', async () => {
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests,
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: { testName: 'live-test', variantName: 'variant' },
+                previewTestVariant: { testName: 'draft-test', variantName: 'variant' },
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('live-test');
+        });
+
+        it('falls through to normal selection when neither forced nor preview present', async () => {
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests: [liveTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                previewTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+            expect(result?.test.name).toBe('live-test');
+        });
+    });
 });

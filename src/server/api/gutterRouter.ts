@@ -62,6 +62,7 @@ export const buildGutterRouter = (
             tests.get(),
             getDeviceType(req),
             params.force,
+            params.preview,
         );
         if (testSelection) {
             const { test, variant, moduleName } = testSelection;

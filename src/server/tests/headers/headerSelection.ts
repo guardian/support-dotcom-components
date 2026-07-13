@@ -398,8 +398,10 @@ export const selectBestTest = async (
 const getForcedVariant = (
     forcedTestVariant: TestVariant,
     tests: HeaderTest[],
+    liveOnly = true,
 ): HeaderTestSelection | null => {
-    const test = tests.find(
+    const filteredTests = liveOnly ? tests.filter((test) => test.status === 'Live') : tests;
+    const test = filteredTests.find(
         (test) => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
     );
     const variant = test?.variants.find(
@@ -422,11 +424,15 @@ export const selectHeaderTest = async (
     userDeviceType: UserDeviceType,
     getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     forcedTestVariant?: TestVariant,
+    previewTestVariant?: TestVariant,
 ): Promise<HeaderTestSelection | null> => {
     const allTests = [...configuredTests, ...hardcodedTests];
 
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, allTests);
+    }
+    if (previewTestVariant) {
+        return getForcedVariant(previewTestVariant, allTests, false);
     }
     return selectBestTest(targeting, userDeviceType, allTests, getMParticleProfile);
 };
