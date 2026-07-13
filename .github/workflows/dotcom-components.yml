@@ -98,9 +98,6 @@ jobs:
                   node-version-file: '.nvmrc'
                   cache: 'pnpm'
 
-            - name: Update npm
-              run: npm install -g npm@latest
-
             - name: Build
               run: |
                   pnpm install
