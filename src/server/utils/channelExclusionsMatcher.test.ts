@@ -110,4 +110,73 @@ describe('inExclusions', () => {
             }),
         ).toBe(true);
     });
+
+    it('matches front ids against pageId case-insensitively', () => {
+        const targeting: Targeting = {
+            pageId: 'uk',
+        };
+
+        expect(
+            inExclusions(targeting, {
+                rules: [{ name: 'front-rule', frontIds: ['UK'] }],
+            }),
+        ).toBe(true);
+    });
+
+    it('does not match front ids when pageId is absent', () => {
+        expect(
+            inExclusions(baseTargeting, {
+                rules: [{ name: 'front-rule', frontIds: ['uk'] }],
+            }),
+        ).toBe(false);
+    });
+
+    it('matches rule with only frontIds (no sections or tags)', () => {
+        const targeting: Targeting = {
+            pageId: 'us',
+            contentType: 'Network Front',
+        };
+
+        expect(
+            inExclusions(targeting, {
+                rules: [{ name: 'front-only-rule', frontIds: ['us'] }],
+            }),
+        ).toBe(true);
+    });
+
+    it('matches frontIds OR sectionIds (either suffices)', () => {
+        const frontTargeting: Targeting = {
+            pageId: 'au',
+            contentType: 'Network Front',
+        };
+        const sectionTargeting: Targeting = {
+            sectionId: 'sport',
+            contentType: 'Article',
+        };
+
+        const rules = {
+            rules: [{ name: 'front-or-section', frontIds: ['au'], sectionIds: ['sport'] }],
+        };
+
+        expect(inExclusions(frontTargeting, rules)).toBe(true);
+        expect(inExclusions(sectionTargeting, rules)).toBe(true);
+    });
+
+    it('treats Tag contentType as Fronts', () => {
+        const tagPageTargeting: Targeting = {
+            contentType: 'Tag',
+        };
+
+        expect(
+            inExclusions(tagPageTargeting, {
+                rules: [{ name: 'fronts-only', contentTypes: ['Fronts'] }],
+            }),
+        ).toBe(true);
+
+        expect(
+            inExclusions(tagPageTargeting, {
+                rules: [{ name: 'articles-only', contentTypes: ['Articles'] }],
+            }),
+        ).toBe(false);
+    });
 });
