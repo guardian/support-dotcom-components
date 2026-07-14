@@ -5,6 +5,7 @@ export interface Targeting {
     tagIds?: string[];
     sectionId?: string;
     contentType?: string;
+    pageId?: string;
 }
 
 const toIsoDate = (date: Date): string => date.toISOString().slice(0, 10);
@@ -25,7 +26,7 @@ const getTagIds = (targeting: Targeting): string[] => {
     return [];
 };
 
-const FRONT_CONTENT_TYPES = ['Network Front', 'Section'];
+const FRONT_CONTENT_TYPES = ['Network Front', 'Section', 'Tag'];
 
 const getContentType = (targeting: Targeting): 'Fronts' | 'Articles' => {
     const contentType = 'contentType' in targeting ? targeting.contentType : undefined;
@@ -37,22 +38,36 @@ const matchesRule = (targeting: Targeting, rule: ExclusionRule): boolean => {
     const currentDate = toIsoDate(now);
     const sectionId = getSectionId(targeting)?.toLowerCase();
     const tagIds = getTagIds(targeting).map((tagId) => tagId.toLowerCase());
+    const pageId = targeting.pageId?.toLowerCase();
     const contentType = getContentType(targeting);
 
-    const hasMatchingSectionOrTag = pageContextMatches(
-        {
-            sectionId,
-            tagIds,
-        },
-        {
-            sectionIds: (rule.sectionIds ?? []).map((id) => id.toLowerCase()),
-            tagIds: (rule.tagIds ?? []).map((id) => id.toLowerCase()),
-            excludedTagIds: [],
-            excludedSectionIds: [],
-        },
-    );
+    const ruleHasSectionsOrTags =
+        (rule.sectionIds?.length ?? 0) > 0 || (rule.tagIds?.length ?? 0) > 0;
+    const ruleHasFronts = (rule.frontIds?.length ?? 0) > 0;
 
-    if (!hasMatchingSectionOrTag) {
+    const hasMatchingSectionOrTag =
+        ruleHasSectionsOrTags &&
+        pageContextMatches(
+            {
+                sectionId,
+                tagIds,
+            },
+            {
+                sectionIds: (rule.sectionIds ?? []).map((id) => id.toLowerCase()),
+                tagIds: (rule.tagIds ?? []).map((id) => id.toLowerCase()),
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
+        );
+
+    const hasMatchingFront =
+        ruleHasFronts &&
+        !!pageId &&
+        (rule.frontIds ?? []).some((id) => id.toLowerCase() === pageId);
+
+    const hasTargetingCriteria = ruleHasSectionsOrTags || ruleHasFronts;
+
+    if (hasTargetingCriteria && !hasMatchingSectionOrTag && !hasMatchingFront) {
         return false;
     }
 
