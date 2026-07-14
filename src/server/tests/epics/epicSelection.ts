@@ -328,8 +328,13 @@ function selectEpicVariant(
     };
 }
 
-export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {
-    const test = tests.find((test) => test.name === force.testName);
+export const findForcedTestAndVariant = (
+    tests: EpicTest[],
+    force: TestVariant,
+    liveOnly = true,
+): Result => {
+    const filteredTests = liveOnly ? tests.filter((test) => test.status === 'Live') : tests;
+    const test = filteredTests.find((test) => test.name === force.testName);
     const variant = test?.variants.find((v) => v.name === force.variantName);
 
     return test && variant ? { result: { test, variant } } : {};

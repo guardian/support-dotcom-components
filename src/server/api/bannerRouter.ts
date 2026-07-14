@@ -104,6 +104,7 @@ export const buildBannerRouter = (
             getMParticleProfile,
             now: new Date(),
             forcedTestVariant: params.force,
+            previewTestVariant: params.preview,
             checkAuxiaSuppression,
         });
 

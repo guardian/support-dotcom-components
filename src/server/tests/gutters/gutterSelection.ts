@@ -76,8 +76,10 @@ export const selectBestTest = (
 const getForcedVariant = (
     forcedTestVariant: TestVariant,
     tests: GutterTest[],
+    liveOnly = true,
 ): GutterTestSelection | null => {
-    const test = tests.find(
+    const filteredTests = liveOnly ? tests.filter((test) => test.status === 'Live') : tests;
+    const test = filteredTests.find(
         (test) => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
     );
     const variant = test?.variants.find(
@@ -99,9 +101,13 @@ export const selectGutterTest = (
     configuredTests: GutterTest[],
     userDeviceType: UserDeviceType,
     forcedTestVariant?: TestVariant,
+    previewTestVariant?: TestVariant,
 ): GutterTestSelection | null => {
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, configuredTests);
+    }
+    if (previewTestVariant) {
+        return getForcedVariant(previewTestVariant, configuredTests, false);
     }
     return selectBestTest(targeting, userDeviceType, configuredTests);
 };

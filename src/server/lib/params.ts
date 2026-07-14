@@ -6,26 +6,30 @@ export interface TestVariant {
 export interface Params {
     debug?: boolean;
     force?: TestVariant;
+    preview?: TestVariant;
     deviceClass?: 'tablet';
 }
 
-export const getQueryParams = (query: qs.ParsedQs): Params => {
-    const { debug, force, deviceClass } = query;
-    const debugNonEmpty = debug !== undefined;
-    let parsedForce: TestVariant | undefined;
-
-    if (force && typeof force === 'string') {
-        const [testName, variantName] = force.split(':');
+const parseTestVariant = (value: unknown): TestVariant | undefined => {
+    if (value && typeof value === 'string') {
+        const [testName, variantName] = value.split(':');
         if (testName && variantName) {
-            parsedForce = { testName, variantName };
+            return { testName, variantName };
         }
     }
+    return undefined;
+};
+
+export const getQueryParams = (query: qs.ParsedQs): Params => {
+    const { debug, force, preview, deviceClass } = query;
+    const debugNonEmpty = debug !== undefined;
 
     // Parse deviceClass parameter - only accept 'tablet' as valid value
     const parsedDeviceClass = deviceClass === 'tablet' ? 'tablet' : undefined;
 
     return {
-        force: parsedForce,
+        force: parseTestVariant(force),
+        preview: parseTestVariant(preview),
         debug: debugNonEmpty,
         deviceClass: parsedDeviceClass,
     };

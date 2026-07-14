@@ -29,6 +29,11 @@ const getForcedVariant = (type: ModuleType): string | null => {
     return params.get(`force-${type}`);
 };
 
+const getPreviewVariant = (type: ModuleType): string | null => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(`preview-${type}`);
+};
+
 type Payload = EpicPayload | BannerPayload | HeaderPayload | GutterPayload;
 
 const getModuleData = <PROPS>(
@@ -38,8 +43,17 @@ const getModuleData = <PROPS>(
     headers?: HeadersInit,
 ): Promise<ModuleDataResponse<PROPS>> => {
     const forcedVariant = getForcedVariant(type);
-    const queryString = forcedVariant ? `?force=${forcedVariant}` : '';
-    const url = `${baseUrl}/${type}${queryString}`;
+    const previewVariant = getPreviewVariant(type);
+
+    const queryParams = new URLSearchParams();
+    if (forcedVariant) {
+        queryParams.set('force', forcedVariant);
+    } else if (previewVariant) {
+        queryParams.set('preview', previewVariant);
+    }
+
+    const queryString = queryParams.toString();
+    const url = queryString ? `${baseUrl}/${type}?${queryString}` : `${baseUrl}/${type}`;
 
     return fetch(url, {
         method: 'post',
