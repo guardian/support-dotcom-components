@@ -1,26 +1,18 @@
 Configuration of the marketing messages is primarily done from the [RRCP](https://github.com/guardian/support-admin-console).
 
-See [architecture](docs/architecture.md) for details.
+See [architecture](architecture.md) for details.
 
-## Development
+## Getting started
 
-This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands. To set up, first run
+This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands.
+
+To set up, install the project dependencies:
 
 ```bash
 $ pnpm install
 ```
 
-This will install all the project dependencies.
-
-If you have a linting problem, try
-
-```bash
-$ pnpm prettier:fix
-```
-
-### Server
-
-To start the server run
+To start the server first get AWS credentials for membership, then run
 
 ```bash
 $ pnpm start
@@ -28,7 +20,17 @@ $ pnpm start
 
 This will start `webpack` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
 
-The server runs on port 8082 locally.
+Now visit the server on: http://localhost:8082/healthcheck
+
+You should see an "OK" on the screen.
+
+### Troubleshooting CI failures
+
+If you have a linting problem, try
+
+```bash
+$ pnpm prettier:fix
+```
 
 #### DCR
 
