@@ -416,7 +416,9 @@ export const getTreatmentsRequestPayloadToGateType = (
         'SK',
     ];
     const isDismissibleRollout =
-        payload.countryCode === 'AU' || payload.countryCode === 'CA' || euCountries.includes(payload.countryCode);
+        payload.countryCode === 'AU' ||
+        payload.countryCode === 'CA' ||
+        euCountries.includes(payload.countryCode);
 
     // --------------------------------------------------------------
     // We now move to the normal behavior of the gate
