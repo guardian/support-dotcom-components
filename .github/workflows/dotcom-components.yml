@@ -51,6 +51,7 @@ jobs:
               run: |
                   pnpm install
                   pnpm lint
+                  pnpm prettier:check
                   pnpm test
                   pnpm synth
 
