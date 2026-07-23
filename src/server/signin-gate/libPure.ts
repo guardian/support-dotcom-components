@@ -385,7 +385,10 @@ export const getTreatmentsRequestPayloadToGateType = (
         return staffTestConditionToDefaultGate(payload);
     }
 
-    const isMandatoryRollout = payload.countryCode === 'IE' || payload.countryCode === 'NZ';
+    const isMandatoryRollout =
+        payload.countryCode === 'IE' ||
+        payload.countryCode === 'NZ' ||
+        payload.countryCode === 'CA';
     const euCountries = [
         'AT',
         'BE',
