@@ -72,7 +72,7 @@ importers:
     devDependencies:
       '@guardian/cdk':
         specifier: 63.6.1
-        version: 63.6.1(aws-cdk-lib@2.261.0(constructs@10.5.1))(aws-cdk@2.1126.0)(constructs@10.5.1)
+        version: 63.6.1(aws-cdk-lib@2.261.0(constructs@10.7.0))(aws-cdk@2.1126.0)(constructs@10.7.0)
       '@types/jest':
         specifier: 30.0.0
         version: 30.0.0
@@ -81,10 +81,10 @@ importers:
         version: 2.1126.0
       aws-cdk-lib:
         specifier: 2.261.0
-        version: 2.261.0(constructs@10.5.1)
+        version: 2.261.0(constructs@10.7.0)
       constructs:
-        specifier: 10.5.1
-        version: 10.5.1
+        specifier: 10.7.0
+        version: 10.7.0
       eslint:
         specifier: 9.39.4
         version: 9.39.4
@@ -2083,8 +2083,8 @@ packages:
     engines: {node: '>=22'}
     hasBin: true
 
-  constructs@10.5.1:
-    resolution: {integrity: sha512-f/TfFXiS3G/yVIXDjOQn9oTlyu9Wo7Fxyjj7lb8r92iO81jR2uST+9MstxZTmDGx/CgIbxCXkFXgupnLTNxQZg==}
+  constructs@10.7.0:
+    resolution: {integrity: sha512-Vzwc30bMywc7DCzX8XOyuZbsBmfXTCrn6HHmhhELZK1J5dnUWwJ5uL7hBXGGq7xFPVOOO6cs9FwaxOshAxgcWQ==}
 
   content-disposition@0.5.4:
     resolution: {integrity: sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==}
@@ -5544,16 +5544,16 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@guardian/cdk@63.6.1(aws-cdk-lib@2.261.0(constructs@10.5.1))(aws-cdk@2.1126.0)(constructs@10.5.1)':
+  '@guardian/cdk@63.6.1(aws-cdk-lib@2.261.0(constructs@10.7.0))(aws-cdk@2.1126.0)(constructs@10.7.0)':
     dependencies:
       '@aws-sdk/client-ec2': 3.1079.0
       '@aws-sdk/client-ssm': 3.1045.0
       '@aws-sdk/credential-providers': 3.1045.0
       aws-cdk: 2.1126.0
-      aws-cdk-lib: 2.261.0(constructs@10.5.1)
+      aws-cdk-lib: 2.261.0(constructs@10.7.0)
       chalk: 4.1.2
       codemaker: 1.138.0
-      constructs: 10.5.1
+      constructs: 10.7.0
       git-url-parse: 16.1.0
       js-yaml: 4.3.0
       read-pkg-up: 7.0.1
@@ -6646,12 +6646,12 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  aws-cdk-lib@2.261.0(constructs@10.5.1):
+  aws-cdk-lib@2.261.0(constructs@10.7.0):
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.282
       '@aws-cdk/asset-node-proxy-agent-v6': 2.1.2
       '@aws-cdk/cloud-assembly-schema': 54.9.0
-      constructs: 10.5.1
+      constructs: 10.7.0
 
   aws-cdk@2.1126.0: {}
 
@@ -6929,7 +6929,7 @@ snapshots:
       tree-kill: 1.2.2
       yargs: 18.0.0
 
-  constructs@10.5.1: {}
+  constructs@10.7.0: {}
 
   content-disposition@0.5.4:
     dependencies:
