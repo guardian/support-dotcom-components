@@ -96,7 +96,7 @@ const enrichChoiceCard = (
         replaceCurrencyTemplate(choiceCard.benefitsLabel, currencySymbol);
 
     const buildPill = (): ChoiceCard['pill'] => {
-        if (promotion) {
+        if (promotion && promotion.isIntroductoryPricing !== true) {
             return {
                 copy: `${Math.floor(promotion.discountPercent)}% off`,
                 backgroundColour: choiceCard.pill?.backgroundColour ?? {

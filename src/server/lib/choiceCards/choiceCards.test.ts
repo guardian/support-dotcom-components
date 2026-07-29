@@ -537,5 +537,6 @@ describe('getChoiceCardsSettings', () => {
 
         expect(result).toBeDefined();
         expect(result?.choiceCards[1].label).toEqual('Support $9/monthly');
+        expect(result?.choiceCards[1].pill?.copy).toBe('Recommended');
     });
 });
