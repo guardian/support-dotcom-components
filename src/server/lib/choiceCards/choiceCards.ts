@@ -64,11 +64,12 @@ const enrichChoiceCard = (
             const discount = price * (promotion.discountPercent / 100);
             const discountedPrice = price - discount;
             const formattedDiscountedPrice = formatPrice(discountedPrice);
+            const discountedPriceWithCurrencyAndCopy = `${currencySymbol}${formattedDiscountedPrice}/${ratePlanCopyText}`;
 
             if (promotion.isIntroductoryPricing) {
-                return `Support ${currencySymbol}${formattedDiscountedPrice}/${ratePlanCopyText}`;
+                return `Support ${discountedPriceWithCurrencyAndCopy}`;
             } else {
-                return `Support <s>${currencySymbol}${formattedPrice}</s> ${currencySymbol}${formattedDiscountedPrice}/${ratePlanCopyText}`;
+                return `Support <s>${currencySymbol}${formattedPrice}</s> ${discountedPriceWithCurrencyAndCopy}`;
             }
         } else {
             return `Support ${currencySymbol}${formattedPrice}/${ratePlanCopyText}`;
