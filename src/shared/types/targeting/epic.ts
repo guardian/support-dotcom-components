@@ -7,14 +7,9 @@ type Tag = {
 };
 
 export type EpicTargeting = {
-    contentType: string;
-    sectionName?: string; // Deprecated - use sectionId
     sectionId?: string;
     shouldHideReaderRevenue: boolean;
-
-    isMinuteArticle: boolean;
     isPaidContent: boolean;
-
     tags: Tag[];
     mvtId?: number;
     epicViewLog?: EpicViewLog;

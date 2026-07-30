@@ -76,10 +76,8 @@ const testDefault: EpicTest = {
 };
 
 const targetingDefault: EpicTargeting = {
-    contentType: 'Article',
     sectionId: 'environment',
     shouldHideReaderRevenue: false,
-    isMinuteArticle: false,
     isPaidContent: false,
     tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
     showSupportMessaging: true,
@@ -916,10 +914,8 @@ describe('holdback group targeting', () => {
     const getMParticleProfile = () => Promise.resolve(undefined);
 
     const baseTargeting: EpicTargeting = {
-        contentType: 'Article',
         sectionId: 'environment',
         shouldHideReaderRevenue: false,
-        isMinuteArticle: false,
         isPaidContent: false,
         tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
         showSupportMessaging: true,
