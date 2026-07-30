@@ -25,7 +25,6 @@ export interface HeaderProps {
     mobileContent?: HeaderContent;
     countryCode?: string;
     submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
-    numArticles?: number;
     promoCodes?: string[];
 }
 
