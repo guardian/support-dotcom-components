@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.0.0
+
+### Major Changes
+
+- 7eeec61: Remove unused fields from models
+
 ## 10.1.0
 
 ### Minor Changes
