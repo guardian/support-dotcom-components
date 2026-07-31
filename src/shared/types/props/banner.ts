@@ -61,7 +61,6 @@ export interface BannerProps {
     content?: BannerContent;
     mobileContent?: BannerContent;
     countryCode?: string;
-    isSupporter?: boolean;
     tickerSettings?: TickerSettings;
     articleCounts: ArticleCounts;
     hasOptedOutOfArticleCount?: boolean;
@@ -84,7 +83,6 @@ export const bannerSchema = z.object({
     content: bannerContentSchema.nullish(),
     mobileContent: bannerContentSchema.nullish(),
     countryCode: z.string().nullish(),
-    isSupporter: z.boolean().nullish(),
     tickerSettings: tickerSettingsSchema.nullish(),
     submitComponentEvent: z.any(),
     articleCounts: articleCountsSchema,

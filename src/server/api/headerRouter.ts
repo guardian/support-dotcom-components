@@ -82,7 +82,6 @@ export const buildHeaderRouter = (
                             mobileContent: variant.mobileContent,
                             tracking: testTracking as Tracking, // PageTracking is added client-side
                             countryCode: targeting.countryCode,
-                            numArticles: targeting.numArticles,
                         },
                     },
                     meta: testTracking,

@@ -157,7 +157,6 @@ export const buildBannerRouter = (
             const props: BannerProps = {
                 tracking: testTracking as Tracking, // PageTracking is added client-side
                 bannerChannel: test.bannerChannel,
-                isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,
                 content: variant.bannerContent,
                 mobileContent: variant.mobileBannerContent,

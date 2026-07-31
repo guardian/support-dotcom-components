@@ -25,7 +25,6 @@ export interface HeaderProps {
     mobileContent?: HeaderContent;
     countryCode?: string;
     submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
-    numArticles?: number;
     promoCodes?: string[];
 }
 
@@ -35,6 +34,5 @@ export const headerPropsSchema = z.object({
     mobileContent: headerContentSchema.optional(),
     countryCode: z.string().optional(),
     submitComponentEvent: z.any(),
-    numArticles: z.number().optional(),
     promoCodes: z.array(z.string()).nullish(),
 });

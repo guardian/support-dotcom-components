@@ -68,7 +68,6 @@ export const variantSchema = z.object({
     bylineWithImage: bylineWithImageSchema.optional(),
     showChoiceCards: z.boolean().optional(),
     choiceCardsSettings: choiceCardsSettings.nullish(),
-    defaultChoiceCardFrequency: contributionFrequencySchema.optional(), // deprecated, use choiceCardsSettings
 });
 
 export const epicPropsSchema = z.object({
