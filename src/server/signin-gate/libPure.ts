@@ -236,7 +236,7 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
         This is the function that needs to be modified when we want to increase the share of the
         audience given to the Auxia experiment in the future.
 
-        Note: since July 2026, the Auxia share for the UK (countryCode 'GB') is reduced to 20%.
+        Note: since August 2026, the Auxia share for the UK (countryCode 'GB') is reduced to 20%.
         That exception is implemented in isAuxiaAudienceShare below (see logic.md).
     */
 
