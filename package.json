@@ -9,6 +9,7 @@
     "license": "MIT",
     "private": true,
     "scripts": {
+        "tsc": "tsc --noEmit",
         "build-server": "pnpm --filter @guardian/support-dotcom-components-server build",
         "prestart": "pnpm --filter @guardian/support-dotcom-components-server build:dev",
         "start-watch": "pnpm --filter @guardian/support-dotcom-components-server start-watch",

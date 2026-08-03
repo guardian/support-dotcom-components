@@ -42,6 +42,7 @@ jobs:
                   pnpm install
                   pnpm lint
                   pnpm prettier:check
+                  pnpm tsc
                   pnpm test
 
                   NODE_ENV=production pnpm build-server
