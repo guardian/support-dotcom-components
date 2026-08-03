@@ -348,9 +348,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 			},
 			monitoringConfiguration,
 			userData,
-			roleConfiguration: {
-				additionalPolicies: policies,
-			},
+			additionalPolicies: policies,
 			scaling,
 			instanceMetricGranularity: '1Minute',
 			withAccessLogging: false,
