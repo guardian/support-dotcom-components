@@ -9,6 +9,7 @@ import type {
 } from '../../shared/types';
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
+import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
@@ -36,6 +37,7 @@ export const buildHeaderRouter = (
     mParticle: MParticle,
     okta: Okta,
     channelExclusions: ValueProvider<ExclusionSettings>,
+    contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
 ): Router => {
     const router = Router();
 
@@ -63,6 +65,7 @@ export const buildHeaderRouter = (
             getMParticleProfile,
             params.force,
             params.preview,
+            contributionsOnlyCountriesConfig.get().contributionsOnlyCountries,
         );
         if (testSelection) {
             const { test, variant, moduleName } = testSelection;

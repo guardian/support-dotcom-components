@@ -106,6 +106,8 @@ export const buildBannerRouter = (
             forcedTestVariant: params.force,
             previewTestVariant: params.preview,
             checkAuxiaSuppression,
+            contributionsOnlyCountries:
+                contributionsOnlyCountriesConfig.get().contributionsOnlyCountries,
         });
 
         if (selectedTest) {

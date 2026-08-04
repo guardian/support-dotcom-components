@@ -14,12 +14,21 @@ export type CountryGroupId = (typeof CountryGroupId)[number];
 
 export const countryGroupIdSchema = z.enum(CountryGroupId);
 
+export const contributionsOnlyCountriesTargetingSchema = z.enum(['Include', 'Exclude']);
+
+export type ContributionsOnlyCountriesTargeting = z.infer<
+    typeof contributionsOnlyCountriesTargetingSchema
+>;
+
 export const targetedRegionsSchema = z
     .object({
         targetedCountryGroups: z.array(countryGroupIdSchema),
         targetedCountryCodes: z.array(z.string()).optional(),
+        contributionsOnlyCountriesTargeting: contributionsOnlyCountriesTargetingSchema.optional(),
     })
     .optional();
+
+export type RegionTargeting = z.infer<typeof targetedRegionsSchema>;
 
 // Used to internationalise 'Support the Guardian' links
 export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA';
@@ -600,6 +609,35 @@ export const inTargetedCountry = (
 
     // Check if the country is in the targeted countries by name
     return countryCodes.includes(countryCodeFromPayload.toUpperCase());
+};
+
+/**
+ * Evaluates a test's contributions-only-countries targeting against the user's country.
+ *
+ * - `Include`: the test only shows in contributions-only countries.
+ * - `Exclude`: the test never shows in contributions-only countries (used for epics/banners
+ *   that mention products/promos unavailable in these countries).
+ * - undefined: no special targeting (always passes).
+ *
+ * When a mode is set but the user's country code is unknown, the test is suppressed
+ * (fail-safe: don't show product/promo copy to users we can't geolocate).
+ */
+export const passesContributionsOnlyTargeting = (
+    regionTargeting:
+        | { contributionsOnlyCountriesTargeting?: ContributionsOnlyCountriesTargeting }
+        | undefined,
+    countryCode: string | undefined,
+    contributionsOnlyCountries: string[],
+): boolean => {
+    const mode = regionTargeting?.contributionsOnlyCountriesTargeting;
+    if (!mode) {
+        return true;
+    }
+    if (!countryCode) {
+        return false;
+    }
+    const isContributionsOnly = contributionsOnlyCountries.includes(countryCode);
+    return mode === 'Include' ? isContributionsOnly : !isContributionsOnly;
 };
 
 const defaultCurrencySymbol = '£';

@@ -134,6 +134,7 @@ export const buildEpicRouter = (
                     enableSuperMode ? superModeArticles.get() : [],
                     banditData.get(),
                     getMParticleProfile,
+                    contributionsOnlyCountriesConfig.get().contributionsOnlyCountries,
                     params.debug,
                 );
 

@@ -1,4 +1,4 @@
-import { inTargetedCountry } from '../../../shared/lib';
+import { inTargetedCountry, passesContributionsOnlyTargeting } from '../../../shared/lib';
 import type {
     HeaderTargeting,
     HeaderTest,
@@ -362,6 +362,7 @@ export const selectBestTest = async (
     userDeviceType: UserDeviceType,
     allTests: HeaderTest[],
     getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    contributionsOnlyCountries: string[] = [],
 ): Promise<HeaderTestSelection | null> => {
     const { showSupportMessaging, purchaseInfo, isSignedIn } = targeting;
 
@@ -372,6 +373,11 @@ export const selectBestTest = async (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
             isCountryTargetedForHeader(test, targeting) &&
+            passesContributionsOnlyTargeting(
+                test.regionTargeting,
+                targeting.countryCode,
+                contributionsOnlyCountries,
+            ) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
@@ -425,6 +431,7 @@ export const selectHeaderTest = async (
     getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     forcedTestVariant?: TestVariant,
     previewTestVariant?: TestVariant,
+    contributionsOnlyCountries: string[] = [],
 ): Promise<HeaderTestSelection | null> => {
     const allTests = [...configuredTests, ...hardcodedTests];
 
@@ -434,5 +441,11 @@ export const selectHeaderTest = async (
     if (previewTestVariant) {
         return getForcedVariant(previewTestVariant, allTests, false);
     }
-    return selectBestTest(targeting, userDeviceType, allTests, getMParticleProfile);
+    return selectBestTest(
+        targeting,
+        userDeviceType,
+        allTests,
+        getMParticleProfile,
+        contributionsOnlyCountries,
+    );
 };

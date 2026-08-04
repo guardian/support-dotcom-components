@@ -9,6 +9,7 @@ import type {
 } from '../../shared/types';
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
+import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
 import { getQueryParams } from '../lib/params';
@@ -34,6 +35,7 @@ export const buildGutterRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
     tests: ValueProvider<GutterTest[]>,
     channelExclusions: ValueProvider<ExclusionSettings>,
+    contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
 ): Router => {
     const router = Router();
 
@@ -63,6 +65,7 @@ export const buildGutterRouter = (
             getDeviceType(req),
             params.force,
             params.preview,
+            contributionsOnlyCountriesConfig.get().contributionsOnlyCountries,
         );
         if (testSelection) {
             const { test, variant, moduleName } = testSelection;

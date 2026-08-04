@@ -152,11 +152,27 @@ const buildApp = async (): Promise<Express> => {
             contributionsOnlyCountriesConfig,
         ),
     );
-    app.use(buildHeaderRouter(channelSwitches, headerTests, mParticle, okta, channelExclusions));
+    app.use(
+        buildHeaderRouter(
+            channelSwitches,
+            headerTests,
+            mParticle,
+            okta,
+            channelExclusions,
+            contributionsOnlyCountriesConfig,
+        ),
+    );
 
     app.use(buildAuxiaProxyRouter(channelSwitches, auxiaConfig));
 
-    app.use(buildGutterRouter(channelSwitches, gutterLiveblogTests, channelExclusions));
+    app.use(
+        buildGutterRouter(
+            channelSwitches,
+            gutterLiveblogTests,
+            channelExclusions,
+            contributionsOnlyCountriesConfig,
+        ),
+    );
 
     app.use(buildTickerRouter(tickerData));
 
