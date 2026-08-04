@@ -513,4 +513,30 @@ describe('getChoiceCardsSettings', () => {
         expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/monthly');
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
     });
+
+    it('applies a discount for a an introductory pricing offer promo but does not show the original price', () => {
+        const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
+        const promoCodes: string[] = ['PROMO_INTRO_OFFER'];
+        const mockPromotionsCacheIntroOffer: PromotionsCache = {
+            PROMO_INTRO_OFFER: {
+                promoCode: 'PROMO_INTRO_OFFER',
+                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+                discountPercent: 40,
+                isIntroductoryPricing: true,
+            },
+        };
+
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCacheIntroOffer,
+            promoCodes,
+            variantChoiceCardSettings,
+        );
+
+        expect(result).toBeDefined();
+        expect(result?.choiceCards[1].label).toEqual('Support $9/monthly');
+        expect(result?.choiceCards[1].pill?.copy).toBe('Recommended');
+    });
 });

@@ -16,6 +16,7 @@ export interface Promotion {
     discountPercent: number;
     startTimestamp?: string;
     endTimestamp?: string;
+    isIntroductoryPricing?: boolean;
 }
 export type PromotionsCache = Record<PromoCode, Promotion>;
 
@@ -30,6 +31,7 @@ interface PromotionTableItem {
     };
     startTimestamp?: string;
     endTimestamp?: string;
+    isIntroductoryPricing?: boolean;
 }
 
 const mapTableItemToPromotion = (item: PromotionTableItem): Promotion => {
@@ -39,6 +41,7 @@ const mapTableItemToPromotion = (item: PromotionTableItem): Promotion => {
         productRatePlanIds: item.appliesTo.productRatePlanIds,
         startTimestamp: item.startTimestamp,
         endTimestamp: item.endTimestamp,
+        isIntroductoryPricing: item.isIntroductoryPricing,
     };
 };
 

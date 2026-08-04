@@ -64,7 +64,13 @@ const enrichChoiceCard = (
             const discount = price * (promotion.discountPercent / 100);
             const discountedPrice = price - discount;
             const formattedDiscountedPrice = formatPrice(discountedPrice);
-            return `Support <s>${currencySymbol}${formattedPrice}</s> ${currencySymbol}${formattedDiscountedPrice}/${ratePlanCopyText}`;
+            const discountedPriceWithCurrencyAndCopy = `${currencySymbol}${formattedDiscountedPrice}/${ratePlanCopyText}`;
+
+            if (promotion.isIntroductoryPricing) {
+                return `Support ${discountedPriceWithCurrencyAndCopy}`;
+            } else {
+                return `Support <s>${currencySymbol}${formattedPrice}</s> ${discountedPriceWithCurrencyAndCopy}`;
+            }
         } else {
             return `Support ${currencySymbol}${formattedPrice}/${ratePlanCopyText}`;
         }
@@ -90,7 +96,7 @@ const enrichChoiceCard = (
         replaceCurrencyTemplate(choiceCard.benefitsLabel, currencySymbol);
 
     const buildPill = (): ChoiceCard['pill'] => {
-        if (promotion) {
+        if (promotion && promotion.isIntroductoryPricing !== true) {
             return {
                 copy: `${Math.floor(promotion.discountPercent)}% off`,
                 backgroundColour: choiceCard.pill?.backgroundColour ?? {
