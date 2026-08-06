@@ -263,8 +263,24 @@ describe('contributionsOnlyCountriesTargeting', () => {
         expect(gotInOtherCountry.result).toBe(undefined);
     });
 
-    it('passes when no mode is set (backward compatible)', async () => {
+    it('defaults to Exclude when no mode is set (suppresses in contributions-only countries)', async () => {
         const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'VN', ...history };
+
+        const got = await findTestAndVariant(
+            [testNoArticleSettings],
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+            contributionsOnlyCountries,
+        );
+
+        expect(got.result).toBe(undefined);
+    });
+
+    it('shows in non-contributions-only countries when no mode is set (default Exclude)', async () => {
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'GB', ...history };
 
         const got = await findTestAndVariant(
             [testNoArticleSettings],

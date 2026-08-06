@@ -1810,9 +1810,26 @@ describe('contributionsOnlyCountriesTargeting', () => {
         expect(inOtherCountry).toBe(null);
     });
 
-    it('passes when no mode is set (backward compatible)', async () => {
+    it('defaults to Exclude when no mode is set (suppresses in contributions-only countries)', async () => {
         const result = await selectBannerTest({
             targeting: { ...baseTargeting, countryCode: 'VN' },
+            userDeviceType,
+            tests: [buildTest(undefined)],
+            bannerDeployTimes,
+            enableHardcodedBannerTests: true,
+            enableScheduledDeploys: true,
+            banditData,
+            getMParticleProfile,
+            now,
+            checkAuxiaSuppression,
+            contributionsOnlyCountries,
+        });
+        expect(result).toBe(null);
+    });
+
+    it('shows in non-contributions-only countries when no mode is set (default Exclude)', async () => {
+        const result = await selectBannerTest({
+            targeting: { ...baseTargeting, countryCode: 'GB' },
             userDeviceType,
             tests: [buildTest(undefined)],
             bannerDeployTimes,

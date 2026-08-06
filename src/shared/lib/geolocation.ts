@@ -617,10 +617,12 @@ export const inTargetedCountry = (
  * - `Include`: the test only shows in contributions-only countries.
  * - `Exclude`: the test never shows in contributions-only countries (used for epics/banners
  *   that mention products/promos unavailable in these countries).
- * - undefined: no special targeting (always passes).
+ * - undefined: defaults to `Exclude` (so existing tests are suppressed in
+ *   contributions-only countries without needing a config change).
  *
- * When a mode is set but the user's country code is unknown, the test is suppressed
- * (fail-safe: don't show product/promo copy to users we can't geolocate).
+ * When the user's country code is unknown, the test is shown (we can't apply
+ * geo-targeting without geolocation data, and suppressing everything would break
+ * the case where geolocation fails to load).
  */
 export const passesContributionsOnlyTargeting = (
     regionTargeting:
@@ -629,12 +631,9 @@ export const passesContributionsOnlyTargeting = (
     countryCode: string | undefined,
     contributionsOnlyCountries: string[],
 ): boolean => {
-    const mode = regionTargeting?.contributionsOnlyCountriesTargeting;
-    if (!mode) {
-        return true;
-    }
+    const mode = regionTargeting?.contributionsOnlyCountriesTargeting ?? 'Exclude';
     if (!countryCode) {
-        return false;
+        return true;
     }
     const isContributionsOnly = contributionsOnlyCountries.includes(countryCode);
     return mode === 'Include' ? isContributionsOnly : !isContributionsOnly;
