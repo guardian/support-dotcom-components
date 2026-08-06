@@ -235,6 +235,9 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
 
         This is the function that needs to be modified when we want to increase the share of the
         audience given to the Auxia experiment in the future.
+
+        Note: since August 2026, the Auxia share for the UK (countryCode 'GB') is reduced to 20%.
+        That exception is implemented in isAuxiaAudienceShare below (see logic.md).
     */
 
     // The MVT calculator is very useful: https://ab-tests.netlify.app
@@ -250,6 +253,10 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
 };
 
 export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
+    // The Auxia audience share for the UK is reduced to 20% (see logic.md)
+    if (payload.countryCode === 'GB') {
+        return payload.mvtId > 0 && payload.mvtId <= 200_000;
+    }
     return mvtIdIsAuxiaAudienceShare(payload.mvtId);
 };
 

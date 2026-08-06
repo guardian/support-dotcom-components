@@ -32,7 +32,9 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |
                |  - Auxia drives the gate                     |
   consented +  |                                              |
-  auxia 35% +  |                                              |
+  auxia 35%    |                                              |
+  (20% for     |                                              |
+  the UK)      |                                              |
                |                                              |
                |                                              |
                |                                              |
@@ -43,9 +45,9 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |
                |  - No Auxia notification                     |
   consented +  |  - Guardian drives the gate:                 |
- non-auxia 65% |    - No gate for 30 days after a single      |
-               |      contribution event [01]                 |
-               |    - No gate the first 3 page views          |
+ non-auxia    |    - No gate for 30 days after a single      |
+ 65% (80%     |      contribution event [01]                 |
+ for the UK)  |    - No gate the first 3 page views          |
                |    - Dismissible gates,                      |
                |      then no gate after 5 dismisses          |
                |                                              |
@@ -54,6 +56,9 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
 
 [01] use gu_hide_support_messaging cookie
 ```
+
+nb: the Auxia share of the audience is the first 35% of mvtIds (1 to 350_000),
+except for the UK (countryCode 'GB') where it is reduced to the first 20% (1 to 200_000).
 
 ### Ireland + New Zealand
 
