@@ -1,4 +1,4 @@
-import { inTargetedCountry } from '../../../shared/lib';
+import { inTargetedCountry, passesContributionsOnlyTargeting } from '../../../shared/lib';
 import type {
     GutterTargeting,
     GutterTest,
@@ -36,6 +36,7 @@ export const selectBestTest = (
     targeting: GutterTargeting,
     userDeviceType: UserDeviceType,
     allTests: GutterTest[],
+    contributionsOnlyCountries: string[] = [],
 ): GutterTestSelection | null => {
     const { showSupportMessaging, isSignedIn } = targeting;
 
@@ -52,6 +53,11 @@ export const selectBestTest = (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
             isCountryTargetedForGutterAsks(test, targeting) &&
+            passesContributionsOnlyTargeting(
+                test.regionTargeting,
+                targeting.countryCode,
+                contributionsOnlyCountries,
+            ) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
             pageContextMatches(pageContext, contextTargeting) &&
             matchesHoldbackRequirement(test, targeting.inHoldbackGroup) &&
@@ -102,6 +108,7 @@ export const selectGutterTest = (
     userDeviceType: UserDeviceType,
     forcedTestVariant?: TestVariant,
     previewTestVariant?: TestVariant,
+    contributionsOnlyCountries: string[] = [],
 ): GutterTestSelection | null => {
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, configuredTests);
@@ -109,5 +116,5 @@ export const selectGutterTest = (
     if (previewTestVariant) {
         return getForcedVariant(previewTestVariant, configuredTests, false);
     }
-    return selectBestTest(targeting, userDeviceType, configuredTests);
+    return selectBestTest(targeting, userDeviceType, configuredTests, contributionsOnlyCountries);
 };

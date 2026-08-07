@@ -1683,3 +1683,164 @@ describe('selectBannerTest', () => {
         });
     });
 });
+
+describe('contributionsOnlyCountriesTargeting', () => {
+    const now = new Date('2020-03-31T12:30:00');
+    const bannerDeployTimes = getBannerDeployTimesReloader('Mon Jul 06 2020 19:20:10 GMT+0100');
+    const contributionsOnlyCountries = ['VN', 'TH'];
+    const checkAuxiaSuppression = buildCheckAuxiaSuppressionMock();
+    const getMParticleProfile = () => Promise.resolve(undefined);
+
+    const baseTargeting: BannerTargeting = {
+        shouldHideReaderRevenue: false,
+        isPaidContent: false,
+        showSupportMessaging: true,
+        mvtId: 3,
+        countryCode: 'GB',
+        engagementBannerLastClosedAt: 'Mon Jun 06 2020 19:20:10 GMT+0100',
+        hasOptedOutOfArticleCount: false,
+        contentType: 'Article',
+        isSignedIn: false,
+        hasConsented: true,
+        weeklyArticleHistory: [{ week: 18330, count: 6 }],
+    };
+
+    const buildTest = (
+        contributionsOnlyCountriesTargeting?: 'Include' | 'Exclude',
+    ): BannerTest => ({
+        channel: 'Banner1',
+        name: 'test',
+        priority: 1,
+        status: 'Live',
+        bannerChannel: 'contributions',
+        isHardcoded: false,
+        userCohort: 'Everyone',
+        variants: [
+            {
+                name: 'variant',
+                template: { designName: 'TEST_DESIGN' },
+                bannerContent: {
+                    messageText: 'body',
+                    highlightedText: 'highlighted text',
+                    cta: { text: 'cta', baseUrl: 'https://support.theguardian.com' },
+                },
+                componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            },
+        ],
+        articlesViewedSettings: { minViews: 5, periodInWeeks: 52 },
+        locations: [],
+        regionTargeting: {
+            targetedCountryGroups: [],
+            targetedCountryCodes: [],
+            contributionsOnlyCountriesTargeting,
+        },
+        contextTargeting: {
+            tagIds: [],
+            sectionIds: [],
+            excludedTagIds: [],
+            excludedSectionIds: [],
+        },
+    });
+
+    it('excludes a contributions-only country when mode is Exclude', async () => {
+        const result = await selectBannerTest({
+            targeting: { ...baseTargeting, countryCode: 'VN' },
+            userDeviceType,
+            tests: [buildTest('Exclude')],
+            bannerDeployTimes,
+            enableHardcodedBannerTests: true,
+            enableScheduledDeploys: true,
+            banditData,
+            getMParticleProfile,
+            now,
+            checkAuxiaSuppression,
+            contributionsOnlyCountries,
+        });
+        expect(result).toBe(null);
+    });
+
+    it('shows a non-contributions-only country when mode is Exclude', async () => {
+        const result = await selectBannerTest({
+            targeting: { ...baseTargeting, countryCode: 'GB' },
+            userDeviceType,
+            tests: [buildTest('Exclude')],
+            bannerDeployTimes,
+            enableHardcodedBannerTests: true,
+            enableScheduledDeploys: true,
+            banditData,
+            getMParticleProfile,
+            now,
+            checkAuxiaSuppression,
+            contributionsOnlyCountries,
+        });
+        expect(result?.test.name).toBe('test');
+    });
+
+    it('only shows in contributions-only countries when mode is Include', async () => {
+        const test = buildTest('Include');
+
+        const inContributionsCountry = await selectBannerTest({
+            targeting: { ...baseTargeting, countryCode: 'VN' },
+            userDeviceType,
+            tests: [test],
+            bannerDeployTimes,
+            enableHardcodedBannerTests: true,
+            enableScheduledDeploys: true,
+            banditData,
+            getMParticleProfile,
+            now,
+            checkAuxiaSuppression,
+            contributionsOnlyCountries,
+        });
+        expect(inContributionsCountry?.test.name).toBe('test');
+
+        const inOtherCountry = await selectBannerTest({
+            targeting: { ...baseTargeting, countryCode: 'GB' },
+            userDeviceType,
+            tests: [test],
+            bannerDeployTimes,
+            enableHardcodedBannerTests: true,
+            enableScheduledDeploys: true,
+            banditData,
+            getMParticleProfile,
+            now,
+            checkAuxiaSuppression,
+            contributionsOnlyCountries,
+        });
+        expect(inOtherCountry).toBe(null);
+    });
+
+    it('defaults to Exclude when no mode is set (suppresses in contributions-only countries)', async () => {
+        const result = await selectBannerTest({
+            targeting: { ...baseTargeting, countryCode: 'VN' },
+            userDeviceType,
+            tests: [buildTest(undefined)],
+            bannerDeployTimes,
+            enableHardcodedBannerTests: true,
+            enableScheduledDeploys: true,
+            banditData,
+            getMParticleProfile,
+            now,
+            checkAuxiaSuppression,
+            contributionsOnlyCountries,
+        });
+        expect(result).toBe(null);
+    });
+
+    it('shows in non-contributions-only countries when no mode is set (default Exclude)', async () => {
+        const result = await selectBannerTest({
+            targeting: { ...baseTargeting, countryCode: 'GB' },
+            userDeviceType,
+            tests: [buildTest(undefined)],
+            bannerDeployTimes,
+            enableHardcodedBannerTests: true,
+            enableScheduledDeploys: true,
+            banditData,
+            getMParticleProfile,
+            now,
+            checkAuxiaSuppression,
+            contributionsOnlyCountries,
+        });
+        expect(result?.test.name).toBe('test');
+    });
+});

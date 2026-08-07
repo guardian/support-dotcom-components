@@ -1,6 +1,10 @@
 import { isAfter } from 'date-fns/isAfter';
 import { subDays } from 'date-fns/subDays';
-import { countryCodeToCountryGroupId, inTargetedCountry } from '../../../shared/lib';
+import {
+    countryCodeToCountryGroupId,
+    inTargetedCountry,
+    passesContributionsOnlyTargeting,
+} from '../../../shared/lib';
 import type {
     BannerTargeting,
     BannerTest,
@@ -252,6 +256,7 @@ interface SelectBannerTestData {
         browserId: string,
         attributes: GetTreatmentsAttributes,
     ) => Promise<boolean>;
+    contributionsOnlyCountries?: string[];
 }
 
 export const selectBannerTest = async ({
@@ -267,6 +272,7 @@ export const selectBannerTest = async ({
     forcedTestVariant,
     previewTestVariant,
     checkAuxiaSuppression,
+    contributionsOnlyCountries = [],
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
@@ -301,6 +307,11 @@ export const selectBannerTest = async ({
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             isCountryTargetedForBanner(test, targeting) &&
+            passesContributionsOnlyTargeting(
+                test.regionTargeting,
+                targeting.countryCode,
+                contributionsOnlyCountries,
+            ) &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,

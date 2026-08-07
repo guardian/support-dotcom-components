@@ -75,6 +75,8 @@ export const buildBannerRouter = (
         const { enableBanners, enableHardcodedBannerTests, enableScheduledBannerDeploys } =
             channelSwitches.get();
         const channelExclusionsData = channelExclusions.get();
+        const contributionsOnlyCountries =
+            contributionsOnlyCountriesConfig.get().contributionsOnlyCountries;
 
         if (!enableBanners) {
             return {};
@@ -106,6 +108,7 @@ export const buildBannerRouter = (
             forcedTestVariant: params.force,
             previewTestVariant: params.preview,
             checkAuxiaSuppression,
+            contributionsOnlyCountries,
         });
 
         if (selectedTest) {
@@ -127,9 +130,7 @@ export const buildBannerRouter = (
 
             const requiredCountry = targeting.countryCode || 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
-            const contributionsOnlyConfig = contributionsOnlyCountriesConfig.get();
-            const isVatCompliantCountry =
-                !contributionsOnlyConfig.contributionsOnlyCountries.includes(requiredCountry);
+            const isVatCompliantCountry = !contributionsOnlyCountries.includes(requiredCountry);
 
             const forceNoDefault =
                 test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||

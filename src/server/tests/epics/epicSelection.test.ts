@@ -180,6 +180,122 @@ describe('findTestAndVariant', () => {
     });
 });
 
+describe('contributionsOnlyCountriesTargeting', () => {
+    const contributionsOnlyCountries = ['VN', 'TH'];
+    const history = { weeklyArticleHistory: [{ week: 18330, count: 45 }] };
+    const testNoArticleSettings = { ...testDefault, articlesViewedSettings: undefined };
+
+    it('excludes a contributions-only country when mode is Exclude', async () => {
+        const test = {
+            ...testNoArticleSettings,
+            regionTargeting: {
+                targetedCountryGroups: [],
+                contributionsOnlyCountriesTargeting: 'Exclude' as const,
+            },
+        };
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'VN', ...history };
+
+        const got = await findTestAndVariant(
+            [test],
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+            contributionsOnlyCountries,
+        );
+
+        expect(got.result).toBe(undefined);
+    });
+
+    it('shows a non-contributions-only country when mode is Exclude', async () => {
+        const test = {
+            ...testNoArticleSettings,
+            regionTargeting: {
+                targetedCountryGroups: [],
+                contributionsOnlyCountriesTargeting: 'Exclude' as const,
+            },
+        };
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'GB', ...history };
+
+        const got = await findTestAndVariant(
+            [test],
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+            contributionsOnlyCountries,
+        );
+
+        expect(got.result?.test.name).toBe('example-1');
+    });
+
+    it('only shows in contributions-only countries when mode is Include', async () => {
+        const test = {
+            ...testNoArticleSettings,
+            regionTargeting: {
+                targetedCountryGroups: [],
+                contributionsOnlyCountriesTargeting: 'Include' as const,
+            },
+        };
+
+        const gotInContributionsCountry = await findTestAndVariant(
+            [test],
+            { ...targetingDefault, countryCode: 'VN', ...history },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+            contributionsOnlyCountries,
+        );
+        expect(gotInContributionsCountry.result?.test.name).toBe('example-1');
+
+        const gotInOtherCountry = await findTestAndVariant(
+            [test],
+            { ...targetingDefault, countryCode: 'GB', ...history },
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+            contributionsOnlyCountries,
+        );
+        expect(gotInOtherCountry.result).toBe(undefined);
+    });
+
+    it('defaults to Exclude when no mode is set (suppresses in contributions-only countries)', async () => {
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'VN', ...history };
+
+        const got = await findTestAndVariant(
+            [testNoArticleSettings],
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+            contributionsOnlyCountries,
+        );
+
+        expect(got.result).toBe(undefined);
+    });
+
+    it('shows in non-contributions-only countries when no mode is set (default Exclude)', async () => {
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'GB', ...history };
+
+        const got = await findTestAndVariant(
+            [testNoArticleSettings],
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+            getMParticleProfile,
+            contributionsOnlyCountries,
+        );
+
+        expect(got.result?.test.name).toBe('example-1');
+    });
+});
+
 describe('getUserCohort', () => {
     it('should return "AllNonSupporters" when users is not contributor', () => {
         const targeting = {
