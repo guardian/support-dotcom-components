@@ -57,7 +57,7 @@ jobs:
                   pnpm synth
 
             - name: riffraff
-              uses: guardian/actions-riff-raff@v4.3.4
+              uses: guardian/actions-riff-raff@v4.3.5
               with:
                   projectName: support::dotcom-components
                   roleArn: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
