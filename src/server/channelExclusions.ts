@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import { isProd } from './lib/env';
 import { logWarn } from './utils/logging';
 import { fetchS3Data } from './utils/S3';
@@ -41,7 +42,7 @@ const getExclusions = async (): Promise<ExclusionSettings> => {
         return parsed;
     } catch (error) {
         logWarn(
-            `Failed to load exclusions config from S3: ${String(error)}. Proceeding with no exclusions.`,
+            `Failed to load exclusions config from S3: ${getErrorMessage(error)}. Proceeding with no exclusions.`,
         );
         return emptyExclusions;
     }

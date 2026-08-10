@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import type { IsoCurrency } from '../shared/lib';
 import { isProd } from './lib/env';
 import { logError } from './utils/logging';
@@ -27,7 +28,7 @@ const fetchProductCatalog = (): Promise<ProductCatalog> => {
         .then((response) => response.json())
         .then((data) => data as ProductCatalog)
         .catch((error: Error) => {
-            logError(`Failed to fetch product catalog: ${error.message}`);
+            logError(`Failed to fetch product catalog: ${getErrorMessage(error)}`);
             return Promise.reject(error);
         });
 };

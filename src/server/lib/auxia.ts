@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import { z } from 'zod';
 import type { AuxiaTracking } from '../../shared/types';
 import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
@@ -146,7 +147,7 @@ export class Auxia {
 
             return parsed.data;
         } catch (error) {
-            logError(`Error fetching treatments from Auxia: ${String(error)}`);
+            logError(`Error fetching treatments from Auxia: ${getErrorMessage(error)}`);
             putMetric('auxia-error');
             return undefined;
         }
@@ -197,7 +198,7 @@ export class Auxia {
             // No treatment - do not suppress
             return { suppressed: false };
         } catch (error) {
-            logError(`Error parsing Auxia treatment content: ${String(error)}`);
+            logError(`Error parsing Auxia treatment content: ${getErrorMessage(error)}`);
             putMetric('auxia-error');
             return { suppressed: false };
         }
@@ -237,7 +238,7 @@ export class Auxia {
                 putMetric('auxia-error');
             }
         } catch (error) {
-            logError(`Error calling Auxia LogTreatmentInteraction: ${String(error)}`);
+            logError(`Error calling Auxia LogTreatmentInteraction: ${getErrorMessage(error)}`);
             putMetric('auxia-error');
         }
     }

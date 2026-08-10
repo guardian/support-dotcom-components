@@ -1,4 +1,5 @@
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { getErrorMessage } from '@guardian/libs';
 import { z } from 'zod';
 import type {
     BanditMethodology,
@@ -176,7 +177,7 @@ function buildBanditData(
         banditTests.map((banditTestConfig) =>
             buildBanditDataForTest(banditTestConfig).catch((error: Error) => {
                 logError(
-                    `Error fetching bandit samples for test ${banditTestConfig.testName} from Dynamo: ${error.message}`,
+                    `Error fetching bandit samples for test ${banditTestConfig.testName} from Dynamo: ${getErrorMessage(error)}`,
                 );
                 putMetric('bandit-data-load-error');
                 return Promise.reject(error);

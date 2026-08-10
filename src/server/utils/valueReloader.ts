@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import { logError } from './logging';
 
 export interface ValueProvider<T> {
@@ -30,7 +31,7 @@ export class ValueReloader<T> implements ValueProvider<T> {
         this.load()
             .then((result) => (this.value = result))
             .catch((err: unknown) => {
-                logError(`ValueReloader: failed to reload value: ${String(err)}`);
+                logError(`ValueReloader: failed to reload value: ${getErrorMessage(err)}`);
             })
             .finally(() => {
                 setTimeout(() => {

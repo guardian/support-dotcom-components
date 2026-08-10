@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import type express from 'express';
 import { logger } from '../utils/logging';
 
@@ -12,7 +13,7 @@ export const errorHandling = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- next is required for express middleware
     next: express.NextFunction,
 ): void => {
-    const message = error.message || error.toString();
+    const message = getErrorMessage(error);
 
     res.status(500).send();
 

@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import compression from 'compression';
 import cors from 'cors';
 import type { Express } from 'express';
@@ -197,6 +198,6 @@ buildApp()
         server.keepAliveTimeout = 60000;
     })
     .catch((err) => {
-        logError(`Failed to start server: ${String(err)}`);
+        logError(`Failed to start server: ${getErrorMessage(err)}`);
         throw err;
     });
