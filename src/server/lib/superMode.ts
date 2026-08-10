@@ -1,5 +1,6 @@
 import type { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { getErrorMessage } from '@guardian/libs';
 import { addDays } from 'date-fns/addDays';
 import { format } from 'date-fns/format';
 import type { CountryGroupId } from '../../shared/lib';
@@ -20,7 +21,7 @@ export interface SuperModeArticle {
 
 const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
     const records = await queryActiveArticles(stage, dynamoDbClient).catch((error) => {
-        logError(`Error fetching super mode articles from dynamo: ${error}`);
+        logError(`Error fetching super mode articles from dynamo: ${getErrorMessage(error)}`);
         putMetric('super-mode-error');
         return [];
     });

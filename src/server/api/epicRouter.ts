@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import type express from 'express';
 import { Router } from 'express';
 import { countryCodeToCountryGroupId, getReminderFields } from '../../shared/lib';
@@ -80,7 +81,7 @@ export const buildEpicRouter = (
 
             return [...hardcodedTests, ...articleEpicTests.get()];
         } catch (err) {
-            logWarn(`Error getting article epic tests: ${String(err)}`);
+            logWarn(`Error getting article epic tests: ${getErrorMessage(err)}`);
             return [];
         }
     };

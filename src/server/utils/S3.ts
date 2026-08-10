@@ -1,5 +1,6 @@
 import type { GetObjectCommandOutput } from '@aws-sdk/client-s3';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { getErrorMessage } from '@guardian/libs';
 import { credentials, region } from './aws';
 
 const s3Client = new S3Client({
@@ -25,6 +26,8 @@ export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
             }
         })
         .catch((err) =>
-            Promise.reject(Error(`Failed to fetch S3 object ${bucket}/${key}: ${err}`)),
+            Promise.reject(
+                Error(`Failed to fetch S3 object ${bucket}/${key}: ${getErrorMessage(err)}`),
+            ),
         );
 };

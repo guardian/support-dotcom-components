@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import { LRUCache } from 'lru-cache';
 import { z } from 'zod';
 import type { ChannelSwitches } from '../channelSwitches';
@@ -144,7 +145,7 @@ export class MParticle {
                 void this.refreshBearerToken();
             }, refreshInMs);
         } catch (error) {
-            logError(`Error fetching bearer token from mParticle: ${String(error)}`);
+            logError(`Error fetching bearer token from mParticle: ${getErrorMessage(error)}`);
 
             // Retry in 60 seconds on error
             this.bearerTokenRefreshTimer = setTimeout(() => {
@@ -241,7 +242,7 @@ export class MParticle {
 
             return miss(parsed.data);
         } catch (error) {
-            logError(`Error fetching profile from mParticle. ${String(error)}`);
+            logError(`Error fetching profile from mParticle. ${getErrorMessage(error)}`);
             return miss();
         }
     }

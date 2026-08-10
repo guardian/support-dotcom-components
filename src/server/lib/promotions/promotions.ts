@@ -1,5 +1,6 @@
 import type { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 import { ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { getErrorMessage } from '@guardian/libs';
 import { putMetric } from '../../utils/cloudwatch';
 import { dynamoDbClient } from '../../utils/dynamodb';
 import { logError, logInfo } from '../../utils/logging';
@@ -99,7 +100,7 @@ const fetchPromotions = async (): Promise<PromotionsCache> => {
         logInfo(`Got ${Object.keys(promotionsCache).length} promotion codes from DynamoDb`);
         return promotionsCache;
     } catch (error) {
-        logError(`Error fetching promotions from DynamoDB: ${String(error)}`);
+        logError(`Error fetching promotions from DynamoDB: ${getErrorMessage(error)}`);
         putMetric('promotions-fetch-error');
         throw error;
     }

@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import type { Stage, TickerData, TickerName, TickerSettings } from '../../shared/types';
 import { logError } from '../utils/logging';
 import { fetchS3Data } from '../utils/S3';
@@ -32,9 +33,10 @@ const getTickerDataForTickerTypeFetcher =
             .then((data) => JSON.parse(data) as { total: string; goal: string })
             .then(parse)
             .catch((error) => {
-                const errorObj = error instanceof Error ? error : new Error(String(error));
-                logError(`Error fetching ${name} ticker data: ${errorObj.message}`);
-                return Promise.reject(errorObj);
+                logError(`Error fetching ${name} ticker data: ${getErrorMessage(error)}`);
+                return Promise.reject(
+                    error instanceof Error ? error : new Error(getErrorMessage(error)),
+                );
             });
     };
 

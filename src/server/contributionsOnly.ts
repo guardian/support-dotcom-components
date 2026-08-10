@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import { isProd } from './lib/env';
 import { logError } from './utils/logging';
 import type { ValueReloader } from './utils/valueReloader';
@@ -17,7 +18,9 @@ const getContributionsOnlyCountriesConfig = (): Promise<ContributionsOnlyCountri
         .then((response) => response.json())
         .then((data) => data as ContributionsOnlyCountriesConfig)
         .catch((error: Error) => {
-            logError(`Failed to fetch contributions only countries config: ${error.message}`);
+            logError(
+                `Failed to fetch contributions only countries config: ${getErrorMessage(error)}`,
+            );
             return Promise.reject(error);
         });
 };

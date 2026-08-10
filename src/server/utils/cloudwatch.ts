@@ -1,5 +1,6 @@
 import { CloudWatchClient, PutMetricDataCommand } from '@aws-sdk/client-cloudwatch';
 import { StandardUnit } from '@aws-sdk/client-cloudwatch';
+import { getErrorMessage } from '@guardian/libs';
 import throttle from 'lodash.throttle';
 import { isProd } from '../lib/env';
 import { credentials, region } from './aws';
@@ -59,7 +60,7 @@ const throttledPutAllMetrics = throttle(
                     }),
                 )
                 .catch((error) => {
-                    logError(`Error putting cloudwatch metric: ${String(error)}`);
+                    logError(`Error putting cloudwatch metric: ${getErrorMessage(error)}`);
                     // Assume it failed to send metrics, add them back onto metricCache
                     // @ts-expect-error - Object.keys is untyped
                     Object.keys(metricCacheCopy).forEach((metric: Metric) => {

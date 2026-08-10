@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@guardian/libs';
 import type { JwtClaims } from '@okta/jwt-verifier';
 import OktaJwtVerifier from '@okta/jwt-verifier';
 import { z } from 'zod';
@@ -73,7 +74,7 @@ export class Okta {
                 return claims.legacy_identity_id;
             })
             .catch((err) => {
-                logInfo(`Failed to verify access token: ${String(err)}`);
+                logInfo(`Failed to verify access token: ${getErrorMessage(err)}`);
                 putMetric('access-token-verification-failure');
                 // Do not use identityId if we cannot verify the session
                 return undefined;

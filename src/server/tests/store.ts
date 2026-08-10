@@ -1,5 +1,5 @@
 import { QueryCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
-import { isNonNullable } from '@guardian/libs';
+import { getErrorMessage, isNonNullable } from '@guardian/libs';
 import type { ZodSchema } from 'zod';
 import type { BannerDesignFromTool, Channel } from '../../shared/types';
 import { isProd } from '../lib/env';
@@ -36,7 +36,7 @@ export const getTests = <T extends { priority: number }>(
                 .sort((a, b) => a.priority - b.priority),
         )
         .catch((error: Error) => {
-            logError(`Error reading tests from Dynamo: ${error.message}`);
+            logError(`Error reading tests from Dynamo: ${getErrorMessage(error)}`);
             putMetric('channel-tests-error');
             return Promise.reject(error);
         });
@@ -74,7 +74,7 @@ export const getBannerDesigns = (): Promise<BannerDesignFromTool[]> => {
         )
         .then((results) => (results.Items ?? []) as BannerDesignFromTool[])
         .catch((error: Error) => {
-            logError(`Error reading banner designs from Dynamo: ${error.message}`);
+            logError(`Error reading banner designs from Dynamo: ${getErrorMessage(error)}`);
             putMetric('banner-designs-load-error');
             return Promise.reject(error);
         });
