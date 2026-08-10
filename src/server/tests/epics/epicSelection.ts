@@ -2,6 +2,7 @@ import {
     countryCodeToCountryGroupId,
     getCountryName,
     inTargetedCountry,
+    passesContributionsOnlyTargeting,
 } from '../../../shared/lib';
 import type {
     EpicTargeting,
@@ -103,6 +104,18 @@ export const isCountryTargetedForEpic: Filter = {
         );
     },
 };
+
+export const contributionsOnlyCountriesTargetingFilter = (
+    contributionsOnlyCountries: string[],
+): Filter => ({
+    id: 'contributionsOnlyCountriesTargeting',
+    test: (test, targeting): boolean =>
+        passesContributionsOnlyTargeting(
+            test.regionTargeting,
+            targeting.countryCode,
+            contributionsOnlyCountries,
+        ),
+});
 
 export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter => ({
     id: 'shouldThrottle',
@@ -211,6 +224,7 @@ export const findTestAndVariant = async (
     superModeArticles: SuperModeArticle[],
     banditData: BanditData[],
     getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    contributionsOnlyCountries: string[] = [],
     includeDebug = false,
 ): Promise<Result> => {
     const debug: Debug = {};
@@ -228,6 +242,7 @@ export const findTestAndVariant = async (
             inCorrectCohort(userCohorts, isSuperModePass),
             hasCountryCode,
             isCountryTargetedForEpic,
+            contributionsOnlyCountriesTargetingFilter(contributionsOnlyCountries),
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
             ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog ?? [])]),
             respectArticleCountOptOut,

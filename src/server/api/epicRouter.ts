@@ -95,6 +95,8 @@ export const buildEpicRouter = (
     ): Promise<EpicDataResponse> => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         const channelExclusionsData = channelExclusions.get();
+        const contributionsOnlyCountries =
+            contributionsOnlyCountriesConfig.get().contributionsOnlyCountries;
         if (!enableEpics) {
             return {};
         }
@@ -134,6 +136,7 @@ export const buildEpicRouter = (
                     enableSuperMode ? superModeArticles.get() : [],
                     banditData.get(),
                     getMParticleProfile,
+                    contributionsOnlyCountries,
                     params.debug,
                 );
 
@@ -150,9 +153,7 @@ export const buildEpicRouter = (
 
         const requiredCountry = targeting.countryCode ?? 'GB';
         const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
-        const contributionsOnlyConfig = contributionsOnlyCountriesConfig.get();
-        const isVatCompliantCountry =
-            !contributionsOnlyConfig.contributionsOnlyCountries.includes(requiredCountry);
+        const isVatCompliantCountry = !contributionsOnlyCountries.includes(requiredCountry);
 
         const forceNoDefault =
             test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
