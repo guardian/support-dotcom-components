@@ -148,8 +148,9 @@ export interface GetTreatmentsRequestPayload {
 // |     0       |      1      |      2      |      3           etc          |
 //  -------------------------------------------------------------------------
 
-// For non consenting users outside ireland, the behavior doesn't change, we serve
-// dismissible gates
+// For non consenting users outside the mandatory rollout list (Ireland, New Zealand,
+// Canada), gate behavior remains unchanged but we still notify Auxia for analytics
+// when Auxia is enabled.
 
 // [6]
 

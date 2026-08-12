@@ -116,4 +116,79 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
         expect(gateType).toStrictEqual('None');
     });
+
+    it('logic.md [01], unconsented users in US still notify Auxia when low article count', () => {
+        const payload: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 1,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'GB',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'US',
+            mvtId: 450_000,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: false,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+            gateDisplayCount: 0,
+            hideSupportMessagingTimestamp: undefined,
+        };
+        const now = 1756568322187;
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
+    });
+
+    it('logic.md [01], unconsented users in US still notify Auxia when gate is dismissible', () => {
+        const payload: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 5,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'GB',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 0,
+            countryCode: 'US',
+            mvtId: 450_000,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: false,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+            gateDisplayCount: 1,
+            hideSupportMessagingTimestamp: undefined,
+        };
+        const now = 1756568322187;
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuDismissible');
+    });
+
+    it('logic.md [01], unconsented users in EU still notify Auxia when gate is suppressed', () => {
+        const payload: GetTreatmentsRequestPayload = {
+            browserId: 'sample',
+            isSupporter: false,
+            dailyArticleCount: 5,
+            articleIdentifier: 'sample: article identifier',
+            editionId: 'GB',
+            contentType: 'Article',
+            sectionId: 'uk-news',
+            tagIds: ['type/article'],
+            gateDismissCount: 6,
+            countryCode: 'DE',
+            mvtId: 450_000,
+            should_show_legacy_gate_tmp: true,
+            hasConsented: false,
+            shouldServeDismissible: false,
+            showDefaultGate: undefined,
+            gateDisplayCount: 7,
+            hideSupportMessagingTimestamp: undefined,
+        };
+        const now = 1756568322187;
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
+    });
 });

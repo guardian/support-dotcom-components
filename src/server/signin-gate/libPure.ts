@@ -486,24 +486,30 @@ export const getTreatmentsRequestPayloadToGateType = (
         userHasConsented(payload) &&
         (isDismissibleRollout || isAuxiaAudienceShare(payload))
     ) {
-        // We have consent for Auxia anduser is either:
+        // We have consent for Auxia and user is either:
         // - in a country where Auxia is rolled out to all eligible users (Australia)
         // or
         // - in the Auxia share of the audience
         return 'AuxiaAPI';
-    } else {
-        // [01, 03] (copy from logic.md)
-        // Do not use Auxia
-        if (hideSupportMessagingHasOverride(payload, now)) {
-            return 'None';
-        }
-        if (payload.dailyArticleCount < 3) {
-            return 'None';
-        }
-        if (payload.gateDisplayCount < 5) {
-            return 'GuDismissible';
-        } else {
-            return 'None';
-        }
     }
+
+    const shouldShowGuardianDismissible =
+        !hideSupportMessagingHasOverride(payload, now) &&
+        payload.dailyArticleCount >= 3 &&
+        payload.gateDisplayCount < 5;
+
+    if (enableAuxia && !userHasConsented(payload)) {
+        if (shouldShowGuardianDismissible) {
+            return 'AuxiaAnalyticsThenGuDismissible';
+        }
+        return 'AuxiaAnalyticsThenNone';
+    }
+
+    // [03] (copy from logic.md)
+    // Guardian-only fallback for consented users outside Auxia audience share.
+    // When Auxia is disabled, we also reuse the same Guardian gate behavior shape as [01]/[03].
+    if (shouldShowGuardianDismissible) {
+        return 'GuDismissible';
+    }
+    return 'None';
 };

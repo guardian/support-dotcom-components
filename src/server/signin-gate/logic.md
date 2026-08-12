@@ -19,7 +19,7 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                 ----------------------------------------------
                | [01]                                         |
                |                                              |
-               |  - No Auxia notification                     |
+               |  - Notify Auxia for analytics                |
  un-consented  |  - Guardian drives the gate:                 |
                |    - No gate for 30 days after a single      |
                |      contribution event [01]                 |
@@ -96,7 +96,7 @@ except for the UK (countryCode 'GB') where it is reduced to the first 20% (1 to 
                 ----------------------------------------------
                | [01]                                         |
                |                                              |
-               |  - No Auxia notification                     |
+               |  - Notify Auxia for analytics                |
  un-consented  |  - Guardian drives the gate:                 |
                |    - No gate for 30 days after a single      |
                |      contribution event [01]                 |
