@@ -83,7 +83,6 @@ export const guDismissibleUserTreatment = (): UserTreatment => {
         first_cta_name: 'Create an account',
         first_cta_link: 'https://profile.theguardian.com/register?',
         second_cta_name: secondCtaName,
-        second_cta_link: 'https://profile.theguardian.com/signin?',
     };
     const treatmentContentEncoded = JSON.stringify(treatmentContent);
     return {
@@ -112,7 +111,6 @@ export const guMandatoryUserTreatment = (): UserTreatment => {
         first_cta_name: 'Create an account',
         first_cta_link: 'https://profile.theguardian.com/register?',
         second_cta_name: '', // empty string here makes the gate mandatory
-        second_cta_link: '',
     };
     const treatmentContentEncoded = JSON.stringify(treatmentContent);
     return {
