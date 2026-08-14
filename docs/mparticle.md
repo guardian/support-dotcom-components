@@ -42,4 +42,4 @@ This logic lives in the `MParticle` class, which has the following features:
 The `MParticle` class also maintains an in-memory cache of mParticle results. These are stored for up to an hour. Each EC2 instance maintains its own cache, and so the hit rate is not very high.
 
 A dashboard of useful metrics relating to mParticle in SDC can be found in Kibana:
-https://logs.gutools.co.uk/app/dashboards#/view/fe32f22f-1870-4cd0-a558-3db1b42a36c9
+[https://logs.gutools.co.uk/app/dashboards#/view/fe32f22f-1870-4cd0-a558-3db1b42a36c9](https://logs.gutools.co.uk/app/dashboards#/view/ae2bc865-e0c7-4d20-98ab-0e1b0ec496ef?_g=())
