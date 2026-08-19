@@ -29,7 +29,7 @@ const MParticleConfigSchema = z.object({
 type MParticleConfig = z.infer<typeof MParticleConfigSchema>;
 
 const MParticleProfileSchema = z.object({
-    // user_attributes: z.record(z.any(),z.any()), // not using attributes yet
+    user_attributes: z.record(z.any(), z.any()),
     audience_memberships: z.array(
         z.object({
             audience_id: z.number(),

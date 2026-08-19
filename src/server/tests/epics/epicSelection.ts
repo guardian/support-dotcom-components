@@ -15,6 +15,7 @@ import type {
 } from '../../../shared/types';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
+import { matchesMParticleTemplates } from '../../lib/matchesMParticleTemplate';
 import type { MParticleProfile } from '../../lib/mParticle';
 import type { TestVariant } from '../../lib/params';
 import type { SuperModeArticle } from '../../lib/superMode';
@@ -31,6 +32,7 @@ import type { BanditData } from '../../selection/banditData';
 import { selectVariant } from '../../selection/selectVariant';
 import { isWithinScheduler } from '../../utils/schedulerCheck';
 import { momentumMatches } from './momentumTest';
+
 
 export interface Filter {
     id: string;
@@ -205,6 +207,15 @@ export const mParticleAudienceMatchesFilter = (
     },
 });
 
+export const mParticleTemplatesFilter = (
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+): Filter => ({
+    id: 'mParticleTemplateMatches',
+    test: async (test): Promise<boolean> => {
+        return matchesMParticleTemplates(getMParticleProfile, test.mParticleTemplates ?? undefined);
+    },
+});
+
 type FilterResults = Record<string, boolean>;
 
 export type Debug = Record<string, FilterResults | undefined>;
@@ -252,6 +263,7 @@ export const findTestAndVariant = async (
             momentumMatches,
             holdbackRequirementFilter,
             mParticleAudienceMatchesFilter(getMParticleProfile),
+            mParticleTemplatesFilter(getMParticleProfile),
         ];
     };
 
