@@ -33,7 +33,6 @@ import { selectVariant } from '../../selection/selectVariant';
 import { isWithinScheduler } from '../../utils/schedulerCheck';
 import { momentumMatches } from './momentumTest';
 
-
 export interface Filter {
     id: string;
     // this function can be asynchronous or not
