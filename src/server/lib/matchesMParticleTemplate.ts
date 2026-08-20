@@ -14,7 +14,7 @@ export const matchesMParticleTemplates = async (
     }
 
     for (const template of mParticleTemplates) {
-        if (!(template in mParticleProfile.user_attributes)) {
+        if (!mParticleProfile.user_attributes || !(template in mParticleProfile.user_attributes)) {
             return false;
         }
     }
