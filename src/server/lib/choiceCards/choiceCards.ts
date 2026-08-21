@@ -38,8 +38,11 @@ const getDayPriceForRatePlan = (price: number, ratePlan: string): number => {
     return price / 7;
 };
 
-const formatPrice = (price: number): string =>
-    price % 1 === 0 ? price.toString() : price.toFixed(2);
+const formatPrice = (price: number): string => {
+    const roundedPrice = Math.round(price * 100) / 100;
+    const priceIsInteger = roundedPrice % 1 === 0;
+    return priceIsInteger ? roundedPrice.toString() : price.toFixed(2);
+};
 
 // Add pricing, currency etc
 const enrichChoiceCard = (
