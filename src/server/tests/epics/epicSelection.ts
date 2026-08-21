@@ -15,8 +15,8 @@ import type {
 } from '../../../shared/types';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
-import { matchesMParticleTemplates } from '../../lib/matchesMParticleTemplate';
 import type { MParticleProfile } from '../../lib/mParticle';
+import { matchesMParticleTemplates } from '../../lib/mParticleTemplates';
 import type { TestVariant } from '../../lib/params';
 import type { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
