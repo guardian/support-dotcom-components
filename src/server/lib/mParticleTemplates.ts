@@ -1,4 +1,5 @@
 import type { EpicVariant } from '../../shared/types';
+import { logInfo } from '../utils/logging';
 import type { MParticleProfile } from './mParticle';
 
 export const matchesMParticleTemplates = async (
@@ -11,11 +12,17 @@ export const matchesMParticleTemplates = async (
 
     const mParticleProfile = await getMParticleProfile();
     if (!mParticleProfile) {
+        logInfo('No mParticle profile found');
         return false;
     }
 
     for (const template of mParticleTemplates) {
         if (!mParticleProfile.user_attributes || !(template in mParticleProfile.user_attributes)) {
+            if (!mParticleProfile.user_attributes) {
+                logInfo('No user attributes were found in mParticleProfile');
+            } else {
+                logInfo('No mParticleTemplates were found in user attributes');
+            }
             return false;
         }
     }
