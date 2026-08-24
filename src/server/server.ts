@@ -12,6 +12,7 @@ import { buildTickerRouter } from './api/tickerRouter';
 import { buildChannelExclusionsReloader } from './channelExclusions';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildContributionsOnlyCountriesReloader } from './contributionsOnly';
+import { buildDefaultChoiceCardSettingsReloader } from './defaultChoiceCardSettings';
 import { Auxia } from './lib/auxia';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { getMParticleConfig, MParticle } from './lib/mParticle';
@@ -91,6 +92,7 @@ const buildApp = async (): Promise<Express> => {
         promotions,
         channelExclusions,
         contributionsOnlyCountriesConfig,
+        defaultChoiceCardSettings,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -106,6 +108,7 @@ const buildApp = async (): Promise<Express> => {
         buildPromotionsReloader(),
         buildChannelExclusionsReloader(),
         buildContributionsOnlyCountriesReloader(),
+        buildDefaultChoiceCardSettingsReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -134,6 +137,7 @@ const buildApp = async (): Promise<Express> => {
             okta,
             channelExclusions,
             contributionsOnlyCountriesConfig,
+            defaultChoiceCardSettings,
         ),
     );
     app.use(
@@ -151,6 +155,7 @@ const buildApp = async (): Promise<Express> => {
             auxia,
             channelExclusions,
             contributionsOnlyCountriesConfig,
+            defaultChoiceCardSettings,
         ),
     );
     app.use(

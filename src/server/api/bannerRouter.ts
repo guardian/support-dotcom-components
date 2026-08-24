@@ -13,6 +13,7 @@ import { channelFromBannerChannel } from '../../shared/types';
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
 import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
+import type { DefaultChoiceCardSettings } from '../defaultChoiceCardSettings';
 import type { Auxia, AuxiaInteractionType, GetTreatmentsAttributes } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
@@ -59,6 +60,7 @@ export const buildBannerRouter = (
     auxia: Auxia,
     channelExclusions: ValueProvider<ExclusionSettings>,
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
+    defaultChoiceCardSettings: ValueProvider<DefaultChoiceCardSettings>,
 ): Router => {
     const router = Router();
 
@@ -152,6 +154,7 @@ export const buildBannerRouter = (
                           forceNoDefault,
                           forceExpanded,
                           isWeeklyPriceVariant,
+                          defaultChoiceCardSettings,
                       )
                     : undefined;
 

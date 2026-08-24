@@ -15,6 +15,7 @@ import type {
 import type { ExclusionSettings } from '../channelExclusions';
 import type { ChannelSwitches } from '../channelSwitches';
 import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
+import type { DefaultChoiceCardSettings } from '../defaultChoiceCardSettings';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import { baseUrl } from '../lib/env';
@@ -64,6 +65,7 @@ export const buildEpicRouter = (
     okta: Okta,
     channelExclusions: ValueProvider<ExclusionSettings>,
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
+    defaultChoiceCardSettings: ValueProvider<DefaultChoiceCardSettings>,
 ): Router => {
     const router = Router();
 
@@ -176,6 +178,7 @@ export const buildEpicRouter = (
                       forceNoDefault,
                       forceExpanded,
                       isWeeklyPriceVariant,
+                      defaultChoiceCardSettings,
                   )
                 : undefined;
 

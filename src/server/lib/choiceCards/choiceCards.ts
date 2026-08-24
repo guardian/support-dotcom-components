@@ -6,7 +6,9 @@ import type {
     ChoiceCardsSettings,
     RatePlan,
 } from '../../../shared/types/props/choiceCards';
+import type { DefaultChoiceCardSettings } from '../../defaultChoiceCardSettings';
 import type { ProductCatalog } from '../../productCatalog';
+import type { ValueProvider } from '../../utils/valueReloader';
 import { isPromotionLive, type Promotion, type PromotionsCache } from '../promotions/promotions';
 import {
     currencySymbolTemplate,
@@ -140,6 +142,7 @@ export const getChoiceCardsSettings = (
     forceNoDefault?: boolean,
     forceExpanded?: boolean,
     isWeeklyVariant?: boolean,
+    defaultChoiceCardSettings?: ValueProvider<DefaultChoiceCardSettings>,
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
@@ -152,10 +155,19 @@ export const getChoiceCardsSettings = (
         choiceCardsSettings = variantChoiceCardSettings;
     } else {
         // Use the default settings
+        const countryGroupSettings = defaultChoiceCardSettings?.get();
         if (channel === 'Epic') {
-            choiceCardsSettings = defaultEpicChoiceCardsSettings(countryGroupId);
+            const epicSettings = countryGroupSettings?.epic?.[countryGroupId];
+            choiceCardsSettings =
+                (epicSettings?.choiceCards.length ? epicSettings : countryGroupSettings?.epic?.Default) ??
+                defaultEpicChoiceCardsSettings(countryGroupId);
         } else if (channel === 'Banner1' || channel === 'Banner2') {
-            choiceCardsSettings = defaultBannerChoiceCardsSettings(countryGroupId);
+            const bannerSettings = countryGroupSettings?.banner?.[countryGroupId];
+            choiceCardsSettings =
+                (bannerSettings?.choiceCards.length
+                    ? bannerSettings
+                    : countryGroupSettings?.banner?.Default) ??
+                defaultBannerChoiceCardsSettings(countryGroupId);
         }
     }
 
