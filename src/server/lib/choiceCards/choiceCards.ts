@@ -159,7 +159,9 @@ export const getChoiceCardsSettings = (
         if (channel === 'Epic') {
             const epicSettings = countryGroupSettings?.epic?.[countryGroupId];
             choiceCardsSettings =
-                (epicSettings?.choiceCards.length ? epicSettings : countryGroupSettings?.epic?.Default) ??
+                (epicSettings?.choiceCards.length
+                    ? epicSettings
+                    : countryGroupSettings?.epic?.Default) ??
                 defaultEpicChoiceCardsSettings(countryGroupId);
         } else if (channel === 'Banner1' || channel === 'Banner2') {
             const bannerSettings = countryGroupSettings?.banner?.[countryGroupId];
