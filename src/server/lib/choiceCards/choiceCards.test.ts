@@ -1,4 +1,5 @@
 import type { ChoiceCardsSettings } from '../../../shared/types/props/choiceCards';
+import type { DefaultChoiceCardSettings } from '../../defaultChoiceCardSettings';
 import type { ProductCatalog } from '../../productCatalog';
 import type { PromotionsCache } from '../promotions/promotions';
 import { getChoiceCardsSettings } from './choiceCards';
@@ -154,6 +155,31 @@ describe('getChoiceCardsSettings', () => {
             ratePlan: 'Monthly',
         });
         expect(result?.choiceCards[1].destination).toEqual('LandingPage');
+    });
+
+    it('uses S3 Default settings when the country group has no choice cards', () => {
+        const defaultSettings: DefaultChoiceCardSettings = {
+            epic: {
+                Default: defaultEpicChoiceCardsSettings('GBPCountries'),
+                EURCountries: { choiceCards: [] },
+            },
+        };
+
+        const result = getChoiceCardsSettings(
+            'EURCountries',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            [],
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            { get: () => defaultSettings },
+        );
+
+        expect(result?.choiceCards).toHaveLength(3);
+        expect(result?.choiceCards[1].benefits).toHaveLength(5);
     });
 
     it('preserves custom destination when provided', () => {
