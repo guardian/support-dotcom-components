@@ -53,7 +53,7 @@ export type AuxiaInteractionType = 'VIEWED' | 'CLICKED' | 'SNOOZED' | 'DISMISSED
 export type AuxiaBannerStatus = 'suppressed' | 'not-suppressed' | 'not-consulted';
 
 // Use the mvtId (which has range 0 - 1,000,000) to rollout gradually
-const AUXIA_ROLLOUT_SHARE = 0.5 * 1_000_000; // 50%
+const AUXIA_ROLLOUT_SHARE = 1.0 * 1_000_000; // 100%
 const inAuxiaAudience = (mvtId: number): boolean => mvtId < AUXIA_ROLLOUT_SHARE;
 
 export class Auxia {

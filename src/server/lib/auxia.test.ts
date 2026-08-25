@@ -2,6 +2,10 @@ import type { ChannelSwitches } from '../channelSwitches';
 import { Auxia } from './auxia';
 import type { GetTreatmentsAttributes, UserTreatment } from './auxia';
 
+jest.mock('../utils/cloudwatch', () => ({
+    putMetric: jest.fn(),
+}));
+
 global.fetch = jest.fn();
 
 const mockConfig = {
@@ -13,10 +17,10 @@ const mockChannelSwitches = {
     enableAuxiaForBanners: true,
 } as ChannelSwitches;
 
-// mvtId within the 50% rollout (0–499,999)
-const inRolloutMvtId = 0;
-// mvtId outside the 50% rollout (500,000+)
-const outOfRolloutMvtId = 500_000;
+// mvtId within the 100% rollout (0–999,999)
+const inRolloutMvtId = 999_999;
+// mvtId outside the 100% rollout (1,000,000+)
+const outOfRolloutMvtId = 1_000_000;
 
 const mockAttributes: GetTreatmentsAttributes = {
     isSupporter: false,
@@ -464,7 +468,7 @@ describe('Auxia.getBannerSuppressedChecker – mvtId rollout', () => {
         jest.clearAllMocks();
     });
 
-    it('should return false, not call fetch, and leave forLogging as "not-consulted" when mvtId is outside the 50% rollout', async () => {
+    it('should return false, not call fetch, and leave forLogging as "not-consulted" when mvtId is outside the 100% rollout', async () => {
         const auxia = new Auxia(mockConfig);
         const { checkAuxiaSuppression, forLogging } = auxia.getBannerSuppressedChecker(
             mockChannelSwitches,
@@ -478,7 +482,7 @@ describe('Auxia.getBannerSuppressedChecker – mvtId rollout', () => {
         expect(forLogging()).toBe('not-consulted');
     });
 
-    it('should call fetch and apply suppression logic when mvtId is within the 50% rollout', async () => {
+    it('should call fetch and apply suppression logic when mvtId is within the 100% rollout', async () => {
         (global.fetch as jest.Mock).mockResolvedValueOnce(
             successResponse([makeUserTreatment(JSON.stringify({ show_banner: 'false' }))]),
         );
