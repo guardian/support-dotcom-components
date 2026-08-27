@@ -1,5 +1,6 @@
 import {
     substituteMParticleTemplate,
+    substituteMParticleTemplateInBannerVariant,
     substituteMParticleTemplateInEpicVariant,
 } from './mParticleTemplates';
 
@@ -80,5 +81,45 @@ describe('substituteMParticleTemplateInEpicVariant', () => {
         const variant = { ...baseVariant, highlightedText: undefined };
         const result = substituteMParticleTemplateInEpicVariant(variant, userAttributes);
         expect(result.highlightedText).toBeUndefined();
+    });
+});
+
+describe('substituteMParticleTemplateInBannerVariant', () => {
+    const baseBannerContent = {
+        heading: 'Hi %%mparticle_first_name%%',
+        paragraphs: ['You are %%mparticle_age%% years old'],
+        highlightedText: 'Offer for %%mparticle_first_name%%',
+    };
+
+    it('substitutes templates in bannerContent', () => {
+        const variant = {
+            name: 'control',
+            template: 'DefaultBannerTemplate',
+            bannerContent: baseBannerContent,
+        };
+        const result = substituteMParticleTemplateInBannerVariant(variant as never, userAttributes);
+        expect(result.bannerContent?.heading).toBe('Hi Jane');
+        expect(result.bannerContent?.paragraphs).toEqual(['You are 30 years old']);
+        expect(result.bannerContent?.highlightedText).toBe('Offer for Jane');
+    });
+
+    it('substitutes templates in mobileBannerContent independently', () => {
+        const mobileContent = { heading: 'Mobile %%mparticle_first_name%%', paragraphs: [] };
+        const variant = {
+            name: 'control',
+            template: 'DefaultBannerTemplate',
+            bannerContent: baseBannerContent,
+            mobileBannerContent: mobileContent,
+        };
+        const result = substituteMParticleTemplateInBannerVariant(variant as never, userAttributes);
+        expect(result.mobileBannerContent?.heading).toBe('Mobile Jane');
+        expect(result.bannerContent?.heading).toBe('Hi Jane');
+    });
+
+    it('returns undefined bannerContent when none is set', () => {
+        const variant = { name: 'control', template: 'DefaultBannerTemplate' };
+        const result = substituteMParticleTemplateInBannerVariant(variant as never, userAttributes);
+        expect(result.bannerContent).toBeUndefined();
+        expect(result.mobileBannerContent).toBeUndefined();
     });
 });

@@ -1,5 +1,4 @@
-import type { EpicVariant } from '../../shared/types';
-import { logInfo } from '../utils/logging';
+import type { BannerContent, BannerVariant, EpicVariant } from '../../shared/types';
 import type { MParticleProfile } from './mParticle';
 
 export const matchesMParticleTemplates = async (
@@ -12,17 +11,11 @@ export const matchesMParticleTemplates = async (
 
     const mParticleProfile = await getMParticleProfile();
     if (!mParticleProfile) {
-        logInfo('No mParticle profile found');
         return false;
     }
 
     for (const template of mParticleTemplates) {
         if (!mParticleProfile.user_attributes || !(template in mParticleProfile.user_attributes)) {
-            if (!mParticleProfile.user_attributes) {
-                logInfo('No user attributes were found in mParticleProfile');
-            } else {
-                logInfo('No mParticleTemplates were found in user attributes');
-            }
             return false;
         }
     }
@@ -54,7 +47,7 @@ export const substituteMParticleTemplateInEpicVariant = (
     epicVariant: EpicVariant,
     userAttributes: MParticleProfile['user_attributes'],
 ): Partial<EpicVariant> => {
-    const updatedEpicHeading = epicVariant.heading
+    const updatedHeading = epicVariant.heading
         ? substituteMParticleTemplate(epicVariant.heading, userAttributes)
         : epicVariant.heading;
 
@@ -66,8 +59,49 @@ export const substituteMParticleTemplateInEpicVariant = (
         : epicVariant.highlightedText;
 
     return {
-        heading: updatedEpicHeading,
+        heading: updatedHeading,
         paragraphs: updatedParagraphs,
         highlightedText: updatedHighlightedText,
+    };
+};
+
+const substituteBannerContent = (
+    content: BannerContent,
+    userAttributes: MParticleProfile['user_attributes'],
+): Partial<BannerContent> => {
+    const updatedHeading = content.heading
+        ? substituteMParticleTemplate(content.heading, userAttributes)
+        : content.heading;
+
+    const updatedParagraphs = content.paragraphs?.map((paragraph) =>
+        substituteMParticleTemplate(paragraph, userAttributes),
+    );
+
+    const updatedHighlightedText = content.highlightedText
+        ? substituteMParticleTemplate(content.highlightedText, userAttributes)
+        : content.highlightedText;
+
+    return {
+        heading: updatedHeading,
+        paragraphs: updatedParagraphs,
+        highlightedText: updatedHighlightedText,
+    };
+};
+
+export const substituteMParticleTemplateInBannerVariant = (
+    bannerVariant: BannerVariant,
+    userAttributes: MParticleProfile['user_attributes'],
+): Partial<BannerVariant> => {
+    const updatedBannerContent = bannerVariant.bannerContent
+        ? substituteBannerContent(bannerVariant.bannerContent, userAttributes)
+        : bannerVariant.bannerContent;
+
+    const updatedMobileBannerContent = bannerVariant.mobileBannerContent
+        ? substituteBannerContent(bannerVariant.mobileBannerContent, userAttributes)
+        : bannerVariant.mobileBannerContent;
+
+    return {
+        bannerContent: updatedBannerContent,
+        mobileBannerContent: updatedMobileBannerContent,
     };
 };

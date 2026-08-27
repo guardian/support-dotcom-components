@@ -92,6 +92,7 @@ export const bannerTestFromToolSchema = testSchema.extend({
         })
         .optional(),
     frontsOnly: z.boolean().optional(),
+    mParticleTemplates: z.array(z.string()).optional(),
 });
 
 export type BannerTestFromTool = z.infer<typeof bannerTestFromToolSchema>;
