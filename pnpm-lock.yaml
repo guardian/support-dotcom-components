@@ -72,8 +72,8 @@ importers:
   cdk:
     devDependencies:
       '@guardian/cdk':
-        specifier: 64.1.0
-        version: 64.1.0(aws-cdk-lib@2.261.0(constructs@10.8.1))(aws-cdk@2.1126.0)(constructs@10.8.1)
+        specifier: 64.5.0
+        version: 64.5.0(aws-cdk-lib@2.261.0(constructs@10.8.1))(aws-cdk@2.1126.0)(constructs@10.8.1)
       '@types/jest':
         specifier: 30.0.0
         version: 30.0.0
@@ -260,8 +260,8 @@ packages:
     resolution: {integrity: sha512-b1Y9NW5U1mOpkmLMnjZeUCo5FchTYfE3ththqXX6MA0beHpDwPydm5UPCJ0gcyHGvlPEYCU7NwANZwGHy+zCzA==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/client-ec2@3.1117.0':
-    resolution: {integrity: sha512-K/hGMuMZ7yYgVQql1Y8GAifAlf7z7TzjIPqz4czAJbuJJ2C5rD+FVH7cZADXspOoiOO7sKsRPVvsxGxbuSgKJw==}
+  '@aws-sdk/client-ec2@3.1116.0':
+    resolution: {integrity: sha512-zuMpXyo4Y9F7hZvdzpyGvArRtM648Qsfu0ziqm97KD6xjVHvFVoQbEIeSdKu8BDG1Q0Tbs88LE2aDhT/cYtVXQ==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/client-s3@3.1093.0':
@@ -873,13 +873,13 @@ packages:
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@guardian/cdk@64.1.0':
-    resolution: {integrity: sha512-/vBLrrkCoOyZ1Bkv+DGh2JX9w6VEBquRQwF53G6Cx9Bg3tBN0G/WrThySAD2a+tXdkBN71EsC2qPmPw7DvxfIg==}
+  '@guardian/cdk@64.5.0':
+    resolution: {integrity: sha512-XZIcMBbRpT4uFDrEWTXY9+PNd3kdSdA9JtfELMdYSj50KEEZ9yiPaZx/nEGRSUtJ2JLwxZaY3Iyi2opPaTy9PQ==}
     hasBin: true
     peerDependencies:
-      aws-cdk: ^2.1110.0
-      aws-cdk-lib: ^2.241.0
-      constructs: ^10.5.1
+      aws-cdk: ^2.1135.0
+      aws-cdk-lib: ^2.263.0
+      constructs: ^10.8.1
 
   '@guardian/eslint-config@16.0.0':
     resolution: {integrity: sha512-LTd0evYj9HSj24Z8HBm5Tc4GOlbeY5cRhiyXCSCz5XpdBHjgZSYIXDChqge4hd89iFCWU9ztU1QowD6tqEzM4A==}
@@ -1916,8 +1916,8 @@ packages:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
 
-  codemaker@1.140.0:
-    resolution: {integrity: sha512-/EPlxI+2i9ji7aZac2kLEUyjzfgHWBl8hDZ98T6BnED9mTLRInCNToA0vqgZPcTotiP6g6YNeZo7cBAc90Ok9A==}
+  codemaker@1.139.0:
+    resolution: {integrity: sha512-v93CwWcepdmHDENEJuPepaOzo2J8SZ5HKNVgH/+6vPrvLOoDDfVXEkBMr6KUu4trHN7QvZjFwxJBpjCYCBG9+g==}
     engines: {node: '>= 14.17.0'}
 
   collect-v8-coverage@1.0.3:
@@ -2254,6 +2254,7 @@ packages:
   eslint@9.39.4:
     resolution: {integrity: sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -4088,7 +4089,7 @@ snapshots:
       '@smithy/types': 4.17.2
       tslib: 2.8.1
 
-  '@aws-sdk/client-ec2@3.1117.0':
+  '@aws-sdk/client-ec2@3.1116.0':
     dependencies:
       '@aws-sdk/core': 3.977.9
       '@aws-sdk/credential-provider-node': 3.972.81
@@ -4876,15 +4877,15 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@guardian/cdk@64.1.0(aws-cdk-lib@2.261.0(constructs@10.8.1))(aws-cdk@2.1126.0)(constructs@10.8.1)':
+  '@guardian/cdk@64.5.0(aws-cdk-lib@2.261.0(constructs@10.8.1))(aws-cdk@2.1126.0)(constructs@10.8.1)':
     dependencies:
-      '@aws-sdk/client-ec2': 3.1117.0
+      '@aws-sdk/client-ec2': 3.1116.0
       '@aws-sdk/client-ssm': 3.1093.0
       '@aws-sdk/credential-providers': 3.1093.0
       aws-cdk: 2.1126.0
       aws-cdk-lib: 2.261.0(constructs@10.8.1)
       chalk: 4.1.2
-      codemaker: 1.140.0
+      codemaker: 1.139.0
       constructs: 10.8.1
       git-url-parse: 16.1.0
       js-yaml: 4.3.1
@@ -6021,7 +6022,7 @@ snapshots:
 
   co@4.6.0: {}
 
-  codemaker@1.140.0:
+  codemaker@1.139.0:
     dependencies:
       camelcase: 6.3.0
       decamelize: 5.0.1
