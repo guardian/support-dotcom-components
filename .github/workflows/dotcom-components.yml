@@ -115,7 +115,7 @@ jobs:
                   pnpm build-dotcom-types
 
             - name: Release
-              uses: changesets/action@v2.1.0
+              uses: changesets/action@v2.1.1
               with:
                   publish-script: pnpm changeset publish
               env:
