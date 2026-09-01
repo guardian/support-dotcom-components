@@ -271,6 +271,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 					`${this.stage}/banner-deploy/*`,
 					`${this.stage}/channel-switches.json`,
 					`${this.stage}/configured-amounts-v3.json`,
+					`${this.stage}/default-choice-cards-config.json`,
 					`${this.stage}/exclusions.json`,
 					`${this.stage}/guardian-weekly-propensity-test/*`,
 					`PROD/auxia-credentials.json`,
