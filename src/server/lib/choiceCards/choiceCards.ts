@@ -149,9 +149,16 @@ export const getChoiceCardsSettings = (
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
+    const countryGroupCountries = countryGroups[countryGroupId].countries;
     const promotions = promoCodes
         .map((code) => promotionsCache[code])
-        .filter((promo): promo is Promotion => Boolean(promo) && isPromotionLive(promo));
+        .filter(
+            (promo): promo is Promotion =>
+                Boolean(promo) &&
+                isPromotionLive(promo) &&
+                (promo.countries.length === 0 ||
+                    promo.countries.some((c) => countryGroupCountries.includes(c))),
+        );
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant

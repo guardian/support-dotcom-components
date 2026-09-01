@@ -14,6 +14,7 @@ type PromoCode = string;
 export interface Promotion {
     promoCode: PromoCode;
     productRatePlanIds: string[]; // the product rate plans that this promo applies to
+    countries: string[]; // the country codes this promo targets
     discountPercent: number;
     startTimestamp?: string;
     endTimestamp?: string;
@@ -25,6 +26,7 @@ export type PromotionsCache = Record<PromoCode, Promotion>;
 interface PromotionTableItem {
     appliesTo: {
         productRatePlanIds: string[];
+        countries: string[];
     };
     promoCode: string;
     discount?: {
@@ -40,6 +42,7 @@ const mapTableItemToPromotion = (item: PromotionTableItem): Promotion => {
         promoCode: item.promoCode,
         discountPercent: item.discount?.amount ?? 0,
         productRatePlanIds: item.appliesTo.productRatePlanIds,
+        countries: item.appliesTo.countries,
         startTimestamp: item.startTimestamp,
         endTimestamp: item.endTimestamp,
         isIntroductoryPricing: item.isIntroductoryPricing,
