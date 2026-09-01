@@ -626,8 +626,7 @@ export const inTargetedCountry = (
  */
 export const passesContributionsOnlyTargeting = (
     regionTargeting:
-        | { contributionsOnlyCountriesTargeting?: ContributionsOnlyCountriesTargeting }
-        | undefined,
+        { contributionsOnlyCountriesTargeting?: ContributionsOnlyCountriesTargeting } | undefined,
     countryCode: string | undefined,
     contributionsOnlyCountries: string[],
 ): boolean => {

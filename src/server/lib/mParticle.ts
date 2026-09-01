@@ -45,11 +45,7 @@ const MParticleOAuthTokenSchema = z.object({
 });
 
 export type MParticleProfileStatus =
-    | 'found'
-    | 'found-cached'
-    | 'not-found'
-    | 'not-found-cached'
-    | 'not-fetched';
+    'found' | 'found-cached' | 'not-found' | 'not-found-cached' | 'not-fetched';
 
 export type MParticleProfileSource = 'identityId' | 'browserId' | 'none';
 export type MParticleProfileLogState = {
