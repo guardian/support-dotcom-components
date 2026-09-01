@@ -12,11 +12,7 @@ import { buildReloader } from '../../utils/valueReloader';
  */
 
 export type ReaderRevenueRegion =
-    | 'UnitedKingdom'
-    | 'UnitedStates'
-    | 'Australia'
-    | 'RestOfWorld'
-    | 'EuropeanUnion';
+    'UnitedKingdom' | 'UnitedStates' | 'Australia' | 'RestOfWorld' | 'EuropeanUnion';
 
 const AdminConsoleBucket = 'support-admin-console';
 

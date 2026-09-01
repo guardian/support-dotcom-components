@@ -110,10 +110,7 @@ export interface ControlProportionSettings {
 }
 
 export type UserCohort =
-    | 'AllExistingSupporters'
-    | 'AllNonSupporters'
-    | 'Everyone'
-    | 'PostAskPauseSingleContributors';
+    'AllExistingSupporters' | 'AllNonSupporters' | 'Everyone' | 'PostAskPauseSingleContributors';
 
 export const userCohortSchema = z.enum([
     'AllExistingSupporters',
