@@ -17,7 +17,7 @@
         "build": "pnpm -w exec rollup --config rollup.config.js --bundleConfigAsCjs"
     },
     "devDependencies": {
-        "@babel/core": "7.28.5",
+        "@babel/core": "7.29.6",
         "@babel/preset-typescript": "7.28.5",
         "@rollup/plugin-babel": "7.1.0",
         "@rollup/plugin-commonjs": "29.0.3",
