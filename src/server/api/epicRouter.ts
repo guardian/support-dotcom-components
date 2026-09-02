@@ -22,6 +22,7 @@ import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import { substituteMParticleTemplateInEpicVariant } from '../lib/mParticleTemplates';
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
@@ -149,6 +150,18 @@ export const buildEpicRouter = (
 
         const { test, variant } = result.result;
 
+        let variantCopies;
+
+        if (test.mParticleTemplates && test.mParticleTemplates.length > 0) {
+            const mParticleProfile = await getMParticleProfile();
+            if (mParticleProfile) {
+                variantCopies = substituteMParticleTemplateInEpicVariant(
+                    variant,
+                    mParticleProfile.user_attributes,
+                );
+            }
+        }
+
         const tickerSettings =
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
         const showReminderFields =
@@ -184,6 +197,7 @@ export const buildEpicRouter = (
 
         const propsVariant: EpicVariant = {
             ...variant,
+            ...variantCopies,
             tickerSettings,
             showReminderFields,
             choiceCardsSettings,

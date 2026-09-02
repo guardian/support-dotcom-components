@@ -304,6 +304,7 @@ describe('matchesMParticleAudience', () => {
     it('should return true if test has mParticleAudience and user is in the target audience', async () => {
         const getMParticleProfile = () =>
             Promise.resolve({
+                user_attributes: {},
                 audience_memberships: [{ audience_id: 99999, audience_name: 'test audience' }],
             });
         const result = await matchesMParticleAudience(getMParticleProfile, 99999);
@@ -313,6 +314,7 @@ describe('matchesMParticleAudience', () => {
     it('should return false if test has mParticleAudience but user is not in the target audience', async () => {
         const getMParticleProfile = () =>
             Promise.resolve({
+                user_attributes: {},
                 audience_memberships: [{ audience_id: 12345, audience_name: 'different audience' }],
             });
         const result = await matchesMParticleAudience(getMParticleProfile, 99999);
@@ -328,6 +330,7 @@ describe('matchesMParticleAudience', () => {
     it('should return false if test has mParticleAudience but audience_memberships is empty', async () => {
         const getMParticleProfile = () =>
             Promise.resolve({
+                user_attributes: {},
                 audience_memberships: [],
             });
         const result = await matchesMParticleAudience(getMParticleProfile, 99999);

@@ -20,6 +20,7 @@ import { getDeviceType } from '../lib/deviceType';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import { substituteMParticleTemplateInBannerVariant } from '../lib/mParticleTemplates';
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
@@ -124,6 +125,18 @@ export const buildBannerRouter = (
                 ...(variant.products && { products: variant.products }),
             };
 
+            let variantCopies;
+
+            if (test.mParticleTemplates && test.mParticleTemplates.length > 0) {
+                const mParticleProfile = await getMParticleProfile();
+                if (mParticleProfile) {
+                    variantCopies = substituteMParticleTemplateInBannerVariant(
+                        variant,
+                        mParticleProfile.user_attributes,
+                    );
+                }
+            }
+
             const tickerSettings =
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
@@ -162,8 +175,8 @@ export const buildBannerRouter = (
                 tracking: testTracking as Tracking, // PageTracking is added client-side
                 bannerChannel: test.bannerChannel,
                 countryCode: targeting.countryCode,
-                content: variant.bannerContent,
-                mobileContent: variant.mobileBannerContent,
+                content: variantCopies?.bannerContent ?? variant.bannerContent,
+                mobileContent: variantCopies?.mobileBannerContent ?? variant.mobileBannerContent,
                 articleCounts: getArticleViewCounts(
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,
