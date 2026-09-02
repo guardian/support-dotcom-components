@@ -248,10 +248,18 @@ export class Auxia {
      * - checkAuxiaSuppression: calls checkBannerSuppression and captures the result for logging
      * - forLogging: returns the cached status without making a request
      * - getTreatment: returns the cached auxia treatment data (if banner was not suppressed)
+     *
+     * countryCode is the reader's geolocation from the banner targeting payload.
+     * When the reader's country is in the gandalfSignInGateCountries channel
+     * switch (the Guardian-managed sign-in gate journey), Auxia is never
+     * consulted: the banner is not suppressed, the logged status stays
+     * 'not-consulted' and no treatment is exposed, so the client cannot send
+     * Auxia interaction events for the banner either.
      */
     getBannerSuppressedChecker(
         channelSwitches: ChannelSwitches,
         mvtId: number,
+        countryCode?: string,
     ): {
         checkAuxiaSuppression: (
             browserId: string,
@@ -268,6 +276,12 @@ export class Auxia {
             attributes: GetTreatmentsAttributes,
         ): Promise<boolean> => {
             if (!channelSwitches.enableAuxiaForBanners) {
+                return false;
+            }
+            const gandalfCountries = (channelSwitches.gandalfSignInGateCountries ?? []).map(
+                (country) => country.toUpperCase(),
+            );
+            if (countryCode !== undefined && gandalfCountries.includes(countryCode.toUpperCase())) {
                 return false;
             }
             if (!inAuxiaAudience(mvtId)) {

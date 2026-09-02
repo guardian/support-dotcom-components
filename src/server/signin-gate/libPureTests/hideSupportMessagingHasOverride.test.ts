@@ -180,7 +180,7 @@ it('getTreatmentsRequestPayloadToGateType, without override', () => {
         hideSupportMessagingTimestamp: undefined, // <- no override
     };
     const now = 1756568322187; // current time in milliseconds since epoch
-    const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+    const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
     expect(gateType).toStrictEqual('GuDismissible');
 });
 
@@ -219,7 +219,7 @@ it('getTreatmentsRequestPayloadToGateType, with override', () => {
         hideSupportMessagingTimestamp: 1755644400000, // <- tested: 2025-08-20 00:00:00 +0100
     };
     const now = 1756568890120; // 2025-08-30 16:48:10 +0100 (less than 30 days)
-    const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+    const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
     expect(gateType).toStrictEqual('None');
 });
 
@@ -257,6 +257,6 @@ it('getTreatmentsRequestPayloadToGateType, with override, ireland with Auxia Ana
         hideSupportMessagingTimestamp: 1755644400000, // <- tested: 2025-08-20 00:00:00 +0100
     };
     const now = 1756568890120; // 2025-08-30 16:48:10 +0100 (less than 30 days)
-    const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+    const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
     expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone'); // Instead of AuxiaAnalyticsThenGuDismissible
 });

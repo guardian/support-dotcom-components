@@ -25,7 +25,7 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
 
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false, []);
 
         // When Auxia is disabled, should use Guardian dismissible gate
         expect(gateType).toBe('GuDismissible');
@@ -52,7 +52,7 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
 
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
 
         // When Auxia is enabled and user qualifies, should use Auxia
         expect(gateType).toBe('AuxiaAPI');
@@ -79,7 +79,7 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
 
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false, []);
         expect(gateType).toBe('None');
     });
 
@@ -104,7 +104,7 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
 
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false, []);
         expect(gateType).toBe('None');
     });
 
@@ -129,7 +129,7 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             hideSupportMessagingTimestamp: now - 1000, // Less than 30 days
         };
 
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false, []);
         expect(gateType).toBe('None');
     });
 
@@ -154,7 +154,7 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
 
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
         expect(gateType).toBe('AuxiaAPI');
     });
 
@@ -179,7 +179,7 @@ describe('getTreatmentsRequestPayloadToGateType (enableAuxia switch)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
 
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, false, []);
         // Falls back to Guardian logic even for Ireland
         expect(gateType).toBe('GuDismissible');
     });

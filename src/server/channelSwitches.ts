@@ -15,6 +15,11 @@ export interface ChannelSwitches {
     enableMParticle: boolean;
     enableAuxia: boolean; // for sign-in gates
     enableAuxiaForBanners: boolean;
+    // Gandalf: marketing name for the Guardian-managed sign-in gate journey
+    // (100% Guardian-owned rules, no Auxia). Countries listed here (ISO codes,
+    // case-insensitive) run the Gandalf journey; an absent or empty list means
+    // it is off everywhere, which is the rollback path.
+    gandalfSignInGateCountries?: string[];
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>

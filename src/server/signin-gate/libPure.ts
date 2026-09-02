@@ -124,6 +124,46 @@ export const guMandatoryUserTreatment = (): UserTreatment => {
     };
 };
 
+export const gandalfMandatoryPopupUserTreatment = (): UserTreatment => {
+    // (comment group: gandalf)
+    //
+    // "Gandalf" is the marketing name for the Guardian-managed sign-in gate
+    // journey: a 100% rollout run entirely by Guardian rules with no Auxia
+    // involvement (currently New Zealand, extendable to further countries via
+    // the gandalfSignInGateCountries channel switch).
+    //
+    // The Guardian-managed hard gate. The copy matches guMandatoryUserTreatment,
+    // but the treatmentType uses the POPUP variant so the client renders the v2
+    // modal (mounted on document.body) instead of the inline article gate.
+    //
+    // The treatmentId stays 'default-treatment-id' so the client's existing
+    // "do not call Auxia for default treatments" guard also applies here as
+    // defence in depth on top of the gandalfSignInGate response marker.
+
+    const title = 'Sorry for the interruption';
+    const subtitle = "Once you are signed in, we'll bring you back here shortly";
+    const body =
+        'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all.';
+    const treatmentContent = {
+        title,
+        subtitle,
+        body,
+        first_cta_name: 'Create an account',
+        first_cta_link: 'https://profile.theguardian.com/signin',
+        second_cta_name: '', // empty string here makes the gate mandatory
+    };
+    const treatmentContentEncoded = JSON.stringify(treatmentContent);
+    return {
+        treatmentId: 'default-treatment-id',
+        treatmentTrackingId: 'default-treatment-tracking-id',
+        rank: '1',
+        contentLanguageCode: 'en-GB',
+        treatmentContent: treatmentContentEncoded,
+        treatmentType: 'NONDISMISSIBLE_SIGN_IN_GATE_POPUP',
+        surface: 'ARTICLE_PAGE',
+    };
+};
+
 export const isValidContentType = (contentType: string): boolean => {
     const validTypes = ['Article'];
     return validTypes.includes(contentType);
@@ -148,6 +188,95 @@ export const isValidTagIds = (tagIds: string[]): boolean => {
     return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
 };
 
+// --------------------------------------------------------------
+// Gandalf (comment group: gandalf)
+//
+// "Gandalf" is the marketing name for the Guardian-managed sign-in gate
+// journey: a 100% rollout, run entirely by Guardian rules with no Auxia
+// involvement, currently live for New Zealand and extendable to further
+// countries via the gandalfSignInGateCountries channel switch.
+//
+// Gandalf widens both the eligible content types and the exclusion list.
+// These helpers are only consulted by the active Gandalf branch, so the
+// existing global (Article-only) eligibility used by every other country is
+// unchanged.
+
+// The exact Guardian content metadata values (see DotcomContentType in
+// guardian/frontend). Note that CAPI "Picture" pages are sent as ImageContent,
+// and fronts are sent as Network Front / Section / Tag.
+const gandalfContentTypes = [
+    'Network Front',
+    'Section',
+    'Tag',
+    'Audio',
+    'Crossword',
+    'Gallery',
+    'Interactive',
+    'LiveBlog',
+    'ImageContent',
+    'Video',
+];
+
+export const gandalfIsValidContentType = (contentType: string): boolean => {
+    // Case-insensitive so casing drift upstream cannot silently exclude a page.
+    const validTypes = gandalfContentTypes.map((type) => type.toLowerCase());
+    return validTypes.includes(contentType.toLowerCase());
+};
+
+export const gandalfIsValidSection = (sectionId: string): boolean => {
+    // Union of the global sign-in gate exclusions, The Filter US, and the
+    // legal/customer-service sections excluded across the reader revenue
+    // channels.
+    const invalidSections = [
+        'about',
+        'info',
+        'membership',
+        'help',
+        'guardian-live-australia',
+        'gnm-archive',
+        'thefilter',
+        'thefilter-us',
+    ];
+    return !invalidSections.includes(sectionId);
+};
+
+export const gandalfIsValidTagIds = (tagIds: string[]): boolean => {
+    const invalidTagIds = ['info/newsletter-sign-up'];
+    return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
+};
+
+export const gandalfArticleIdentifierIsAllowed = (articleIdentifier: string): boolean => {
+    // Union of the global URL denials and the legal/customer-service page
+    // exclusions used by the wider reader revenue channels.
+    const denyPrefixes = [
+        'www.theguardian.com/tips',
+        'www.theguardian.com/help/ng-interactive/2017/mar/17/contact-the-guardian-securely',
+        'www.theguardian.com/info/privacy',
+        'www.theguardian.com/info/complaints-and-corrections',
+        'www.theguardian.com/the-whole-picture',
+    ];
+
+    return !denyPrefixes.some((denyIdentifer) => articleIdentifier.startsWith(denyIdentifer));
+};
+
+export const gandalfPageMetadataIsEligibleForGateDisplay = (
+    contentType: string,
+    sectionId: string,
+    tagIds: string[],
+): boolean => {
+    return (
+        gandalfIsValidContentType(contentType) &&
+        gandalfIsValidSection(sectionId) &&
+        gandalfIsValidTagIds(tagIds)
+    );
+};
+
+// The free allowance: the first three eligible pageviews do not show a gate.
+// The counter sent by the client is 0-based (number of previously completed
+// eligible pageviews in the request's country), so 0, 1 and 2 are free and 3+
+// shows the hard popup.
+export const GANDALF_FREE_PAGE_VIEW_COUNT = 3;
+
 export const userTreatmentsEnvelopToProxyGetTreatmentsAnswerData = (
     envelop: UserTreatmentsEnvelop,
 ): ProxyGetTreatmentsAnswerData | undefined => {
@@ -165,6 +294,12 @@ export const userTreatmentsEnvelopToProxyGetTreatmentsAnswerData = (
     return {
         responseId: envelop.responseId,
         userTreatment: envelop.userTreatments[0],
+        // Only include the marker when set so responses for countries outside
+        // the Gandalf list keep their exact previous shape (the existing tests
+        // use toStrictEqual).
+        ...(envelop.gandalfSignInGate !== undefined && {
+            gandalfSignInGate: envelop.gandalfSignInGate,
+        }),
     };
 };
 
@@ -345,15 +480,72 @@ export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
     now: number,
     enableAuxia: boolean,
+    gandalfSignInGateCountries: string[] | undefined,
 ): GateType => {
     // now: current time in milliseconds since epoch
     // enableAuxia: channel switch to enable/disable Auxia integration
+    // gandalfSignInGateCountries: channel switch listing the countries in the
+    // Gandalf sign-in gate journey (see channelSwitches.ts); undefined or
+    // empty disables the journey everywhere
 
     // This function is a pure function (without any side effects) which gets the body
     // of a '/auxia/get-treatments' request and returns the correct GateType
     // It was introduced to separate the choice of the gate from it's actual build,
     // which in the case of Auxia, requires an API call, but more importantly to
     // encapsulate and more logically test the logic of gate selection.
+
+    // --------------------------------------------------------------
+    // Gandalf: the Guardian-managed sign-in gate journey
+    // (comment group: gandalf; "Gandalf" is the marketing name for this
+    // Guardian-owned, Auxia-free 100% rollout)
+    //
+    // Prerequisites:
+    // - the reader's country is listed in the gandalfSignInGateCountries
+    //   channel switch (case-insensitive match on the config side; unknown or
+    //   other countries are never treated as Gandalf countries)
+    //
+    // Effects:
+    // - Guardian drives the gate, Auxia is never consulted (no GetTreatments
+    //   and no LogTreatmentInteraction for either consent state)
+    // - the first three eligible pageviews are free (the response carries the
+    //   gandalfSignInGate marker with no treatment so the client counts the
+    //   pageview but shows no gate)
+    // - from the fourth eligible pageview onwards the Guardian-managed
+    //   non-dismissible popup is returned
+    //
+    // The special cases below (URL denials, page eligibility, newsshowcase
+    // override and the staff testing feature) are deliberately evaluated with
+    // the Gandalf lists. Pages excluded here return 'None' without the
+    // marker, so excluded pageviews neither show a gate nor consume the
+    // allowance.
+
+    const gandalfCountries = (gandalfSignInGateCountries ?? []).map((country) =>
+        country.toUpperCase(),
+    );
+    if (gandalfCountries.includes(payload.countryCode)) {
+        if (!gandalfArticleIdentifierIsAllowed(payload.articleIdentifier)) {
+            return 'None';
+        }
+        if (
+            !gandalfPageMetadataIsEligibleForGateDisplay(
+                payload.contentType,
+                payload.sectionId,
+                payload.tagIds,
+            )
+        ) {
+            return 'None';
+        }
+        if (isOverridingConditionShowDismissibleGate(payload)) {
+            return 'GuDismissible';
+        }
+        if (isStaffTestConditionShowDefaultGate(payload)) {
+            return staffTestConditionToDefaultGate(payload);
+        }
+        const gandalfPageViewCount = payload.gandalfPageViewCount ?? 0;
+        return gandalfPageViewCount < GANDALF_FREE_PAGE_VIEW_COUNT
+            ? 'GandalfFreeView'
+            : 'GandalfMandatoryPopup';
+    }
 
     // --------------------------------------------------------------
     // We do not show the gate on some specific article urls
