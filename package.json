@@ -33,7 +33,7 @@
         "@guardian/eslint-config": "16.0.0",
         "@guardian/prettier": "11.0.0",
         "@types/jest": "30.0.0",
-        "@types/node": "25.9.1",
+        "@types/node": "26.4.0",
         "concurrently": "10.0.3",
         "eslint": "9.39.2",
         "eslint-plugin-react": "7.37.5",
