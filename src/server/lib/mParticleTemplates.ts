@@ -29,12 +29,15 @@ export const substituteMParticleTemplate = (
     if (!userAttributes) {
         return template;
     }
+    const attributes = userAttributes as Record<string, unknown>;
     return template.replace(
-        /%%mparticle_([^%]+)%%/g,
+        /%%mparticle_([^%]+)%%/gi,
         (templateMatch, capturedAttribute: string) => {
-            const attributeValue: unknown = (userAttributes as Record<string, unknown>)[
-                capturedAttribute
-            ];
+            const attributeKey = Object.keys(attributes).find(
+                (key) => key.toLowerCase() === capturedAttribute.toLowerCase(),
+            );
+            const attributeValue = attributeKey ? attributes[attributeKey] : undefined;
+
             if (typeof attributeValue === 'string' || typeof attributeValue === 'number') {
                 return String(attributeValue);
             }
