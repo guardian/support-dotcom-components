@@ -125,7 +125,11 @@ export const buildBannerRouter = (
 
             let variantCopies;
 
-            if (test.mParticleTemplates && test.mParticleTemplates.length > 0) {
+            if (
+                test.name.startsWith('MPARTICLE ATTRIBUTE') &&
+                test.mParticleTemplates &&
+                test.mParticleTemplates.length > 0
+            ) {
                 const mParticleProfile = await getMParticleProfile();
                 if (mParticleProfile) {
                     variantCopies = substituteMParticleTemplateInBannerVariant(

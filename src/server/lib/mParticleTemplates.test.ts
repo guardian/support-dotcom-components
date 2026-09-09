@@ -1,4 +1,5 @@
 import {
+    matchesMParticleTemplates,
     substituteMParticleTemplate,
     substituteMParticleTemplateInBannerVariant,
     substituteMParticleTemplateInEpicVariant,
@@ -8,6 +9,54 @@ const userAttributes = {
     first_name: 'Jane',
     age: 30,
 };
+
+const getMParticleProfile = () =>
+    Promise.resolve({
+        user_attributes: userAttributes,
+        audience_memberships: [],
+    });
+
+describe('matchesMParticleTemplates', () => {
+    it('requires attributes for mParticle attribute tests', async () => {
+        const result = await matchesMParticleTemplates(
+            getMParticleProfile,
+            'MPARTICLE ATTRIBUTE - TEST',
+            ['first_name'],
+        );
+
+        expect(result).toBe(true);
+    });
+
+    it('does not require an mParticle profile for other tests', async () => {
+        const getMissingProfile = () => Promise.resolve(undefined);
+        const result = await matchesMParticleTemplates(getMissingProfile, 'REGULAR TEST', [
+            'first_name',
+        ]);
+
+        expect(result).toBe(true);
+    });
+
+    it('rejects an mParticle attribute test when the profile is missing', async () => {
+        const getMissingProfile = () => Promise.resolve(undefined);
+        const result = await matchesMParticleTemplates(
+            getMissingProfile,
+            'MPARTICLE ATTRIBUTE - TEST',
+            ['first_name'],
+        );
+
+        expect(result).toBe(false);
+    });
+
+    it('rejects an mParticle attribute test when an attribute is missing', async () => {
+        const result = await matchesMParticleTemplates(
+            getMParticleProfile,
+            'MPARTICLE ATTRIBUTE - TEST',
+            ['last_name'],
+        );
+
+        expect(result).toBe(false);
+    });
+});
 
 describe('substituteMParticleTemplate', () => {
     it('replaces a single template with the attribute value', () => {

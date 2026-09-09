@@ -335,6 +335,7 @@ export const selectBannerTest = async ({
             )) &&
             (await matchesMParticleTemplates(
                 getMParticleProfile,
+                test.name,
                 test.mParticleTemplates ?? undefined,
             ))
         ) {

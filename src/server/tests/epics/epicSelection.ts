@@ -211,7 +211,11 @@ export const mParticleTemplatesFilter = (
 ): Filter => ({
     id: 'mParticleTemplateMatches',
     test: async (test): Promise<boolean> => {
-        return matchesMParticleTemplates(getMParticleProfile, test.mParticleTemplates ?? undefined);
+        return matchesMParticleTemplates(
+            getMParticleProfile,
+            test.name,
+            test.mParticleTemplates ?? undefined,
+        );
     },
 });
 

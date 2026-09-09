@@ -3,8 +3,13 @@ import type { MParticleProfile } from './mParticle';
 
 export const matchesMParticleTemplates = async (
     getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    testName: string,
     mParticleTemplates?: string[],
 ): Promise<boolean> => {
+    if (!testName.startsWith('MPARTICLE ATTRIBUTE')) {
+        return true;
+    }
+
     if (!mParticleTemplates) {
         return true;
     }
