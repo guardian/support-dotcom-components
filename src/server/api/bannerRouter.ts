@@ -126,7 +126,7 @@ export const buildBannerRouter = (
             let variantCopies;
 
             if (
-                test.name.startsWith('MPARTICLE_ATTRIBUTE_') &&
+                test.name.startsWith('MPARTICLE_ATTRIBUTES_') &&
                 test.mParticleTemplates &&
                 test.mParticleTemplates.length > 0
             ) {
