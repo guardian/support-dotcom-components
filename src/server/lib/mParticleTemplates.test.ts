@@ -20,7 +20,7 @@ describe('matchesMParticleTemplates', () => {
     it('requires attributes for mParticle attribute tests', async () => {
         const result = await matchesMParticleTemplates(
             getMParticleProfile,
-            'MPARTICLE ATTRIBUTE - TEST',
+            'MPARTICLE_ATTRIBUTE_TEST',
             ['first_name'],
         );
 
@@ -40,7 +40,7 @@ describe('matchesMParticleTemplates', () => {
         const getMissingProfile = () => Promise.resolve(undefined);
         const result = await matchesMParticleTemplates(
             getMissingProfile,
-            'MPARTICLE ATTRIBUTE - TEST',
+            'MPARTICLE_ATTRIBUTE_TEST',
             ['first_name'],
         );
 
@@ -50,7 +50,7 @@ describe('matchesMParticleTemplates', () => {
     it('rejects an mParticle attribute test when an attribute is missing', async () => {
         const result = await matchesMParticleTemplates(
             getMParticleProfile,
-            'MPARTICLE ATTRIBUTE - TEST',
+            'MPARTICLE_ATTRIBUTE_TEST',
             ['last_name'],
         );
 

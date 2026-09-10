@@ -6,7 +6,7 @@ export const matchesMParticleTemplates = async (
     testName: string,
     mParticleTemplates?: string[],
 ): Promise<boolean> => {
-    if (!testName.startsWith('MPARTICLE ATTRIBUTE')) {
+    if (!testName.startsWith('MPARTICLE_ATTRIBUTE_')) {
         return true;
     }
 
