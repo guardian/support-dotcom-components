@@ -150,11 +150,7 @@ export const buildEpicRouter = (
 
         let variantCopies;
 
-        if (
-            test.name.startsWith('MPARTICLE_ATTRIBUTES_') &&
-            test.mParticleTemplates &&
-            test.mParticleTemplates.length > 0
-        ) {
+        if (test.mParticleTemplates && test.mParticleTemplates.length > 0) {
             const mParticleProfile = await getMParticleProfile();
             if (mParticleProfile) {
                 variantCopies = substituteMParticleTemplateInEpicVariant(
