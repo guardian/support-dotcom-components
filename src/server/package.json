@@ -14,7 +14,7 @@
         "@aws-sdk/client-dynamodb": "3.1095.0",
         "@aws-sdk/client-s3": "3.1093.0",
         "@aws-sdk/client-ssm": "3.1093.0",
-        "@aws-sdk/credential-providers": "3.1093.0",
+        "@aws-sdk/credential-providers": "3.1127.0",
         "@aws-sdk/lib-dynamodb": "3.1093.0",
         "@okta/jwt-verifier": "4.0.2",
         "compression": "1.8.1",
