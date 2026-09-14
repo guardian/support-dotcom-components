@@ -107,8 +107,9 @@ describe('substituteMParticleTemplateInEpicVariant', () => {
         highlightedText: 'Special offer for %%mparticle_first_name%%',
     };
 
-    it('substitutes templates in heading, paragraphs and highlightedText', () => {
+    it('substitutes templates in heading, paragraphs and highlightedText while preserving other variant properties', () => {
         const result = substituteMParticleTemplateInEpicVariant(baseVariant, userAttributes);
+        expect(result.name).toBe('control');
         expect(result.heading).toBe('Hi Jane');
         expect(result.paragraphs).toEqual(['You are 30 years old', 'No template here']);
         expect(result.highlightedText).toBe('Special offer for Jane');
@@ -138,18 +139,25 @@ describe('substituteMParticleTemplateInBannerVariant', () => {
         heading: 'Hi %%mparticle_first_name%%',
         paragraphs: ['You are %%mparticle_age%% years old'],
         highlightedText: 'Offer for %%mparticle_first_name%%',
+        cta: { text: 'Support now', baseUrl: 'https://support.theguardian.com' },
     };
 
-    it('substitutes templates in bannerContent', () => {
+    it('substitutes templates in bannerContent while preserving other variant and content properties', () => {
         const variant = {
             name: 'control',
             template: 'DefaultBannerTemplate',
             bannerContent: baseBannerContent,
         };
         const result = substituteMParticleTemplateInBannerVariant(variant as never, userAttributes);
+        expect(result.name).toBe('control');
+        expect(result.template).toBe('DefaultBannerTemplate');
         expect(result.bannerContent?.heading).toBe('Hi Jane');
         expect(result.bannerContent?.paragraphs).toEqual(['You are 30 years old']);
         expect(result.bannerContent?.highlightedText).toBe('Offer for Jane');
+        expect(result.bannerContent?.cta).toEqual({
+            text: 'Support now',
+            baseUrl: 'https://support.theguardian.com',
+        });
     });
 
     it('substitutes templates in mobileBannerContent independently', () => {
@@ -168,6 +176,7 @@ describe('substituteMParticleTemplateInBannerVariant', () => {
     it('returns undefined bannerContent when none is set', () => {
         const variant = { name: 'control', template: 'DefaultBannerTemplate' };
         const result = substituteMParticleTemplateInBannerVariant(variant as never, userAttributes);
+        expect(result.name).toBe('control');
         expect(result.bannerContent).toBeUndefined();
         expect(result.mobileBannerContent).toBeUndefined();
     });

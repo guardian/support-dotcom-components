@@ -113,7 +113,20 @@ export const buildBannerRouter = (
         });
 
         if (selectedTest) {
-            const { test, variant, moduleName, targetingAbTest } = selectedTest;
+            const { test, moduleName, targetingAbTest } = selectedTest;
+
+            const mParticleProfile =
+                test.mParticleTemplates && test.mParticleTemplates.length > 0
+                    ? await getMParticleProfile()
+                    : undefined;
+
+            const variant = mParticleProfile
+                ? substituteMParticleTemplateInBannerVariant(
+                      selectedTest.variant,
+                      mParticleProfile.user_attributes,
+                  )
+                : selectedTest.variant;
+
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,
@@ -122,18 +135,6 @@ export const buildBannerRouter = (
                 targetingAbTest,
                 ...(variant.products && { products: variant.products }),
             };
-
-            let variantCopies;
-
-            if (test.mParticleTemplates && test.mParticleTemplates.length > 0) {
-                const mParticleProfile = await getMParticleProfile();
-                if (mParticleProfile) {
-                    variantCopies = substituteMParticleTemplateInBannerVariant(
-                        variant,
-                        mParticleProfile.user_attributes,
-                    );
-                }
-            }
 
             const tickerSettings =
                 variant.tickerSettings &&
@@ -172,8 +173,8 @@ export const buildBannerRouter = (
                 tracking: testTracking as Tracking, // PageTracking is added client-side
                 bannerChannel: test.bannerChannel,
                 countryCode: targeting.countryCode,
-                content: variantCopies?.bannerContent ?? variant.bannerContent,
-                mobileContent: variantCopies?.mobileBannerContent ?? variant.mobileBannerContent,
+                content: variant.bannerContent,
+                mobileContent: variant.mobileBannerContent,
                 articleCounts: getArticleViewCounts(
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,

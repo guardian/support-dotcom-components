@@ -54,7 +54,7 @@ export const substituteMParticleTemplate = (
 export const substituteMParticleTemplateInEpicVariant = (
     epicVariant: EpicVariant,
     userAttributes: MParticleProfile['user_attributes'],
-): Partial<EpicVariant> => {
+): EpicVariant => {
     const updatedHeading = epicVariant.heading
         ? substituteMParticleTemplate(epicVariant.heading, userAttributes)
         : epicVariant.heading;
@@ -67,6 +67,7 @@ export const substituteMParticleTemplateInEpicVariant = (
         : epicVariant.highlightedText;
 
     return {
+        ...epicVariant,
         heading: updatedHeading,
         paragraphs: updatedParagraphs,
         highlightedText: updatedHighlightedText,
@@ -76,7 +77,7 @@ export const substituteMParticleTemplateInEpicVariant = (
 const substituteBannerContent = (
     content: BannerContent,
     userAttributes: MParticleProfile['user_attributes'],
-): Partial<BannerContent> => {
+): BannerContent => {
     const updatedHeading = content.heading
         ? substituteMParticleTemplate(content.heading, userAttributes)
         : content.heading;
@@ -90,6 +91,7 @@ const substituteBannerContent = (
         : content.highlightedText;
 
     return {
+        ...content,
         heading: updatedHeading,
         paragraphs: updatedParagraphs,
         highlightedText: updatedHighlightedText,
@@ -99,7 +101,7 @@ const substituteBannerContent = (
 export const substituteMParticleTemplateInBannerVariant = (
     bannerVariant: BannerVariant,
     userAttributes: MParticleProfile['user_attributes'],
-): Partial<BannerVariant> => {
+): BannerVariant => {
     const updatedBannerContent = bannerVariant.bannerContent
         ? substituteBannerContent(bannerVariant.bannerContent, userAttributes)
         : bannerVariant.bannerContent;
@@ -109,6 +111,7 @@ export const substituteMParticleTemplateInBannerVariant = (
         : bannerVariant.mobileBannerContent;
 
     return {
+        ...bannerVariant,
         bannerContent: updatedBannerContent,
         mobileBannerContent: updatedMobileBannerContent,
     };

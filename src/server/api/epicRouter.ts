@@ -146,19 +146,19 @@ export const buildEpicRouter = (
             return { data: undefined, debug: result.debug };
         }
 
-        const { test, variant } = result.result;
+        const { test } = result.result;
 
-        let variantCopies;
+        const mParticleProfile =
+            test.mParticleTemplates && test.mParticleTemplates.length > 0
+                ? await getMParticleProfile()
+                : undefined;
 
-        if (test.mParticleTemplates && test.mParticleTemplates.length > 0) {
-            const mParticleProfile = await getMParticleProfile();
-            if (mParticleProfile) {
-                variantCopies = substituteMParticleTemplateInEpicVariant(
-                    variant,
-                    mParticleProfile.user_attributes,
-                );
-            }
-        }
+        const variant = mParticleProfile
+            ? substituteMParticleTemplateInEpicVariant(
+                  result.result.variant,
+                  mParticleProfile.user_attributes,
+              )
+            : result.result.variant;
 
         const tickerSettings =
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
@@ -194,7 +194,6 @@ export const buildEpicRouter = (
 
         const propsVariant: EpicVariant = {
             ...variant,
-            ...variantCopies,
             tickerSettings,
             showReminderFields,
             choiceCardsSettings,
