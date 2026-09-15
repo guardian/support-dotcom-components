@@ -75,6 +75,7 @@ export interface BannerProps {
     submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     fetchEmail?: () => Promise<string | null>;
     contributionsServiceUrl?: string;
+    mParticleTemplates?: string[];
 }
 
 export const bannerSchema = z.object({

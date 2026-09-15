@@ -51,6 +51,7 @@ export const epicTestFromToolSchema = testSchema.extend({
     articlesViewedSettings: articlesViewedSettingsSchema.optional(),
     priority: z.number(),
     variants: variantSchema.array(),
+    mParticleTemplates: z.array(z.string()).optional(),
 });
 
 export type EpicVariant = z.infer<typeof variantSchema>;

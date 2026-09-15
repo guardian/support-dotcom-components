@@ -25,6 +25,7 @@ export interface EpicProps {
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
     stage?: Stage;
+    mParticleTemplates?: string[];
 }
 
 /**

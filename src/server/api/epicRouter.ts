@@ -22,6 +22,7 @@ import { baseUrl } from '../lib/env';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import { substituteMParticleTemplateInEpicVariant } from '../lib/mParticleTemplates';
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
@@ -147,7 +148,18 @@ export const buildEpicRouter = (
             return { data: undefined, debug: result.debug };
         }
 
-        const { test, variant } = result.result;
+        const { test } = result.result;
+
+        const mParticleProfile = test.mParticleTemplates?.length
+            ? await getMParticleProfile()
+            : undefined;
+
+        const variant = mParticleProfile
+            ? substituteMParticleTemplateInEpicVariant(
+                  result.result.variant,
+                  mParticleProfile.user_attributes,
+              )
+            : result.result.variant;
 
         const tickerSettings =
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);

@@ -18,6 +18,7 @@ import { daysSince } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { MParticleProfile } from '../../lib/mParticle';
+import { matchesMParticleTemplates } from '../../lib/mParticleTemplates';
 import type { TestVariant } from '../../lib/params';
 import {
     abandonedBasketMatches,
@@ -331,6 +332,10 @@ export const selectBannerTest = async ({
             (await matchesMParticleAudience(
                 getMParticleProfile,
                 test.mParticleAudience ?? undefined,
+            )) &&
+            (await matchesMParticleTemplates(
+                getMParticleProfile,
+                test.mParticleTemplates ?? undefined,
             ))
         ) {
             const result = selectVariant<BannerVariant, BannerTest>(
