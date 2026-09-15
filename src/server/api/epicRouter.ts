@@ -149,8 +149,7 @@ export const buildEpicRouter = (
         const { test } = result.result;
 
         const mParticleProfile =
-            test.name.startsWith('MPARTICLE_ATTRIBUTES_') &&
-            test.mParticleTemplates?.length
+            test.name.startsWith('MPARTICLE_ATTRIBUTES_') && test.mParticleTemplates?.length
                 ? await getMParticleProfile()
                 : undefined;
 

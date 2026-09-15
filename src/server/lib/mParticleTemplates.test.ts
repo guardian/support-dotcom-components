@@ -18,41 +18,27 @@ const getMParticleProfile = () =>
 
 describe('matchesMParticleTemplates', () => {
     it('requires attributes for mParticle attribute tests', async () => {
-        const result = await matchesMParticleTemplates(
-            getMParticleProfile,
-            'MPARTICLE_ATTRIBUTES_TEST',
-            ['first_name'],
-        );
+        const result = await matchesMParticleTemplates(getMParticleProfile, ['first_name']);
 
         expect(result).toBe(true);
     });
 
-    it('does not require an mParticle profile for other tests', async () => {
+    it('returns true when no templates are provided', async () => {
         const getMissingProfile = () => Promise.resolve(undefined);
-        const result = await matchesMParticleTemplates(getMissingProfile, 'REGULAR TEST', [
-            'first_name',
-        ]);
+        const result = await matchesMParticleTemplates(getMissingProfile, []);
 
         expect(result).toBe(true);
     });
 
-    it('rejects an mParticle attribute test when the profile is missing', async () => {
+    it('rejects when the profile is missing', async () => {
         const getMissingProfile = () => Promise.resolve(undefined);
-        const result = await matchesMParticleTemplates(
-            getMissingProfile,
-            'MPARTICLE_ATTRIBUTES_TEST',
-            ['first_name'],
-        );
+        const result = await matchesMParticleTemplates(getMissingProfile, ['first_name']);
 
         expect(result).toBe(false);
     });
 
-    it('rejects an mParticle attribute test when an attribute is missing', async () => {
-        const result = await matchesMParticleTemplates(
-            getMParticleProfile,
-            'MPARTICLE_ATTRIBUTES_TEST',
-            ['last_name'],
-        );
+    it('rejects when an attribute is missing', async () => {
+        const result = await matchesMParticleTemplates(getMParticleProfile, ['last_name']);
 
         expect(result).toBe(false);
     });

@@ -3,13 +3,8 @@ import type { MParticleProfile } from './mParticle';
 
 export const matchesMParticleTemplates = async (
     getMParticleProfile: () => Promise<MParticleProfile | undefined>,
-    testName: string,
     mParticleTemplates?: string[],
 ): Promise<boolean> => {
-    if (!testName.startsWith('MPARTICLE_ATTRIBUTES_')) {
-        return true;
-    }
-
     if (!mParticleTemplates?.length) {
         return true;
     }
@@ -19,8 +14,13 @@ export const matchesMParticleTemplates = async (
         return false;
     }
 
+    const attributes = mParticleProfile.user_attributes as Record<string, unknown>;
+
     for (const template of mParticleTemplates) {
-        if (!mParticleProfile.user_attributes || !(template in mParticleProfile.user_attributes)) {
+        if (
+            !(template in attributes) ||
+            (typeof attributes[template] !== 'string' && typeof attributes[template] !== 'number')
+        ) {
             return false;
         }
     }
