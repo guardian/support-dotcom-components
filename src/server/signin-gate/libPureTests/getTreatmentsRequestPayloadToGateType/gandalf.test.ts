@@ -4,6 +4,7 @@ import {
     gandalfIsValidContentType,
     gandalfIsValidSection,
     gandalfIsValidTagIds,
+    gandalfMandatoryPopupUserTreatment,
     getTreatmentsRequestPayloadToGateType,
 } from '../../libPure';
 import type { GetTreatmentsRequestPayload } from '../../types';
@@ -416,6 +417,15 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 ['NZ', 'CA'],
             );
             expect(gateType).toBe('GandalfMandatoryPopup');
+        });
+    });
+
+    describe('mandatory popup treatment identity', () => {
+        it('uses a Gandalf-specific treatmentId so analysis can distinguish it from the standard gate', () => {
+            const treatment = gandalfMandatoryPopupUserTreatment();
+            expect(treatment.treatmentId).toBe('gandalf-mandatory-popup');
+            expect(treatment.treatmentTrackingId).toBe('gandalf-mandatory-popup-tracking-id');
+            expect(treatment.treatmentType).toBe('NONDISMISSIBLE_SIGN_IN_GATE_POPUP');
         });
     });
 });

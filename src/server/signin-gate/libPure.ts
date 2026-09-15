@@ -136,9 +136,11 @@ export const gandalfMandatoryPopupUserTreatment = (): UserTreatment => {
     // but the treatmentType uses the POPUP variant so the client renders the v2
     // modal (mounted on document.body) instead of the inline article gate.
     //
-    // The treatmentId stays 'default-treatment-id' so the client's existing
-    // "do not call Auxia for default treatments" guard also applies here as
-    // defence in depth on top of the gandalfSignInGate response marker.
+    // The treatmentId is Gandalf-specific (not the shared
+    // 'default-treatment-id') so Ophan component events for the Gandalf popup
+    // are distinguishable in analysis. Auxia interaction suppression does not
+    // depend on the treatmentId: the client skips Auxia calls for responses
+    // carrying the gandalfSignInGate marker.
 
     const title = 'Sorry for the interruption';
     const subtitle = "Once you are signed in, we'll bring you back here shortly";
@@ -154,8 +156,8 @@ export const gandalfMandatoryPopupUserTreatment = (): UserTreatment => {
     };
     const treatmentContentEncoded = JSON.stringify(treatmentContent);
     return {
-        treatmentId: 'default-treatment-id',
-        treatmentTrackingId: 'default-treatment-tracking-id',
+        treatmentId: 'gandalf-mandatory-popup',
+        treatmentTrackingId: 'gandalf-mandatory-popup-tracking-id',
         rank: '1',
         contentLanguageCode: 'en-GB',
         treatmentContent: treatmentContentEncoded,
