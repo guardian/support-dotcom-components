@@ -10,7 +10,7 @@ export const matchesMParticleTemplates = async (
         return true;
     }
 
-    if (!mParticleTemplates) {
+    if (!mParticleTemplates?.length) {
         return true;
     }
 
