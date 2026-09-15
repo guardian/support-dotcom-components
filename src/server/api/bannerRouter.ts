@@ -115,10 +115,9 @@ export const buildBannerRouter = (
         if (selectedTest) {
             const { test, moduleName, targetingAbTest } = selectedTest;
 
-            const mParticleProfile =
-                test.name.startsWith('MPARTICLE_ATTRIBUTES_') && test.mParticleTemplates?.length
-                    ? await getMParticleProfile()
-                    : undefined;
+            const mParticleProfile = test.mParticleTemplates?.length
+                ? await getMParticleProfile()
+                : undefined;
 
             const variant = mParticleProfile
                 ? substituteMParticleTemplateInBannerVariant(

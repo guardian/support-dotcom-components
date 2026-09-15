@@ -148,10 +148,9 @@ export const buildEpicRouter = (
 
         const { test } = result.result;
 
-        const mParticleProfile =
-            test.name.startsWith('MPARTICLE_ATTRIBUTES_') && test.mParticleTemplates?.length
-                ? await getMParticleProfile()
-                : undefined;
+        const mParticleProfile = test.mParticleTemplates?.length
+            ? await getMParticleProfile()
+            : undefined;
 
         const variant = mParticleProfile
             ? substituteMParticleTemplateInEpicVariant(
