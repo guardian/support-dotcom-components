@@ -16,7 +16,7 @@ const buildPayload = (
 ): GetTreatmentsRequestPayload => ({
     browserId: 'sample',
     isSupporter: false,
-    dailyArticleCount: 5,
+    dailyArticleCount: 1,
     articleIdentifier: 'www.theguardian.com/world/2026/sep/01/sample-article',
     editionId: 'AU',
     contentType: 'LiveBlog',
@@ -31,7 +31,6 @@ const buildPayload = (
     showDefaultGate: undefined,
     gateDisplayCount: 0,
     hideSupportMessagingTimestamp: undefined,
-    gandalfPageViewCount: 0,
     ...overrides,
 });
 
@@ -78,7 +77,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             const countries = ['NZ', 'CA'];
             for (const countryCode of countries) {
                 const gateType = getTreatmentsRequestPayloadToGateType(
-                    buildPayload({ countryCode, gandalfPageViewCount: 0 }),
+                    buildPayload({ countryCode }),
                     now,
                     true,
                     ['nz', 'ca'],
@@ -114,6 +113,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                     mvtId: 450_000,
                     hasConsented: true,
                     contentType: 'Article',
+                    dailyArticleCount: 5,
                 }),
                 now,
                 true,
@@ -129,6 +129,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                     mvtId: 450_000,
                     hasConsented: true,
                     contentType: 'Article',
+                    dailyArticleCount: 5,
                 }),
                 now,
                 true,
@@ -138,10 +139,10 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
         });
     });
 
-    describe('free pageviews (0-based counter)', () => {
-        it.each([0, 1, 2])('returns GandalfFreeView for count %i (consented)', (count) => {
+    describe('free pageviews (daily article count, includes the current view)', () => {
+        it.each([0, 1, 2, 3])('returns GandalfFreeView for daily count %i (consented)', (count) => {
             const gateType = getTreatmentsRequestPayloadToGateType(
-                buildPayload({ hasConsented: true, gandalfPageViewCount: count }),
+                buildPayload({ hasConsented: true, dailyArticleCount: count }),
                 now,
                 true,
                 ['NZ'],
@@ -149,44 +150,43 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(gateType).toBe('GandalfFreeView');
         });
 
-        it.each([0, 1, 2])('returns GandalfFreeView for count %i (un-consented)', (count) => {
-            const gateType = getTreatmentsRequestPayloadToGateType(
-                buildPayload({ hasConsented: false, gandalfPageViewCount: count }),
-                now,
-                true,
-                ['NZ'],
-            );
-            expect(gateType).toBe('GandalfFreeView');
-        });
-
-        it('treats a missing counter from an old client as 0', () => {
-            const payload = buildPayload({ hasConsented: true });
-            delete payload.gandalfPageViewCount;
-            const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, ['NZ']);
-            expect(gateType).toBe('GandalfFreeView');
-        });
+        it.each([0, 1, 2, 3])(
+            'returns GandalfFreeView for daily count %i (un-consented)',
+            (count) => {
+                const gateType = getTreatmentsRequestPayloadToGateType(
+                    buildPayload({ hasConsented: false, dailyArticleCount: count }),
+                    now,
+                    true,
+                    ['NZ'],
+                );
+                expect(gateType).toBe('GandalfFreeView');
+            },
+        );
 
         it(`uses the free allowance constant of ${GANDALF_FREE_PAGE_VIEW_COUNT}`, () => {
             expect(GANDALF_FREE_PAGE_VIEW_COUNT).toBe(3);
         });
     });
 
-    describe('hard gate from the fourth eligible pageview', () => {
-        it.each([3, 4, 10])('returns GandalfMandatoryPopup for count %i (consented)', (count) => {
-            const gateType = getTreatmentsRequestPayloadToGateType(
-                buildPayload({ hasConsented: true, gandalfPageViewCount: count }),
-                now,
-                true,
-                ['NZ'],
-            );
-            expect(gateType).toBe('GandalfMandatoryPopup');
-        });
-
-        it.each([3, 4, 10])(
-            'returns GandalfMandatoryPopup for count %i (un-consented)',
+    describe('hard gate from the fourth daily pageview', () => {
+        it.each([4, 5, 10])(
+            'returns GandalfMandatoryPopup for daily count %i (consented)',
             (count) => {
                 const gateType = getTreatmentsRequestPayloadToGateType(
-                    buildPayload({ hasConsented: false, gandalfPageViewCount: count }),
+                    buildPayload({ hasConsented: true, dailyArticleCount: count }),
+                    now,
+                    true,
+                    ['NZ'],
+                );
+                expect(gateType).toBe('GandalfMandatoryPopup');
+            },
+        );
+
+        it.each([4, 5, 10])(
+            'returns GandalfMandatoryPopup for daily count %i (un-consented)',
+            (count) => {
+                const gateType = getTreatmentsRequestPayloadToGateType(
+                    buildPayload({ hasConsented: false, dailyArticleCount: count }),
                     now,
                     true,
                     ['NZ'],
@@ -199,7 +199,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({
                     hasConsented: true,
-                    gandalfPageViewCount: 0,
+                    dailyArticleCount: 1,
                     gateDismissCount: 9,
                     gateDisplayCount: 9,
                 }),
@@ -214,7 +214,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({
                     hasConsented: true,
-                    gandalfPageViewCount: 3,
+                    dailyArticleCount: 4,
                     hideSupportMessagingTimestamp: now - 1000,
                 }),
                 now,
@@ -382,6 +382,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                     mvtId: 450_000,
                     hasConsented: true,
                     contentType: 'Article',
+                    dailyArticleCount: 5,
                 }),
                 now,
                 true,
@@ -410,7 +411,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                     countryCode: 'CA',
                     hasConsented: true,
                     contentType: 'LiveBlog',
-                    gandalfPageViewCount: 3,
+                    dailyArticleCount: 4,
                 }),
                 now,
                 true,

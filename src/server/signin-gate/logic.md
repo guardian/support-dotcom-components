@@ -144,37 +144,38 @@ ImageContent (CAPI Picture pages) and Video.
 
 Excluded pages (legal/customer-service pages, The Filter, newsletter sign-up
 tags, tips, the secure-contact page, privacy, complaints-and-corrections and
-the-whole-picture) neither show a gate nor advance the counter.
+the-whole-picture) never display the gate.
 
-The client sends `gandalfPageViewCount`: the 0-based number of eligible
-pageviews it has already counted for the request's country (a dedicated
-persistent per-country client counter, not `dailyArticleCount` or
-`gateDisplayCount`). The response carries the `gandalfSignInGate` marker on
-both outcomes below so the client can count the pageview and identify
-Guardian-managed responses.
+The trigger is the standard `dailyArticleCount` payload field: the number of
+pageviews the reader has already made today, including the current one
+(`gu.history.dailyArticleCount` on the client). It is a generic daily count
+maintained by the client regardless of the Gandalf exclusion lists. The
+response carries the `gandalfSignInGate` marker on both outcomes below so
+the client can identify Guardian-managed responses (for Ophan reporting and
+to skip Auxia interaction calls).
 
 ```
                 ----------------------------------------------
                | [G1]                                         |
                |                                              |
                |  - No Auxia request                          |
-  0 <= count   |  - No gate displayed                         |
-     < 3       |  - Response carries the gandalfSignInGate    |
-               |    marker so the client counts the pageview  |
+ daily count   |  - No gate displayed                         |
+     <= 3      |  - Response carries the gandalfSignInGate    |
+               |    marker                                    |
                |                                              |
     -----------|-----------------------------------------------
                | [G2]                                         |
                |                                              |
                |  - No Auxia request                          |
-   count >= 3  |  - Guardian drives the gate:                 |
-               |    - Non-dismissible sign-in popup           |
+ daily count   |  - Guardian drives the gate:                 |
+     >= 4      |    - Non-dismissible sign-in popup           |
                |      (NONDISMISSIBLE_SIGN_IN_GATE_POPUP)     |
                |    - Persists until the reader signs in      |
                |                                              |
     -----------|-----------------------------------------------
 
 Special cases (evaluated with the Gandalf exclusion lists):
-- denied URLs and ineligible pages: no gate, no marker, counter not advanced
+- denied URLs and ineligible pages: no gate, no marker
 - shouldServeDismissible (newsshowcase): GuDismissible, as today
 - staff showDefaultGate override: Gu default gates, as today
 ```

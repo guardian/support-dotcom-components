@@ -273,10 +273,10 @@ export const gandalfPageMetadataIsEligibleForGateDisplay = (
     );
 };
 
-// The free allowance: the first three eligible pageviews do not show a gate.
-// The counter sent by the client is 0-based (number of previously completed
-// eligible pageviews in the request's country), so 0, 1 and 2 are free and 3+
-// shows the hard popup.
+// The free allowance: the first three pageviews of the day do not show a gate.
+// The client sends dailyArticleCount, the number of pageviews the reader has
+// already made today including the current one (1-based), so counts 1-3 are
+// free and 4+ shows the hard popup.
 export const GANDALF_FREE_PAGE_VIEW_COUNT = 3;
 
 export const userTreatmentsEnvelopToProxyGetTreatmentsAnswerData = (
@@ -509,17 +509,16 @@ export const getTreatmentsRequestPayloadToGateType = (
     // Effects:
     // - Guardian drives the gate, Auxia is never consulted (no GetTreatments
     //   and no LogTreatmentInteraction for either consent state)
-    // - the first three eligible pageviews are free (the response carries the
-    //   gandalfSignInGate marker with no treatment so the client counts the
-    //   pageview but shows no gate)
-    // - from the fourth eligible pageview onwards the Guardian-managed
+    // - the first three pageviews of the day are free (the response carries
+    //   the gandalfSignInGate marker with no treatment, so the client knows
+    //   this is a Guardian-managed decision and shows no gate)
+    // - from the fourth daily pageview onwards the Guardian-managed
     //   non-dismissible popup is returned
     //
     // The special cases below (URL denials, page eligibility, newsshowcase
     // override and the staff testing feature) are deliberately evaluated with
     // the Gandalf lists. Pages excluded here return 'None' without the
-    // marker, so excluded pageviews neither show a gate nor consume the
-    // allowance.
+    // marker.
 
     const gandalfCountries = (gandalfSignInGateCountries ?? []).map((country) =>
         country.toUpperCase(),
@@ -543,8 +542,7 @@ export const getTreatmentsRequestPayloadToGateType = (
         if (isStaffTestConditionShowDefaultGate(payload)) {
             return staffTestConditionToDefaultGate(payload);
         }
-        const gandalfPageViewCount = payload.gandalfPageViewCount ?? 0;
-        return gandalfPageViewCount < GANDALF_FREE_PAGE_VIEW_COUNT
+        return payload.dailyArticleCount <= GANDALF_FREE_PAGE_VIEW_COUNT
             ? 'GandalfFreeView'
             : 'GandalfMandatoryPopup';
     }

@@ -87,7 +87,8 @@ export type GateType =
 // [6] Here, we query Auxia for analytics but do not return the result and instead return the Gu Dismissible gate
 // [7] Same as [5] but we return the Gu Mandatory gate
 // [8] GandalfFreeView: no gate on this pageview, but the response carries the
-//     gandalfSignInGate marker so the client can count the completed pageview
+//     gandalfSignInGate marker so the client recognises it as a
+//     Guardian-managed decision
 // [9] GandalfMandatoryPopup: return the Guardian-managed non-dismissible popup
 //     gate. No Auxia request is made for either Gandalf response (see
 //     [7] gandalfSignInGate below).
@@ -112,7 +113,6 @@ export interface GetTreatmentsRequestPayload {
     showDefaultGate: ShowGateValues; // [4]
     gateDisplayCount: number; // [5]
     hideSupportMessagingTimestamp: number | undefined; // [6]
-    gandalfPageViewCount?: number; // [8] gandalfPageViewCount
 }
 
 // [1] articleIdentifier examples:
@@ -184,18 +184,9 @@ export interface GetTreatmentsRequestPayload {
 // `gandalfSignInGate` marks responses produced by the active Gandalf rules
 // (the GandalfFreeView and GandalfMandatoryPopup gate types). It is present
 // (true) on both so the client can:
-// - count the completed eligible pageview even when no gate is displayed;
 // - identify Guardian-managed treatments and skip every Auxia interaction call;
 // - report to Ophan under a stable Gandalf identity instead of Auxia's.
 //
-// [8] gandalfPageViewCount
-//
-// date: 2nd September 2026
-//
-// `gandalfPageViewCount` is the 0-based number of eligible pageviews the
-// reader has already completed in the request's country under the active
-// Gandalf rules. Counters are per country (campaigns differ by country
-// group). The field is optional so that older clients (and traffic outside
-// the Gandalf countries) remain compatible; a missing value is treated as 0.
-// The client increments its persistent per-country counter only after
-// receiving a response carrying the gandalfSignInGate marker.
+// The gate decision is driven by the standard `dailyArticleCount` payload
+// field: the reader's pageview count for the current day, including this
+// pageview.
