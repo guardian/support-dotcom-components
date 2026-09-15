@@ -4,7 +4,7 @@ See [architecture](architecture.md) for details.
 
 ## Getting started
 
-This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands.
+The required Node version is specified in the `.tool-versions` file in the root of the project. We recommend [Mise](https://mise.jdx.dev/getting-started.html) for managing Node versions.
 
 To set up, install the project dependencies:
 
