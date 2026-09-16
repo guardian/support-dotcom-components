@@ -138,9 +138,9 @@ This journey is 100% rollout, not an A/B test: no MVT/audience-share allocation
 is used, and Auxia is never consulted — no GetTreatments call and no
 LogTreatmentInteraction call, for consented and un-consented readers alike.
 
-The eligible content types are the Guardian metadata values: Network Front,
-Section, Tag (fronts), Audio, Crossword, Gallery, Interactive, LiveBlog,
-ImageContent (CAPI Picture pages) and Video.
+The eligible content types are the Guardian metadata values: Article,
+Network Front, Section, Tag (fronts), Audio, Crossword, Gallery, Interactive,
+LiveBlog, ImageContent (CAPI Picture pages) and Video.
 
 Excluded pages (legal/customer-service pages, The Filter, newsletter sign-up
 tags, tips, the secure-contact page, privacy, complaints-and-corrections and
@@ -160,7 +160,7 @@ to skip Auxia interaction calls).
                |                                              |
                |  - No Auxia request                          |
  daily count   |  - No gate displayed                         |
-     <= 3      |  - Response carries the gandalfSignInGate    |
+     <= 2      |  - Response carries the gandalfSignInGate    |
                |    marker                                    |
                |                                              |
     -----------|-----------------------------------------------
@@ -168,7 +168,7 @@ to skip Auxia interaction calls).
                |                                              |
                |  - No Auxia request                          |
  daily count   |  - Guardian drives the gate:                 |
-     >= 4      |    - Non-dismissible sign-in popup           |
+     >= 3      |    - Non-dismissible sign-in popup           |
                |      (NONDISMISSIBLE_SIGN_IN_GATE_POPUP)     |
                |    - Persists until the reader signs in      |
                |                                              |

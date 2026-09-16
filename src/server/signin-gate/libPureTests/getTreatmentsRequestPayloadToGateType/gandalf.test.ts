@@ -140,7 +140,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
     });
 
     describe('free pageviews (daily article count, includes the current view)', () => {
-        it.each([0, 1, 2, 3])('returns GandalfFreeView for daily count %i (consented)', (count) => {
+        it.each([0, 1, 2])('returns GandalfFreeView for daily count %i (consented)', (count) => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ hasConsented: true, dailyArticleCount: count }),
                 now,
@@ -150,26 +150,23 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(gateType).toBe('GandalfFreeView');
         });
 
-        it.each([0, 1, 2, 3])(
-            'returns GandalfFreeView for daily count %i (un-consented)',
-            (count) => {
-                const gateType = getTreatmentsRequestPayloadToGateType(
-                    buildPayload({ hasConsented: false, dailyArticleCount: count }),
-                    now,
-                    true,
-                    ['NZ'],
-                );
-                expect(gateType).toBe('GandalfFreeView');
-            },
-        );
+        it.each([0, 1, 2])('returns GandalfFreeView for daily count %i (un-consented)', (count) => {
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ hasConsented: false, dailyArticleCount: count }),
+                now,
+                true,
+                ['NZ'],
+            );
+            expect(gateType).toBe('GandalfFreeView');
+        });
 
         it(`uses the free allowance constant of ${GANDALF_FREE_PAGE_VIEW_COUNT}`, () => {
-            expect(GANDALF_FREE_PAGE_VIEW_COUNT).toBe(3);
+            expect(GANDALF_FREE_PAGE_VIEW_COUNT).toBe(2);
         });
     });
 
-    describe('hard gate from the fourth daily pageview', () => {
-        it.each([4, 5, 10])(
+    describe('hard gate from the third daily pageview', () => {
+        it.each([3, 4, 10])(
             'returns GandalfMandatoryPopup for daily count %i (consented)',
             (count) => {
                 const gateType = getTreatmentsRequestPayloadToGateType(
@@ -182,7 +179,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             },
         );
 
-        it.each([4, 5, 10])(
+        it.each([3, 4, 10])(
             'returns GandalfMandatoryPopup for daily count %i (un-consented)',
             (count) => {
                 const gateType = getTreatmentsRequestPayloadToGateType(
@@ -214,7 +211,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({
                     hasConsented: true,
-                    dailyArticleCount: 4,
+                    dailyArticleCount: 3,
                     hideSupportMessagingTimestamp: now - 1000,
                 }),
                 now,
@@ -227,6 +224,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
 
     describe('eligible Guardian content metadata', () => {
         it.each([
+            'Article',
             'Network Front',
             'Section',
             'Tag',
@@ -253,19 +251,16 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(gandalfIsValidContentType('network front')).toBe(true);
         });
 
-        it.each(['Article', 'Picture', 'Survey', 'Signup', ''])(
-            'does not accept %s',
-            (contentType) => {
-                expect(gandalfIsValidContentType(contentType)).toBe(false);
-                const gateType = getTreatmentsRequestPayloadToGateType(
-                    buildPayload({ contentType }),
-                    now,
-                    true,
-                    ['NZ'],
-                );
-                expect(gateType).toBe('None');
-            },
-        );
+        it.each(['Picture', 'Survey', 'Signup', ''])('does not accept %s', (contentType) => {
+            expect(gandalfIsValidContentType(contentType)).toBe(false);
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ contentType }),
+                now,
+                true,
+                ['NZ'],
+            );
+            expect(gateType).toBe('None');
+        });
     });
 
     describe('exclusions', () => {
@@ -411,7 +406,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                     countryCode: 'CA',
                     hasConsented: true,
                     contentType: 'LiveBlog',
-                    dailyArticleCount: 4,
+                    dailyArticleCount: 3,
                 }),
                 now,
                 true,

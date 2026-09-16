@@ -30,19 +30,20 @@ active for any reader whose country code (case-insensitively) appears in the
 `gandalfSignInGateCountries` channel switch list (currently New Zealand). For
 listed countries SDC owns the rules entirely and Auxia is bypassed:
 
-- the first three eligible pageviews are free (the response carries the
-  `gandalfSignInGate` marker with no treatment, so DCR counts the pageview
-  but shows no gate);
-- from the fourth eligible pageview onwards SDC returns a hardcoded
+- the first two pageviews of the day are free (the response carries the
+  `gandalfSignInGate` marker with no treatment, so DCR recognises the
+  Guardian-managed decision but shows no gate);
+- from the third pageview of the day onwards SDC returns a hardcoded
   Guardian-managed non-dismissible popup treatment
-  (`NONDISMISSIBLE_SIGN_IN_GATE_POPUP`);
+  (`NONDISMISSIBLE_SIGN_IN_GATE_POPUP`). The trigger is the standard
+  `dailyArticleCount` payload field (`gu.history.dailyArticleCount` on the
+  client), which already includes the current pageview;
 - no Auxia GetTreatments or LogTreatmentInteraction request is made for either
   consent state;
-- the eligible surfaces are the Guardian metadata values Network Front,
-  Section, Tag, Audio, Crossword, Gallery, Interactive, LiveBlog, ImageContent
-  and Video, minus the exclusions listed in [logic.md](/src/server/signin-gate/logic.md);
-- the client keeps one pageview counter per country (campaigns differ by
-  country group);
+- the eligible surfaces are the Guardian metadata values Article, Network
+  Front, Section, Tag, Audio, Crossword, Gallery, Interactive, LiveBlog,
+  ImageContent and Video, minus the exclusions listed in
+  [logic.md](/src/server/signin-gate/logic.md);
 - Ophan events use a stable Gandalf identity (`GandalfSignInGate`, variant
   `gandalf-<country>`) instead of the Auxia test metadata. This is not an A/B
   test.

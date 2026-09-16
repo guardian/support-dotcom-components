@@ -207,6 +207,7 @@ export const isValidTagIds = (tagIds: string[]): boolean => {
 // guardian/frontend). Note that CAPI "Picture" pages are sent as ImageContent,
 // and fronts are sent as Network Front / Section / Tag.
 const gandalfContentTypes = [
+    'Article',
     'Network Front',
     'Section',
     'Tag',
@@ -273,11 +274,11 @@ export const gandalfPageMetadataIsEligibleForGateDisplay = (
     );
 };
 
-// The free allowance: the first three pageviews of the day do not show a gate.
+// The free allowance: the first two pageviews of the day do not show a gate.
 // The client sends dailyArticleCount, the number of pageviews the reader has
-// already made today including the current one (1-based), so counts 1-3 are
-// free and 4+ shows the hard popup.
-export const GANDALF_FREE_PAGE_VIEW_COUNT = 3;
+// already made today including the current one (1-based), so counts 1-2 are
+// free and 3+ shows the hard popup.
+export const GANDALF_FREE_PAGE_VIEW_COUNT = 2;
 
 export const userTreatmentsEnvelopToProxyGetTreatmentsAnswerData = (
     envelop: UserTreatmentsEnvelop,
@@ -509,10 +510,10 @@ export const getTreatmentsRequestPayloadToGateType = (
     // Effects:
     // - Guardian drives the gate, Auxia is never consulted (no GetTreatments
     //   and no LogTreatmentInteraction for either consent state)
-    // - the first three pageviews of the day are free (the response carries
+    // - the first two pageviews of the day are free (the response carries
     //   the gandalfSignInGate marker with no treatment, so the client knows
     //   this is a Guardian-managed decision and shows no gate)
-    // - from the fourth daily pageview onwards the Guardian-managed
+    // - from the third daily pageview onwards the Guardian-managed
     //   non-dismissible popup is returned
     //
     // The special cases below (URL denials, page eligibility, newsshowcase
