@@ -178,8 +178,8 @@ export interface GetTreatmentsRequestPayload {
 //
 // "Gandalf" is the marketing name for the Guardian-managed sign-in gate
 // journey: a 100% rollout, run entirely by Guardian rules with no Auxia
-// involvement, currently live for New Zealand and extendable to further
-// countries via the gandalfSignInGateCountries channel switch.
+// involvement, currently live for New Zealand and switched on via the
+// enableGandalfSignInGate channel switch.
 //
 // `gandalfSignInGate` marks responses produced by the active Gandalf rules
 // (the GandalfFreeView and GandalfMandatoryPopup gate types). It is present

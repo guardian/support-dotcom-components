@@ -126,13 +126,12 @@ except for the UK (countryCode 'GB') where it is reduced to the first 20% (1 to 
 "Gandalf" is the marketing name for this journey: a 100% rollout run entirely by
 Guardian rules with no Auxia involvement.
 
-Active for a reader when their country code (case-insensitively) appears in the
-`gandalfSignInGateCountries` channel switch list. Unknown or unlisted countries
-never enter this section and follow the rules above. Removing a country from
-the list (or clearing the list, or the field being absent from
-`channel-switches.json`) restores that country's previous behaviour — the
-rollback path. Counters are per country, because campaigns differ by country
-group.
+Active for a reader when the `enableGandalfSignInGate` channel switch is on and
+their country code is `NZ`. Unknown or other countries never enter this section
+and follow the rules above. Switching the switch off (or the field being absent
+from `channel-switches.json`) disables the journey — the rollback path. The
+trigger is the standard `dailyArticleCount` payload field: the reader's
+pageview count for the current day, including this pageview.
 
 This journey is 100% rollout, not an A/B test: no MVT/audience-share allocation
 is used, and Auxia is never consulted — no GetTreatments call and no

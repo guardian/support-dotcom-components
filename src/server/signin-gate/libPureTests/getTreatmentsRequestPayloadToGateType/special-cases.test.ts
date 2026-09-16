@@ -23,7 +23,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -48,7 +48,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -73,7 +73,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -98,7 +98,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -123,7 +123,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('GuDismissible');
     });
 
@@ -148,7 +148,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('GuDismissible');
     });
 
@@ -173,7 +173,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('GuMandatory');
     });
 
@@ -198,7 +198,7 @@ describe('getTreatmentsRequestPayloadToGateType (special cases)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('GuDismissible');
     });
 });

@@ -26,9 +26,9 @@ SDC also has an endpoint for tracking interactions (view/click) with the gate: `
 
 "Gandalf" is the marketing name for the Guardian-managed sign-in gate journey:
 a 100% rollout run entirely by Guardian rules, with no Auxia involvement. It is
-active for any reader whose country code (case-insensitively) appears in the
-`gandalfSignInGateCountries` channel switch list (currently New Zealand). For
-listed countries SDC owns the rules entirely and Auxia is bypassed:
+active for any reader whose country code is `NZ` when the
+`enableGandalfSignInGate` channel switch is on. For that surface SDC owns the
+rules entirely and Auxia is bypassed:
 
 - the first two pageviews of the day are free (the response carries the
   `gandalfSignInGate` marker with no treatment, so DCR recognises the
@@ -48,10 +48,9 @@ listed countries SDC owns the rules entirely and Auxia is bypassed:
   `gandalf-<country>`) instead of the Auxia test metadata. This is not an A/B
   test.
 
-Adding a country is a configuration change (add its ISO code to the list in
-the Channel Switches UI). Removing a country — or the field being absent from
-`channel-switches.json` — restores that country's previous behaviour, which is
-the rollback path.
+Toggling the switch is a configuration change (the Channel Switches UI).
+Switching it off — or the field being absent from `channel-switches.json` —
+restores the previous behaviour, which is the rollback path.
 
 ### Data
 

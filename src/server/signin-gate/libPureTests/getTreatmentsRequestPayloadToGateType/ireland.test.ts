@@ -32,7 +32,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('AuxiaAPI');
     });
 
@@ -70,7 +70,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
     });
 
@@ -108,7 +108,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuDismissible');
     });
 
@@ -146,7 +146,7 @@ describe('getTreatmentsRequestPayloadToGateType (ireland)', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, []);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuMandatory');
     });
 });

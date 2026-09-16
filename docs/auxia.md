@@ -33,11 +33,8 @@ See [auxia.ts](../src/server/lib/auxia.ts) for implementation.
 
 ### Gandalf bypass
 
-While the reader's country appears in the `gandalfSignInGateCountries` channel
-switch list, they are never sent to Auxia on either channel: the sign-in gate
-is fully Guardian-managed (see [signinGate.md](signinGate.md)) and the banner
-suppression checker short-circuits before contacting Auxia, so banners are not
-suppressed, the logged status stays `not-consulted`, and no Auxia treatment is
-attached to the banner response (which also prevents client-side Auxia
-interaction events). Removing a country from the list restores the previous
-behaviour for that country.
+While the `enableGandalfSignInGate` channel switch is on, New Zealand readers
+are never sent to Auxia for sign-in gates: the journey is fully
+Guardian-managed (see [signinGate.md](signinGate.md)). Banner behaviour is
+unchanged — the banner suppression checker consults Auxia exactly as before,
+for every country.

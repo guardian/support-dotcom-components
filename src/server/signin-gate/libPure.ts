@@ -129,8 +129,8 @@ export const gandalfMandatoryPopupUserTreatment = (): UserTreatment => {
     //
     // "Gandalf" is the marketing name for the Guardian-managed sign-in gate
     // journey: a 100% rollout run entirely by Guardian rules with no Auxia
-    // involvement (currently New Zealand, extendable to further countries via
-    // the gandalfSignInGateCountries channel switch).
+    // involvement (currently New Zealand, gated by the enableGandalfSignInGate
+    // channel switch).
     //
     // The Guardian-managed hard gate. The copy matches guMandatoryUserTreatment,
     // but the treatmentType uses the POPUP variant so the client renders the v2
@@ -195,8 +195,8 @@ export const isValidTagIds = (tagIds: string[]): boolean => {
 //
 // "Gandalf" is the marketing name for the Guardian-managed sign-in gate
 // journey: a 100% rollout, run entirely by Guardian rules with no Auxia
-// involvement, currently live for New Zealand and extendable to further
-// countries via the gandalfSignInGateCountries channel switch.
+// involvement, currently live for New Zealand and switched on via the
+// enableGandalfSignInGate channel switch.
 //
 // Gandalf widens both the eligible content types and the exclusion list.
 // These helpers are only consulted by the active Gandalf branch, so the
@@ -483,13 +483,13 @@ export const getTreatmentsRequestPayloadToGateType = (
     payload: GetTreatmentsRequestPayload,
     now: number,
     enableAuxia: boolean,
-    gandalfSignInGateCountries: string[] | undefined,
+    enableGandalfSignInGate: boolean | undefined,
 ): GateType => {
     // now: current time in milliseconds since epoch
     // enableAuxia: channel switch to enable/disable Auxia integration
-    // gandalfSignInGateCountries: channel switch listing the countries in the
-    // Gandalf sign-in gate journey (see channelSwitches.ts); undefined or
-    // empty disables the journey everywhere
+    // enableGandalfSignInGate: channel switch turning on the Gandalf
+    // sign-in gate journey (see channelSwitches.ts); undefined or false
+    // disables the journey
 
     // This function is a pure function (without any side effects) which gets the body
     // of a '/auxia/get-treatments' request and returns the correct GateType
@@ -503,9 +503,8 @@ export const getTreatmentsRequestPayloadToGateType = (
     // Guardian-owned, Auxia-free 100% rollout)
     //
     // Prerequisites:
-    // - the reader's country is listed in the gandalfSignInGateCountries
-    //   channel switch (case-insensitive match on the config side; unknown or
-    //   other countries are never treated as Gandalf countries)
+    // - the enableGandalfSignInGate channel switch is on (the journey is
+    //   currently New Zealand only)
     //
     // Effects:
     // - Guardian drives the gate, Auxia is never consulted (no GetTreatments
@@ -521,10 +520,7 @@ export const getTreatmentsRequestPayloadToGateType = (
     // the Gandalf lists. Pages excluded here return 'None' without the
     // marker.
 
-    const gandalfCountries = (gandalfSignInGateCountries ?? []).map((country) =>
-        country.toUpperCase(),
-    );
-    if (gandalfCountries.includes(payload.countryCode)) {
+    if (enableGandalfSignInGate === true && payload.countryCode === 'NZ') {
         if (!gandalfArticleIdentifierIsAllowed(payload.articleIdentifier)) {
             return 'None';
         }

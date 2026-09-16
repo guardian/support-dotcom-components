@@ -35,18 +35,18 @@ const buildPayload = (
 });
 
 describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
-    describe('country not in the list preserves the current behaviour', () => {
-        it('consented readers still go to Auxia when the country is not listed', () => {
+    describe('switch off preserves the current behaviour', () => {
+        it('consented readers still go to Auxia when the switch is off', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ hasConsented: true, contentType: 'Article' }),
                 now,
                 true,
-                [],
+                false,
             );
             expect(gateType).toBe('AuxiaAPI');
         });
 
-        it('un-consented readers still get Auxia analytics then Guardian rules when the country is not listed', () => {
+        it('un-consented readers still get Auxia analytics then Guardian rules when the switch is off', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({
                     hasConsented: false,
@@ -55,12 +55,12 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                [],
+                false,
             );
             expect(gateType).toBe('AuxiaAnalyticsThenGuDismissible');
         });
 
-        it('a missing country list is treated as empty', () => {
+        it('a missing switch is treated as off', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ hasConsented: true, contentType: 'Article' }),
                 now,
@@ -72,36 +72,23 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
         });
     });
 
-    describe('country list membership', () => {
-        it('activates every country in the list', () => {
-            const countries = ['NZ', 'CA'];
-            for (const countryCode of countries) {
-                const gateType = getTreatmentsRequestPayloadToGateType(
-                    buildPayload({ countryCode }),
-                    now,
-                    true,
-                    ['nz', 'ca'],
-                );
-                expect(gateType).toBe('GandalfFreeView');
-            }
-        });
-
-        it('matches list entries case-insensitively', () => {
+    describe('switch state and country', () => {
+        it('runs the Gandalf journey for New Zealand readers when switched on', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ countryCode: 'NZ' }),
                 now,
                 true,
-                ['nz'],
+                true,
             );
             expect(gateType).toBe('GandalfFreeView');
         });
 
-        it('does not activate countries outside the list', () => {
+        it('does not run the Gandalf journey for other countries even when switched on', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ countryCode: 'IE', hasConsented: true, contentType: 'Article' }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('AuxiaAPI');
         });
@@ -117,7 +104,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GuDismissible');
         });
@@ -133,7 +120,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GuDismissible');
         });
@@ -145,7 +132,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ hasConsented: true, dailyArticleCount: count }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GandalfFreeView');
         });
@@ -155,7 +142,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ hasConsented: false, dailyArticleCount: count }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GandalfFreeView');
         });
@@ -173,7 +160,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                     buildPayload({ hasConsented: true, dailyArticleCount: count }),
                     now,
                     true,
-                    ['NZ'],
+                    true,
                 );
                 expect(gateType).toBe('GandalfMandatoryPopup');
             },
@@ -186,7 +173,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                     buildPayload({ hasConsented: false, dailyArticleCount: count }),
                     now,
                     true,
-                    ['NZ'],
+                    true,
                 );
                 expect(gateType).toBe('GandalfMandatoryPopup');
             },
@@ -202,7 +189,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GandalfFreeView');
         });
@@ -216,7 +203,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GandalfMandatoryPopup');
         });
@@ -241,7 +228,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ contentType }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GandalfFreeView');
         });
@@ -257,7 +244,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ contentType }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('None');
         });
@@ -279,7 +266,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ sectionId }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('None');
         });
@@ -290,7 +277,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ tagIds: ['info/newsletter-sign-up'] }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('None');
         });
@@ -307,7 +294,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ articleIdentifier }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('None');
         });
@@ -328,7 +315,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ shouldServeDismissible: true }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GuDismissible');
         });
@@ -338,7 +325,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ showDefaultGate: 'mandatory' }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GuMandatory');
         });
@@ -348,7 +335,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 buildPayload({ showDefaultGate: 'dismissible' }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GuDismissible');
         });
@@ -365,7 +352,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                ['NZ', 'CA'],
+                true,
             );
             expect(gateType).toBe('AuxiaAPI');
         });
@@ -381,12 +368,12 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('GuDismissible');
         });
 
-        it('Ireland keeps its mandatory rollout behaviour when not listed', () => {
+        it('Ireland keeps its mandatory rollout behaviour when the switch is on', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({
                     countryCode: 'IE',
@@ -395,12 +382,12 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                ['NZ'],
+                true,
             );
             expect(gateType).toBe('AuxiaAPI');
         });
 
-        it('a listed country other than NZ takes the Gandalf journey', () => {
+        it('a non-NZ country never takes the Gandalf journey, even when the switch is on', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({
                     countryCode: 'CA',
@@ -410,9 +397,11 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
                 }),
                 now,
                 true,
-                ['NZ', 'CA'],
+                true,
             );
-            expect(gateType).toBe('GandalfMandatoryPopup');
+            // Canada is not a Gandalf country and LiveBlog is not globally
+            // eligible, so no gate is served.
+            expect(gateType).toBe('None');
         });
     });
 

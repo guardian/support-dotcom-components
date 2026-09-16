@@ -79,14 +79,14 @@ export const buildAuxiaProxyRouter = (
             try {
                 const now = Date.now(); // current time in milliseconds since epoch
                 const payload = req.body as GetTreatmentsRequestPayload;
-                const { enableAuxia, gandalfSignInGateCountries } = channelSwitches.get();
+                const { enableAuxia, enableGandalfSignInGate } = channelSwitches.get();
                 const gateType = getTreatmentsRequestPayloadToGateType(
                     payload,
                     now,
                     enableAuxia,
                     // Tolerate old switch documents without the field: an
-                    // absent list means the Gandalf journey is off everywhere.
-                    gandalfSignInGateCountries ?? [],
+                    // absent switch means the Gandalf journey is off.
+                    enableGandalfSignInGate ?? false,
                 );
                 const envelop = await gateTypeToUserTreatmentsEnvelop(config, gateType, payload);
                 if (envelop !== undefined) {
