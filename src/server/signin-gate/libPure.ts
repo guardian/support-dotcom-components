@@ -180,6 +180,7 @@ export const isValidSection = (sectionId: string): boolean => {
         'guardian-live-australia',
         'gnm-archive',
         'thefilter',
+        'thefilter-us',
     ];
     return !invalidSections.includes(sectionId);
 };
@@ -198,10 +199,8 @@ export const isValidTagIds = (tagIds: string[]): boolean => {
 // involvement, currently live for New Zealand and switched on via the
 // enableGandalfSignInGate channel switch.
 //
-// Gandalf widens both the eligible content types and the exclusion list.
-// These helpers are only consulted by the active Gandalf branch, so the
-// existing global (Article-only) eligibility used by every other country is
-// unchanged.
+// Gandalf widens the eligible content types while sharing the generic
+// sign-in-gate display exclusions used by every country.
 
 // The exact Guardian content metadata values (see DotcomContentType in
 // guardian/frontend). Note that CAPI "Picture" pages are sent as ImageContent,
@@ -226,51 +225,13 @@ export const gandalfIsValidContentType = (contentType: string): boolean => {
     return validTypes.includes(contentType.toLowerCase());
 };
 
-export const gandalfIsValidSection = (sectionId: string): boolean => {
-    // Union of the global sign-in gate exclusions, The Filter US, and the
-    // legal/customer-service sections excluded across the reader revenue
-    // channels.
-    const invalidSections = [
-        'about',
-        'info',
-        'membership',
-        'help',
-        'guardian-live-australia',
-        'gnm-archive',
-        'thefilter',
-        'thefilter-us',
-    ];
-    return !invalidSections.includes(sectionId);
-};
-
-export const gandalfIsValidTagIds = (tagIds: string[]): boolean => {
-    const invalidTagIds = ['info/newsletter-sign-up'];
-    return !tagIds.some((tagId: string): boolean => invalidTagIds.includes(tagId));
-};
-
-export const gandalfArticleIdentifierIsAllowed = (articleIdentifier: string): boolean => {
-    // Union of the global URL denials and the legal/customer-service page
-    // exclusions used by the wider reader revenue channels.
-    const denyPrefixes = [
-        'www.theguardian.com/tips',
-        'www.theguardian.com/help/ng-interactive/2017/mar/17/contact-the-guardian-securely',
-        'www.theguardian.com/info/privacy',
-        'www.theguardian.com/info/complaints-and-corrections',
-        'www.theguardian.com/the-whole-picture',
-    ];
-
-    return !denyPrefixes.some((denyIdentifer) => articleIdentifier.startsWith(denyIdentifer));
-};
-
 export const gandalfPageMetadataIsEligibleForGateDisplay = (
     contentType: string,
     sectionId: string,
     tagIds: string[],
 ): boolean => {
     return (
-        gandalfIsValidContentType(contentType) &&
-        gandalfIsValidSection(sectionId) &&
-        gandalfIsValidTagIds(tagIds)
+        gandalfIsValidContentType(contentType) && isValidSection(sectionId) && isValidTagIds(tagIds)
     );
 };
 
@@ -341,6 +302,9 @@ export const articleIdentifierIsAllowed = (articleIdentifier: string): boolean =
     const denyPrefixes = [
         'www.theguardian.com/tips',
         'www.theguardian.com/help/ng-interactive/2017/mar/17/contact-the-guardian-securely',
+        'www.theguardian.com/info/privacy',
+        'www.theguardian.com/info/complaints-and-corrections',
+        'www.theguardian.com/the-whole-picture',
     ];
 
     return !denyPrefixes.some((denyIdentifer) => articleIdentifier.startsWith(denyIdentifer));
@@ -517,11 +481,11 @@ export const getTreatmentsRequestPayloadToGateType = (
     //
     // The special cases below (URL denials, page eligibility, newsshowcase
     // override and the staff testing feature) are deliberately evaluated with
-    // the Gandalf lists. Pages excluded here return 'None' without the
-    // marker.
+    // the generic display exclusions. Pages excluded here return 'None'
+    // without the marker.
 
     if (enableGandalfSignInGate === true && payload.countryCode === 'NZ') {
-        if (!gandalfArticleIdentifierIsAllowed(payload.articleIdentifier)) {
+        if (!articleIdentifierIsAllowed(payload.articleIdentifier)) {
             return 'None';
         }
         if (

@@ -148,7 +148,7 @@ the-whole-picture) never display the gate.
 The trigger is the standard `dailyArticleCount` payload field: the number of
 pageviews the reader has already made today, including the current one
 (`gu.history.dailyArticleCount` on the client). It is a generic daily count
-maintained by the client regardless of the Gandalf exclusion lists. The
+maintained by the client regardless of the display exclusions. The
 response carries the `gandalfSignInGate` marker on both outcomes below so
 the client can identify Guardian-managed responses (for Ophan reporting and
 to skip Auxia interaction calls).
@@ -173,7 +173,7 @@ to skip Auxia interaction calls).
                |                                              |
     -----------|-----------------------------------------------
 
-Special cases (evaluated with the Gandalf exclusion lists):
+Special cases (evaluated with the generic display exclusions):
 - denied URLs and ineligible pages: no gate, no marker
 - shouldServeDismissible (newsshowcase): GuDismissible, as today
 - staff showDefaultGate override: Gu default gates, as today
@@ -181,5 +181,5 @@ Special cases (evaluated with the Gandalf exclusion lists):
 
 Reporting: the client emits the standard Ophan SIGN_IN_GATE view/click events
 under a stable Gandalf identity (`GandalfSignInGate`, variant
-`gandalf-<country code>`). This is reporting metadata only — there is no A/B
-test allocation.
+`gandalf-nz`). This is reporting metadata only — there is no A/B test
+allocation.

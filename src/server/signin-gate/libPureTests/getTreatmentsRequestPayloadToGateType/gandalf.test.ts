@@ -1,11 +1,11 @@
 import {
+    articleIdentifierIsAllowed,
     GANDALF_FREE_PAGE_VIEW_COUNT,
-    gandalfArticleIdentifierIsAllowed,
     gandalfIsValidContentType,
-    gandalfIsValidSection,
-    gandalfIsValidTagIds,
     gandalfMandatoryPopupUserTreatment,
     getTreatmentsRequestPayloadToGateType,
+    isValidSection,
+    isValidTagIds,
 } from '../../libPure';
 import type { GetTreatmentsRequestPayload } from '../../types';
 
@@ -261,7 +261,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             'thefilter',
             'thefilter-us',
         ])('excludes section %s', (sectionId) => {
-            expect(gandalfIsValidSection(sectionId)).toBe(false);
+            expect(isValidSection(sectionId)).toBe(false);
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ sectionId }),
                 now,
@@ -272,7 +272,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
         });
 
         it('excludes the newsletter sign-up tag', () => {
-            expect(gandalfIsValidTagIds(['info/newsletter-sign-up'])).toBe(false);
+            expect(isValidTagIds(['info/newsletter-sign-up'])).toBe(false);
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ tagIds: ['info/newsletter-sign-up'] }),
                 now,
@@ -289,7 +289,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             'www.theguardian.com/info/complaints-and-corrections',
             'www.theguardian.com/the-whole-picture',
         ])('excludes page %s', (articleIdentifier) => {
-            expect(gandalfArticleIdentifierIsAllowed(articleIdentifier)).toBe(false);
+            expect(articleIdentifierIsAllowed(articleIdentifier)).toBe(false);
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ articleIdentifier }),
                 now,
@@ -301,11 +301,9 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
 
         it('allows ordinary articles and front pages', () => {
             expect(
-                gandalfArticleIdentifierIsAllowed(
-                    'www.theguardian.com/world/2026/sep/01/sample-article',
-                ),
+                articleIdentifierIsAllowed('www.theguardian.com/world/2026/sep/01/sample-article'),
             ).toBe(true);
-            expect(gandalfArticleIdentifierIsAllowed('www.theguardian.com/uk')).toBe(true);
+            expect(articleIdentifierIsAllowed('www.theguardian.com/uk')).toBe(true);
         });
     });
 

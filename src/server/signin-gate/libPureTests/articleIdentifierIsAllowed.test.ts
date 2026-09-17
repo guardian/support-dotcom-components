@@ -9,4 +9,9 @@ it('articleIdentifierIsAllowed', () => {
     expect(articleIdentifierIsAllowed('www.theguardian.com/tips')).toBe(false);
     expect(articleIdentifierIsAllowed('www.theguardian.com/tips#test')).toBe(false);
     expect(articleIdentifierIsAllowed('www.theguardian.com/tips/test')).toBe(false);
+    expect(articleIdentifierIsAllowed('www.theguardian.com/info/privacy')).toBe(false);
+    expect(articleIdentifierIsAllowed('www.theguardian.com/info/complaints-and-corrections')).toBe(
+        false,
+    );
+    expect(articleIdentifierIsAllowed('www.theguardian.com/the-whole-picture')).toBe(false);
 });

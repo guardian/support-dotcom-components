@@ -45,8 +45,7 @@ rules entirely and Auxia is bypassed:
   ImageContent and Video, minus the exclusions listed in
   [logic.md](/src/server/signin-gate/logic.md);
 - Ophan events use a stable Gandalf identity (`GandalfSignInGate`, variant
-  `gandalf-<country>`) instead of the Auxia test metadata. This is not an A/B
-  test.
+  `gandalf-nz`) instead of the Auxia test metadata. This is not an A/B test.
 
 Toggling the switch is a configuration change (the Channel Switches UI).
 Switching it off — or the field being absent from `channel-switches.json` —
