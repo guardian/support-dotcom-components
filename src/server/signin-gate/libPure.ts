@@ -142,8 +142,8 @@ export const gandalfMandatoryPopupUserTreatment = (): UserTreatment => {
     // depend on the treatmentId: the client skips Auxia calls for responses
     // carrying the gandalfSignInGate marker.
 
-    const title = 'Sorry for the interruption';
-    const subtitle = "Once you are signed in, we'll bring you back here shortly";
+    const title = "No, you don't need to pay to keep reading";
+    const subtitle = "Simply sign in - it's free, and much quicker than you think";
     const body =
         'We’re committed to keeping our quality reporting open. By registering and providing us with insight into your preferences, you’re helping us to engage with you more deeply, and that allows us to keep our journalism free for all.';
     const treatmentContent = {
