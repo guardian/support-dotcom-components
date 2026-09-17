@@ -15,6 +15,11 @@ export interface ChannelSwitches {
     enableMParticle: boolean;
     enableAuxia: boolean; // for sign-in gates
     enableAuxiaForBanners: boolean;
+    // Gandalf: marketing name for the Guardian-managed sign-in gate journey
+    // (100% Guardian-owned rules, no Auxia). When switched on, New Zealand
+    // readers run the Gandalf journey; off means it is disabled, which is the
+    // rollback path.
+    enableGandalfSignInGate?: boolean;
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>

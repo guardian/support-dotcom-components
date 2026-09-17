@@ -37,7 +37,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('None');
     });
     it('logic.md [03], first dismissible gates', () => {
@@ -75,7 +75,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('GuDismissible');
     });
     it('logic.md [03], high gate dismiss count', () => {
@@ -113,7 +113,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187; // current time in milliseconds since epoch
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('None');
     });
 
@@ -138,7 +138,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187;
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
     });
 
@@ -163,7 +163,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187;
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenGuDismissible');
     });
 
@@ -188,7 +188,7 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
             hideSupportMessagingTimestamp: undefined,
         };
         const now = 1756568322187;
-        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true);
+        const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
     });
 });

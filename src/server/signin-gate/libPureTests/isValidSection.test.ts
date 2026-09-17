@@ -9,4 +9,8 @@ describe('isValidSection', () => {
         // `about` is taken from the list of hard coded invalid sections
         expect(isValidSection('about')).toBe(false);
     });
+
+    it('does not accept `thefilter-us`', () => {
+        expect(isValidSection('thefilter-us')).toBe(false);
+    });
 });

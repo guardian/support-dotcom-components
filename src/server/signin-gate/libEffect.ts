@@ -6,6 +6,7 @@ import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
 import {
     buildGetTreatmentsRequestPayload,
     buildLogTreatmentInteractionRequestPayload,
+    gandalfMandatoryPopupUserTreatment,
     guDismissibleUserTreatment,
     guMandatoryUserTreatment,
 } from './libPure';
@@ -157,6 +158,28 @@ export const gateTypeToUserTreatmentsEnvelop = async (
             return {
                 responseId: '',
                 userTreatments: [guMandatoryUserTreatment()],
+            };
+        // ----------------------------------------------------------
+        // Gandalf: the Guardian-managed sign-in gate journey
+        // (comment group: gandalf)
+        //
+        // Neither case calls Auxia. Both carry the gandalfSignInGate marker
+        // so the client can count the completed pageview and identify the
+        // Guardian-managed response.
+        case 'GandalfFreeView':
+            // No gate on this pageview: an empty userTreatments array produces
+            // a response with no userTreatment, but the marker still tells the
+            // client the pageview counted towards the free allowance.
+            return {
+                responseId: '',
+                userTreatments: [],
+                gandalfSignInGate: true,
+            };
+        case 'GandalfMandatoryPopup':
+            return {
+                responseId: '',
+                userTreatments: [gandalfMandatoryPopupUserTreatment()],
+                gandalfSignInGate: true,
             };
         default:
             console.error('Unknown direction');
