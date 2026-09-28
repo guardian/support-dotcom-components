@@ -41,7 +41,7 @@
         "jest": "30.5.0",
         "prettier": "3.9.6",
         "ts-jest": "29.4.11",
-        "typescript": "5.5.4"
+        "typescript": "5.9.3"
     },
     "pnpm": {
         "overrides": {
