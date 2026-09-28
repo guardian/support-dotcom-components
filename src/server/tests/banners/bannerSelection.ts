@@ -156,11 +156,47 @@ const getModuleNameForVariant = (variant: BannerVariant): string => {
     }
 };
 
+const isMobileDevice = (deviceType: UserDeviceType): boolean =>
+    deviceType === 'iOS' || deviceType === 'Android';
+
+const isTwoStepBannerAllowed = (
+    targeting: BannerTargeting,
+    userDeviceType: UserDeviceType,
+): boolean =>
+    targeting.countryCode === 'GB' ||
+    !isMobileDevice(userDeviceType) ||
+    targeting.contentType !== 'Article';
+
+const resolveBannerStepMode = (
+    variant: BannerVariant,
+    targeting: BannerTargeting,
+    userDeviceType: UserDeviceType,
+    bypassTwoStepCheck = false,
+): BannerVariant => {
+    switch (variant.bannerStepMode) {
+        case 'OneStep':
+            return { ...variant, isCollapsible: false };
+        case 'TwoStep':
+            return { ...variant, isCollapsible: true };
+        case 'TwoStepIfAllowed':
+            return {
+                ...variant,
+                isCollapsible:
+                    bypassTwoStepCheck || isTwoStepBannerAllowed(targeting, userDeviceType),
+            };
+        default:
+            return variant;
+    }
+};
+
 const getForcedVariant = (
     forcedTestVariant: TestVariant,
     tests: BannerTest[],
-    liveOnly = true,
+    targeting: BannerTargeting,
+    userDeviceType: UserDeviceType,
+    options: { liveOnly?: boolean; bypassTwoStepCheck?: boolean } = {},
 ): BannerTestSelection | null => {
+    const { liveOnly = true, bypassTwoStepCheck = false } = options;
     const filteredTests = liveOnly ? tests.filter((test) => test.status === 'Live') : tests;
     const test = filteredTests.find(
         (test) => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
@@ -170,10 +206,16 @@ const getForcedVariant = (
     );
 
     if (test && variant) {
+        const resolvedVariant = resolveBannerStepMode(
+            variant,
+            targeting,
+            userDeviceType,
+            bypassTwoStepCheck,
+        );
         return {
             test,
-            variant,
-            moduleName: getModuleNameForVariant(variant),
+            variant: resolvedVariant,
+            moduleName: getModuleNameForVariant(resolvedVariant),
         };
     }
     return null;
@@ -211,34 +253,32 @@ const matchesFrontsOnlyRequirement = (test: BannerTest, targeting: BannerTargeti
 };
 
 /**
- * Hardcoded exclusion: if a banner test contains a variant with the 2-step
- * banner (isCollapsible = true), users outside the UK on mobile devices viewing
- * articles should never be put in that test. The 2-step banner should only
- * appear for GB users.
+ * Banner behavior is controlled by bannerStepMode (OneStep, TwoStep or
+ * TwoStepIfAllowed). Users outside the UK on mobile devices viewing articles
+ * are excluded from TwoStep tests, while TwoStepIfAllowed banners are converted
+ * to one-step. If bannerStepMode is absent, the legacy isCollapsible value is
+ * used to preserve backwards compatibility.
  *
  * This is required due to advertising restrictions outside the UK that prevent
  * the 2-step banner from being shown on mobile. CRM can do this manually per
  * test in the banner tool, but this makes it automatic.
  */
-const isMobileDevice = (deviceType: UserDeviceType): boolean =>
-    deviceType === 'iOS' || deviceType === 'Android';
-
 const shouldSkipTwoStepBannerTest = (
     test: BannerTest,
     targeting: BannerTargeting,
     userDeviceType: UserDeviceType,
 ): boolean => {
-    const hasTwoStepVariant = test.variants.some((variant) => variant.isCollapsible);
+    const hasTwoStepVariant = test.variants.some(
+        (variant) =>
+            variant.bannerStepMode === 'TwoStep' ||
+            (variant.bannerStepMode == null && variant.isCollapsible),
+    );
 
     if (!hasTwoStepVariant) {
         return false;
     }
 
-    return (
-        targeting.countryCode !== 'GB' &&
-        isMobileDevice(userDeviceType) &&
-        targeting.contentType === 'Article'
-    );
+    return !isTwoStepBannerAllowed(targeting, userDeviceType);
 };
 
 interface SelectBannerTestData {
@@ -280,11 +320,14 @@ export const selectBannerTest = async ({
     }
 
     if (forcedTestVariant) {
-        return getForcedVariant(forcedTestVariant, tests);
+        return getForcedVariant(forcedTestVariant, tests, targeting, userDeviceType);
     }
 
     if (previewTestVariant) {
-        return getForcedVariant(previewTestVariant, tests, false);
+        return getForcedVariant(previewTestVariant, tests, targeting, userDeviceType, {
+            liveOnly: false,
+            bypassTwoStepCheck: true,
+        });
     }
 
     const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);
@@ -345,10 +388,11 @@ export const selectBannerTest = async ({
             );
 
             if (result) {
+                const variant = resolveBannerStepMode(result.variant, targeting, userDeviceType);
                 selection = {
                     test: result.test,
-                    variant: result.variant,
-                    moduleName: getModuleNameForVariant(result.variant),
+                    variant,
+                    moduleName: getModuleNameForVariant(variant),
                     targetingAbTest: targetingTest ? targetingTest.test : undefined,
                 };
                 break;
