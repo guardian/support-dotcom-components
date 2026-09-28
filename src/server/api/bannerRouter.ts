@@ -20,6 +20,7 @@ import { getDeviceType } from '../lib/deviceType';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import { substituteMParticleTemplateInBannerVariant } from '../lib/mParticleTemplates';
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
@@ -114,7 +115,19 @@ export const buildBannerRouter = (
         });
 
         if (selectedTest) {
-            const { test, variant, moduleName, targetingAbTest } = selectedTest;
+            const { test, moduleName, targetingAbTest } = selectedTest;
+
+            const mParticleProfile = test.mParticleTemplates?.length
+                ? await getMParticleProfile()
+                : undefined;
+
+            const variant = mParticleProfile
+                ? substituteMParticleTemplateInBannerVariant(
+                      selectedTest.variant,
+                      mParticleProfile.user_attributes,
+                  )
+                : selectedTest.variant;
+
             const testTracking: TestTracking = {
                 abTestName: test.name,
                 abTestVariant: variant.name,

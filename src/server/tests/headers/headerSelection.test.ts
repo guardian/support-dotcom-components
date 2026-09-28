@@ -706,6 +706,7 @@ describe('mParticleAudience targeting', () => {
         const testWithAudience = { ...baseTest, mParticleAudience: 123 };
         const matchingProfile = () =>
             Promise.resolve({
+                user_attributes: {},
                 audience_memberships: [{ audience_id: 123, audience_name: 'test' }],
             });
 
@@ -723,6 +724,7 @@ describe('mParticleAudience targeting', () => {
         const testWithAudience = { ...baseTest, mParticleAudience: 123 };
         const nonMatchingProfile = () =>
             Promise.resolve({
+                user_attributes: {},
                 audience_memberships: [{ audience_id: 456, audience_name: 'test2' }],
             });
 

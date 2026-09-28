@@ -1,7 +1,9 @@
 ## Auxia
+
 Auxia is a service that uses ML models to optimise messaging.
 
 We use it in support-dotcom-components. Currently there are two uses:
+
 - [Sign-in gate](signinGate.md)
 - Banners
 
@@ -12,9 +14,11 @@ support-dotcom-components uses the API to find out if a message should be displa
 ## Uses
 
 ### Sign-in gate
+
 [See separate doc.](signinGate.md)
 
 ### Banners
+
 We are trialling using Auxia for banner decision making.
 
 In the first experiment we ask Auxia whether or not to suppress the banner. If Auxia does not suppress the banner then we use the existing rules.
@@ -26,3 +30,11 @@ Auxia is consulted when the `enableAuxiaForBanners` switch is on, a browserId is
 If Auxia is consulted and a banner is returned then we also track events on the client using Auxia's `LogTreatmentInteraction` endpoint. We proxy these requests via `/banner/interaction`.
 
 See [auxia.ts](../src/server/lib/auxia.ts) for implementation.
+
+### Gandalf bypass
+
+While the `enableGandalfSignInGate` channel switch is on, New Zealand readers
+are never sent to Auxia for sign-in gates: the journey is fully
+Guardian-managed (see [signinGate.md](signinGate.md)). Banner behaviour is
+unchanged — the banner suppression checker consults Auxia exactly as before,
+for every country.

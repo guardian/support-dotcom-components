@@ -30,6 +30,7 @@ export interface AuxiaAPISurface {
 export interface ProxyGetTreatmentsAnswerData {
     responseId: string;
     userTreatment?: UserTreatment;
+    gandalfSignInGate?: boolean; // [7] gandalfSignInGate
 }
 
 export interface AuxiaAPILogTreatmentInteractionRequestPayload {
@@ -64,6 +65,7 @@ export interface AuxiaAPIGetTreatmentsRequestPayload {
 export interface UserTreatmentsEnvelop {
     responseId: string;
     userTreatments: UserTreatment[];
+    gandalfSignInGate?: boolean; // [7] gandalfSignInGate
 }
 
 export type GateType =
@@ -73,7 +75,9 @@ export type GateType =
     | 'AuxiaAPI' // [4]
     | 'AuxiaAnalyticsThenNone' // [5]
     | 'AuxiaAnalyticsThenGuDismissible' // [6]
-    | 'AuxiaAnalyticsThenGuMandatory'; // [7]
+    | 'AuxiaAnalyticsThenGuMandatory' // [7]
+    | 'GandalfFreeView' // [8]
+    | 'GandalfMandatoryPopup'; // [9]
 
 // [1] Signals no gate to display
 // [2] Signals the Gu Dismissible gate
@@ -82,6 +86,12 @@ export type GateType =
 // [5] Here, we query Auxia for analytics, but then show no gate
 // [6] Here, we query Auxia for analytics but do not return the result and instead return the Gu Dismissible gate
 // [7] Same as [5] but we return the Gu Mandatory gate
+// [8] GandalfFreeView: no gate on this pageview, but the response carries the
+//     gandalfSignInGate marker so the client recognises it as a
+//     Guardian-managed decision
+// [9] GandalfMandatoryPopup: return the Guardian-managed non-dismissible popup
+//     gate. No Auxia request is made for either Gandalf response (see
+//     [7] gandalfSignInGate below).
 
 type ShowGateValues = 'true' | 'mandatory' | 'dismissible' | undefined;
 
@@ -161,3 +171,22 @@ export interface GetTreatmentsRequestPayload {
 // of not showing the gate if the reader has performed a single contribution in the past 30 days.
 // It is either undefined or return the timestamp carried by cookie `gu_hide_support_messaging`
 // See: https://github.com/guardian/support-frontend/blob/7a5c0f9209054c24934b876771392531c261f51c/support-frontend/assets/helpers/storage/contributionsCookies.ts#L11
+
+// [7] gandalfSignInGate (comment group: gandalf)
+//
+// date: 2nd September 2026
+//
+// "Gandalf" is the marketing name for the Guardian-managed sign-in gate
+// journey: a 100% rollout, run entirely by Guardian rules with no Auxia
+// involvement, currently live for New Zealand and switched on via the
+// enableGandalfSignInGate channel switch.
+//
+// `gandalfSignInGate` marks responses produced by the active Gandalf rules
+// (the GandalfFreeView and GandalfMandatoryPopup gate types). It is present
+// (true) on both so the client can:
+// - identify Guardian-managed treatments and skip every Auxia interaction call;
+// - report to Ophan under a stable Gandalf identity instead of Auxia's.
+//
+// The gate decision is driven by the standard `dailyArticleCount` payload
+// field: the reader's pageview count for the current day, including this
+// pageview.
