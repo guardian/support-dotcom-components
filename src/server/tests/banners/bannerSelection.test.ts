@@ -1,4 +1,5 @@
 import type { BannerTargeting, BannerTest } from '../../../shared/types';
+import { SecondaryCtaType } from '../../../shared/types';
 import type { BanditData } from '../../selection/banditData';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
@@ -1272,6 +1273,94 @@ describe('selectBannerTest', () => {
             weeklyArticleHistory: [{ week: 18330, count: 6 }],
         };
 
+        const mobileCta = {
+            text: 'Mobile CTA',
+            baseUrl: 'https://support.theguardian.com/mobile',
+        };
+        const secondaryCta = {
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Secondary CTA',
+                baseUrl: 'https://support.theguardian.com/secondary',
+            },
+        };
+
+        const selectForStepMode = (bannerStepMode: 'OneStep' | 'TwoStep' | 'TwoStepIfAllowed') =>
+            selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [
+                    {
+                        ...twoStepTest,
+                        variants: twoStepTest.variants.map((variant) => ({
+                            ...variant,
+                            bannerStepMode,
+                            bannerContent: {
+                                ...variant.bannerContent,
+                                secondaryCta,
+                            },
+                            mobileBannerContent: { cta: mobileCta },
+                        })),
+                    },
+                ],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+
+        it('uses an explicit one-step mode even when legacy isCollapsible is true', async () => {
+            const result = await selectForStepMode('OneStep');
+
+            expect(result?.variant.isCollapsible).toBe(false);
+        });
+
+        it('skips an explicit two-step mode when two-step is not allowed', async () => {
+            const result = await selectForStepMode('TwoStep');
+
+            expect(result).toBeNull();
+        });
+
+        it('converts an adaptive two-step banner to one-step when two-step is not allowed', async () => {
+            const result = await selectForStepMode('TwoStepIfAllowed');
+
+            expect(result?.variant.isCollapsible).toBe(false);
+            expect(result?.variant.bannerContent?.cta).toEqual(
+                twoStepTest.variants[0].bannerContent?.cta,
+            );
+            expect(result?.variant.bannerContent?.secondaryCta).toEqual(secondaryCta);
+            expect(result?.variant.mobileBannerContent?.cta).toEqual(mobileCta);
+        });
+
+        it('uses two-step for an adaptive banner when two-step is allowed', async () => {
+            const adaptiveTest: BannerTest = {
+                ...twoStepTest,
+                variants: twoStepTest.variants.map((variant) => ({
+                    ...variant,
+                    bannerStepMode: 'TwoStepIfAllowed',
+                })),
+            };
+            const result = await selectBannerTest({
+                targeting: { ...baseTargeting, countryCode: 'GB', contentType: 'Article' },
+                userDeviceType: 'iOS',
+                tests: [adaptiveTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+
+            expect(result?.variant.isCollapsible).toBe(true);
+        });
+
         it('skips 2-step test for US mobile on articles', async () => {
             const result = await selectBannerTest({
                 targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
@@ -1610,6 +1699,31 @@ describe('selectBannerTest', () => {
                 checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('live-test');
+        });
+
+        it('previewTestVariant bypasses the two-step eligibility check', async () => {
+            const adaptiveTest: BannerTest = {
+                ...liveTest,
+                variants: liveTest.variants.map((variant) => ({
+                    ...variant,
+                    bannerStepMode: 'TwoStepIfAllowed',
+                })),
+            };
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType: 'iOS',
+                tests: [adaptiveTest],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                previewTestVariant: { testName: 'live-test', variantName: 'variant' },
+                checkAuxiaSuppression,
+            });
+
+            expect(result?.variant.isCollapsible).toBe(true);
         });
 
         it('previewTestVariant finds a Draft test (bypasses status filter)', async () => {

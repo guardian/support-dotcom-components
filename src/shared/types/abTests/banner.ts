@@ -35,6 +35,8 @@ export interface BannerDesignName {
 
 type BannerUi = BannerTemplate | BannerDesignName;
 
+const bannerStepModeSchema = z.enum(['OneStep', 'TwoStep', 'TwoStepIfAllowed']);
+
 export function uiIsDesign(ui: BannerUi): ui is BannerDesignName {
     return typeof ui === 'object' && 'designName' in ui;
 }
@@ -50,6 +52,7 @@ export const bannerVariantFromToolSchema = z.object({
     choiceCardsSettings: choiceCardsSettings.nullish(),
     promoCodes: z.array(z.string()).nullish(),
     isCollapsible: z.boolean().nullish(),
+    bannerStepMode: bannerStepModeSchema.nullish(),
 });
 
 export type BannerVariantFromTool = z.infer<typeof bannerVariantFromToolSchema>;
