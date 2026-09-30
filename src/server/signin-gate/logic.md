@@ -9,7 +9,18 @@ This file contains the source of truth of the signin gate behavior. These are th
 - payload.shouldServeDismissible overrides everything else
 - Staff testing gate feature
 
-### Global, excluding Ireland + New Zealand and Australia + Europe
+### Politically sensitive country exception
+
+For consented readers in the following country codes, the Auxia rollout is 0% regardless of
+their regional rollout or MVT id:
+
+`AF`, `BY`, `CN`, `ER`, `IR`, `MM`, `KP`, `PS`, `RU`, `SY`, `TM`, `UA`.
+
+These countries use the Guardian-controlled fallback. The exception takes precedence over the
+100% Australia and Europe paths as well as the MVT-based paths. Non-consented readers keep the
+existing analytics-only behavior.
+
+### Other non-mandatory MVT-based regions (GB and non-ROW)
 
 No gate display the first 3 page views
 
@@ -32,9 +43,9 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |                                              |
                |  - Auxia drives the gate                     |
   consented +  |                                              |
-  auxia 35%    |                                              |
-  (20% for     |                                              |
-  the UK)      |                                              |
+  non-ROW      |                                              |
+  Auxia 35%    |                                              |
+  (GB: 20%)    |                                              |
                |                                              |
                |                                              |
                |                                              |
@@ -57,10 +68,23 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
 [01] use gu_hide_support_messaging cookie
 ```
 
-nb: the Auxia share of the audience is the first 35% of mvtIds (1 to 350_000),
-except for the UK (countryCode 'GB') where it is reduced to the first 20% (1 to 200_000).
+The non-ROW MVT-based Auxia share is the first 35% of mvtIds (1 to 350_000), except for the UK
+(countryCode 'GB') where it is reduced to the first 20% (1 to 200_000).
 
-### Ireland + New Zealand
+### International / Rest of World
+
+For consented readers in the repository's `International` country group, the Auxia rollout is
+100% of valid MVT ids (1 to 1_000_000), subject to the politically sensitive country exception
+above. These readers are sent to the Auxia-backed sign-in-gate journey; the treatment returned by
+Auxia determines whether the gate is mandatory or dismissible.
+
+For non-consented readers, the existing analytics-only journey remains unchanged: SDC may notify
+Auxia for analytics when enabled, but Guardian continues to drive the gate.
+
+### Ireland + New Zealand + Canada
+
+Consented readers in these countries use the mandatory Auxia rollout path regardless of MVT id.
+When the New Zealand Guardian-managed journey is enabled, it takes precedence and bypasses Auxia.
 
 ```
                 ----------------------------------------------

@@ -6,5 +6,7 @@ it('mvtIdIsAuxiaAudienceShare', () => {
     expect(mvtIdIsAuxiaAudienceShare(210945)).toBe(true);
     expect(mvtIdIsAuxiaAudienceShare(210946)).toBe(true);
     expect(mvtIdIsAuxiaAudienceShare(350000)).toBe(true);
-    expect(mvtIdIsAuxiaAudienceShare(350001)).toBe(false);
+    expect(mvtIdIsAuxiaAudienceShare(350001)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(1_000_000)).toBe(true);
+    expect(mvtIdIsAuxiaAudienceShare(1_000_001)).toBe(false);
 });

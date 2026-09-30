@@ -1,6 +1,29 @@
 import { getTreatmentsRequestPayloadToGateType } from '../../libPure';
 import type { GetTreatmentsRequestPayload } from '../../types';
 
+const buildPayload = (
+    overrides: Partial<GetTreatmentsRequestPayload> = {},
+): GetTreatmentsRequestPayload => ({
+    browserId: 'sample',
+    isSupporter: false,
+    dailyArticleCount: 5,
+    articleIdentifier: 'sample: article identifier',
+    editionId: 'GB',
+    contentType: 'Article',
+    sectionId: 'uk-news',
+    tagIds: ['type/article'],
+    gateDismissCount: 0,
+    countryCode: 'US',
+    mvtId: 450_000,
+    should_show_legacy_gate_tmp: true,
+    hasConsented: true,
+    shouldServeDismissible: false,
+    showDefaultGate: undefined,
+    gateDisplayCount: 0,
+    hideSupportMessagingTimestamp: undefined,
+    ...overrides,
+});
+
 describe('getTreatmentsRequestPayloadToGateType', () => {
     it('logic.md [03], low article count', () => {
         // [02] (copy from logic.md)
@@ -190,5 +213,59 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         const now = 1756568322187;
         const gateType = getTreatmentsRequestPayloadToGateType(payload, now, true, false);
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
+    });
+
+    it('sends consented International/ROW readers to Auxia at the full rollout boundary', () => {
+        const gateType = getTreatmentsRequestPayloadToGateType(
+            buildPayload({ countryCode: 'BR', mvtId: 1_000_000 }),
+            Date.now(),
+            true,
+            false,
+        );
+
+        expect(gateType).toBe('AuxiaAPI');
+    });
+
+    it.each(['AF', 'BY', 'UA'])(
+        'keeps consented politically sensitive country %s out of Auxia',
+        (countryCode) => {
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ countryCode, mvtId: 1, gateDisplayCount: 1 }),
+                Date.now(),
+                true,
+                false,
+            );
+
+            expect(gateType).toBe('GuDismissible');
+        },
+    );
+
+    it('preserves the existing Australia and Europe 100% paths', () => {
+        for (const countryCode of ['AU', 'DE']) {
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ countryCode, mvtId: 1_000_000 }),
+                Date.now(),
+                true,
+                false,
+            );
+
+            expect(gateType).toBe('AuxiaAPI');
+        }
+    });
+
+    it('preserves analytics-only behavior for an unconsented sensitive ROW reader', () => {
+        const gateType = getTreatmentsRequestPayloadToGateType(
+            buildPayload({
+                countryCode: 'AF',
+                mvtId: 1_000_000,
+                hasConsented: false,
+                dailyArticleCount: 1,
+            }),
+            Date.now(),
+            true,
+            false,
+        );
+
+        expect(gateType).toBe('AuxiaAnalyticsThenNone');
     });
 });

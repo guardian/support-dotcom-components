@@ -22,14 +22,23 @@ const buildPayload = (countryCode: string, mvtId: number): GetTreatmentsRequestP
 });
 
 describe('isGuardianAudienceShare', () => {
-    it('non-UK countries use the 35% share', () => {
+    it('non-ROW countries other than the UK use the 35% share', () => {
         expect(isGuardianAudienceShare(buildPayload('US', 250001))).toBe(false);
         expect(isGuardianAudienceShare(buildPayload('US', 450001))).toBe(true);
+    });
+
+    it('International/ROW countries use the full share', () => {
+        expect(isGuardianAudienceShare(buildPayload('BR', 1_000_000))).toBe(false);
     });
 
     it('UK uses the reduced 20% share', () => {
         expect(isGuardianAudienceShare(buildPayload('GB', 200000))).toBe(false);
         expect(isGuardianAudienceShare(buildPayload('GB', 200001))).toBe(true);
         expect(isGuardianAudienceShare(buildPayload('GB', 250001))).toBe(true);
+    });
+
+    it('politically sensitive countries remain in the Guardian share', () => {
+        expect(isGuardianAudienceShare(buildPayload('AF', 1))).toBe(true);
+        expect(isGuardianAudienceShare(buildPayload('BY', 1_000_000))).toBe(true);
     });
 });

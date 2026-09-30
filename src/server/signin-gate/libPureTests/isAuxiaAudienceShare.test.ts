@@ -22,7 +22,13 @@ const buildPayload = (countryCode: string, mvtId: number): GetTreatmentsRequestP
 });
 
 describe('isAuxiaAudienceShare', () => {
-    it('non-UK countries use the 35% share', () => {
+    it('International/ROW countries use the full share', () => {
+        expect(isAuxiaAudienceShare(buildPayload('BR', 350001))).toBe(true);
+        expect(isAuxiaAudienceShare(buildPayload('BR', 1_000_000))).toBe(true);
+        expect(isAuxiaAudienceShare(buildPayload('BR', 1_000_001))).toBe(false);
+    });
+
+    it('non-ROW countries other than the UK keep the 35% share', () => {
         expect(isAuxiaAudienceShare(buildPayload('US', 250001))).toBe(true);
         expect(isAuxiaAudienceShare(buildPayload('US', 350000))).toBe(true);
         expect(isAuxiaAudienceShare(buildPayload('US', 350001))).toBe(false);
@@ -35,4 +41,12 @@ describe('isAuxiaAudienceShare', () => {
         expect(isAuxiaAudienceShare(buildPayload('GB', 200001))).toBe(false);
         expect(isAuxiaAudienceShare(buildPayload('GB', 250001))).toBe(false);
     });
+
+    it.each(['AF', 'BY', 'CN', 'ER', 'IR', 'MM', 'KP', 'PS', 'RU', 'SY', 'TM', 'UA'])(
+        'excludes politically sensitive country %s at every MVT value',
+        (countryCode) => {
+            expect(isAuxiaAudienceShare(buildPayload(countryCode, 1))).toBe(false);
+            expect(isAuxiaAudienceShare(buildPayload(countryCode, 1_000_000))).toBe(false);
+        },
+    );
 });
