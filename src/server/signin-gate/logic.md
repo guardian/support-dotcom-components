@@ -20,7 +20,7 @@ These countries use the Guardian-controlled fallback. The exception takes preced
 100% Australia and Europe paths as well as the MVT-based paths. Non-consented readers keep the
 existing analytics-only behavior.
 
-### Other non-mandatory MVT-based regions (GB and non-ROW)
+### GB and remaining non-ROW MVT-based regions
 
 No gate display the first 3 page views
 
@@ -68,23 +68,29 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
 [01] use gu_hide_support_messaging cookie
 ```
 
-The non-ROW MVT-based Auxia share is the first 35% of mvtIds (1 to 350_000), except for the UK
-(countryCode 'GB') where it is reduced to the first 20% (1 to 200_000).
+The remaining non-ROW MVT-based Auxia bucket includes GB and country or territory codes that are
+not covered by the repository's `International` country list, the explicit 27-country Europe
+rollout, Australia or the mandatory IE/NZ/CA paths. GB (countryCode 'GB') uses the first 20% of
+mvtIds (1 to 200_000); all other codes in this bucket, including the United States, use the first
+35% (1 to 350_000).
 
 ### International / Rest of World
 
 For consented readers in the repository's `International` country group, the Auxia rollout is
-100% of valid MVT ids (1 to 1_000_000), subject to the politically sensitive country exception
-above. These readers are sent to the Auxia-backed sign-in-gate journey; the treatment returned by
-Auxia determines whether the gate is mandatory or dismissible.
+100% of valid MVT ids, subject to the politically sensitive country exception above. These readers
+are sent to the Auxia-backed sign-in-gate journey; the treatment returned by Auxia determines
+whether the gate is mandatory or dismissible. This is a regional full-rollout path and does not
+change the legacy 35% MVT helper used by the remaining non-ROW bucket.
 
 For non-consented readers, the existing analytics-only journey remains unchanged: SDC may notify
 Auxia for analytics when enabled, but Guardian continues to drive the gate.
 
-### Ireland + New Zealand + Canada
+### Ireland + Canada (and New Zealand when Gandalf is disabled)
 
-Consented readers in these countries use the mandatory Auxia rollout path regardless of MVT id.
-When the New Zealand Guardian-managed journey is enabled, it takes precedence and bypasses Auxia.
+Consented readers in Ireland, New Zealand and Canada use the mandatory Auxia rollout path
+regardless of MVT id. When the New Zealand Guardian-managed journey is enabled, it takes
+precedence and bypasses Auxia; the mandatory Auxia path remains the fallback when that switch is
+disabled.
 
 ```
                 ----------------------------------------------

@@ -215,16 +215,19 @@ describe('getTreatmentsRequestPayloadToGateType', () => {
         expect(gateType).toStrictEqual('AuxiaAnalyticsThenNone');
     });
 
-    it('sends consented International/ROW readers to Auxia at the full rollout boundary', () => {
-        const gateType = getTreatmentsRequestPayloadToGateType(
-            buildPayload({ countryCode: 'BR', mvtId: 1_000_000 }),
-            Date.now(),
-            true,
-            false,
-        );
+    it.each([350_001, 1_000_000])(
+        'sends consented International/ROW readers to Auxia at MVT %s',
+        (mvtId) => {
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ countryCode: 'BR', mvtId }),
+                Date.now(),
+                true,
+                false,
+            );
 
-        expect(gateType).toBe('AuxiaAPI');
-    });
+            expect(gateType).toBe('AuxiaAPI');
+        },
+    );
 
     it.each(['AF', 'BY', 'UA'])(
         'keeps consented politically sensitive country %s out of Auxia',

@@ -27,10 +27,6 @@ describe('isGuardianAudienceShare', () => {
         expect(isGuardianAudienceShare(buildPayload('US', 450001))).toBe(true);
     });
 
-    it('International/ROW countries use the full share', () => {
-        expect(isGuardianAudienceShare(buildPayload('BR', 1_000_000))).toBe(false);
-    });
-
     it('UK uses the reduced 20% share', () => {
         expect(isGuardianAudienceShare(buildPayload('GB', 200000))).toBe(false);
         expect(isGuardianAudienceShare(buildPayload('GB', 200001))).toBe(true);

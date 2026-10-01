@@ -22,10 +22,9 @@ const buildPayload = (countryCode: string, mvtId: number): GetTreatmentsRequestP
 });
 
 describe('isAuxiaAudienceShare', () => {
-    it('International/ROW countries use the full share', () => {
-        expect(isAuxiaAudienceShare(buildPayload('BR', 350001))).toBe(true);
-        expect(isAuxiaAudienceShare(buildPayload('BR', 1_000_000))).toBe(true);
-        expect(isAuxiaAudienceShare(buildPayload('BR', 1_000_001))).toBe(false);
+    it('International/ROW countries retain the legacy MVT share helper', () => {
+        expect(isAuxiaAudienceShare(buildPayload('BR', 350000))).toBe(true);
+        expect(isAuxiaAudienceShare(buildPayload('BR', 350001))).toBe(false);
     });
 
     it('non-ROW countries other than the UK keep the 35% share', () => {

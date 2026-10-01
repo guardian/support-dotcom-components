@@ -311,8 +311,7 @@ export const articleIdentifierIsAllowed = (articleIdentifier: string): boolean =
     return !denyPrefixes.some((denyIdentifer) => articleIdentifier.startsWith(denyIdentifer));
 };
 
-const AUXIA_LEGACY_ROLLOUT_MAX_MVT_ID = 350_000;
-const AUXIA_FULL_ROLLOUT_MAX_MVT_ID = 1_000_000;
+const AUXIA_ROLLOUT_MAX_MVT_ID = 350_000;
 
 const politicallySensitiveCountryCodes = new Set([
     'AF',
@@ -335,14 +334,11 @@ const isPoliticallySensitiveCountry = (countryCode: string): boolean =>
 const mvtIdIsWithinRollout = (mvtId: number, maximumMvtId: number): boolean =>
     mvtId > 0 && mvtId <= maximumMvtId;
 
-const mvtIdIsLegacyAuxiaAudienceShare = (mvtId: number): boolean =>
-    mvtIdIsWithinRollout(mvtId, AUXIA_LEGACY_ROLLOUT_MAX_MVT_ID);
-
 export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
     /*
         In May 2025, we decided that we would decommission the old / previous definition
         of the Auxia share of the audience, which was done using a client side defined AB test,
-        by which a share of the audience was sent to Auxia, and the rest split between
+        by which the first 35% of the audience was sent to Auxia, and the rest split between
         "SignInGateMainVariant" and "SignInGateMainControl"
         (
             https://github.com/guardian/dotcom-rendering/blob/d6e44406cffb362c99d5734f6e82f6e664682da8/dotcom-rendering/src/experiments/tests/auxia-sign-in-gate.ts
@@ -357,9 +353,9 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
         https://github.com/guardian/dotcom-rendering/pull/13938
         https://github.com/guardian/dotcom-rendering/pull/13941
 
-        In particular we must be able to take a mvtId and simply return a boolean indicating whether
-        or not it is in the Auxia audience. This is what this function does for the full-rollout
-        International/ROW journey.
+        In particular we must be able to take a mvtId and simply return
+        a boolean indicating whether or not it is in the first 35% of the audience. This is what
+        this function does.
 
         This is the function that needs to be modified when we want to increase the share of the
         audience given to the Auxia experiment in the future.
@@ -370,14 +366,14 @@ export const mvtIdIsAuxiaAudienceShare = (mvtId: number): boolean => {
 
     // The MVT calculator is very useful: https://ab-tests.netlify.app
 
-    // The International/ROW Auxia journey is 100% audience with 0% offset.
+    // The Auxia experiment is 35% audience with 0% offset.
 
-    // The value numbers we are interested in are between 1 and 1_000_000 [1]
-    // (the full range of valid mvtId values).
+    // The value numbers we are interested in are between 1 and 350_000 [1]
+    // (essentially the first 35% of the total of 1_000_000 possible values for mvtId)
 
     // [1] Interestingly, 0 is not considered a valid mvtId number.
 
-    return mvtIdIsWithinRollout(mvtId, AUXIA_FULL_ROLLOUT_MAX_MVT_ID);
+    return mvtIdIsWithinRollout(mvtId, AUXIA_ROLLOUT_MAX_MVT_ID);
 };
 
 export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
@@ -385,16 +381,12 @@ export const isAuxiaAudienceShare = (payload: GetTreatmentsRequestPayload): bool
         return false;
     }
 
-    if (countryGroups.International.countries.includes(payload.countryCode)) {
-        return mvtIdIsAuxiaAudienceShare(payload.mvtId);
-    }
-
     // The Auxia audience share for the UK is reduced to 20% (see logic.md)
     if (payload.countryCode === 'GB') {
         return mvtIdIsWithinRollout(payload.mvtId, 200_000);
     }
 
-    return mvtIdIsLegacyAuxiaAudienceShare(payload.mvtId);
+    return mvtIdIsAuxiaAudienceShare(payload.mvtId);
 };
 
 export const isGuardianAudienceShare = (payload: GetTreatmentsRequestPayload): boolean => {
@@ -613,8 +605,10 @@ export const getTreatmentsRequestPayloadToGateType = (
         'SI',
         'SK',
     ];
-    const isDismissibleRollout =
-        payload.countryCode === 'AU' || euCountries.includes(payload.countryCode);
+    const isFullAuxiaRollout =
+        payload.countryCode === 'AU' ||
+        euCountries.includes(payload.countryCode) ||
+        countryGroups.International.countries.includes(payload.countryCode);
     const isConsentedAndNotPoliticallySensitive =
         userHasConsented(payload) && !isPoliticallySensitiveCountry(payload.countryCode);
 
@@ -674,12 +668,13 @@ export const getTreatmentsRequestPayloadToGateType = (
     if (
         enableAuxia &&
         isConsentedAndNotPoliticallySensitive &&
-        (isDismissibleRollout || isAuxiaAudienceShare(payload))
+        (isFullAuxiaRollout || isAuxiaAudienceShare(payload))
     ) {
         // We have consent for Auxia and user is either:
-        // - in a country where Auxia is rolled out to all eligible users (Australia or Europe)
+        // - in a country where Auxia is rolled out to all eligible users
+        //   (Australia, Europe or International/ROW)
         // or
-        // - in the 100% International/ROW audience or another MVT-based Auxia share
+        // - in another MVT-based Auxia share
         return 'AuxiaAPI';
     }
 
