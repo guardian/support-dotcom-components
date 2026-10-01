@@ -17,8 +17,8 @@ their regional rollout or MVT id:
 `AF`, `BY`, `CN`, `ER`, `IR`, `MM`, `KP`, `PS`, `RU`, `SY`, `TM`, `UA`.
 
 These countries use the Guardian-controlled fallback. The exception takes precedence over the
-100% Australia and Europe paths as well as the MVT-based paths. Non-consented readers keep the
-existing analytics-only behavior.
+100% Australia, Europe and International paths as well as the MVT-based paths. Non-consented
+readers keep the existing analytics-only behavior.
 
 ### GB and remaining non-ROW MVT-based regions
 
@@ -74,17 +74,6 @@ rollout, Australia or the mandatory IE/NZ/CA paths. GB (countryCode 'GB') uses t
 mvtIds (1 to 200_000); all other codes in this bucket, including the United States, use the first
 35% (1 to 350_000).
 
-### International / Rest of World
-
-For consented readers in the repository's `International` country group, the Auxia rollout is
-100% of valid MVT ids, subject to the politically sensitive country exception above. These readers
-are sent to the Auxia-backed sign-in-gate journey; the treatment returned by Auxia determines
-whether the gate is mandatory or dismissible. This is a regional full-rollout path and does not
-change the legacy 35% MVT helper used by the remaining non-ROW bucket.
-
-For non-consented readers, the existing analytics-only journey remains unchanged: SDC may notify
-Auxia for analytics when enabled, but Guardian continues to drive the gate.
-
 ### Ireland + Canada (and New Zealand when Gandalf is disabled)
 
 Consented readers in Ireland, New Zealand and Canada use the mandatory Auxia rollout path
@@ -120,7 +109,17 @@ disabled.
 [02] use gu_hide_support_messaging cookie
 ```
 
-### Australia + Europe
+### Australia + Europe + International / Rest of World
+
+For consented readers in Australia, the explicit 27-country Europe rollout or the repository's
+`International` country group, the Auxia rollout is 100% of valid MVT ids, subject to the
+politically sensitive country exception above. These readers are sent to the Auxia-backed
+sign-in-gate journey; the treatment returned by Auxia determines whether the gate is mandatory or
+dismissible. This regional full-rollout path does not change the legacy 35% MVT helper used by the
+remaining non-ROW bucket.
+
+For non-consented readers, the existing analytics-only journey remains unchanged: SDC may notify
+Auxia for analytics when enabled, but Guardian continues to drive the gate.
 
 ```
                 ----------------------------------------------
