@@ -22,6 +22,20 @@ For details of the current configuration, see [logic.md](/src/server/signin-gate
 
 SDC also has an endpoint for tracking interactions (view/click) with the gate: `/auxia/log-treatment-interaction`. These events are forwarded on to Auxia, and are independent of the standard Ophan tracking.
 
+### Auxia rollout
+
+The sign-in-gate rollout is applied only to consented readers:
+
+- readers in the `International` country group (ROW) are in the Auxia audience for 100% of valid MVT ids;
+- GB remains at 20%, while remaining non-ROW MVT-based countries and territories remain at 35%
+  (including the United States and codes outside the explicit full-rollout or mandatory lists);
+- Australia and the existing Europe rollout remain at 100%;
+- Ireland and Canada remain on the mandatory Auxia rollout path; New Zealand uses that path only
+  when the Guardian-managed Gandalf journey is disabled;
+- the country codes `AF`, `BY`, `CN`, `ER`, `IR`, `MM`, `KP`, `PS`, `RU`, `SY`, `TM` and `UA` are excluded from Auxia (0%), regardless of region or MVT id.
+
+Non-consented readers do not receive an Auxia treatment. When the Auxia switch is enabled, their existing analytics-only notification and Guardian-controlled gate behavior remain unchanged. This rollout controls Auxia eligibility; it does not change the Guardian hardcoded mandatory gate, and it does not change the separate banner rollout.
+
 ### Gandalf sign-in gate (Guardian-managed journey)
 
 "Gandalf" is the marketing name for the Guardian-managed sign-in gate journey:
