@@ -160,7 +160,8 @@ describe('getChoiceCardsSettings', () => {
     });
 
     it.each(['Epic', 'Banner1', 'Banner2'] as const)(
-        'uses singular month wording for %s choice cards', (channel) => {
+        'uses singular month wording for %s choice cards',
+        (channel) => {
             const result = getChoiceCardsSettings(
                 'UnitedStates',
                 channel,
