@@ -205,7 +205,7 @@ export const getChoiceCardsSettings = (
             return {
                 ...card,
                 isDefault: forceNoDefault ? false : card.isDefault,
-                defaultExpanded: forceExpanded ? true : card.defaultExpanded,
+                defaultExpanded: forceExpanded ? card.isDefault : card.defaultExpanded,
             };
         }
         return card;

@@ -159,6 +159,25 @@ describe('getChoiceCardsSettings', () => {
         expect(result?.choiceCards[1].destination).toEqual('LandingPage');
     });
 
+    it('only expands the default choice card when forceExpanded is enabled', () => {
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            [],
+            defaultEpicChoiceCardsSettings('UnitedStates'),
+            undefined,
+            true,
+        );
+
+        expect(result?.choiceCards.map((card) => card.defaultExpanded)).toEqual([
+            false,
+            true,
+            false,
+        ]);
+    });
+
     it.each(['Epic', 'Banner1', 'Banner2'] as const)(
         'uses singular month wording for %s choice cards',
         (channel) => {
