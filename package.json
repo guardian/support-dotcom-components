@@ -24,7 +24,7 @@
         "test": "export stage=DEV; jest"
     },
     "dependencies": {
-        "@guardian/libs": "26.1.0",
+        "@guardian/libs": "33.0.0",
         "@guardian/ophan-tracker-js": "2.8.3",
         "zod": "4.6.5"
     },
