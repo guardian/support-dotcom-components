@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.1.0
+
+### Minor Changes
+
+- af7d5d2: Add inline1 model
+
 ## 11.0.0
 
 ### Major Changes
