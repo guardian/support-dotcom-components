@@ -25,6 +25,7 @@ export default [
 		rules: {
 			'@typescript-eslint/no-inferrable-types': 'off',
 			'import/no-namespace': 'error',
+            '@typescript-eslint/no-unsafe-call': 'off',
 		},
 	},
 ];
