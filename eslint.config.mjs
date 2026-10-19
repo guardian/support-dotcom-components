@@ -36,6 +36,8 @@ export default [
             // We will be reactivating one by one with specific PRs
             '@typescript-eslint/no-unsafe-member-access': 'off',
             '@typescript-eslint/no-unsafe-call': 'off',
+            '@typescript-eslint/no-unsafe-assignment': 'off',
+            '@typescript-eslint/no-unsafe-return': 'off',
         },
     },
 ];
