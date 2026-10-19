@@ -7,7 +7,7 @@ const tsconfigRootDir = dirname(fileURLToPath(import.meta.url));
 
 export default [
     {
-        ignores: ['node_modules', 'dist', 'server-dist', 'rollup.config.js', 'webpack.*js', 'cdk'],
+        ignores: ['node_modules', 'dist', 'server-dist', 'rollup.config.js', 'webpack.*js', 'cdk', '**/dist/**'],
     },
     ...guardian.configs.recommended,
     ...guardian.configs.jest,
