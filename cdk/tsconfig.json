@@ -25,7 +25,8 @@
 		"experimentalDecorators": true,
 		"strictPropertyInitialization": false,
 		"typeRoots": ["./node_modules/@types"],
-		"outDir": "dist"
+		"outDir": "dist",
+        "types": ["jest", "node"]
 	},
 	"include": ["lib/**/*", "bin/**/*"],
 	"exclude": ["node_modules", "cdk.out", "lib/**/__snapshots__/**"]
