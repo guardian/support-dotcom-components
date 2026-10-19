@@ -13,6 +13,9 @@ export default [
     ...guardian.configs.jest,
     {
         ignores: ['eslint.config.mjs'],
+        linterOptions: {
+            reportUnusedDisableDirectives: 'warn', // Only 'warn' do not fail the build if redundant directives
+        },
         languageOptions: {
             globals: {
                 ...globals.jest,
