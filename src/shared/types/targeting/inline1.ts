@@ -1,4 +1,5 @@
 export interface Inline1Targeting {
+    showSupportMessaging: boolean;
     mvtId: number;
     countryCode: string;
     sectionId?: string;
