@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.1.1
+
+### Patch Changes
+
+- 1437d57: Fix inline1MessageSchema
+
 ## 11.1.0
 
 ### Minor Changes
