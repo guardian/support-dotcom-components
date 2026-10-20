@@ -9,6 +9,7 @@ export type BannerTargeting = {
     signInBannerLastClosedAt?: string;
     abandonedBasketBannerLastClosedAt?: string;
     mvtId: number;
+    auxiaRolloutMvtId?: number;
     countryCode: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
     articleCountToday?: number;
