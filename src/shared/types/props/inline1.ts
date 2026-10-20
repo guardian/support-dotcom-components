@@ -11,7 +11,7 @@ export interface Inline1Props {
 }
 
 export const inline1SupportMessageSchema = z.object({
-    type: 'Inline1SupportMessage',
+    type: z.literal('Inline1SupportMessage'),
     heading: z.string(),
     body: z.string(),
     primaryCta: ctaSchema,
@@ -19,11 +19,11 @@ export const inline1SupportMessageSchema = z.object({
 });
 
 export const inline1PuzzlesMessageSchema = z.object({
-    type: 'Inline1PuzzlesMessage',
+    type: z.literal('Inline1PuzzlesMessage'),
 });
 
 export const inline1NewsletterMessageSchema = z.object({
-    type: 'Inline1NewsletterMessage',
+    type: z.literal('Inline1NewsletterMessage'),
     newsletterId: z.string(),
     frequency: z.string(),
     heading: z.string(),
