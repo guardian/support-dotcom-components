@@ -8,6 +8,7 @@ import { buildBannerRouter } from './api/bannerRouter';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildGutterRouter } from './api/gutterRouter';
 import { buildHeaderRouter } from './api/headerRouter';
+import { buildInline1Router } from './api/inline1Router';
 import { buildTickerRouter } from './api/tickerRouter';
 import { buildChannelExclusionsReloader } from './channelExclusions';
 import { buildChannelSwitchesReloader } from './channelSwitches';
@@ -179,6 +180,8 @@ const buildApp = async (): Promise<Express> => {
             contributionsOnlyCountriesConfig,
         ),
     );
+
+    app.use(buildInline1Router(channelSwitches));
 
     app.use(buildTickerRouter(tickerData));
 
