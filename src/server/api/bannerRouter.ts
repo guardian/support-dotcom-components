@@ -228,7 +228,10 @@ export const buildBannerRouter = (
                     checkAuxiaSuppression,
                     forLogging: auxiaStatus,
                     getTreatment,
-                } = auxia.getBannerSuppressedChecker(channelSwitches.get(), targeting.mvtId);
+                } = auxia.getBannerSuppressedChecker(
+                    channelSwitches.get(),
+                    targeting.auxiaRolloutMvtId,
+                );
 
                 const response = await buildBannerData(
                     targeting,

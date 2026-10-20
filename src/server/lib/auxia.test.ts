@@ -19,8 +19,8 @@ const mockChannelSwitches = {
 
 // mvtId within the 100% rollout (0–999,999)
 const inRolloutMvtId = 999_999;
-// mvtId outside the 100% rollout (1,000,000+)
-const outOfRolloutMvtId = 1_000_000;
+// The partial rollout only accepts IDs in [0, 1,000,000).
+const invalidMvtId = 1_000_000;
 
 const mockAttributes: GetTreatmentsAttributes = {
     isSupporter: false,
@@ -463,16 +463,16 @@ describe('Auxia.logTreatmentInteraction', () => {
     });
 });
 
-describe('Auxia.getBannerSuppressedChecker – mvtId rollout', () => {
+describe('Auxia.getBannerSuppressedChecker – configured rollout', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    it('should return false, not call fetch, and leave forLogging as "not-consulted" when mvtId is outside the 100% rollout', async () => {
+    it('does not call Auxia for a 0% rollout', async () => {
         const auxia = new Auxia(mockConfig);
         const { checkAuxiaSuppression, forLogging } = auxia.getBannerSuppressedChecker(
-            mockChannelSwitches,
-            outOfRolloutMvtId,
+            { ...mockChannelSwitches, auxiaBannerRolloutPercentage: 0 },
+            0,
         );
 
         const result = await checkAuxiaSuppression('browser-id', mockAttributes);
@@ -482,7 +482,75 @@ describe('Auxia.getBannerSuppressedChecker – mvtId rollout', () => {
         expect(forLogging()).toBe('not-consulted');
     });
 
-    it('should call fetch and apply suppression logic when mvtId is within the 100% rollout', async () => {
+    it('does not call Auxia for a reader without consent, even at 100%', async () => {
+        const auxia = new Auxia(mockConfig);
+        const { checkAuxiaSuppression, forLogging } = auxia.getBannerSuppressedChecker(
+            { ...mockChannelSwitches, auxiaBannerRolloutPercentage: 100 },
+            undefined,
+        );
+
+        const result = await checkAuxiaSuppression('browser-id', {
+            ...mockAttributes,
+            hasConsented: false,
+        });
+
+        expect(result).toBe(false);
+        expect(global.fetch).not.toHaveBeenCalled();
+        expect(forLogging()).toBe('not-consulted');
+    });
+
+    it('selects exactly the configured prefix within each stable 100-ID block', async () => {
+        const auxia = new Auxia(mockConfig);
+        const selected = [109, 149, 199, 999_999];
+        const excluded = [110, 150, invalidMvtId];
+
+        for (const [percentage, mvtId] of [
+            [10, selected[0]],
+            [50, selected[1]],
+            [100, selected[2]],
+        ]) {
+            (global.fetch as jest.Mock).mockResolvedValueOnce(successResponse([]));
+            const { checkAuxiaSuppression } = auxia.getBannerSuppressedChecker(
+                { ...mockChannelSwitches, auxiaBannerRolloutPercentage: percentage },
+                mvtId,
+            );
+            await checkAuxiaSuppression('browser-id', mockAttributes);
+        }
+
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(3);
+
+        for (const [percentage, mvtId] of [
+            [10, excluded[0]],
+            [50, excluded[1]],
+            [10, excluded[2]],
+        ]) {
+            const { checkAuxiaSuppression } = auxia.getBannerSuppressedChecker(
+                { ...mockChannelSwitches, auxiaBannerRolloutPercentage: percentage },
+                mvtId,
+            );
+            await checkAuxiaSuppression('browser-id', mockAttributes);
+        }
+
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(3);
+    });
+
+    it('keeps the 10% sample when rollout increases to 50% and 100%', async () => {
+        const auxia = new Auxia(mockConfig);
+        const mvtId = 105;
+
+        for (const percentage of [10, 50, 100]) {
+            (global.fetch as jest.Mock).mockResolvedValueOnce(successResponse([]));
+            const { checkAuxiaSuppression } = auxia.getBannerSuppressedChecker(
+                { ...mockChannelSwitches, auxiaBannerRolloutPercentage: percentage },
+                mvtId,
+            );
+            await checkAuxiaSuppression('browser-id', mockAttributes);
+        }
+
+        expect((global.fetch as jest.Mock).mock.calls.length).toBe(3);
+    });
+
+    it('preserves full rollout behavior for a legacy document without the percentage field', async () => {
         (global.fetch as jest.Mock).mockResolvedValueOnce(
             successResponse([makeUserTreatment(JSON.stringify({ show_banner: 'false' }))]),
         );
@@ -497,5 +565,32 @@ describe('Auxia.getBannerSuppressedChecker – mvtId rollout', () => {
 
         expect(result).toBe(true);
         expect((global.fetch as jest.Mock).mock.calls.length).toBe(1);
+    });
+
+    it('allows a legacy full rollout when the rollout MVT ID is unavailable', async () => {
+        (global.fetch as jest.Mock).mockResolvedValueOnce(successResponse([]));
+
+        const auxia = new Auxia(mockConfig);
+        const { checkAuxiaSuppression } = auxia.getBannerSuppressedChecker(
+            mockChannelSwitches,
+            undefined,
+        );
+
+        await checkAuxiaSuppression('browser-id', mockAttributes);
+
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    it('fails closed for a partial rollout when the rollout MVT ID is unavailable', async () => {
+        const auxia = new Auxia(mockConfig);
+        const { checkAuxiaSuppression, forLogging } = auxia.getBannerSuppressedChecker(
+            { ...mockChannelSwitches, auxiaBannerRolloutPercentage: 10 },
+            undefined,
+        );
+
+        await checkAuxiaSuppression('browser-id', mockAttributes);
+
+        expect(global.fetch).not.toHaveBeenCalled();
+        expect(forLogging()).toBe('not-consulted');
     });
 });

@@ -15,12 +15,23 @@ export interface ChannelSwitches {
     enableMParticle: boolean;
     enableAuxia: boolean; // for sign-in gates
     enableAuxiaForBanners: boolean;
+    // Missing in older S3 documents, which retain the existing full rollout.
+    auxiaBannerRolloutPercentage?: number;
     // Gandalf: marketing name for the Guardian-managed sign-in gate journey
     // (100% Guardian-owned rules, no Auxia). When switched on, New Zealand
     // readers run the Gandalf journey; off means it is disabled, which is the
     // rollback path.
     enableGandalfSignInGate?: boolean;
 }
+
+export const getAuxiaBannerRolloutPercentage = (switches: ChannelSwitches): number => {
+    if (!switches.enableAuxiaForBanners) {
+        return 0;
+    }
+
+    const percentage = switches.auxiaBannerRolloutPercentage ?? 100;
+    return Number.isInteger(percentage) && percentage >= 0 && percentage <= 100 ? percentage : 0;
+};
 
 const getSwitches = (): Promise<ChannelSwitches> =>
     fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/channel-switches.json`).then(

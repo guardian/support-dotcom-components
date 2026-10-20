@@ -3,6 +3,7 @@ import { z } from 'zod';
 import type { AuxiaTracking } from '../../shared/types';
 import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
 import type { ChannelSwitches } from '../channelSwitches';
+import { getAuxiaBannerRolloutPercentage } from '../channelSwitches';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 
@@ -52,9 +53,23 @@ export type AuxiaInteractionType = 'VIEWED' | 'CLICKED' | 'SNOOZED' | 'DISMISSED
 
 export type AuxiaBannerStatus = 'suppressed' | 'not-suppressed' | 'not-consulted';
 
-// Use the mvtId (which has range 0 - 1,000,000) to rollout gradually
-const AUXIA_ROLLOUT_SHARE = 1.0 * 1_000_000; // 100%
-const inAuxiaAudience = (mvtId: number): boolean => mvtId < AUXIA_ROLLOUT_SHARE;
+// Modulo sampling makes each 100-ID block representative and rollout stages nested.
+const inAuxiaAudience = (mvtId: number | undefined, percentage: number): boolean => {
+    if (percentage === 0) {
+        return false;
+    }
+    if (percentage === 100) {
+        return true;
+    }
+
+    return (
+        mvtId !== undefined &&
+        Number.isInteger(mvtId) &&
+        mvtId >= 0 &&
+        mvtId < 1_000_000 &&
+        mvtId % 100 < percentage
+    );
+};
 
 export class Auxia {
     private config: AuxiaRouterConfig;
@@ -251,7 +266,7 @@ export class Auxia {
      */
     getBannerSuppressedChecker(
         channelSwitches: ChannelSwitches,
-        mvtId: number,
+        mvtId: number | undefined,
     ): {
         checkAuxiaSuppression: (
             browserId: string,
@@ -267,10 +282,8 @@ export class Auxia {
             browserId: string,
             attributes: GetTreatmentsAttributes,
         ): Promise<boolean> => {
-            if (!channelSwitches.enableAuxiaForBanners) {
-                return false;
-            }
-            if (!inAuxiaAudience(mvtId)) {
+            const rolloutPercentage = getAuxiaBannerRolloutPercentage(channelSwitches);
+            if (!attributes.hasConsented || !inAuxiaAudience(mvtId, rolloutPercentage)) {
                 return false;
             }
             const result = await this.checkBannerSuppression(browserId, attributes);
