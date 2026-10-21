@@ -7,7 +7,7 @@ import { subDays } from 'date-fns/subDays';
  * We automatically schedule banner re-deploys, per channel (but not per region).
  */
 
-interface ScheduledBannerDeploy {
+export interface ScheduledBannerDeploy {
     dayOfWeek: number; // 0-6, where 0 is Sunday
     hour: number; // 0-23
 }
@@ -63,10 +63,17 @@ export const previousScheduledDate = (now: Date, dayOfWeek: number, hour: number
 export const getLastScheduledDeploy = (
     date: Date,
     scheduledDeploys: ScheduledBannerDeploy[],
-): Date => {
+): Date | undefined => {
+    if (scheduledDeploys.length === 0) {
+        return undefined;
+    }
+
     const deployDateTimes = scheduledDeploys.map((deploy) =>
         previousScheduledDate(date, deploy.dayOfWeek, deploy.hour),
     );
     const sorted = deployDateTimes.sort(compareDesc);
     return sorted[0];
 };
+
+export const scheduleForWeekdays = (daysOfWeek: number[]): ScheduledBannerDeploy[] =>
+    daysOfWeek.map((dayOfWeek) => ({ dayOfWeek, hour: 9 }));

@@ -2,6 +2,7 @@ import {
     defaultDeploySchedule,
     getLastScheduledDeploy,
     previousScheduledDate,
+    scheduleForWeekdays,
 } from './bannerDeploySchedule';
 
 const days = {
@@ -33,6 +34,20 @@ describe('previousScheduledDate', () => {
     it('returns previous friday if hour is later than now', () => {
         const result = previousScheduledDate(new Date('2021-11-12 08:00:00'), days.friday, 11);
         expect(result).toEqual(new Date('2021-11-05 11:00:00'));
+    });
+});
+
+describe('scheduleForWeekdays', () => {
+    it('maps each selected weekday to the existing 9am reset time', () => {
+        expect(scheduleForWeekdays([0, 3, 6])).toEqual([
+            { dayOfWeek: 0, hour: 9 },
+            { dayOfWeek: 3, hour: 9 },
+            { dayOfWeek: 6, hour: 9 },
+        ]);
+    });
+
+    it('returns no dates for an empty weekday selection', () => {
+        expect(getLastScheduledDeploy(new Date('2022-12-15 10:00:00'), [])).toBeUndefined();
     });
 });
 

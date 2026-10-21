@@ -34,7 +34,11 @@ import type { BanditData } from '../../selection/banditData';
 import { selectVariant } from '../../selection/selectVariant';
 import { isWithinScheduler } from '../../utils/schedulerCheck';
 import type { ScheduledBannerDeploys } from './bannerDeploySchedule';
-import { defaultDeploySchedule, getLastScheduledDeploy } from './bannerDeploySchedule';
+import {
+    defaultDeploySchedule,
+    getLastScheduledDeploy,
+    scheduleForWeekdays,
+} from './bannerDeploySchedule';
 import type { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { bannerTargetingTests } from './bannerTargetingTests';
 
@@ -123,19 +127,35 @@ export const canShowBannerAgain = (
             return true; // banner not yet closed
         }
 
+        const lastClosed = new Date(lastClosedRaw);
+        const deployTimes = manualBannerDeployTimes.getDeployTimes(bannerChannel);
+        const lastManualDeploy = deployTimes[region];
+
+        if (targeting.auxiaRolloutMvtId !== undefined) {
+            const lastVariantScheduledDeploy = scheduledBannerDeploys
+                ? getLastScheduledDeploy(
+                      now,
+                      scheduleForWeekdays(manualBannerDeployTimes.getVariantSchedule().daysOfWeek),
+                  )
+                : undefined;
+            return (
+                lastManualDeploy > lastClosed ||
+                (lastVariantScheduledDeploy !== undefined &&
+                    lastVariantScheduledDeploy > lastClosed)
+            );
+        }
+
         if (deploySchedule) {
             // this test has its own deploy schedule
-            const lastClosed = new Date(lastClosedRaw);
             return isAfter(subDays(now, deploySchedule.daysBetween), lastClosed);
         }
 
-        const deployTimes = manualBannerDeployTimes.getDeployTimes(bannerChannel);
-        const lastManualDeploy = deployTimes[region];
-        const lastClosed = new Date(lastClosedRaw);
+        const lastScheduledDeploy = scheduledBannerDeploys
+            ? getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel])
+            : undefined;
         return (
             lastManualDeploy > lastClosed ||
-            (!!scheduledBannerDeploys &&
-                getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed)
+            (lastScheduledDeploy !== undefined && lastScheduledDeploy > lastClosed)
         );
     };
 

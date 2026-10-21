@@ -1,13 +1,14 @@
 import type { BannerTargeting, BannerTest } from '../../../shared/types';
 import { SecondaryCtaType } from '../../../shared/types';
 import type { BanditData } from '../../selection/banditData';
+import { defaultDeploySchedule } from './bannerDeploySchedule';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 
 const buildCheckAuxiaSuppressionMock = (isSuppressed = false) =>
     jest.fn().mockResolvedValue(isSuppressed);
 
-const getBannerDeployTimesReloader = (date: string) =>
+const getBannerDeployTimesReloader = (date: string, variantDaysOfWeek?: number[]) =>
     new BannerDeployTimesProvider({
         contributions: {
             get: () => ({
@@ -27,6 +28,9 @@ const getBannerDeployTimesReloader = (date: string) =>
                 EuropeanUnion: new Date(date),
             }),
         },
+        ...(variantDaysOfWeek === undefined
+            ? {}
+            : { variantSchedule: { get: () => ({ daysOfWeek: variantDaysOfWeek }) } }),
     });
 
 const userDeviceType = 'Desktop';
@@ -854,6 +858,179 @@ describe('selectBannerTest', () => {
             const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00'); // manual deploy before lastClosedAt
             expect(
                 canShowBannerAgain(buildTargeting(lastClosedAt), test, manualDeployTimes, now),
+            ).toBe(false);
+        });
+
+        it('uses the configured 9am weekdays for marked Variant requests', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-03T10:00:00'),
+                auxiaRolloutMvtId: 0,
+            };
+            const manualDeployTimes = getBannerDeployTimesReloader(
+                '2024-01-01T00:00:00',
+                [1, 3, 5],
+            );
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    manualDeployTimes,
+                    now,
+                    defaultDeploySchedule,
+                ),
+            ).toBe(false);
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    manualDeployTimes,
+                    new Date('2024-01-05T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+        });
+
+        it('keeps a dismissal until the next daily 9am reset', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-04T10:00:00'),
+                auxiaRolloutMvtId: 12,
+            };
+            const manualDeployTimes = getBannerDeployTimesReloader(
+                '2024-01-01T00:00:00',
+                [0, 1, 2, 3, 4, 5, 6],
+            );
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    manualDeployTimes,
+                    new Date('2024-01-04T11:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(false);
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    manualDeployTimes,
+                    new Date('2024-01-05T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+        });
+
+        it('does not automatically reset marked Variant requests with no selected weekdays', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-02T10:00:00'),
+                auxiaRolloutMvtId: 12,
+            };
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00', []);
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    manualDeployTimes,
+                    now,
+                    defaultDeploySchedule,
+                ),
+            ).toBe(false);
+        });
+
+        it('respects the existing switch that disables scheduled resets', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-02T10:00:00'),
+                auxiaRolloutMvtId: 12,
+            };
+            const manualDeployTimes = getBannerDeployTimesReloader(
+                '2024-01-01T00:00:00',
+                [0, 1, 2, 3, 4, 5, 6],
+            );
+
+            expect(canShowBannerAgain(variantTargeting, test, manualDeployTimes, now)).toBe(false);
+        });
+
+        it('allows a newer manual redeploy to reset a marked Variant dismissal', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-03T10:00:00'),
+                auxiaRolloutMvtId: 12,
+            };
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-04T09:30:00', []);
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    manualDeployTimes,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+        });
+
+        it('uses the Variant schedule instead of the per-test interval for marked requests', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-03T12:00:00'),
+                auxiaRolloutMvtId: 12,
+            };
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00');
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    testWithSchedule,
+                    manualDeployTimes,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+        });
+
+        it('preserves the existing Banner 1 and Banner 2 channel schedules for unmarked requests', () => {
+            const bannerOneTargeting = buildTargeting('2024-01-04T08:00:00');
+            const bannerTwoTargeting = {
+                ...buildTargeting('2024-01-02T08:00:00'),
+                subscriptionBannerLastClosedAt: '2024-01-02T08:00:00',
+                engagementBannerLastClosedAt: undefined,
+                hasConsented: false,
+            };
+            const bannerTwoTest = { ...test, bannerChannel: 'subscriptions' as const };
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00');
+
+            expect(
+                canShowBannerAgain(
+                    bannerOneTargeting,
+                    test,
+                    manualDeployTimes,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+            expect(
+                canShowBannerAgain(
+                    bannerTwoTargeting,
+                    bannerTwoTest,
+                    manualDeployTimes,
+                    new Date('2024-01-02T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+        });
+
+        it('preserves per-test intervals for unmarked requests', () => {
+            const targeting = buildTargeting('2024-01-03T12:00:00');
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00');
+
+            expect(
+                canShowBannerAgain(
+                    targeting,
+                    testWithSchedule,
+                    manualDeployTimes,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
             ).toBe(false);
         });
     });
