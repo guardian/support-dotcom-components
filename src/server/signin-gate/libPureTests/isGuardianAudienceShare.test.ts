@@ -27,10 +27,11 @@ describe('isGuardianAudienceShare', () => {
         expect(isGuardianAudienceShare(buildPayload('US', 450001))).toBe(true);
     });
 
-    it('UK uses the reduced 20% share', () => {
-        expect(isGuardianAudienceShare(buildPayload('GB', 200000))).toBe(false);
-        expect(isGuardianAudienceShare(buildPayload('GB', 200001))).toBe(true);
-        expect(isGuardianAudienceShare(buildPayload('GB', 250001))).toBe(true);
+    it('UK uses the 35% Auxia share', () => {
+        expect(isGuardianAudienceShare(buildPayload('GB', 0))).toBe(true);
+        expect(isGuardianAudienceShare(buildPayload('GB', 1))).toBe(false);
+        expect(isGuardianAudienceShare(buildPayload('GB', 350000))).toBe(false);
+        expect(isGuardianAudienceShare(buildPayload('GB', 350001))).toBe(true);
     });
 
     it('politically sensitive countries remain in the Guardian share', () => {
