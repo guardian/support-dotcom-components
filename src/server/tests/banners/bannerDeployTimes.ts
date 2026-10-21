@@ -3,7 +3,7 @@ import { isProd } from '../../lib/env';
 import { logInfo } from '../../utils/logging';
 import { fetchS3Data } from '../../utils/S3';
 import type { ValueProvider } from '../../utils/valueReloader';
-import { buildReloader } from '../../utils/valueReloader';
+import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
 /**
  * Banner deploy cache -
@@ -37,6 +37,55 @@ const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<Ban
 };
 
 const fiveMinutes = 60 * 5;
+
+export interface VariantBannerDeploySchedule {
+    daysOfWeek: number[];
+}
+
+export const defaultVariantBannerDeploySchedule: VariantBannerDeploySchedule = {
+    daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+};
+
+const isValidVariantSchedule = (value: unknown): value is VariantBannerDeploySchedule => {
+    if (typeof value !== 'object' || value === null || !('daysOfWeek' in value)) {
+        return false;
+    }
+
+    const daysOfWeek = value.daysOfWeek;
+    return (
+        Array.isArray(daysOfWeek) &&
+        daysOfWeek.every((day) => Number.isInteger(day) && day >= 0 && day <= 6) &&
+        new Set(daysOfWeek).size === daysOfWeek.length
+    );
+};
+
+const parseVariantBannerDeploySchedule = (json: string): VariantBannerDeploySchedule => {
+    const parsed: unknown = JSON.parse(json);
+    const value =
+        typeof parsed === 'object' && parsed !== null && 'value' in parsed
+            ? parsed.value
+            : undefined;
+
+    if (!isValidVariantSchedule(value)) {
+        throw new Error('Invalid Variant banner deploy schedule');
+    }
+
+    return value;
+};
+
+const fetchVariantBannerDeploySchedule = (): Promise<VariantBannerDeploySchedule> => {
+    const stage = isProd ? 'PROD' : 'CODE';
+    const key = `${stage}/banner-deploy/variant-schedule.json`;
+    return fetchS3Data(AdminConsoleBucket, key)
+        .then(parseVariantBannerDeploySchedule)
+        .then((schedule) => {
+            logInfo(
+                `Got Variant banner deploy schedule for ${key}: ${JSON.stringify(schedule.daysOfWeek)}`,
+            );
+            return schedule;
+        });
+};
+
 interface BannerDeployTimes {
     UnitedKingdom: Date;
     UnitedStates: Date;
@@ -48,17 +97,26 @@ interface BannerDeployTimes {
 interface BannerDeployTimesProviders {
     contributions: ValueProvider<BannerDeployTimes>;
     subscriptions: ValueProvider<BannerDeployTimes>;
+    variantSchedule?: ValueProvider<VariantBannerDeploySchedule>;
 }
 
 export class BannerDeployTimesProvider {
     providers: BannerDeployTimesProviders;
+    variantSchedule: ValueProvider<VariantBannerDeploySchedule>;
 
     constructor(providers: BannerDeployTimesProviders) {
         this.providers = providers;
+        this.variantSchedule = providers.variantSchedule ?? {
+            get: () => defaultVariantBannerDeploySchedule,
+        };
     }
 
     getDeployTimes(channel: 'contributions' | 'subscriptions'): BannerDeployTimes {
         return this.providers[channel].get();
+    }
+
+    getVariantSchedule(): VariantBannerDeploySchedule {
+        return this.variantSchedule.get();
     }
 }
 
@@ -70,5 +128,10 @@ export const buildBannerDeployTimesReloader = async (): Promise<BannerDeployTime
     return new BannerDeployTimesProvider({
         contributions,
         subscriptions,
+        variantSchedule: new ValueReloader(
+            defaultVariantBannerDeploySchedule,
+            fetchVariantBannerDeploySchedule,
+            fiveMinutes,
+        ),
     });
 };
