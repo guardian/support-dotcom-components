@@ -27,7 +27,7 @@ SDC also has an endpoint for tracking interactions (view/click) with the gate: `
 The sign-in-gate rollout is applied only to consented readers:
 
 - readers in the `International` country group (ROW) are in the Auxia audience for 100% of valid MVT ids;
-- GB remains at 20%, while remaining non-ROW MVT-based countries and territories remain at 35%
+- GB and remaining non-ROW MVT-based countries and territories use 35%
   (including the United States and codes outside the explicit full-rollout or mandatory lists);
 - Australia and the existing Europe rollout remain at 100%;
 - Ireland and Canada remain on the mandatory Auxia rollout path; New Zealand uses that path only
