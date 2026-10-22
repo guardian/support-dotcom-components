@@ -988,6 +988,60 @@ describe('selectBannerTest', () => {
             ).toBe(true);
         });
 
+        it('preserves the Banner 2 schedule for marked Variant requests', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-04T08:30:00'),
+                engagementBannerLastClosedAt: undefined,
+                subscriptionBannerLastClosedAt: '2024-01-04T08:30:00',
+                auxiaRolloutMvtId: 12,
+            };
+            const bannerTwoTest = { ...test, bannerChannel: 'subscriptions' as const };
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00', [4]);
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    bannerTwoTest,
+                    manualDeployTimes,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(false);
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    bannerTwoTest,
+                    manualDeployTimes,
+                    new Date('2024-01-09T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+        });
+
+        it('preserves per-test intervals for marked Banner 2 requests', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-03T08:00:00'),
+                engagementBannerLastClosedAt: undefined,
+                subscriptionBannerLastClosedAt: '2024-01-03T08:00:00',
+                auxiaRolloutMvtId: 12,
+            };
+            const bannerTwoTest = {
+                ...testWithSchedule,
+                bannerChannel: 'subscriptions' as const,
+            };
+            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00', [2]);
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    bannerTwoTest,
+                    manualDeployTimes,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+        });
+
         it('preserves the existing Banner 1 and Banner 2 channel schedules for unmarked requests', () => {
             const bannerOneTargeting = buildTargeting('2024-01-04T08:00:00');
             const bannerTwoTargeting = {

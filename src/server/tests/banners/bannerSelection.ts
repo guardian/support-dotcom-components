@@ -131,7 +131,10 @@ export const canShowBannerAgain = (
         const deployTimes = manualBannerDeployTimes.getDeployTimes(bannerChannel);
         const lastManualDeploy = deployTimes[region];
 
-        if (targeting.auxiaRolloutMvtId !== undefined) {
+        if (
+            targeting.auxiaRolloutMvtId !== undefined &&
+            bannerChannel === 'contributions'
+        ) {
             const lastVariantScheduledDeploy = scheduledBannerDeploys
                 ? getLastScheduledDeploy(
                       now,
