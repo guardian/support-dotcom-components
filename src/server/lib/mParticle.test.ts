@@ -340,6 +340,7 @@ describe('MParticle.getProfileFetcher', () => {
         enableBanners: false,
         enableEpics: false,
         enableGutterLiveblogs: false,
+        enableInline1Tests: false,
         enableHardcodedBannerTests: false,
         enableHardcodedEpicTests: false,
         enableHeaders: false,
