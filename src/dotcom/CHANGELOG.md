@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.1.2
+
+### Patch Changes
+
+- e04cd6f: Fix path of dotcom types
+
 ## 11.1.1
 
 ### Patch Changes
