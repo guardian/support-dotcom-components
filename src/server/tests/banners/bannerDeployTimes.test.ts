@@ -18,7 +18,13 @@ const manualDeployTimesJson = JSON.stringify({
     EuropeanUnion: { timestamp: 0 },
 });
 
-const scheduleJson = (daysOfWeek: unknown): string => JSON.stringify({ value: { daysOfWeek } });
+const scheduleJson = (daysOfWeek: unknown, lastManualRedeployTimestamp?: number): string =>
+    JSON.stringify({
+        value: {
+            daysOfWeek,
+            ...(lastManualRedeployTimestamp === undefined ? {} : { lastManualRedeployTimestamp }),
+        },
+    });
 
 const flushMicrotasks = async (): Promise<void> => {
     for (let i = 0; i < 5; i += 1) {
@@ -90,7 +96,7 @@ describe('BannerDeployTimesProvider Variant schedule cache', () => {
                     return Promise.resolve(scheduleJson([1]));
                 }
                 if (variantReads === 2) {
-                    return Promise.resolve(scheduleJson([1, 3, 5]));
+                    return Promise.resolve(scheduleJson([1, 3, 5], 1_800_000_000_000));
                 }
                 return Promise.reject(new Error('temporary schedule read failure'));
             }
@@ -102,10 +108,16 @@ describe('BannerDeployTimesProvider Variant schedule cache', () => {
         expect(provider.getVariantSchedule()).toEqual({ daysOfWeek: [1] });
 
         await jest.advanceTimersByTimeAsync(fiveMinutesInMilliseconds);
-        expect(provider.getVariantSchedule()).toEqual({ daysOfWeek: [1, 3, 5] });
+        expect(provider.getVariantSchedule()).toEqual({
+            daysOfWeek: [1, 3, 5],
+            lastManualRedeployTimestamp: 1_800_000_000_000,
+        });
 
         await jest.advanceTimersByTimeAsync(fiveMinutesInMilliseconds);
-        expect(provider.getVariantSchedule()).toEqual({ daysOfWeek: [1, 3, 5] });
+        expect(provider.getVariantSchedule()).toEqual({
+            daysOfWeek: [1, 3, 5],
+            lastManualRedeployTimestamp: 1_800_000_000_000,
+        });
     });
 
     it('rejects invalid persisted values and keeps the default schedule', async () => {
@@ -113,6 +125,39 @@ describe('BannerDeployTimesProvider Variant schedule cache', () => {
             Promise.resolve(
                 key.endsWith('variant-schedule.json')
                     ? scheduleJson([1, 7])
+                    : manualDeployTimesJson,
+            ),
+        );
+
+        const provider = await buildBannerDeployTimesReloader();
+        await flushMicrotasks();
+
+        expect(provider.getVariantSchedule()).toEqual(defaultVariantBannerDeploySchedule);
+    });
+
+    it('loads a Variant-specific manual redeploy timestamp', async () => {
+        fetchS3DataMock.mockImplementation((_bucket, key) =>
+            Promise.resolve(
+                key.endsWith('variant-schedule.json')
+                    ? scheduleJson([1, 2], 1_800_000_000_000)
+                    : manualDeployTimesJson,
+            ),
+        );
+
+        const provider = await buildBannerDeployTimesReloader();
+        await flushMicrotasks();
+
+        expect(provider.getVariantSchedule()).toEqual({
+            daysOfWeek: [1, 2],
+            lastManualRedeployTimestamp: 1_800_000_000_000,
+        });
+    });
+
+    it('rejects a negative Variant-specific manual redeploy timestamp', async () => {
+        fetchS3DataMock.mockImplementation((_bucket, key) =>
+            Promise.resolve(
+                key.endsWith('variant-schedule.json')
+                    ? scheduleJson([1], -1)
                     : manualDeployTimesJson,
             ),
         );

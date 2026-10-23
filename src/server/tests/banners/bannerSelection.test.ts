@@ -8,7 +8,11 @@ import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 const buildCheckAuxiaSuppressionMock = (isSuppressed = false) =>
     jest.fn().mockResolvedValue(isSuppressed);
 
-const getBannerDeployTimesReloader = (date: string, variantDaysOfWeek?: number[]) =>
+const getBannerDeployTimesReloader = (
+    date: string,
+    variantDaysOfWeek?: number[],
+    lastManualRedeployTimestamp?: number,
+) =>
     new BannerDeployTimesProvider({
         contributions: {
             get: () => ({
@@ -28,9 +32,18 @@ const getBannerDeployTimesReloader = (date: string, variantDaysOfWeek?: number[]
                 EuropeanUnion: new Date(date),
             }),
         },
-        ...(variantDaysOfWeek === undefined
+        ...(variantDaysOfWeek === undefined && lastManualRedeployTimestamp === undefined
             ? {}
-            : { variantSchedule: { get: () => ({ daysOfWeek: variantDaysOfWeek }) } }),
+            : {
+                  variantSchedule: {
+                      get: () => ({
+                          daysOfWeek: variantDaysOfWeek ?? [0, 1, 2, 3, 4, 5, 6],
+                          ...(lastManualRedeployTimestamp === undefined
+                              ? {}
+                              : { lastManualRedeployTimestamp }),
+                      }),
+                  },
+              }),
     });
 
 const userDeviceType = 'Desktop';
@@ -952,22 +965,66 @@ describe('selectBannerTest', () => {
             expect(canShowBannerAgain(variantTargeting, test, manualDeployTimes, now)).toBe(false);
         });
 
-        it('allows a newer manual redeploy to reset a marked Variant dismissal', () => {
+        it('allows a newer Variant-specific manual redeploy to reset a marked dismissal', () => {
             const variantTargeting = {
                 ...buildTargeting('2024-01-03T10:00:00'),
                 auxiaRolloutMvtId: 12,
             };
-            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-04T09:30:00', []);
+            const variantRedeploy = getBannerDeployTimesReloader(
+                '2024-01-01T00:00:00',
+                [],
+                new Date('2024-01-04T09:30:00').getTime(),
+            );
 
             expect(
                 canShowBannerAgain(
                     variantTargeting,
                     test,
-                    manualDeployTimes,
+                    variantRedeploy,
                     new Date('2024-01-04T10:00:00'),
                     defaultDeploySchedule,
                 ),
             ).toBe(true);
+        });
+
+        it('does not use the shared channel 1 redeploy for a marked Variant dismissal', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-03T10:00:00'),
+                auxiaRolloutMvtId: 12,
+            };
+            const channelOneRedeploy = getBannerDeployTimesReloader(
+                '2024-01-04T09:30:00',
+                [],
+            );
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    channelOneRedeploy,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(false);
+        });
+
+        it('does not use a Variant-specific redeploy for an unmarked dismissal', () => {
+            const targeting = buildTargeting('2024-01-03T10:00:00');
+            const variantRedeploy = getBannerDeployTimesReloader(
+                '2024-01-01T00:00:00',
+                [],
+                new Date('2024-01-03T10:30:00').getTime(),
+            );
+
+            expect(
+                canShowBannerAgain(
+                    targeting,
+                    test,
+                    variantRedeploy,
+                    new Date('2024-01-03T11:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(false);
         });
 
         it('uses the Variant schedule instead of the per-test interval for marked requests', () => {

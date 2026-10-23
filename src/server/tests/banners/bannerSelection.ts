@@ -135,14 +135,19 @@ export const canShowBannerAgain = (
             targeting.auxiaRolloutMvtId !== undefined &&
             bannerChannel === 'contributions'
         ) {
+            const variantSchedule = manualBannerDeployTimes.getVariantSchedule();
+            const { lastManualRedeployTimestamp } = variantSchedule;
+            const hasNewerVariantManualRedeploy =
+                lastManualRedeployTimestamp !== undefined &&
+                new Date(lastManualRedeployTimestamp) > lastClosed;
             const lastVariantScheduledDeploy = scheduledBannerDeploys
                 ? getLastScheduledDeploy(
                       now,
-                      scheduleForWeekdays(manualBannerDeployTimes.getVariantSchedule().daysOfWeek),
+                      scheduleForWeekdays(variantSchedule.daysOfWeek),
                   )
                 : undefined;
             return (
-                lastManualDeploy > lastClosed ||
+                hasNewerVariantManualRedeploy ||
                 (lastVariantScheduledDeploy !== undefined &&
                     lastVariantScheduledDeploy > lastClosed)
             );

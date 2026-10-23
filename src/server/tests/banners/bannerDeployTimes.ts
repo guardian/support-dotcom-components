@@ -40,6 +40,7 @@ const fiveMinutes = 60 * 5;
 
 export interface VariantBannerDeploySchedule {
     daysOfWeek: number[];
+    lastManualRedeployTimestamp?: number;
 }
 
 export const defaultVariantBannerDeploySchedule: VariantBannerDeploySchedule = {
@@ -52,10 +53,16 @@ const isValidVariantSchedule = (value: unknown): value is VariantBannerDeploySch
     }
 
     const daysOfWeek = value.daysOfWeek;
+    const lastManualRedeployTimestamp =
+        'lastManualRedeployTimestamp' in value ? value.lastManualRedeployTimestamp : undefined;
     return (
         Array.isArray(daysOfWeek) &&
         daysOfWeek.every((day) => Number.isInteger(day) && day >= 0 && day <= 6) &&
-        new Set(daysOfWeek).size === daysOfWeek.length
+        new Set(daysOfWeek).size === daysOfWeek.length &&
+        (lastManualRedeployTimestamp === undefined ||
+            (typeof lastManualRedeployTimestamp === 'number' &&
+                Number.isSafeInteger(lastManualRedeployTimestamp) &&
+                lastManualRedeployTimestamp >= 0))
     );
 };
 
