@@ -105,16 +105,12 @@ const isValidVariantSchedule = (value: unknown): value is VariantBannerDeploySch
 
 const parseVariantBannerDeploySchedule = (json: string): VariantBannerDeploySchedule => {
     const parsed: unknown = JSON.parse(json);
-    const value =
-        typeof parsed === 'object' && parsed !== null && 'value' in parsed
-            ? parsed.value
-            : undefined;
 
-    if (!isValidVariantSchedule(value)) {
+    if (!isValidVariantSchedule(parsed)) {
         throw new Error('Invalid Variant banner deploy schedule');
     }
 
-    return value;
+    return parsed;
 };
 
 const fetchVariantBannerDeploySchedule = (): Promise<VariantBannerDeploySchedule> => {

@@ -24,11 +24,9 @@ const scheduleJson = (
     manualRedeploysByRegion?: unknown,
 ): string =>
     JSON.stringify({
-        value: {
-            daysOfWeek,
-            ...(lastManualRedeployTimestamp === undefined ? {} : { lastManualRedeployTimestamp }),
-            ...(manualRedeploysByRegion === undefined ? {} : { manualRedeploysByRegion }),
-        },
+        daysOfWeek,
+        ...(lastManualRedeployTimestamp === undefined ? {} : { lastManualRedeployTimestamp }),
+        ...(manualRedeploysByRegion === undefined ? {} : { manualRedeploysByRegion }),
     });
 
 const flushMicrotasks = async (): Promise<void> => {
