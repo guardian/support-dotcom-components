@@ -1005,7 +1005,12 @@ describe('selectBannerTest', () => {
                 '2024-01-01T00:00:00',
                 [],
                 undefined,
-                { Australia: { timestamp: new Date('2024-01-04T09:30:00').getTime(), email: 'operator@example.com' } },
+                {
+                    Australia: {
+                        timestamp: new Date('2024-01-04T09:30:00').getTime(),
+                        email: 'operator@example.com',
+                    },
+                },
             );
 
             expect(
@@ -1029,7 +1034,12 @@ describe('selectBannerTest', () => {
                 '2024-01-01T00:00:00',
                 [],
                 undefined,
-                { Australia: { timestamp: new Date('2024-01-04T09:30:00').getTime(), email: 'operator@example.com' } },
+                {
+                    Australia: {
+                        timestamp: new Date('2024-01-04T09:30:00').getTime(),
+                        email: 'operator@example.com',
+                    },
+                },
             );
 
             expect(
@@ -1048,10 +1058,7 @@ describe('selectBannerTest', () => {
                 ...buildTargeting('2024-01-03T10:00:00'),
                 auxiaRolloutMvtId: 12,
             };
-            const channelOneRedeploy = getBannerDeployTimesReloader(
-                '2024-01-04T09:30:00',
-                [],
-            );
+            const channelOneRedeploy = getBannerDeployTimesReloader('2024-01-04T09:30:00', []);
 
             expect(
                 canShowBannerAgain(

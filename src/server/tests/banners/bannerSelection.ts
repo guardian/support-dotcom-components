@@ -131,10 +131,7 @@ export const canShowBannerAgain = (
         const deployTimes = manualBannerDeployTimes.getDeployTimes(bannerChannel);
         const lastManualDeploy = deployTimes[region];
 
-        if (
-            targeting.auxiaRolloutMvtId !== undefined &&
-            bannerChannel === 'contributions'
-        ) {
+        if (targeting.auxiaRolloutMvtId !== undefined && bannerChannel === 'contributions') {
             const variantSchedule = manualBannerDeployTimes.getVariantSchedule();
             const regionalManualRedeployTimestamp =
                 variantSchedule.manualRedeploysByRegion?.[region]?.timestamp;
@@ -143,10 +140,7 @@ export const canShowBannerAgain = (
                 regionalManualRedeployTimestamp,
             ].some((timestamp) => timestamp !== undefined && new Date(timestamp) > lastClosed);
             const lastVariantScheduledDeploy = scheduledBannerDeploys
-                ? getLastScheduledDeploy(
-                      now,
-                      scheduleForWeekdays(variantSchedule.daysOfWeek),
-                  )
+                ? getLastScheduledDeploy(now, scheduleForWeekdays(variantSchedule.daysOfWeek))
                 : undefined;
             return (
                 hasNewerVariantManualRedeploy ||
