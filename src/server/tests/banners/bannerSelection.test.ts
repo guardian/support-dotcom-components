@@ -3,6 +3,7 @@ import { SecondaryCtaType } from '../../../shared/types';
 import type { BanditData } from '../../selection/banditData';
 import { defaultDeploySchedule } from './bannerDeploySchedule';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
+import type { ReaderRevenueRegion } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 
 const buildCheckAuxiaSuppressionMock = (isSuppressed = false) =>
@@ -12,6 +13,9 @@ const getBannerDeployTimesReloader = (
     date: string,
     variantDaysOfWeek?: number[],
     lastManualRedeployTimestamp?: number,
+    manualRedeploysByRegion?: Partial<
+        Record<ReaderRevenueRegion, { timestamp: number; email: string }>
+    >,
 ) =>
     new BannerDeployTimesProvider({
         contributions: {
@@ -32,7 +36,9 @@ const getBannerDeployTimesReloader = (
                 EuropeanUnion: new Date(date),
             }),
         },
-        ...(variantDaysOfWeek === undefined && lastManualRedeployTimestamp === undefined
+        ...(variantDaysOfWeek === undefined &&
+        lastManualRedeployTimestamp === undefined &&
+        manualRedeploysByRegion === undefined
             ? {}
             : {
                   variantSchedule: {
@@ -41,6 +47,9 @@ const getBannerDeployTimesReloader = (
                           ...(lastManualRedeployTimestamp === undefined
                               ? {}
                               : { lastManualRedeployTimestamp }),
+                          ...(manualRedeploysByRegion === undefined
+                              ? {}
+                              : { manualRedeploysByRegion }),
                       }),
                   },
               }),
@@ -985,6 +994,53 @@ describe('selectBannerTest', () => {
                     defaultDeploySchedule,
                 ),
             ).toBe(true);
+        });
+
+        it('allows a newer regional Variant redeploy to reset a marked dismissal', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-03T10:00:00'),
+                auxiaRolloutMvtId: 12,
+            };
+            const variantRedeploy = getBannerDeployTimesReloader(
+                '2024-01-01T00:00:00',
+                [],
+                undefined,
+                { Australia: { timestamp: new Date('2024-01-04T09:30:00').getTime(), email: 'operator@example.com' } },
+            );
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    variantRedeploy,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(true);
+        });
+
+        it('does not apply a regional Variant redeploy to other regions', () => {
+            const variantTargeting = {
+                ...buildTargeting('2024-01-03T10:00:00'),
+                countryCode: 'GB',
+                auxiaRolloutMvtId: 12,
+            };
+            const variantRedeploy = getBannerDeployTimesReloader(
+                '2024-01-01T00:00:00',
+                [],
+                undefined,
+                { Australia: { timestamp: new Date('2024-01-04T09:30:00').getTime(), email: 'operator@example.com' } },
+            );
+
+            expect(
+                canShowBannerAgain(
+                    variantTargeting,
+                    test,
+                    variantRedeploy,
+                    new Date('2024-01-04T10:00:00'),
+                    defaultDeploySchedule,
+                ),
+            ).toBe(false);
         });
 
         it('does not use the shared channel 1 redeploy for a marked Variant dismissal', () => {

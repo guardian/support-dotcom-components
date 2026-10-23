@@ -38,10 +38,34 @@ const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<Ban
 
 const fiveMinutes = 60 * 5;
 
+const readerRevenueRegions: ReaderRevenueRegion[] = [
+    'Australia',
+    'EuropeanUnion',
+    'RestOfWorld',
+    'UnitedKingdom',
+    'UnitedStates',
+];
+
+export interface BannerDeployRegion {
+    timestamp: number;
+    email: string;
+}
+
 export interface VariantBannerDeploySchedule {
     daysOfWeek: number[];
     lastManualRedeployTimestamp?: number;
+    manualRedeploysByRegion?: Partial<Record<ReaderRevenueRegion, BannerDeployRegion>>;
 }
+
+const isValidRegionalRedeploy = (value: unknown): value is BannerDeployRegion =>
+    typeof value === 'object' &&
+    value !== null &&
+    'timestamp' in value &&
+    typeof value.timestamp === 'number' &&
+    Number.isSafeInteger(value.timestamp) &&
+    value.timestamp >= 0 &&
+    'email' in value &&
+    typeof value.email === 'string';
 
 export const defaultVariantBannerDeploySchedule: VariantBannerDeploySchedule = {
     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
@@ -55,6 +79,18 @@ const isValidVariantSchedule = (value: unknown): value is VariantBannerDeploySch
     const daysOfWeek = value.daysOfWeek;
     const lastManualRedeployTimestamp =
         'lastManualRedeployTimestamp' in value ? value.lastManualRedeployTimestamp : undefined;
+    const manualRedeploysByRegion =
+        'manualRedeploysByRegion' in value ? value.manualRedeploysByRegion : undefined;
+    const hasValidRegionalRedeploys =
+        manualRedeploysByRegion === undefined ||
+        (typeof manualRedeploysByRegion === 'object' &&
+            manualRedeploysByRegion !== null &&
+            !Array.isArray(manualRedeploysByRegion) &&
+            Object.entries(manualRedeploysByRegion).every(
+                ([region, deploy]) =>
+                    readerRevenueRegions.includes(region as ReaderRevenueRegion) &&
+                    isValidRegionalRedeploy(deploy),
+            ));
     return (
         Array.isArray(daysOfWeek) &&
         daysOfWeek.every((day) => Number.isInteger(day) && day >= 0 && day <= 6) &&
@@ -62,7 +98,8 @@ const isValidVariantSchedule = (value: unknown): value is VariantBannerDeploySch
         (lastManualRedeployTimestamp === undefined ||
             (typeof lastManualRedeployTimestamp === 'number' &&
                 Number.isSafeInteger(lastManualRedeployTimestamp) &&
-                lastManualRedeployTimestamp >= 0))
+                lastManualRedeployTimestamp >= 0)) &&
+        hasValidRegionalRedeploys
     );
 };
 

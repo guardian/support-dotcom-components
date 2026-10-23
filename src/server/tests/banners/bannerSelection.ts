@@ -136,10 +136,12 @@ export const canShowBannerAgain = (
             bannerChannel === 'contributions'
         ) {
             const variantSchedule = manualBannerDeployTimes.getVariantSchedule();
-            const { lastManualRedeployTimestamp } = variantSchedule;
-            const hasNewerVariantManualRedeploy =
-                lastManualRedeployTimestamp !== undefined &&
-                new Date(lastManualRedeployTimestamp) > lastClosed;
+            const regionalManualRedeployTimestamp =
+                variantSchedule.manualRedeploysByRegion?.[region]?.timestamp;
+            const hasNewerVariantManualRedeploy = [
+                variantSchedule.lastManualRedeployTimestamp,
+                regionalManualRedeployTimestamp,
+            ].some((timestamp) => timestamp !== undefined && new Date(timestamp) > lastClosed);
             const lastVariantScheduledDeploy = scheduledBannerDeploys
                 ? getLastScheduledDeploy(
                       now,

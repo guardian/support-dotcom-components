@@ -18,11 +18,16 @@ const manualDeployTimesJson = JSON.stringify({
     EuropeanUnion: { timestamp: 0 },
 });
 
-const scheduleJson = (daysOfWeek: unknown, lastManualRedeployTimestamp?: number): string =>
+const scheduleJson = (
+    daysOfWeek: unknown,
+    lastManualRedeployTimestamp?: number,
+    manualRedeploysByRegion?: unknown,
+): string =>
     JSON.stringify({
         value: {
             daysOfWeek,
             ...(lastManualRedeployTimestamp === undefined ? {} : { lastManualRedeployTimestamp }),
+            ...(manualRedeploysByRegion === undefined ? {} : { manualRedeploysByRegion }),
         },
     });
 
@@ -96,7 +101,14 @@ describe('BannerDeployTimesProvider Variant schedule cache', () => {
                     return Promise.resolve(scheduleJson([1]));
                 }
                 if (variantReads === 2) {
-                    return Promise.resolve(scheduleJson([1, 3, 5], 1_800_000_000_000));
+                    return Promise.resolve(
+                        scheduleJson([1, 3, 5], undefined, {
+                            Australia: {
+                                timestamp: 1_800_000_000_000,
+                                email: 'operator@example.com',
+                            },
+                        }),
+                    );
                 }
                 return Promise.reject(new Error('temporary schedule read failure'));
             }
@@ -110,13 +122,23 @@ describe('BannerDeployTimesProvider Variant schedule cache', () => {
         await jest.advanceTimersByTimeAsync(fiveMinutesInMilliseconds);
         expect(provider.getVariantSchedule()).toEqual({
             daysOfWeek: [1, 3, 5],
-            lastManualRedeployTimestamp: 1_800_000_000_000,
+            manualRedeploysByRegion: {
+                Australia: {
+                    timestamp: 1_800_000_000_000,
+                    email: 'operator@example.com',
+                },
+            },
         });
 
         await jest.advanceTimersByTimeAsync(fiveMinutesInMilliseconds);
         expect(provider.getVariantSchedule()).toEqual({
             daysOfWeek: [1, 3, 5],
-            lastManualRedeployTimestamp: 1_800_000_000_000,
+            manualRedeploysByRegion: {
+                Australia: {
+                    timestamp: 1_800_000_000_000,
+                    email: 'operator@example.com',
+                },
+            },
         });
     });
 
@@ -153,6 +175,27 @@ describe('BannerDeployTimesProvider Variant schedule cache', () => {
         });
     });
 
+    it('loads Variant-specific redeploy history by region', async () => {
+        const manualRedeploysByRegion = {
+            Australia: { timestamp: 1_800_000_000_000, email: 'operator@example.com' },
+        };
+        fetchS3DataMock.mockImplementation((_bucket, key) =>
+            Promise.resolve(
+                key.endsWith('variant-schedule.json')
+                    ? scheduleJson([1, 2], undefined, manualRedeploysByRegion)
+                    : manualDeployTimesJson,
+            ),
+        );
+
+        const provider = await buildBannerDeployTimesReloader();
+        await flushMicrotasks();
+
+        expect(provider.getVariantSchedule()).toEqual({
+            daysOfWeek: [1, 2],
+            manualRedeploysByRegion,
+        });
+    });
+
     it('rejects a negative Variant-specific manual redeploy timestamp', async () => {
         fetchS3DataMock.mockImplementation((_bucket, key) =>
             Promise.resolve(
@@ -166,5 +209,26 @@ describe('BannerDeployTimesProvider Variant schedule cache', () => {
         await flushMicrotasks();
 
         expect(provider.getVariantSchedule()).toEqual(defaultVariantBannerDeploySchedule);
+    });
+
+    it('rejects invalid region names and negative regional redeploy timestamps', async () => {
+        for (const manualRedeploysByRegion of [
+            { InvalidRegion: { timestamp: 1, email: 'operator@example.com' } },
+            { Australia: { timestamp: -1, email: 'operator@example.com' } },
+        ]) {
+            fetchS3DataMock.mockImplementation((_bucket, key) =>
+                Promise.resolve(
+                    key.endsWith('variant-schedule.json')
+                        ? scheduleJson([1], undefined, manualRedeploysByRegion)
+                        : manualDeployTimesJson,
+                ),
+            );
+
+            const provider = await buildBannerDeployTimesReloader();
+            await flushMicrotasks();
+
+            expect(provider.getVariantSchedule()).toEqual(defaultVariantBannerDeploySchedule);
+            jest.clearAllTimers();
+        }
     });
 });
