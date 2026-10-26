@@ -1,9 +1,16 @@
 import { inTargetedCountry, passesContributionsOnlyTargeting } from '../../../dotcom';
-import type { Inline1Targeting, Inline1Test, Inline1Variant } from '../../../shared/types';
+import type {
+    Inline1Targeting,
+    Inline1Test,
+    Inline1Variant,
+    UserDeviceType,
+} from '../../../shared/types';
+import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import {
     audienceMatches,
     consentStatusMatches,
     correctSignedInStatus,
+    deviceTypeMatches,
     pageContextMatches,
 } from '../../lib/targeting';
 import { selectVariantUsingMVT } from '../../selection/ab';
@@ -29,12 +36,14 @@ export const isCountryTargetedForInline1 = (
 export const selectBestTest = (
     targeting: Inline1Targeting,
     allTests: Inline1Test[],
+    userDeviceType: UserDeviceType,
     contributionsOnlyCountries: string[] = [],
 ): Inline1TestSelection | null => {
     const { showSupportMessaging, isSignedIn, hasConsented } = targeting;
 
     for (const test of allTests) {
         const { status, userCohort, signedInStatus, contextTargeting, consentStatus } = test;
+        const now = new Date();
 
         // build pageContext
         const pageContext = {
@@ -51,6 +60,12 @@ export const selectBestTest = (
                 targeting.countryCode,
                 contributionsOnlyCountries,
             ) &&
+            historyWithinArticlesViewedSettings(
+                test.articlesViewedSettings,
+                targeting.weeklyArticleHistory,
+                now,
+            ) &&
+            deviceTypeMatches(test, userDeviceType) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
             pageContextMatches(pageContext, contextTargeting) &&
             consentStatusMatches(hasConsented, consentStatus)
@@ -69,7 +84,8 @@ export const selectBestTest = (
 export const selectInline1Test = (
     targeting: Inline1Targeting,
     allTests: Inline1Test[],
+    userDeviceType: UserDeviceType,
     contributionsOnlyCountries: string[] = [],
 ): Inline1TestSelection | null => {
-    return selectBestTest(targeting, allTests, contributionsOnlyCountries);
+    return selectBestTest(targeting, allTests, userDeviceType, contributionsOnlyCountries);
 };
