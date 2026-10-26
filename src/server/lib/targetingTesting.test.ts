@@ -28,7 +28,6 @@ const targeting: BannerTargeting = {
     showSupportMessaging: true,
     mvtId: 1,
     countryCode: 'GB',
-    userSubscriptions: [],
     weeklyArticleHistory: [],
     hasOptedOutOfArticleCount: false,
     contentType: 'Article',
