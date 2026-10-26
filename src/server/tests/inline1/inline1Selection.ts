@@ -70,7 +70,7 @@ export const selectBestTest = (
             pageContextMatches(pageContext, contextTargeting) &&
             consentStatusMatches(hasConsented, consentStatus)
         ) {
-            const selectedVariant: Inline1Variant = selectVariantUsingMVT(test, targeting.mvtId); // placeholder, not sure this is the desired method
+            const selectedVariant: Inline1Variant = selectVariantUsingMVT(test, targeting.mvtId);
             return {
                 test,
                 variant: selectedVariant,
