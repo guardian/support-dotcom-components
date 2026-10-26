@@ -1,11 +1,17 @@
 import type { z } from 'zod';
 import { targetedRegionsSchema } from '../../lib';
 import { inline1VariantSchema } from '../props';
-import { pageContextTargetingSchema, testSchema, userCohortSchema } from './shared';
+import {
+    articlesViewedSettingsSchema,
+    pageContextTargetingSchema,
+    testSchema,
+    userCohortSchema,
+} from './shared';
 
 export const inline1TestFromToolSchema = testSchema.extend({
     regionTargeting: targetedRegionsSchema.optional(),
     userCohort: userCohortSchema,
+    articlesViewedSettings: articlesViewedSettingsSchema.optional(),
     contextTargeting: pageContextTargetingSchema,
     variants: inline1VariantSchema.array(),
 });

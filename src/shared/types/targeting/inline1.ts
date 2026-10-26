@@ -1,4 +1,4 @@
-import { WeeklyArticleHistory } from "./shared";
+import type { WeeklyArticleHistory } from './shared';
 
 export interface Inline1Targeting {
     showSupportMessaging: boolean;
