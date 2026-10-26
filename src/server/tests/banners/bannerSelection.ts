@@ -171,8 +171,13 @@ export const canShowBannerAgain = (
 };
 
 const DESIGNABLE_BANNER_TEMPLATE_NAME = 'DesignableBanner';
+const NEWSLETTER_BANNER_TEMPLATE_NAME = 'NewsletterBanner';
 
-const getModuleNameForVariant = (variant: BannerVariant): string => {
+const getModuleNameForVariant = (variant: BannerVariant, testName: string): string => {
+    if (testName.startsWith('NEWSLETTER_')) {
+        return NEWSLETTER_BANNER_TEMPLATE_NAME;
+    }
+
     if (uiIsDesign(variant.template)) {
         return DESIGNABLE_BANNER_TEMPLATE_NAME;
     } else {
@@ -239,7 +244,7 @@ const getForcedVariant = (
         return {
             test,
             variant: resolvedVariant,
-            moduleName: getModuleNameForVariant(resolvedVariant),
+            moduleName: getModuleNameForVariant(resolvedVariant, test.name),
         };
     }
     return null;
@@ -323,6 +328,18 @@ interface SelectBannerTestData {
     ) => Promise<boolean>;
     contributionsOnlyCountries?: string[];
 }
+
+export const filterTestsForPromotedNewsletterSubscription = <T extends Pick<BannerTest, 'name'>>(
+    tests: T[],
+    targeting: Pick<BannerTargeting, 'isSignedIn' | 'userSubscriptions'>,
+    newsletterId: number | undefined,
+): T[] => {
+    const isSubscribed =
+        targeting.isSignedIn &&
+        newsletterId !== undefined &&
+        targeting.userSubscriptions.includes(newsletterId);
+    return isSubscribed ? tests.filter((test) => !test.name.startsWith('NEWSLETTER_')) : tests;
+};
 
 export const selectBannerTest = async ({
     targeting,
@@ -416,7 +433,7 @@ export const selectBannerTest = async ({
                 selection = {
                     test: result.test,
                     variant,
-                    moduleName: getModuleNameForVariant(variant),
+                    moduleName: getModuleNameForVariant(variant, result.test.name),
                     targetingAbTest: targetingTest ? targetingTest.test : undefined,
                 };
                 break;

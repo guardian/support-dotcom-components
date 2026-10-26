@@ -4,7 +4,11 @@ import type { BanditData } from '../../selection/banditData';
 import { defaultDeploySchedule } from './bannerDeploySchedule';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import type { ReaderRevenueRegion } from './bannerDeployTimes';
-import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
+import {
+    canShowBannerAgain,
+    filterTestsForPromotedNewsletterSubscription,
+    selectBannerTest,
+} from './bannerSelection';
 
 const buildCheckAuxiaSuppressionMock = (isSuppressed = false) =>
     jest.fn().mockResolvedValue(isSuppressed);
@@ -58,6 +62,42 @@ const getBannerDeployTimesReloader = (
 const userDeviceType = 'Desktop';
 const banditData: BanditData[] = [];
 
+describe('filterTestsForPromotedNewsletterSubscription', () => {
+    const newsletterTest = { name: 'NEWSLETTER_test' };
+    const otherTest = { name: 'other-test' };
+    const tests = [newsletterTest, otherTest];
+
+    it('filters newsletter tests for a signed-in user who is subscribed', () => {
+        expect(
+            filterTestsForPromotedNewsletterSubscription(
+                tests,
+                { isSignedIn: true, userSubscriptions: [6042] },
+                6042,
+            ),
+        ).toEqual([otherTest]);
+    });
+
+    it('keeps newsletter tests for a signed-in user who is not subscribed', () => {
+        expect(
+            filterTestsForPromotedNewsletterSubscription(
+                tests,
+                { isSignedIn: true, userSubscriptions: [] },
+                6042,
+            ),
+        ).toEqual(tests);
+    });
+
+    it('keeps newsletter tests for a signed-out user', () => {
+        expect(
+            filterTestsForPromotedNewsletterSubscription(
+                tests,
+                { isSignedIn: false, userSubscriptions: [6042] },
+                6042,
+            ),
+        ).toEqual(tests);
+    });
+});
+
 describe('selectBannerTest', () => {
     const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
@@ -79,6 +119,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'AU',
+            userSubscriptions: [],
             engagementBannerLastClosedAt: firstDate,
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
@@ -145,6 +186,27 @@ describe('selectBannerTest', () => {
                 checkAuxiaSuppression,
             });
             expect(result?.test.name).toBe('test');
+        });
+
+        it('uses NewsletterBanner as the module name for newsletter tests', async () => {
+            const result = await selectBannerTest({
+                targeting: {
+                    ...targeting,
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [{ ...test, name: 'NEWSLETTER_test' }],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+
+            expect(result?.moduleName).toBe('NewsletterBanner');
         });
 
         it('returns test if regionTargeting (country code) matches country code from payload (targeting)', async () => {
@@ -339,6 +401,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'GB',
+            userSubscriptions: [],
             engagementBannerLastClosedAt: firstDate,
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
@@ -462,6 +525,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 1,
             countryCode: 'AU',
+            userSubscriptions: [],
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
             isSignedIn: false,
@@ -579,6 +643,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'AU',
+            userSubscriptions: [],
             engagementBannerLastClosedAt: firstDate,
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
@@ -704,6 +769,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'GB',
+            userSubscriptions: [],
             hasOptedOutOfArticleCount: false,
             contentType: 'Network Front',
             isSignedIn: false,
@@ -809,6 +875,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'AU',
+            userSubscriptions: [],
             engagementBannerLastClosedAt,
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
@@ -1220,6 +1287,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'GB',
+            userSubscriptions: [],
             engagementBannerLastClosedAt: firstDate,
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
@@ -1429,6 +1497,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'GB',
+            userSubscriptions: [],
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
             isSignedIn: false,
@@ -1617,6 +1686,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'US',
+            userSubscriptions: [],
             engagementBannerLastClosedAt: firstDate,
             hasOptedOutOfArticleCount: false,
             isSignedIn: false,
@@ -1994,6 +2064,7 @@ describe('selectBannerTest', () => {
             showSupportMessaging: true,
             mvtId: 3,
             countryCode: 'AU',
+            userSubscriptions: [],
             engagementBannerLastClosedAt: firstDate,
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
@@ -2162,6 +2233,7 @@ describe('contributionsOnlyCountriesTargeting', () => {
         showSupportMessaging: true,
         mvtId: 3,
         countryCode: 'GB',
+        userSubscriptions: [],
         engagementBannerLastClosedAt: 'Mon Jun 06 2020 19:20:10 GMT+0100',
         hasOptedOutOfArticleCount: false,
         contentType: 'Article',

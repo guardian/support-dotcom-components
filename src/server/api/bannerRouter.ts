@@ -28,10 +28,14 @@ import type { PromotionsCache } from '../lib/promotions/promotions';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
+import { newsletterBannerOverrides } from '../newsletterBannerOverrides';
 import type { ProductCatalog } from '../productCatalog';
 import type { BanditData } from '../selection/banditData';
 import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
-import { selectBannerTest } from '../tests/banners/bannerSelection';
+import {
+    filterTestsForPromotedNewsletterSubscription,
+    selectBannerTest,
+} from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
 import { inExclusions } from '../utils/channelExclusionsMatcher';
@@ -80,7 +84,7 @@ export const buildBannerRouter = (
         const channelExclusionsData = channelExclusions.get();
         const contributionsOnlyCountries =
             contributionsOnlyCountriesConfig.get().contributionsOnlyCountries;
-
+        const promotedNewsletterId = newsletterBannerOverrides.promotedNewsletter?.listId;
         if (!enableBanners) {
             return {};
         }
@@ -93,9 +97,10 @@ export const buildBannerRouter = (
             return {};
         }
 
-        const filteredTests = filterTestsForSensitiveContent(
-            bannerTests.get(),
-            targeting.isSensitive,
+        const filteredTests = filterTestsForPromotedNewsletterSubscription(
+            filterTestsForSensitiveContent(bannerTests.get(), targeting.isSensitive),
+            targeting,
+            promotedNewsletterId,
         );
 
         const selectedTest = await selectBannerTest({
@@ -193,11 +198,15 @@ export const buildBannerRouter = (
                 promoCodes: variant.promoCodes ?? [],
             };
 
+            const responseProps = test.name.startsWith('NEWSLETTER_')
+                ? { ...props, ...newsletterBannerOverrides }
+                : props;
+
             return {
                 data: {
                     module: {
                         name: moduleName,
-                        props: props,
+                        props: responseProps,
                     },
                 },
             };
