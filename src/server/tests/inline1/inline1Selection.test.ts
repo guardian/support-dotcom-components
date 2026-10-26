@@ -136,6 +136,24 @@ describe('selectBestTest', () => {
         expect(got).toBeNull();
     });
 
+    it('returns test if enough article views', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const test = {
+            ...testDefault,
+            articlesViewedSettings: {
+                minViews: 5,
+                periodInWeeks: 52,
+            },
+        };
+        const targeting = Object.assign(targetingDefault, {
+            weeklyArticleHistory: [{ week: 18330, count: 6 }],
+        });
+
+        const got = selectBestTest(targeting, [test], userDeviceType, [], now);
+
+        expect(got?.test).toBe(test);
+    });
+
     it('should return null when the device type does not match', () => {
         const test = { ...testDefault, deviceType: 'iOS' as const };
 

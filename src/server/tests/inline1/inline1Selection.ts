@@ -38,12 +38,12 @@ export const selectBestTest = (
     allTests: Inline1Test[],
     userDeviceType: UserDeviceType,
     contributionsOnlyCountries: string[] = [],
+    now: Date = new Date(),
 ): Inline1TestSelection | null => {
     const { showSupportMessaging, isSignedIn, hasConsented } = targeting;
 
     for (const test of allTests) {
         const { status, userCohort, signedInStatus, contextTargeting, consentStatus } = test;
-        const now = new Date();
 
         // build pageContext
         const pageContext = {
