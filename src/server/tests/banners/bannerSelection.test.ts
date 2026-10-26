@@ -87,6 +87,16 @@ describe('filterTestsForNewsletterEligibility', () => {
         ).toEqual(tests);
     });
 
+    it('keeps newsletter tests when a signed-in user has no subscription list', () => {
+        expect(
+            filterTestsForNewsletterEligibility(
+                tests,
+                { countryCode: 'US', isSignedIn: true },
+                6069,
+            ),
+        ).toEqual(tests);
+    });
+
     it('keeps newsletter tests for a signed-out user', () => {
         expect(
             filterTestsForNewsletterEligibility(

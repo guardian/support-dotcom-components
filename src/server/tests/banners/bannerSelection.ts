@@ -337,7 +337,7 @@ export const filterTestsForNewsletterEligibility = <T extends Pick<BannerTest, '
     const isSubscribed =
         targeting.isSignedIn &&
         newsletterId !== undefined &&
-        targeting.userSubscriptions.includes(newsletterId);
+        targeting.userSubscriptions?.includes(newsletterId);
     const isEligibleForNewsletter = targeting.countryCode === 'US' && !isSubscribed;
 
     return tests.filter((test) => !test.name.startsWith('NEWSLETTER_') || isEligibleForNewsletter);
