@@ -33,7 +33,7 @@ import type { ProductCatalog } from '../productCatalog';
 import type { BanditData } from '../selection/banditData';
 import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import {
-    filterTestsForPromotedNewsletterSubscription,
+    filterTestsForNewsletterEligibility,
     selectBannerTest,
 } from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
@@ -97,7 +97,7 @@ export const buildBannerRouter = (
             return {};
         }
 
-        const filteredTests = filterTestsForPromotedNewsletterSubscription(
+        const filteredTests = filterTestsForNewsletterEligibility(
             filterTestsForSensitiveContent(bannerTests.get(), targeting.isSensitive),
             targeting,
             promotedNewsletterId,

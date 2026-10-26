@@ -64,8 +64,8 @@ export const newsletterBannerOverrides: Pick<
         },
     },
     promotedNewsletter: {
-        listId: 6042,
-        identityName: 'the-stakes-us-election-edition',
+        listId: 6069,
+        identityName: 'the-stakes-2026',
         name: 'The Stakes 2026',
         frequency: 'Weekly',
     },

@@ -329,16 +329,18 @@ interface SelectBannerTestData {
     contributionsOnlyCountries?: string[];
 }
 
-export const filterTestsForPromotedNewsletterSubscription = <T extends Pick<BannerTest, 'name'>>(
+export const filterTestsForNewsletterEligibility = <T extends Pick<BannerTest, 'name'>>(
     tests: T[],
-    targeting: Pick<BannerTargeting, 'isSignedIn' | 'userSubscriptions'>,
+    targeting: Pick<BannerTargeting, 'countryCode' | 'isSignedIn' | 'userSubscriptions'>,
     newsletterId: number | undefined,
 ): T[] => {
     const isSubscribed =
         targeting.isSignedIn &&
         newsletterId !== undefined &&
         targeting.userSubscriptions.includes(newsletterId);
-    return isSubscribed ? tests.filter((test) => !test.name.startsWith('NEWSLETTER_')) : tests;
+    const isEligibleForNewsletter = targeting.countryCode === 'US' && !isSubscribed;
+
+    return tests.filter((test) => !test.name.startsWith('NEWSLETTER_') || isEligibleForNewsletter);
 };
 
 export const selectBannerTest = async ({

@@ -6,7 +6,7 @@ import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import type { ReaderRevenueRegion } from './bannerDeployTimes';
 import {
     canShowBannerAgain,
-    filterTestsForPromotedNewsletterSubscription,
+    filterTestsForNewsletterEligibility,
     selectBannerTest,
 } from './bannerSelection';
 
@@ -62,39 +62,49 @@ const getBannerDeployTimesReloader = (
 const userDeviceType = 'Desktop';
 const banditData: BanditData[] = [];
 
-describe('filterTestsForPromotedNewsletterSubscription', () => {
+describe('filterTestsForNewsletterEligibility', () => {
     const newsletterTest = { name: 'NEWSLETTER_test' };
     const otherTest = { name: 'other-test' };
     const tests = [newsletterTest, otherTest];
 
     it('filters newsletter tests for a signed-in user who is subscribed', () => {
         expect(
-            filterTestsForPromotedNewsletterSubscription(
+            filterTestsForNewsletterEligibility(
                 tests,
-                { isSignedIn: true, userSubscriptions: [6042] },
-                6042,
+                { countryCode: 'US', isSignedIn: true, userSubscriptions: [6069] },
+                6069,
             ),
         ).toEqual([otherTest]);
     });
 
     it('keeps newsletter tests for a signed-in user who is not subscribed', () => {
         expect(
-            filterTestsForPromotedNewsletterSubscription(
+            filterTestsForNewsletterEligibility(
                 tests,
-                { isSignedIn: true, userSubscriptions: [] },
-                6042,
+                { countryCode: 'US', isSignedIn: true, userSubscriptions: [] },
+                6069,
             ),
         ).toEqual(tests);
     });
 
     it('keeps newsletter tests for a signed-out user', () => {
         expect(
-            filterTestsForPromotedNewsletterSubscription(
+            filterTestsForNewsletterEligibility(
                 tests,
-                { isSignedIn: false, userSubscriptions: [6042] },
-                6042,
+                { countryCode: 'US', isSignedIn: false, userSubscriptions: [6042] },
+                6069,
             ),
         ).toEqual(tests);
+    });
+
+    it('filters newsletter tests for users outside the US', () => {
+        expect(
+            filterTestsForNewsletterEligibility(
+                tests,
+                { countryCode: 'GB', isSignedIn: false, userSubscriptions: [] },
+                6069,
+            ),
+        ).toEqual([otherTest]);
     });
 });
 
