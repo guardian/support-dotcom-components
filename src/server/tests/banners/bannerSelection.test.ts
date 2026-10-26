@@ -116,6 +116,17 @@ describe('filterTestsForNewsletterEligibility', () => {
             ),
         ).toEqual([otherTest]);
     });
+
+    it('keeps newsletter tests for previews outside the US', () => {
+        expect(
+            filterTestsForNewsletterEligibility(
+                tests,
+                { countryCode: 'GB', isSignedIn: false, userSubscriptions: [] },
+                6069,
+                { bypassEligibility: true },
+            ),
+        ).toEqual(tests);
+    });
 });
 
 describe('selectBannerTest', () => {

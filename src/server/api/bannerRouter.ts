@@ -101,6 +101,9 @@ export const buildBannerRouter = (
             filterTestsForSensitiveContent(bannerTests.get(), targeting.isSensitive),
             targeting,
             promotedNewsletterId,
+            {
+                bypassEligibility: params.force !== undefined || params.preview !== undefined,
+            },
         );
 
         const selectedTest = await selectBannerTest({

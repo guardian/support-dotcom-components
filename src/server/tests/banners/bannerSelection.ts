@@ -333,7 +333,12 @@ export const filterTestsForNewsletterEligibility = <T extends Pick<BannerTest, '
     tests: T[],
     targeting: Pick<BannerTargeting, 'countryCode' | 'isSignedIn' | 'userSubscriptions'>,
     newsletterId: number | undefined,
+    options: { bypassEligibility?: boolean } = {},
 ): T[] => {
+    if (options.bypassEligibility) {
+        return tests;
+    }
+
     const isSubscribed =
         targeting.isSignedIn &&
         newsletterId !== undefined &&
