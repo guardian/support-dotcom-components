@@ -5,7 +5,6 @@ export interface Inline1Targeting {
     mvtId: number;
     countryCode: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
-    hasOptedOutOfArticleCount: boolean;
     sectionId?: string;
     tagIds?: string[];
     pageId?: string;

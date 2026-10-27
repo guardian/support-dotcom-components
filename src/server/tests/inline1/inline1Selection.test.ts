@@ -27,7 +27,6 @@ const targetingDefault: Inline1Targeting = {
     showSupportMessaging: true,
     mvtId: 2,
     countryCode: 'GB',
-    hasOptedOutOfArticleCount: false,
     isSignedIn: false,
     hasConsented: true,
 };
