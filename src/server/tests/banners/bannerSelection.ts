@@ -19,6 +19,7 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { MParticleProfile } from '../../lib/mParticle';
 import { matchesMParticleTemplates } from '../../lib/mParticleTemplates';
+import { matchNewsletterTargeting } from '../../lib/newsletterTargeting';
 import type { TestVariant } from '../../lib/params';
 import {
     abandonedBasketMatches,
@@ -329,25 +330,6 @@ interface SelectBannerTestData {
     contributionsOnlyCountries?: string[];
 }
 
-export const filterTestsForNewsletterEligibility = <T extends Pick<BannerTest, 'name'>>(
-    tests: T[],
-    targeting: Pick<BannerTargeting, 'countryCode' | 'isSignedIn' | 'userSubscriptions'>,
-    newsletterId: number | undefined,
-    options: { bypassEligibility?: boolean } = {},
-): T[] => {
-    if (options.bypassEligibility) {
-        return tests;
-    }
-
-    const isSubscribed =
-        targeting.isSignedIn &&
-        newsletterId !== undefined &&
-        targeting.userSubscriptions?.includes(newsletterId);
-    const isEligibleForNewsletter = targeting.countryCode === 'US' && !isSubscribed;
-
-    return tests.filter((test) => !test.name.startsWith('NEWSLETTER_') || isEligibleForNewsletter);
-};
-
 export const selectBannerTest = async ({
     targeting,
     userDeviceType,
@@ -392,6 +374,7 @@ export const selectBannerTest = async ({
 
         if (
             test.status === 'Live' &&
+            matchNewsletterTargeting(test, targeting) &&
             !shouldSkipTwoStepBannerTest(test, targeting, userDeviceType) &&
             (!test.canRun || test.canRun(targeting)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&

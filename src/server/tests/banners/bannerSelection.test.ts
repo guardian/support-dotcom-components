@@ -4,11 +4,7 @@ import type { BanditData } from '../../selection/banditData';
 import { defaultDeploySchedule } from './bannerDeploySchedule';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import type { ReaderRevenueRegion } from './bannerDeployTimes';
-import {
-    canShowBannerAgain,
-    filterTestsForNewsletterEligibility,
-    selectBannerTest,
-} from './bannerSelection';
+import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
 
 const buildCheckAuxiaSuppressionMock = (isSuppressed = false) =>
     jest.fn().mockResolvedValue(isSuppressed);
@@ -61,73 +57,6 @@ const getBannerDeployTimesReloader = (
 
 const userDeviceType = 'Desktop';
 const banditData: BanditData[] = [];
-
-describe('filterTestsForNewsletterEligibility', () => {
-    const newsletterTest = { name: 'NEWSLETTER_test' };
-    const otherTest = { name: 'other-test' };
-    const tests = [newsletterTest, otherTest];
-
-    it('filters newsletter tests for a signed-in user who is subscribed', () => {
-        expect(
-            filterTestsForNewsletterEligibility(
-                tests,
-                { countryCode: 'US', isSignedIn: true, userSubscriptions: [6069] },
-                6069,
-            ),
-        ).toEqual([otherTest]);
-    });
-
-    it('keeps newsletter tests for a signed-in user who is not subscribed', () => {
-        expect(
-            filterTestsForNewsletterEligibility(
-                tests,
-                { countryCode: 'US', isSignedIn: true, userSubscriptions: [] },
-                6069,
-            ),
-        ).toEqual(tests);
-    });
-
-    it('keeps newsletter tests when a signed-in user has no subscription list', () => {
-        expect(
-            filterTestsForNewsletterEligibility(
-                tests,
-                { countryCode: 'US', isSignedIn: true },
-                6069,
-            ),
-        ).toEqual(tests);
-    });
-
-    it('keeps newsletter tests for a signed-out user', () => {
-        expect(
-            filterTestsForNewsletterEligibility(
-                tests,
-                { countryCode: 'US', isSignedIn: false, userSubscriptions: [6042] },
-                6069,
-            ),
-        ).toEqual(tests);
-    });
-
-    it('filters newsletter tests for users outside the US', () => {
-        expect(
-            filterTestsForNewsletterEligibility(
-                tests,
-                { countryCode: 'GB', isSignedIn: false, userSubscriptions: [] },
-                6069,
-            ),
-        ).toEqual([otherTest]);
-    });
-
-    it('keeps newsletter tests for previews outside the US', () => {
-        expect(
-            filterTestsForNewsletterEligibility(
-                tests,
-                { countryCode: 'GB', isSignedIn: false, userSubscriptions: [] },
-                6069,
-                { bypassEligibility: true },
-            ),
-        ).toEqual(tests);
-    });
-});
 
 describe('selectBannerTest', () => {
     const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
@@ -222,6 +151,7 @@ describe('selectBannerTest', () => {
             const result = await selectBannerTest({
                 targeting: {
                     ...targeting,
+                    countryCode: 'US',
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 },
                 userDeviceType,

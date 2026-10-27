@@ -32,10 +32,7 @@ import { newsletterBannerOverrides } from '../newsletterBannerOverrides';
 import type { ProductCatalog } from '../productCatalog';
 import type { BanditData } from '../selection/banditData';
 import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
-import {
-    filterTestsForNewsletterEligibility,
-    selectBannerTest,
-} from '../tests/banners/bannerSelection';
+import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 import type { Debug } from '../tests/epics/epicSelection';
 import { inExclusions } from '../utils/channelExclusionsMatcher';
@@ -84,7 +81,6 @@ export const buildBannerRouter = (
         const channelExclusionsData = channelExclusions.get();
         const contributionsOnlyCountries =
             contributionsOnlyCountriesConfig.get().contributionsOnlyCountries;
-        const promotedNewsletterId = newsletterBannerOverrides.promotedNewsletter?.listId;
         if (!enableBanners) {
             return {};
         }
@@ -96,16 +92,10 @@ export const buildBannerRouter = (
         if (inExclusions(targeting, channelExclusionsData.banner)) {
             return {};
         }
-
-        const filteredTests = filterTestsForNewsletterEligibility(
-            filterTestsForSensitiveContent(bannerTests.get(), targeting.isSensitive),
-            targeting,
-            promotedNewsletterId,
-            {
-                bypassEligibility: params.force !== undefined || params.preview !== undefined,
-            },
+        const filteredTests = filterTestsForSensitiveContent(
+            bannerTests.get(),
+            targeting.isSensitive,
         );
-
         const selectedTest = await selectBannerTest({
             targeting,
             userDeviceType: getDeviceType(req, params),
