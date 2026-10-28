@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.1.4
+
+### Patch Changes
+
+- f9db0ac: Add optional weeklyArticleHistory to Inline1 targeting
+
 ## 11.1.3
 
 ### Patch Changes
