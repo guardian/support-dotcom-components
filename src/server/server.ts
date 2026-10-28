@@ -184,7 +184,15 @@ const buildApp = async (): Promise<Express> => {
         ),
     );
 
-    app.use(buildInline1Router(channelSwitches, inline1Tests, contributionsOnlyCountriesConfig));
+    app.use(
+        buildInline1Router(
+            channelSwitches,
+            inline1Tests,
+            mParticle,
+            okta,
+            contributionsOnlyCountriesConfig,
+        ),
+    );
 
     app.use(buildTickerRouter(tickerData));
 

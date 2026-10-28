@@ -10,6 +10,8 @@ import type {
 import type { ChannelSwitches } from '../channelSwitches';
 import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import { getDeviceType } from '../lib/deviceType';
+import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import type { Okta } from '../lib/okta';
 import { pageIdIsExcluded } from '../lib/targeting';
 import { selectInline1Test } from '../tests/inline1/inline1Selection';
 import type { ValueProvider } from '../utils/valueReloader';
@@ -27,14 +29,17 @@ interface Inline1DataResponse {
 export const buildInline1Router = (
     channelSwitches: ValueProvider<ChannelSwitches>,
     tests: ValueProvider<Inline1Test[]>,
+    mParticle: MParticle,
+    okta: Okta,
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
 ): Router => {
     const router = Router();
 
-    const buildInline1Data = (
+    const buildInline1Data = async (
         targeting: Inline1Targeting,
         req: express.Request,
-    ): Inline1DataResponse => {
+        getMParticleProfile: () => Promise<MParticleProfile | undefined>,
+    ): Promise<Inline1DataResponse> => {
         const { enableInline1Tests } = channelSwitches.get();
         if (!enableInline1Tests) {
             return {};
@@ -44,10 +49,11 @@ export const buildInline1Router = (
             return {};
         }
 
-        const testSelection = selectInline1Test(
+        const testSelection = await selectInline1Test(
             targeting,
             tests.get(),
             getDeviceType(req),
+            getMParticleProfile,
             contributionsOnlyCountriesConfig.get().contributionsOnlyCountries,
         );
 
@@ -81,7 +87,7 @@ export const buildInline1Router = (
 
     router.post(
         '/inline1',
-        (
+        async (
             req: express.Request<Record<string, never>, unknown, { targeting: Inline1Targeting }>,
             res: express.Response,
             next: express.NextFunction,
@@ -89,12 +95,21 @@ export const buildInline1Router = (
             try {
                 const { targeting } = req.body;
                 const authHeader = req.headers.authorization;
-
-                const response = buildInline1Data(targeting, req);
+                const { fetchProfile, forLogging: mParticleLogging } = mParticle.getProfileFetcher(
+                    channelSwitches.get(),
+                    okta,
+                    authHeader,
+                    targeting.isSignedIn ? undefined : targeting.browserId,
+                );
+                const response = await buildInline1Data(targeting, req, fetchProfile);
 
                 // for response logging
                 res.locals.didRenderInline1 = !!response.data;
+                const { mParticleProfileStatus, mParticleProfileSource } = mParticleLogging();
                 res.locals.hasAuthorization = !!authHeader;
+                res.locals.gotMParticleProfile = mParticleProfileStatus === 'found';
+                res.locals.mParticleProfileStatus = mParticleProfileStatus;
+                res.locals.mParticleProfileSource = mParticleProfileSource;
 
                 res.send(response);
             } catch (error) {

@@ -6,11 +6,13 @@ import type {
     UserDeviceType,
 } from '../../../shared/types';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import type { MParticleProfile } from '../../lib/mParticle';
 import {
     audienceMatches,
     consentStatusMatches,
     correctSignedInStatus,
     deviceTypeMatches,
+    matchesMParticleAudience,
     pageContextMatches,
 } from '../../lib/targeting';
 import { selectVariantUsingMVT } from '../../selection/ab';
@@ -33,13 +35,14 @@ export const isCountryTargetedForInline1 = (
     return inTargetedCountry(targeting.countryCode, targetedCountryGroups, targetedCountryCodes);
 };
 
-export const selectBestTest = (
+export const selectBestTest = async (
     targeting: Inline1Targeting,
     allTests: Inline1Test[],
     userDeviceType: UserDeviceType,
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     contributionsOnlyCountries: string[] = [],
     now: Date = new Date(),
-): Inline1TestSelection | null => {
+): Promise<Inline1TestSelection | null> => {
     const { showSupportMessaging, isSignedIn, hasConsented, hasNewsletterSignup } = targeting;
 
     for (const test of allTests) {
@@ -68,7 +71,11 @@ export const selectBestTest = (
             deviceTypeMatches(test, userDeviceType) &&
             correctSignedInStatus(isSignedIn, signedInStatus) &&
             pageContextMatches(pageContext, contextTargeting) &&
-            consentStatusMatches(hasConsented, consentStatus)
+            consentStatusMatches(hasConsented, consentStatus) &&
+            (await matchesMParticleAudience(
+                getMParticleProfile,
+                test.mParticleAudience ?? undefined,
+            ))
         ) {
             const selectedVariant: Inline1Variant = selectVariantUsingMVT(test, targeting.mvtId);
             if (
@@ -92,7 +99,14 @@ export const selectInline1Test = (
     targeting: Inline1Targeting,
     allTests: Inline1Test[],
     userDeviceType: UserDeviceType,
+    getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     contributionsOnlyCountries: string[] = [],
-): Inline1TestSelection | null => {
-    return selectBestTest(targeting, allTests, userDeviceType, contributionsOnlyCountries);
+): Promise<Inline1TestSelection | null> => {
+    return selectBestTest(
+        targeting,
+        allTests,
+        userDeviceType,
+        getMParticleProfile,
+        contributionsOnlyCountries,
+    );
 };
