@@ -11,6 +11,7 @@ export interface Inline1Targeting {
     browserId?: string; // Only present if the user has consented to browserId-based targeting
     isSignedIn: boolean;
     hasConsented: boolean;
+    hasNewsletterSignup: boolean;
 }
 
 export type Inline1Payload = {
