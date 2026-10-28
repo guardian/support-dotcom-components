@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.1.3
+
+### Patch Changes
+
+- f5f737d: Add optional `userSubscriptions` targeting and promoted newsletter metadata for newsletter banner
+
 ## 11.1.2
 
 ### Patch Changes

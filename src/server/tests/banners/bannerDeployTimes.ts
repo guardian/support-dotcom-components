@@ -3,7 +3,7 @@ import { isProd } from '../../lib/env';
 import { logInfo } from '../../utils/logging';
 import { fetchS3Data } from '../../utils/S3';
 import type { ValueProvider } from '../../utils/valueReloader';
-import { buildReloader } from '../../utils/valueReloader';
+import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
 /**
  * Banner deploy cache -
@@ -37,6 +37,95 @@ const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<Ban
 };
 
 const fiveMinutes = 60 * 5;
+
+const readerRevenueRegions: ReaderRevenueRegion[] = [
+    'Australia',
+    'EuropeanUnion',
+    'RestOfWorld',
+    'UnitedKingdom',
+    'UnitedStates',
+];
+
+export interface BannerDeployRegion {
+    timestamp: number;
+    email: string;
+}
+
+export interface VariantBannerDeploySchedule {
+    daysOfWeek: number[];
+    lastManualRedeployTimestamp?: number;
+    manualRedeploysByRegion?: Partial<Record<ReaderRevenueRegion, BannerDeployRegion>>;
+}
+
+const isValidRegionalRedeploy = (value: unknown): value is BannerDeployRegion =>
+    typeof value === 'object' &&
+    value !== null &&
+    'timestamp' in value &&
+    typeof value.timestamp === 'number' &&
+    Number.isSafeInteger(value.timestamp) &&
+    value.timestamp >= 0 &&
+    'email' in value &&
+    typeof value.email === 'string';
+
+export const defaultVariantBannerDeploySchedule: VariantBannerDeploySchedule = {
+    daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+};
+
+const isValidVariantSchedule = (value: unknown): value is VariantBannerDeploySchedule => {
+    if (typeof value !== 'object' || value === null || !('daysOfWeek' in value)) {
+        return false;
+    }
+
+    const daysOfWeek = value.daysOfWeek;
+    const lastManualRedeployTimestamp =
+        'lastManualRedeployTimestamp' in value ? value.lastManualRedeployTimestamp : undefined;
+    const manualRedeploysByRegion =
+        'manualRedeploysByRegion' in value ? value.manualRedeploysByRegion : undefined;
+    const hasValidRegionalRedeploys =
+        manualRedeploysByRegion === undefined ||
+        (typeof manualRedeploysByRegion === 'object' &&
+            manualRedeploysByRegion !== null &&
+            !Array.isArray(manualRedeploysByRegion) &&
+            Object.entries(manualRedeploysByRegion).every(
+                ([region, deploy]) =>
+                    readerRevenueRegions.includes(region as ReaderRevenueRegion) &&
+                    isValidRegionalRedeploy(deploy),
+            ));
+    return (
+        Array.isArray(daysOfWeek) &&
+        daysOfWeek.every((day) => Number.isInteger(day) && day >= 0 && day <= 6) &&
+        new Set(daysOfWeek).size === daysOfWeek.length &&
+        (lastManualRedeployTimestamp === undefined ||
+            (typeof lastManualRedeployTimestamp === 'number' &&
+                Number.isSafeInteger(lastManualRedeployTimestamp) &&
+                lastManualRedeployTimestamp >= 0)) &&
+        hasValidRegionalRedeploys
+    );
+};
+
+const parseVariantBannerDeploySchedule = (json: string): VariantBannerDeploySchedule => {
+    const parsed: unknown = JSON.parse(json);
+
+    if (!isValidVariantSchedule(parsed)) {
+        throw new Error('Invalid Variant banner deploy schedule');
+    }
+
+    return parsed;
+};
+
+const fetchVariantBannerDeploySchedule = (): Promise<VariantBannerDeploySchedule> => {
+    const stage = isProd ? 'PROD' : 'CODE';
+    const key = `${stage}/banner-deploy/variant-schedule.json`;
+    return fetchS3Data(AdminConsoleBucket, key)
+        .then(parseVariantBannerDeploySchedule)
+        .then((schedule) => {
+            logInfo(
+                `Got Variant banner deploy schedule for ${key}: ${JSON.stringify(schedule.daysOfWeek)}`,
+            );
+            return schedule;
+        });
+};
+
 interface BannerDeployTimes {
     UnitedKingdom: Date;
     UnitedStates: Date;
@@ -48,17 +137,26 @@ interface BannerDeployTimes {
 interface BannerDeployTimesProviders {
     contributions: ValueProvider<BannerDeployTimes>;
     subscriptions: ValueProvider<BannerDeployTimes>;
+    variantSchedule?: ValueProvider<VariantBannerDeploySchedule>;
 }
 
 export class BannerDeployTimesProvider {
     providers: BannerDeployTimesProviders;
+    variantSchedule: ValueProvider<VariantBannerDeploySchedule>;
 
     constructor(providers: BannerDeployTimesProviders) {
         this.providers = providers;
+        this.variantSchedule = providers.variantSchedule ?? {
+            get: () => defaultVariantBannerDeploySchedule,
+        };
     }
 
     getDeployTimes(channel: 'contributions' | 'subscriptions'): BannerDeployTimes {
         return this.providers[channel].get();
+    }
+
+    getVariantSchedule(): VariantBannerDeploySchedule {
+        return this.variantSchedule.get();
     }
 }
 
@@ -70,5 +168,10 @@ export const buildBannerDeployTimesReloader = async (): Promise<BannerDeployTime
     return new BannerDeployTimesProvider({
         contributions,
         subscriptions,
+        variantSchedule: new ValueReloader(
+            defaultVariantBannerDeploySchedule,
+            fetchVariantBannerDeploySchedule,
+            fiveMinutes,
+        ),
     });
 };

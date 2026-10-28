@@ -19,6 +19,7 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { MParticleProfile } from '../../lib/mParticle';
 import { matchesMParticleTemplates } from '../../lib/mParticleTemplates';
+import { matchNewsletterTargeting } from '../../lib/newsletterTargeting';
 import type { TestVariant } from '../../lib/params';
 import {
     abandonedBasketMatches,
@@ -34,7 +35,11 @@ import type { BanditData } from '../../selection/banditData';
 import { selectVariant } from '../../selection/selectVariant';
 import { isWithinScheduler } from '../../utils/schedulerCheck';
 import type { ScheduledBannerDeploys } from './bannerDeploySchedule';
-import { defaultDeploySchedule, getLastScheduledDeploy } from './bannerDeploySchedule';
+import {
+    defaultDeploySchedule,
+    getLastScheduledDeploy,
+    scheduleForWeekdays,
+} from './bannerDeploySchedule';
 import type { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { bannerTargetingTests } from './bannerTargetingTests';
 
@@ -123,19 +128,39 @@ export const canShowBannerAgain = (
             return true; // banner not yet closed
         }
 
+        const lastClosed = new Date(lastClosedRaw);
+        const deployTimes = manualBannerDeployTimes.getDeployTimes(bannerChannel);
+        const lastManualDeploy = deployTimes[region];
+
+        if (targeting.auxiaRolloutMvtId !== undefined && bannerChannel === 'contributions') {
+            const variantSchedule = manualBannerDeployTimes.getVariantSchedule();
+            const regionalManualRedeployTimestamp =
+                variantSchedule.manualRedeploysByRegion?.[region]?.timestamp;
+            const hasNewerVariantManualRedeploy = [
+                variantSchedule.lastManualRedeployTimestamp,
+                regionalManualRedeployTimestamp,
+            ].some((timestamp) => timestamp !== undefined && new Date(timestamp) > lastClosed);
+            const lastVariantScheduledDeploy = scheduledBannerDeploys
+                ? getLastScheduledDeploy(now, scheduleForWeekdays(variantSchedule.daysOfWeek))
+                : undefined;
+            return (
+                hasNewerVariantManualRedeploy ||
+                (lastVariantScheduledDeploy !== undefined &&
+                    lastVariantScheduledDeploy > lastClosed)
+            );
+        }
+
         if (deploySchedule) {
             // this test has its own deploy schedule
-            const lastClosed = new Date(lastClosedRaw);
             return isAfter(subDays(now, deploySchedule.daysBetween), lastClosed);
         }
 
-        const deployTimes = manualBannerDeployTimes.getDeployTimes(bannerChannel);
-        const lastManualDeploy = deployTimes[region];
-        const lastClosed = new Date(lastClosedRaw);
+        const lastScheduledDeploy = scheduledBannerDeploys
+            ? getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel])
+            : undefined;
         return (
             lastManualDeploy > lastClosed ||
-            (!!scheduledBannerDeploys &&
-                getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed)
+            (lastScheduledDeploy !== undefined && lastScheduledDeploy > lastClosed)
         );
     };
 
@@ -147,8 +172,13 @@ export const canShowBannerAgain = (
 };
 
 const DESIGNABLE_BANNER_TEMPLATE_NAME = 'DesignableBanner';
+const NEWSLETTER_BANNER_TEMPLATE_NAME = 'NewsletterBanner';
 
-const getModuleNameForVariant = (variant: BannerVariant): string => {
+const getModuleNameForVariant = (variant: BannerVariant, testName: string): string => {
+    if (testName.startsWith('NEWSLETTER_')) {
+        return NEWSLETTER_BANNER_TEMPLATE_NAME;
+    }
+
     if (uiIsDesign(variant.template)) {
         return DESIGNABLE_BANNER_TEMPLATE_NAME;
     } else {
@@ -215,7 +245,7 @@ const getForcedVariant = (
         return {
             test,
             variant: resolvedVariant,
-            moduleName: getModuleNameForVariant(resolvedVariant),
+            moduleName: getModuleNameForVariant(resolvedVariant, test.name),
         };
     }
     return null;
@@ -344,6 +374,7 @@ export const selectBannerTest = async ({
 
         if (
             test.status === 'Live' &&
+            matchNewsletterTargeting(test, targeting) &&
             !shouldSkipTwoStepBannerTest(test, targeting, userDeviceType) &&
             (!test.canRun || test.canRun(targeting)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
@@ -392,7 +423,7 @@ export const selectBannerTest = async ({
                 selection = {
                     test: result.test,
                     variant,
-                    moduleName: getModuleNameForVariant(variant),
+                    moduleName: getModuleNameForVariant(variant, result.test.name),
                     targetingAbTest: targetingTest ? targetingTest.test : undefined,
                 };
                 break;
