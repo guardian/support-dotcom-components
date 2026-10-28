@@ -335,3 +335,62 @@ describe('selectBestTest', () => {
         expect(got).toBeNull();
     });
 });
+
+describe('mParticle audience targeting', () => {
+    const testWithoutAudience = { ...testDefault };
+    const testWithAudience = { ...testDefault, mParticleAudience: 100 };
+
+    it('returns test if no audience targeting is set on test', async () => {
+        const got = await selectBestTest(
+            targetingDefault,
+            [testWithoutAudience],
+            userDeviceType,
+            getMParticleProfile,
+        );
+
+        expect(got?.test).toBe(testWithoutAudience);
+    });
+
+    it('returns null if test has audience targeting but user profile is missing', async () => {
+        const got = await selectBestTest(
+            targetingDefault,
+            [testWithAudience],
+            userDeviceType,
+            getMParticleProfile,
+        );
+
+        expect(got).toBeNull();
+    });
+
+    it('returns null if the targeted audience and the user profile do not match', async () => {
+        const nonMatchingProfile = () =>
+            Promise.resolve({
+                audience_memberships: [{ audience_id: 700, audience_name: 'test_1' }],
+            });
+
+        const got = await selectBestTest(
+            targetingDefault,
+            [testWithAudience],
+            userDeviceType,
+            nonMatchingProfile,
+        );
+
+        expect(got).toBeNull();
+    });
+
+    it('returns test if the audience and the user profile match', async () => {
+        const matchingProfile = () =>
+            Promise.resolve({
+                audience_memberships: [{ audience_id: 100, audience_name: 'test_2' }],
+            });
+
+        const got = await selectBestTest(
+            targetingDefault,
+            [testWithAudience],
+            userDeviceType,
+            matchingProfile,
+        );
+
+        expect(got?.test).toBe(testWithAudience);
+    });
+});
