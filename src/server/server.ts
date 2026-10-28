@@ -32,6 +32,7 @@ import { buildBannerTestsReloader } from './tests/banners/bannerTests';
 import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/epics/epicTests';
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
+import { buildInline1TestsReloader } from './tests/inline1/inline1Tests';
 import { logError } from './utils/logging';
 
 const buildApp = async (): Promise<Express> => {
@@ -89,6 +90,7 @@ const buildApp = async (): Promise<Express> => {
         headerTests,
         bannerDesigns,
         gutterLiveblogTests,
+        inline1Tests,
         productCatalog,
         promotions,
         channelExclusions,
@@ -105,6 +107,7 @@ const buildApp = async (): Promise<Express> => {
         buildHeaderTestsReloader(),
         buildBannerDesignsReloader(),
         buildGutterLiveblogTestsReloader(),
+        buildInline1TestsReloader(),
         buildProductCatalogReloader(),
         buildPromotionsReloader(),
         buildChannelExclusionsReloader(),
@@ -181,7 +184,7 @@ const buildApp = async (): Promise<Express> => {
         ),
     );
 
-    app.use(buildInline1Router(channelSwitches));
+    app.use(buildInline1Router(channelSwitches, inline1Tests, contributionsOnlyCountriesConfig));
 
     app.use(buildTickerRouter(tickerData));
 

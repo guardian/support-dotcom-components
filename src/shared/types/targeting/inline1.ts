@@ -1,7 +1,10 @@
+import type { WeeklyArticleHistory } from './shared';
+
 export interface Inline1Targeting {
     showSupportMessaging: boolean;
     mvtId: number;
     countryCode: string;
+    weeklyArticleHistory?: WeeklyArticleHistory;
     sectionId?: string;
     tagIds?: string[];
     pageId?: string;
