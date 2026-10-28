@@ -43,6 +43,14 @@ const visualSchema = z.discriminatedUnion('kind', [imageSchema, choiceCardsSchem
 
 export const configurableDesignSchema = z.object({
     visual: visualSchema.nullish(),
+    headerImage: z
+        .object({
+            mobileUrl: z.string(),
+            tabletUrl: z.string(),
+            desktopUrl: z.string(),
+            altText: z.string(),
+        })
+        .nullish(),
     colours: z.object({
         basic: z.object({
             background: hexColourSchema,

@@ -28,6 +28,7 @@ import type { PromotionsCache } from '../lib/promotions/promotions';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
+import { newsletterBannerOverrides } from '../newsletterBannerOverrides';
 import type { ProductCatalog } from '../productCatalog';
 import type { BanditData } from '../selection/banditData';
 import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
@@ -80,7 +81,6 @@ export const buildBannerRouter = (
         const channelExclusionsData = channelExclusions.get();
         const contributionsOnlyCountries =
             contributionsOnlyCountriesConfig.get().contributionsOnlyCountries;
-
         if (!enableBanners) {
             return {};
         }
@@ -92,12 +92,10 @@ export const buildBannerRouter = (
         if (inExclusions(targeting, channelExclusionsData.banner)) {
             return {};
         }
-
         const filteredTests = filterTestsForSensitiveContent(
             bannerTests.get(),
             targeting.isSensitive,
         );
-
         const selectedTest = await selectBannerTest({
             targeting,
             userDeviceType: getDeviceType(req, params),
@@ -193,11 +191,15 @@ export const buildBannerRouter = (
                 promoCodes: variant.promoCodes ?? [],
             };
 
+            const responseProps = test.name.startsWith('NEWSLETTER_')
+                ? { ...props, ...newsletterBannerOverrides }
+                : props;
+
             return {
                 data: {
                     module: {
                         name: moduleName,
-                        props: props,
+                        props: responseProps,
                     },
                 },
             };

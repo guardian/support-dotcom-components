@@ -147,6 +147,28 @@ describe('selectBannerTest', () => {
             expect(result?.test.name).toBe('test');
         });
 
+        it('uses NewsletterBanner as the module name for newsletter tests', async () => {
+            const result = await selectBannerTest({
+                targeting: {
+                    ...targeting,
+                    countryCode: 'US',
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [{ ...test, name: 'NEWSLETTER_test' }],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+            });
+
+            expect(result?.moduleName).toBe('NewsletterBanner');
+        });
+
         it('returns test if regionTargeting (country code) matches country code from payload (targeting)', async () => {
             const testWithRegionTargeting: BannerTest = {
                 ...test,
