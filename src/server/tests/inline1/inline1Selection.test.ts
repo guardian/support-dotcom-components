@@ -45,9 +45,16 @@ const targetingDefault: Inline1Targeting = {
 
 const userDeviceType = 'Desktop';
 
+const getMParticleProfile = () => Promise.resolve(undefined);
+
 describe('selectBestTest', () => {
-    it('should select the matching test and variant', () => {
-        const got = selectBestTest(targetingDefault, [testDefault], userDeviceType);
+    it('should select the matching test and variant', async () => {
+        const got = await selectBestTest(
+            targetingDefault,
+            [testDefault],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toEqual({
             test: testDefault,
@@ -55,41 +62,56 @@ describe('selectBestTest', () => {
         });
     });
 
-    it('should select the first matching test', () => {
+    it('should select the first matching test', async () => {
         const tests = [
             { ...testDefault, name: 'draft-test', status: 'Draft' as const },
             { ...testDefault, name: 'first-live-test' },
             { ...testDefault, name: 'second-live-test' },
         ];
 
-        const got = selectBestTest(targetingDefault, tests, userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            tests,
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got?.test.name).toBe('first-live-test');
     });
 
-    it('should return null when there are no tests', () => {
-        const got = selectBestTest(targetingDefault, [], userDeviceType);
+    it('should return null when there are no tests', async () => {
+        const got = await selectBestTest(targetingDefault, [], userDeviceType, getMParticleProfile);
 
         expect(got).toBeNull();
     });
 
-    it('should return null when the test is not live', () => {
+    it('should return null when the test is not live', async () => {
         const test = { ...testDefault, status: 'Draft' as const };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toBeNull();
     });
 
-    it('should return null when the audience does not match', () => {
+    it('should return null when the audience does not match', async () => {
         const test = { ...testDefault, userCohort: 'AllExistingSupporters' as const };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toBeNull();
     });
 
-    it('should return null when the country is not targeted', () => {
+    it('should return null when the country is not targeted', async () => {
         const test: Inline1Test = {
             ...testDefault,
             regionTargeting: {
@@ -98,12 +120,17 @@ describe('selectBestTest', () => {
             },
         };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toBeNull();
     });
 
-    it('should return null when contributions-only targeting excludes the country', () => {
+    it('should return null when contributions-only targeting excludes the country', async () => {
         const test: Inline1Test = {
             ...testDefault,
             regionTargeting: {
@@ -113,12 +140,14 @@ describe('selectBestTest', () => {
         };
         const targeting = { ...targetingDefault, countryCode: 'VN' };
 
-        const got = selectBestTest(targeting, [test], userDeviceType, ['VN']);
+        const got = await selectBestTest(targeting, [test], userDeviceType, getMParticleProfile, [
+            'VN',
+        ]);
 
         expect(got).toBeNull();
     });
 
-    it('should select a test in a contributions-only country when targeting mode is Include', () => {
+    it('should select a test in a contributions-only country when targeting mode is Include', async () => {
         const test: Inline1Test = {
             ...testDefault,
             regionTargeting: {
@@ -128,12 +157,14 @@ describe('selectBestTest', () => {
         };
         const targeting = { ...targetingDefault, countryCode: 'VN' };
 
-        const got = selectBestTest(targeting, [test], userDeviceType, ['VN']);
+        const got = await selectBestTest(targeting, [test], userDeviceType, getMParticleProfile, [
+            'VN',
+        ]);
 
         expect(got?.test).toBe(test);
     });
 
-    it('should return null when article history does not meet the test settings', () => {
+    it('should return null when article history does not meet the test settings', async () => {
         const test = {
             ...testDefault,
             articlesViewedSettings: {
@@ -142,12 +173,17 @@ describe('selectBestTest', () => {
             },
         };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toBeNull();
     });
 
-    it('returns test if enough article views', () => {
+    it('returns test if enough article views', async () => {
         const now = new Date('2020-03-31T12:30:00');
         const test = {
             ...testDefault,
@@ -160,53 +196,80 @@ describe('selectBestTest', () => {
             weeklyArticleHistory: [{ week: 18330, count: 6 }],
         });
 
-        const got = selectBestTest(targeting, [test], userDeviceType, [], now);
+        const got = await selectBestTest(
+            targeting,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+            [],
+            now,
+        );
 
         expect(got?.test).toBe(test);
     });
 
-    it('should return null when the device type does not match', () => {
+    it('should return null when the device type does not match', async () => {
         const test = { ...testDefault, deviceType: 'iOS' as const };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toBeNull();
     });
 
-    it('should return null when the signed-in status does not match', () => {
+    it('should return null when the signed-in status does not match', async () => {
         const test = { ...testDefault, signedInStatus: 'SignedIn' as const };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toBeNull();
     });
 
-    it('should exclude newsletter messages when the page has a newsletter signup', () => {
+    it('should exclude newsletter messages when the page has a newsletter signup', async () => {
         const targeting = { ...targetingDefault, hasNewsletterSignup: true };
         const test = { ...testDefault, variants: [newsletterVariant] };
 
-        const got = selectBestTest(targeting, [test], userDeviceType);
+        const got = await selectBestTest(targeting, [test], userDeviceType, getMParticleProfile);
 
         expect(got).toBeNull();
     });
 
-    it('should select newsletter messages when the page has no newsletter signup', () => {
+    it('should select newsletter messages when the page has no newsletter signup', async () => {
         const test = { ...testDefault, variants: [newsletterVariant] };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toEqual({ test, variant: newsletterVariant });
     });
 
-    it('should select puzzles messages when the page has a newsletter signup', () => {
+    it('should select puzzles messages when the page has a newsletter signup', async () => {
         const targeting = { ...targetingDefault, hasNewsletterSignup: true };
 
-        const got = selectBestTest(targeting, [testDefault], userDeviceType);
+        const got = await selectBestTest(
+            targeting,
+            [testDefault],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toEqual({ test: testDefault, variant: variantDefault });
     });
 
-    it('should select support messages when the page has a newsletter signup', () => {
+    it('should select support messages when the page has a newsletter signup', async () => {
         const targeting = { ...targetingDefault, hasNewsletterSignup: true };
         const variant: Inline1Variant = {
             name: 'support',
@@ -219,21 +282,26 @@ describe('selectBestTest', () => {
         };
         const test = { ...testDefault, variants: [variant] };
 
-        const got = selectBestTest(targeting, [test], userDeviceType);
+        const got = await selectBestTest(targeting, [test], userDeviceType, getMParticleProfile);
 
         expect(got).toEqual({ test, variant });
     });
 
-    it('should try the next test after excluding a newsletter message', () => {
+    it('should try the next test after excluding a newsletter message', async () => {
         const targeting = { ...targetingDefault, hasNewsletterSignup: true };
         const newsletterTest = { ...testDefault, variants: [newsletterVariant] };
 
-        const got = selectBestTest(targeting, [newsletterTest, testDefault], userDeviceType);
+        const got = await selectBestTest(
+            targeting,
+            [newsletterTest, testDefault],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toEqual({ test: testDefault, variant: variantDefault });
     });
 
-    it('should return null when the page context does not match', () => {
+    it('should return null when the page context does not match', async () => {
         const test: Inline1Test = {
             ...testDefault,
             contextTargeting: {
@@ -244,15 +312,25 @@ describe('selectBestTest', () => {
             },
         };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toBeNull();
     });
 
-    it('should return null when the consent status does not match', () => {
+    it('should return null when the consent status does not match', async () => {
         const test = { ...testDefault, consentStatus: 'HasNotConsented' as const };
 
-        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+        const got = await selectBestTest(
+            targetingDefault,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+        );
 
         expect(got).toBeNull();
     });
