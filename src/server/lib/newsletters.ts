@@ -43,10 +43,7 @@ export const getNewsletterForTestName = <T extends Pick<NewsletterData, 'listId'
         : newsletters.find((newsletter) => newsletter.listId === listId);
 };
 
-export const getPromotedNewsletterForTest = (
-    testName: string,
-    newsletters: NewsletterData[],
-) => {
+export const getPromotedNewsletterForTest = (testName: string, newsletters: NewsletterData[]) => {
     const newsletter = getNewsletterForTestName(testName, newsletters);
     if (!newsletter) {
         return undefined;

@@ -6,10 +6,7 @@ jest.mock('../utils/valueReloader', () => ({
 }));
 
 describe('getNewsletterForTestName', () => {
-    const newsletters: Array<Pick<NewsletterData, 'listId'>> = [
-        { listId: 6069 },
-        { listId: 4149 },
-    ];
+    const newsletters: Array<Pick<NewsletterData, 'listId'>> = [{ listId: 6069 }, { listId: 4149 }];
 
     it.each([
         ['NEWSLETTER_STAKES', 6069],
