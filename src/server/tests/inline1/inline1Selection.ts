@@ -40,7 +40,7 @@ export const selectBestTest = (
     contributionsOnlyCountries: string[] = [],
     now: Date = new Date(),
 ): Inline1TestSelection | null => {
-    const { showSupportMessaging, isSignedIn, hasConsented } = targeting;
+    const { showSupportMessaging, isSignedIn, hasConsented, hasNewsletterSignup } = targeting;
 
     for (const test of allTests) {
         const { status, userCohort, signedInStatus, contextTargeting, consentStatus } = test;
@@ -71,6 +71,13 @@ export const selectBestTest = (
             consentStatusMatches(hasConsented, consentStatus)
         ) {
             const selectedVariant: Inline1Variant = selectVariantUsingMVT(test, targeting.mvtId);
+            if (
+                hasNewsletterSignup &&
+                selectedVariant.message.type === 'Inline1NewsletterMessage'
+            ) {
+                continue;
+            }
+
             return {
                 test,
                 variant: selectedVariant,

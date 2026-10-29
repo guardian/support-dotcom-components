@@ -23,12 +23,24 @@ const testDefault: Inline1Test = {
     variants: [variantDefault],
 };
 
+const newsletterVariant: Inline1Variant = {
+    name: 'newsletter',
+    message: {
+        type: 'Inline1NewsletterMessage',
+        newsletterId: 'example-newsletter',
+        frequency: 'Weekly',
+        heading: 'Sign up for our newsletter',
+        body: 'Get the latest news.',
+    },
+};
+
 const targetingDefault: Inline1Targeting = {
     showSupportMessaging: true,
     mvtId: 2,
     countryCode: 'GB',
     isSignedIn: false,
     hasConsented: true,
+    hasNewsletterSignup: false,
 };
 
 const userDeviceType = 'Desktop';
@@ -167,6 +179,58 @@ describe('selectBestTest', () => {
         const got = selectBestTest(targetingDefault, [test], userDeviceType);
 
         expect(got).toBeNull();
+    });
+
+    it('should exclude newsletter messages when the page has a newsletter signup', () => {
+        const targeting = { ...targetingDefault, hasNewsletterSignup: true };
+        const test = { ...testDefault, variants: [newsletterVariant] };
+
+        const got = selectBestTest(targeting, [test], userDeviceType);
+
+        expect(got).toBeNull();
+    });
+
+    it('should select newsletter messages when the page has no newsletter signup', () => {
+        const test = { ...testDefault, variants: [newsletterVariant] };
+
+        const got = selectBestTest(targetingDefault, [test], userDeviceType);
+
+        expect(got).toEqual({ test, variant: newsletterVariant });
+    });
+
+    it('should select puzzles messages when the page has a newsletter signup', () => {
+        const targeting = { ...targetingDefault, hasNewsletterSignup: true };
+
+        const got = selectBestTest(targeting, [testDefault], userDeviceType);
+
+        expect(got).toEqual({ test: testDefault, variant: variantDefault });
+    });
+
+    it('should select support messages when the page has a newsletter signup', () => {
+        const targeting = { ...targetingDefault, hasNewsletterSignup: true };
+        const variant: Inline1Variant = {
+            name: 'support',
+            message: {
+                type: 'Inline1SupportMessage',
+                heading: 'Support the Guardian',
+                body: 'Support independent journalism.',
+                primaryCta: { baseUrl: 'https://support.theguardian.com', text: 'Support us' },
+            },
+        };
+        const test = { ...testDefault, variants: [variant] };
+
+        const got = selectBestTest(targeting, [test], userDeviceType);
+
+        expect(got).toEqual({ test, variant });
+    });
+
+    it('should try the next test after excluding a newsletter message', () => {
+        const targeting = { ...targetingDefault, hasNewsletterSignup: true };
+        const newsletterTest = { ...testDefault, variants: [newsletterVariant] };
+
+        const got = selectBestTest(targeting, [newsletterTest, testDefault], userDeviceType);
+
+        expect(got).toEqual({ test: testDefault, variant: variantDefault });
     });
 
     it('should return null when the page context does not match', () => {
