@@ -1,6 +1,10 @@
 import type { BannerTargeting } from '../../shared/types';
 import { matchNewsletterTargeting } from './newsletterTargeting';
 
+jest.mock('../utils/valueReloader', () => ({
+    buildReloader: jest.fn(),
+}));
+
 describe('matchNewsletterTargeting', () => {
     const targeting = (
         values: Partial<
@@ -20,13 +24,21 @@ describe('matchNewsletterTargeting', () => {
         expect(matchNewsletterTargeting(test, targeting({ countryCode: 'GB' }))).toBe(false);
     });
 
-    it('rejects a signed-in user subscribed to the promoted newsletter', () => {
-        const test = { name: 'NEWSLETTER_test' };
+    it('rejects a signed-in user subscribed to the newsletter for that test', () => {
+        const newsletters = [{ listId: 6069 }, { listId: 4149 }];
 
         expect(
             matchNewsletterTargeting(
-                test,
+                { name: 'NEWSLETTER_STAKES' },
                 targeting({ isSignedIn: true, userSubscriptions: [6069] }),
+                newsletters,
+            ),
+        ).toBe(false);
+        expect(
+            matchNewsletterTargeting(
+                { name: 'NEWSLETTER_NAZA' },
+                targeting({ isSignedIn: true, userSubscriptions: [4149] }),
+                newsletters,
             ),
         ).toBe(false);
     });
@@ -36,6 +48,7 @@ describe('matchNewsletterTargeting', () => {
             matchNewsletterTargeting(
                 { name: 'NEWSLETTER_test' },
                 targeting({ isSignedIn: true, userSubscriptions: [] }),
+                [],
             ),
         ).toBe(true);
     });

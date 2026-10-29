@@ -30,6 +30,7 @@
     },
     "peerDependencies": {
         "@guardian/libs": "^22.0.0",
+        "@guardian/newsletter-types": "5.0.0",
         "@guardian/ophan-tracker-js": "2.8.0",
         "zod": "^4.1.12"
     }

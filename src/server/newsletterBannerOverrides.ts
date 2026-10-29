@@ -2,16 +2,16 @@ import type { BannerProps } from '../shared/types';
 
 export const newsletterBannerOverrides: Pick<
     BannerProps,
-    'bannerChannel' | 'content' | 'design' | 'isCollapsible' | 'promotedNewsletter'
+    'bannerChannel' | 'content' | 'design' | 'isCollapsible'
 > = {
     bannerChannel: 'contributions',
+    isCollapsible: false,
     content: {
         heading: 'Sign up to The Stakes 2026',
         paragraphs: [
             'From the races and candidates to watch to the issues shaping American politics, The Stakes 2026 brings you expert analysis of what really matters in the US midterms.',
         ],
     },
-    isCollapsible: false,
     design: {
         headerImage: {
             mobileUrl:
@@ -62,11 +62,5 @@ export const newsletterBannerOverrides: Pick<
                 goalColour: { r: '33', g: '33', b: '33', kind: 'hex' },
             },
         },
-    },
-    promotedNewsletter: {
-        listId: 6069,
-        identityName: 'the-stakes-2026',
-        name: 'The Stakes 2026',
-        frequency: 'Weekly',
     },
 };
