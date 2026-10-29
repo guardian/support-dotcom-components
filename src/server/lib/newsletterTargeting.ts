@@ -17,8 +17,7 @@ export const matchNewsletterTargeting = (
     }
 
     const isSubscribed =
-        targeting.isSignedIn &&
-        targeting.userSubscriptions?.includes(newsletter.listId);
+        targeting.isSignedIn && targeting.userSubscriptions?.includes(newsletter.listId);
 
     return targeting.countryCode === 'US' && !isSubscribed;
 };
