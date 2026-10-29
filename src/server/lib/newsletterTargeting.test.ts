@@ -2,7 +2,7 @@ import type { BannerTargeting } from '../../shared/types';
 import { matchNewsletterTargeting } from './newsletterTargeting';
 
 jest.mock('../utils/valueReloader', () => ({
-    buildReloader: jest.fn(),
+    ValueReloader: jest.fn(),
 }));
 
 describe('matchNewsletterTargeting', () => {
@@ -43,13 +43,27 @@ describe('matchNewsletterTargeting', () => {
         ).toBe(false);
     });
 
-    it('matches a US user who is not subscribed to the promoted newsletter', () => {
+    it('matches a US user who is not subscribed when newsletter data is available', () => {
         expect(
             matchNewsletterTargeting(
-                { name: 'NEWSLETTER_test' },
+                { name: 'NEWSLETTER_STAKES' },
                 targeting({ isSignedIn: true, userSubscriptions: [] }),
-                [],
+                [{ listId: 6069 }],
             ),
         ).toBe(true);
+    });
+
+    it('suppresses newsletter tests until their newsletter data is available', () => {
+        expect(matchNewsletterTargeting({ name: 'NEWSLETTER_STAKES' }, targeting(), [])).toBe(
+            false,
+        );
+    });
+
+    it('rejects newsletter tests with no test-name mapping', () => {
+        expect(
+            matchNewsletterTargeting({ name: 'NEWSLETTER_UNMAPPED' }, targeting(), [
+                { listId: 6069 },
+            ]),
+        ).toBe(false);
     });
 });

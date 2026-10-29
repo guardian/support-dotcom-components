@@ -11,11 +11,14 @@ export const matchNewsletterTargeting = (
         return true;
     }
 
-    const listId = getNewsletterForTestName(test.name, newsletters)?.listId;
+    const newsletter = getNewsletterForTestName(test.name, newsletters);
+    if (!newsletter) {
+        return false;
+    }
+
     const isSubscribed =
         targeting.isSignedIn &&
-        listId !== undefined &&
-        targeting.userSubscriptions?.includes(listId);
+        targeting.userSubscriptions?.includes(newsletter.listId);
 
     return targeting.countryCode === 'US' && !isSubscribed;
 };

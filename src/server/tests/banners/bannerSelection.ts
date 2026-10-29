@@ -329,7 +329,7 @@ interface SelectBannerTestData {
         attributes: GetTreatmentsAttributes,
     ) => Promise<boolean>;
     contributionsOnlyCountries?: string[];
-    newsletters?: NewsletterData[];
+    newsletters?: Array<Pick<NewsletterData, 'listId'>>;
 }
 
 export const selectBannerTest = async ({

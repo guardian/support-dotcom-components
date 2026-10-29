@@ -2,8 +2,7 @@ import type {
     NewsletterApiData,
     NewslettersApiAllNewslettersResponse,
 } from '@guardian/newsletter-types';
-import type { ValueReloader } from '../utils/valueReloader';
-import { buildReloader } from '../utils/valueReloader';
+import { ValueReloader } from '../utils/valueReloader';
 
 export type NewsletterData = NewsletterApiData & {
     illustrationSquare?: string | null;
@@ -30,7 +29,7 @@ export const fetchNewsletters = async (): Promise<NewsletterData[]> => {
 };
 
 export const buildNewslettersReloader = (): Promise<ValueReloader<NewsletterData[]>> =>
-    buildReloader(fetchNewsletters, 5 * 60);
+    Promise.resolve(new ValueReloader([], fetchNewsletters, 5 * 60));
 
 export const getNewsletterForTestName = <T extends Pick<NewsletterData, 'listId'>>(
     testName: string,

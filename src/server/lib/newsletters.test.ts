@@ -1,8 +1,13 @@
+import { ValueReloader } from '../utils/valueReloader';
 import type { NewsletterData } from './newsletters';
-import { getNewsletterForTestName } from './newsletters';
+import {
+    buildNewslettersReloader,
+    fetchNewsletters,
+    getNewsletterForTestName,
+} from './newsletters';
 
 jest.mock('../utils/valueReloader', () => ({
-    buildReloader: jest.fn(),
+    ValueReloader: jest.fn(),
 }));
 
 describe('getNewsletterForTestName', () => {
@@ -18,5 +23,15 @@ describe('getNewsletterForTestName', () => {
     it('returns no newsletter for an unconfigured test', () => {
         expect(getNewsletterForTestName('NEWSLETTER_STAKES_US', newsletters)).toBeUndefined();
         expect(getNewsletterForTestName('NEWSLETTER_OTHER', newsletters)).toBeUndefined();
+    });
+});
+
+describe('buildNewslettersReloader', () => {
+    it('returns a promise for an empty-cache reloader that fetches in the background', async () => {
+        const reloaderPromise = buildNewslettersReloader();
+
+        expect(reloaderPromise).toBeInstanceOf(Promise);
+        expect(jest.mocked(ValueReloader)).toHaveBeenCalledWith([], fetchNewsletters, 5 * 60);
+        await reloaderPromise;
     });
 });
