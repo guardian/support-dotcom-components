@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.1.5
+
+### Patch Changes
+
+- 0e96943: Add hasNewsletterSignup to Inline1Targeting
+
 ## 11.1.4
 
 ### Patch Changes
