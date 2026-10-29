@@ -28,9 +28,11 @@ const imageSchema = z.object({
 
 const choiceCardsSchema = z.object({
     buttonColour: hexColourSchema.nullish(),
+    buttonOpacity: z.number().min(0).max(1).nullish(),
     buttonTextColour: hexColourSchema.nullish(),
     buttonBorderColour: hexColourSchema.nullish(),
     buttonSelectColour: hexColourSchema.nullish(),
+    buttonSelectOpacity: z.number().min(0).max(1).nullish(),
     buttonSelectTextColour: hexColourSchema.nullish(),
     buttonSelectBorderColour: hexColourSchema.nullish(),
     buttonSelectMarkerColour: hexColourSchema.nullish(),
@@ -105,9 +107,11 @@ export interface BannerDesignImage extends BannerDesignHeaderImage {
 interface ChoiceCardsDesign {
     kind: 'ChoiceCards';
     buttonColour?: HexColour;
+    buttonOpacity?: number;
     buttonTextColour?: HexColour;
     buttonBorderColour?: HexColour;
     buttonSelectColour?: HexColour;
+    buttonSelectOpacity?: number;
     buttonSelectTextColour?: HexColour;
     buttonSelectBorderColour?: HexColour;
     buttonSelectMarkerColour?: HexColour;
