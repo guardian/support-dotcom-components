@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.2.0
+
+### Minor Changes
+
+- 88889f2: Update promoted newsletter banner props to use newsletter API types and data.
+
 ## 11.1.5
 
 ### Patch Changes
