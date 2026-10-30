@@ -4,6 +4,7 @@ import {
     buildNewslettersReloader,
     fetchNewsletters,
     getNewsletterForTestName,
+    getPromotedNewsletterForTest,
 } from './newsletters';
 
 jest.mock('../utils/valueReloader', () => ({
@@ -33,5 +34,24 @@ describe('buildNewslettersReloader', () => {
         expect(reloaderPromise).toBeInstanceOf(Promise);
         expect(jest.mocked(ValueReloader)).toHaveBeenCalledWith([], fetchNewsletters, 5 * 60);
         await reloaderPromise;
+    });
+});
+
+describe('getPromotedNewsletterForTest', () => {
+    const newsletters = [
+        { listId: 6069, illustrationSquare: 'https://example.com/original-stakes.png' },
+        { listId: 4149, illustrationSquare: 'https://example.com/original-naza.png' },
+    ] as NewsletterData[];
+
+    it('uses the configured square illustration for NEWSLETTER_STAKES', () => {
+        expect(
+            getPromotedNewsletterForTest('NEWSLETTER_STAKES', newsletters)?.illustrationSquare,
+        ).toBe('https://uploads.guim.co.uk/2026/10/30/The_Stakes_image_Mobile.png');
+    });
+
+    it('keeps the API square illustration for other newsletters', () => {
+        expect(
+            getPromotedNewsletterForTest('NEWSLETTER_NAZA', newsletters)?.illustrationSquare,
+        ).toBe('https://example.com/original-naza.png');
     });
 });
