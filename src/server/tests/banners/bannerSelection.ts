@@ -19,6 +19,7 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { MParticleProfile } from '../../lib/mParticle';
 import { matchesMParticleTemplates } from '../../lib/mParticleTemplates';
+import type { NewsletterData } from '../../lib/newsletters';
 import { matchNewsletterTargeting } from '../../lib/newsletterTargeting';
 import type { TestVariant } from '../../lib/params';
 import {
@@ -328,6 +329,7 @@ interface SelectBannerTestData {
         attributes: GetTreatmentsAttributes,
     ) => Promise<boolean>;
     contributionsOnlyCountries?: string[];
+    newsletters?: Array<Pick<NewsletterData, 'listId'>>;
 }
 
 export const selectBannerTest = async ({
@@ -344,6 +346,7 @@ export const selectBannerTest = async ({
     previewTestVariant,
     checkAuxiaSuppression,
     contributionsOnlyCountries = [],
+    newsletters = [],
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
@@ -374,7 +377,7 @@ export const selectBannerTest = async ({
 
         if (
             test.status === 'Live' &&
-            matchNewsletterTargeting(test, targeting) &&
+            matchNewsletterTargeting(test, targeting, newsletters) &&
             !shouldSkipTwoStepBannerTest(test, targeting, userDeviceType) &&
             (!test.canRun || test.canRun(targeting)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&

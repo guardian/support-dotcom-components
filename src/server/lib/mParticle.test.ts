@@ -680,7 +680,7 @@ describe('MParticle caching logic', () => {
         const mParticle = new MParticle(mockConfig);
 
         // Replace the cache with one that has a short TTL for testing
-        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any -- Testing internal cache behavior with short TTL
+        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any -- Testing internal cache behavior with short TTL
         (mParticle as any).cache = new (require('lru-cache').LRUCache)({
             max: 1000,
             ttl: 100, // 100ms TTL

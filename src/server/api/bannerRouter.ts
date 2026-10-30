@@ -21,6 +21,8 @@ import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
 import { substituteMParticleTemplateInBannerVariant } from '../lib/mParticleTemplates';
+import { getPromotedNewsletterForTest } from '../lib/newsletters';
+import type { NewsletterData } from '../lib/newsletters';
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
@@ -63,6 +65,7 @@ export const buildBannerRouter = (
     channelExclusions: ValueProvider<ExclusionSettings>,
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
     defaultChoiceCardSettings: ValueProvider<DefaultChoiceCardSettings>,
+    newsletters: ValueProvider<NewsletterData[]>,
 ): Router => {
     const router = Router();
 
@@ -92,6 +95,7 @@ export const buildBannerRouter = (
         if (inExclusions(targeting, channelExclusionsData.banner)) {
             return {};
         }
+        const newsletterData = newsletters.get();
         const filteredTests = filterTestsForSensitiveContent(
             bannerTests.get(),
             targeting.isSensitive,
@@ -110,6 +114,7 @@ export const buildBannerRouter = (
             previewTestVariant: params.preview,
             checkAuxiaSuppression,
             contributionsOnlyCountries,
+            newsletters: newsletterData,
         });
 
         if (selectedTest) {
@@ -192,7 +197,11 @@ export const buildBannerRouter = (
             };
 
             const responseProps = test.name.startsWith('NEWSLETTER_')
-                ? { ...props, ...newsletterBannerOverrides }
+                ? {
+                      ...props,
+                      ...newsletterBannerOverrides,
+                      promotedNewsletter: getPromotedNewsletterForTest(test.name, newsletterData),
+                  }
                 : props;
 
             return {
