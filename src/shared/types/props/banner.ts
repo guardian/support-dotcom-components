@@ -49,9 +49,9 @@ export interface PromotedNewsletter {
     listId: NewsletterApiData['listId'];
     identityName: NewsletterApiData['identityName'];
     name: NewsletterApiData['name'];
-    status: NewsletterApiData['status'];
+    status?: NewsletterApiData['status'];
     frequency: NewsletterApiData['frequency'];
-    signUpDescription: NewsletterApiData['signUpDescription'];
+    signUpDescription?: NewsletterApiData['signUpDescription'];
     illustrationCard?: NewsletterApiData['illustrationCard'] | null;
     illustrationSquare?: string | null;
 }
@@ -112,9 +112,9 @@ export const bannerSchema = z.object({
             listId: z.number(),
             identityName: z.string(),
             name: z.string(),
-            status: z.enum(['paused', 'cancelled', 'live', 'pending']),
+            status: z.enum(['paused', 'cancelled', 'live', 'pending']).optional(),
             frequency: z.string(),
-            signUpDescription: z.string(),
+            signUpDescription: z.string().optional(),
             illustrationCard: z.string().nullish(),
             illustrationSquare: z.string().nullish(),
         })

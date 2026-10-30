@@ -19,9 +19,11 @@ describe('matchNewsletterTargeting', () => {
     });
 
     it('rejects newsletter tests outside the US', () => {
-        const test = { name: 'NEWSLETTER_test' };
+        const test = { name: 'NEWSLETTER_STAKES' };
 
-        expect(matchNewsletterTargeting(test, targeting({ countryCode: 'GB' }))).toBe(false);
+        expect(
+            matchNewsletterTargeting(test, targeting({ countryCode: 'GB' }), [{ listId: 6069 }]),
+        ).toBe(false);
     });
 
     it('rejects a signed-in user subscribed to the newsletter for that test', () => {
