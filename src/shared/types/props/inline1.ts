@@ -1,12 +1,7 @@
 import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import z from 'zod';
 import type { Inline1Variant } from '../abTests';
-import {
-    ctaSchema,
-    inline1ImageSchema,
-    type Tracking,
-    trackingSchema,
-} from './shared';
+import { ctaSchema, inline1ImageSchema, type Tracking, trackingSchema } from './shared';
 
 export interface Inline1Props {
     variant: Inline1Variant;
