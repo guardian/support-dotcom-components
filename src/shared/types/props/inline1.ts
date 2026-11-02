@@ -1,7 +1,7 @@
 import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import z from 'zod';
 import type { Inline1Variant } from '../abTests';
-import { ctaSchema, imageSchema, type Tracking, trackingSchema } from './shared';
+import { ctaSchema, type Tracking, trackingSchema } from './shared';
 
 export interface Inline1Props {
     variant: Inline1Variant;
@@ -10,12 +10,19 @@ export interface Inline1Props {
     submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
 }
 
+const inline1ImageSchema = z.object({
+    mobileUrl: z.string().optional(),
+    tabletUrl: z.string().optional(),
+    desktopUrl: z.string().optional(),
+    altText: z.string(),
+});
+
 export const inline1SupportMessageSchema = z.object({
     type: z.literal('Inline1SupportMessage'),
     heading: z.string(),
     body: z.string(),
     primaryCta: ctaSchema,
-    image: imageSchema.optional(),
+    image: inline1ImageSchema.optional(),
 });
 
 export const inline1PuzzlesMessageSchema = z.object({
