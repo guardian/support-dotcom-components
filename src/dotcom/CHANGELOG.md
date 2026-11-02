@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.2.1
+
+### Patch Changes
+
+- 3e82ecc: Update imageSchema for inline1 test
+
 ## 11.2.0
 
 ### Minor Changes
