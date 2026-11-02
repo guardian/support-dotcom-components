@@ -179,8 +179,8 @@ importers:
         specifier: 3.1138.0
         version: 3.1138.0
       '@aws-sdk/lib-dynamodb':
-        specifier: 3.1138.0
-        version: 3.1138.0(@aws-sdk/client-dynamodb@3.1141.0)
+        specifier: 3.1156.0
+        version: 3.1156.0(@aws-sdk/client-dynamodb@3.1141.0)
       '@okta/jwt-verifier':
         specifier: 4.0.2
         version: 4.0.2
@@ -446,11 +446,11 @@ packages:
     resolution: {integrity: sha512-8q1ICxcDjHId3bBryuu/j+1L9y5/3uQnwzLDt5j2ElcjZSoWmFtymdJy7OjLrluSMe0Z4mq5bcH4fxBXvlEHfw==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/lib-dynamodb@3.1138.0':
-    resolution: {integrity: sha512-n7zyF2zwDOevjLA5DI0xvXp7cDvYlaUYSoldo/Q/ahxz7ajiebhXVdrQ1jQKr0i4CAdQMfW4ZRLNZFNizIb9Bw==}
+  '@aws-sdk/lib-dynamodb@3.1156.0':
+    resolution: {integrity: sha512-9uJS1rF3ROTMrUfsJD5B5zki7tT5W654/vEBe+kuMw7Nn9CwQpi7d0Sif6fukPmapiujLnbonj3yR353wVRgdg==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@aws-sdk/client-dynamodb': ^3.1138.0
+      '@aws-sdk/client-dynamodb': ^3.1156.0
 
   '@aws-sdk/middleware-endpoint-discovery@3.972.31':
     resolution: {integrity: sha512-JqOIXupzP6cpAmCCmuEaacbXo/bVCcg1NkglCJC6q4wDAvJO09qIs7POf50JNzmhOhWPtfXvzgWxb5nMQl8QiA==}
@@ -4869,12 +4869,12 @@ snapshots:
       mnemonist: 0.38.3
       tslib: 2.8.1
 
-  '@aws-sdk/lib-dynamodb@3.1138.0(@aws-sdk/client-dynamodb@3.1141.0)':
+  '@aws-sdk/lib-dynamodb@3.1156.0(@aws-sdk/client-dynamodb@3.1141.0)':
     dependencies:
       '@aws-sdk/client-dynamodb': 3.1141.0
-      '@aws-sdk/core': 3.978.1
+      '@aws-sdk/core': 3.978.5
       '@aws-sdk/util-dynamodb': 3.996.9(@aws-sdk/client-dynamodb@3.1141.0)
-      '@smithy/core': 3.35.0
+      '@smithy/core': 3.36.2
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
