@@ -165,13 +165,6 @@ export const imageSchema = z.object({
     altText: z.string(),
 });
 
-export const inline1ImageSchema = z.object({
-    mobileUrl: z.string().optional(),
-    tabletUrl: z.string().optional(),
-    desktopUrl: z.string().optional(),
-    altText: z.string(),
-});
-
 export interface BylineWithImage {
     name: string;
     description?: string;
