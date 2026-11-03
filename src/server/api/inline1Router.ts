@@ -12,6 +12,7 @@ import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import { getDeviceType } from '../lib/deviceType';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
 import type { Okta } from '../lib/okta';
+import { getQueryParams } from '../lib/params';
 import { pageIdIsExcluded } from '../lib/targeting';
 import { selectInline1Test } from '../tests/inline1/inline1Selection';
 import type { ValueProvider } from '../utils/valueReloader';
@@ -55,6 +56,7 @@ export const buildInline1Router = (
             getDeviceType(req),
             getMParticleProfile,
             contributionsOnlyCountriesConfig.get().contributionsOnlyCountries,
+            getQueryParams(req.query).preview,
         );
 
         if (!testSelection) {
