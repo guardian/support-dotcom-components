@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.3.0
+
+### Minor Changes
+
+- e0764cc: Add opacity settings for selected and unselected three-tier choice cards.
+
 ## 11.2.1
 
 ### Patch Changes
