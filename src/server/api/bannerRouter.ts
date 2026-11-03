@@ -15,6 +15,7 @@ import type { ChannelSwitches } from '../channelSwitches';
 import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import type { DefaultChoiceCardSettings } from '../defaultChoiceCardSettings';
 import type { Auxia, AuxiaInteractionType, GetTreatmentsAttributes } from '../lib/auxia';
+import { isInAuxiaBannerRollout } from '../lib/auxia';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -74,6 +75,7 @@ export const buildBannerRouter = (
             browserId: string,
             attributes: GetTreatmentsAttributes,
         ) => Promise<boolean>,
+        inAuxiaRollout: boolean,
     ): Promise<BannerDataResponse> => {
         const { enableBanners, enableHardcodedBannerTests, enableScheduledBannerDeploys } =
             channelSwitches.get();
@@ -111,6 +113,7 @@ export const buildBannerRouter = (
             forcedTestVariant: params.force,
             previewTestVariant: params.preview,
             checkAuxiaSuppression,
+            inAuxiaRollout,
             contributionsOnlyCountries,
         });
 
@@ -218,8 +221,10 @@ export const buildBannerRouter = (
                 const { targeting } = req.body;
                 const params = getQueryParams(req.query);
                 const authHeader = req.headers.authorization;
+                const switches = channelSwitches.get();
+                const inAuxiaRollout = isInAuxiaBannerRollout(switches, targeting);
                 const { fetchProfile, forLogging: mParticleLogging } = mParticle.getProfileFetcher(
-                    channelSwitches.get(),
+                    switches,
                     okta,
                     authHeader,
                     targeting.isSignedIn ? undefined : targeting.browserId,
@@ -228,10 +233,7 @@ export const buildBannerRouter = (
                     checkAuxiaSuppression,
                     forLogging: auxiaStatus,
                     getTreatment,
-                } = auxia.getBannerSuppressedChecker(
-                    channelSwitches.get(),
-                    targeting.auxiaRolloutMvtId,
-                );
+                } = auxia.getBannerSuppressedChecker(switches, targeting.auxiaRolloutMvtId);
 
                 const response = await buildBannerData(
                     targeting,
@@ -239,6 +241,7 @@ export const buildBannerRouter = (
                     req,
                     fetchProfile,
                     checkAuxiaSuppression,
+                    inAuxiaRollout,
                 );
 
                 // Enrich the response with auxia treatment data if available

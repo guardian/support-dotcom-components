@@ -1,6 +1,6 @@
 import { getErrorMessage } from '@guardian/libs';
 import { z } from 'zod';
-import type { AuxiaTracking } from '../../shared/types';
+import type { AuxiaTracking, BannerTargeting } from '../../shared/types';
 import type { AuxiaRouterConfig } from '../api/auxiaProxyRouter';
 import type { ChannelSwitches } from '../channelSwitches';
 import { getAuxiaBannerRolloutPercentage } from '../channelSwitches';
@@ -70,6 +70,18 @@ const inAuxiaAudience = (mvtId: number | undefined, percentage: number): boolean
         mvtId % 100 < percentage
     );
 };
+
+export const isInAuxiaBannerRollout = (
+    channelSwitches: ChannelSwitches,
+    {
+        browserId,
+        hasConsented,
+        auxiaRolloutMvtId,
+    }: Pick<BannerTargeting, 'browserId' | 'hasConsented' | 'auxiaRolloutMvtId'>,
+): boolean =>
+    !!browserId &&
+    hasConsented &&
+    inAuxiaAudience(auxiaRolloutMvtId, getAuxiaBannerRolloutPercentage(channelSwitches));
 
 export class Auxia {
     private config: AuxiaRouterConfig;
@@ -282,8 +294,13 @@ export class Auxia {
             browserId: string,
             attributes: GetTreatmentsAttributes,
         ): Promise<boolean> => {
-            const rolloutPercentage = getAuxiaBannerRolloutPercentage(channelSwitches);
-            if (!attributes.hasConsented || !inAuxiaAudience(mvtId, rolloutPercentage)) {
+            if (
+                !isInAuxiaBannerRollout(channelSwitches, {
+                    browserId,
+                    hasConsented: attributes.hasConsented,
+                    auxiaRolloutMvtId: mvtId,
+                })
+            ) {
                 return false;
             }
             const result = await this.checkBannerSuppression(browserId, attributes);
