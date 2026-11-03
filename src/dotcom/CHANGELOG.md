@@ -1,5 +1,53 @@
 # @guardian/support-dotcom-components
 
+## 11.2.1
+
+### Patch Changes
+
+- 3e82ecc: Update imageSchema for inline1 test
+
+## 11.2.0
+
+### Minor Changes
+
+- 88889f2: Update promoted newsletter banner props to use newsletter API types and data.
+
+## 11.1.5
+
+### Patch Changes
+
+- 0e96943: Add hasNewsletterSignup to Inline1Targeting
+
+## 11.1.4
+
+### Patch Changes
+
+- f9db0ac: Add optional weeklyArticleHistory to Inline1 targeting
+
+## 11.1.3
+
+### Patch Changes
+
+- f5f737d: Add optional `userSubscriptions` targeting and promoted newsletter metadata for newsletter banner
+
+## 11.1.2
+
+### Patch Changes
+
+- e04cd6f: Fix path of dotcom types
+
+## 11.1.1
+
+### Patch Changes
+
+- 1437d57: Fix inline1MessageSchema
+
+## 11.1.0
+
+### Minor Changes
+
+- af7d5d2: Add inline1 model
+
 ## 11.0.0
 
 ### Major Changes

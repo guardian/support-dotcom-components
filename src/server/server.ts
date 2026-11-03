@@ -8,6 +8,7 @@ import { buildBannerRouter } from './api/bannerRouter';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildGutterRouter } from './api/gutterRouter';
 import { buildHeaderRouter } from './api/headerRouter';
+import { buildInline1Router } from './api/inline1Router';
 import { buildTickerRouter } from './api/tickerRouter';
 import { buildChannelExclusionsReloader } from './channelExclusions';
 import { buildChannelSwitchesReloader } from './channelSwitches';
@@ -16,6 +17,7 @@ import { buildDefaultChoiceCardSettingsReloader } from './defaultChoiceCardSetti
 import { Auxia } from './lib/auxia';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { getMParticleConfig, MParticle } from './lib/mParticle';
+import { buildNewslettersReloader } from './lib/newsletters';
 import { getOktaConfig, Okta } from './lib/okta';
 import { buildPromotionsReloader } from './lib/promotions/promotions';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
@@ -31,6 +33,7 @@ import { buildBannerTestsReloader } from './tests/banners/bannerTests';
 import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/epics/epicTests';
 import { buildGutterLiveblogTestsReloader } from './tests/gutters/gutterTests';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
+import { buildInline1TestsReloader } from './tests/inline1/inline1Tests';
 import { logError } from './utils/logging';
 
 const buildApp = async (): Promise<Express> => {
@@ -88,11 +91,13 @@ const buildApp = async (): Promise<Express> => {
         headerTests,
         bannerDesigns,
         gutterLiveblogTests,
+        inline1Tests,
         productCatalog,
         promotions,
         channelExclusions,
         contributionsOnlyCountriesConfig,
         defaultChoiceCardSettings,
+        newsletters,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -104,11 +109,13 @@ const buildApp = async (): Promise<Express> => {
         buildHeaderTestsReloader(),
         buildBannerDesignsReloader(),
         buildGutterLiveblogTestsReloader(),
+        buildInline1TestsReloader(),
         buildProductCatalogReloader(),
         buildPromotionsReloader(),
         buildChannelExclusionsReloader(),
         buildContributionsOnlyCountriesReloader(),
         buildDefaultChoiceCardSettingsReloader(),
+        buildNewslettersReloader(),
     ]);
 
     const banditData = await buildBanditDataReloader(articleEpicTests, bannerTests);
@@ -156,6 +163,7 @@ const buildApp = async (): Promise<Express> => {
             channelExclusions,
             contributionsOnlyCountriesConfig,
             defaultChoiceCardSettings,
+            newsletters,
         ),
     );
     app.use(
@@ -176,6 +184,16 @@ const buildApp = async (): Promise<Express> => {
             channelSwitches,
             gutterLiveblogTests,
             channelExclusions,
+            contributionsOnlyCountriesConfig,
+        ),
+    );
+
+    app.use(
+        buildInline1Router(
+            channelSwitches,
+            inline1Tests,
+            mParticle,
+            okta,
             contributionsOnlyCountriesConfig,
         ),
     );

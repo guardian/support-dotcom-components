@@ -6,6 +6,7 @@ import type {
     EpicTargeting,
     EpicViewLog,
     GutterTargeting,
+    Inline1Targeting,
     PageContextTargeting,
     SignedInStatus,
     Test,
@@ -179,7 +180,7 @@ const excludedPageIds = new Set<string>([
 ]);
 
 export const pageIdIsExcluded = (
-    targeting: BannerTargeting | EpicTargeting | GutterTargeting,
+    targeting: BannerTargeting | EpicTargeting | GutterTargeting | Inline1Targeting,
 ): boolean => {
     return targeting.pageId ? excludedPageIds.has(targeting.pageId) : false;
 };

@@ -10,7 +10,11 @@ import type express from 'express';
 export const bodyContainsAllFields =
     (fields: string[]) =>
     (req: express.Request, res: express.Response, next: express.NextFunction): void => {
-        if (fields.every((f) => f in req.body)) {
+        if (
+            typeof req.body === 'object' &&
+            req.body !== null &&
+            fields.every((f) => f in req.body)
+        ) {
             next();
         } else {
             res.sendStatus(400);

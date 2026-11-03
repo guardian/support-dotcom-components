@@ -21,7 +21,7 @@ const replaceCurrencyTemplate = (s: string, currencySymbol: string) =>
 
 const ratePlanCopy = (ratePlan: RatePlan): string => {
     if (ratePlan === 'Monthly') {
-        return 'monthly';
+        return 'month';
     } else {
         return 'year';
     }
@@ -205,7 +205,7 @@ export const getChoiceCardsSettings = (
             return {
                 ...card,
                 isDefault: forceNoDefault ? false : card.isDefault,
-                defaultExpanded: forceExpanded ? true : card.defaultExpanded,
+                defaultExpanded: forceExpanded ? card.isDefault : card.defaultExpanded,
             };
         }
         return card;

@@ -1,3 +1,4 @@
+import type { NewsletterApiData } from '@guardian/newsletter-types';
 import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
 import type { Channel } from '../abTests';
@@ -44,6 +45,17 @@ export interface BannerContent {
     secondaryCta?: SecondaryCta;
 }
 
+export interface PromotedNewsletter {
+    listId: NewsletterApiData['listId'];
+    identityName: NewsletterApiData['identityName'];
+    name: NewsletterApiData['name'];
+    status?: NewsletterApiData['status'];
+    frequency: NewsletterApiData['frequency'];
+    signUpDescription?: NewsletterApiData['signUpDescription'];
+    illustrationCard?: NewsletterApiData['illustrationCard'] | null;
+    illustrationSquare?: string | null;
+}
+
 export const bannerContentSchema = z.object({
     heading: z.string().optional(),
     messageText: z.string().optional(),
@@ -71,6 +83,7 @@ export interface BannerProps {
     abandonedBasket?: AbandonedBasket;
     promoCodes?: string[];
     isCollapsible?: boolean;
+    promotedNewsletter?: PromotedNewsletter;
     // provided by the client
     submitComponentEvent?: (componentEvent: ComponentEvent) => Promise<void>;
     fetchEmail?: () => Promise<string | null>;
@@ -94,5 +107,17 @@ export const bannerSchema = z.object({
     choiceCardsSettings: choiceCardsSettings.nullish(),
     promoCodes: z.array(z.string()).nullish(),
     isCollapsible: z.boolean().nullish(),
+    promotedNewsletter: z
+        .object({
+            listId: z.number(),
+            identityName: z.string(),
+            name: z.string(),
+            status: z.enum(['paused', 'cancelled', 'live', 'pending']).optional(),
+            frequency: z.string(),
+            signUpDescription: z.string().optional(),
+            illustrationCard: z.string().nullish(),
+            illustrationSquare: z.string().nullish(),
+        })
+        .nullish(),
     contributionsServiceUrl: z.string().nullish(),
 });

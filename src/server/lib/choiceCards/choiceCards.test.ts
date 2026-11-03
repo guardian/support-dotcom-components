@@ -150,7 +150,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support $15/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support $15/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('Recommended');
         expect(result?.choiceCards[1].product).toEqual({
             supportTier: 'SupporterPlus',
@@ -158,6 +158,41 @@ describe('getChoiceCardsSettings', () => {
         });
         expect(result?.choiceCards[1].destination).toEqual('LandingPage');
     });
+
+    it('only expands the default choice card when forceExpanded is enabled', () => {
+        const result = getChoiceCardsSettings(
+            'UnitedStates',
+            'Epic',
+            mockProductCatalog,
+            mockPromotionsCache,
+            [],
+            defaultEpicChoiceCardsSettings('UnitedStates'),
+            undefined,
+            true,
+        );
+
+        expect(result?.choiceCards.map((card) => card.defaultExpanded)).toEqual([
+            false,
+            true,
+            false,
+        ]);
+    });
+
+    it.each(['Epic', 'Banner1', 'Banner2'] as const)(
+        'uses singular month wording for %s choice cards',
+        (channel) => {
+            const result = getChoiceCardsSettings(
+                'UnitedStates',
+                channel,
+                mockProductCatalog,
+                mockPromotionsCache,
+                [],
+                undefined,
+            );
+
+            expect(result?.choiceCards[1].label).toEqual('Support $15/month');
+        },
+    );
 
     it('uses S3 Default settings when the country group has no choice cards', () => {
         const defaultSettings: DefaultChoiceCardSettings = {
@@ -255,7 +290,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
         expect(result?.choiceCards[1].product).toEqual({
             supportTier: 'SupporterPlus',
@@ -320,7 +355,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(dsCard).toBeDefined();
-        expect(dsCard?.label).toContain('Support $28/monthly');
+        expect(dsCard?.label).toContain('Support $28/month');
         expect(dsCard?.product).toEqual({
             supportTier: 'DigitalSubscription',
             ratePlan: 'Monthly',
@@ -484,7 +519,7 @@ describe('getChoiceCardsSettings', () => {
 
         expect(result).toBeDefined();
         // Should show full price without discount since promo hasn't started yet
-        expect(result?.choiceCards[1].label).toEqual('Support $15/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support $15/month');
         // Should not show the discount pill (e.g., "40% off")
         expect(result?.choiceCards[1].pill?.copy).not.toBe('40% off');
     });
@@ -513,7 +548,7 @@ describe('getChoiceCardsSettings', () => {
 
         expect(result).toBeDefined();
         // Should show full price without discount since promo has expired
-        expect(result?.choiceCards[1].label).toEqual('Support $15/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support $15/month');
         // Should not show the discount pill (e.g., "40% off")
         expect(result?.choiceCards[1].pill?.copy).not.toBe('40% off');
     });
@@ -541,7 +576,7 @@ describe('getChoiceCardsSettings', () => {
 
         expect(result).toBeDefined();
         // Should show discounted price since promo has no date restrictions
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
     });
 
@@ -568,7 +603,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support $9/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support $9/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('Recommended');
     });
 
@@ -594,7 +629,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
     });
 
@@ -620,7 +655,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $7.50/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $7.50/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('50% off');
     });
 
@@ -646,7 +681,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support $15/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support $15/month');
         expect(result?.choiceCards[1].pill?.copy).not.toBe('40% off');
     });
 
@@ -672,7 +707,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
     });
 
@@ -698,7 +733,7 @@ describe('getChoiceCardsSettings', () => {
         );
 
         expect(result).toBeDefined();
-        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/monthly');
+        expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
     });
 });

@@ -11,6 +11,7 @@ const Channel = [
     'Banner2',
     'Header',
     'GutterLiveblog',
+    'Inline1',
 ] as const;
 export type Channel = (typeof Channel)[number];
 const channelSchema = z.enum(Channel);

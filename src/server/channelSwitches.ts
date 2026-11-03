@@ -12,6 +12,7 @@ export interface ChannelSwitches {
     enableHardcodedBannerTests: boolean;
     enableScheduledBannerDeploys: boolean;
     enableGutterLiveblogs: boolean;
+    enableInline1Tests: boolean;
     enableMParticle: boolean;
     enableAuxia: boolean; // for sign-in gates
     enableAuxiaForBanners: boolean;

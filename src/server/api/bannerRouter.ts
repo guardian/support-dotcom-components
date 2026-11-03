@@ -22,6 +22,8 @@ import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
 import { substituteMParticleTemplateInBannerVariant } from '../lib/mParticleTemplates';
+import { getPromotedNewsletterForTest } from '../lib/newsletters';
+import type { NewsletterData } from '../lib/newsletters';
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
@@ -29,6 +31,7 @@ import type { PromotionsCache } from '../lib/promotions/promotions';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
+import { newsletterBannerOverrides } from '../newsletterBannerOverrides';
 import type { ProductCatalog } from '../productCatalog';
 import type { BanditData } from '../selection/banditData';
 import type { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
@@ -63,6 +66,7 @@ export const buildBannerRouter = (
     channelExclusions: ValueProvider<ExclusionSettings>,
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
     defaultChoiceCardSettings: ValueProvider<DefaultChoiceCardSettings>,
+    newsletters: ValueProvider<NewsletterData[]>,
 ): Router => {
     const router = Router();
 
@@ -82,7 +86,6 @@ export const buildBannerRouter = (
         const channelExclusionsData = channelExclusions.get();
         const contributionsOnlyCountries =
             contributionsOnlyCountriesConfig.get().contributionsOnlyCountries;
-
         if (!enableBanners) {
             return {};
         }
@@ -94,12 +97,11 @@ export const buildBannerRouter = (
         if (inExclusions(targeting, channelExclusionsData.banner)) {
             return {};
         }
-
+        const newsletterData = newsletters.get();
         const filteredTests = filterTestsForSensitiveContent(
             bannerTests.get(),
             targeting.isSensitive,
         );
-
         const selectedTest = await selectBannerTest({
             targeting,
             userDeviceType: getDeviceType(req, params),
@@ -115,6 +117,7 @@ export const buildBannerRouter = (
             checkAuxiaSuppression,
             inAuxiaRollout,
             contributionsOnlyCountries,
+            newsletters: newsletterData,
         });
 
         if (selectedTest) {
@@ -196,11 +199,19 @@ export const buildBannerRouter = (
                 promoCodes: variant.promoCodes ?? [],
             };
 
+            const responseProps = test.name.startsWith('NEWSLETTER_')
+                ? {
+                      ...props,
+                      ...newsletterBannerOverrides,
+                      promotedNewsletter: getPromotedNewsletterForTest(test.name, newsletterData),
+                  }
+                : props;
+
             return {
                 data: {
                     module: {
                         name: moduleName,
-                        props: props,
+                        props: responseProps,
                     },
                 },
             };

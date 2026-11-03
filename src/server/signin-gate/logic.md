@@ -45,7 +45,6 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
   consented +  |                                              |
   non-ROW      |                                              |
   Auxia 35%    |                                              |
-  (GB: 20%)    |                                              |
                |                                              |
                |                                              |
                |                                              |
@@ -57,8 +56,8 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
                |  - No Auxia notification                     |
   consented +  |  - Guardian drives the gate:                 |
  non-auxia    |    - No gate for 30 days after a single      |
- 65% (80%     |      contribution event [01]                 |
- for the UK)  |    - No gate the first 3 page views          |
+ 65%          |      contribution event [01]                 |
+              |    - No gate the first 3 page views          |
                |    - Dismissible gates,                      |
                |      then no gate after 5 dismisses          |
                |                                              |
@@ -70,9 +69,8 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
 
 The remaining non-ROW MVT-based Auxia bucket includes GB and country or territory codes that are
 not covered by the repository's `International` country list, the explicit 27-country Europe
-rollout, Australia or the mandatory IE/NZ/CA paths. GB (countryCode 'GB') uses the first 20% of
-mvtIds (1 to 200_000); all other codes in this bucket, including the United States, use the first
-35% (1 to 350_000).
+rollout, Australia or the mandatory IE/NZ/CA paths. GB and all other codes in this bucket,
+including the United States, use the first 35% of mvtIds (1 to 350_000).
 
 ### Ireland + Canada (and New Zealand when Gandalf is disabled)
 

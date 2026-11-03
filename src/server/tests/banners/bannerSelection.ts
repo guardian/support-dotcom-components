@@ -19,6 +19,8 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { MParticleProfile } from '../../lib/mParticle';
 import { matchesMParticleTemplates } from '../../lib/mParticleTemplates';
+import type { NewsletterData } from '../../lib/newsletters';
+import { matchNewsletterTargeting } from '../../lib/newsletterTargeting';
 import type { TestVariant } from '../../lib/params';
 import {
     abandonedBasketMatches,
@@ -173,8 +175,13 @@ export const canShowBannerAgain = (
 };
 
 const DESIGNABLE_BANNER_TEMPLATE_NAME = 'DesignableBanner';
+const NEWSLETTER_BANNER_TEMPLATE_NAME = 'NewsletterBanner';
 
-const getModuleNameForVariant = (variant: BannerVariant): string => {
+const getModuleNameForVariant = (variant: BannerVariant, testName: string): string => {
+    if (testName.startsWith('NEWSLETTER_')) {
+        return NEWSLETTER_BANNER_TEMPLATE_NAME;
+    }
+
     if (uiIsDesign(variant.template)) {
         return DESIGNABLE_BANNER_TEMPLATE_NAME;
     } else {
@@ -241,7 +248,7 @@ const getForcedVariant = (
         return {
             test,
             variant: resolvedVariant,
-            moduleName: getModuleNameForVariant(resolvedVariant),
+            moduleName: getModuleNameForVariant(resolvedVariant, test.name),
         };
     }
     return null;
@@ -325,6 +332,7 @@ interface SelectBannerTestData {
     ) => Promise<boolean>;
     inAuxiaRollout?: boolean;
     contributionsOnlyCountries?: string[];
+    newsletters?: Array<Pick<NewsletterData, 'listId'>>;
 }
 
 export const selectBannerTest = async ({
@@ -342,6 +350,7 @@ export const selectBannerTest = async ({
     checkAuxiaSuppression,
     inAuxiaRollout = false,
     contributionsOnlyCountries = [],
+    newsletters = [],
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
@@ -372,6 +381,7 @@ export const selectBannerTest = async ({
 
         if (
             test.status === 'Live' &&
+            matchNewsletterTargeting(test, targeting, newsletters) &&
             !shouldSkipTwoStepBannerTest(test, targeting, userDeviceType) &&
             (!test.canRun || test.canRun(targeting)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
@@ -427,7 +437,7 @@ export const selectBannerTest = async ({
                 selection = {
                     test: result.test,
                     variant,
-                    moduleName: getModuleNameForVariant(variant),
+                    moduleName: getModuleNameForVariant(variant, result.test.name),
                     targetingAbTest: targetingTest ? targetingTest.test : undefined,
                 };
                 break;

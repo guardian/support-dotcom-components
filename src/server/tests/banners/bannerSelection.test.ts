@@ -12,6 +12,12 @@ jest.mock('../../utils/cloudwatch', () => ({
     putMetric: jest.fn(),
 }));
 
+jest.mock('../../utils/logging', () => ({
+    logError: jest.fn(),
+    logInfo: jest.fn(),
+    logWarn: jest.fn(),
+}));
+
 const buildCheckAuxiaSuppressionMock = (isSuppressed = false) =>
     jest.fn().mockResolvedValue(isSuppressed);
 
@@ -150,6 +156,52 @@ describe('selectBannerTest', () => {
                 forcedTestVariant: undefined,
                 checkAuxiaSuppression,
             });
+            expect(result?.test.name).toBe('test');
+        });
+
+        it('uses NewsletterBanner as the module name for newsletter tests', async () => {
+            const result = await selectBannerTest({
+                targeting: {
+                    ...targeting,
+                    countryCode: 'US',
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [{ ...test, name: 'NEWSLETTER_STAKES' }],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+                newsletters: [{ listId: 6069 }],
+            });
+
+            expect(result?.moduleName).toBe('NewsletterBanner');
+        });
+
+        it('skips a newsletter test when newsletter data is unresolved', async () => {
+            const result = await selectBannerTest({
+                targeting: {
+                    ...targeting,
+                    countryCode: 'US',
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                },
+                userDeviceType,
+                tests: [{ ...test, name: 'NEWSLETTER_STAKES' }, test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledDeploys,
+                banditData,
+                getMParticleProfile,
+                now,
+                forcedTestVariant: undefined,
+                checkAuxiaSuppression,
+                newsletters: [],
+            });
+
             expect(result?.test.name).toBe('test');
         });
 
