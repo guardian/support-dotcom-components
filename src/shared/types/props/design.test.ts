@@ -1,5 +1,13 @@
 import type { HexColour } from './design';
-import { hexColourSchema, hexColourToString } from './design';
+import { configurableDesignSchema, hexColourSchema, hexColourToString } from './design';
+
+const validColour = { r: 'FF', g: 'FF', b: 'FF', kind: 'hex' };
+
+const parseChoiceCardOpacity = (opacityFields: Record<string, unknown>) =>
+    configurableDesignSchema.safeParse({
+        visual: { kind: 'ChoiceCards', ...opacityFields },
+        colours: { basic: { background: validColour, bodyText: validColour } },
+    });
 
 describe('hexValueColourSchema', () => {
     it('successfully parses valid hex colours', () => {
@@ -48,5 +56,35 @@ describe('hexColourToString', () => {
         const cssString = hexColourToString(hexColour);
 
         expect(cssString).toEqual('#FF001F');
+    });
+});
+
+describe('choice card opacity schema', () => {
+    it.each([
+        [0, 1],
+        [0.8, 0.95],
+    ])('accepts button opacity values %s and %s', (buttonOpacity, buttonSelectOpacity) => {
+        const result = parseChoiceCardOpacity({ buttonOpacity, buttonSelectOpacity });
+
+        expect(result.success).toBe(true);
+    });
+
+    it('accepts omitted opacity values', () => {
+        expect(parseChoiceCardOpacity({}).success).toBe(true);
+    });
+
+    it('accepts null opacity values', () => {
+        expect(
+            parseChoiceCardOpacity({ buttonOpacity: null, buttonSelectOpacity: null }).success,
+        ).toBe(true);
+    });
+
+    it.each([
+        ['buttonOpacity', -0.01],
+        ['buttonOpacity', 1.01],
+        ['buttonSelectOpacity', -0.01],
+        ['buttonSelectOpacity', 1.01],
+    ])('rejects %s outside the inclusive 0–1 range', (field, value) => {
+        expect(parseChoiceCardOpacity({ [field]: value }).success).toBe(false);
     });
 });
