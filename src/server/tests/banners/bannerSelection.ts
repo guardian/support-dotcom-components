@@ -97,6 +97,7 @@ export const isCountryTargetedForBanner = (
  * @param manualBannerDeployTimes - holds the times of manual banner deploys
  * @param now - the time now
  * @param scheduledBannerDeploys - the configured banner channel deploy schedule
+ * @param inAuxiaRollout - whether the reader is eligible for Auxia banner requests
  */
 export const canShowBannerAgain = (
     targeting: BannerTargeting,
@@ -104,6 +105,7 @@ export const canShowBannerAgain = (
     manualBannerDeployTimes: BannerDeployTimesProvider,
     now: Date,
     scheduledBannerDeploys?: ScheduledBannerDeploys,
+    inAuxiaRollout = false,
 ): boolean => {
     const {
         subscriptionBannerLastClosedAt,
@@ -133,7 +135,7 @@ export const canShowBannerAgain = (
         const deployTimes = manualBannerDeployTimes.getDeployTimes(bannerChannel);
         const lastManualDeploy = deployTimes[region];
 
-        if (targeting.auxiaRolloutMvtId !== undefined && bannerChannel === 'contributions') {
+        if (inAuxiaRollout && bannerChannel === 'contributions') {
             const variantSchedule = manualBannerDeployTimes.getVariantSchedule();
             const regionalManualRedeployTimestamp =
                 variantSchedule.manualRedeploysByRegion?.[region]?.timestamp;
@@ -328,6 +330,7 @@ interface SelectBannerTestData {
         browserId: string,
         attributes: GetTreatmentsAttributes,
     ) => Promise<boolean>;
+    inAuxiaRollout?: boolean;
     contributionsOnlyCountries?: string[];
     newsletters?: Array<Pick<NewsletterData, 'listId'>>;
 }
@@ -345,6 +348,7 @@ export const selectBannerTest = async ({
     forcedTestVariant,
     previewTestVariant,
     checkAuxiaSuppression,
+    inAuxiaRollout = false,
     contributionsOnlyCountries = [],
     newsletters = [],
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
@@ -398,7 +402,14 @@ export const selectBannerTest = async ({
             ) &&
             deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
-            canShowBannerAgain(targeting, test, bannerDeployTimes, now, deploySchedule) &&
+            canShowBannerAgain(
+                targeting,
+                test,
+                bannerDeployTimes,
+                now,
+                deploySchedule,
+                inAuxiaRollout,
+            ) &&
             correctSignedInStatus(targeting.isSignedIn, test.signedInStatus) &&
             pageContextMatches(targeting, test.contextTargeting) &&
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&

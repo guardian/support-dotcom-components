@@ -1,10 +1,16 @@
 import type { BannerTargeting, BannerTest } from '../../../shared/types';
 import { SecondaryCtaType } from '../../../shared/types';
+import type { ChannelSwitches } from '../../channelSwitches';
+import { Auxia, isInAuxiaBannerRollout } from '../../lib/auxia';
 import type { BanditData } from '../../selection/banditData';
 import { defaultDeploySchedule } from './bannerDeploySchedule';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import type { ReaderRevenueRegion } from './bannerDeployTimes';
 import { canShowBannerAgain, selectBannerTest } from './bannerSelection';
+
+jest.mock('../../utils/cloudwatch', () => ({
+    putMetric: jest.fn(),
+}));
 
 jest.mock('../../utils/logging', () => ({
     logError: jest.fn(),
@@ -935,7 +941,7 @@ describe('selectBannerTest', () => {
             ).toBe(false);
         });
 
-        it('uses the configured 9am weekdays for marked Variant requests', () => {
+        it('uses the configured 9am weekdays for readers in the Auxia rollout', () => {
             const variantTargeting = {
                 ...buildTargeting('2024-01-03T10:00:00'),
                 auxiaRolloutMvtId: 0,
@@ -952,6 +958,7 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     now,
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(false);
             expect(
@@ -961,6 +968,7 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     new Date('2024-01-05T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(true);
         });
@@ -982,6 +990,7 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     new Date('2024-01-04T11:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(false);
             expect(
@@ -991,11 +1000,12 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     new Date('2024-01-05T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(true);
         });
 
-        it('does not automatically reset marked Variant requests with no selected weekdays', () => {
+        it('does not automatically reset readers in the Auxia rollout with no selected weekdays', () => {
             const variantTargeting = {
                 ...buildTargeting('2024-01-02T10:00:00'),
                 auxiaRolloutMvtId: 12,
@@ -1009,6 +1019,7 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     now,
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(false);
         });
@@ -1023,10 +1034,12 @@ describe('selectBannerTest', () => {
                 [0, 1, 2, 3, 4, 5, 6],
             );
 
-            expect(canShowBannerAgain(variantTargeting, test, manualDeployTimes, now)).toBe(false);
+            expect(
+                canShowBannerAgain(variantTargeting, test, manualDeployTimes, now, undefined, true),
+            ).toBe(false);
         });
 
-        it('allows a newer Variant-specific manual redeploy to reset a marked dismissal', () => {
+        it('allows a newer Variant-specific manual redeploy to reset an in-rollout dismissal', () => {
             const variantTargeting = {
                 ...buildTargeting('2024-01-03T10:00:00'),
                 auxiaRolloutMvtId: 12,
@@ -1044,11 +1057,12 @@ describe('selectBannerTest', () => {
                     variantRedeploy,
                     new Date('2024-01-04T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(true);
         });
 
-        it('allows a newer regional Variant redeploy to reset a marked dismissal', () => {
+        it('allows a newer regional Variant redeploy to reset an in-rollout dismissal', () => {
             const variantTargeting = {
                 ...buildTargeting('2024-01-03T10:00:00'),
                 auxiaRolloutMvtId: 12,
@@ -1072,6 +1086,7 @@ describe('selectBannerTest', () => {
                     variantRedeploy,
                     new Date('2024-01-04T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(true);
         });
@@ -1101,11 +1116,12 @@ describe('selectBannerTest', () => {
                     variantRedeploy,
                     new Date('2024-01-04T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(false);
         });
 
-        it('does not use the shared channel 1 redeploy for a marked Variant dismissal', () => {
+        it('does not use the shared channel 1 redeploy for an in-rollout dismissal', () => {
             const variantTargeting = {
                 ...buildTargeting('2024-01-03T10:00:00'),
                 auxiaRolloutMvtId: 12,
@@ -1119,12 +1135,16 @@ describe('selectBannerTest', () => {
                     channelOneRedeploy,
                     new Date('2024-01-04T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(false);
         });
 
-        it('does not use a Variant-specific redeploy for an unmarked dismissal', () => {
-            const targeting = buildTargeting('2024-01-03T10:00:00');
+        it('does not use a Variant-specific redeploy for a reader outside the rollout', () => {
+            const targeting = {
+                ...buildTargeting('2024-01-03T10:00:00'),
+                auxiaRolloutMvtId: 12,
+            };
             const variantRedeploy = getBannerDeployTimesReloader(
                 '2024-01-01T00:00:00',
                 [],
@@ -1142,7 +1162,7 @@ describe('selectBannerTest', () => {
             ).toBe(false);
         });
 
-        it('uses the Variant schedule instead of the per-test interval for marked requests', () => {
+        it('uses the Variant schedule instead of the per-test interval for readers in the Auxia rollout', () => {
             const variantTargeting = {
                 ...buildTargeting('2024-01-03T12:00:00'),
                 auxiaRolloutMvtId: 12,
@@ -1156,11 +1176,12 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     new Date('2024-01-04T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(true);
         });
 
-        it('preserves the Banner 2 schedule for marked Variant requests', () => {
+        it('preserves the Banner 2 schedule for readers in the Auxia rollout', () => {
             const variantTargeting = {
                 ...buildTargeting('2024-01-04T08:30:00'),
                 engagementBannerLastClosedAt: undefined,
@@ -1177,6 +1198,7 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     new Date('2024-01-04T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(false);
             expect(
@@ -1186,6 +1208,7 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     new Date('2024-01-09T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(true);
         });
@@ -1210,6 +1233,7 @@ describe('selectBannerTest', () => {
                     manualDeployTimes,
                     new Date('2024-01-04T10:00:00'),
                     defaultDeploySchedule,
+                    true,
                 ),
             ).toBe(true);
         });
@@ -1245,20 +1269,26 @@ describe('selectBannerTest', () => {
             ).toBe(true);
         });
 
-        it('preserves per-test intervals for unmarked requests', () => {
-            const targeting = buildTargeting('2024-01-03T12:00:00');
-            const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00');
+        it.each([undefined, 12])(
+            'preserves per-test intervals outside the rollout: %s',
+            (mvtId) => {
+                const targeting = {
+                    ...buildTargeting('2024-01-03T12:00:00'),
+                    auxiaRolloutMvtId: mvtId,
+                };
+                const manualDeployTimes = getBannerDeployTimesReloader('2024-01-01T00:00:00');
 
-            expect(
-                canShowBannerAgain(
-                    targeting,
-                    testWithSchedule,
-                    manualDeployTimes,
-                    new Date('2024-01-04T10:00:00'),
-                    defaultDeploySchedule,
-                ),
-            ).toBe(false);
-        });
+                expect(
+                    canShowBannerAgain(
+                        targeting,
+                        testWithSchedule,
+                        manualDeployTimes,
+                        new Date('2024-01-04T10:00:00'),
+                        defaultDeploySchedule,
+                    ),
+                ).toBe(false);
+            },
+        );
     });
 
     describe('holdback group targeting', () => {
@@ -1472,6 +1502,10 @@ describe('selectBannerTest', () => {
     });
 
     describe('Auxia banner suppression', () => {
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+
         const now = new Date('2020-03-31T12:30:00');
         const bannerDeployTimes = getBannerDeployTimesReloader('Mon Jul 06 2020 19:20:10 GMT+0100');
 
@@ -1522,6 +1556,147 @@ describe('selectBannerTest', () => {
                 excludedSectionIds: [],
             },
         };
+
+        const rolloutScheduleCases: Array<{
+            description: string;
+            percentage: number;
+            targeting?: Partial<BannerTargeting>;
+            enabled?: boolean;
+            variantDays?: number[];
+            now?: string;
+            expectBanner: boolean;
+            expectAuxiaCall: boolean;
+        }> = [
+            {
+                description: 'uses the variant reset inside the 10% rollout',
+                percentage: 10,
+                expectBanner: true,
+                expectAuxiaCall: true,
+            },
+            {
+                description: 'keeps a dismissal outside the 10% rollout until the default reset',
+                percentage: 10,
+                targeting: { auxiaRolloutMvtId: 110 },
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description:
+                    'uses the default reset outside the rollout even with no variant resets',
+                percentage: 10,
+                targeting: { auxiaRolloutMvtId: 110 },
+                variantDays: [],
+                now: '2024-01-07T10:00:00',
+                expectBanner: true,
+                expectAuxiaCall: false,
+            },
+            {
+                description: 'does not consult Auxia when the variant schedule blocks the banner',
+                percentage: 10,
+                variantDays: [],
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description: 'uses the default schedule at 0%',
+                percentage: 0,
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description: 'uses the default schedule when Auxia banners are disabled',
+                percentage: 100,
+                enabled: false,
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description: 'uses the default schedule without consent',
+                percentage: 100,
+                targeting: { hasConsented: false },
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description: 'uses the default schedule without a browser ID',
+                percentage: 100,
+                targeting: { browserId: undefined },
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description: 'uses the default schedule outside the 50% rollout',
+                percentage: 50,
+                targeting: { auxiaRolloutMvtId: 150 },
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description: 'uses the default schedule without an MVT ID in a partial rollout',
+                percentage: 10,
+                targeting: { auxiaRolloutMvtId: undefined },
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description:
+                    'uses the default schedule with an invalid MVT ID in a partial rollout',
+                percentage: 10,
+                targeting: { auxiaRolloutMvtId: 1_000_000 },
+                expectBanner: false,
+                expectAuxiaCall: false,
+            },
+            {
+                description: 'uses the variant schedule at 100% even without a rollout MVT ID',
+                percentage: 100,
+                targeting: { auxiaRolloutMvtId: undefined },
+                expectBanner: true,
+                expectAuxiaCall: true,
+            },
+        ];
+
+        it.each(rolloutScheduleCases)('$description', async (scenario) => {
+            const fetchMock = jest.spyOn(global, 'fetch').mockResolvedValue({
+                ok: true,
+                json: () => Promise.resolve({ responseId: 'response-id', userTreatments: [] }),
+            } as Response);
+            const targeting: BannerTargeting = {
+                ...baseTargeting,
+                browserId: 'browser-id',
+                auxiaRolloutMvtId: 109,
+                engagementBannerLastClosedAt: '2024-01-04T10:00:00',
+                ...scenario.targeting,
+            };
+            const switches = {
+                enableAuxiaForBanners: scenario.enabled ?? true,
+                auxiaBannerRolloutPercentage: scenario.percentage,
+            } as ChannelSwitches;
+            const auxia = new Auxia({ apiKey: 'test-api-key', projectId: 'test-project-id' });
+            const { checkAuxiaSuppression } = auxia.getBannerSuppressedChecker(
+                switches,
+                targeting.auxiaRolloutMvtId,
+            );
+
+            const result = await selectBannerTest({
+                targeting,
+                userDeviceType,
+                tests: [test],
+                bannerDeployTimes: getBannerDeployTimesReloader(
+                    '2024-01-01T00:00:00',
+                    scenario.variantDays ?? [0, 1, 2, 3, 4, 5, 6],
+                ),
+                enableHardcodedBannerTests: true,
+                enableScheduledDeploys: true,
+                banditData,
+                getMParticleProfile,
+                now: new Date(scenario.now ?? '2024-01-05T10:00:00'),
+                checkAuxiaSuppression,
+                inAuxiaRollout: isInAuxiaBannerRollout(switches, targeting),
+            });
+
+            expect(result?.test.name ?? null).toBe(scenario.expectBanner ? 'test' : null);
+            expect(fetchMock).toHaveBeenCalledTimes(scenario.expectAuxiaCall ? 1 : 0);
+        });
 
         it('returns null when auxia suppresses the banner and browserId is present', async () => {
             const result = await selectBannerTest({
