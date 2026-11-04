@@ -198,7 +198,7 @@ const isTwoStepBannerAllowed = (
 ): boolean =>
     targeting.countryCode === 'GB' ||
     !isMobileDevice(userDeviceType) ||
-    targeting.contentType !== 'Article';
+    (targeting.contentType !== 'Article' && targeting.contentType !== 'LiveBlog');
 
 const resolveBannerStepMode = (
     variant: BannerVariant,
@@ -287,10 +287,10 @@ const matchesFrontsOnlyRequirement = (test: BannerTest, targeting: BannerTargeti
 
 /**
  * Banner behavior is controlled by bannerStepMode (OneStep, TwoStep or
- * TwoStepIfAllowed). Users outside the UK on mobile devices viewing articles
- * are excluded from TwoStep tests, while TwoStepIfAllowed banners are converted
- * to one-step. If bannerStepMode is absent, the legacy isCollapsible value is
- * used to preserve backwards compatibility.
+ * TwoStepIfAllowed). Users outside the UK on mobile devices viewing articles or
+ * liveblogs are excluded from TwoStep tests, while TwoStepIfAllowed banners are
+ * converted to one-step. If bannerStepMode is absent, the legacy isCollapsible
+ * value is used to preserve backwards compatibility.
  *
  * This is required due to advertising restrictions outside the UK that prevent
  * the 2-step banner from being shown on mobile. CRM can do this manually per
