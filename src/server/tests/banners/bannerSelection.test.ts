@@ -1863,9 +1863,12 @@ describe('selectBannerTest', () => {
             },
         };
 
-        const selectForStepMode = (bannerStepMode: 'OneStep' | 'TwoStep' | 'TwoStepIfAllowed') =>
+        const selectForStepMode = (
+            bannerStepMode: 'OneStep' | 'TwoStep' | 'TwoStepIfAllowed',
+            contentType: BannerTargeting['contentType'] = 'Article',
+        ) =>
             selectBannerTest({
-                targeting: { ...baseTargeting, countryCode: 'US', contentType: 'Article' },
+                targeting: { ...baseTargeting, countryCode: 'US', contentType },
                 userDeviceType: 'iOS',
                 tests: [
                     {
@@ -1897,22 +1900,28 @@ describe('selectBannerTest', () => {
             expect(result?.variant.isCollapsible).toBe(false);
         });
 
-        it('skips an explicit two-step mode when two-step is not allowed', async () => {
-            const result = await selectForStepMode('TwoStep');
+        it.each(['Article', 'LiveBlog'] as const)(
+            'skips an explicit two-step mode for %s when two-step is not allowed',
+            async (contentType) => {
+                const result = await selectForStepMode('TwoStep', contentType);
 
-            expect(result).toBeNull();
-        });
+                expect(result).toBeNull();
+            },
+        );
 
-        it('converts an adaptive two-step banner to one-step when two-step is not allowed', async () => {
-            const result = await selectForStepMode('TwoStepIfAllowed');
+        it.each(['Article', 'LiveBlog'] as const)(
+            'converts an adaptive two-step banner to one-step for %s when two-step is not allowed',
+            async (contentType) => {
+                const result = await selectForStepMode('TwoStepIfAllowed', contentType);
 
-            expect(result?.variant.isCollapsible).toBe(false);
-            expect(result?.variant.bannerContent?.cta).toEqual(
-                twoStepTest.variants[0].bannerContent?.cta,
-            );
-            expect(result?.variant.bannerContent?.secondaryCta).toEqual(secondaryCta);
-            expect(result?.variant.mobileBannerContent?.cta).toEqual(mobileCta);
-        });
+                expect(result?.variant.isCollapsible).toBe(false);
+                expect(result?.variant.bannerContent?.cta).toEqual(
+                    twoStepTest.variants[0].bannerContent?.cta,
+                );
+                expect(result?.variant.bannerContent?.secondaryCta).toEqual(secondaryCta);
+                expect(result?.variant.mobileBannerContent?.cta).toEqual(mobileCta);
+            },
+        );
 
         it('uses two-step for an adaptive banner when two-step is allowed', async () => {
             const adaptiveTest: BannerTest = {
