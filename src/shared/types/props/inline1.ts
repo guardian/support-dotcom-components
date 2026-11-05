@@ -32,6 +32,7 @@ export const inline1PuzzlesMessageSchema = z.object({
 export const inline1NewsletterMessageSchema = z.object({
     type: z.literal('Inline1NewsletterMessage'),
     newsletterId: z.string(),
+    newsletterName: z.string(),
     frequency: z.string(),
     heading: z.string(),
     body: z.string(),

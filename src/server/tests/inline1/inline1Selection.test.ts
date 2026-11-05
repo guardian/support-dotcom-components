@@ -28,6 +28,7 @@ const newsletterVariant: Inline1Variant = {
     message: {
         type: 'Inline1NewsletterMessage',
         newsletterId: 'example-newsletter',
+        newsletterName: 'Example Newsletter',
         frequency: 'Weekly',
         heading: 'Sign up for our newsletter',
         body: 'Get the latest news.',
