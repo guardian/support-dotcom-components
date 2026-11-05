@@ -1,5 +1,5 @@
 import type { Inline1Targeting, Inline1Test, Inline1Variant } from '../../../shared/types';
-import { selectBestTest } from './inline1Selection';
+import { selectBestTest, selectInline1Test } from './inline1Selection';
 
 const variantDefault: Inline1Variant = {
     name: 'control',
@@ -392,5 +392,41 @@ describe('mParticle audience targeting', () => {
         );
 
         expect(got?.test).toBe(testWithAudience);
+    });
+});
+
+describe('selectInline1Test preview', () => {
+    it('selects the requested variant from a non-live test without applying targeting', async () => {
+        const draftTest: Inline1Test = {
+            ...testDefault,
+            name: 'draft-test',
+            status: 'Draft',
+            userCohort: 'AllExistingSupporters',
+            variants: [variantDefault],
+        };
+
+        const got = await selectInline1Test(
+            targetingDefault,
+            [draftTest],
+            userDeviceType,
+            getMParticleProfile,
+            [],
+            { testName: 'DRAFT-TEST', variantName: 'CONTROL' },
+        );
+
+        expect(got).toEqual({ test: draftTest, variant: variantDefault });
+    });
+
+    it('returns null when the requested test or variant does not exist', async () => {
+        const got = await selectInline1Test(
+            targetingDefault,
+            [testDefault],
+            userDeviceType,
+            getMParticleProfile,
+            [],
+            { testName: 'missing-test', variantName: 'missing-variant' },
+        );
+
+        expect(got).toBeNull();
     });
 });

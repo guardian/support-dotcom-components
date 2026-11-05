@@ -7,6 +7,7 @@ import type {
 } from '../../../shared/types';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import type { MParticleProfile } from '../../lib/mParticle';
+import type { TestVariant } from '../../lib/params';
 import {
     audienceMatches,
     consentStatusMatches,
@@ -101,7 +102,21 @@ export const selectInline1Test = (
     userDeviceType: UserDeviceType,
     getMParticleProfile: () => Promise<MParticleProfile | undefined>,
     contributionsOnlyCountries: string[] = [],
+    previewTestVariant?: TestVariant,
 ): Promise<Inline1TestSelection | null> => {
+    if (previewTestVariant) {
+        const test = allTests.find(
+            (candidate) =>
+                candidate.name.toLowerCase() === previewTestVariant.testName.toLowerCase(),
+        );
+        const variant = test?.variants.find(
+            (candidate) =>
+                candidate.name.toLowerCase() === previewTestVariant.variantName.toLowerCase(),
+        );
+
+        return Promise.resolve(test && variant ? { test, variant } : null);
+    }
+
     return selectBestTest(
         targeting,
         allTests,
