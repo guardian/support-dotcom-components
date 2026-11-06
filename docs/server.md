@@ -2,27 +2,15 @@ Configuration of the marketing messages is primarily done from the [RRCP](https:
 
 See [architecture](architecture.md) for details.
 
-## Getting started
+## Developing + running locally
 
-The required Node version is specified in the `.tool-versions` file in the root of the project. We recommend [Mise](https://mise.jdx.dev/getting-started.html) for managing Node versions.
+It is best practice to develop and run using a devcontainer. For this we use the Guardian's [devenv](https://github.com/guardian/devenv#devenv) tool.
 
-To set up, install the project dependencies:
+Whether using a devcontainer or not, open a terminal and follow these steps:
+1. get `Local Development` AWS credentials for the `membership` account (from Janus) and paste into the terminal
+2. run `pnpm start` to run the server. This will start `webpack` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
 
-```bash
-$ pnpm install
-```
-
-To start the server first get AWS credentials for membership, then run
-
-```bash
-$ pnpm start
-```
-
-This will start `webpack` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
-
-Now visit the server on: http://localhost:8082/healthcheck
-
-You should see an "OK" on the screen.
+The server should now be running on port 8082.
 
 ### Troubleshooting CI failures
 

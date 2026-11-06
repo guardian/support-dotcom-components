@@ -14,3 +14,4 @@ build-storybook.log
 logs/
 storybook-static/
 **/*.tsbuildinfo
+.pnpm-store/
