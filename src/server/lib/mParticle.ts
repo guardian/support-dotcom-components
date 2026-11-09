@@ -39,6 +39,14 @@ const MParticleProfileSchema = z.object({
 });
 export type MParticleProfile = z.infer<typeof MParticleProfileSchema>;
 
+const previewProfile: MParticleProfile = {
+    user_attributes: {
+        first_name: 'Jane',
+        last_single_contribution_amount: 23.66,
+    },
+    audience_memberships: [],
+};
+
 const MParticleOAuthTokenSchema = z.object({
     access_token: z.string(),
     expires_in: z.number(),
@@ -255,6 +263,7 @@ export class MParticle {
         okta: Okta,
         authHeader?: string,
         browserId?: string,
+        isPreview = false,
     ): {
         fetchProfile: () => Promise<MParticleProfile | undefined>;
         forLogging: () => MParticleProfileLogState;
@@ -266,6 +275,9 @@ export class MParticle {
         const fetchProfile = async (): Promise<MParticleProfile | undefined> => {
             let customerId: string | undefined;
             cachedPromise ??= (async () => {
+                if (isPreview) {
+                    return previewProfile;
+                }
                 if ((!authHeader && !browserId) || !channelSwitches.enableMParticle) {
                     return undefined;
                 }
