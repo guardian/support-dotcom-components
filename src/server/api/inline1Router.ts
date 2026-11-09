@@ -23,6 +23,7 @@ interface Inline1DataResponse {
             props: Inline1Props;
         };
         meta: TestTracking;
+        bid: string;
     };
 }
 
@@ -81,6 +82,7 @@ export const buildInline1Router = (
                     props: inline1Props,
                 },
                 meta: testTracking,
+                bid: '0.01',
             },
         };
     };
