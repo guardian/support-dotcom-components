@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.3.1
+
+### Patch Changes
+
+- ea0237e: Add inline1 viewLog field
+
 ## 11.3.0
 
 ### Minor Changes
