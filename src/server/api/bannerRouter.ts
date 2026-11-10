@@ -239,6 +239,7 @@ export const buildBannerRouter = (
                     okta,
                     authHeader,
                     targeting.isSignedIn ? undefined : targeting.browserId,
+                    !!params.preview,
                 );
                 const {
                     checkAuxiaSuppression,
