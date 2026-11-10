@@ -39,6 +39,8 @@ const MParticleProfileSchema = z.object({
 });
 export type MParticleProfile = z.infer<typeof MParticleProfileSchema>;
 
+// Banner previews need predictable attributes to render personalised templates
+// without relying on a real user's mParticle profile or calling the profile API.
 const previewProfile: MParticleProfile = {
     user_attributes: {
         first_name: 'Jane',
