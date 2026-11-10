@@ -387,6 +387,7 @@ describe('MParticle.getProfileFetcher', () => {
     ])('returns a preview fixture without fetching a user: %j', async (options) => {
         const mp = new MParticle(mockConfig);
         const getUserProfile = jest.spyOn(mp, 'getUserProfile');
+        const getIdentityId = jest.spyOn(mockOkta, 'getIdentityIdFromOktaToken');
         const { fetchProfile, forLogging } = mp.getProfileFetcher(
             { ...channelSwitches, enableMParticle: options.enableMParticle },
             mockOkta,
@@ -405,7 +406,7 @@ describe('MParticle.getProfileFetcher', () => {
             audience_memberships: [],
         });
         expect(await fetchProfile()).toBe(profile);
-        expect(mockOkta.getIdentityIdFromOktaToken).not.toHaveBeenCalled();
+        expect(getIdentityId).not.toHaveBeenCalled();
         expect(getUserProfile).not.toHaveBeenCalled();
         expect(global.fetch).not.toHaveBeenCalled();
         expect(forLogging()).toEqual({
