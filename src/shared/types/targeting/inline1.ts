@@ -1,5 +1,11 @@
 import type { WeeklyArticleHistory } from './shared';
 
+// Recorded in local storage to limit views per browser
+export interface Inline1View {
+    timestamp: number;
+    testName: string;
+}
+
 export interface Inline1Targeting {
     showSupportMessaging: boolean;
     mvtId: number;
@@ -12,6 +18,7 @@ export interface Inline1Targeting {
     isSignedIn: boolean;
     hasConsented: boolean;
     hasNewsletterSignup: boolean;
+    viewLog?: Inline1View[];
 }
 
 export type Inline1Payload = {
