@@ -10,7 +10,9 @@ import type {
 import type { ChannelSwitches } from '../channelSwitches';
 import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import { getDeviceType } from '../lib/deviceType';
+import { getInline1Variant } from '../lib/inline1Newsletter';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
+import type { NewsletterData } from '../lib/newsletters';
 import type { Okta } from '../lib/okta';
 import { pageIdIsExcluded } from '../lib/targeting';
 import { selectInline1Test } from '../tests/inline1/inline1Selection';
@@ -33,6 +35,7 @@ export const buildInline1Router = (
     mParticle: MParticle,
     okta: Okta,
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
+    newsletters: ValueProvider<NewsletterData[]>,
 ): Router => {
     const router = Router();
 
@@ -62,7 +65,13 @@ export const buildInline1Router = (
             return { data: undefined };
         }
 
+        const newsletterData = newsletters.get();
         const { test, variant } = testSelection;
+        const inline1Variant = getInline1Variant(variant, newsletterData);
+        if (!inline1Variant) {
+            return { data: undefined };
+        }
+
         const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
@@ -70,7 +79,7 @@ export const buildInline1Router = (
             componentType: 'ACQUISITIONS_OTHER',
         };
         const inline1Props: Inline1Props = {
-            variant: variant,
+            variant: inline1Variant,
             tracking: testTracking as Tracking,
             countryCode: targeting.countryCode,
         };

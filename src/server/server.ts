@@ -195,6 +195,7 @@ const buildApp = async (): Promise<Express> => {
             mParticle,
             okta,
             contributionsOnlyCountriesConfig,
+            newsletters,
         ),
     );
 

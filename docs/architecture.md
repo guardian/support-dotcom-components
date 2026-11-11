@@ -43,6 +43,12 @@ But most epic + banners tests are configured from the tools in [support-admin-co
 
 The tools publish the tests configuration to DynamoDb tables, and support-dotcom-components polls these tables.
 
+### Inline1 newsletter data
+
+Inline1 newsletter messages use the `newsletterId` configured in RRCP to match a newsletter's `identityName` in the newsletters API. The server shares the in-memory newsletter cache, fetched at startup and refreshed every five minutes; Inline1 requests do not fetch the API.
+
+The matched newsletter supplies `newsletterName` from `name`, `newsletterListId` from `listId`, `frequency`, and `imageUrl` from `illustrationSquare`, falling back to `illustrationCard` when the square illustration is missing. The configured heading, body, and newsletter ID are preserved. If neither API illustration is available, `imageUrl` is unset, replacing any previous message image. RRCP does not currently provide an image URL field. If the newsletter is not cached yet or its ID does not match, an error is logged and the variant helper returns `null`; the Inline1 endpoint returns no component. Failed refreshes retain the last successful cache.
+
 ### Ticker data
 
 SDC provides ticker data (supporter counts and goals) via the `/ticker/:name` endpoint. This data is sourced from the private S3 bucket `contributions-ticker`, which is populated by the [contributions-ticker-calculator](https://github.com/guardian/contributions-ticker-calculator).
