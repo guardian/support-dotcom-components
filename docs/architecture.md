@@ -47,7 +47,7 @@ The tools publish the tests configuration to DynamoDb tables, and support-dotcom
 
 Inline1 newsletter messages use the `newsletterId` configured in RRCP to match a newsletter's `identityName` in the newsletters API. The server shares the in-memory newsletter cache, fetched at startup and refreshed every five minutes; Inline1 requests do not fetch the API.
 
-The matched newsletter supplies `newsletterName` from `name`, `newsletterListId` from `listId`,`frequency`, and `imageUrl` from `illustrationSquare`. The configured heading, body, and newsletter ID are preserved. If the API has no square illustration, the configured image is retained. If the newsletter is not cached yet or its ID does not match, the configured message is returned unchanged and a warning is logged. Failed refreshes retain the last successful cache.
+The matched newsletter supplies `newsletterName` from `name`, `newsletterListId` from `listId`, `frequency`, and `imageUrl` from `illustrationSquare`, falling back to `illustrationCard` when the square illustration is missing. The configured heading, body, and newsletter ID are preserved. If neither API illustration is available, `imageUrl` is unset, replacing any previous message image. RRCP does not currently provide an image URL field. If the newsletter is not cached yet or its ID does not match, the configured message is returned unchanged and a warning is logged. Failed refreshes retain the last successful cache.
 
 ### Ticker data
 

@@ -7,7 +7,12 @@ export const getInline1Variant = (
     newsletters: ReadonlyArray<
         Pick<
             NewsletterData,
-            'identityName' | 'name' | 'listId' | 'frequency' | 'illustrationSquare'
+            | 'identityName'
+            | 'name'
+            | 'listId'
+            | 'frequency'
+            | 'illustrationSquare'
+            | 'illustrationCard'
         >
     >,
 ): Inline1Variant => {
@@ -31,7 +36,7 @@ export const getInline1Variant = (
             newsletterName: newsletter.name,
             newsletterListId: newsletter.listId,
             frequency: newsletter.frequency,
-            imageUrl: newsletter.illustrationSquare ?? message.imageUrl,
+            imageUrl: newsletter.illustrationSquare ?? newsletter.illustrationCard,
         },
     };
 };

@@ -23,6 +23,7 @@ describe('getInline1Variant', () => {
         listId: 6069,
         frequency: 'Weekly',
         illustrationSquare: 'https://example.com/stakes.png',
+        illustrationCard: 'https://example.com/stakes-card.png',
     };
 
     beforeEach(() => {
@@ -70,20 +71,39 @@ describe('getInline1Variant', () => {
         });
     });
 
-    it.each([undefined, null])('preserves a configured image when the API image is %s', (image) => {
-        const configured = inline1VariantSchema.parse({
-            ...variant,
-            message: { ...variant.message, imageUrl: 'https://example.com/configured.png' },
-        });
+    it.each([undefined, null])(
+        'uses the card illustration when the square image is %s',
+        (image) => {
+            const enriched = getInline1Variant(variant, [newsletter]);
 
-        expect(
-            getInline1Variant(configured, [{ ...newsletter, illustrationSquare: image }]).message,
-        ).toMatchObject({ imageUrl: 'https://example.com/configured.png' });
-    });
+            for (const input of [variant, enriched]) {
+                expect(
+                    getInline1Variant(input, [{ ...newsletter, illustrationSquare: image }])
+                        .message,
+                ).toMatchObject({ imageUrl: newsletter.illustrationCard });
+            }
+        },
+    );
 
-    it('allows the API square illustration to be absent without a configured image', () => {
+    it.each([undefined, null])(
+        'clears a previous message image when both API images are absent and the square image is %s',
+        (image) => {
+            const enriched = getInline1Variant(variant, [newsletter]);
+            const result = getInline1Variant(enriched, [
+                { ...newsletter, illustrationSquare: image, illustrationCard: undefined },
+            ]);
+
+            expect(result.message).toMatchObject({
+                newsletterListId: 6069,
+                imageUrl: undefined,
+            });
+            expect(inline1VariantSchema.safeParse(result).success).toBe(true);
+        },
+    );
+
+    it('leaves the image unset when both API illustrations are absent', () => {
         const result = getInline1Variant(variant, [
-            { ...newsletter, illustrationSquare: undefined },
+            { ...newsletter, illustrationSquare: undefined, illustrationCard: undefined },
         ]);
 
         expect(result.message).toMatchObject({ newsletterListId: 6069, imageUrl: undefined });
