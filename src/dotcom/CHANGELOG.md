@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 11.3.2
+
+### Patch Changes
+
+- 77f0022: Update SDC newsletter data for Inline1 test
+
 ## 11.3.1
 
 ### Patch Changes
