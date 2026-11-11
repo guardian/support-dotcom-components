@@ -2,6 +2,7 @@ import type { Inline1Variant } from '../../shared/types';
 import { inline1VariantSchema } from '../../shared/types/props/inline1';
 import { logWarn } from '../utils/logging';
 import { getInline1Variant } from './inline1Newsletter';
+import type { NewsletterData } from './newsletters';
 
 jest.mock('../utils/logging', () => ({
     logWarn: jest.fn(),
@@ -17,11 +18,26 @@ describe('getInline1Variant', () => {
             body: 'Get the latest news.',
         },
     };
-    const newsletter = {
+    const newsletter: NewsletterData = {
         identityName: 'the-stakes',
         name: 'The Stakes',
         listId: 6069,
+        listIdV1: 6069,
+        status: 'live',
+        category: 'manual-send',
+        theme: 'news',
+        emailConfirmation: false,
+        restricted: false,
         frequency: 'Weekly',
+        group: 'News',
+        signUpHeadline: 'Sign up for The Stakes',
+        signUpDescription: 'Get the latest news.',
+        signUpEmbedDescription: 'Get the latest news in your inbox.',
+        highlightCardTitle: 'The Stakes',
+        brazeSubscribeAttributeName: 'the_stakes',
+        brazeSubscribeEventNamePrefix: 'the_stakes',
+        brazeNewsletterName: 'The Stakes',
+        creationTimeStamp: 0,
         illustrationSquare: 'https://example.com/stakes.png',
         illustrationCard: 'https://example.com/stakes-card.png',
     };

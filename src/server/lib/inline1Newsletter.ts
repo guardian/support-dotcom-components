@@ -4,17 +4,7 @@ import type { NewsletterData } from './newsletters';
 
 export const getInline1Variant = (
     variant: Inline1Variant,
-    newsletters: ReadonlyArray<
-        Pick<
-            NewsletterData,
-            | 'identityName'
-            | 'name'
-            | 'listId'
-            | 'frequency'
-            | 'illustrationSquare'
-            | 'illustrationCard'
-        >
-    >,
+    newsletters: NewsletterData[],
 ): Inline1Variant => {
     const { message } = variant;
     if (message.type !== 'Inline1NewsletterMessage') {
