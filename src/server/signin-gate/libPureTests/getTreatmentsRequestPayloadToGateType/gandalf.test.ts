@@ -340,10 +340,10 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
     });
 
     describe('non-Gandalf traffic is unaffected while the list is active', () => {
-        it('consented GB readers in the Auxia share still go to Auxia', () => {
+        it('consented US readers in the Auxia share still go to Auxia', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({
-                    countryCode: 'GB',
+                    countryCode: 'US',
                     mvtId: 100_000,
                     hasConsented: true,
                     contentType: 'Article',
@@ -355,10 +355,10 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(gateType).toBe('AuxiaAPI');
         });
 
-        it('consented GB readers outside the Auxia share keep the Guardian fallback', () => {
+        it('consented US readers outside the Auxia share keep the Guardian fallback', () => {
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({
-                    countryCode: 'GB',
+                    countryCode: 'US',
                     mvtId: 450_000,
                     hasConsented: true,
                     contentType: 'Article',
