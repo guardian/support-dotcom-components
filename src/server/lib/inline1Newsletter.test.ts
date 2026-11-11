@@ -1,11 +1,12 @@
+import assert from 'node:assert/strict';
 import type { Inline1Variant } from '../../shared/types';
 import { inline1VariantSchema } from '../../shared/types/props/inline1';
-import { logWarn } from '../utils/logging';
+import { logError } from '../utils/logging';
 import { getInline1Variant } from './inline1Newsletter';
 import type { NewsletterData } from './newsletters';
 
 jest.mock('../utils/logging', () => ({
-    logWarn: jest.fn(),
+    logError: jest.fn(),
 }));
 
 describe('getInline1Variant', () => {
@@ -64,11 +65,12 @@ describe('getInline1Variant', () => {
         });
         expect(inline1VariantSchema.parse(result)).toEqual(result);
         expect(variant.message).not.toHaveProperty('newsletterListId');
-        expect(logWarn).not.toHaveBeenCalled();
+        expect(logError).not.toHaveBeenCalled();
     });
 
     it('uses the latest cache values rather than previously configured metadata', () => {
         const enriched = getInline1Variant(variant, [newsletter]);
+        assert(enriched);
         const result = getInline1Variant(enriched, [
             {
                 ...newsletter,
@@ -79,7 +81,7 @@ describe('getInline1Variant', () => {
             },
         ]);
 
-        expect(result.message).toMatchObject({
+        expect(result?.message).toMatchObject({
             newsletterName: 'Updated name',
             newsletterListId: 123,
             frequency: 'Daily',
@@ -91,11 +93,12 @@ describe('getInline1Variant', () => {
         'uses the card illustration when the square image is %s',
         (image) => {
             const enriched = getInline1Variant(variant, [newsletter]);
+            assert(enriched);
 
             for (const input of [variant, enriched]) {
                 expect(
                     getInline1Variant(input, [{ ...newsletter, illustrationSquare: image }])
-                        .message,
+                        ?.message,
                 ).toMatchObject({ imageUrl: newsletter.illustrationCard });
             }
         },
@@ -105,11 +108,12 @@ describe('getInline1Variant', () => {
         'clears a previous message image when both API images are absent and the square image is %s',
         (image) => {
             const enriched = getInline1Variant(variant, [newsletter]);
+            assert(enriched);
             const result = getInline1Variant(enriched, [
                 { ...newsletter, illustrationSquare: image, illustrationCard: undefined },
             ]);
 
-            expect(result.message).toMatchObject({
+            expect(result?.message).toMatchObject({
                 newsletterListId: 6069,
                 imageUrl: undefined,
             });
@@ -122,7 +126,7 @@ describe('getInline1Variant', () => {
             { ...newsletter, illustrationSquare: undefined, illustrationCard: undefined },
         ]);
 
-        expect(result.message).toMatchObject({ newsletterListId: 6069, imageUrl: undefined });
+        expect(result?.message).toMatchObject({ newsletterListId: 6069, imageUrl: undefined });
         expect(inline1VariantSchema.safeParse(result).success).toBe(true);
     });
 
@@ -130,10 +134,10 @@ describe('getInline1Variant', () => {
         { newsletters: [] },
         { newsletters: [{ ...newsletter, identityName: 'another-newsletter' }] },
     ])(
-        'preserves the configured variant and logs when no matching newsletter is cached: %j',
+        'returns null and logs an error when no matching newsletter is cached: %j',
         ({ newsletters }) => {
-            expect(getInline1Variant(variant, newsletters)).toBe(variant);
-            expect(logWarn).toHaveBeenCalledWith(
+            expect(getInline1Variant(variant, newsletters)).toBeNull();
+            expect(logError).toHaveBeenCalledWith(
                 'No cached newsletter found for Inline1 newsletterId: the-stakes',
             );
         },
@@ -151,6 +155,6 @@ describe('getInline1Variant', () => {
         const otherVariant = { name: 'control', message };
 
         expect(getInline1Variant(otherVariant, [newsletter])).toBe(otherVariant);
-        expect(logWarn).not.toHaveBeenCalled();
+        expect(logError).not.toHaveBeenCalled();
     });
 });

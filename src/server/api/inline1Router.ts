@@ -67,6 +67,11 @@ export const buildInline1Router = (
 
         const newsletterData = newsletters.get();
         const { test, variant } = testSelection;
+        const inline1Variant = getInline1Variant(variant, newsletterData);
+        if (!inline1Variant) {
+            return { data: undefined };
+        }
+
         const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
@@ -74,7 +79,7 @@ export const buildInline1Router = (
             componentType: 'ACQUISITIONS_OTHER',
         };
         const inline1Props: Inline1Props = {
-            variant: getInline1Variant(variant, newsletterData),
+            variant: inline1Variant,
             tracking: testTracking as Tracking,
             countryCode: targeting.countryCode,
         };
