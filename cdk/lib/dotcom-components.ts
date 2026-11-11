@@ -37,7 +37,11 @@ interface DotcomComponentsProps extends GuStackProps {
 
 export class DotcomComponents extends GuStack {
 	constructor(scope: App, id: string, props: DotcomComponentsProps) {
-		super(scope, id, props);
+		super(scope, id, {
+			// Required for ALB logging
+			env: { region: 'eu-west-1' },
+			...props,
+		});
 
 		const appName = 'dotcom-components';
 		const baseUrl = new GuStringParameter(this, 'BaseUrl', {
@@ -352,7 +356,7 @@ sudo amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-
 			additionalPolicies: policies,
 			scaling,
 			instanceMetricGranularity: '1Minute',
-			withAccessLogging: false,
+			withAccessLogging: true,
 		});
 
 		ec2App.autoScalingGroup.scaleOnRequestCount(

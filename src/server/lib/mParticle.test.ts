@@ -380,6 +380,41 @@ describe('MParticle.getProfileFetcher', () => {
         jest.restoreAllMocks();
     });
 
+    it.each([
+        { authHeader: 'Bearer token', browserId: undefined, enableMParticle: true },
+        { authHeader: undefined, browserId: 'browser-123', enableMParticle: true },
+        { authHeader: undefined, browserId: undefined, enableMParticle: false },
+    ])('returns a preview fixture without fetching a user: %j', async (options) => {
+        const mp = new MParticle(mockConfig);
+        const getUserProfile = jest.spyOn(mp, 'getUserProfile');
+        const getIdentityId = jest.spyOn(mockOkta, 'getIdentityIdFromOktaToken');
+        const { fetchProfile, forLogging } = mp.getProfileFetcher(
+            { ...channelSwitches, enableMParticle: options.enableMParticle },
+            mockOkta,
+            options.authHeader,
+            options.browserId,
+            true,
+        );
+
+        const profile = await fetchProfile();
+
+        expect(profile).toEqual({
+            user_attributes: {
+                first_name: 'Jane',
+                last_single_contribution_amount: 23.66,
+            },
+            audience_memberships: [],
+        });
+        expect(await fetchProfile()).toBe(profile);
+        expect(getIdentityId).not.toHaveBeenCalled();
+        expect(getUserProfile).not.toHaveBeenCalled();
+        expect(global.fetch).not.toHaveBeenCalled();
+        expect(forLogging()).toEqual({
+            mParticleProfileStatus: 'not-fetched',
+            mParticleProfileSource: 'none',
+        });
+    });
+
     it('should not fetch until fetchProfile is called (laziness)', async () => {
         const mp = new MParticle(mockConfig);
         await jest.advanceTimersByTimeAsync(0);
