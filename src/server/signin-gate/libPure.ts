@@ -599,7 +599,8 @@ export const getTreatmentsRequestPayloadToGateType = (
         'SK',
     ];
     const isFullAuxiaRollout =
-        payload.countryCode === 'GB' || payload.countryCode === 'AU' ||
+        payload.countryCode === 'GB' ||
+        payload.countryCode === 'AU' ||
         euCountries.includes(payload.countryCode) ||
         countryGroups.International.countries.includes(payload.countryCode);
     const isConsentedAndNotPoliticallySensitive =

@@ -68,7 +68,7 @@ nb: the numbers, for instance, [01], uniquely identify the experience for the co
 ```
 
 The remaining non-ROW MVT-based Auxia bucket includes country or territory codes that are
-not covered by the repository's `International` country list, the UK, 
+not covered by the repository's `International` country list, the UK,
 the explicit 27-country Europe rollout, Australia or the mandatory IE/NZ/CA paths.
 All codes in this bucket, including the United States, use the first 35% of mvtIds (1 to 350_000).
 
