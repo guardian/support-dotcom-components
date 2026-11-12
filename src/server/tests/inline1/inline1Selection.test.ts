@@ -430,3 +430,54 @@ describe('selectInline1Test preview', () => {
         expect(got).toBeNull();
     });
 });
+
+describe('withinMaxViews check', () => {
+    const exampleViewLog = [
+        {
+            date: new Date('2026-11-12T16:45:00').valueOf(),
+            testId: 'inline1-example',
+        },
+        {
+            date: new Date('2026-11-10T16:45:00').valueOf(),
+            testId: 'inline1-example',
+        },
+        {
+            date: new Date('2026-11-10T16:45:00').valueOf(),
+            testId: 'inline1-example',
+        },
+        {
+            date: new Date('2026-11-09T16:45:00').valueOf(),
+            testId: 'inline1-example',
+        },
+    ];
+    const now = new Date('2026-11-13T10:10:00');
+    const targeting = { ...targetingDefault, viewLog: exampleViewLog };
+
+    // maxViews currently set to a default of 4 within a month
+    it('should return null when the views are above the limit', async () => {
+        const got = await selectBestTest(
+            targeting,
+            [testDefault],
+            userDeviceType,
+            getMParticleProfile,
+            [],
+            now,
+        );
+
+        expect(got).toBeNull();
+    });
+
+    it('should return the test if the views are below the limit', async () => {
+        const test = { ...testDefault, name: 'a-different-test' };
+        const got = await selectBestTest(
+            targeting,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+            [],
+            now,
+        );
+
+        expect(got?.test).toBe(test);
+    });
+});
