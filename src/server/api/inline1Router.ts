@@ -87,11 +87,11 @@ export const buildInline1Router = (
         return {
             data: {
                 module: {
-                    name: variant.name,
+                    name: inline1Variant.name,
                     props: inline1Props,
                 },
                 meta: testTracking,
-                bid: '0.01',
+                bid:  '0.01' //inline1Variant.bidPrice.toFixed(1),
             },
         };
     };

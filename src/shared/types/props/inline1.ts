@@ -49,6 +49,7 @@ export const inline1MessageSchema = z.discriminatedUnion('type', [
 export const inline1VariantSchema = z.object({
     name: z.string(),
     message: inline1MessageSchema,
+    bidPrice: z.number().nonnegative().default(0),
 });
 
 export const inline1PropsSchema = z.object({

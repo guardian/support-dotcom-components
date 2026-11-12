@@ -12,6 +12,7 @@ jest.mock('../utils/logging', () => ({
 describe('getInline1Variant', () => {
     const variant: Inline1Variant = {
         name: 'newsletter',
+        bidPrice: 1,
         message: {
             type: 'Inline1NewsletterMessage',
             newsletterId: 'the-stakes',
@@ -152,7 +153,7 @@ describe('getInline1Variant', () => {
             primaryCta: { text: 'Support', baseUrl: 'https://support.theguardian.com' },
         },
     ])('leaves non-newsletter variants unchanged: %j', (message) => {
-        const otherVariant = { name: 'control', message };
+        const otherVariant = { name: 'control', message, bidPrice: 0 as const };
 
         expect(getInline1Variant(otherVariant, [newsletter])).toBe(otherVariant);
         expect(logError).not.toHaveBeenCalled();
