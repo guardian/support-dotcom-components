@@ -3,6 +3,7 @@ import type {
     Inline1Targeting,
     Inline1Test,
     Inline1Variant,
+    MessageViewLog,
     UserDeviceType,
 } from '../../../shared/types';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
@@ -15,6 +16,7 @@ import {
     deviceTypeMatches,
     matchesMParticleAudience,
     pageContextMatches,
+    shouldThrottle,
 } from '../../lib/targeting';
 import { selectVariantUsingMVT } from '../../selection/ab';
 
@@ -34,6 +36,20 @@ export const isCountryTargetedForInline1 = (
         ? test.regionTargeting.targetedCountryCodes
         : [];
     return inTargetedCountry(targeting.countryCode, targetedCountryGroups, targetedCountryCodes);
+};
+
+export const withinMaxViews = (
+    test: Inline1Test,
+    log: MessageViewLog,
+    now: Date = new Date(),
+): boolean => {
+    const defaultMaxViews = {
+        maxViewsCount: 4,
+        maxViewsDays: 30,
+        minDaysBetweenViews: 0,
+    };
+
+    return !shouldThrottle(log, defaultMaxViews, test.name, now);
 };
 
 export const selectBestTest = async (
@@ -73,6 +89,7 @@ export const selectBestTest = async (
             correctSignedInStatus(isSignedIn, signedInStatus) &&
             pageContextMatches(pageContext, contextTargeting) &&
             consentStatusMatches(hasConsented, consentStatus) &&
+            withinMaxViews(test, targeting.viewLog ?? []) &&
             (await matchesMParticleAudience(
                 getMParticleProfile,
                 test.mParticleAudience ?? undefined,
