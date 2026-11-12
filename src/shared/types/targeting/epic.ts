@@ -1,4 +1,4 @@
-import type { EpicViewLog } from '../../lib/viewLog';
+import type { MessageViewLog } from '../../lib/viewLog';
 import type { WeeklyArticleHistory } from './shared';
 
 type Tag = {
@@ -12,7 +12,7 @@ export type EpicTargeting = {
     isPaidContent: boolean;
     tags: Tag[];
     mvtId?: number;
-    epicViewLog?: EpicViewLog;
+    epicViewLog?: MessageViewLog;
     countryCode?: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
     hasOptedOutOfArticleCount: boolean;
