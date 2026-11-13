@@ -1,7 +1,11 @@
 import type { ChoiceCardsSettings } from '../../../shared/types/props/choiceCards';
 import type { DefaultChoiceCardSettings } from '../../defaultChoiceCardSettings';
 import type { ProductCatalog } from '../../productCatalog';
-import type { PromotionsCache } from '../promotions/promotions';
+import {
+    getPromotionsForCountry,
+    mapTableItemToPromotion,
+    type Promotion,
+} from '../promotions/promotions';
 import { getChoiceCardsSettings } from './choiceCards';
 import { defaultEpicChoiceCardsSettings } from './defaultChoiceCardSettings';
 
@@ -91,7 +95,7 @@ describe('getChoiceCardsSettings', () => {
         },
     };
 
-    const mockPromotionsCache: PromotionsCache = {
+    const mockPromotions = {
         PROMO_A: {
             promoCode: 'PROMO_A',
             productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Annual.id],
@@ -138,14 +142,12 @@ describe('getChoiceCardsSettings', () => {
 
     it('returns default settings without promotion applied', () => {
         const variantChoiceCardSettings = undefined;
-        const promoCodes: string[] = [];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
-            promoCodes,
+            [],
             variantChoiceCardSettings,
         );
 
@@ -164,7 +166,6 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
             [],
             defaultEpicChoiceCardsSettings('UnitedStates'),
             undefined,
@@ -185,7 +186,6 @@ describe('getChoiceCardsSettings', () => {
                 'UnitedStates',
                 channel,
                 mockProductCatalog,
-                mockPromotionsCache,
                 [],
                 undefined,
             );
@@ -206,7 +206,6 @@ describe('getChoiceCardsSettings', () => {
             'EURCountries',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
             [],
             undefined,
             undefined,
@@ -230,14 +229,12 @@ describe('getChoiceCardsSettings', () => {
                 defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
             ],
         };
-        const promoCodes: string[] = [];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
-            promoCodes,
+            [],
             variantChoiceCardSettings,
         );
 
@@ -264,7 +261,6 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
             [],
             variantChoiceCardSettings,
         );
@@ -278,14 +274,12 @@ describe('getChoiceCardsSettings', () => {
 
     it('returns choice cards with monthly discount (PROMO_B) applied', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_B'];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
-            promoCodes,
+            [mockPromotions.PROMO_B],
             variantChoiceCardSettings,
         );
 
@@ -313,14 +307,12 @@ describe('getChoiceCardsSettings', () => {
                 defaultEpicChoiceCardsSettings('UnitedStates').choiceCards[2],
             ],
         };
-        const promoCodes: string[] = ['PROMO_A'];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
-            promoCodes,
+            [mockPromotions.PROMO_A],
             variantChoiceCardSettings,
         );
 
@@ -336,14 +328,12 @@ describe('getChoiceCardsSettings', () => {
     it('returns DigitalSubscription choice card with correct label and product (monthly)', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
         variantChoiceCardSettings.choiceCards.push(digitalSubscriptionMonthlyCard);
-        const promoCodes: string[] = [];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            {},
-            promoCodes,
+            [],
             variantChoiceCardSettings,
         );
 
@@ -369,14 +359,12 @@ describe('getChoiceCardsSettings', () => {
                 digitalSubscriptionAnnualCard,
             ],
         };
-        const promoCodes: string[] = [];
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            {},
-            promoCodes,
+            [],
             variantChoiceCardSettings,
         );
 
@@ -401,7 +389,6 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
             [],
             variantChoiceCardSettings,
             undefined,
@@ -432,7 +419,6 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
             [],
             variantChoiceCardSettings,
             undefined,
@@ -451,8 +437,7 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
-            ['PROMO_B'],
+            [mockPromotions.PROMO_B],
             variantChoiceCardSettings,
             undefined,
             undefined,
@@ -483,8 +468,7 @@ describe('getChoiceCardsSettings', () => {
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCache,
-            ['PROMO_A'],
+            [mockPromotions.PROMO_A],
             variantChoiceCardSettings,
             undefined,
             undefined,
@@ -497,23 +481,23 @@ describe('getChoiceCardsSettings', () => {
 
     it('does not apply discount for promo with future start date', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_FUTURE'];
-        const mockPromotionsCacheWithFuturePromo: PromotionsCache = {
-            PROMO_FUTURE: {
-                promoCode: 'PROMO_FUTURE',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: ['US'],
-                discountPercent: 40,
-                startTimestamp: futureDate,
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_FUTURE',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: ['US'],
+            discountPercent: 40,
+            startTimestamp: futureDate,
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheWithFuturePromo,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
@@ -526,23 +510,23 @@ describe('getChoiceCardsSettings', () => {
 
     it('does not apply discount for promo with past end date', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_EXPIRED'];
-        const mockPromotionsCacheWithExpiredPromo: PromotionsCache = {
-            PROMO_EXPIRED: {
-                promoCode: 'PROMO_EXPIRED',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: ['US'],
-                discountPercent: 40,
-                endTimestamp: pastDate,
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_EXPIRED',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: ['US'],
+            discountPercent: 40,
+            endTimestamp: pastDate,
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheWithExpiredPromo,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
@@ -555,22 +539,22 @@ describe('getChoiceCardsSettings', () => {
 
     it('applies discount for promo with no dates (always live)', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_NO_DATES'];
-        const mockPromotionsCacheNoDates: PromotionsCache = {
-            PROMO_NO_DATES: {
-                promoCode: 'PROMO_NO_DATES',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: ['US'],
-                discountPercent: 40,
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_NO_DATES',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: ['US'],
+            discountPercent: 40,
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheNoDates,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
@@ -582,23 +566,23 @@ describe('getChoiceCardsSettings', () => {
 
     it('applies a discount for a an introductory pricing offer promo but does not show the original price', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_INTRO_OFFER'];
-        const mockPromotionsCacheIntroOffer: PromotionsCache = {
-            PROMO_INTRO_OFFER: {
-                promoCode: 'PROMO_INTRO_OFFER',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: ['US'],
-                discountPercent: 40,
-                isIntroductoryPricing: true,
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_INTRO_OFFER',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: ['US'],
+            discountPercent: 40,
+            isIntroductoryPricing: true,
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheIntroOffer,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
@@ -609,22 +593,22 @@ describe('getChoiceCardsSettings', () => {
 
     it('correctly rounds discounted prices with tiny fractions to in integer', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_INTRO_OFFER'];
-        const mockPromotionsCacheIntroOffer: PromotionsCache = {
-            PROMO_INTRO_OFFER: {
-                promoCode: 'PROMO_INTRO_OFFER',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: ['US'],
-                discountPercent: 40.001, // This results in a non integer price, but rounds to $9.
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_INTRO_OFFER',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: ['US'],
+            discountPercent: 40.001, // This results in a non integer price, but rounds to $9.
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheIntroOffer,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
@@ -635,22 +619,22 @@ describe('getChoiceCardsSettings', () => {
 
     it('correctly renders non-integer discounted prices', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_INTRO_OFFER'];
-        const mockPromotionsCacheIntroOffer: PromotionsCache = {
-            PROMO_INTRO_OFFER: {
-                promoCode: 'PROMO_INTRO_OFFER',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: ['US'],
-                discountPercent: 50,
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_INTRO_OFFER',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: ['US'],
+            discountPercent: 50,
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheIntroOffer,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
@@ -659,24 +643,24 @@ describe('getChoiceCardsSettings', () => {
         expect(result?.choiceCards[1].pill?.copy).toBe('50% off');
     });
 
-    it('does not apply discount for promo targeting countries outside the country group', () => {
+    it('does not apply discount for a promotion targeting another country', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_GB_ONLY'];
-        const mockPromotionsCacheGbOnly: PromotionsCache = {
-            PROMO_GB_ONLY: {
-                promoCode: 'PROMO_GB_ONLY',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: ['GB'],
-                discountPercent: 40,
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_GB_ONLY',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: ['GB'],
+            discountPercent: 40,
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheGbOnly,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
@@ -685,24 +669,24 @@ describe('getChoiceCardsSettings', () => {
         expect(result?.choiceCards[1].pill?.copy).not.toBe('40% off');
     });
 
-    it('applies discount for promo targeting a country within the country group', () => {
+    it('applies discount for a promotion targeting the reader’s country', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_US'];
-        const mockPromotionsCacheUs: PromotionsCache = {
-            PROMO_US: {
-                promoCode: 'PROMO_US',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: ['US'],
-                discountPercent: 40,
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_US',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: ['US'],
+            discountPercent: 40,
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheUs,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
@@ -711,29 +695,92 @@ describe('getChoiceCardsSettings', () => {
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
     });
 
-    it('applies discount for promo with empty countries list (applies to all)', () => {
+    it('applies discount for an unrestricted legacy promotion', () => {
         const variantChoiceCardSettings = defaultEpicChoiceCardsSettings('UnitedStates');
-        const promoCodes: string[] = ['PROMO_ALL'];
-        const mockPromotionsCacheAll: PromotionsCache = {
-            PROMO_ALL: {
-                promoCode: 'PROMO_ALL',
-                productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
-                countries: [],
-                discountPercent: 40,
-            },
+        const promotion: Promotion = {
+            promoCode: 'PROMO_ALL',
+            productRatePlanIds: [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id],
+            countries: null,
+            discountPercent: 40,
         };
 
         const result = getChoiceCardsSettings(
             'UnitedStates',
             'Epic',
             mockProductCatalog,
-            mockPromotionsCacheAll,
-            promoCodes,
+            getPromotionsForCountry(
+                [promotion.promoCode],
+                { [promotion.promoCode]: promotion },
+                'US',
+            ),
             variantChoiceCardSettings,
         );
 
         expect(result).toBeDefined();
         expect(result?.choiceCards[1].label).toEqual('Support <s>$15</s> $9/month');
         expect(result?.choiceCards[1].pill?.copy).toBe('40% off');
+    });
+
+    it('uses the French promotion even when the international promotion is listed first', () => {
+        const productRatePlanIds = [mockProductCatalog.SupporterPlus.ratePlans.Monthly.id];
+        const promotions = {
+            ROW_OFFER: mapTableItemToPromotion({
+                promoCode: 'ROW_OFFER',
+                discount: { amount: 25 },
+                appliesTo: { productRatePlanIds, countries: ['US', 'AM', 'TR'] },
+            }),
+            EU_OFFER: mapTableItemToPromotion({
+                promoCode: 'EU_OFFER',
+                discount: { amount: 50 },
+                appliesTo: { productRatePlanIds, countryGroups: ['eu'] },
+            }),
+        };
+        const applicablePromotions = getPromotionsForCountry(
+            Object.keys(promotions),
+            promotions,
+            'FR',
+        );
+        const result = getChoiceCardsSettings(
+            'EURCountries',
+            'Banner1',
+            mockProductCatalog,
+            applicablePromotions,
+        );
+
+        expect(applicablePromotions.map((promo) => promo.promoCode)).toEqual(['EU_OFFER']);
+        expect(result?.choiceCards[1].label).toBe('Support <s>€12</s> €6/month');
+    });
+
+    it('limits a group promotion to its configured countries and preserves explicit exceptions', () => {
+        const promotion = mapTableItemToPromotion({
+            promoCode: 'REGIONAL_OFFER',
+            appliesTo: {
+                productRatePlanIds: [],
+                countryGroups: ['ukm'],
+                countries: ['FR'],
+            },
+        });
+        const cache = { REGIONAL_OFFER: promotion };
+        const codes = ['REGIONAL_OFFER'];
+
+        expect(getPromotionsForCountry(codes, cache, 'GB')).toHaveLength(1);
+        expect(getPromotionsForCountry(codes, cache, 'FR')).toHaveLength(1);
+        expect(getPromotionsForCountry(codes, cache, 'JE')).toHaveLength(0);
+    });
+
+    it('keeps legacy empty country lists unrestricted and empty group lists ineligible', () => {
+        const promoCode = 'REGIONAL_OFFER';
+        const productRatePlanIds: string[] = [];
+        const legacy = mapTableItemToPromotion({
+            promoCode,
+            appliesTo: { productRatePlanIds, countries: [] },
+        });
+        const groups = mapTableItemToPromotion({
+            promoCode,
+            appliesTo: { productRatePlanIds, countryGroups: [] },
+        });
+
+        expect(getPromotionsForCountry([promoCode], { [promoCode]: legacy }, 'FR')).toHaveLength(1);
+        expect(getPromotionsForCountry([promoCode], { [promoCode]: groups }, 'FR')).toHaveLength(0);
     });
 });
