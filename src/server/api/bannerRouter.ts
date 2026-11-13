@@ -27,7 +27,7 @@ import type { NewsletterData } from '../lib/newsletters';
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
-import type { PromotionsCache } from '../lib/promotions/promotions';
+import { getPromotionsForCountry, type PromotionsCache } from '../lib/promotions/promotions';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
 import { bodyContainsAllFields } from '../middleware';
@@ -152,6 +152,14 @@ export const buildBannerRouter = (
             const requiredCountry = targeting.countryCode || 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
             const isVatCompliantCountry = !contributionsOnlyCountries.includes(requiredCountry);
+            const applicablePromotions =
+                design?.visual?.kind === 'ChoiceCards' && isVatCompliantCountry
+                    ? getPromotionsForCountry(
+                          variant.promoCodes ?? [],
+                          promotions.get(),
+                          requiredCountry,
+                      )
+                    : undefined;
 
             const forceNoDefault =
                 test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
@@ -161,21 +169,19 @@ export const buildBannerRouter = (
 
             const isWeeklyPriceVariant = variant.name.includes('WEEKLY_PRICE');
 
-            const choiceCardsSettings =
-                design?.visual?.kind === 'ChoiceCards' && isVatCompliantCountry
-                    ? getChoiceCardsSettings(
-                          requiredRegion,
-                          channelFromBannerChannel(test.bannerChannel),
-                          productCatalog.get(),
-                          promotions.get(),
-                          variant.promoCodes ?? [],
-                          variant.choiceCardsSettings ?? undefined,
-                          forceNoDefault,
-                          forceExpanded,
-                          isWeeklyPriceVariant,
-                          defaultChoiceCardSettings,
-                      )
-                    : undefined;
+            const choiceCardsSettings = applicablePromotions
+                ? getChoiceCardsSettings(
+                      requiredRegion,
+                      channelFromBannerChannel(test.bannerChannel),
+                      productCatalog.get(),
+                      applicablePromotions,
+                      variant.choiceCardsSettings ?? undefined,
+                      forceNoDefault,
+                      forceExpanded,
+                      isWeeklyPriceVariant,
+                      defaultChoiceCardSettings,
+                  )
+                : undefined;
 
             const props: BannerProps = {
                 tracking: testTracking as Tracking, // PageTracking is added client-side
@@ -196,7 +202,10 @@ export const buildBannerRouter = (
                 design,
                 abandonedBasket: targeting.abandonedBasket,
                 isCollapsible: variant.isCollapsible ?? undefined,
-                promoCodes: variant.promoCodes ?? [],
+                promoCodes:
+                    applicablePromotions?.map((promo) => promo.promoCode) ??
+                    variant.promoCodes ??
+                    [],
             };
 
             const responseProps = test.name.startsWith('NEWSLETTER_')

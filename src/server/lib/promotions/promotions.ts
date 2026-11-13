@@ -1,6 +1,7 @@
 import type { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 import { ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { getErrorMessage } from '@guardian/libs';
+import { countryGroups } from '../../../shared/lib/geolocation';
 import { putMetric } from '../../utils/cloudwatch';
 import { dynamoDbClient } from '../../utils/dynamodb';
 import { logError, logInfo } from '../../utils/logging';
@@ -14,20 +15,33 @@ type PromoCode = string;
 export interface Promotion {
     promoCode: PromoCode;
     productRatePlanIds: string[]; // the product rate plans that this promo applies to
-    countries: string[]; // the country codes this promo targets
+    countries: string[] | null; // null preserves the legacy empty list's unrestricted targeting
     discountPercent: number;
     startTimestamp?: string;
     endTimestamp?: string;
     isIntroductoryPricing?: boolean;
 }
-export type PromotionsCache = Record<PromoCode, Promotion>;
+export type PromotionsCache = Record<PromoCode, Promotion | undefined>;
 
-// The model we get from DynamoDb. Most fields are ignored. Any targeting must be done in the RRCP
+const promoCountryGroups = {
+    ukm: ['GB'],
+    ukos: countryGroups.GBPCountries.countries.filter((country) => country !== 'GB'),
+    us: countryGroups.UnitedStates.countries,
+    ca: countryGroups.Canada.countries,
+    au: countryGroups.AUDCountries.countries,
+    nz: countryGroups.NZDCountries.countries,
+    eu: countryGroups.EURCountries.countries,
+    int: countryGroups.International.countries,
+};
+const isPromoCountryGroup = (id: unknown): id is keyof typeof promoCountryGroups =>
+    typeof id === 'string' && Object.prototype.hasOwnProperty.call(promoCountryGroups, id);
+
 interface PromotionTableItem {
     appliesTo: {
         productRatePlanIds: string[];
-        countries: string[];
-    };
+        countries?: string[] | null;
+        countryGroups?: string[] | null;
+    } | null;
     promoCode: string;
     discount?: {
         amount: number;
@@ -37,12 +51,30 @@ interface PromotionTableItem {
     isIntroductoryPricing?: boolean;
 }
 
-const mapTableItemToPromotion = (item: PromotionTableItem): Promotion => {
+export const mapTableItemToPromotion = (item: PromotionTableItem): Promotion | undefined => {
+    const { countryGroups: groupIds, countries, productRatePlanIds } = item.appliesTo ?? {};
+    if (
+        (groupIds != null && (!Array.isArray(groupIds) || !groupIds.every(isPromoCountryGroup))) ||
+        (countries != null &&
+            (!Array.isArray(countries) ||
+                !countries.every((country) => typeof country === 'string'))) ||
+        (groupIds == null && countries == null) ||
+        !Array.isArray(productRatePlanIds)
+    ) {
+        logError(`Invalid eligibility for promotion ${item.promoCode}`);
+        return undefined;
+    }
+
+    const targetCountries =
+        groupIds == null && countries?.length === 0
+            ? null
+            : [...(countries ?? []), ...(groupIds?.flatMap((id) => promoCountryGroups[id]) ?? [])];
+
     return {
         promoCode: item.promoCode,
         discountPercent: item.discount?.amount ?? 0,
-        productRatePlanIds: item.appliesTo.productRatePlanIds,
-        countries: item.appliesTo.countries,
+        productRatePlanIds,
+        countries: targetCountries,
         startTimestamp: item.startTimestamp,
         endTimestamp: item.endTimestamp,
         isIntroductoryPricing: item.isIntroductoryPricing,
@@ -69,10 +101,26 @@ export const isPromotionLive = (promotion: Promotion): boolean => {
     return true;
 };
 
+export const getPromotionsForCountry = (
+    promoCodes: string[],
+    promotionsCache: PromotionsCache,
+    countryCode: string,
+): Promotion[] =>
+    promoCodes.flatMap((code) => {
+        const promo = Object.prototype.hasOwnProperty.call(promotionsCache, code)
+            ? promotionsCache[code]
+            : undefined;
+        return promo &&
+            isPromotionLive(promo) &&
+            (promo.countries === null || promo.countries.includes(countryCode))
+            ? [promo]
+            : [];
+    });
+
 // Does a full scan of the Promotions table - there isn't a smarter way to do this with the existing schema.
 const fetchPromotions = async (): Promise<PromotionsCache> => {
     const tableName = `support-admin-console-promos-${stage}`;
-    const promotionsCache: PromotionsCache = {};
+    const promotionsCache = Object.create(null) as PromotionsCache;
     let lastEvaluatedKey: ScanCommandInput['ExclusiveStartKey']; // for paginating through the dynamodb results
 
     try {
@@ -91,8 +139,8 @@ const fetchPromotions = async (): Promise<PromotionsCache> => {
             const items = result.Items as PromotionTableItem[];
 
             items.forEach((item) => {
-                if (item.discount?.amount) {
-                    const promotion = mapTableItemToPromotion(item);
+                const promotion = mapTableItemToPromotion(item);
+                if (promotion) {
                     promotionsCache[promotion.promoCode] = promotion;
                 }
             });
