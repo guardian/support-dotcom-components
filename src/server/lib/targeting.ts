@@ -31,7 +31,7 @@ export interface ThrottleConfig {
     minDaysBetweenViews: number;
 }
 
-// Note, if testID is provided, will thottle against views only for that
+// Note, if testID is provided, will throttle against views only for that
 // specific test, otherwise will apply a global throttle.
 export const shouldThrottle = (
     log: MessageViewLog,
