@@ -4,9 +4,9 @@ import type {
     BannerTargeting,
     ConsentStatus,
     EpicTargeting,
-    EpicViewLog,
     GutterTargeting,
     Inline1Targeting,
+    MessageViewLog,
     PageContextTargeting,
     SignedInStatus,
     Test,
@@ -34,7 +34,7 @@ export interface ThrottleConfig {
 // Note, if testID is provided, will thottle against views only for that
 // specific test, otherwise will apply a global throttle.
 export const shouldThrottle = (
-    log: EpicViewLog,
+    log: MessageViewLog,
     config: ThrottleConfig,
     testId?: string,
     now: Date = new Date(),

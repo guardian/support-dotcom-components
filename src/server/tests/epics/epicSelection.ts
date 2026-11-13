@@ -8,7 +8,7 @@ import type {
     EpicTargeting,
     EpicTest,
     EpicVariant,
-    EpicViewLog,
+    MessageViewLog,
     UserCohort,
     UserDeviceType,
     WeeklyArticleHistory,
@@ -118,7 +118,7 @@ export const contributionsOnlyCountriesTargetingFilter = (
         ),
 });
 
-export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter => ({
+export const withinMaxViews = (log: MessageViewLog, now: Date = new Date()): Filter => ({
     id: 'shouldThrottle',
     test: (test): boolean => {
         const defaultMaxViews = {
