@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 12.0.0
+
+### Major Changes
+
+- 0b1ce8c: Reuse EpicViewLog type for inline1
+
 ## 11.3.2
 
 ### Patch Changes
