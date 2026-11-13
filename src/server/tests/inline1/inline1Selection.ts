@@ -25,10 +25,7 @@ export interface Inline1TestSelection {
     variant: Inline1Variant;
 }
 
-export const isCountryTargetedForInline1 = (
-    test: Inline1Test,
-    targeting: Inline1Targeting,
-): boolean => {
+const isCountryTargetedForInline1 = (test: Inline1Test, targeting: Inline1Targeting): boolean => {
     const targetedCountryGroups = test.regionTargeting
         ? test.regionTargeting.targetedCountryGroups
         : [];
@@ -38,7 +35,7 @@ export const isCountryTargetedForInline1 = (
     return inTargetedCountry(targeting.countryCode, targetedCountryGroups, targetedCountryCodes);
 };
 
-export const withinMaxViews = (
+const withinMaxViews = (
     test: Inline1Test,
     log: MessageViewLog,
     now: Date = new Date(),
