@@ -26,12 +26,11 @@ SDC also has an endpoint for tracking interactions (view/click) with the gate: `
 
 The sign-in-gate rollout is applied only to consented readers:
 
-- readers in the `International` country group (ROW) are in the Auxia audience for 100% of valid MVT ids;
-- GB and remaining non-ROW MVT-based countries and territories use 35%
-  (including the United States and codes outside the explicit full-rollout or mandatory lists);
-- Australia and the existing Europe rollout remain at 100%;
+- the UK, Australia, the 27 Europe roll out group and readers in the `International` country group (ROW) are at 100%;
 - Ireland and Canada remain on the mandatory Auxia rollout path; New Zealand uses that path only
   when the Guardian-managed Gandalf journey is disabled;
+- remaining non-ROW MVT-based countries and territories use 35%
+  (including the United States and codes outside the explicit full-rollout or mandatory lists);
 - the country codes `AF`, `BY`, `CN`, `ER`, `IR`, `MM`, `KP`, `PS`, `RU`, `SY`, `TM` and `UA` are excluded from Auxia (0%), regardless of region or MVT id.
 
 Non-consented readers do not receive an Auxia treatment. When the Auxia switch is enabled, their existing analytics-only notification and Guardian-controlled gate behavior remain unchanged. This rollout controls Auxia eligibility; it does not change the Guardian hardcoded mandatory gate, and it does not change the separate banner rollout.
