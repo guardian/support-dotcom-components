@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 12.1.0
+
+### Minor Changes
+
+- 4c2be1c: Use latest ophan types
+
 ## 12.0.0
 
 ### Major Changes
