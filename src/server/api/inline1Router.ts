@@ -78,7 +78,7 @@ export const buildInline1Router = (
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: `${test.name}_${variant.name}`,
-            componentType: 'ACQUISITIONS_OTHER',
+            componentType: 'ACQUISITIONS_INLINE',
         };
         const inline1Props: Inline1Props = {
             variant: inline1Variant,

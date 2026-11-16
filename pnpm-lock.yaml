@@ -22,10 +22,10 @@ importers:
     dependencies:
       '@guardian/libs':
         specifier: 33.0.0
-        version: 33.0.0(@guardian/ophan-tracker-js@2.8.3)(tslib@2.9.1)(typescript@6.0.3)
+        version: 33.0.0(@guardian/ophan-tracker-js@5.5.0)(tslib@2.9.1)(typescript@6.0.3)
       '@guardian/ophan-tracker-js':
-        specifier: 2.8.3
-        version: 2.8.3
+        specifier: ^5.5.0
+        version: 5.5.0
       zod:
         specifier: 4.6.7
         version: 4.6.7
@@ -1043,8 +1043,8 @@ packages:
     resolution: {integrity: sha512-RPoyxPPKaT1em1LZiD1LKsTYzoXBG8Zjs4OzyP5dhEmfoXD99qK48JI4oGUPlq3wOOB0ZT8UrbtbWDKzeMSBHA==}
     engines: {node: '>=16'}
 
-  '@guardian/ophan-tracker-js@2.8.3':
-    resolution: {integrity: sha512-pTnAPt4i1O439f3B0G6aD59GGBK6MhEqvvLpoZVvs7rhcn086dwyi0Amg3cNhznvG+YlRkD8zw5m62DAxt2I0g==}
+  '@guardian/ophan-tracker-js@5.5.0':
+    resolution: {integrity: sha512-GA/TfRDCZ9qgqhb8cRp95jpYvc88KRnTbhay72ICEb6M5IRJAeP1aPuOxu/UYEyXddKwso268lRxEGhm7PCgsA==}
     engines: {node: '>=16'}
 
   '@guardian/prettier@11.0.0':
@@ -5408,9 +5408,9 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  '@guardian/libs@33.0.0(@guardian/ophan-tracker-js@2.8.3)(tslib@2.9.1)(typescript@6.0.3)':
+  '@guardian/libs@33.0.0(@guardian/ophan-tracker-js@5.5.0)(tslib@2.9.1)(typescript@6.0.3)':
     dependencies:
-      '@guardian/ophan-tracker-js': 2.8.3
+      '@guardian/ophan-tracker-js': 5.5.0
       tslib: 2.9.1
     optionalDependencies:
       typescript: 6.0.3
@@ -5425,7 +5425,7 @@ snapshots:
     dependencies:
       '@guardian/tsconfig': 1.0.1
 
-  '@guardian/ophan-tracker-js@2.8.3':
+  '@guardian/ophan-tracker-js@5.5.0':
     dependencies:
       '@guardian/tsconfig': 1.0.1
 

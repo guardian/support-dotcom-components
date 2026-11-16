@@ -1,4 +1,4 @@
-import type { OphanComponentType, OphanProduct } from '@guardian/libs';
+import type { Product, TComponentType } from '@guardian/ophan-tracker-js';
 import { z } from 'zod';
 import type { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
 import { purchaseInfoProductSchema, purchaseInfoUserSchema } from '../purchaseInfo';
@@ -154,8 +154,8 @@ export type TestTracking = {
     abTestVariant: string;
     campaignCode: string;
     campaignId?: string;
-    componentType: OphanComponentType;
-    products?: OphanProduct[];
+    componentType: TComponentType;
+    products?: Product[];
     labels?: string[];
     targetingAbTest?: TargetingAbTest;
     auxia?: AuxiaTracking;
