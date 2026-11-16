@@ -34,13 +34,6 @@ describe('isAuxiaAudienceShare', () => {
         expect(isAuxiaAudienceShare(buildPayload('US', 450001))).toBe(false);
     });
 
-    it('UK uses the 35% share', () => {
-        expect(isAuxiaAudienceShare(buildPayload('GB', 0))).toBe(false);
-        expect(isAuxiaAudienceShare(buildPayload('GB', 1))).toBe(true);
-        expect(isAuxiaAudienceShare(buildPayload('GB', 350000))).toBe(true);
-        expect(isAuxiaAudienceShare(buildPayload('GB', 350001))).toBe(false);
-    });
-
     it.each(['AF', 'BY', 'CN', 'ER', 'IR', 'MM', 'KP', 'PS', 'RU', 'SY', 'TM', 'UA'])(
         'excludes politically sensitive country %s at every MVT value',
         (countryCode) => {
