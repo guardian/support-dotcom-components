@@ -2,10 +2,6 @@ import { countryCodeToCountryGroupId, countryGroups } from '../../shared/lib';
 import type { SupportRegionId } from '../../shared/lib';
 import type { DeviceType, UserDeviceType } from '../../shared/types';
 
-export type Inline1BidRegion = Extract<
-    SupportRegionId,
-    'UK' | 'US' | 'AU' | 'CA' | 'EU' | 'NZ' | 'INT'
->;
 export type Inline1BidDeviceType = Extract<DeviceType, 'Desktop' | 'Mobile'>;
 
 type BidPrices = {
@@ -13,7 +9,7 @@ type BidPrices = {
     low: number;
 };
 
-export const inline1BidPrices: Record<Inline1BidRegion, Record<Inline1BidDeviceType, BidPrices>> = {
+export const inline1BidPrices: Record<SupportRegionId, Record<Inline1BidDeviceType, BidPrices>> = {
     UK: {
         Desktop: { high: 1.79, low: 0.43 },
         Mobile: { high: 2.0, low: 0.51 },
