@@ -34,13 +34,27 @@ describe('getInline1BidPrice', () => {
         expect(getInline1BidPrice(1.0, countryCode, 'Android')).toBe(1.5);
     });
 
-    it.each([0, 0.5, 2])('preserves a bidScore of %s', (bidScore) => {
+    it.each([
+        ['GB', 'UK'],
+        ['US', 'US'],
+        ['AU', 'AU'],
+    ] as const)('uses configured low prices for %s', (countryCode, region) => {
+        jest.replaceProperty(inline1BidPrices[region].Desktop, 'low', 0.81);
+        jest.replaceProperty(inline1BidPrices[region].Mobile, 'low', 0.99);
+
+        expect(getInline1BidPrice(0, countryCode, 'Desktop')).toBe(0.81);
+        expect(getInline1BidPrice(0, countryCode, 'iOS')).toBe(0.99);
+        expect(getInline1BidPrice(0, countryCode, 'Android')).toBe(0.99);
+    });
+
+    it.each([0.5, 2])('preserves a bidScore of %s', (bidScore) => {
         jest.replaceProperty(inline1BidPrices.UK.Desktop, 'high', 2.5);
 
         expect(getInline1BidPrice(bidScore, 'GB', 'Desktop')).toBe(bidScore);
     });
 
     it.each(['FR', 'ZZ', ''])('preserves the bid for unconfigured country %s', (countryCode) => {
+        expect(getInline1BidPrice(0, countryCode, 'Desktop')).toBe(0);
         expect(getInline1BidPrice(1.0, countryCode, 'Desktop')).toBe(1.0);
     });
 });

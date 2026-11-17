@@ -30,16 +30,16 @@ export const getInline1BidPrice = (
     countryCode: string,
     deviceType: UserDeviceType,
 ): number => {
-    const bidPrice = bidScore ?? 0;
-    if (bidPrice !== 1.0) {
-        return bidPrice;
+    if (bidScore !== 0 && bidScore !== 1) {
+        return bidScore ?? 0;
     }
 
     const region = countryGroups[countryCodeToCountryGroupId(countryCode)].supportRegionId;
     if (region !== 'UK' && region !== 'US' && region !== 'AU') {
-        return bidPrice;
+        return bidScore;
     }
 
     const bidDeviceType = deviceType === 'Desktop' ? 'Desktop' : 'Mobile';
-    return inline1BidPrices[region][bidDeviceType].high;
+    const bidLevel = bidScore === 1 ? 'high' : 'low';
+    return inline1BidPrices[region][bidDeviceType][bidLevel];
 };

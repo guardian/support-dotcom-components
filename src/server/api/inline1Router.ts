@@ -98,7 +98,7 @@ export const buildInline1Router = (
                     props: inline1Props,
                 },
                 meta: testTracking,
-                bid: finalBidPrice.toFixed(1),
+                bid: finalBidPrice.toFixed(2),
             },
         };
     };
