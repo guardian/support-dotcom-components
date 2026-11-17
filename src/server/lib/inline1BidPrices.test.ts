@@ -58,4 +58,3 @@ describe('getInline1BidPrice', () => {
         expect(getInline1BidPrice(1.0, countryCode, 'Desktop')).toBe(1.0);
     });
 });
-

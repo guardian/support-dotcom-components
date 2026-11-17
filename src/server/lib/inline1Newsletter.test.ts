@@ -179,4 +179,3 @@ describe('inline1VariantSchema', () => {
         expect(inline1VariantSchema.safeParse({ ...variant, bidScore }).success).toBe(false);
     });
 });
-

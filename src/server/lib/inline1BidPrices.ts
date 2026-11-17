@@ -12,7 +12,7 @@ type BidPrices = {
 
 export const inline1BidPrices: Record<Inline1BidRegion, Record<Inline1BidDeviceType, BidPrices>> = {
     UK: {
-        Desktop: { high: 2.50, low: 0.81 },
+        Desktop: { high: 2.5, low: 0.81 },
         Mobile: { high: 2.96, low: 0.99 },
     },
     US: {
@@ -20,7 +20,7 @@ export const inline1BidPrices: Record<Inline1BidRegion, Record<Inline1BidDeviceT
         Mobile: { high: 3.63, low: 1.42 },
     },
     AU: {
-        Desktop: { high: 2.00, low: 0.52 },
+        Desktop: { high: 2.0, low: 0.52 },
         Mobile: { high: 2.32, low: 0.77 },
     },
 };
