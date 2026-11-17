@@ -117,6 +117,7 @@ export const buildBannerRouter = (
             checkAuxiaSuppression,
             inAuxiaRollout,
             contributionsOnlyCountries,
+            newsletters: newsletterData,
         });
 
         if (selectedTest) {
