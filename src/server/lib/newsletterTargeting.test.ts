@@ -16,10 +16,8 @@ describe('matchNewsletterTargeting', () => {
     });
 
     it('rejects newsletter tests with no test-name mapping', () => {
-        expect(
-            matchNewsletterTargeting({ name: 'NEWSLETTER_UNMAPPED' }, [
-                { listId: 6069 },
-            ]),
-        ).toBe(false);
+        expect(matchNewsletterTargeting({ name: 'NEWSLETTER_UNMAPPED' }, [{ listId: 6069 }])).toBe(
+            false,
+        );
     });
 });
