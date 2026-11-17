@@ -56,6 +56,9 @@ export const getPromotedNewsletterForTest = (testName: string, newsletters: News
         frequency: newsletter.frequency,
         signUpDescription: newsletter.signUpDescription,
         illustrationCard: newsletter.illustrationCard,
-        illustrationSquare: newsletter.illustrationSquare,
+        illustrationSquare:
+            testName === 'NEWSLETTER_STAKES'
+                ? 'https://uploads.guim.co.uk/2026/10/30/The_Stakes_image_Mobile.png'
+                : newsletter.illustrationSquare,
     };
 };
