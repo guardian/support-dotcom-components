@@ -21,6 +21,13 @@ const testDefault: Inline1Test = {
         excludedSectionIds: [],
     },
     variants: [variantDefault],
+    alwaysAsk: false,
+    maxViews: {
+        maxViewsCount: 4,
+        maxViewsDays: 30,
+        minDaysBetweenViews: 0,
+    },
+    useLocalViewLog: false,
 };
 
 const newsletterVariant: Inline1Variant = {
@@ -447,13 +454,12 @@ describe('withinMaxViews check', () => {
         },
         {
             date: new Date('2026-11-09T16:45:00').valueOf(),
-            testId: 'inline1-example',
+            testId: 'another-test',
         },
     ];
     const now = new Date('2026-11-13T10:10:00');
     const targeting = { ...targetingDefault, viewLog: exampleViewLog };
 
-    // maxViews currently set to a default of 4 within a month
     it('should return null when the views are above the limit', async () => {
         const got = await selectBestTest(
             targeting,
@@ -467,8 +473,46 @@ describe('withinMaxViews check', () => {
         expect(got).toBeNull();
     });
 
+    it('should return the test if localViewLog is true and views are below the limit', async () => {
+        const test = { ...testDefault, useLocalViewLog: true };
+
+        const got = await selectBestTest(
+            targeting,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+            [],
+            now,
+        );
+
+        expect(got?.test).toBe(test);
+    });
+
+    it('should return the test if alwaysAsk is true', async () => {
+        const test = { ...testDefault, alwaysAsk: true };
+
+        const got = await selectBestTest(
+            targeting,
+            [test],
+            userDeviceType,
+            getMParticleProfile,
+            [],
+            now,
+        );
+
+        expect(got?.test).toBe(test);
+    });
+
     it('should return the test if the views are below the limit', async () => {
-        const test = { ...testDefault, name: 'a-different-test' };
+        const test = {
+            ...testDefault,
+            maxViews: {
+                maxViewsCount: 6,
+                maxViewsDays: 30,
+                minDaysBetweenViews: 0,
+            },
+        };
+
         const got = await selectBestTest(
             targeting,
             [test],
