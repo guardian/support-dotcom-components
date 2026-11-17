@@ -54,7 +54,6 @@ export const getInline1BidPrice = (
     }
 
     const region = countryGroups[countryCodeToCountryGroupId(countryCode)].supportRegionId;
-
     const bidDeviceType = deviceType === 'Desktop' ? 'Desktop' : 'Mobile';
     const bidLevel = bidScore === 1 ? 'high' : 'low';
     return inline1BidPrices[region][bidDeviceType][bidLevel];
