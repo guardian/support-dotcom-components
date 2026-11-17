@@ -10,6 +10,7 @@ import type {
 import type { ChannelSwitches } from '../channelSwitches';
 import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import { getDeviceType } from '../lib/deviceType';
+import { getInline1BidPrice } from '../lib/inline1BidPrices';
 import { getInline1Variant } from '../lib/inline1Newsletter';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
 import type { NewsletterData } from '../lib/newsletters';
@@ -86,14 +87,20 @@ export const buildInline1Router = (
             countryCode: targeting.countryCode,
         };
 
+        const finalBidPrice = getInline1BidPrice(
+            inline1Variant.bidScore,
+            targeting.countryCode,
+            getDeviceType(req),
+        );
+
         return {
             data: {
                 module: {
-                    name: variant.name,
+                    name: inline1Variant.name,
                     props: inline1Props,
                 },
                 meta: testTracking,
-                bid: '0.01',
+                bid: finalBidPrice.toFixed(2),
             },
         };
     };

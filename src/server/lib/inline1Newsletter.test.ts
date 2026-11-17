@@ -12,6 +12,7 @@ jest.mock('../utils/logging', () => ({
 describe('getInline1Variant', () => {
     const variant: Inline1Variant = {
         name: 'newsletter',
+        bidScore: 1,
         message: {
             type: 'Inline1NewsletterMessage',
             newsletterId: 'the-stakes',
@@ -152,9 +153,29 @@ describe('getInline1Variant', () => {
             primaryCta: { text: 'Support', baseUrl: 'https://support.theguardian.com' },
         },
     ])('leaves non-newsletter variants unchanged: %j', (message) => {
-        const otherVariant = { name: 'control', message };
+        const otherVariant = { name: 'control', message, bidScore: 0 as const };
 
         expect(getInline1Variant(otherVariant, [newsletter])).toBe(otherVariant);
         expect(logError).not.toHaveBeenCalled();
+    });
+});
+
+describe('inline1VariantSchema', () => {
+    const variant: Inline1Variant = {
+        name: 'control',
+        message: { type: 'Inline1PuzzlesMessage' },
+    };
+
+    it('accepts a variant without a bidScore', () => {
+        expect(inline1VariantSchema.parse(variant)).toEqual(variant);
+    });
+
+    it.each([0, 0.5, 1])('preserves a bidScore of %s', (bidScore) => {
+        const input = { ...variant, bidScore };
+        expect(inline1VariantSchema.parse(input)).toEqual(input);
+    });
+
+    it.each([-1, '1', null])('rejects invalid bidScore %s', (bidScore) => {
+        expect(inline1VariantSchema.safeParse({ ...variant, bidScore }).success).toBe(false);
     });
 });
