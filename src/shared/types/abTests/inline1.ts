@@ -1,6 +1,8 @@
 import type { z } from 'zod';
 import { targetedRegionsSchema } from '../../lib';
+import type { Inline1Message } from '../props';
 import { inline1VariantSchema } from '../props';
+import type { Variant } from './shared';
 import {
     articlesViewedSettingsSchema,
     pageContextTargetingSchema,
@@ -17,7 +19,10 @@ export const inline1TestFromToolSchema = testSchema.extend({
 });
 export type Inline1TestFromTool = z.infer<typeof inline1TestFromToolSchema>;
 
-export type Inline1Variant = z.infer<typeof inline1VariantSchema>;
+export interface Inline1Variant extends Variant {
+    message: Inline1Message;
+    bidScore?: number;
+}
 
 export interface Inline1Test extends Inline1TestFromTool {
     variants: Inline1Variant[];

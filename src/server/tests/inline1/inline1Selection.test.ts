@@ -3,7 +3,7 @@ import { selectBestTest } from './inline1Selection';
 
 const variantDefault: Inline1Variant = {
     name: 'control',
-    bidPrice: 0,
+    bidScore: 0,
     message: {
         type: 'Inline1PuzzlesMessage',
     },
@@ -26,7 +26,7 @@ const testDefault: Inline1Test = {
 
 const newsletterVariant: Inline1Variant = {
     name: 'newsletter',
-    bidPrice: 1,
+    bidScore: 1,
     message: {
         type: 'Inline1NewsletterMessage',
         newsletterId: 'example-newsletter',
@@ -275,7 +275,7 @@ describe('selectBestTest', () => {
         const targeting = { ...targetingDefault, hasNewsletterSignup: true };
         const variant: Inline1Variant = {
             name: 'support',
-            bidPrice: 1,
+            bidScore: 1,
             message: {
                 type: 'Inline1SupportMessage',
                 heading: 'Support the Guardian',

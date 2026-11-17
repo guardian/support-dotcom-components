@@ -46,10 +46,12 @@ export const inline1MessageSchema = z.discriminatedUnion('type', [
     inline1NewsletterMessageSchema,
 ]);
 
+export type Inline1Message = z.infer<typeof inline1MessageSchema>;
+
 export const inline1VariantSchema = z.object({
     name: z.string(),
     message: inline1MessageSchema,
-    bidPrice: z.number().nonnegative().default(0),
+    bidScore: z.number().nonnegative().optional(),
 });
 
 export const inline1PropsSchema = z.object({
