@@ -53,12 +53,31 @@ export const configurableDesignSchema = z.object({
             altText: z.string(),
         })
         .nullish(),
+    tabletImageAsBackground: z.boolean().optional(),
     colours: z.object({
         basic: z.object({
             background: hexColourSchema,
             bodyText: hexColourSchema,
             // TODO - more colours
         }),
+        newsletterBanner: z
+            .object({
+                divider: hexColourSchema.optional(),
+                actionColor: hexColourSchema.optional(),
+                frequencyIconColor: hexColourSchema.optional(),
+                emailInputTextColor: hexColourSchema.optional(),
+                emailInputBackgroundColor: hexColourSchema.optional(),
+                emailInputBorderColor: hexColourSchema.optional(),
+                signupButtonBackgroundColor: hexColourSchema.optional(),
+                signupButtonTextColor: hexColourSchema.optional(),
+                errorColor: hexColourSchema.optional(),
+                privacyTextColor: hexColourSchema.optional(),
+                borderColor: hexColourSchema.optional(),
+                toggleActiveColor: hexColourSchema.optional(),
+                successIconColor: hexColourSchema.optional(),
+                browseButtonColor: hexColourSchema.optional(),
+            })
+            .optional(),
     }),
 });
 
@@ -129,6 +148,7 @@ interface Font {
 export interface ConfigurableDesign {
     visual?: Visual;
     headerImage?: BannerDesignHeaderImage;
+    tabletImageAsBackground?: boolean;
     fonts?: {
         heading: Font;
     };
@@ -139,6 +159,22 @@ export interface ConfigurableDesign {
             headerText: HexColour;
             articleCountText: HexColour;
             logo: HexColour;
+        };
+        newsletterBanner?: {
+            divider?: HexColour;
+            actionColor?: HexColour;
+            frequencyIconColor?: HexColour;
+            emailInputTextColor?: HexColour;
+            emailInputBackgroundColor?: HexColour;
+            emailInputBorderColor?: HexColour;
+            signupButtonBackgroundColor?: HexColour;
+            signupButtonTextColor?: HexColour;
+            errorColor?: HexColour;
+            privacyTextColor?: HexColour;
+            borderColor?: HexColour;
+            toggleActiveColor?: HexColour;
+            successIconColor?: HexColour;
+            browseButtonColor?: HexColour;
         };
         highlightedText: {
             text: HexColour;
