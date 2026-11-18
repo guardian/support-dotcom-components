@@ -35,7 +35,11 @@ describe('buildNewslettersReloader', () => {
         const reloaderPromise = buildNewslettersReloader();
 
         expect(reloaderPromise).toBeInstanceOf(Promise);
-        expect(jest.mocked(ValueReloader)).toHaveBeenCalledWith(new Map(), fetchNewsletters, 5 * 60);
+        expect(jest.mocked(ValueReloader)).toHaveBeenCalledWith(
+            new Map(),
+            fetchNewsletters,
+            5 * 60,
+        );
         await reloaderPromise;
     });
 });
