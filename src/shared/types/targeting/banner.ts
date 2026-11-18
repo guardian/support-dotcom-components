@@ -11,7 +11,6 @@ export type BannerTargeting = {
     mvtId: number;
     auxiaRolloutMvtId?: number;
     countryCode: string;
-    userSubscriptions?: number[];
     weeklyArticleHistory?: WeeklyArticleHistory;
     articleCountToday?: number;
     hasOptedOutOfArticleCount: boolean;

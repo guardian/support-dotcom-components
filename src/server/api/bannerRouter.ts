@@ -202,7 +202,7 @@ export const buildBannerRouter = (
             const responseProps = test.name.startsWith('NEWSLETTER_')
                 ? {
                       ...props,
-                      ...newsletterBannerOverrides,
+                      ...newsletterBannerOverrides(test.name),
                       promotedNewsletter: getPromotedNewsletterForTest(test.name, newsletterData),
                   }
                 : props;
