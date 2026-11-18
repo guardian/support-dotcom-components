@@ -36,6 +36,7 @@ export const fetchNewsletters = async (): Promise<NewslettersByIdentityName> => 
 };
 
 export const buildNewslettersReloader = (): Promise<ValueReloader<NewslettersByIdentityName>> =>
+    // Initialise with an empty Map. This means an outage of the newsletters API does not stop SDC from starting, but newsletters messaging will not work
     Promise.resolve(new ValueReloader(new Map(), fetchNewsletters, 5 * 60));
 
 export const getNewsletterForTestName = (
