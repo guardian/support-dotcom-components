@@ -7,8 +7,8 @@ jest.mock('../utils/valueReloader', () => ({
 }));
 
 describe('matchNewsletterTargeting', () => {
-    const stakes = { listId: 6069 } as NewsletterData;
-    const naza = { listId: 4149 } as NewsletterData;
+    const stakes = { identityName: 'the-stakes-2026', listId: 6069 } as NewsletterData;
+    const naza = { identityName: 'documentaries', listId: 4149 } as NewsletterData;
     const stakesOnly: NewslettersByIdentityName = new Map([['the-stakes-2026', stakes]]);
     const targeting = (
         values: Partial<

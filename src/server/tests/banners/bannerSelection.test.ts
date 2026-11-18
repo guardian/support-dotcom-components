@@ -177,7 +177,9 @@ describe('selectBannerTest', () => {
                 now,
                 forcedTestVariant: undefined,
                 checkAuxiaSuppression,
-                newsletters: new Map([['the-stakes-2026', { listId: 6069 } as NewsletterData]]),
+                newsletters: new Map([
+                    ['the-stakes-2026', { identityName: 'the-stakes-2026' } as NewsletterData],
+                ]),
             });
 
             expect(result?.moduleName).toBe('NewsletterBanner');
