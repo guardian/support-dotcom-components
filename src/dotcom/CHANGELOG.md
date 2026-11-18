@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 12.2.0
+
+### Minor Changes
+
+- 3f63c48: Update newsletter banner color schema to support optional colors and remove userSubscriptions property from bannerTargeting type
+
 ## 12.1.0
 
 ### Minor Changes
