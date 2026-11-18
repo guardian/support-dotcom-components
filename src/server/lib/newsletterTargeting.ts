@@ -1,11 +1,11 @@
 import type { BannerTargeting, BannerTest } from '../../shared/types';
-import type { NewsletterData } from './newsletters';
+import type { NewslettersByIdentityName } from './newsletters';
 import { getNewsletterForTestName } from './newsletters';
 
 export const matchNewsletterTargeting = (
     test: Pick<BannerTest, 'name'>,
     targeting: Pick<BannerTargeting, 'countryCode' | 'isSignedIn' | 'userSubscriptions'>,
-    newsletters: Array<Pick<NewsletterData, 'listId'>> = [],
+    newsletters: NewslettersByIdentityName,
 ): boolean => {
     if (!test.name.startsWith('NEWSLETTER_')) {
         return true;

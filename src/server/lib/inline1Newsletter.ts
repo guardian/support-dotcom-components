@@ -1,19 +1,17 @@
 import type { Inline1Variant } from '../../shared/types';
 import { logError } from '../utils/logging';
-import type { NewsletterData } from './newsletters';
+import type { NewslettersByIdentityName } from './newsletters';
 
 export const getInline1Variant = (
     variant: Inline1Variant,
-    newsletters: NewsletterData[],
+    newsletters: NewslettersByIdentityName,
 ): Inline1Variant | null => {
     const { message } = variant;
     if (message.type !== 'Inline1NewsletterMessage') {
         return variant;
     }
 
-    const newsletter = newsletters.find(
-        ({ identityName }) => identityName === message.newsletterId,
-    );
+    const newsletter = newsletters.get(message.newsletterId);
     if (!newsletter) {
         logError(`No cached newsletter found for Inline1 newsletterId: ${message.newsletterId}`);
         return null;

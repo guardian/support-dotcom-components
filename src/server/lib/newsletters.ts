@@ -8,14 +8,16 @@ export type NewsletterData = NewsletterApiData & {
     illustrationSquare?: string | null;
 };
 
+export type NewslettersByIdentityName = Map<string, NewsletterData>;
+
 const newsletterApiUrl = 'https://newsletters.guardianapis.com/api/newsletters';
 
-const newsletterListIdsByTestName = new Map<string, number>([
-    ['NEWSLETTER_STAKES', 6069],
-    ['NEWSLETTER_NAZA', 4149],
+const newsletterIdentityNameByTestName = new Map<string, string>([
+    ['NEWSLETTER_STAKES', 'the-stakes-2026'],
+    ['NEWSLETTER_NAZA', 'documentaries'],
 ]);
 
-export const fetchNewsletters = async (): Promise<NewsletterData[]> => {
+export const fetchNewsletters = async (): Promise<NewslettersByIdentityName> => {
     const response = await fetch(newsletterApiUrl);
     if (!response.ok) {
         throw new Error(`Failed to fetch newsletters: ${response.status}`);
@@ -25,24 +27,32 @@ export const fetchNewsletters = async (): Promise<NewsletterData[]> => {
     if (!newslettersResponse.ok) {
         throw new Error(newslettersResponse.message ?? 'Newsletter API returned an error');
     }
-    return newslettersResponse.data;
+
+    const newsletters: NewslettersByIdentityName = new Map();
+    newslettersResponse.data.forEach((newsletter) => {
+        newsletters.set(newsletter.identityName, newsletter);
+    });
+    return newsletters;
 };
 
-export const buildNewslettersReloader = (): Promise<ValueReloader<NewsletterData[]>> =>
-    Promise.resolve(new ValueReloader([], fetchNewsletters, 5 * 60));
+export const buildNewslettersReloader = (): Promise<ValueReloader<NewslettersByIdentityName>> =>
+    Promise.resolve(new ValueReloader(new Map(), fetchNewsletters, 5 * 60));
 
-export const getNewsletterForTestName = <T extends Pick<NewsletterData, 'listId'>>(
+export const getNewsletterForTestName = (
     testName: string,
-    newsletters: T[],
-): T | undefined => {
-    const listId = newsletterListIdsByTestName.get(testName);
+    newsletters: NewslettersByIdentityName,
+): NewsletterData | undefined => {
+    const identityName = newsletterIdentityNameByTestName.get(testName);
 
-    return listId === undefined
-        ? undefined
-        : newsletters.find((newsletter) => newsletter.listId === listId);
+    if (identityName) {
+        return newsletters.get(identityName);
+    }
 };
 
-export const getPromotedNewsletterForTest = (testName: string, newsletters: NewsletterData[]) => {
+export const getPromotedNewsletterForTest = (
+    testName: string,
+    newsletters: NewslettersByIdentityName,
+) => {
     const newsletter = getNewsletterForTestName(testName, newsletters);
     if (!newsletter) {
         return undefined;

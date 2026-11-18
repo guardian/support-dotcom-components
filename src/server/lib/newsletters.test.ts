@@ -1,5 +1,5 @@
 import { ValueReloader } from '../utils/valueReloader';
-import type { NewsletterData } from './newsletters';
+import type { NewsletterData, NewslettersByIdentityName } from './newsletters';
 import {
     buildNewslettersReloader,
     fetchNewsletters,
@@ -12,13 +12,16 @@ jest.mock('../utils/valueReloader', () => ({
 }));
 
 describe('getNewsletterForTestName', () => {
-    const newsletters: Array<Pick<NewsletterData, 'listId'>> = [{ listId: 6069 }, { listId: 4149 }];
+    const newsletters: NewslettersByIdentityName = new Map([
+        ['the-stakes-2026', { identityName: 'the-stakes-2026' } as NewsletterData],
+        ['documentaries', { identityName: 'documentaries' } as NewsletterData],
+    ]);
 
     it.each([
-        ['NEWSLETTER_STAKES', 6069],
-        ['NEWSLETTER_NAZA', 4149],
-    ])('selects newsletter list ID %s for the configured test name', (testName, listId) => {
-        expect(getNewsletterForTestName(testName, newsletters)?.listId).toBe(listId);
+        ['NEWSLETTER_STAKES', 'the-stakes-2026'],
+        ['NEWSLETTER_NAZA', 'documentaries'],
+    ])('selects newsletter list ID %s for the configured test name', (testName, identityName) => {
+        expect(getNewsletterForTestName(testName, newsletters)?.identityName).toBe(identityName);
     });
 
     it('returns no newsletter for an unconfigured test', () => {
@@ -38,10 +41,22 @@ describe('buildNewslettersReloader', () => {
 });
 
 describe('getPromotedNewsletterForTest', () => {
-    const newsletters = [
-        { listId: 6069, illustrationSquare: 'https://example.com/original-stakes.png' },
-        { listId: 4149, illustrationSquare: 'https://example.com/original-naza.png' },
-    ] as NewsletterData[];
+    const newsletters: NewslettersByIdentityName = new Map([
+        [
+            'the-stakes-2026',
+            {
+                identityName: 'the-stakes-2026',
+                illustrationSquare: 'https://example.com/original-stakes.png',
+            } as NewsletterData,
+        ],
+        [
+            'documentaries',
+            {
+                identityName: 'documentaries',
+                illustrationSquare: 'https://example.com/original-naza.png',
+            } as NewsletterData,
+        ],
+    ]);
 
     it('uses the configured square illustration for NEWSLETTER_STAKES', () => {
         expect(

@@ -1,4 +1,5 @@
 import type { BannerTargeting } from '../../shared/types';
+import type { NewsletterData, NewslettersByIdentityName } from './newsletters';
 import { matchNewsletterTargeting } from './newsletterTargeting';
 
 jest.mock('../utils/valueReloader', () => ({
@@ -6,6 +7,9 @@ jest.mock('../utils/valueReloader', () => ({
 }));
 
 describe('matchNewsletterTargeting', () => {
+    const stakes = { listId: 6069 } as NewsletterData;
+    const naza = { listId: 4149 } as NewsletterData;
+    const stakesOnly: NewslettersByIdentityName = new Map([['the-stakes-2026', stakes]]);
     const targeting = (
         values: Partial<
             Pick<BannerTargeting, 'countryCode' | 'isSignedIn' | 'userSubscriptions'>
@@ -15,19 +19,24 @@ describe('matchNewsletterTargeting', () => {
     it('matches non-newsletter tests regardless of targeting', () => {
         const test = { name: 'banner-test' };
 
-        expect(matchNewsletterTargeting(test, targeting({ countryCode: 'GB' }))).toBe(true);
+        expect(matchNewsletterTargeting(test, targeting({ countryCode: 'GB' }), new Map())).toBe(
+            true,
+        );
     });
 
     it('rejects newsletter tests outside the US', () => {
         const test = { name: 'NEWSLETTER_STAKES' };
 
-        expect(
-            matchNewsletterTargeting(test, targeting({ countryCode: 'GB' }), [{ listId: 6069 }]),
-        ).toBe(false);
+        expect(matchNewsletterTargeting(test, targeting({ countryCode: 'GB' }), stakesOnly)).toBe(
+            false,
+        );
     });
 
     it('rejects a signed-in user subscribed to the newsletter for that test', () => {
-        const newsletters = [{ listId: 6069 }, { listId: 4149 }];
+        const newsletters: NewslettersByIdentityName = new Map([
+            ['the-stakes-2026', stakes],
+            ['documentaries', naza],
+        ]);
 
         expect(
             matchNewsletterTargeting(
@@ -50,22 +59,20 @@ describe('matchNewsletterTargeting', () => {
             matchNewsletterTargeting(
                 { name: 'NEWSLETTER_STAKES' },
                 targeting({ isSignedIn: true, userSubscriptions: [] }),
-                [{ listId: 6069 }],
+                stakesOnly,
             ),
         ).toBe(true);
     });
 
     it('suppresses newsletter tests until their newsletter data is available', () => {
-        expect(matchNewsletterTargeting({ name: 'NEWSLETTER_STAKES' }, targeting(), [])).toBe(
-            false,
-        );
+        expect(
+            matchNewsletterTargeting({ name: 'NEWSLETTER_STAKES' }, targeting(), new Map()),
+        ).toBe(false);
     });
 
     it('rejects newsletter tests with no test-name mapping', () => {
         expect(
-            matchNewsletterTargeting({ name: 'NEWSLETTER_UNMAPPED' }, targeting(), [
-                { listId: 6069 },
-            ]),
+            matchNewsletterTargeting({ name: 'NEWSLETTER_UNMAPPED' }, targeting(), stakesOnly),
         ).toBe(false);
     });
 });
