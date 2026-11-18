@@ -381,7 +381,7 @@ export const selectBannerTest = async ({
 
         if (
             test.status === 'Live' &&
-            matchNewsletterTargeting(test, targeting, newsletters) &&
+            matchNewsletterTargeting(test, newsletters) &&
             !shouldSkipTwoStepBannerTest(test, targeting, userDeviceType) &&
             (!test.canRun || test.canRun(targeting)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
