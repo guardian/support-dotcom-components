@@ -134,6 +134,14 @@ export interface ArticlesViewedSettings {
     tagIds?: string[];
 }
 
+export const maxViewsSchema = z.object({
+    maxViewsCount: z.number(),
+    maxViewsDays: z.number(),
+    minDaysBetweenViews: z.number(),
+});
+
+export type MaxViews = z.infer<typeof maxViewsSchema>;
+
 /**
  * Targeting tests are for experimenting with targeting rules.
  * It is not a message test and should not affect what the user sees once they're in a test.

@@ -4,20 +4,13 @@ import { variantSchema } from '../props';
 import type { EpicTargeting } from '../targeting';
 import {
     articlesViewedSettingsSchema,
+    maxViewsSchema,
     testSchema,
     testStatusSchema,
     userCohortSchema,
 } from './shared';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
-
-export const maxViewsSchema = z.object({
-    maxViewsCount: z.number(),
-    maxViewsDays: z.number(),
-    minDaysBetweenViews: z.number(),
-});
-
-export type MaxViews = z.infer<typeof maxViewsSchema>;
 
 // for validation from DynamoDB
 export type EpicTestFromTool = z.infer<typeof epicTestFromToolSchema>;

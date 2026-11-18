@@ -46,7 +46,13 @@ const withinMaxViews = (
         minDaysBetweenViews: 0,
     };
 
-    return !shouldThrottle(log, defaultMaxViews, test.name, now);
+    if (test.alwaysAsk) {
+        return true;
+    }
+
+    const testId = test.useLocalViewLog ? test.name : undefined;
+
+    return !shouldThrottle(log, test.maxViews ?? defaultMaxViews, testId, now);
 };
 
 export const selectBestTest = async (

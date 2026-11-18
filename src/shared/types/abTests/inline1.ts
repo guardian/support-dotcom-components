@@ -1,8 +1,9 @@
-import type { z } from 'zod';
+import { z } from 'zod';
 import { targetedRegionsSchema } from '../../lib';
 import { inline1VariantSchema } from '../props';
 import {
     articlesViewedSettingsSchema,
+    maxViewsSchema,
     pageContextTargetingSchema,
     testSchema,
     userCohortSchema,
@@ -14,6 +15,9 @@ export const inline1TestFromToolSchema = testSchema.extend({
     articlesViewedSettings: articlesViewedSettingsSchema.optional(),
     contextTargeting: pageContextTargetingSchema,
     variants: inline1VariantSchema.array(),
+    alwaysAsk: z.boolean(),
+    maxViews: maxViewsSchema.optional(),
+    useLocalViewLog: z.boolean(),
 });
 export type Inline1TestFromTool = z.infer<typeof inline1TestFromToolSchema>;
 
