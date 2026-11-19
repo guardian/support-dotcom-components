@@ -22,8 +22,8 @@ import type { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCounts } from '../lib/history';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
 import { substituteMParticleTemplateInBannerVariant } from '../lib/mParticleTemplates';
+import type { NewslettersByIdentityName } from '../lib/newsletters';
 import { getPromotedNewsletterForTest } from '../lib/newsletters';
-import type { NewsletterData } from '../lib/newsletters';
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
@@ -66,7 +66,7 @@ export const buildBannerRouter = (
     channelExclusions: ValueProvider<ExclusionSettings>,
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
     defaultChoiceCardSettings: ValueProvider<DefaultChoiceCardSettings>,
-    newsletters: ValueProvider<NewsletterData[]>,
+    newsletters: ValueProvider<NewslettersByIdentityName>,
 ): Router => {
     const router = Router();
 

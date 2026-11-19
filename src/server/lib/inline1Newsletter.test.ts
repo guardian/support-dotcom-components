@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import type { Inline1Variant } from '../../shared/types';
-import { inline1VariantSchema } from '../../shared/types/props/inline1';
+import { inline1VariantSchema } from '../../shared/types';
 import { logError } from '../utils/logging';
 import { getInline1Variant } from './inline1Newsletter';
-import type { NewsletterData } from './newsletters';
+import type { NewsletterData, NewslettersByIdentityName } from './newsletters';
 
 jest.mock('../utils/logging', () => ({
     logError: jest.fn(),
@@ -44,15 +44,18 @@ describe('getInline1Variant', () => {
         illustrationCard: 'https://example.com/stakes-card.png',
     };
 
+    const toMap = (...items: NewsletterData[]): NewslettersByIdentityName =>
+        new Map(items.map((item) => [item.identityName, item]));
+
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     it('matches identityName to the RRCP newsletterId and maps API metadata to message props', () => {
-        const result = getInline1Variant(variant, [
-            { ...newsletter, identityName: 'another-newsletter', listId: 4149 },
-            newsletter,
-        ]);
+        const result = getInline1Variant(
+            variant,
+            toMap({ ...newsletter, identityName: 'another-newsletter', listId: 4149 }, newsletter),
+        );
 
         expect(result).toEqual({
             ...variant,
@@ -70,17 +73,18 @@ describe('getInline1Variant', () => {
     });
 
     it('uses the latest cache values rather than previously configured metadata', () => {
-        const enriched = getInline1Variant(variant, [newsletter]);
+        const enriched = getInline1Variant(variant, toMap(newsletter));
         assert(enriched);
-        const result = getInline1Variant(enriched, [
-            {
+        const result = getInline1Variant(
+            enriched,
+            toMap({
                 ...newsletter,
                 name: 'Updated name',
                 listId: 123,
                 frequency: 'Daily',
                 illustrationSquare: 'https://example.com/new.png',
-            },
-        ]);
+            }),
+        );
 
         expect(result?.message).toMatchObject({
             newsletterName: 'Updated name',
@@ -93,12 +97,12 @@ describe('getInline1Variant', () => {
     it.each([undefined, null])(
         'uses the card illustration when the square image is %s',
         (image) => {
-            const enriched = getInline1Variant(variant, [newsletter]);
+            const enriched = getInline1Variant(variant, toMap(newsletter));
             assert(enriched);
 
             for (const input of [variant, enriched]) {
                 expect(
-                    getInline1Variant(input, [{ ...newsletter, illustrationSquare: image }])
+                    getInline1Variant(input, toMap({ ...newsletter, illustrationSquare: image }))
                         ?.message,
                 ).toMatchObject({ imageUrl: newsletter.illustrationCard });
             }
@@ -108,11 +112,12 @@ describe('getInline1Variant', () => {
     it.each([undefined, null])(
         'clears a previous message image when both API images are absent and the square image is %s',
         (image) => {
-            const enriched = getInline1Variant(variant, [newsletter]);
+            const enriched = getInline1Variant(variant, toMap(newsletter));
             assert(enriched);
-            const result = getInline1Variant(enriched, [
-                { ...newsletter, illustrationSquare: image, illustrationCard: undefined },
-            ]);
+            const result = getInline1Variant(
+                enriched,
+                toMap({ ...newsletter, illustrationSquare: image, illustrationCard: undefined }),
+            );
 
             expect(result?.message).toMatchObject({
                 newsletterListId: 6069,
@@ -123,19 +128,20 @@ describe('getInline1Variant', () => {
     );
 
     it('leaves the image unset when both API illustrations are absent', () => {
-        const result = getInline1Variant(variant, [
-            { ...newsletter, illustrationSquare: undefined, illustrationCard: undefined },
-        ]);
+        const result = getInline1Variant(
+            variant,
+            toMap({ ...newsletter, illustrationSquare: undefined, illustrationCard: undefined }),
+        );
 
         expect(result?.message).toMatchObject({ newsletterListId: 6069, imageUrl: undefined });
         expect(inline1VariantSchema.safeParse(result).success).toBe(true);
     });
 
     it.each([
-        { newsletters: [] },
-        { newsletters: [{ ...newsletter, identityName: 'another-newsletter' }] },
+        { newsletters: toMap() },
+        { newsletters: toMap({ ...newsletter, identityName: 'another-newsletter' }) },
     ])(
-        'returns null and logs an error when no matching newsletter is cached: %j',
+        'returns null and logs an error when no matching newsletter is cached: case %#',
         ({ newsletters }) => {
             expect(getInline1Variant(variant, newsletters)).toBeNull();
             expect(logError).toHaveBeenCalledWith(
@@ -155,7 +161,7 @@ describe('getInline1Variant', () => {
     ])('leaves non-newsletter variants unchanged: %j', (message) => {
         const otherVariant = { name: 'control', message, bidScore: 0 as const };
 
-        expect(getInline1Variant(otherVariant, [newsletter])).toBe(otherVariant);
+        expect(getInline1Variant(otherVariant, toMap(newsletter))).toBe(otherVariant);
         expect(logError).not.toHaveBeenCalled();
     });
 });

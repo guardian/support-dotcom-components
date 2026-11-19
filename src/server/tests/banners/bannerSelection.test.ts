@@ -2,6 +2,7 @@ import type { BannerTargeting, BannerTest } from '../../../shared/types';
 import { SecondaryCtaType } from '../../../shared/types';
 import type { ChannelSwitches } from '../../channelSwitches';
 import { Auxia, isInAuxiaBannerRollout } from '../../lib/auxia';
+import type { NewsletterData } from '../../lib/newsletters';
 import type { BanditData } from '../../selection/banditData';
 import { defaultDeploySchedule } from './bannerDeploySchedule';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
@@ -176,7 +177,9 @@ describe('selectBannerTest', () => {
                 now,
                 forcedTestVariant: undefined,
                 checkAuxiaSuppression,
-                newsletters: [{ listId: 6069 }],
+                newsletters: new Map([
+                    ['the-stakes-2026', { identityName: 'the-stakes-2026' } as NewsletterData],
+                ]),
             });
 
             expect(result?.moduleName).toBe('NewsletterBanner');
@@ -199,7 +202,7 @@ describe('selectBannerTest', () => {
                 now,
                 forcedTestVariant: undefined,
                 checkAuxiaSuppression,
-                newsletters: [],
+                newsletters: new Map(),
             });
 
             expect(result?.test.name).toBe('test');

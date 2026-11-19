@@ -13,7 +13,7 @@ import { getDeviceType } from '../lib/deviceType';
 import { getInline1BidPrice } from '../lib/inline1BidPrices';
 import { getInline1Variant } from '../lib/inline1Newsletter';
 import type { MParticle, MParticleProfile } from '../lib/mParticle';
-import type { NewsletterData } from '../lib/newsletters';
+import type { NewslettersByIdentityName } from '../lib/newsletters';
 import type { Okta } from '../lib/okta';
 import { getQueryParams } from '../lib/params';
 import { pageIdIsExcluded } from '../lib/targeting';
@@ -37,7 +37,7 @@ export const buildInline1Router = (
     mParticle: MParticle,
     okta: Okta,
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
-    newsletters: ValueProvider<NewsletterData[]>,
+    newsletters: ValueProvider<NewslettersByIdentityName>,
 ): Router => {
     const router = Router();
 

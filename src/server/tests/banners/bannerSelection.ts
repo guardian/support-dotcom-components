@@ -19,7 +19,7 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { matchesHoldbackRequirement } from '../../lib/holdbackTargeting';
 import type { MParticleProfile } from '../../lib/mParticle';
 import { matchesMParticleTemplates } from '../../lib/mParticleTemplates';
-import type { NewsletterData } from '../../lib/newsletters';
+import type { NewslettersByIdentityName } from '../../lib/newsletters';
 import { matchNewsletterTargeting } from '../../lib/newsletterTargeting';
 import type { TestVariant } from '../../lib/params';
 import {
@@ -332,7 +332,7 @@ interface SelectBannerTestData {
     ) => Promise<boolean>;
     inAuxiaRollout?: boolean;
     contributionsOnlyCountries?: string[];
-    newsletters?: Array<Pick<NewsletterData, 'listId'>>;
+    newsletters?: NewslettersByIdentityName;
 }
 
 export const selectBannerTest = async ({
@@ -350,7 +350,7 @@ export const selectBannerTest = async ({
     checkAuxiaSuppression,
     inAuxiaRollout = false,
     contributionsOnlyCountries = [],
-    newsletters = [],
+    newsletters = new Map(),
 }: SelectBannerTestData): Promise<BannerTestSelection | null> => {
     if (isTaylorReportPage(targeting)) {
         return null;
