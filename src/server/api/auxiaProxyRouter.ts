@@ -93,6 +93,7 @@ export const buildAuxiaProxyRouter = (
                     const data = userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(envelop);
                     res.locals.auxiaTreatmentId = data?.userTreatment?.treatmentId;
                     res.locals.auxiaTreatmentTrackingId = data?.userTreatment?.treatmentTrackingId;
+                    res.locals.signInGateType = gateType;
                     res.send({ status: true, data: data });
                 } else {
                     res.send({ status: false });
