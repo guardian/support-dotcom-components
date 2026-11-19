@@ -15,6 +15,7 @@ type LoggingLocals = {
     mParticleProfileStatus?: string;
     mParticleProfileSource?: string;
     auxiaBannerSuppressionStatus?: string;
+    signInGateType?: string;
 };
 
 export const logging = (
@@ -47,6 +48,7 @@ export const logging = (
             mParticleProfileStatus: res.locals.mParticleProfileStatus,
             mParticleProfileSource: res.locals.mParticleProfileSource,
             auxiaBannerSuppressionStatus: res.locals.auxiaBannerSuppressionStatus,
+            signInGateType: res.locals.signInGateType,
         });
     });
     next();

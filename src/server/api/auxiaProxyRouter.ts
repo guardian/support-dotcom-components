@@ -88,6 +88,7 @@ export const buildAuxiaProxyRouter = (
                     // absent switch means the Gandalf journey is off.
                     enableGandalfSignInGate ?? false,
                 );
+                res.locals.signInGateType = gateType;
                 const envelop = await gateTypeToUserTreatmentsEnvelop(config, gateType, payload);
                 if (envelop !== undefined) {
                     const data = userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(envelop);
