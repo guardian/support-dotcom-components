@@ -235,7 +235,7 @@ export const gandalfPageMetadataIsEligibleForGateDisplay = (
         gandalfIsValidContentType(contentType) &&
         isValidSection(sectionId) &&
         isValidTagIds(tagIds) &&
-        !tagIds.includes('naza/film')
+        !tagIds.includes('film/naza')
     );
 };
 

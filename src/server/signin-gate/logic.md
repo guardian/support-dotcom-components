@@ -170,7 +170,7 @@ ImageContent (CAPI Picture pages) and Video. Interactive pages are excluded
 from Gandalf.
 
 Excluded pages (legal/customer-service pages, The Filter, newsletter sign-up
-tags including `naza/film`, tips, the secure-contact page, privacy,
+tags including `film/naza`, tips, the secure-contact page, privacy,
 complaints-and-corrections and the-whole-picture) never display the gate.
 
 The trigger is the standard `dailyArticleCount` payload field: the number of

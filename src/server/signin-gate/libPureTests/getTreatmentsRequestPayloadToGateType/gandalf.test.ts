@@ -284,10 +284,10 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(gateType).toBe('None');
         });
 
-        it('excludes the naza/film tag for Gandalf only', () => {
-            expect(isValidTagIds(['naza/film'])).toBe(true);
+        it('excludes the film/naza tag for Gandalf only', () => {
+            expect(isValidTagIds(['film/naza'])).toBe(true);
             const gateType = getTreatmentsRequestPayloadToGateType(
-                buildPayload({ tagIds: ['naza/film'] }),
+                buildPayload({ tagIds: ['film/naza'] }),
                 now,
                 true,
                 true,
