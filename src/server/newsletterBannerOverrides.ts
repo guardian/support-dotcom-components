@@ -89,7 +89,7 @@ const NazaNewsletterDesign: NewsletterBannerDesign = {
     tabletImageAsBackground: true,
     headerImage: {
         mobileUrl:
-            'https://i.guim.co.uk/img/media/3e54a72ccdf78508b8af96645b1ddbeb3907ffad/0_0_360_360/360.png?width=90&quality=100&s=4eb720cd36be529e66a20b6c7ed08640',
+            'https://i.guim.co.uk/img/media/3e54a72ccdf78508b8af96645b1ddbeb3907ffad/0_0_360_360/360.png?width=280&quality=100&s=58442d1d9b2907af5297bfc177226463',
         tabletUrl:
             'https://i.guim.co.uk/img/media/1ffc36c9f7bb070eb67efcc74dd8f74d8c52cf9a/0_0_1968_1484/1968.jpg?width=1000&quality=100&s=7256eabe674d825b55abb14af6c62887',
         desktopUrl:
@@ -118,7 +118,7 @@ const NazaNewsletterDesign: NewsletterBannerDesign = {
             privacyTextColor: hexColour('EDEDED'),
             toggleActiveColor: hexColour('28A85F'),
             successIconColor: hexColour('58D08B'),
-            browseButtonColor: hexColour('DCDCDC'),
+            browseButtonColor: hexColour('EDEDED'),
             borderColor: hexColour('999999'),
         },
         highlightedText: {
