@@ -9,7 +9,7 @@ import type {
 import type { DefaultChoiceCardSettings } from '../../defaultChoiceCardSettings';
 import type { ProductCatalog } from '../../productCatalog';
 import type { ValueProvider } from '../../utils/valueReloader';
-import { isPromotionLive, type Promotion, type PromotionsCache } from '../promotions/promotions';
+import type { Promotion } from '../promotions/promotions';
 import {
     currencySymbolTemplate,
     defaultBannerChoiceCardsSettings,
@@ -139,8 +139,7 @@ export const getChoiceCardsSettings = (
     countryGroupId: CountryGroupId,
     channel: Channel,
     productCatalog: ProductCatalog,
-    promotionsCache: PromotionsCache,
-    promoCodes: string[],
+    promotions: Promotion[],
     variantChoiceCardSettings?: ChoiceCardsSettings, // defined only if the test variant overrides the default settings
     forceNoDefault?: boolean,
     forceExpanded?: boolean,
@@ -149,16 +148,6 @@ export const getChoiceCardsSettings = (
 ): ChoiceCardsSettings | undefined => {
     let choiceCardsSettings: ChoiceCardsSettings | undefined;
     const isoCurrency = countryGroups[countryGroupId].currency;
-    const countryGroupCountries = countryGroups[countryGroupId].countries;
-    const promotions = promoCodes
-        .map((code) => promotionsCache[code])
-        .filter(
-            (promo): promo is Promotion =>
-                Boolean(promo) &&
-                isPromotionLive(promo) &&
-                (promo.countries.length === 0 ||
-                    promo.countries.some((c) => countryGroupCountries.includes(c))),
-        );
 
     if (variantChoiceCardSettings) {
         // Use the overridden settings from the test variant
@@ -193,8 +182,10 @@ export const getChoiceCardsSettings = (
             const choiceCardProduct =
                 productCatalog[choiceCard.product.supportTier].ratePlans[ratePlan];
             // Find a promo with a matching productRatePlanId
-            return promotions.find((promo) =>
-                promo.productRatePlanIds.includes(choiceCardProduct.id),
+            return promotions.find(
+                (promo) =>
+                    promo.discountPercent > 0 &&
+                    promo.productRatePlanIds.includes(choiceCardProduct.id),
             );
         }
         return undefined;
