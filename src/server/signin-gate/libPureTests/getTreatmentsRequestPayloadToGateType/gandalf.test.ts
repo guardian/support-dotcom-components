@@ -218,7 +218,6 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             'Audio',
             'Crossword',
             'Gallery',
-            'Interactive',
             'LiveBlog',
             'ImageContent',
             'Video',
@@ -238,16 +237,19 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(gandalfIsValidContentType('network front')).toBe(true);
         });
 
-        it.each(['Picture', 'Survey', 'Signup', ''])('does not accept %s', (contentType) => {
-            expect(gandalfIsValidContentType(contentType)).toBe(false);
-            const gateType = getTreatmentsRequestPayloadToGateType(
-                buildPayload({ contentType }),
-                now,
-                true,
-                true,
-            );
-            expect(gateType).toBe('None');
-        });
+        it.each(['Interactive', 'Picture', 'Survey', 'Signup', ''])(
+            'does not accept %s',
+            (contentType) => {
+                expect(gandalfIsValidContentType(contentType)).toBe(false);
+                const gateType = getTreatmentsRequestPayloadToGateType(
+                    buildPayload({ contentType }),
+                    now,
+                    true,
+                    true,
+                );
+                expect(gateType).toBe('None');
+            },
+        );
     });
 
     describe('exclusions', () => {
@@ -275,6 +277,17 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(isValidTagIds(['info/newsletter-sign-up'])).toBe(false);
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ tagIds: ['info/newsletter-sign-up'] }),
+                now,
+                true,
+                true,
+            );
+            expect(gateType).toBe('None');
+        });
+
+        it('excludes the film/naza tag for Gandalf only', () => {
+            expect(isValidTagIds(['film/naza'])).toBe(true);
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ tagIds: ['film/naza'] }),
                 now,
                 true,
                 true,

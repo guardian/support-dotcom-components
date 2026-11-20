@@ -165,12 +165,13 @@ is used, and Auxia is never consulted — no GetTreatments call and no
 LogTreatmentInteraction call, for consented and un-consented readers alike.
 
 The eligible content types are the Guardian metadata values: Article,
-Network Front, Section, Tag (fronts), Audio, Crossword, Gallery, Interactive,
-LiveBlog, ImageContent (CAPI Picture pages) and Video.
+Network Front, Section, Tag (fronts), Audio, Crossword, Gallery, LiveBlog,
+ImageContent (CAPI Picture pages) and Video. Interactive pages are excluded
+from Gandalf.
 
 Excluded pages (legal/customer-service pages, The Filter, newsletter sign-up
-tags, tips, the secure-contact page, privacy, complaints-and-corrections and
-the-whole-picture) never display the gate.
+tags including `film/naza`, tips, the secure-contact page, privacy,
+complaints-and-corrections and the-whole-picture) never display the gate.
 
 The trigger is the standard `dailyArticleCount` payload field: the number of
 pageviews the reader has already made today, including the current one
