@@ -54,8 +54,8 @@ rules entirely and Auxia is bypassed:
 - no Auxia GetTreatments or LogTreatmentInteraction request is made for either
   consent state;
 - the eligible surfaces are the Guardian metadata values Article, Network
-  Front, Section, Tag, Audio, Crossword, Gallery, LiveBlog, ImageContent and
-  Video, minus the exclusions listed in
+  Front, Section, Tag, Audio, Crossword, Gallery, Interactive, LiveBlog,
+  ImageContent and Video, minus the exclusions listed in
   [logic.md](/src/server/signin-gate/logic.md);
 - Ophan events use a stable Gandalf identity (`GandalfSignInGate`, variant
   `gandalf-nz`) instead of the Auxia test metadata. This is not an A/B test.

@@ -215,6 +215,7 @@ const gandalfContentTypes = [
     'Audio',
     'Crossword',
     'Gallery',
+    'Interactive',
     'LiveBlog',
     'ImageContent',
     'Video',

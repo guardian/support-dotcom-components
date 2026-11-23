@@ -218,6 +218,7 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             'Audio',
             'Crossword',
             'Gallery',
+            'Interactive',
             'LiveBlog',
             'ImageContent',
             'Video',
@@ -237,19 +238,26 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(gandalfIsValidContentType('network front')).toBe(true);
         });
 
-        it.each(['Interactive', 'Picture', 'Survey', 'Signup', ''])(
-            'does not accept %s',
-            (contentType) => {
-                expect(gandalfIsValidContentType(contentType)).toBe(false);
-                const gateType = getTreatmentsRequestPayloadToGateType(
-                    buildPayload({ contentType }),
-                    now,
-                    true,
-                    true,
-                );
-                expect(gateType).toBe('None');
-            },
-        );
+        it.each(['Picture', 'Survey', 'Signup', ''])('does not accept %s', (contentType) => {
+            expect(gandalfIsValidContentType(contentType)).toBe(false);
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ contentType }),
+                now,
+                true,
+                true,
+            );
+            expect(gateType).toBe('None');
+        });
+
+        it('shows the Gandalf popup on an eligible Interactive after two free views', () => {
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ contentType: 'Interactive', dailyArticleCount: 3 }),
+                now,
+                true,
+                true,
+            );
+            expect(gateType).toBe('GandalfMandatoryPopup');
+        });
     });
 
     describe('exclusions', () => {
@@ -284,10 +292,14 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(gateType).toBe('None');
         });
 
-        it('excludes the film/naza tag for Gandalf only', () => {
+        it.each(['Article', 'Interactive'])('excludes %s with the film/naza tag', (contentType) => {
             expect(isValidTagIds(['film/naza'])).toBe(true);
             const gateType = getTreatmentsRequestPayloadToGateType(
-                buildPayload({ tagIds: ['film/naza'] }),
+                buildPayload({
+                    contentType,
+                    tagIds: ['type/article', 'film/naza'],
+                    dailyArticleCount: 3,
+                }),
                 now,
                 true,
                 true,
