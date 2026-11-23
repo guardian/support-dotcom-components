@@ -248,6 +248,16 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             );
             expect(gateType).toBe('None');
         });
+
+        it('shows the Gandalf popup on an eligible Interactive after two free views', () => {
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({ contentType: 'Interactive', dailyArticleCount: 3 }),
+                now,
+                true,
+                true,
+            );
+            expect(gateType).toBe('GandalfMandatoryPopup');
+        });
     });
 
     describe('exclusions', () => {
@@ -275,6 +285,21 @@ describe('getTreatmentsRequestPayloadToGateType (Gandalf)', () => {
             expect(isValidTagIds(['info/newsletter-sign-up'])).toBe(false);
             const gateType = getTreatmentsRequestPayloadToGateType(
                 buildPayload({ tagIds: ['info/newsletter-sign-up'] }),
+                now,
+                true,
+                true,
+            );
+            expect(gateType).toBe('None');
+        });
+
+        it.each(['Article', 'Interactive'])('excludes %s with the film/naza tag', (contentType) => {
+            expect(isValidTagIds(['film/naza'])).toBe(true);
+            const gateType = getTreatmentsRequestPayloadToGateType(
+                buildPayload({
+                    contentType,
+                    tagIds: ['type/article', 'film/naza'],
+                    dailyArticleCount: 3,
+                }),
                 now,
                 true,
                 true,

@@ -201,7 +201,8 @@ export const isValidTagIds = (tagIds: string[]): boolean => {
 // enableGandalfSignInGate channel switch.
 //
 // Gandalf widens the eligible content types while sharing the generic
-// sign-in-gate display exclusions used by every country.
+// sign-in-gate display exclusions used by every country, with an additional
+// Gandalf-specific tag exclusion.
 
 // The exact Guardian content metadata values (see DotcomContentType in
 // guardian/frontend). Note that CAPI "Picture" pages are sent as ImageContent,
@@ -232,7 +233,10 @@ export const gandalfPageMetadataIsEligibleForGateDisplay = (
     tagIds: string[],
 ): boolean => {
     return (
-        gandalfIsValidContentType(contentType) && isValidSection(sectionId) && isValidTagIds(tagIds)
+        gandalfIsValidContentType(contentType) &&
+        isValidSection(sectionId) &&
+        isValidTagIds(tagIds) &&
+        !tagIds.includes('film/naza')
     );
 };
 
