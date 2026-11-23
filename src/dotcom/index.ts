@@ -11,5 +11,6 @@ export { hexColourToString } from '../shared/types/props/design';
 export { headerPropsSchema } from '../shared/types/props/header';
 export { epicPropsSchema } from '../shared/types/props/epic';
 export { bannerSchema } from '../shared/types/props/banner';
+export { inline1PropsSchema } from '../shared/types/props/inline1';
 export { abandonedBasketSchema } from '../shared/types/targeting/shared';
 export * from './requests';
