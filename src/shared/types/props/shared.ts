@@ -122,6 +122,7 @@ export const ophanComponentTypeSchema = z.enum([
     'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
     'ACQUISITIONS_HEADER',
     'ACQUISITIONS_OTHER',
+    'ACQUISITIONS_INLINE',
 ]);
 
 export type PageTracking = {
