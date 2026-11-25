@@ -18,6 +18,14 @@ describe('matchNewsletterTargeting', () => {
         expect(matchNewsletterTargeting({ name: 'NEWSLETTER_STAKES' }, stakesOnly)).toBe(true);
     });
 
+    it('matches NAZA tests only when the documentaries newsletter is available', () => {
+        const documentaries: NewslettersByIdentityName = new Map([
+            ['documentaries', { identityName: 'documentaries' } as NewsletterData],
+        ]);
+        expect(matchNewsletterTargeting({ name: 'NEWSLETTER_NAZA_AU' }, documentaries)).toBe(true);
+        expect(matchNewsletterTargeting({ name: 'NEWSLETTER_NAZA_AU' }, stakesOnly)).toBe(false);
+    });
+
     it('suppresses newsletter tests until their newsletter data is available', () => {
         expect(matchNewsletterTargeting({ name: 'NEWSLETTER_STAKES' }, new Map())).toBe(false);
     });

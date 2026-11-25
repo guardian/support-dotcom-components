@@ -2,6 +2,7 @@ import type {
     NewsletterApiData,
     NewslettersApiAllNewslettersResponse,
 } from '@guardian/newsletter-types';
+import type { BannerContent } from '../../shared/types';
 import { ValueReloader } from '../utils/valueReloader';
 
 export type NewsletterData = NewsletterApiData & {
@@ -14,8 +15,10 @@ const newsletterApiUrl = 'https://newsletters.guardianapis.com/api/newsletters';
 
 const newsletterIdentityNameByTestName = new Map<string, string>([
     ['NEWSLETTER_STAKES', 'the-stakes-2026'],
-    ['NEWSLETTER_NAZA', 'documentaries'],
 ]);
+
+export const isNazaNewsletterTest = (testName: string): boolean =>
+    testName.startsWith('NEWSLETTER_NAZA');
 
 export const fetchNewsletters = async (): Promise<NewslettersByIdentityName> => {
     const response = await fetch(newsletterApiUrl);
@@ -43,7 +46,9 @@ export const getNewsletterForTestName = (
     testName: string,
     newsletters: NewslettersByIdentityName,
 ): NewsletterData | undefined => {
-    const identityName = newsletterIdentityNameByTestName.get(testName);
+    const identityName = isNazaNewsletterTest(testName)
+        ? 'documentaries'
+        : newsletterIdentityNameByTestName.get(testName);
 
     if (identityName) {
         return newsletters.get(identityName);
@@ -53,19 +58,25 @@ export const getNewsletterForTestName = (
 export const getPromotedNewsletterForTest = (
     testName: string,
     newsletters: NewslettersByIdentityName,
+    bannerContent?: BannerContent,
 ) => {
     const newsletter = getNewsletterForTestName(testName, newsletters);
     if (!newsletter) {
         return undefined;
     }
 
+    const isNaza = isNazaNewsletterTest(testName);
+
     return {
         listId: newsletter.listId,
         identityName: newsletter.identityName,
-        name: newsletter.name,
+        name: isNaza ? (bannerContent?.heading ?? newsletter.name) : newsletter.name,
         status: newsletter.status,
         frequency: newsletter.frequency,
-        signUpDescription: newsletter.signUpDescription,
+        signUpDescription:
+            isNaza && bannerContent?.paragraphs?.length
+                ? bannerContent.paragraphs.join(' ')
+                : newsletter.signUpDescription,
         illustrationCard: newsletter.illustrationCard,
         illustrationSquare:
             testName === 'NEWSLETTER_STAKES'

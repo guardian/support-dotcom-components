@@ -1,4 +1,5 @@
 import type { BannerProps, ConfigurableDesign, HexColour } from '../shared/types';
+import { isNazaNewsletterTest } from './lib/newsletters';
 
 type NewsletterBannerDesign = Omit<ConfigurableDesign, 'colours'> & {
     tabletImageAsBackground?: boolean;
@@ -172,10 +173,9 @@ export const newsletterBannerOverrides = (
     design: NewsletterBannerDesign;
 } => ({
     ...newsletterBannerOverridesBase,
-    design:
-        testName === 'NEWSLETTER_NAZA'
-            ? NazaNewsletterDesign
-            : testName === 'NEWSLETTER_STAKES'
-              ? StakesNewsletterDesign
-              : newsletterBannerOverridesBase.design,
+    design: isNazaNewsletterTest(testName)
+        ? NazaNewsletterDesign
+        : testName === 'NEWSLETTER_STAKES'
+          ? StakesNewsletterDesign
+          : newsletterBannerOverridesBase.design,
 });
