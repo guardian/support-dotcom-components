@@ -203,7 +203,11 @@ export const buildBannerRouter = (
                 ? {
                       ...props,
                       ...newsletterBannerOverrides(test.name),
-                      promotedNewsletter: getPromotedNewsletterForTest(test.name, newsletterData),
+                      promotedNewsletter: getPromotedNewsletterForTest(
+                          test.name,
+                          newsletterData,
+                          variant.bannerContent,
+                      ),
                   }
                 : props;
 
