@@ -39,7 +39,7 @@ import { logError } from './utils/logging';
 const buildApp = async (): Promise<Express> => {
     const app = express();
 
-    app.use(express.json({ limit: '50mb' }));
+    app.use(express.json({ limit: '100kb' }));
     app.use(compression());
 
     const dotcomDevOrigins = [

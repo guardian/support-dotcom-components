@@ -14,8 +14,10 @@ export const errorHandling = (
     next: express.NextFunction,
 ): void => {
     const message = getErrorMessage(error);
+    const statusCode =
+        (error as Error & { type?: string }).type === 'entity.too.large' ? 413 : 500;
 
-    res.status(500).send();
+    res.status(statusCode).send();
 
     logger.error({
         message,
