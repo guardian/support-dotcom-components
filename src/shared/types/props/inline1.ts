@@ -14,7 +14,7 @@ const inline1ImageSchema = z.object({
     mobileUrl: z.string().optional(),
     tabletUrl: z.string().optional(),
     desktopUrl: z.string().optional(),
-    altText: z.string(),
+    altText: z.string().optional(),
 });
 
 export const inline1SupportMessageSchema = z.object({
