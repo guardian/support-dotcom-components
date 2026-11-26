@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 12.2.2
+
+### Patch Changes
+
+- ecec49a: Change alt text to optional for inline1 messages
+
 ## 12.2.1
 
 ### Patch Changes
