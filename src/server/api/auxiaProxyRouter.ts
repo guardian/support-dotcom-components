@@ -1,6 +1,12 @@
 import type express from 'express';
 import { Router } from 'express';
+import { z } from 'zod';
 import type { ChannelSwitches } from '../channelSwitches';
+import {
+    createAuxiaInteractionToken,
+    isValidAuxiaInteractionTokenSecret,
+    verifyAuxiaInteractionToken,
+} from '../lib/auxiaInteractionToken';
 import { isProd } from '../lib/env';
 import { bodyContainsAllFields } from '../middleware';
 import {
@@ -18,6 +24,7 @@ import type { ValueProvider } from '../utils/valueReloader';
 export interface AuxiaRouterConfig {
     apiKey: string;
     projectId: string;
+    interactionTokenSecret: string;
 }
 
 export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
@@ -33,11 +40,42 @@ export const getAuxiaRouterConfig = async (): Promise<AuxiaRouterConfig> => {
         throw new Error('auxia-projectId is undefined');
     }
 
+    const interactionTokenSecret = await getSsmValue(stage, 'auxia-interaction-token-secret', true);
+    if (
+        interactionTokenSecret === undefined ||
+        !isValidAuxiaInteractionTokenSecret(interactionTokenSecret)
+    ) {
+        throw new Error(
+            'auxia-interaction-token-secret must be configured as a 32-byte SecureString encoded in hex',
+        );
+    }
+
     return Promise.resolve({
         apiKey,
         projectId,
+        interactionTokenSecret,
     });
 };
+
+const logGateInteractionRequestSchema = z
+    .object({
+        interactionToken: z.string().min(1),
+        interactionType: z.enum(['VIEWED', 'CLICKED', 'DISMISSED']),
+        actionName: z.enum([
+            'PRIVACY-BUTTON',
+            'REGISTER-LINK',
+            'SIGN-IN-LINK',
+            'HOW-TO-LINK',
+            'WHY-LINK',
+            'HELP-LINK',
+            '',
+        ]),
+    })
+    .refine(
+        ({ interactionType, actionName }) =>
+            interactionType === 'CLICKED' ? actionName !== '' : actionName === '',
+        'Action name must match the interaction type',
+    );
 
 // --------------------------------
 // Router
@@ -92,6 +130,23 @@ export const buildAuxiaProxyRouter = (
                 const envelop = await gateTypeToUserTreatmentsEnvelop(config, gateType, payload);
                 if (envelop !== undefined) {
                     const data = userTreatmentsEnvelopToProxyGetTreatmentsAnswerData(envelop);
+                    if (
+                        gateType === 'AuxiaAPI' &&
+                        payload.browserId &&
+                        data?.userTreatment &&
+                        data.userTreatment.treatmentId !== 'default-treatment-id'
+                    ) {
+                        data.interactionToken = createAuxiaInteractionToken(
+                            config.interactionTokenSecret,
+                            {
+                                aud: 'sign-in-gate',
+                                browserId: payload.browserId,
+                                treatmentTrackingId: data.userTreatment.treatmentTrackingId,
+                                treatmentId: data.userTreatment.treatmentId,
+                                surface: data.userTreatment.surface,
+                            },
+                        );
+                    }
                     res.locals.auxiaTreatmentId = data?.userTreatment?.treatmentId;
                     res.locals.auxiaTreatmentTrackingId = data?.userTreatment?.treatmentTrackingId;
                     res.send({ status: true, data: data });
@@ -106,39 +161,40 @@ export const buildAuxiaProxyRouter = (
 
     router.post(
         '/auxia/log-treatment-interaction',
-        bodyContainsAllFields([
-            'treatmentTrackingId',
-            'treatmentId',
-            'surface',
-            'interactionType',
-            'interactionTimeMicros',
-            'actionName',
-        ]),
+        bodyContainsAllFields(['interactionToken', 'interactionType', 'actionName']),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const body = req.body as {
-                    browserId: string | undefined; // optional field, will not be sent by the client is user has not consented to personal data use.
-                    treatmentTrackingId: string;
-                    treatmentId: string;
-                    surface: string;
-                    interactionType: string;
-                    interactionTimeMicros: number;
-                    actionName: string;
-                };
+                const parsedBody = logGateInteractionRequestSchema.safeParse(req.body);
+                if (!parsedBody.success) {
+                    res.sendStatus(400);
+                    return;
+                }
+
+                const { interactionToken, interactionType, actionName } = parsedBody.data;
+                const claims = verifyAuxiaInteractionToken(
+                    config.interactionTokenSecret,
+                    interactionToken,
+                    'sign-in-gate',
+                );
+                if (!claims) {
+                    res.sendStatus(403);
+                    return;
+                }
+
                 await callAuxiaLogTreatmentInteration(
                     config.apiKey,
                     config.projectId,
-                    body.browserId,
-                    body.treatmentTrackingId,
-                    body.treatmentId,
-                    body.surface,
-                    body.interactionType,
-                    body.interactionTimeMicros,
-                    body.actionName,
+                    claims.browserId,
+                    claims.treatmentTrackingId,
+                    claims.treatmentId,
+                    claims.surface,
+                    interactionType,
+                    Date.now() * 1000,
+                    actionName,
                 );
-                res.locals.auxiaTreatmentId = body.treatmentId;
-                res.locals.auxiaTreatmentTrackingId = body.treatmentTrackingId;
-                res.locals.auxiaInteractionType = body.interactionType;
+                res.locals.auxiaTreatmentId = claims.treatmentId;
+                res.locals.auxiaTreatmentTrackingId = claims.treatmentTrackingId;
+                res.locals.auxiaInteractionType = interactionType;
                 res.send({ status: true }); // this is the proxy's response, slightly more user's friendly than the api's response.
             } catch (error) {
                 next(error);

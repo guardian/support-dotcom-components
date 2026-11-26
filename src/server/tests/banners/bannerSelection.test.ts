@@ -1674,7 +1674,11 @@ describe('selectBannerTest', () => {
                 enableAuxiaForBanners: scenario.enabled ?? true,
                 auxiaBannerRolloutPercentage: scenario.percentage,
             } as ChannelSwitches;
-            const auxia = new Auxia({ apiKey: 'test-api-key', projectId: 'test-project-id' });
+            const auxia = new Auxia({
+                apiKey: 'test-api-key',
+                projectId: 'test-project-id',
+                interactionTokenSecret: 'a'.repeat(64),
+            });
             const { checkAuxiaSuppression } = auxia.getBannerSuppressedChecker(
                 switches,
                 targeting.auxiaRolloutMvtId,

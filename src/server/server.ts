@@ -164,6 +164,7 @@ const buildApp = async (): Promise<Express> => {
             contributionsOnlyCountriesConfig,
             defaultChoiceCardSettings,
             newsletters,
+            auxiaConfig.interactionTokenSecret,
         ),
     );
     app.use(
