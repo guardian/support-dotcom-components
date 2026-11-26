@@ -17,12 +17,24 @@ const inline1ImageSchema = z.object({
     altText: z.string(),
 });
 
+const inline1SupportMessageColoursSchema = z.object({
+    backgroundColor: z.string(),
+    headlineColor: z.string(),
+    guardianLogoColor: z.string(),
+    fontColor: z.string(),
+    ctaBackgroundColor: z.string(),
+    ctaFontColor: z.string(),
+});
+
 export const inline1SupportMessageSchema = z.object({
     type: z.literal('Inline1SupportMessage'),
     heading: z.string(),
     body: z.string(),
     primaryCta: ctaSchema,
     image: inline1ImageSchema.optional(),
+    styleId: z.string(),
+    themeId: z.string(),
+    colours: inline1SupportMessageColoursSchema,
 });
 
 export const inline1PuzzlesMessageSchema = z.object({

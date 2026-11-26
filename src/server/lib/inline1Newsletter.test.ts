@@ -150,6 +150,16 @@ describe('getInline1Variant', () => {
             heading: 'Support us',
             body: 'Support independent journalism',
             primaryCta: { text: 'Support', baseUrl: 'https://support.theguardian.com' },
+            styleId: 'business-as-usual',
+            themeId: 'support-default',
+            colours: {
+                backgroundColor: '#F1F8FC',
+                headlineColor: '#052962',
+                guardianLogoColor: '#000000',
+                fontColor: '#000000',
+                ctaBackgroundColor: '#FFE500',
+                ctaFontColor: '#052962',
+            },
         },
     ])('leaves non-newsletter variants unchanged: %j', (message) => {
         const otherVariant = { name: 'control', message };

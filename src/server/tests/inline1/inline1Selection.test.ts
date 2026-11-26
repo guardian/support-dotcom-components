@@ -278,6 +278,16 @@ describe('selectBestTest', () => {
                 heading: 'Support the Guardian',
                 body: 'Support independent journalism.',
                 primaryCta: { baseUrl: 'https://support.theguardian.com', text: 'Support us' },
+                styleId: 'business-as-usual',
+                themeId: 'support-default',
+                colours: {
+                    backgroundColor: '#F1F8FC',
+                    headlineColor: '#052962',
+                    guardianLogoColor: '#000000',
+                    fontColor: '#000000',
+                    ctaBackgroundColor: '#FFE500',
+                    ctaFontColor: '#052962',
+                },
             },
         };
         const test = { ...testDefault, variants: [variant] };
