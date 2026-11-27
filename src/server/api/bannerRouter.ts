@@ -35,7 +35,7 @@ import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
-import { bodyContainsAllFields } from '../middleware';
+import { bodyContainsAllFields, interactionRateLimiter } from '../middleware';
 import { newsletterBannerOverrides } from '../newsletterBannerOverrides';
 import type { ProductCatalog } from '../productCatalog';
 import type { BanditData } from '../selection/banditData';
@@ -312,6 +312,7 @@ export const buildBannerRouter = (
 
     router.post(
         '/banner/interaction',
+        interactionRateLimiter,
         bodyContainsAllFields(['interactionToken', 'interactionType']),
         async (
             req: express.Request<

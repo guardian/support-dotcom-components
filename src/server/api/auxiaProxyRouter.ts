@@ -8,7 +8,7 @@ import {
     verifyAuxiaInteractionToken,
 } from '../lib/auxiaInteractionToken';
 import { isProd } from '../lib/env';
-import { bodyContainsAllFields } from '../middleware';
+import { bodyContainsAllFields, interactionRateLimiter } from '../middleware';
 import {
     callAuxiaLogTreatmentInteration,
     gateTypeToUserTreatmentsEnvelop,
@@ -161,6 +161,7 @@ export const buildAuxiaProxyRouter = (
 
     router.post(
         '/auxia/log-treatment-interaction',
+        interactionRateLimiter,
         bodyContainsAllFields(['interactionToken', 'interactionType', 'actionName']),
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
