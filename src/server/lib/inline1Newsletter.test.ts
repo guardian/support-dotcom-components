@@ -12,6 +12,7 @@ jest.mock('../utils/logging', () => ({
 describe('getInline1Variant', () => {
     const variant: Inline1Variant = {
         name: 'newsletter',
+        uuid: 'fd5d98a0-a015-4df9-bc23-20bda68f35dd',
         bidScore: 1,
         message: {
             type: 'Inline1NewsletterMessage',
@@ -159,7 +160,12 @@ describe('getInline1Variant', () => {
             primaryCta: { text: 'Support', baseUrl: 'https://support.theguardian.com' },
         },
     ])('leaves non-newsletter variants unchanged: %j', (message) => {
-        const otherVariant = { name: 'control', message, bidScore: 0 as const };
+        const otherVariant = {
+            name: 'control',
+            uuid: 'fd5d98a0-a015-4df9-bc23-20bda68f35dd',
+            message,
+            bidScore: 0 as const,
+        };
 
         expect(getInline1Variant(otherVariant, toMap(newsletter))).toBe(otherVariant);
         expect(logError).not.toHaveBeenCalled();
@@ -169,6 +175,7 @@ describe('getInline1Variant', () => {
 describe('inline1VariantSchema', () => {
     const variant: Inline1Variant = {
         name: 'control',
+        uuid: 'fd5d98a0-a015-4df9-bc23-20bda68f35dd',
         message: { type: 'Inline1PuzzlesMessage' },
     };
 

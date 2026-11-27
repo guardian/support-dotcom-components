@@ -167,6 +167,7 @@ export type TestTracking = {
     labels?: string[];
     targetingAbTest?: TargetingAbTest;
     auxia?: AuxiaTracking;
+    uuid?: string;
 };
 
 export interface PurchaseInfoTest {

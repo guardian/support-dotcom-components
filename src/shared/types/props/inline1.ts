@@ -50,6 +50,7 @@ export type Inline1Message = z.infer<typeof inline1MessageSchema>;
 
 export const inline1VariantSchema = z.object({
     name: z.string(),
+    uuid: z.uuid(),
     message: inline1MessageSchema,
     bidScore: z.number().nonnegative().optional(),
 });
