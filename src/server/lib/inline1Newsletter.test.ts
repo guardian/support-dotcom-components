@@ -150,15 +150,59 @@ describe('getInline1Variant', () => {
             heading: 'Support us',
             body: 'Support independent journalism',
             primaryCta: { text: 'Support', baseUrl: 'https://support.theguardian.com' },
-            styleId: 'business-as-usual',
-            themeId: 'support-default',
-            colours: {
-                backgroundColor: '#F1F8FC',
-                headlineColor: '#052962',
-                guardianLogoColor: '#000000',
-                fontColor: '#000000',
-                ctaBackgroundColor: '#FFE500',
-                ctaFontColor: '#052962',
+            design: {
+                style: 'business-as-usual',
+                colourTheme: 'support-default',
+                colours: {
+                    basic: {
+                        background: {
+                            r: 'F1',
+                            g: 'F8',
+                            b: 'FC',
+                            kind: 'hex' as const,
+                        },
+                        bodyText: {
+                            r: '00',
+                            g: '00',
+                            b: '00',
+                            kind: 'hex' as const,
+                        },
+                        headerText: {
+                            r: '05',
+                            g: '29',
+                            b: '62',
+                            kind: 'hex' as const,
+                        },
+                        articleCountText: {
+                            r: '00',
+                            g: '00',
+                            b: '00',
+                            kind: 'hex' as const,
+                        },
+                        logo: {
+                            r: '00',
+                            g: '00',
+                            b: '00',
+                            kind: 'hex' as const,
+                        },
+                    },
+                    primaryCta: {
+                        default: {
+                            text: {
+                                r: '05',
+                                g: '29',
+                                b: '62',
+                                kind: 'hex' as const,
+                            },
+                            background: {
+                                r: 'FF',
+                                g: 'E5',
+                                b: '00',
+                                kind: 'hex' as const,
+                            },
+                        },
+                    },
+                },
             },
         },
     ])('leaves non-newsletter variants unchanged: %j', (message) => {
