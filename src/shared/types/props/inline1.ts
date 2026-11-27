@@ -1,6 +1,7 @@
 import type { ComponentEvent } from '@guardian/ophan-tracker-js';
 import z from 'zod';
 import type { Inline1Variant } from '../abTests';
+import { hexColourSchema } from './design';
 import { ctaSchema, type Tracking, trackingSchema } from './shared';
 
 export interface Inline1Props {
@@ -23,6 +24,25 @@ export const inline1SupportMessageSchema = z.object({
     body: z.string(),
     primaryCta: ctaSchema,
     image: inline1ImageSchema.optional(),
+    design: z.object({
+        style: z.string(),
+        colourTheme: z.string(),
+        colours: z.object({
+            basic: z.object({
+                background: hexColourSchema,
+                logo: hexColourSchema,
+                bodyText: hexColourSchema,
+                headerText: hexColourSchema,
+                articleCountText: hexColourSchema,
+            }),
+            primaryCta: z.object({
+                default: z.object({
+                    background: hexColourSchema,
+                    text: hexColourSchema,
+                }),
+            }),
+        }),
+    }),
 });
 
 export const inline1PuzzlesMessageSchema = z.object({
