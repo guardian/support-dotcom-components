@@ -26,7 +26,7 @@ import { substituteMParticleTemplateInEpicVariant } from '../lib/mParticleTempla
 import type { Okta } from '../lib/okta';
 import type { Params } from '../lib/params';
 import { getQueryParams } from '../lib/params';
-import type { PromotionsCache } from '../lib/promotions/promotions';
+import { getPromotionsForCountry, type PromotionsCache } from '../lib/promotions/promotions';
 import type { SuperModeArticle } from '../lib/superMode';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildEpicCampaignCode } from '../lib/tracking';
@@ -169,6 +169,14 @@ export const buildEpicRouter = (
         const requiredCountry = targeting.countryCode ?? 'GB';
         const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
         const isVatCompliantCountry = !contributionsOnlyCountries.includes(requiredCountry);
+        const applicablePromotions =
+            variant.showChoiceCards && isVatCompliantCountry
+                ? getPromotionsForCountry(
+                      variant.promoCodes ?? [],
+                      promotions.get(),
+                      requiredCountry,
+                  )
+                : undefined;
 
         const forceNoDefault =
             test.name.includes('_NO_DEFAULT_CHOICE_CARD_') ||
@@ -178,24 +186,23 @@ export const buildEpicRouter = (
 
         const isWeeklyPriceVariant = variant.name.includes('WEEKLY_PRICE');
 
-        const choiceCardsSettings =
-            variant.showChoiceCards && isVatCompliantCountry
-                ? getChoiceCardsSettings(
-                      requiredRegion,
-                      'Epic',
-                      productCatalog.get(),
-                      promotions.get(),
-                      variant.promoCodes ?? [],
-                      variant.choiceCardsSettings ?? undefined,
-                      forceNoDefault,
-                      forceExpanded,
-                      isWeeklyPriceVariant,
-                      defaultChoiceCardSettings,
-                  )
-                : undefined;
+        const choiceCardsSettings = applicablePromotions
+            ? getChoiceCardsSettings(
+                  requiredRegion,
+                  'Epic',
+                  productCatalog.get(),
+                  applicablePromotions,
+                  variant.choiceCardsSettings ?? undefined,
+                  forceNoDefault,
+                  forceExpanded,
+                  isWeeklyPriceVariant,
+                  defaultChoiceCardSettings,
+              )
+            : undefined;
 
         const propsVariant: EpicVariant = {
             ...variant,
+            promoCodes: applicablePromotions?.map((promo) => promo.promoCode) ?? variant.promoCodes,
             tickerSettings,
             showReminderFields,
             choiceCardsSettings,
