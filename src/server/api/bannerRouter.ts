@@ -1,5 +1,6 @@
 import type express from 'express';
 import { Router } from 'express';
+import { z } from 'zod';
 import { countryCodeToCountryGroupId } from '../../shared/lib';
 import type {
     BannerDesignFromTool,
@@ -16,6 +17,10 @@ import type { ContributionsOnlyCountriesConfig } from '../contributionsOnly';
 import type { DefaultChoiceCardSettings } from '../defaultChoiceCardSettings';
 import type { Auxia, AuxiaInteractionType, GetTreatmentsAttributes } from '../lib/auxia';
 import { isInAuxiaBannerRollout } from '../lib/auxia';
+import {
+    createAuxiaInteractionToken,
+    verifyAuxiaInteractionToken,
+} from '../lib/auxiaInteractionToken';
 import { getChoiceCardsSettings } from '../lib/choiceCards/choiceCards';
 import { getDeviceType } from '../lib/deviceType';
 import type { TickerDataProvider } from '../lib/fetchTickerData';
@@ -30,7 +35,7 @@ import { getQueryParams } from '../lib/params';
 import type { PromotionsCache } from '../lib/promotions/promotions';
 import { filterTestsForSensitiveContent, pageIdIsExcluded } from '../lib/targeting';
 import { buildBannerCampaignCode } from '../lib/tracking';
-import { bodyContainsAllFields } from '../middleware';
+import { bodyContainsAllFields, interactionRateLimiter } from '../middleware';
 import { newsletterBannerOverrides } from '../newsletterBannerOverrides';
 import type { ProductCatalog } from '../productCatalog';
 import type { BanditData } from '../selection/banditData';
@@ -67,6 +72,7 @@ export const buildBannerRouter = (
     contributionsOnlyCountriesConfig: ValueProvider<ContributionsOnlyCountriesConfig>,
     defaultChoiceCardSettings: ValueProvider<DefaultChoiceCardSettings>,
     newsletters: ValueProvider<NewslettersByIdentityName>,
+    interactionTokenSecret: string,
 ): Router => {
     const router = Router();
 
@@ -265,7 +271,21 @@ export const buildBannerRouter = (
                 if (response.data && auxiaTreatment) {
                     response.data.module.props.tracking = {
                         ...response.data.module.props.tracking,
-                        auxia: auxiaTreatment,
+                        auxia: targeting.browserId
+                            ? {
+                                  ...auxiaTreatment,
+                                  interactionToken: createAuxiaInteractionToken(
+                                      interactionTokenSecret,
+                                      {
+                                          aud: 'banner',
+                                          browserId: targeting.browserId,
+                                          treatmentTrackingId: auxiaTreatment.treatmentTrackingId,
+                                          treatmentId: auxiaTreatment.treatmentId,
+                                          surface: 'SUPPORTER_REVENUE_BANNER',
+                                      },
+                                  ),
+                              }
+                            : auxiaTreatment,
                     };
                 }
 
@@ -296,20 +316,14 @@ export const buildBannerRouter = (
 
     router.post(
         '/banner/interaction',
-        bodyContainsAllFields([
-            'browserId',
-            'treatmentTrackingId',
-            'treatmentId',
-            'interactionType',
-        ]),
+        interactionRateLimiter,
+        bodyContainsAllFields(['interactionToken', 'interactionType']),
         async (
             req: express.Request<
                 Record<string, never>,
                 unknown,
                 {
-                    browserId: string;
-                    treatmentTrackingId: string;
-                    treatmentId: string;
+                    interactionToken: string;
                     interactionType: AuxiaInteractionType;
                 }
             >,
@@ -317,14 +331,33 @@ export const buildBannerRouter = (
             next: express.NextFunction,
         ) => {
             try {
-                const { browserId, treatmentTrackingId, treatmentId, interactionType } = req.body;
+                const parsedBody = z
+                    .object({
+                        interactionToken: z.string().min(1),
+                        interactionType: z.enum(['VIEWED', 'CLICKED', 'SNOOZED', 'DISMISSED']),
+                    })
+                    .safeParse(req.body);
+                if (!parsedBody.success) {
+                    res.sendStatus(400);
+                    return;
+                }
+
+                const claims = verifyAuxiaInteractionToken(
+                    interactionTokenSecret,
+                    parsedBody.data.interactionToken,
+                    'banner',
+                );
+                if (claims?.surface !== 'SUPPORTER_REVENUE_BANNER') {
+                    res.sendStatus(403);
+                    return;
+                }
 
                 await auxia.logTreatmentInteraction({
-                    browserId,
-                    treatmentTrackingId,
-                    treatmentId,
-                    surface: 'SUPPORTER_REVENUE_BANNER',
-                    interactionType,
+                    browserId: claims.browserId,
+                    treatmentTrackingId: claims.treatmentTrackingId,
+                    treatmentId: claims.treatmentId,
+                    surface: claims.surface,
+                    interactionType: parsedBody.data.interactionType,
                     interactionTimeMicros: Date.now() * 1000,
                 });
 

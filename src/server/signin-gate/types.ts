@@ -30,6 +30,7 @@ export interface AuxiaAPISurface {
 export interface ProxyGetTreatmentsAnswerData {
     responseId: string;
     userTreatment?: UserTreatment;
+    interactionToken?: string;
     gandalfSignInGate?: boolean; // [7] gandalfSignInGate
 }
 

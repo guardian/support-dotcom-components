@@ -39,7 +39,12 @@ import { logError } from './utils/logging';
 const buildApp = async (): Promise<Express> => {
     const app = express();
 
-    app.use(express.json({ limit: '50mb' }));
+    if (process.env.stage === 'CODE' || process.env.stage === 'PROD') {
+        // AWS requests reach the private EC2 instances through a single ALB.
+        app.set('trust proxy', 1);
+    }
+
+    app.use(express.json({ limit: '100kb' }));
     app.use(compression());
 
     const dotcomDevOrigins = [
@@ -164,6 +169,7 @@ const buildApp = async (): Promise<Express> => {
             contributionsOnlyCountriesConfig,
             defaultChoiceCardSettings,
             newsletters,
+            auxiaConfig.interactionTokenSecret,
         ),
     );
     app.use(

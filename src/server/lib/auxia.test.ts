@@ -11,6 +11,7 @@ global.fetch = jest.fn();
 const mockConfig = {
     apiKey: 'test-api-key',
     projectId: 'test-project-id',
+    interactionTokenSecret: 'a'.repeat(64),
 };
 
 const mockChannelSwitches = {

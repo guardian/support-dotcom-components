@@ -155,6 +155,7 @@ export interface TargetingAbTest {
 export interface AuxiaTracking {
     treatmentId: string;
     treatmentTrackingId: string;
+    interactionToken?: string;
 }
 
 export type TestTracking = {
