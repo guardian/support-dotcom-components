@@ -3,6 +3,7 @@ import { selectBestTest, selectInline1Test } from './inline1Selection';
 
 const variantDefault: Inline1Variant = {
     name: 'control',
+    uuid: 'fd5d98a0-a015-4df9-bc23-20bda68f35dd',
     bidScore: 0,
     message: {
         type: 'Inline1PuzzlesMessage',
@@ -33,6 +34,7 @@ const testDefault: Inline1Test = {
 
 const newsletterVariant: Inline1Variant = {
     name: 'newsletter',
+    uuid: 'fd5d98a0-a015-4df9-bc23-20bda68f35dd',
     bidScore: 1,
     message: {
         type: 'Inline1NewsletterMessage',
@@ -282,6 +284,7 @@ describe('selectBestTest', () => {
         const targeting = { ...targetingDefault, hasNewsletterSignup: true };
         const variant: Inline1Variant = {
             name: 'support',
+            uuid: 'fd5d98a0-a015-4df9-bc23-20bda68f35dd',
             bidScore: 1,
             message: {
                 type: 'Inline1SupportMessage',
